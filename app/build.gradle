@@ -1,0 +1,72 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace AndroidConfig.namespace
+    compileSdk AndroidConfig.compileSdk
+
+    defaultConfig {
+        applicationId AndroidConfig.defaultConfig.applicationId
+        minSdk AndroidConfig.defaultConfig.minSdk
+        targetSdk AndroidConfig.defaultConfig.targetSdk
+        versionCode AndroidConfig.defaultConfig.versionCode
+        versionName AndroidConfig.defaultConfig.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "海乐管家_${AndroidConfig.defaultConfig.versionName}_debug.apk"
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            buildConfigField "String", "BASE_URL", EnvConfig.HTTP_BASE_DEBUG
+        }
+        release {
+            buildConfigField "String", "BASE_URL", EnvConfig.HTTP_BASE_RELEASE
+
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    viewBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+
+    implementation ThirdLibs.core_ktx
+    implementation ThirdLibs.appcompat
+    implementation ThirdLibs.material
+    implementation ThirdLibs.constraintlayout
+
+    implementation project(path: ':framelib')
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.4.+'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+
+    testImplementation TestLibs.junit
+    androidTestImplementation TestLibs.test_ext
+    androidTestImplementation TestLibs.espresso
+
+    implementation ThirdLibs.retrofit2
+    implementation ThirdLibs.ktx_coroutines
+    implementation ThirdLibs.viewmodel_ktx
+
+    implementation ThirdLibs.timber
+}

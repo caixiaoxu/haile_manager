@@ -1,0 +1,35 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Business_Android" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/teal_200</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/transparent</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowBackground">@color/page_bg</item>
+    </style>
+
+    <style name="CommonBtnStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/common_btn_h</item>
+        <item name="android:textSize">@dimen/font_16</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CommonBtnStyle1" parent="CommonBtnStyle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/shape_solid_f0a258_radius_22</item>
+    </style>
+    <style name="CommonBtnStyle2" parent="CommonBtnStyle">
+        <item name="android:textColor">@color/common_txt_color</item>
+        <item name="android:background">@drawable/shape_stroke_333333_radius_22</item>
+    </style>
+</resources>

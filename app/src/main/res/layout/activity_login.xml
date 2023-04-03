@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".ui.activity.LoginActivity">
+
+    <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        android:id="@+id/action_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_action_bar_h" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="153dp"
+        android:layout_height="114dp"
+        android:layout_marginTop="40dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/icon_login_main" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/shape_stroke_f0a258_solid_26f0a258_radius_4"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="2dp"
+        android:text="@string/app_type"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp" />
+
+    <com.shangyun.haile_manager_android.ui.view.CommonBtn
+        style="@style/CommonBtnStyle1"
+        android:layout_marginHorizontal="36dp"
+        android:text="@string/login_account_password"
+        android:layout_marginTop="44dp" />
+
+    <com.shangyun.haile_manager_android.ui.view.CommonBtn
+        style="@style/CommonBtnStyle2"
+        android:text="@string/login_phone_login"
+        android:layout_marginHorizontal="36dp"
+        android:layout_marginTop="24dp" />
+
+</LinearLayout>

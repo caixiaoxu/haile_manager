@@ -50,7 +50,7 @@ class BusinessApp : BaseApp() {
      */
     private fun dealHttpHeader(): HashMap<String, String> {
         return HashMap<String, String>().apply {
-            put("Authorization", SPRepository.getLoginToken())
+            put("Authorization", SPRepository.loginToken)
         }
     }
 

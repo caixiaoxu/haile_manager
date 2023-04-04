@@ -18,15 +18,15 @@ class SplashActivity : BaseActivity() {
         ActivitySplashBinding.inflate(layoutInflater)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        checkDelayJump()
-    }
-
     override fun isFullScreen(): Boolean = true
 
     override fun rooView(): View = mSplashBinding.root
+    override fun initView() {
+        checkDelayJump()
+    }
+
+    override fun initData() {
+    }
 
     /**
      * 延时跳转，根据是否登录判断

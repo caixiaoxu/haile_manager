@@ -3,11 +3,9 @@ package com.shangyun.haile_manager_android.ui.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.shangyun.haile_manager_android.R
+import com.shangyun.haile_manager_android.databinding.IncludeTitleActionBarBinding
 
 /**
  * Title : 常用的标题栏
@@ -22,41 +20,33 @@ import com.shangyun.haile_manager_android.R
 class CommonTitleActionBar @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : ConstraintLayout(context, attrs) {
+    private val mBinding: IncludeTitleActionBarBinding
 
-    // 根布局
-    private val titleActionBar by lazy {
-        LayoutInflater.from(context).inflate(R.layout.include_title_action_bar, this)
-    }
+    init {
+        mBinding = IncludeTitleActionBarBinding.bind(
+            LayoutInflater.from(context).inflate(R.layout.include_title_action_bar, this)
+        )
 
-    // 返回按钮
-    private val ibBack: ImageButton by lazy {
-        titleActionBar.findViewById(R.id.ib_title_action_back)
-    }
+        val array = context.obtainStyledAttributes(attrs, R.styleable.CommonTitleActionBar)
+        mBinding.tvTitleActionTitle.text = array.getString(R.styleable.CommonTitleActionBar_title)
+        array.recycle()
 
-    // 标题
-    private val tvTitle: TextView by lazy {
-        titleActionBar.findViewById(R.id.tv_title_action_title)
-    }
-
-    // 右侧区域
-    private val llRightArea: LinearLayout by lazy {
-        titleActionBar.findViewById(R.id.ll_title_action_right_area)
     }
 
     /**
      * 获取后退按钮
      */
-    fun getBackBtn() = ibBack
+    fun getBackBtn() = mBinding.ibTitleActionBack
 
     /**
      * 获取标题
      */
-    fun getTitle() = tvTitle
+    fun getTitle() = mBinding.tvTitleActionTitle
 
     /**
      * 获取右侧区域
      */
-    fun getRightArea() = llRightArea
+    fun getRightArea() = mBinding.llTitleActionRightArea
 
     /**
      * 设置标题

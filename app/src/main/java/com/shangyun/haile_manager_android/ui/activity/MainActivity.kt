@@ -25,6 +25,13 @@ class MainActivity : BaseVMActivity<MainViewModel>() {
     }
 
     override fun rooView(): View = mMainbinding.root
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun initData() {
+        TODO("Not yet implemented")
+    }
 
     override fun getVM(): MainViewModel = mMainViewModel
 

@@ -3,7 +3,7 @@ package com.lsy.framelib.async
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.lsy.framelib.async.LiveDataBus.ObserverWrapper
-import com.lsy.framelib.utils.UnPeekLiveData
+import com.lsy.framelib.business.UnPeekLiveData
 
 
 /**

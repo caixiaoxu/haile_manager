@@ -30,21 +30,42 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // 设置状态栏的距离
         setRootViewPT()
+        // 屏幕方向
         setScreenOrientation()
         rooView().let {
+            // 布局
             setContentView(it)
+            // 状态栏文字颜色
             StatusBarUtils.setStatusBarDarkTheme(it, isDark())
         }
+        // 回退按钮
         backBtn()?.setOnClickListener { onBackListener() }
+
+        initView()
+        initData()
     }
 
+    /**
+     * 根布局
+     */
     abstract fun rooView(): View
 
     /**
      * 回退按钮
      */
     open fun backBtn(): View? = null
+
+    /**
+     * 初始化界面
+     */
+    abstract fun initView()
+
+    /**
+     * 初始化数据
+     */
+    abstract fun initData()
 
     /**
      * 设置内容布局的上边距(状态栏的距离)
@@ -67,6 +88,9 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 默认的回退事件
+     */
     protected open fun onBackListener() {
         finish()
     }

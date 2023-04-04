@@ -3,7 +3,7 @@ package com.lsy.framelib.ui.base
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.lsy.framelib.business.bridge.SharedViewModel
+import com.lsy.framelib.business.SharedViewModel
 
 /**
  * Title :

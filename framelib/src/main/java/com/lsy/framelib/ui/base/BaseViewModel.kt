@@ -2,7 +2,7 @@ package com.lsy.framelib.ui.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lsy.framelib.utils.UnPeekLiveData
+import com.lsy.framelib.business.UnPeekLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

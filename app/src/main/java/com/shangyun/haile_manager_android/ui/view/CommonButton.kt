@@ -2,10 +2,8 @@ package com.shangyun.haile_manager_android.ui.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import androidx.appcompat.widget.AppCompatButton
 import com.lsy.framelib.utils.ViewUtils
-import com.shangyun.haile_manager_android.R
 
 /**
  * Title : 常用按钮
@@ -17,7 +15,7 @@ import com.shangyun.haile_manager_android.R
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class CommonBtn @JvmOverloads constructor(
+class CommonButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : AppCompatButton(context, attrs) {
 

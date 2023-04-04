@@ -1,4 +1,4 @@
-package com.lsy.framelib.utils
+package com.lsy.framelib.business
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData

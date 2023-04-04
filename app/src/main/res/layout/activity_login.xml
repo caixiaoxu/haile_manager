@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".ui.activity.LoginActivity">
@@ -10,7 +11,8 @@
     <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
         android:id="@+id/action_title_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_action_bar_h" />
+        android:layout_height="@dimen/title_action_bar_h"
+        app:title="@string/login_name"/>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="153dp"
@@ -31,14 +33,16 @@
         android:textColor="@color/colorPrimary"
         android:textSize="14sp" />
 
-    <com.shangyun.haile_manager_android.ui.view.CommonBtn
-        style="@style/CommonBtnStyle1"
+    <com.shangyun.haile_manager_android.ui.view.CommonButton
+        android:id="@+id/btn_login_for_password"
+        style="@style/CommonMatchBtnStyle1"
         android:layout_marginHorizontal="36dp"
         android:text="@string/login_account_password"
         android:layout_marginTop="44dp" />
 
-    <com.shangyun.haile_manager_android.ui.view.CommonBtn
-        style="@style/CommonBtnStyle2"
+    <com.shangyun.haile_manager_android.ui.view.CommonButton
+        android:id="@+id/btn_login_for_phone"
+        style="@style/CommonMatchBtnStyle2"
         android:text="@string/login_phone_login"
         android:layout_marginHorizontal="36dp"
         android:layout_marginTop="24dp" />

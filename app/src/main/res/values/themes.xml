@@ -17,19 +17,24 @@
         <item name="android:windowBackground">@color/page_bg</item>
     </style>
 
-    <style name="CommonBtnStyle">
+    <style name="CommonMatchBtnStyle" parent="@style/Widget.AppCompat.Button.Borderless">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/common_btn_h</item>
         <item name="android:textSize">@dimen/font_16</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="CommonBtnStyle1" parent="CommonBtnStyle">
+    <style name="CommonMatchBtnStyle1" parent="CommonMatchBtnStyle">
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/shape_solid_f0a258_radius_22</item>
     </style>
-    <style name="CommonBtnStyle2" parent="CommonBtnStyle">
+
+    <style name="CommonMatchBtnStyle2" parent="CommonMatchBtnStyle">
         <item name="android:textColor">@color/common_txt_color</item>
         <item name="android:background">@drawable/shape_stroke_333333_radius_22</item>
+    </style>
+
+    <style name="common_dialog" parent="Theme.MaterialComponents.Dialog">
+        <item name="android:windowNoTitle">true</item>
     </style>
 </resources>

@@ -1,17 +1,11 @@
 package com.lsy.framelib.ui.base
 
-import android.R
-import android.content.pm.ActivityInfo
-import android.content.res.Configuration
 import android.os.Bundle
-import android.view.View
-import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.lsy.framelib.business.bridge.SharedViewModel
+import com.lsy.framelib.business.SharedViewModel
 import com.lsy.framelib.intfs.ILoadingDialog
 import com.lsy.framelib.ui.weight.loading.LoadDialogMgr
-import com.lsy.framelib.utils.StatusBarUtils
 
 /**
  * Title : Activity基类

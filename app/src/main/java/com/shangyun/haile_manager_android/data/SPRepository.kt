@@ -16,6 +16,8 @@ import com.lsy.framelib.utils.SPUtils
 object SPRepository {
     private const val SP_NAME: String = "default_name"
 
+    private const val SP_AGREE_AGREEMENT = "sp_agree_agreement"
+
     private const val SP_LOGIN_TOKEN = "sp_login_token"
 
     private const val SP_USER_TOKEN = "sp_user_token"
@@ -23,17 +25,28 @@ object SPRepository {
     private val sp: SPUtils by lazy { SPUtils.getInstance(SP_NAME) }
 
     /**
+     * 判断是否同意了隐私协议
+     */
+    var isAgreeAgreement: Boolean
+        get() = sp.getBoolean(SP_AGREE_AGREEMENT, false)
+        set(value) = sp.put(SP_AGREE_AGREEMENT, value)
+
+    /**
      * 判断是否已登录
      */
-    fun isLogin(): Boolean = !TextUtils.isEmpty(getLoginToken())
+    fun isLogin(): Boolean = !TextUtils.isEmpty(loginToken)
 
     /**
      * 获取登录Token
      */
-    fun getLoginToken(): String = sp.getString(SP_LOGIN_TOKEN) ?: ""
+    var loginToken: String
+        get() = sp.getString(SP_LOGIN_TOKEN) ?: ""
+        set(value) = sp.put(SP_LOGIN_TOKEN, value)
 
     /**
      * 获取用户Token
      */
-    fun getUserToken(): String = sp.getString(SP_USER_TOKEN) ?: ""
+    var userToken: String
+        get() = sp.getString(SP_USER_TOKEN) ?: ""
+        set(value) = sp.put(SP_USER_TOKEN, value)
 }

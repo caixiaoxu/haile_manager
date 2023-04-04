@@ -1,4 +1,4 @@
-package com.lsy.framelib.business.bridge
+package com.lsy.framelib.business
 
 import androidx.lifecycle.ViewModel
 

@@ -1,34 +1,46 @@
-package com.lsy.framelib.network.gsonAdapters
+package com.lsy.framelib.utils.gson
 
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.lsy.framelib.network.response.ResponseWrapper
-import com.lsy.framelib.utils.gson.*
+import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 import java.util.*
 
 /**
- * Title : Gson转换器
+ * Title :
  * Author: Lsy
- * Date: 2023/3/17 14:54
- * Version:
+ * Date: 2023/4/6 10:41
+ * Version: 1
  * Description:
  * History:
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-object GsonConverter {
-    /**
-     * 自定义Gson
-     */
-    fun <T> createGson(): Gson {
-        return GsonBuilder()
+object GsonUtils {
+
+    val gson by lazy {
+        GsonBuilder()
             .registerTypeAdapter(String::class.java, NullStringAdapter())
             .registerTypeAdapter(Int::class.java, IntDeserializer())
             .registerTypeAdapter(Long::class.java, LongDeserializer())
             .registerTypeAdapter(Double::class.java, DoubleDeserializer())
             .registerTypeAdapter(Date::class.java, DateSerializer())
             .registerTypeAdapter(Date::class.java, DateDeserializer())
-            .registerTypeAdapter(ResponseWrapper::class.java, ResponseWrapperDeserializer<T>())
             .create()
     }
+
+    /**
+     * 转json
+     */
+    fun any2Json(any: Any): String = gson.toJson(any)
+
+    /**
+     * json转对象
+     */
+    fun <T> json2Class(json: String?, clz: Class<T>): T? =
+        json?.let { gson.fromJson(it, clz) }
+
+    /**
+     * json转指定类型
+     */
+    fun <T> json2Type(json: String?): T?  = gson.fromJson(json, object : TypeToken<T>() {}.type)
 }

@@ -1,7 +1,7 @@
 package com.lsy.framelib.network.interceptors
 
+import com.lsy.framelib.network.exception.CommonCustomException
 import com.lsy.framelib.network.exception.RequestException
-import com.lsy.framelib.network.exception.TokenExpiredException
 import com.lsy.framelib.network.intfs.IInterceptor
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -28,7 +28,6 @@ class ResponseInterceptor(private val handlerResponseException: ((response: Resp
             when (response.code()) {
                 200 -> response
                 // TODO 根据业务待替换
-                1000001 -> throw TokenExpiredException(response.code(), response.message())
                 else -> throw RequestException(response.code(), response.message())
             }
         }

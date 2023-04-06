@@ -6,7 +6,7 @@ import com.lsy.framelib.network.interceptors.BasicParamsInterceptor
 import com.lsy.framelib.network.interceptors.OkHttpLogInterceptor
 import com.lsy.framelib.network.interceptors.ResponseInterceptor
 import com.lsy.framelib.ui.base.BaseApp
-import com.shangyun.haile_manager_android.data.SPRepository
+import com.shangyun.haile_manager_android.data.model.SPRepository
 import com.shangyun.haile_manager_android.log.CrashReportingTree
 import timber.log.Timber
 
@@ -50,7 +50,7 @@ class BusinessApp : BaseApp() {
      */
     private fun dealHttpHeader(): HashMap<String, String> {
         return HashMap<String, String>().apply {
-            put("Authorization", SPRepository.loginToken)
+            SPRepository.loginInfo?.token?.let { put("Authorization", it) }
         }
     }
 

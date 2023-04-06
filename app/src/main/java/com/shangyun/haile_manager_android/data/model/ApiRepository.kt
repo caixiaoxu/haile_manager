@@ -1,7 +1,10 @@
 package com.shangyun.haile_manager_android.data.model
 
 import com.lsy.framelib.network.ApiService
+import com.lsy.framelib.network.exception.CommonCustomException
+import com.lsy.framelib.network.response.ResponseWrapper
 import com.shangyun.haile_manager_android.BuildConfig
+import com.shangyun.haile_manager_android.data.entities.LoginEntity
 
 /**
  * Title : Repository层，获取数据来源
@@ -13,7 +16,7 @@ import com.shangyun.haile_manager_android.BuildConfig
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-object AppRepository {
+object ApiRepository {
 
     /**
      * 获取网络请求Retrofit
@@ -24,11 +27,14 @@ object AppRepository {
     }
 
     /**
-     * 获取网络请求Retrofit
-     * @param baseUrl
-     * @param service api Service
+     * 处理网络请求结果
      */
-    fun <T> apiClient(baseUrl: String, service: Class<T>): T {
-        return ApiService.get(BuildConfig.BASE_URL, service)
+    fun <T> dealApiResult(response: ResponseWrapper<T>): T? {
+        when (response.code) {
+            100000 -> {// 未账号注册
+                throw CommonCustomException(response.code, response.message)
+            }
+        }
+        return response.data
     }
 }

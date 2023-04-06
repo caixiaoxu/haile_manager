@@ -48,7 +48,7 @@ object ApiService {
         val mRetrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(mIClient.getClient())
-            .addConverterFactory(GsonConverterFactory.create(GsonConverter().createGson<T>()))
+            .addConverterFactory(GsonConverterFactory.create(GsonConverter.createGson<T>()))
             .build()
         mRetrofitMap[baseUrl] = mRetrofit
         return mRetrofit

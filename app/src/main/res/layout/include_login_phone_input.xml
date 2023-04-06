@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.shangyun.haile_manager_android.business.vm.LoginForPasswordViewModel" />
+
+    </data>
+
+    <merge
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout style="@style/LoginInputItem">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_phone_tag"
+                style="@style/Font_14_333333" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:inputType="phone"
+                android:text="@={vm.phone}"
+                style="@style/input_14_333333_cccccc"
+                android:hint="@string/login_phone_hint"
+                android:background="@color/transparent" />
+
+        </LinearLayout>
+    </merge>
+</layout>

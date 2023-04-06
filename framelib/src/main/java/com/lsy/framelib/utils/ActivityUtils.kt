@@ -1,12 +1,10 @@
-package com.shangyun.haile_manager_android.utils
+package com.lsy.framelib.utils
 
 import android.app.Activity
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
 import androidx.appcompat.app.AppCompatActivity
-import com.lsy.framelib.utils.SToast
-import com.shangyun.haile_manager_android.R
+import com.lsy.framelib.R
 
 /**
  * Title : 控件工具类

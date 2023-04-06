@@ -1,0 +1,22 @@
+package com.shangyun.haile_manager_android.ui.activity
+
+import com.lsy.framelib.ui.base.BaseVMActivity
+import com.lsy.framelib.ui.base.BaseViewModel
+import com.shangyun.haile_manager_android.business.vm.SharedViewModel
+
+/**
+ * Title :
+ * Author: Lsy
+ * Date: 2023/4/6 13:43
+ * Version: 1
+ * Description:
+ * History:
+ * <author> <time> <version> <desc>
+ * 作者姓名 修改时间 版本号 描述
+ */
+abstract class BaseBusinessActivity<VM : BaseViewModel> : BaseVMActivity<VM>() {
+    // 贯穿整个项目的（只会让App(Application)初始化一次）
+    protected val mSharedViewModel: SharedViewModel by lazy {
+        getAppViewModelProvider()[SharedViewModel::class.java]
+    }
+}

@@ -1,6 +1,5 @@
 package com.lsy.framelib.network.interceptors
 
-import android.os.Build
 import com.lsy.framelib.data.constants.Constants
 import com.lsy.framelib.network.intfs.IInterceptor
 import okhttp3.HttpUrl
@@ -31,6 +30,7 @@ class BasicParamsInterceptor(
                     dealParameters?.invoke(this)
                 })
                 .build()
+
             // 重新加入请求
             val newRequest = originalRequest.newBuilder().apply {
                 url(newUrl)

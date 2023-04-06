@@ -3,7 +3,6 @@ package com.lsy.framelib.ui.base
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.lsy.framelib.business.SharedViewModel
 
 /**
  * Title :
@@ -15,12 +14,7 @@ import com.lsy.framelib.business.SharedViewModel
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-open class BaseFragment : Fragment() {
-
-    // 贯穿整个项目的（只会让App(Application)初始化一次）
-    protected val mSharedViewModel: SharedViewModel by lazy {
-        getAppViewModelProvider().get(SharedViewModel::class.java)
-    }
+open class BaseVMFragment : Fragment() {
 
     // 给当前BaseFragment用的【共享区域的ViewModel】
     protected fun getAppViewModelProvider(): ViewModelProvider {

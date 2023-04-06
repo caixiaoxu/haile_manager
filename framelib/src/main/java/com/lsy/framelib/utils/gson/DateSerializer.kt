@@ -1,4 +1,4 @@
-package com.lsy.framelib.network.gsonAdapters
+package com.lsy.framelib.utils.gson
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive

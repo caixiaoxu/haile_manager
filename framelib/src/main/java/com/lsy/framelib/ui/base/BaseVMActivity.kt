@@ -3,7 +3,6 @@ package com.lsy.framelib.ui.base
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.lsy.framelib.business.SharedViewModel
 import com.lsy.framelib.intfs.ILoadingDialog
 import com.lsy.framelib.ui.weight.loading.LoadDialogMgr
 
@@ -23,7 +22,7 @@ abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity(), ILoadingDial
         super.onCreate(savedInstanceState)
 
         // 请求等待条
-        getVM()?.loadingStatus?.observe(this) {
+        getVM().loadingStatus.observe(this) {
             if (it) {
                 showLoading()
             } else {
@@ -49,12 +48,7 @@ abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity(), ILoadingDial
     /**
      * 获取子类的ViewModel
      */
-    open fun getVM(): VM? = null
-
-    // 贯穿整个项目的（只会让App(Application)初始化一次）
-    protected val mSharedViewModel: SharedViewModel by lazy {
-        getAppViewModelProvider()[SharedViewModel::class.java]
-    }
+    abstract fun getVM(): VM
 
     // 此getAppViewModelProvider函数，只给 共享的ViewModel用（例如：mSharedViewModel .... 等共享的ViewModel）
     protected fun getAppViewModelProvider(): ViewModelProvider {

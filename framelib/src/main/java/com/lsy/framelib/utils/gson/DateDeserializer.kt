@@ -1,28 +1,30 @@
-package com.lsy.framelib.network.gsonAdapters
+package com.lsy.framelib.utils.gson
 
-import android.text.TextUtils
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import java.lang.reflect.Type
+import java.util.*
 
 /**
- * Title : 处理Int类型json
+ * Title : 处理Date类型json
  * Author: Lsy
- * Date: 2023/3/17 15:27
+ * Date: 2023/3/17 15:17
  * Version:
  * Description:
  * History:
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class IntDeserializer : JsonDeserializer<Int> {
+class DateDeserializer : JsonDeserializer<Date> {
     /**
-     * 反序列化，处理空或字符串
+     * 对Date数据类型反序列化的时间戳转换到精确到毫秒
      */
     override fun deserialize(
         json: JsonElement?,
         typeOfT: Type?,
         context: JsonDeserializationContext?
-    ): Int = if (json == null || TextUtils.isEmpty(json.asString)) 0 else json.asInt
+    ): Date? {
+        return if (json == null || json.asLong == 0L) null else Date(json.asLong * 1000)
+    }
 }

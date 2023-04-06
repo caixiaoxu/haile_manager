@@ -14,6 +14,6 @@ dependencyResolutionManagement {
         jcenter()
     }
 }
-rootProject.name = "Business_Android"
+rootProject.name = "HaileManager_Android"
 include ':app'
 include ':framelib'

@@ -9,7 +9,7 @@
     tools:context=".ui.activity.LoginActivity">
 
     <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
-        android:id="@+id/action_title_bar"
+        android:id="@+id/login_title_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_action_bar_h"
         app:title="@string/login_name"/>

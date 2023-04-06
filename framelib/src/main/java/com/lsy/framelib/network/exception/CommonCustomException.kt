@@ -10,6 +10,6 @@ package com.lsy.framelib.network.exception
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class TokenExpiredException(code: Int, message: String?) : Exception(message) {
+class CommonCustomException(code: Int, message: String?) : Exception(message) {
 
 }

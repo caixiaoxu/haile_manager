@@ -1,16 +1,15 @@
 package com.shangyun.haile_manager_android.ui.activity
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
 import androidx.core.app.ActivityCompat
 import com.lsy.framelib.ui.base.BaseActivity
 import com.shangyun.haile_manager_android.R
-import com.shangyun.haile_manager_android.data.SPRepository
+import com.shangyun.haile_manager_android.data.model.SPRepository
 import com.shangyun.haile_manager_android.databinding.ActivityLoginBinding
 import com.shangyun.haile_manager_android.ui.view.CommonDialog
-import com.shangyun.haile_manager_android.utils.ActivityUtils
+import com.lsy.framelib.utils.ActivityUtils
 
 class LoginActivity : BaseActivity() {
 
@@ -29,7 +28,7 @@ class LoginActivity : BaseActivity() {
 
     override fun rooView(): View = mLoginBinding.root
 
-    override fun backBtn(): View = mLoginBinding.actionTitleBar.getBackBtn()
+    override fun backBtn(): View = mLoginBinding.loginTitleBar.getBackBtn()
 
     override fun initView() {
         // 双击回退

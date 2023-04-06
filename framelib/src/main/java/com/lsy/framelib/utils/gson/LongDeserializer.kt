@@ -1,4 +1,4 @@
-package com.lsy.framelib.network.gsonAdapters
+package com.lsy.framelib.utils.gson
 
 import android.text.TextUtils
 import com.google.gson.JsonDeserializationContext

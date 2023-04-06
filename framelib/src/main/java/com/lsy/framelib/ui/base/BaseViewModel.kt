@@ -35,9 +35,13 @@ open class BaseViewModel : ViewModel() {
             try {
                 block()
             } catch (e: Exception) {
-                error(e)
+                viewModelScope.launch(Dispatchers.Main){
+                    error(e)
+                }
             } finally {
-                complete()
+                viewModelScope.launch(Dispatchers.Main){
+                    complete()
+                }
                 //隐藏加载弹窗
                 if (showLoading)
                     loadingStatus.postValue(false)

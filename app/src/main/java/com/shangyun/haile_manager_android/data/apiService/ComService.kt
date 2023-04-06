@@ -1,8 +1,11 @@
 package com.shangyun.haile_manager_android.data.apiService
 
 import com.lsy.framelib.network.response.ResponseWrapper
-import retrofit2.http.GET
-import retrofit2.http.Path
+import com.shangyun.haile_manager_android.data.entities.LoginEntity
+import com.shangyun.haile_manager_android.data.entities.UserInfoEntity
+import com.shangyun.haile_manager_android.data.entities.UserPermissionEntity
+import okhttp3.RequestBody
+import retrofit2.http.*
 
 /**
  * Title :
@@ -16,6 +19,23 @@ import retrofit2.http.Path
  */
 interface CommService {
 
-    @GET("/test/{param}")
-    suspend fun test(@Path("param") param: String): ResponseWrapper<Array<String>>
+    /**
+     * 登录接口
+     */
+    @POST("/login/login")
+    suspend fun login(@Body body: RequestBody): ResponseWrapper<LoginEntity>
+
+    /**
+     * 用户信息接口
+     */
+    @POST("/user/userInfo")
+    suspend fun userInfo(): ResponseWrapper<UserInfoEntity>
+
+    /**
+     * 用户权限接口
+     */
+    @POST("/permission/getMenuDetailListByUser")
+    suspend fun permissionByUser(): ResponseWrapper<List<UserPermissionEntity>>
+
+
 }

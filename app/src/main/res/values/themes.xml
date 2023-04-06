@@ -34,22 +34,30 @@
         <item name="android:background">@drawable/shape_stroke_333333_radius_22</item>
     </style>
 
-    <style name="LoginInputItem">
+    <style name="LoginItem">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/login_input_h</item>
         <item name="android:layout_marginTop">@dimen/login_input_mt</item>
         <item name="android:background">@drawable/shape_bottom_stroke_e3e3e3</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="maxLines">1</item>
     </style>
+
+    <style name="LoginInputItem" parent="LoginItem">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/common_txt_color</item>
+        <item name="android:textColorHint">@color/common_txt_hint_color</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
 
     <style name="Font_14_333333">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/common_txt_color</item>
     </style>
+
     <style name="input_14_333333_cccccc">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/common_txt_color</item>
-        <item name="hintTextColor">@color/common_txt_hint_color</item>
+        <item name="android:textColorHint">@color/common_txt_hint_color</item>
     </style>
 </resources>

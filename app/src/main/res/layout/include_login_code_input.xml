@@ -16,7 +16,7 @@
 
     <merge>
         <LinearLayout
-            style="@style/LoginInputItem"
+            style="@style/LoginItem"
             tools:showIn="@layout/activity_login_for_phone">
 
             <androidx.appcompat.widget.AppCompatEditText
@@ -24,9 +24,9 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:maxLines="1"
                 android:background="@color/transparent"
                 android:hint="@string/login_code_hint"
-                android:inputType="textPassword"
                 android:text="@={code}" />
 
             <com.shangyun.haile_manager_android.ui.view.SingleTapButton

@@ -2,7 +2,7 @@ package com.shangyun.haile_manager_android.business.vm
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.shangyun.haile_manager_android.data.apiService.CommService
+import com.shangyun.haile_manager_android.business.apiService.CommService
 import com.shangyun.haile_manager_android.data.entities.LoginEntity
 import com.shangyun.haile_manager_android.data.entities.UserInfoEntity
 import com.shangyun.haile_manager_android.data.entities.UserPermissionEntity

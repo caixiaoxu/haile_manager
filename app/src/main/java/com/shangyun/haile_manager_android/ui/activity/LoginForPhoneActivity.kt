@@ -2,7 +2,6 @@ package com.shangyun.haile_manager_android.ui.activity
 
 import android.content.Intent
 import android.graphics.Color
-import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextPaint
@@ -72,10 +71,6 @@ class LoginForPhoneActivity : BaseBusinessActivity<LoginForPhoneViewModel>() {
                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE
                 )
             }
-
-        mLoginForPhoneViewModel.canSubmit.observe(this) {
-            mBinding.btnLoginSure.isEnabled = it
-        }
     }
 
     override fun initEvent() {
@@ -83,6 +78,10 @@ class LoginForPhoneActivity : BaseBusinessActivity<LoginForPhoneViewModel>() {
         LiveDataBus.with(BusEvents.LOGIN_STATUS)?.observe(this){
             startActivity(Intent(this,MainActivity::class.java))
             finish()
+        }
+
+        mLoginForPhoneViewModel.canSubmit.observe(this) {
+            mBinding.btnLoginSure.isEnabled = it
         }
     }
 

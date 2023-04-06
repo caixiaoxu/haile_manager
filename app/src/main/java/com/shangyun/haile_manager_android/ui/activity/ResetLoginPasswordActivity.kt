@@ -1,6 +1,5 @@
 package com.shangyun.haile_manager_android.ui.activity
 
-import android.content.Intent
 import android.graphics.Color
 import android.text.SpannableString
 import android.text.Spanned
@@ -11,31 +10,29 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.SToast
 import com.shangyun.haile_manager_android.BuildConfig
 import com.shangyun.haile_manager_android.R
-import com.shangyun.haile_manager_android.business.event.BusEvents
-import com.shangyun.haile_manager_android.business.vm.LoginForPasswordViewModel
-import com.shangyun.haile_manager_android.databinding.ActivityLoginForPasswordBinding
+import com.shangyun.haile_manager_android.business.vm.ResetPasswordViewModel
+import com.shangyun.haile_manager_android.databinding.ActivityResetPasswordBinding
 
-class LoginForPasswordActivity : BaseBusinessActivity<LoginForPasswordViewModel>() {
-    private val mBinding: ActivityLoginForPasswordBinding by lazy {
-        DataBindingUtil.setContentView(this, R.layout.activity_login_for_password)
+class ResetLoginPasswordActivity : BaseBusinessActivity<ResetPasswordViewModel>() {
+    private val mBinding: ActivityResetPasswordBinding by lazy {
+        DataBindingUtil.setContentView(this, R.layout.activity_reset_password)
     }
-    private val mLoginForPasswordViewModel by lazy {
-        getActivityViewModelProvider(this)[LoginForPasswordViewModel::class.java]
+
+    private val mResetPasswordViewModel by lazy {
+        getActivityViewModelProvider(this)[ResetPasswordViewModel::class.java]
     }
+
+    override fun getVM(): ResetPasswordViewModel = mResetPasswordViewModel
 
     override fun rooView(): View = mBinding.root
-
-    override fun getVM(): LoginForPasswordViewModel = mLoginForPasswordViewModel
 
     override fun backBtn(): View = mBinding.loginTitleBar.getBackBtn()
 
     override fun initView() {
-        mBinding.vm = mLoginForPasswordViewModel
-        mBinding.shared = mSharedViewModel
+        mBinding.vm = mResetPasswordViewModel
 
         // 协议内容
         mBinding.tvLoginAgreement.movementMethod = LinkMovementMethod.getInstance()
@@ -45,7 +42,7 @@ class LoginForPasswordActivity : BaseBusinessActivity<LoginForPasswordViewModel>
                 setSpan(
                     ForegroundColorSpan(
                         ContextCompat.getColor(
-                            this@LoginForPasswordActivity,
+                            this@ResetLoginPasswordActivity,
                             R.color.colorPrimary
                         )
                     ),
@@ -57,7 +54,7 @@ class LoginForPasswordActivity : BaseBusinessActivity<LoginForPasswordViewModel>
                     object : ClickableSpan() {
                         override fun onClick(view: View) {
                             // TODO 跳转隐私协议
-                            SToast.showToast(this@LoginForPasswordActivity, "隐私协议")
+                            SToast.showToast(this@ResetLoginPasswordActivity, "隐私协议")
                         }
 
                         override fun updateDrawState(ds: TextPaint) {
@@ -70,38 +67,23 @@ class LoginForPasswordActivity : BaseBusinessActivity<LoginForPasswordViewModel>
                 )
             }
 
-        // 忘记密码
-        mBinding.tvLoginForgetPassword.setOnClickListener {
-            startActivity(
-                Intent(
-                    this@LoginForPasswordActivity,
-                    ResetLoginPasswordActivity::class.java
-                )
-            )
-        }
     }
 
     override fun initEvent() {
         super.initEvent()
-
-        // 监听是否可点击提交按钮
-        mLoginForPasswordViewModel.canSubmit.observe(this) {
+        mResetPasswordViewModel.canSubmit.observe(this) {
             mBinding.btnLoginSure.isEnabled = it
-        }
-
-        // 登录状态监听
-        LiveDataBus.with(BusEvents.LOGIN_STATUS)?.observe(this) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
         }
     }
 
     override fun initData() {
+
         if (BuildConfig.DEBUG) {
-            // 模拟数据
-            mLoginForPasswordViewModel.phone.value = "13067949521"
-            mLoginForPasswordViewModel.password.value = "Aa123456"
-            mLoginForPasswordViewModel.isAgree.value = true
+            mResetPasswordViewModel.phone.value = "13067949521"
         }
+    }
+
+    override fun jump(type: Int) {
+        finish()
     }
 }

@@ -1,6 +1,5 @@
 package com.shangyun.haile_manager_android.business.vm
 
-import android.content.Intent
 import android.text.TextUtils
 import android.view.View
 import androidx.lifecycle.MediatorLiveData
@@ -9,7 +8,6 @@ import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.shangyun.haile_manager_android.business.event.BusEvents
-import com.shangyun.haile_manager_android.ui.activity.MainActivity
 import com.shangyun.haile_manager_android.utils.StringUtils
 import timber.log.Timber
 
@@ -51,7 +49,7 @@ class LoginForPasswordViewModel : BaseViewModel() {
      * 检测是否可提交
      */
     private fun checkSubmit(): Boolean =
-        !TextUtils.isEmpty(phone.value) && !TextUtils.isEmpty(password.value) && isAgree.value!!
+        !phone.value.isNullOrEmpty() && !password.value.isNullOrEmpty() && isAgree.value!!
 
     /**
      * 登录

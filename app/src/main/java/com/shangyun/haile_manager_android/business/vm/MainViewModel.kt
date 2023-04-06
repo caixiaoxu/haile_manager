@@ -1,7 +1,7 @@
 package com.shangyun.haile_manager_android.business.vm
 
 import com.lsy.framelib.ui.base.BaseViewModel
-import com.shangyun.haile_manager_android.data.apiService.CommService
+import com.shangyun.haile_manager_android.business.apiService.CommService
 import com.shangyun.haile_manager_android.data.model.ApiRepository
 import timber.log.Timber
 

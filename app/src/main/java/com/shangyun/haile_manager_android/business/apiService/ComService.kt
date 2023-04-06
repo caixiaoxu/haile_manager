@@ -1,4 +1,4 @@
-package com.shangyun.haile_manager_android.data.apiService
+package com.shangyun.haile_manager_android.business.apiService
 
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.shangyun.haile_manager_android.data.entities.LoginEntity
@@ -30,6 +30,12 @@ interface CommService {
      */
     @POST("/login/getCode")
     suspend fun sendCode(@Body body: RequestBody): ResponseWrapper<String>
+
+    /**
+     * 忘记密码接口
+     */
+    @POST("/login/updatePasswordByCode")
+    suspend fun forgetPassword(@Body body: RequestBody): ResponseWrapper<Boolean>
 
     /**
      * 用户信息接口

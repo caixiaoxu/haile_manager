@@ -3,8 +3,11 @@ package com.shangyun.haile_manager_android.data.model
 import com.lsy.framelib.network.ApiService
 import com.lsy.framelib.network.exception.CommonCustomException
 import com.lsy.framelib.network.response.ResponseWrapper
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.BuildConfig
 import com.shangyun.haile_manager_android.data.entities.LoginEntity
+import okhttp3.MediaType
+import okhttp3.RequestBody
 
 /**
  * Title : Repository层，获取数据来源
@@ -26,15 +29,25 @@ object ApiRepository {
         return ApiService.get(BuildConfig.BASE_URL, service)
     }
 
+
+    /**
+     * 生成请求body
+     */
+    fun createRequestBody(params: Map<String, Any>): RequestBody =
+        RequestBody.create(MediaType.parse("application/json"), GsonUtils.any2Json(params))
+
     /**
      * 处理网络请求结果
      */
     fun <T> dealApiResult(response: ResponseWrapper<T>): T? {
-        when (response.code) {
-            100000 -> {// 未账号注册
-                throw CommonCustomException(response.code, response.message)
-            }
+
+        if (0 != response.code) {
+            // 1 参数不正常
+            // 100000 未账号注册
+            throw CommonCustomException(response.code, response.message)
         }
         return response.data
     }
+
+
 }

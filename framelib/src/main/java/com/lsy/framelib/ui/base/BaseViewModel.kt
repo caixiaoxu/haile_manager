@@ -1,5 +1,6 @@
 package com.lsy.framelib.ui.base
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lsy.framelib.business.UnPeekLiveData
@@ -17,6 +18,9 @@ import kotlinx.coroutines.launch
  * 作者姓名 修改时间 版本号 描述
  */
 open class BaseViewModel : ViewModel() {
+    // 用于跳转
+    val jump = MutableLiveData<Int>()
+
     val loadingStatus = UnPeekLiveData<Boolean>()
 
     /**

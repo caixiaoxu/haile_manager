@@ -1,15 +1,18 @@
 package com.shangyun.haile_manager_android.ui.activity
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
 import androidx.core.app.ActivityCompat
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseActivity
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.data.model.SPRepository
 import com.shangyun.haile_manager_android.databinding.ActivityLoginBinding
 import com.shangyun.haile_manager_android.ui.view.CommonDialog
 import com.lsy.framelib.utils.ActivityUtils
+import com.shangyun.haile_manager_android.business.event.BusEvents
 
 class LoginActivity : BaseActivity() {
 
@@ -26,11 +29,19 @@ class LoginActivity : BaseActivity() {
         }.build()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        initView()
+        initEvent()
+        initData()
+    }
+
     override fun rooView(): View = mLoginBinding.root
 
     override fun backBtn(): View = mLoginBinding.loginTitleBar.getBackBtn()
 
-    override fun initView() {
+    private fun initView() {
         // 双击回退
         ActivityUtils.addDoubleBack(this, onBackPressedDispatcher)
         //协议
@@ -54,7 +65,13 @@ class LoginActivity : BaseActivity() {
         }
     }
 
-    override fun initData() {
+    private fun initEvent() {
+        LiveDataBus.with(BusEvents.LOGIN_STATUS)?.observe(this){
+            finish()
+        }
+    }
+
+    private fun initData() {
     }
 
     override fun onBackListener() {

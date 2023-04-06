@@ -1,6 +1,7 @@
 package com.shangyun.haile_manager_android
 
 import android.content.Intent
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -19,19 +20,21 @@ class SplashActivity : BaseActivity() {
 
     override fun isFullScreen(): Boolean = true
 
-    override fun rooView(): View = mSplashBinding.root
-    override fun initView() {
-        checkDelayJump()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initView()
     }
 
-    override fun initData() {
+    override fun rooView(): View = mSplashBinding.root
+    private fun initView() {
+        checkDelayJump()
     }
 
     /**
      * 延时跳转，根据是否登录判断
      */
     private fun checkDelayJump() {
-        Handler(Looper.getMainLooper()).postDelayed(Runnable {
+        Handler(Looper.getMainLooper()).postDelayed({
             if (SPRepository.isLogin()) {
                 startActivity(Intent(this@SplashActivity, MainActivity::class.java))
             } else {

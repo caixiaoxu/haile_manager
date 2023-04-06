@@ -29,6 +29,8 @@ class LoginForPasswordActivity : BaseBusinessActivity<LoginForPasswordViewModel>
 
     override fun getVM(): LoginForPasswordViewModel = mLoginForPasswordViewModel
 
+    override fun backBtn(): View = mBinding.loginTitleBar.getBackBtn()
+
     override fun initView() {
         mBinding.vm = mLoginForPasswordViewModel
         mBinding.shared = mSharedViewModel

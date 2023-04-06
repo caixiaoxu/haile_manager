@@ -11,6 +11,8 @@
     <string name="login_phone_hint">请输入手机号</string>
     <string name="login_password_hint">请输入密码</string>
     <string name="login_password_tag">忘记密码？</string>
+    <string name="login_code_hint">请输入验证码</string>
+    <string name="login_code_send">获取验证码</string>
 
     <string name="agreement_hint">根据国家法律法规的要求，我们更新了《隐私政策》，帮助您了解我们收集、使用、存储和共享个人信息的情况，特别是我们所采集的个人信息类型及用途，同时您还可以了解到您所共享的相关权利和实现途径，以及我们为了保护好您的个人信息安全所采取的相关策略。</string>
     <string name="login_agreement_hint">已阅读并同意《隐私协议》</string>

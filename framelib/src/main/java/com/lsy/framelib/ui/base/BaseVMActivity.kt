@@ -21,6 +21,11 @@ abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity(), ILoadingDial
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // 界面跳转
+        getVM().jump.observe(this) {
+            jump(it)
+        }
+
         // 请求等待条
         getVM().loadingStatus.observe(this) {
             if (it) {
@@ -30,6 +35,16 @@ abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity(), ILoadingDial
             }
         }
     }
+
+    /**
+     * 获取子类的ViewModel
+     */
+    abstract fun getVM(): VM
+
+    /**
+     * 用于处理跳转
+     */
+    open fun jump(type: Int) {}
 
     /**
      * 显示加载界面
@@ -45,10 +60,6 @@ abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity(), ILoadingDial
         LoadDialogMgr.hideLoadingDialog(this)
     }
 
-    /**
-     * 获取子类的ViewModel
-     */
-    abstract fun getVM(): VM
 
     // 此getAppViewModelProvider函数，只给 共享的ViewModel用（例如：mSharedViewModel .... 等共享的ViewModel）
     protected fun getAppViewModelProvider(): ViewModelProvider {

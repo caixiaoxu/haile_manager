@@ -3,8 +3,8 @@
 
     <data>
         <variable
-            name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.LoginForPasswordViewModel" />
+            name="phone"
+            type="androidx.lifecycle.MutableLiveData&lt;String>" />
 
     </data>
 
@@ -25,7 +25,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:inputType="phone"
-                android:text="@={vm.phone}"
+                android:text="@={phone}"
                 style="@style/input_14_333333_cccccc"
                 android:hint="@string/login_phone_hint"
                 android:background="@color/transparent" />

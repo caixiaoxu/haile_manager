@@ -2,9 +2,6 @@ package com.shangyun.haile_manager_android.business.vm
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.lsy.framelib.ui.base.BaseViewModel
-import com.lsy.framelib.utils.SToast
-import com.shangyun.haile_manager_android.business.RequestBodyUtil
 import com.shangyun.haile_manager_android.data.apiService.CommService
 import com.shangyun.haile_manager_android.data.entities.LoginEntity
 import com.shangyun.haile_manager_android.data.entities.UserInfoEntity
@@ -35,7 +32,7 @@ class SharedViewModel : ViewModel() {
      * 密码登录
      */
    suspend fun loginForPassword(phone: String, password: String) {
-        val params: MutableMap<String, Any> = mutableMapOf(
+        login(mutableMapOf(
             "account" to RSAUtil.encryptDataByPublicKey(
                 phone.toByteArray(),
                 RSAUtil.keyStrToPublicKey(RSAUtil.RSA_PUBLIC_KEY)
@@ -46,10 +43,27 @@ class SharedViewModel : ViewModel() {
             ),
             "loginType" to 3,
             "authorizationClientType" to 4
-        )
+        ))
+    }
 
+    /**
+     * 验证码登录
+     */
+   suspend fun loginForCode(phone: String, code: String) {
+       login(mutableMapOf(
+           "account" to phone,
+           "verificationCode" to code,
+           "loginType" to 2,
+           "authorizationClientType" to 4
+       ))
+    }
+
+    /**
+     * 登录请求
+     */
+    suspend fun login(params: MutableMap<String, Any>) {
         val loginData =
-            ApiRepository.dealApiResult(mRepo.login(RequestBodyUtil.createRequestBody(params)))
+            ApiRepository.dealApiResult(mRepo.login(ApiRepository.createRequestBody(params)))
         Timber.d("登录接口请求成功$loginData")
         loginData?.let {
             SPRepository.loginInfo = it

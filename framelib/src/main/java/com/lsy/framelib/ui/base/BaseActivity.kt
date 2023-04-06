@@ -42,9 +42,6 @@ abstract class BaseActivity : AppCompatActivity() {
         }
         // 回退按钮
         backBtn()?.setOnClickListener { onBackListener() }
-
-        initView()
-        initData()
     }
 
     /**
@@ -56,16 +53,6 @@ abstract class BaseActivity : AppCompatActivity() {
      * 回退按钮
      */
     open fun backBtn(): View? = null
-
-    /**
-     * 初始化界面
-     */
-    abstract fun initView()
-
-    /**
-     * 初始化数据
-     */
-    abstract fun initData()
 
     /**
      * 设置内容布局的上边距(状态栏的距离)

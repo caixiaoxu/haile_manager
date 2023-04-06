@@ -1,5 +1,6 @@
 package com.shangyun.haile_manager_android.ui.activity
 
+import android.os.Bundle
 import com.lsy.framelib.ui.base.BaseVMActivity
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.shangyun.haile_manager_android.business.vm.SharedViewModel
@@ -19,4 +20,27 @@ abstract class BaseBusinessActivity<VM : BaseViewModel> : BaseVMActivity<VM>() {
     protected val mSharedViewModel: SharedViewModel by lazy {
         getAppViewModelProvider()[SharedViewModel::class.java]
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        initView()
+        initEvent()
+        initData()
+    }
+
+    /**
+     * 初始化界面
+     */
+    abstract fun initView()
+
+    /**
+     * 初始化监听事件
+     */
+    protected open fun initEvent(){}
+
+    /**
+     * 初始化数据
+     */
+    abstract fun initData()
 }

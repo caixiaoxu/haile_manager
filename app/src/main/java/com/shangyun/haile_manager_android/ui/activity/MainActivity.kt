@@ -6,7 +6,7 @@ import com.lsy.framelib.ui.base.BaseVMActivity
 import com.shangyun.haile_manager_android.business.vm.MainViewModel
 import com.shangyun.haile_manager_android.databinding.ActivityMainBinding
 
-class MainActivity : BaseVMActivity<MainViewModel>() {
+class MainActivity : BaseBusinessActivity<MainViewModel>() {
 
     private val mMainViewModel by lazy {
         getActivityViewModelProvider(this)[MainViewModel::class.java]

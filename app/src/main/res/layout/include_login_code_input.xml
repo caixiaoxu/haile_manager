@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="code"
+            type="androidx.lifecycle.MutableLiveData&lt;String>" />
+
+        <variable
+            name="sendCode"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <merge>
+        <LinearLayout
+            style="@style/LoginInputItem"
+            tools:showIn="@layout/activity_login_for_phone">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                style="@style/input_14_333333_cccccc"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:hint="@string/login_code_hint"
+                android:inputType="textPassword"
+                android:text="@={code}" />
+
+            <com.shangyun.haile_manager_android.ui.view.SingleTapButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:textAllCaps="false"
+                android:onClick="@{sendCode}"
+                android:text="@string/login_code_send"
+                android:textColor="@color/common_txt_color"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </merge>
+</layout>

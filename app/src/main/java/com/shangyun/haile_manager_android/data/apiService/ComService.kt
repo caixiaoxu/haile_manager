@@ -26,6 +26,12 @@ interface CommService {
     suspend fun login(@Body body: RequestBody): ResponseWrapper<LoginEntity>
 
     /**
+     * 验证码接口
+     */
+    @POST("/login/getCode")
+    suspend fun sendCode(@Body body: RequestBody): ResponseWrapper<String>
+
+    /**
      * 用户信息接口
      */
     @POST("/user/userInfo")
@@ -36,6 +42,5 @@ interface CommService {
      */
     @POST("/permission/getMenuDetailListByUser")
     suspend fun permissionByUser(): ResponseWrapper<List<UserPermissionEntity>>
-
 
 }

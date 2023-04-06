@@ -5,8 +5,10 @@ import android.text.TextUtils
 import android.view.View
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
+import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.ui.activity.MainActivity
 import com.shangyun.haile_manager_android.utils.StringUtils
 import timber.log.Timber
@@ -77,7 +79,7 @@ class LoginForPasswordViewModel : BaseViewModel() {
         launch(
             {
                 sharedView.loginForPassword(phone.value!!, password.value!!)
-                view.context.startActivity(Intent(view.context, MainActivity::class.java))
+                LiveDataBus.post(BusEvents.LOGIN_STATUS, true)
             },
             {
                 it.message?.let { it1 -> SToast.showToast(msg = it1) }

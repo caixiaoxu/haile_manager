@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.SToast
+import com.shangyun.haile_manager_android.BuildConfig
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.business.vm.LoginForPhoneViewModel
@@ -86,8 +87,10 @@ class LoginForPhoneActivity : BaseBusinessActivity<LoginForPhoneViewModel>() {
     }
 
     override fun initData() {
-        // TODO 模拟数据
-        mLoginForPhoneViewModel.phone.value = "13067949521"
-        mLoginForPhoneViewModel.isAgree.value = true
+        if (BuildConfig.DEBUG){
+            // 模拟数据
+            mLoginForPhoneViewModel.phone.value = "13067949521"
+            mLoginForPhoneViewModel.isAgree.value = true
+        }
     }
 }

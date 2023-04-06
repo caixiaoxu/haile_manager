@@ -1,5 +1,6 @@
 package com.shangyun.haile_manager_android.ui.activity
 
+import android.content.Intent
 import android.graphics.Color
 import android.text.SpannableString
 import android.text.Spanned
@@ -10,10 +11,13 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import com.lsy.framelib.async.LiveDataBus
 import com.shangyun.haile_manager_android.business.vm.SharedViewModel
 import com.lsy.framelib.ui.base.BaseVMActivity
 import com.lsy.framelib.utils.SToast
+import com.shangyun.haile_manager_android.BuildConfig
 import com.shangyun.haile_manager_android.R
+import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.business.vm.LoginForPasswordViewModel
 import com.shangyun.haile_manager_android.databinding.ActivityLoginForPasswordBinding
 
@@ -73,10 +77,21 @@ class LoginForPasswordActivity : BaseBusinessActivity<LoginForPasswordViewModel>
         }
     }
 
+    override fun initEvent() {
+        super.initEvent()
+
+        LiveDataBus.with(BusEvents.LOGIN_STATUS)?.observe(this) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
+    }
+
     override fun initData() {
-        // TODO 模拟数据
-        mLoginForPasswordViewModel.phone.value = "13067949521"
-        mLoginForPasswordViewModel.password.value = "Ko7Ir9"
-        mLoginForPasswordViewModel.isAgree.value = true
+        if (BuildConfig.DEBUG) {
+            // 模拟数据
+            mLoginForPasswordViewModel.phone.value = "13067949521"
+            mLoginForPasswordViewModel.password.value = "Ko7Ir9"
+            mLoginForPasswordViewModel.isAgree.value = true
+        }
     }
 }

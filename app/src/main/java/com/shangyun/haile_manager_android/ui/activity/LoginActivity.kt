@@ -5,14 +5,13 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
 import androidx.core.app.ActivityCompat
-import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseActivity
+import com.lsy.framelib.utils.ActivityUtils
 import com.shangyun.haile_manager_android.R
+import com.shangyun.haile_manager_android.data.ActivityTag
 import com.shangyun.haile_manager_android.data.model.SPRepository
 import com.shangyun.haile_manager_android.databinding.ActivityLoginBinding
 import com.shangyun.haile_manager_android.ui.view.CommonDialog
-import com.lsy.framelib.utils.ActivityUtils
-import com.shangyun.haile_manager_android.business.event.BusEvents
 
 class LoginActivity : BaseActivity() {
 
@@ -33,9 +32,10 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
 
         initView()
-        initEvent()
         initData()
     }
+
+    override fun activityTag(): String = ActivityTag.TAG_LOGIN
 
     override fun rooView(): View = mLoginBinding.root
 
@@ -62,12 +62,6 @@ class LoginActivity : BaseActivity() {
                 Intent(this@LoginActivity, LoginForPhoneActivity::class.java),
                 null
             )
-        }
-    }
-
-    private fun initEvent() {
-        LiveDataBus.with(BusEvents.LOGIN_STATUS)?.observe(this){
-            finish()
         }
     }
 

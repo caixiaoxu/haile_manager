@@ -20,7 +20,7 @@
                 android:text="@string/login_phone_tag"
                 style="@style/Font_14_333333" />
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <com.shangyun.haile_manager_android.ui.view.PhoneEditText
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

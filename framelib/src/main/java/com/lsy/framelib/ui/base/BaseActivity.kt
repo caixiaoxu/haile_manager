@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.lsy.framelib.utils.AppManager
 import com.lsy.framelib.utils.StatusBarUtils
 
 /**
@@ -30,6 +31,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppManager.addActivity(activityTag(),this)
         // 设置状态栏的距离
         setRootViewPT()
         // 屏幕方向
@@ -43,6 +45,11 @@ abstract class BaseActivity : AppCompatActivity() {
         // 回退按钮
         backBtn()?.setOnClickListener { onBackListener() }
     }
+
+    /**
+     * Activity Tag
+     */
+    protected open fun activityTag(): String? = null
 
     /**
      * 根布局
@@ -80,5 +87,10 @@ abstract class BaseActivity : AppCompatActivity() {
      */
     protected open fun onBackListener() {
         finish()
+    }
+
+    override fun onDestroy() {
+        AppManager.finishActivity(activityTag(),this)
+        super.onDestroy()
     }
 }

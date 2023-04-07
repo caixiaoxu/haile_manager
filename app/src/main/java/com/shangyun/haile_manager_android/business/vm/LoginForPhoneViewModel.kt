@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.lsy.framelib.utils.AppManager
 import com.lsy.framelib.utils.SToast
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.event.BusEvents
@@ -89,6 +90,7 @@ class LoginForPhoneViewModel : BaseViewModel() {
             {
                 sharedView.loginForCode(phone.value!!, code.value!!)
                 LiveDataBus.post(BusEvents.LOGIN_STATUS, true)
+                jump.postValue(1)
             },
             {
                 it.message?.let { it1 -> SToast.showToast(msg = it1) }

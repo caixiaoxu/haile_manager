@@ -78,6 +78,7 @@ class LoginForPasswordViewModel : BaseViewModel() {
             {
                 sharedView.loginForPassword(phone.value!!, password.value!!)
                 LiveDataBus.post(BusEvents.LOGIN_STATUS, true)
+                jump.postValue(1)
             },
             {
                 it.message?.let { it1 -> SToast.showToast(msg = it1) }

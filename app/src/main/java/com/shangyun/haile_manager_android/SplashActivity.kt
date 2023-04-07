@@ -22,11 +22,12 @@ class SplashActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(mSplashBinding.root)
         initView()
     }
 
-    override fun rooView(): View = mSplashBinding.root
     private fun initView() {
+        initStatusBarColor(mSplashBinding.root)
         checkDelayJump()
     }
 

@@ -30,18 +30,16 @@ class LoginActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setContentView(mLoginBinding.root)
         initView()
-        initData()
     }
 
     override fun activityTag(): String = ActivityTag.TAG_LOGIN
 
-    override fun rooView(): View = mLoginBinding.root
-
     override fun backBtn(): View = mLoginBinding.loginTitleBar.getBackBtn()
 
     private fun initView() {
+        initStatusBarColor(mLoginBinding.root)
         // 双击回退
         ActivityUtils.addDoubleBack(this, onBackPressedDispatcher)
         //协议
@@ -63,9 +61,6 @@ class LoginActivity : BaseActivity() {
                 null
             )
         }
-    }
-
-    private fun initData() {
     }
 
     override fun onBackListener() {

@@ -74,4 +74,6 @@ dependencies {
     implementation ThirdLibs.viewmodel_ktx
 
     implementation ThirdLibs.timber
+
+    implementation ThirdLibs.mpAndroid
 }

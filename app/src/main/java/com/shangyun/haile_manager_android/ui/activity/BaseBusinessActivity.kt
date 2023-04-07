@@ -1,6 +1,7 @@
 package com.shangyun.haile_manager_android.ui.activity
 
 import android.os.Bundle
+import androidx.databinding.ViewDataBinding
 import com.lsy.framelib.ui.base.BaseVMActivity
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.shangyun.haile_manager_android.business.vm.SharedViewModel
@@ -15,7 +16,8 @@ import com.shangyun.haile_manager_android.business.vm.SharedViewModel
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-abstract class BaseBusinessActivity<VM : BaseViewModel> : BaseVMActivity<VM>() {
+abstract class BaseBusinessActivity<T : ViewDataBinding, VM : BaseViewModel> :
+    BaseVMActivity<T, VM>() {
     // 贯穿整个项目的（只会让App(Application)初始化一次）
     protected val mSharedViewModel: SharedViewModel by lazy {
         getAppViewModelProvider()[SharedViewModel::class.java]
@@ -37,7 +39,7 @@ abstract class BaseBusinessActivity<VM : BaseViewModel> : BaseVMActivity<VM>() {
     /**
      * 初始化监听事件
      */
-    protected open fun initEvent(){}
+    protected open fun initEvent() {}
 
     /**
      * 初始化数据

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_home_last_msg" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_last_msg_title"
+        style="@style/Font_14_333333"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        tools:text="设备告警" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_last_msg_content"
+        style="@style/Font_14_666666"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        tools:text="您有一台设备无法启动了" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_last_msg_time"
+        style="@style/Font_12_CCCCCC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        tools:text="2小时前" />
+
+</LinearLayout>

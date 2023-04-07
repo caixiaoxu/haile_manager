@@ -1,29 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.shangyun.haile_manager_android.ui.activity.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_request_network"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="请求网络 "
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/tv_request_result"/>
+    <data>
 
-    <TextView
-        android:id="@+id/tv_request_result"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_request_network" />
+        <variable
+            name="vm"
+            type="com.shangyun.haile_manager_android.business.vm.MainViewModel" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.shangyun.haile_manager_android.ui.activity.MainActivity">
+
+        <FrameLayout
+            android:id="@+id/fl_main_controller"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="84dp">
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="84dp"
+                android:background="@drawable/shape_top_stroke_e3e3e3"
+                android:checkedButton="@={vm.checkId}"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rb_main_tab_home"
+                    style="@style/MainTab"
+                    android:drawableTop="@mipmap/icon_main_tab_home_uncheck"
+                    android:text="@string/main_tab_home"
+                    android:visibility="@{vm.isShowHomeRB}" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rb_main_tab_personal"
+                    style="@style/MainTab"
+                    android:drawableTop="@drawable/selector_main_tab_personal"
+                    android:text="@string/main_tab_personal" />
+            </RadioGroup>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/icon_main_tab_home_check"
+                android:visibility="@{vm.isShowHomeIcon}"
+                app:layout_constraintEnd_toEndOf="@id/gl_main_tab_home_end"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_main_tab_home_end"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</layout>

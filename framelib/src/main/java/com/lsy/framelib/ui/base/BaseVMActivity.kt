@@ -2,12 +2,13 @@ package com.lsy.framelib.ui.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProvider
 import com.lsy.framelib.intfs.ILoadingDialog
 import com.lsy.framelib.ui.weight.loading.LoadDialogMgr
 
 /**
- * Title : Activity基类
+ * Title : Activity基类(构建ViewModel)
  * Author: Lsy
  * Date: 2023/3/16 14:25
  * Version: 1
@@ -16,7 +17,7 @@ import com.lsy.framelib.ui.weight.loading.LoadDialogMgr
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity(), ILoadingDialog {
+abstract class BaseVMActivity<T : ViewDataBinding,VM : BaseViewModel> : BaseBindingActivity<T>(), ILoadingDialog {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

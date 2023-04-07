@@ -33,6 +33,9 @@ object ThirdLibs {
 
     // 界面状态管理
     const val loadSir = "com.kingja.loadsir:loadsir:1.3.8"
+
+    // 图表
+    const val mpAndroid = "com.github.PhilJay:MPAndroidChart:v3.1.0"
 }
 
 object TestLibs {

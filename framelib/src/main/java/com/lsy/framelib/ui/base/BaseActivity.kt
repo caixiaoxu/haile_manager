@@ -31,30 +31,27 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppManager.addActivity(activityTag(),this)
+        AppManager.addActivity(activityTag(), this)
         // 设置状态栏的距离
         setRootViewPT()
         // 屏幕方向
         setScreenOrientation()
-        rooView().let {
-            // 布局
-            setContentView(it)
-            // 状态栏文字颜色
-            StatusBarUtils.setStatusBarDarkTheme(it, isDark())
-        }
+
         // 回退按钮
         backBtn()?.setOnClickListener { onBackListener() }
+    }
+
+    /**
+     * 状态栏文字颜色
+     */
+    protected fun initStatusBarColor(root: View) {
+        StatusBarUtils.setStatusBarDarkTheme(root, isDark())
     }
 
     /**
      * Activity Tag
      */
     protected open fun activityTag(): String? = null
-
-    /**
-     * 根布局
-     */
-    abstract fun rooView(): View
 
     /**
      * 回退按钮
@@ -90,7 +87,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        AppManager.finishActivity(activityTag(),this)
+        AppManager.finishActivity(activityTag(), this)
         super.onDestroy()
     }
 }

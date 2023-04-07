@@ -9,10 +9,8 @@ import com.shangyun.haile_manager_android.business.vm.ResetPasswordViewModel
 import com.shangyun.haile_manager_android.databinding.ActivityResetPasswordBinding
 import com.shangyun.haile_manager_android.utils.ViewUtils
 
-class ResetLoginPasswordActivity : BaseBusinessActivity<ResetPasswordViewModel>() {
-    private val mBinding: ActivityResetPasswordBinding by lazy {
-        DataBindingUtil.setContentView(this, R.layout.activity_reset_password)
-    }
+class ResetLoginPasswordActivity :
+    BaseBusinessActivity<ActivityResetPasswordBinding, ResetPasswordViewModel>() {
 
     private val mResetPasswordViewModel by lazy {
         getActivityViewModelProvider(this)[ResetPasswordViewModel::class.java]
@@ -20,7 +18,7 @@ class ResetLoginPasswordActivity : BaseBusinessActivity<ResetPasswordViewModel>(
 
     override fun getVM(): ResetPasswordViewModel = mResetPasswordViewModel
 
-    override fun rooView(): View = mBinding.root
+    override fun layoutId(): Int =R.layout.activity_reset_password
 
     override fun backBtn(): View = mBinding.loginTitleBar.getBackBtn()
 
@@ -28,7 +26,7 @@ class ResetLoginPasswordActivity : BaseBusinessActivity<ResetPasswordViewModel>(
         mBinding.vm = mResetPasswordViewModel
 
         // 协议内容
-        ViewUtils.initAgreementToTextView(mBinding.tvLoginAgreement){
+        ViewUtils.initAgreementToTextView(mBinding.tvLoginAgreement) {
             // TODO 跳转隐私协议
             SToast.showToast(this@ResetLoginPasswordActivity, "隐私协议")
         }

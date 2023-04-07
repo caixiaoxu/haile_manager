@@ -2,7 +2,6 @@ package com.shangyun.haile_manager_android.ui.activity
 
 import android.content.Intent
 import android.view.View
-import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.utils.AppManager
 import com.lsy.framelib.utils.SToast
 import com.shangyun.haile_manager_android.BuildConfig
@@ -12,17 +11,14 @@ import com.shangyun.haile_manager_android.data.ActivityTag
 import com.shangyun.haile_manager_android.databinding.ActivityLoginForPasswordBinding
 import com.shangyun.haile_manager_android.utils.ViewUtils
 
-class LoginForPasswordActivity : BaseBusinessActivity<LoginForPasswordViewModel>() {
-    private val mBinding: ActivityLoginForPasswordBinding by lazy {
-        DataBindingUtil.setContentView(this, R.layout.activity_login_for_password)
-    }
+class LoginForPasswordActivity :
+    BaseBusinessActivity<ActivityLoginForPasswordBinding, LoginForPasswordViewModel>() {
     private val mLoginForPasswordViewModel by lazy {
         getActivityViewModelProvider(this)[LoginForPasswordViewModel::class.java]
     }
 
     override fun activityTag(): String = ActivityTag.TAG_LOGIN
-
-    override fun rooView(): View = mBinding.root
+    override fun layoutId(): Int = R.layout.activity_login_for_password
 
     override fun getVM(): LoginForPasswordViewModel = mLoginForPasswordViewModel
 
@@ -33,7 +29,7 @@ class LoginForPasswordActivity : BaseBusinessActivity<LoginForPasswordViewModel>
         mBinding.shared = mSharedViewModel
 
         // 协议内容
-        ViewUtils.initAgreementToTextView(mBinding.tvLoginAgreement){
+        ViewUtils.initAgreementToTextView(mBinding.tvLoginAgreement) {
             // TODO 跳转隐私协议
             SToast.showToast(this@LoginForPasswordActivity, "隐私协议")
         }

@@ -12,21 +12,15 @@ import com.shangyun.haile_manager_android.data.ActivityTag
 import com.shangyun.haile_manager_android.databinding.ActivityLoginForPhoneBinding
 import com.shangyun.haile_manager_android.utils.ViewUtils
 
-class LoginForPhoneActivity : BaseBusinessActivity<LoginForPhoneViewModel>() {
-
-    private val mBinding: ActivityLoginForPhoneBinding by lazy {
-        DataBindingUtil.setContentView(this, R.layout.activity_login_for_phone)
-    }
+class LoginForPhoneActivity : BaseBusinessActivity<ActivityLoginForPhoneBinding,LoginForPhoneViewModel>() {
 
     private val mLoginForPhoneViewModel by lazy {
         getActivityViewModelProvider(this)[LoginForPhoneViewModel::class.java]
     }
-
+    override fun activityTag(): String = ActivityTag.TAG_LOGIN
+    override fun layoutId(): Int =R.layout.activity_login_for_phone
     override fun getVM(): LoginForPhoneViewModel =mLoginForPhoneViewModel
-
     override fun backBtn(): View = mBinding.loginTitleBar.getBackBtn()
-
-    override fun rooView(): View =mBinding.root
 
     override fun initView() {
         mBinding.vm = mLoginForPhoneViewModel
@@ -38,8 +32,6 @@ class LoginForPhoneActivity : BaseBusinessActivity<LoginForPhoneViewModel>() {
             SToast.showToast(this@LoginForPhoneActivity, "隐私协议")
         }
     }
-
-    override fun activityTag(): String = ActivityTag.TAG_LOGIN
 
     override fun initEvent() {
         super.initEvent()

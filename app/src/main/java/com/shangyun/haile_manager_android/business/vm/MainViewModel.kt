@@ -1,6 +1,11 @@
 package com.shangyun.haile_manager_android.business.vm
 
+import android.view.View
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.apiService.CommService
 import com.shangyun.haile_manager_android.data.model.ApiRepository
 import timber.log.Timber
@@ -16,19 +21,13 @@ import timber.log.Timber
  * 作者姓名 修改时间 版本号 描述
  */
 class MainViewModel : BaseViewModel() {
-    private val mRepo = ApiRepository.apiClient(CommService::class.java)
+    //选择的id
+    val checkId: MutableLiveData<Int> = MutableLiveData(R.id.rb_main_tab_home)
 
-    fun requestData() {
-        Timber.d("开始请求")
-//        launch(
-//            {
-//                val response = mRepo.test("aaa")
-//                Timber.d("请求成功$response")
-//            }, {
-//                Timber.d("请求失败或异常$it")
-//            }, {
-//                Timber.d("请求结束")
-//            }
-//        )
-    }
+    // 是否选择首页
+    val isShowHomeRB: LiveData<Int> =
+        checkId.map { if (it == R.id.rb_main_tab_home) View.INVISIBLE else View.VISIBLE }
+    val isShowHomeIcon: LiveData<Int> =
+        checkId.map { if (it == R.id.rb_main_tab_home) View.VISIBLE else View.GONE }
+
 }

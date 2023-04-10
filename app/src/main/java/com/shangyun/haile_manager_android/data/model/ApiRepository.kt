@@ -1,11 +1,16 @@
 package com.shangyun.haile_manager_android.data.model
 
+import android.content.Intent
+import android.os.Handler
+import android.os.Looper
+import com.lsy.framelib.data.constants.Constants
 import com.lsy.framelib.network.ApiService
 import com.lsy.framelib.network.exception.CommonCustomException
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.BuildConfig
 import com.shangyun.haile_manager_android.data.entities.LoginEntity
+import com.shangyun.haile_manager_android.ui.activity.LoginActivity
 import okhttp3.MediaType
 import okhttp3.RequestBody
 
@@ -20,6 +25,7 @@ import okhttp3.RequestBody
  * 作者姓名 修改时间 版本号 描述
  */
 object ApiRepository {
+    private val mHandler = Handler(Looper.getMainLooper())
 
     /**
      * 获取网络请求Retrofit
@@ -40,14 +46,30 @@ object ApiRepository {
      * 处理网络请求结果
      */
     fun <T> dealApiResult(response: ResponseWrapper<T>): T? {
-
         if (0 != response.code) {
             // 1 参数不正常
             // 100000 未账号注册
+            // 100003 账号在其他地方登录
+
+            when (response.code) {
+                100003 -> {
+                    mHandler.post {
+                        // 清空登录信息
+                        SPRepository.cleaLoginUserInfo()
+                        // 跳转登录界面
+                        Constants.APP_CONTEXT.startActivity(
+                            Intent(
+                                Constants.APP_CONTEXT,
+                                LoginActivity::class.java
+                            ).apply {
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            }
+                        )
+                    }
+                }
+            }
             throw CommonCustomException(response.code, response.message)
         }
         return response.data
     }
-
-
 }

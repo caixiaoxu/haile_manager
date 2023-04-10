@@ -88,7 +88,7 @@ object AppManager {
      */
     fun finishAllActivity() {
         for (activity in activityStack) {
-            finishActivity(activity)
+            activity.finish()
         }
         activityStack.clear()
         activityMap.clear()

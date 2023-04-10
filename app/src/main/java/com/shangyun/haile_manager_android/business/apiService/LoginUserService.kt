@@ -8,7 +8,7 @@ import okhttp3.RequestBody
 import retrofit2.http.*
 
 /**
- * Title :
+ * Title : 登录和用户信息接口
  * Author: Lsy
  * Date: 2023/3/17 16:35
  * Version: 1
@@ -17,7 +17,7 @@ import retrofit2.http.*
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-interface CommService {
+interface LoginUserService {
 
     /**
      * 登录接口

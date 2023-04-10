@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
 import androidx.core.app.ActivityCompat
-import com.lsy.framelib.ui.base.BaseActivity
+import com.lsy.framelib.ui.base.activity.BaseActivity
 import com.lsy.framelib.utils.ActivityUtils
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.data.ActivityTag

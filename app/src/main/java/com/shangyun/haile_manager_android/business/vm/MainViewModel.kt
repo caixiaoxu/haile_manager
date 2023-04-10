@@ -6,8 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.shangyun.haile_manager_android.R
-import com.shangyun.haile_manager_android.business.apiService.CommService
-import com.shangyun.haile_manager_android.data.model.ApiRepository
 import timber.log.Timber
 
 /**
@@ -30,4 +28,20 @@ class MainViewModel : BaseViewModel() {
     val isShowHomeIcon: LiveData<Int> =
         checkId.map { if (it == R.id.rb_main_tab_home) View.VISIBLE else View.GONE }
 
+    /**
+     * 请求用户权限
+     */
+    fun requestUserPermissions(mSharedViewModel: SharedViewModel) {
+        launch(
+            {
+                mSharedViewModel.requestUserPermissions()
+            },
+            {
+                Timber.d("请求失败或异常$it")
+            },
+            {
+                Timber.d("请求结束")
+            }, false
+        )
+    }
 }

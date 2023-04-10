@@ -4,8 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.View
-import com.lsy.framelib.ui.base.BaseActivity
+import com.lsy.framelib.ui.base.activity.BaseActivity
 import com.shangyun.haile_manager_android.data.model.SPRepository
 import com.shangyun.haile_manager_android.databinding.ActivitySplashBinding
 import com.shangyun.haile_manager_android.ui.activity.LoginActivity

@@ -1,10 +1,12 @@
-package com.lsy.framelib.ui.base
+package com.lsy.framelib.ui.base.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProvider
 import com.lsy.framelib.intfs.ILoadingDialog
+import com.lsy.framelib.ui.base.BaseApp
+import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.ui.weight.loading.LoadDialogMgr
 
 /**

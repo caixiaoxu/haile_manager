@@ -2,8 +2,7 @@ package com.shangyun.haile_manager_android.ui.view
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatButton
-import com.lsy.framelib.utils.ViewUtils
+import com.lsy.framelib.ui.weight.SingleTapButton
 
 /**
  * Title : 常用按钮

@@ -19,7 +19,7 @@ import timber.log.Timber
 class OkHttpLogInterceptor : IInterceptor {
     override fun getInterceptor(): Interceptor {
         val mHttpLogInter = HttpLoggingInterceptor { message ->
-            Timber.d("HttpLogging=====$message")
+            Timber.i("HttpLogging=====$message")
         }
         mHttpLogInter.level = HttpLoggingInterceptor.Level.BODY
         return mHttpLogInter

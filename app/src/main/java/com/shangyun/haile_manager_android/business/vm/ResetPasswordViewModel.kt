@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.shangyun.haile_manager_android.R
-import com.shangyun.haile_manager_android.business.apiService.CommService
+import com.shangyun.haile_manager_android.business.apiService.LoginUserService
 import com.shangyun.haile_manager_android.data.model.ApiRepository
 import com.shangyun.haile_manager_android.utils.ResourceUtils
 import com.shangyun.haile_manager_android.utils.StringUtils
@@ -28,7 +28,7 @@ import timber.log.Timber
  * 作者姓名 修改时间 版本号 描述
  */
 class ResetPasswordViewModel : BaseViewModel() {
-    private val mRepo = ApiRepository.apiClient(CommService::class.java)
+    private val mRepo = ApiRepository.apiClient(LoginUserService::class.java)
 
     // 手机号
     val phone: MutableLiveData<String> = MutableLiveData()

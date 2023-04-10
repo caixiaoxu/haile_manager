@@ -39,7 +39,7 @@ object ActivityUtils {
      */
     fun doubleBack(activity: Activity) {
         if (mBackPressedTime + TIME_INTERVAL > System.currentTimeMillis()) {
-            activity.finish()
+            AppManager.finishAllActivity()
             return
         }
         SToast.showToast(activity, R.string.double_back_hint)

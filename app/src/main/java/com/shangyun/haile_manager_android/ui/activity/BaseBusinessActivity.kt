@@ -2,7 +2,7 @@ package com.shangyun.haile_manager_android.ui.activity
 
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
-import com.lsy.framelib.ui.base.BaseVMActivity
+import com.lsy.framelib.ui.base.activity.BaseVMActivity
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.shangyun.haile_manager_android.business.vm.SharedViewModel
 

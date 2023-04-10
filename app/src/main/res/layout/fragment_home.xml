@@ -5,6 +5,18 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="vm"
+            type="com.shangyun.haile_manager_android.business.vm.HomeViewModel" />
+
+        <variable
+            name="shared"
+            type="com.shangyun.haile_manager_android.business.vm.SharedViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,6 +53,7 @@
             android:layout_marginEnd="16dp"
             android:background="@null"
             android:src="@mipmap/icon_home_msg"
+            android:visibility="@{shared.hasMessagePermission?View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/iv_home_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/iv_home_title" />
@@ -49,14 +62,15 @@
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:background="@drawable/shape_circle_ff3b30"
-            android:visibility="gone"
+            android:visibility="@{(shared.hasMessagePermission &amp;&amp; vm.unReadMsgNum>0)?View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="@id/ib_home_msg"
             app:layout_constraintTop_toTopOf="@id/ib_home_msg" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:paddingHorizontal="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bg_home_title">
 
             <LinearLayout
@@ -69,7 +83,8 @@
                     android:layout_height="98dp"
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/shape_solid_ffffff_radius_8"
-                    android:padding="16dp">
+                    android:padding="16dp"
+                    android:visibility="@{(!shared.hasProfitPermission || TextUtils.isEmpty(vm.inComeVal))?View.GONE:View.VISIBLE}">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_home_income_title"
@@ -90,6 +105,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:fontFamily="@font/money"
+                        android:text="@{vm.inComeVal}"
                         android:textColor="@color/common_txt_color"
                         android:textSize="36sp"
                         android:textStyle="bold"
@@ -103,7 +119,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/shape_solid_ffffff_radius_8"
-                    android:padding="16dp">
+                    android:padding="16dp"
+                    android:visibility="@{!shared.hasProfitPermission?View.GONE:View.VISIBLE}">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_trend_title"
@@ -147,7 +164,8 @@
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/shape_solid_ffffff_radius_8"
                     android:paddingHorizontal="16dp"
-                    android:paddingVertical="12dp">
+                    android:paddingVertical="12dp"
+                    android:visibility="@{(!shared.hasMessagePermission || null == vm.lastMsgList || 0 == vm.lastMsgList.size())?View.GONE:View.VISIBLE}">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_last_msg_title"
@@ -166,17 +184,21 @@
                         style="@style/input_14_999999"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/home_msg_num"
+                        android:text="@{vm.unReadMsgNum + @string/home_msg_num}"
+                        android:visibility="@{(vm.unReadMsgNum > 0)?View.VISIBLE:View.GONE}"
                         app:layout_constraintEnd_toStartOf="@id/view_last_msg_unread"
                         app:layout_constraintStart_toEndOf="@id/tv_last_msg_title"
-                        app:layout_constraintTop_toTopOf="@id/tv_last_msg_title" />
+                        app:layout_constraintTop_toTopOf="@id/tv_last_msg_title"
+                        tools:text="2条最新消息" />
 
                     <View
                         android:id="@+id/view_last_msg_unread"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_margin="3dp"
                         android:layout_marginStart="7dp"
                         android:background="@drawable/shape_circle_ff3b30"
+                        android:visibility="@{(vm.unReadMsgNum > 0)?View.VISIBLE:View.GONE}"
                         app:layout_constraintBottom_toBottomOf="@id/tv_last_msg_num"
                         app:layout_constraintEnd_toStartOf="@id/view_last_msg_right"
                         app:layout_constraintStart_toEndOf="@id/tv_last_msg_num"
@@ -198,26 +220,20 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:orientation="vertical"
-                        app:layout_constraintTop_toBottomOf="@id/tv_last_msg_title">
-
-                        <include layout="@layout/include_home_last_msg_item" />
-
-                        <include layout="@layout/include_home_last_msg_item" />
-
-                    </LinearLayout>
+                        app:layout_constraintTop_toBottomOf="@id/tv_last_msg_title" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_func_area"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:background="@drawable/shape_solid_ffffff_radius_8"
                     android:orientation="vertical"
-                    android:layout_marginBottom="8dp"
                     android:paddingVertical="16dp">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_func_title"
                         style="@style/Common_Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -229,14 +245,69 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <GridLayout
+                        android:id="@+id/gl_func_area"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:columnCount="4"
-                        android:orientation="horizontal"/>
+                        android:orientation="horizontal" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_marketing_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/shape_solid_ffffff_radius_8"
+                    android:orientation="vertical"
+                    android:paddingVertical="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Common_Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/home_marketing_title"
+                        app:layout_constraintEnd_toStartOf="@id/tv_trend_date"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <GridLayout
+                        android:id="@+id/gl_marketing_area"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="4"
+                        android:orientation="horizontal" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_capital_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/shape_solid_ffffff_radius_8"
+                    android:orientation="vertical"
+                    android:paddingVertical="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Common_Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/home_capital_title"
+                        app:layout_constraintEnd_toStartOf="@id/tv_trend_date"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <GridLayout
+                        android:id="@+id/gl_capital_area"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="4"
+                        android:orientation="horizontal" />
                 </LinearLayout>
             </LinearLayout>
-
         </androidx.core.widget.NestedScrollView>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,4 +1,4 @@
-package com.lsy.framelib.ui.base
+package com.lsy.framelib.ui.base.activity
 
 import android.R
 import android.content.pm.ActivityInfo

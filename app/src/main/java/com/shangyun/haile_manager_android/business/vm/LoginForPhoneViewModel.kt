@@ -1,8 +1,6 @@
 package com.shangyun.haile_manager_android.business.vm
 
-import android.content.Intent
 import android.os.CountDownTimer
-import android.text.TextUtils
 import android.view.View
 import android.widget.Button
 import androidx.lifecycle.MediatorLiveData
@@ -10,13 +8,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
-import com.lsy.framelib.utils.AppManager
 import com.lsy.framelib.utils.SToast
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.event.BusEvents
-import com.shangyun.haile_manager_android.business.apiService.CommService
+import com.shangyun.haile_manager_android.business.apiService.LoginUserService
 import com.shangyun.haile_manager_android.data.model.ApiRepository
-import com.shangyun.haile_manager_android.ui.activity.MainActivity
 import com.shangyun.haile_manager_android.utils.ResourceUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,7 +29,7 @@ import timber.log.Timber
  * 作者姓名 修改时间 版本号 描述
  */
 class LoginForPhoneViewModel : BaseViewModel() {
-    private val mRepo = ApiRepository.apiClient(CommService::class.java)
+    private val mRepo = ApiRepository.apiClient(LoginUserService::class.java)
 
     // 手机号
     val phone: MutableLiveData<String> = MutableLiveData()

@@ -88,7 +88,11 @@ object SPRepository {
      */
     var userPermissions: List<UserPermissionEntity>? = null
         get() {
-            return field ?: GsonUtils.json2Type(sp.getString(SP_USER_PERMISSION))
+            return field ?: GsonUtils.json2List(
+                sp.getString(
+                    SP_USER_PERMISSION
+                ), UserPermissionEntity::class.java
+            )
         }
         set(value) {
             if (null == value) {//清空缓存
@@ -98,4 +102,11 @@ object SPRepository {
             }
             field = value
         }
+
+    /**
+     * 清空登录和用户信息
+     */
+    fun cleaLoginUserInfo() {
+        loginInfo = null
+    }
 }

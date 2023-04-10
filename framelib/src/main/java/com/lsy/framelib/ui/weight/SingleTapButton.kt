@@ -1,4 +1,4 @@
-package com.shangyun.haile_manager_android.ui.view
+package com.lsy.framelib.ui.weight
 
 import android.content.Context
 import android.util.AttributeSet

@@ -4,11 +4,15 @@ import android.util.SparseArray
 import androidx.fragment.app.Fragment
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.MainViewModel
+import com.shangyun.haile_manager_android.data.model.SPRepository
 import com.shangyun.haile_manager_android.databinding.ActivityMainBinding
 import com.shangyun.haile_manager_android.ui.fragment.HomeFragment
 import com.shangyun.haile_manager_android.ui.fragment.PersonalFragment
 
 class MainActivity : BaseBusinessActivity<ActivityMainBinding, MainViewModel>() {
+    val FROM_TYPE = "from_type"
+    val FROM_TYPE_LOGIN = 0
+    val FROM_TYPE_SPLASH = 1
 
     private val mMainViewModel by lazy {
         getActivityViewModelProvider(this)[MainViewModel::class.java]
@@ -29,6 +33,11 @@ class MainActivity : BaseBusinessActivity<ActivityMainBinding, MainViewModel>() 
 
     override fun initView() {
         mBinding.vm = mMainViewModel
+    }
+
+    override fun initEvent() {
+        super.initEvent()
+
         mMainViewModel.checkId.observe(this) {
             when (it) {
                 R.id.rb_main_tab_home -> showChildFragment(it)
@@ -49,13 +58,16 @@ class MainActivity : BaseBusinessActivity<ActivityMainBinding, MainViewModel>() 
             if (it.isAdded) {
                 supportFragmentManager.beginTransaction().show(it).commit()
             } else {
-                supportFragmentManager.beginTransaction().add(R.id.fl_main_controller, it).commit()
+                supportFragmentManager.beginTransaction().add(R.id.fl_main_controller, it)
+                    .commit()
             }
             curFragment = it
         }
     }
 
     override fun initData() {
+        if (FROM_TYPE_SPLASH == intent.getIntExtra(FROM_TYPE, FROM_TYPE_SPLASH)) {
+            mMainViewModel.requestUserPermissions(mSharedViewModel)
+        }
     }
-
 }

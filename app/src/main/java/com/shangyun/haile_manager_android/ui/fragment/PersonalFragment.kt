@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import com.lsy.framelib.ui.base.BaseVMFragment
+import com.lsy.framelib.ui.base.fragment.BaseVMFragment
 import com.shangyun.haile_manager_android.R
-import com.shangyun.haile_manager_android.databinding.FragmentHomeBinding
+import com.shangyun.haile_manager_android.business.vm.HomeViewModel
+import com.shangyun.haile_manager_android.business.vm.PersonalViewModel
 import com.shangyun.haile_manager_android.databinding.FragmentPersonalBinding
 
 /**
@@ -20,20 +21,20 @@ import com.shangyun.haile_manager_android.databinding.FragmentPersonalBinding
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class PersonalFragment : BaseVMFragment() {
-    private lateinit var mBinding: FragmentPersonalBinding
+class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding,PersonalViewModel>() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        mBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_personal,
-            container,
-            false
-        )
-        return mBinding.root
+    private val mPersonalViewModel by lazy {
+        getFragmentViewModelProvider(this)[PersonalViewModel::class.java]
     }
+
+    override fun layoutId(): Int =R.layout.fragment_personal
+
+    override fun getVM(): PersonalViewModel =mPersonalViewModel
+
+    override fun initView() {
+    }
+
+    override fun initData() {
+    }
+
 }

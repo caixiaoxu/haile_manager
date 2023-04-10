@@ -1,7 +1,7 @@
 package com.lsy.framelib.utils.gson
 
 import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
+import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.util.*
 
@@ -42,5 +42,13 @@ object GsonUtils {
     /**
      * json转指定类型
      */
-    fun <T> json2Type(json: String?): T?  = gson.fromJson(json, object : TypeToken<T>() {}.type)
+    fun <T> json2List(json: String?, clz: Class<T>): List<T>? =
+        gson.fromJson(json, ParameterizedTypeImpl(clz))
+
+    internal class ParameterizedTypeImpl<T>(private val clz: Class<T>) : ParameterizedType {
+        override fun getActualTypeArguments(): Array<Type> = arrayOf(clz)
+        override fun getRawType(): Type = MutableList::class.java
+
+        override fun getOwnerType(): Type? = null
+    }
 }

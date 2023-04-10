@@ -1,5 +1,13 @@
 package com.shangyun.haile_manager_android.utils
 
+import android.content.Context
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
+import androidx.core.content.ContextCompat
+import com.lsy.framelib.utils.DimensionUtils
+import com.shangyun.haile_manager_android.R
 import java.util.regex.Pattern
 
 /**
@@ -32,4 +40,18 @@ object StringUtils {
         }
         return flag
     }
+
+    /**
+     * 创建金额字符串
+     */
+    fun createPriceStr(context: Context, price: Double): SpannableString =
+        SpannableString("¥${NumberUtils.keepTwoDecimals(price)}").apply {
+            setSpan(
+                AbsoluteSizeSpan(DimensionUtils.sp2px(context, 24f)),
+                0,
+                1,
+                Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+            )
+
+        }
 }

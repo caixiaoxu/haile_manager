@@ -1,16 +1,21 @@
 package com.shangyun.haile_manager_android.business.vm
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.apiService.CapitalService
 import com.shangyun.haile_manager_android.business.apiService.MessageService
+import com.shangyun.haile_manager_android.data.entities.HomeIncomeEntity
 import com.shangyun.haile_manager_android.data.entities.MessageEntity
 import com.shangyun.haile_manager_android.data.model.ApiRepository
 import com.shangyun.haile_manager_android.ui.activity.*
+import com.shangyun.haile_manager_android.utils.DateTimeUtils
 import com.shangyun.haile_manager_android.utils.UserPermissionUtils
 import timber.log.Timber
+import java.util.*
 
 /**
  * Title :
@@ -26,15 +31,25 @@ class HomeViewModel : BaseViewModel() {
     private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
     private val mMessageRepo = ApiRepository.apiClient(MessageService::class.java)
 
+    //选择的时间
+    val selectedDate:MutableLiveData<Date> = MutableLiveData(Date())
+    val selectedDateVal:LiveData<String> = selectedDate.map {
+        DateTimeUtils.formatDateTime("yyyy年MM月",it)
+    }
+
     // 总收入
     val inComeVal: MutableLiveData<String> = MutableLiveData()
-
-    // 最新消息
-    val lastMsgList: MutableLiveData<List<MessageEntity>?> = MutableLiveData()
 
     // 最新消息数量
     val unReadMsgNum: MutableLiveData<Int> = MutableLiveData(0)
 
+    // 最新消息
+    val lastMsgList: MutableLiveData<List<MessageEntity>?> = MutableLiveData()
+
+    // 收益趋势
+    val homeIncomeList: MutableLiveData<List<HomeIncomeEntity>?> = MutableLiveData()
+
+    // 功能管理
     val funcList: MutableLiveData<List<FunItem>> = MutableLiveData(
         arrayListOf(
             FunItem(
@@ -64,6 +79,7 @@ class HomeViewModel : BaseViewModel() {
         )
     )
 
+    // 营销中心
     val marketingList: MutableLiveData<List<FunItem>> = MutableLiveData(
         arrayListOf(
             FunItem(
@@ -75,6 +91,7 @@ class HomeViewModel : BaseViewModel() {
         )
     )
 
+    // 资金管理
     val capitalList: MutableLiveData<List<FunItem>> = MutableLiveData(
         arrayListOf(
             FunItem(
@@ -96,6 +113,8 @@ class HomeViewModel : BaseViewModel() {
                 requestIncomeToday()
                 // 未读消息数
                 requestUnReadCount()
+                // 收益趋势
+                requestHomeIncome()
                 // 消息列表
                 requestMessageList()
             },
@@ -136,6 +155,29 @@ class HomeViewModel : BaseViewModel() {
             count += it.count
         }
         unReadMsgNum.postValue(count)
+    }
+
+    /**
+     * 首页收益趋势
+     */
+    private suspend fun requestHomeIncome() {
+        val incomeList = ApiRepository.dealApiResult(
+            mCapitalRepo.homeInCome(
+                ApiRepository.createRequestBody(
+                    hashMapOf(
+                        "startTime" to DateTimeUtils.formatDateTime(
+                            DateTimeUtils.getMonthFirst(selectedDate.value)
+                        ),
+                        "endTime" to DateTimeUtils.formatDateTime(
+                            DateTimeUtils.getMonthLast(selectedDate.value)
+                        )
+                    ),
+                )
+            )
+        )
+        incomeList?.let {list->
+            homeIncomeList.postValue(list)
+        }
     }
 
     /**

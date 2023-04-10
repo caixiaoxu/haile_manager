@@ -119,7 +119,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/shape_solid_ffffff_radius_8"
-                    android:padding="16dp"
+                    android:paddingVertical="16dp"
                     android:visibility="@{!shared.hasProfitPermission?View.GONE:View.VISIBLE}">
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -127,6 +127,7 @@
                         style="@style/Common_Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
                         android:text="@string/home_trend_title"
                         app:layout_constraintEnd_toStartOf="@id/tv_trend_date"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -138,11 +139,14 @@
                         style="@style/Font_12_333333"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
                         android:background="@drawable/shape_solid_f7f7f7_radius_10"
                         android:drawableEnd="@mipmap/icon_triangle_down"
                         android:gravity="center"
+                        android:drawablePadding="4dp"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="2dp"
+                        android:text='@{vm.selectedDateVal}'
                         app:layout_constraintBottom_toBottomOf="@id/tv_trend_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/tv_trend_title"
@@ -151,10 +155,12 @@
 
                     <com.github.mikephil.charting.charts.BarChart
                         android:id="@+id/bc_trend_chart"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
                         android:layout_marginTop="14dp"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_trend_title" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

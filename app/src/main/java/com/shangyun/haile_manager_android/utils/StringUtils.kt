@@ -29,6 +29,7 @@ object StringUtils {
      * @param password
      * @return
      */
+    @JvmStatic
     fun checkPassword(password: String?): Boolean {
         var flag: Boolean = try {
             val check = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\\d]{6,12}$"
@@ -44,6 +45,7 @@ object StringUtils {
     /**
      * 创建金额字符串
      */
+    @JvmStatic
     fun createPriceStr(context: Context, price: Double): SpannableString =
         SpannableString("¥${NumberUtils.keepTwoDecimals(price)}").apply {
             setSpan(
@@ -54,4 +56,10 @@ object StringUtils {
             )
 
         }
+
+    /**
+     * 格式化手机
+     */
+    @JvmStatic
+    fun formatPhone(phone: String): String = phone.replaceRange(IntRange(3, 7), "****")
 }

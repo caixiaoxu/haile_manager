@@ -35,5 +35,7 @@
     <string name="date_time_title">请选择时间</string>
 
     <string name="to">至</string>
+    
+    <string name="admin">管理员</string>
 
 </resources>

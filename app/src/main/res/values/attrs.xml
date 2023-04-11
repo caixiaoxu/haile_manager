@@ -3,4 +3,9 @@
     <declare-styleable name="CommonTitleActionBar">
         <attr name="title" format="reference|string"/>
     </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="strokeWidth" format="dimension" />
+        <attr name="strokeColor" format="color" />
+    </declare-styleable>
 </resources>

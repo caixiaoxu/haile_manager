@@ -1,19 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <import type="com.shangyun.haile_manager_android.utils.StringUtils" />
+
+        <variable
+            name="vm"
+            type="com.shangyun.haile_manager_android.business.vm.PersonalViewModel" />
+
+        <variable
+            name="shared"
+            type="com.shangyun.haile_manager_android.business.vm.SharedViewModel" />
+
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/ll_personal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="第二页"/>
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="24dp">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.shangyun.haile_manager_android.ui.view.CircleImageView
+                android:id="@+id/iv_personal_icon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeColor="@color/colorPrimary"
+                app:strokeWidth="3dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_personal_nickname"
+                style="@style/Font_18_333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@{shared.userInfo.userInfo.name}"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tv_personal_phone"
+                app:layout_constraintEnd_toStartOf="@id/iv_personal_right"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/iv_personal_icon"
+                app:layout_constraintTop_toTopOf="@id/iv_personal_icon"
+                app:layout_constraintVertical_chainStyle="spread_inside"
+                tools:text="洗e先生" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_personal_phone"
+                style="@style/Font_14_333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@{StringUtils.formatPhone(shared.userInfo.userInfo.phone)}"
+                app:layout_constraintBottom_toBottomOf="@id/iv_personal_icon"
+                app:layout_constraintEnd_toStartOf="@id/iv_personal_right"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@id/tv_personal_nickname"
+                app:layout_constraintTop_toBottomOf="@id/tv_personal_nickname"
+                tools:text="188****8888" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_personal_tag"
+                style="@style/Font_12_f0a258"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/shape_s26f0a258_r4"
+                android:paddingLeft="4dp"
+                android:paddingTop="2dp"
+                android:paddingRight="4dp"
+                android:paddingBottom="2dp"
+                android:text="@{1 == shared.userInfo.userInfo.property ? @string/admin : shared.userInfo.userInfo.tagName}"
+                android:visibility="@{(1 != shared.userInfo.userInfo.property &amp;&amp; TextUtils.isEmpty(shared.userInfo.userInfo.tagName))?View.GONE:View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@id/tv_personal_nickname"
+                app:layout_constraintEnd_toStartOf="@id/iv_personal_right"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/tv_personal_nickname"
+                app:layout_constraintTop_toTopOf="@id/tv_personal_nickname"
+                tools:text="老板" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_personal_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:src="@mipmap/icon_arrow_right"
+                app:layout_constraintBottom_toBottomOf="@id/iv_personal_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_personal_icon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_personal_items"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+    </LinearLayout>
 </layout>

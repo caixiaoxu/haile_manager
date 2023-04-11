@@ -41,6 +41,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
     </style>
+
     <style name="BottomSheetStyleWrapper" parent="Widget.MaterialComponents.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
@@ -80,6 +81,12 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/common_txt_color</item>
     </style>
+
+    <style name="Font_12_f0a258">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
     <style name="Font_12_CCCCCC">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/common_txt_hint_color</item>
@@ -112,6 +119,11 @@
 
     <style name="Font_16_333333">
         <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/common_txt_color</item>
+    </style>
+
+    <style name="Font_18_333333">
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/common_txt_color</item>
     </style>
 

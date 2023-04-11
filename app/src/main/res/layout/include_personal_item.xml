@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="item"
+            type="com.shangyun.haile_manager_android.business.vm.PersonalViewModel.PersonalItem" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="8dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_personal_item_icon"
+            imageRes="@{item.icon}"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_personal_item_title"
+            style="@style/Font_16_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="12dp"
+            android:gravity="center_vertical"
+            android:text="@{item.title}"
+            app:layout_constraintEnd_toStartOf="@id/iv_personal_item_right"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/iv_personal_item_icon"
+            tools:text="钱包余额" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/iv_personal_item_tag"
+            style="@style/Font_12_f0a258"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/shape_s26f0a258_r4"
+            android:paddingLeft="4dp"
+            android:paddingTop="2dp"
+            android:paddingRight="4dp"
+            android:paddingBottom="2dp"
+            android:text="@{item.tag}"
+            android:visibility="@{TextUtils.isEmpty(item.tag)?View.GONE:View.VISIBLE}"
+            app:layout_constraintTop_toTopOf="@id/tv_personal_item_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_personal_item_title"
+            app:layout_constraintEnd_toStartOf="@id/iv_personal_item_right"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/tv_personal_item_title"
+            tools:text="已通过" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/iv_personal_item_value"
+            style="@style/Font_18_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:gravity="center"
+            android:text="@{item.value}"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/iv_personal_item_right"
+            tools:text="¥990.00" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_personal_item_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:src="@mipmap/icon_arrow_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

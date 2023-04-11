@@ -24,7 +24,7 @@ class SharedViewModel : ViewModel() {
     private val mRepo = ApiRepository.apiClient(LoginUserService::class.java)
 
     val loginInfo: MutableLiveData<LoginEntity> = MutableLiveData()
-    val userInfo: MutableLiveData<UserInfoEntity> = MutableLiveData()
+    val userInfo: MutableLiveData<UserInfoEntity?> = MutableLiveData(SPRepository.userInfo)
     val hasUserPermission: MutableLiveData<Boolean> = MutableLiveData(false)
 
     /** ---------------------用户权限------------------------- **/

@@ -1,4 +1,4 @@
-package com.shangyun.haile_manager_android.ui.view
+package com.shangyun.haile_manager_android.ui.view.dialog
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.FragmentManager
 import com.shangyun.haile_manager_android.R
@@ -129,7 +128,7 @@ class CommonDialog private constructor(private val builder: Builder) : AppCompat
 
         // 对话框背景
         var dialogBgDrawable: Drawable? = null
-        var dialogBgResource: Int = R.drawable.shape_solid_ffffff_radius_8
+        var dialogBgResource: Int = R.drawable.shape_sffffff_r8
 
         // 不可取消
         var isCancelable = false

@@ -11,7 +11,7 @@ import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.data.ActivityTag
 import com.shangyun.haile_manager_android.data.model.SPRepository
 import com.shangyun.haile_manager_android.databinding.ActivityLoginBinding
-import com.shangyun.haile_manager_android.ui.view.CommonDialog
+import com.shangyun.haile_manager_android.ui.view.dialog.CommonDialog
 
 class LoginActivity : BaseActivity() {
 

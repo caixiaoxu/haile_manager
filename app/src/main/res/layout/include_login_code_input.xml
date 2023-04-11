@@ -20,7 +20,7 @@
             tools:showIn="@layout/activity_login_for_phone">
 
             <androidx.appcompat.widget.AppCompatEditText
-                style="@style/input_14_333333_cccccc"
+                style="@style/Input_14_333333_cccccc"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

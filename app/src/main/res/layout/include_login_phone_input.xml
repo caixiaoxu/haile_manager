@@ -26,7 +26,7 @@
                 android:layout_weight="1"
                 android:inputType="phone"
                 android:text="@={phone}"
-                style="@style/input_14_333333_cccccc"
+                style="@style/Input_14_333333_cccccc"
                 android:hint="@string/login_phone_hint"
                 android:background="@color/transparent" />
 

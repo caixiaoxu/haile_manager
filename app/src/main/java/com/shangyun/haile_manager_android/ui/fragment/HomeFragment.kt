@@ -35,6 +35,9 @@ import com.shangyun.haile_manager_android.databinding.IncludeHomeFuncItemBinding
 import com.shangyun.haile_manager_android.databinding.IncludeHomeLastMsgItemBinding
 import com.shangyun.haile_manager_android.ui.view.chart.BarChartRenderer
 import com.shangyun.haile_manager_android.ui.view.chart.CustomMarkerView
+import com.shangyun.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
+import com.shangyun.haile_manager_android.utils.DateTimeUtils
+import timber.log.Timber
 import java.lang.reflect.Field
 import java.util.*
 
@@ -69,6 +72,19 @@ class HomeFragment : BaseBusinessFragment<FragmentHomeBinding, HomeViewModel>() 
         mBinding.bgHomeTitle.layoutParams = layoutParams
 
         initBarChart()
+
+        mBinding.tvTrendDate.setOnClickListener {
+            val dailog = DateSelectorDialog.Builder().apply {
+                showModel = 1
+                onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
+                    override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
+                        Timber.i("选择的日期${DateTimeUtils.formatDateTime("yyyy-MM", date1)}")
+                        mHomeViewModel.selectedDate.value = date1
+                    }
+                }
+            }.build()
+            dailog.show(childFragmentManager)
+        }
     }
 
     /**
@@ -227,8 +243,14 @@ class HomeFragment : BaseBusinessFragment<FragmentHomeBinding, HomeViewModel>() 
             }
         }
 
+        // 收益趋势
         mHomeViewModel.homeIncomeList.observe(this) {
             refreshChartData(it)
+        }
+
+        // 选择时间
+        mHomeViewModel.selectedDate.observe(this){
+            mHomeViewModel.requestHomeIncome()
         }
 
         // 功能管理
@@ -274,7 +296,7 @@ class HomeFragment : BaseBusinessFragment<FragmentHomeBinding, HomeViewModel>() 
                 mHomeViewModel.marketingList.value = list.apply { this[0].isShow = it }
             }
         }
-        // 优惠权限
+        // 分账权限
         mSharedViewModel.hasDistributionPermission.observe(this) {
             mHomeViewModel.capitalList.value?.let { list ->
                 mHomeViewModel.capitalList.value = list.apply { this[0].isShow = it }

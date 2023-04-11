@@ -77,4 +77,6 @@ dependencies {
     implementation ThirdLibs.timber
 
     implementation ThirdLibs.mpAndroid
+
+    implementation ThirdLibs.wheelView
 }

@@ -30,7 +30,7 @@
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="84dp"
-                android:background="@drawable/shape_top_stroke_e3e3e3"
+                android:background="@drawable/shape_stroket_e3e3e3"
                 android:checkedButton="@={vm.checkId}"
                 android:orientation="horizontal"
                 android:paddingTop="10dp"

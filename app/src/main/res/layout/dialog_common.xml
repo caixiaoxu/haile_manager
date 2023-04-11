@@ -7,7 +7,7 @@
     android:paddingBottom="32dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.shangyun.haile_manager_android.ui.view.CommonDialog">
+    tools:context="com.shangyun.haile_manager_android.ui.view.dialog.CommonDialog">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_common_dialog_title"

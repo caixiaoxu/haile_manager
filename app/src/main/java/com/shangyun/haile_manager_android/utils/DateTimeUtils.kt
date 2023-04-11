@@ -4,6 +4,7 @@ import android.text.format.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Title : 日期时间工具类
@@ -97,6 +98,7 @@ object DateTimeUtils {
             dateStr
         )
     }
+
     /**
      * 反格式化
      */
@@ -110,4 +112,34 @@ object DateTimeUtils {
         }
         return null
     }
+
+    /**
+     * 获取年区间列表
+     */
+    fun getYearSection(minYear: Int, maxYear: Int): List<String> =
+        ArrayList<String>().apply {
+            for (i in 0 until (maxYear - minYear + 1)) {
+                add("${minYear + i}年")
+            }
+        }
+
+    /**
+     * 获取月份列表
+     */
+    fun getMonthSection(): List<String> =
+        ArrayList<String>().apply {
+            for (i in 1 until 13) {
+                add("${i}月")
+            }
+        }
+
+    /**
+     * 获取天份列表
+     */
+    fun getDaySection(maxDay: Int): List<String> =
+        ArrayList<String>().apply {
+            for (i in 1 until (maxDay + 1)) {
+                add("${i}日")
+            }
+        }
 }

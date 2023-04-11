@@ -1,6 +1,7 @@
 package com.lsy.framelib.utils
 
 import android.content.Context
+import com.lsy.framelib.data.constants.Constants
 
 /**
  * Title : 屏幕信息工具类
@@ -35,7 +36,7 @@ object DimensionUtils {
      * （DisplayMetrics类中属性density）
      * @return
      */
-    fun dip2px(context: Context, dipValue: Float): Int {
+    fun dip2px(context: Context = Constants.APP_CONTEXT, dipValue: Float): Int {
         val scale = context.resources.displayMetrics.density
         return (dipValue * scale + 0.5f).toInt()
     }

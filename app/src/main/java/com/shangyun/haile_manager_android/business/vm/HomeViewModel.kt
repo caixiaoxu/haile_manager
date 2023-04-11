@@ -32,9 +32,9 @@ class HomeViewModel : BaseViewModel() {
     private val mMessageRepo = ApiRepository.apiClient(MessageService::class.java)
 
     //选择的时间
-    val selectedDate:MutableLiveData<Date> = MutableLiveData(Date())
-    val selectedDateVal:LiveData<String> = selectedDate.map {
-        DateTimeUtils.formatDateTime("yyyy年MM月",it)
+    val selectedDate: MutableLiveData<Date> = MutableLiveData(Date())
+    val selectedDateVal: LiveData<String> = selectedDate.map {
+        DateTimeUtils.formatDateTime("yyyy年MM月", it)
     }
 
     // 总收入
@@ -113,8 +113,6 @@ class HomeViewModel : BaseViewModel() {
                 requestIncomeToday()
                 // 未读消息数
                 requestUnReadCount()
-                // 收益趋势
-                requestHomeIncome()
                 // 消息列表
                 requestMessageList()
             },
@@ -160,24 +158,36 @@ class HomeViewModel : BaseViewModel() {
     /**
      * 首页收益趋势
      */
-    private suspend fun requestHomeIncome() {
-        val incomeList = ApiRepository.dealApiResult(
-            mCapitalRepo.homeInCome(
-                ApiRepository.createRequestBody(
-                    hashMapOf(
-                        "startTime" to DateTimeUtils.formatDateTime(
-                            DateTimeUtils.getMonthFirst(selectedDate.value)
-                        ),
-                        "endTime" to DateTimeUtils.formatDateTime(
-                            DateTimeUtils.getMonthLast(selectedDate.value)
+    fun requestHomeIncome() {
+        launch(
+            {
+                val incomeList = ApiRepository.dealApiResult(
+                    mCapitalRepo.homeInCome(
+                        ApiRepository.createRequestBody(
+                            hashMapOf(
+                                "startTime" to DateTimeUtils.formatDateTime(
+                                    DateTimeUtils.getMonthFirst(selectedDate.value)
+                                ),
+                                "endTime" to DateTimeUtils.formatDateTime(
+                                    DateTimeUtils.getMonthLast(selectedDate.value)
+                                )
+                            ),
                         )
-                    ),
+                    )
                 )
-            )
+                incomeList?.let { list ->
+                    homeIncomeList.postValue(list)
+                }
+            },
+            {
+                it.message?.let { it1 -> SToast.showToast(msg = it1) }
+                Timber.d("请求失败或异常$it")
+            },
+            {
+                Timber.d("请求结束")
+            }, false
         )
-        incomeList?.let {list->
-            homeIncomeList.postValue(list)
-        }
+
     }
 
     /**

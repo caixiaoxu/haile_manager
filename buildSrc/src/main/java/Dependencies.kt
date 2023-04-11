@@ -36,6 +36,9 @@ object ThirdLibs {
 
     // 图表
     const val mpAndroid = "com.github.PhilJay:MPAndroidChart:v3.1.0"
+
+    // 滚轮控件
+    const val wheelView = "com.contrarywind:wheelview:4.1.0"
 }
 
 object TestLibs {

@@ -14,22 +14,25 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".SettingActivity"
+            android:name=".ChangeAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".RealNameActivity"
+            android:name=".ui.activity.SettingActivity"
             android:exported="false" />
         <activity
-            android:name=".BankCardActivity"
+            android:name=".ui.activity.RealNameActivity"
             android:exported="false" />
         <activity
-            android:name=".IncomeActivity"
+            android:name=".ui.activity.BankCardActivity"
             android:exported="false" />
         <activity
-            android:name=".BalanceActivity"
+            android:name=".ui.activity.IncomeActivity"
             android:exported="false" />
         <activity
-            android:name=".WalletActivity"
+            android:name=".ui.activity.BalanceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.WalletActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.SubAccountManagerActivity"

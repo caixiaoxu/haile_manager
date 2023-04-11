@@ -39,7 +39,7 @@ class LoginActivity : BaseActivity() {
     override fun backBtn(): View = mLoginBinding.loginTitleBar.getBackBtn()
 
     private fun initView() {
-        initStatusBarColor(mLoginBinding.root)
+        initStatusBarTxtColor(mLoginBinding.root)
         // 双击回退
         ActivityUtils.addDoubleBack(this, onBackPressedDispatcher)
         //协议

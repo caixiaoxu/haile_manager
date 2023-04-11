@@ -44,7 +44,7 @@ abstract class BaseActivity : AppCompatActivity() {
     /**
      * 状态栏文字颜色
      */
-    protected fun initStatusBarColor(root: View) {
+    protected fun initStatusBarTxtColor(root: View) {
         StatusBarUtils.setStatusBarDarkTheme(root, isDark())
     }
 

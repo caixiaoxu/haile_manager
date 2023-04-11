@@ -1,9 +1,7 @@
 package com.lsy.framelib.utils
 
-import android.app.Activity
 import android.content.res.Resources
 import android.view.View
-import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 
 /**
@@ -32,7 +30,7 @@ object StatusBarUtils {
 
 
     /**
-     * 状态状态栏颜色
+     * 状态状态栏文字颜色
      */
     fun setStatusBarDarkTheme(view: View, dark: Boolean) {
         val controller = ViewCompat.getWindowInsetsController(view)

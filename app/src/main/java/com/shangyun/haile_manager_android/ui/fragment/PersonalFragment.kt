@@ -2,19 +2,16 @@ package com.shangyun.haile_manager_android.ui.fragment
 
 import android.content.Intent
 import android.view.View
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
-import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.marginBottom
 import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.StatusBarUtils
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.PersonalViewModel
 import com.shangyun.haile_manager_android.databinding.FragmentPersonalBinding
-import com.shangyun.haile_manager_android.databinding.IncludeHomeFuncItemBinding
 import com.shangyun.haile_manager_android.databinding.IncludePersonalItemBinding
 
 /**
@@ -93,7 +90,7 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
                 group.addView(
                     mPersonalItemBinding.root, LayoutParams(
                         LayoutParams.MATCH_PARENT,
-                        DimensionUtils.dip2px(requireContext(), 54f)
+                        requireContext().resources.getDimensionPixelOffset(R.dimen.item_height)
                     )
                 )
             }

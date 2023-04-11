@@ -20,29 +20,29 @@ class PersonalViewModel : BaseViewModel() {
     val personalItems = arrayOf(
         null,
         PersonalItem(
-            R.mipmap.icon_personal_wallet, "钱包余额", null, MutableLiveData<String>(),
+            R.mipmap.icon_personal_wallet, R.string.wallet, null, MutableLiveData<String>(),
             WalletActivity::class.java
         ),
         PersonalItem(
             R.mipmap.icon_personal_balance,
-            "余额明细",
+            R.string.balance,
             null,
             null,
             BalanceActivity::class.java
         ),
         null,
-        PersonalItem(R.mipmap.icon_personal_income, "收入明细", null, null, IncomeActivity::class.java),
+        PersonalItem(R.mipmap.icon_personal_income, R.string.income, null, null, IncomeActivity::class.java),
         null,
         PersonalItem(
             R.mipmap.icon_personal_bank_card,
-            "银行卡",
+            R.string.bank_card,
             null,
             null,
             BankCardActivity::class.java
         ),
         PersonalItem(
             R.mipmap.icon_personal_real_name,
-            "实名认证",
+            R.string.real_name,
             MutableLiveData<String>(),
             null,
             RealNameActivity::class.java
@@ -50,7 +50,7 @@ class PersonalViewModel : BaseViewModel() {
         null,
         PersonalItem(
             R.mipmap.icon_personal_setting,
-            "设置",
+            R.string.setting,
             MutableLiveData<String>(),
             null,
             SettingActivity::class.java
@@ -60,7 +60,7 @@ class PersonalViewModel : BaseViewModel() {
 
     data class PersonalItem(
         val icon: Int,
-        val title: String,
+        val title: Int,
         val tag: MutableLiveData<String>?,
         val value: MutableLiveData<String>?,
         val clz: Class<*>

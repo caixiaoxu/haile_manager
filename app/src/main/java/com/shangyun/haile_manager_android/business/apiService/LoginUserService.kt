@@ -44,6 +44,12 @@ interface LoginUserService {
     suspend fun userInfo(): ResponseWrapper<UserInfoEntity>
 
     /**
+     * 登出接口
+     */
+    @POST("/login/logout")
+    suspend fun logout(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
      * 用户权限接口
      */
     @POST("/permission/getMenuDetailListByUser")

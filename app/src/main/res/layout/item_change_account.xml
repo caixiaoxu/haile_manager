@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="user"
+            type="com.shangyun.haile_manager_android.data.entities.UserInfo" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="8dp">
+
+        <com.shangyun.haile_manager_android.ui.view.CircleImageView
+            android:id="@+id/iv_account_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/colorPrimary"
+            app:strokeWidth="1dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/iv_account_name"
+            style="@style/Font_16_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            app:layout_constraintBottom_toTopOf="@id/iv_account_phone"
+            app:layout_constraintStart_toEndOf="@id/iv_account_icon"
+            app:layout_constraintTop_toTopOf="@id/iv_account_icon"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            tools:text="名字名字" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/iv_account_phone"
+            style="@style/Font_12_f0a258"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_account_icon"
+            app:layout_constraintStart_toEndOf="@id/iv_account_icon"
+            app:layout_constraintTop_toBottomOf="@id/iv_account_name"
+            tools:text="16688888888" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_persion_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_account_name"
+            app:layout_constraintTop_toTopOf="@id/iv_account_name"
+            app:layout_constraintStart_toEndOf="@id/iv_account_name"
+            android:background="@drawable/shape_strokef0a258_solid26f0a258_r9"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="2dp"
+            style="@style/Font_10_f0a258"
+            tools:text="当前登录" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@mipmap/icon_arrow_right"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

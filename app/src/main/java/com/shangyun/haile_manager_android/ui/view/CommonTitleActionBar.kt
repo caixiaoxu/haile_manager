@@ -1,6 +1,7 @@
 package com.shangyun.haile_manager_android.ui.view
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -28,6 +29,12 @@ class CommonTitleActionBar @JvmOverloads constructor(
         )
 
         val array = context.obtainStyledAttributes(attrs, R.styleable.CommonTitleActionBar)
+        mBinding.root.setBackgroundColor(
+            array.getInt(
+                R.styleable.CommonTitleActionBar_bgColor,
+                Color.TRANSPARENT
+            )
+        )
         mBinding.tvTitleActionTitle.text = array.getString(R.styleable.CommonTitleActionBar_title)
         array.recycle()
 

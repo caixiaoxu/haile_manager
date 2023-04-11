@@ -22,7 +22,7 @@ abstract class BaseBindingActivity<T : ViewDataBinding> : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding.lifecycleOwner = this
-        initStatusBarColor(mBinding.root)
+        initStatusBarTxtColor(mBinding.root)
     }
 
     /**

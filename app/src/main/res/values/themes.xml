@@ -77,6 +77,34 @@
         <item name="android:textColor">@color/common_txt_color</item>
     </style>
 
+    <style name="SettingItem" parent="SettingButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/item_height</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:drawableEnd">@mipmap/icon_arrow_right</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">8dp</item>
+    </style>
+
+    <style name="SettingButton" parent="Font_16_333333">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/item_height</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">8dp</item>
+    </style>
+
+    <style name="Font_10_f0a258">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
     <style name="Font_12_333333">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/common_txt_color</item>
@@ -85,6 +113,7 @@
     <style name="Font_12_f0a258">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/colorPrimary</item>
+
     </style>
 
     <style name="Font_12_CCCCCC">

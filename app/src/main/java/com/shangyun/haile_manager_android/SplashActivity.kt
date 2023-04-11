@@ -26,7 +26,7 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun initView() {
-        initStatusBarColor(mSplashBinding.root)
+        initStatusBarTxtColor(mSplashBinding.root)
         checkDelayJump()
     }
 

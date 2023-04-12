@@ -27,9 +27,11 @@ import com.github.mikephil.charting.utils.ViewPortHandler
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.ScreenUtils
 import com.lsy.framelib.utils.StatusBarUtils
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.HomeViewModel
 import com.shangyun.haile_manager_android.data.entities.HomeIncomeEntity
+import com.shangyun.haile_manager_android.data.entities.MessageContentEntity
 import com.shangyun.haile_manager_android.databinding.FragmentHomeBinding
 import com.shangyun.haile_manager_android.databinding.IncludeHomeFuncItemBinding
 import com.shangyun.haile_manager_android.databinding.IncludeHomeLastMsgItemBinding
@@ -238,6 +240,15 @@ class HomeFragment : BaseBusinessFragment<FragmentHomeBinding, HomeViewModel>() 
                         DimensionUtils.dip2px(requireContext(), 30f)
                     )
                     mMsgItemBinding.message = msg
+
+                    val messageContentEntity =
+                        GsonUtils.json2Class(msg.content, MessageContentEntity::class.java)
+                    mMsgItemBinding.tvLastMsgContent.text =
+                        messageContentEntity?.shortDescription ?: ""
+                    mMsgItemBinding.tvLastMsgTime.text = DateTimeUtils.getFriendlyTime(
+                        DateTimeUtils.formatDateFromString(msg.createTime),
+                        false
+                    )
                     mBinding.llLastMsgList.addView(mMsgItemBinding.root)
                 }
             }
@@ -249,7 +260,7 @@ class HomeFragment : BaseBusinessFragment<FragmentHomeBinding, HomeViewModel>() 
         }
 
         // 选择时间
-        mHomeViewModel.selectedDate.observe(this){
+        mHomeViewModel.selectedDate.observe(this) {
             mHomeViewModel.requestHomeIncome()
         }
 

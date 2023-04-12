@@ -25,3 +25,17 @@ data class MessageEntity(
     val createTime: String,
     val readTime: String
 )
+
+data class MessageContentEntity(
+    val faultMsg: String,
+    val faultType: String,
+    val goodsId: Int,
+    val goodsName: String,
+    val introduction: String,
+    val shopId: Int,
+    val shopName: String,
+    val shortDescription: String,
+    val subject: String,
+    val tags: String,
+    val title: String
+)

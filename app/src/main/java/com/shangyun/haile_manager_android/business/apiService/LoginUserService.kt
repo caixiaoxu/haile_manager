@@ -38,6 +38,12 @@ interface LoginUserService {
     suspend fun forgetPassword(@Body body: RequestBody): ResponseWrapper<Boolean>
 
     /**
+     * 修改密码接口
+     */
+    @POST("/user/updatePassword")
+    suspend fun updatePassword(@Body body: RequestBody): ResponseWrapper<Boolean>
+
+    /**
      * 用户信息接口
      */
     @POST("/user/userInfo")

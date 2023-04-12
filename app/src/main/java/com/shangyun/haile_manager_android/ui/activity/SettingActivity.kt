@@ -26,6 +26,10 @@ class SettingActivity : BaseBusinessActivity<ActivitySettingBinding, SettingView
 
         mBinding.vm = mSettingViewModel
 
+        mBinding.tvChangePassword.setOnClickListener {
+            startActivity(Intent(this@SettingActivity, UpdateLoginPasswordActivity::class.java))
+        }
+
         mBinding.tvChangeAccount.setOnClickListener {
             startActivity(Intent(this@SettingActivity, ChangeUserActivity::class.java))
         }

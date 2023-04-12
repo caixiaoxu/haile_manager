@@ -11,6 +11,7 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.BuildConfig
 import com.shangyun.haile_manager_android.data.entities.LoginEntity
 import com.shangyun.haile_manager_android.ui.activity.LoginActivity
+import com.shangyun.haile_manager_android.utils.ActivityManagerUtils
 import okhttp3.MediaType
 import okhttp3.RequestBody
 
@@ -54,17 +55,7 @@ object ApiRepository {
             when (response.code) {
                 100003 -> {
                     mHandler.post {
-                        // 清空登录信息
-                        SPRepository.cleaLoginUserInfo()
-                        // 跳转登录界面
-                        Constants.APP_CONTEXT.startActivity(
-                            Intent(
-                                Constants.APP_CONTEXT,
-                                LoginActivity::class.java
-                            ).apply {
-                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            }
-                        )
+                        ActivityManagerUtils.clearLoginInfoGoLogin()
                     }
                 }
             }

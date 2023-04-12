@@ -3,6 +3,9 @@ package com.shangyun.haile_manager_android.ui.adapter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.lsy.framelib.utils.DimensionUtils
+import com.shangyun.haile_manager_android.ui.view.CircleImageView
+import com.shangyun.haile_manager_android.utils.GlideUtils
 import com.shangyun.haile_manager_android.utils.NumberUtils
 import com.shangyun.haile_manager_android.utils.StringUtils
 import java.math.BigDecimal
@@ -35,5 +38,25 @@ object ViewBindingAdapter {
     @JvmStatic
     fun loadImage(view: ImageView, res: Int) {
         view.setImageResource(res)
+    }
+
+    /**
+     * ImageView 加载图络图片
+     */
+    @BindingAdapter("imgUrl")
+    @JvmStatic
+    fun loadImageUrl(view: ImageView, url: String) {
+        GlideUtils.loadImage(view, url)
+    }
+
+    /**
+     * ImageView 加载图络图片
+     */
+    @BindingAdapter("strokeWidth")
+    @JvmStatic
+    fun setStrokeWidth(view: CircleImageView, value: Int?) {
+        value?.let {
+            view.setStrokeWidth(DimensionUtils.dip2px(dipValue = it.toFloat()).toFloat())
+        }
     }
 }

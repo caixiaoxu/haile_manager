@@ -18,16 +18,18 @@ import androidx.recyclerview.widget.RecyclerView
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-abstract class CommonRecyclerAdapter<T : ViewDataBinding, D>(
+class CommonRecyclerAdapter<T : ViewDataBinding, D>(
     private val layoutId: Int,
     private val br: Int,
-    protected val list: MutableList<D>
-) :
-    RecyclerView.Adapter<CommonRecyclerAdapter.MyViewHolder<T, D>>() {
+    private val onItemBind: ((mBinding: T?, date: D) -> Unit)?,
+) : RecyclerView.Adapter<MyViewHolder<T, D>>() {
 
-    fun refreshList(list:MutableList<D>){
+    protected val list: MutableList<D> = mutableListOf()
+
+    fun refreshList(list: MutableList<D>) {
         this.list.clear()
         this.list.addAll(list)
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = list.size
@@ -38,18 +40,13 @@ abstract class CommonRecyclerAdapter<T : ViewDataBinding, D>(
 
     override fun onBindViewHolder(holder: MyViewHolder<T, D>, position: Int) {
         holder.bind(br, list[position])
-        onBindView(holder.mBinding,list[position])
+        onItemBind?.invoke(holder.mBinding, list[position])
     }
+}
 
-    /**
-     * 子类重写
-     */
-    abstract fun onBindView(mBinding: T?, d: D)
+class MyViewHolder<T : ViewDataBinding, D>(itemView: View) :
+    RecyclerView.ViewHolder(itemView) {
+    val mBinding: T? = DataBindingUtil.bind(itemView)
 
-    class MyViewHolder<T : ViewDataBinding, D>(itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
-        val mBinding: T? = DataBindingUtil.bind(itemView)
-
-        fun bind(br: Int, entity: D) = mBinding?.setVariable(br, entity)
-    }
+    fun bind(br: Int, entity: D) = mBinding?.setVariable(br, entity)
 }

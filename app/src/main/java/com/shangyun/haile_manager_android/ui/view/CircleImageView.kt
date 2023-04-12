@@ -2,7 +2,6 @@ package com.shangyun.haile_manager_android.ui.view
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
@@ -59,6 +58,14 @@ class CircleImageView : AppCompatImageView {
         strokePaint.color = strokeColor
     }
 
+    /**
+     * 设置边框大小
+     */
+    fun setStrokeWidth(width: Float) {
+        strokePaint.strokeWidth = width
+        invalidate()
+    }
+
     override fun onDraw(canvas: Canvas) {
         val width = measuredWidth
         val height = measuredHeight
@@ -72,11 +79,13 @@ class CircleImageView : AppCompatImageView {
         )
         canvas.clipPath(path)
         super.onDraw(canvas)
-        canvas.drawCircle(
-            (width / 2).toFloat(),
-            (height / 2).toFloat(),
-            (radius / 2).toFloat(),
-            strokePaint
-        )
+        if (0 < strokePaint.strokeWidth) {
+            canvas.drawCircle(
+                (width / 2).toFloat(),
+                (height / 2).toFloat(),
+                (radius / 2).toFloat(),
+                strokePaint
+            )
+        }
     }
 }

@@ -27,21 +27,4 @@ class MainViewModel : BaseViewModel() {
         checkId.map { if (it == R.id.rb_main_tab_home) View.INVISIBLE else View.VISIBLE }
     val isShowHomeIcon: LiveData<Int> =
         checkId.map { if (it == R.id.rb_main_tab_home) View.VISIBLE else View.GONE }
-
-    /**
-     * 请求用户权限
-     */
-    fun requestUserPermissions(mSharedViewModel: SharedViewModel) {
-        launch(
-            {
-                mSharedViewModel.requestUserPermissions()
-            },
-            {
-                Timber.d("请求失败或异常$it")
-            },
-            {
-                Timber.d("请求结束")
-            }, false
-        )
-    }
 }

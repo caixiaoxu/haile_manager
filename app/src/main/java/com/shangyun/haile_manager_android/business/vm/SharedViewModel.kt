@@ -1,13 +1,19 @@
 package com.shangyun.haile_manager_android.business.vm
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
+import com.lsy.framelib.network.exception.CommonCustomException
 import com.shangyun.haile_manager_android.business.apiService.LoginUserService
-import com.shangyun.haile_manager_android.data.entities.LoginEntity
-import com.shangyun.haile_manager_android.data.entities.UserInfoEntity
+import com.shangyun.haile_manager_android.data.entities.*
 import com.shangyun.haile_manager_android.data.model.ApiRepository
 import com.shangyun.haile_manager_android.data.model.SPRepository
 import com.shangyun.haile_manager_android.utils.RSAUtil
 import com.shangyun.haile_manager_android.utils.UserPermissionUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
@@ -61,8 +67,7 @@ class SharedViewModel : ViewModel() {
                     RSAUtil.keyStrToPublicKey(RSAUtil.RSA_PUBLIC_KEY)
                 ),
                 "loginType" to 3,
-                "authorizationClientType" to 4
-            )
+            ), PASSWORD, password
         )
     }
 
@@ -75,43 +80,98 @@ class SharedViewModel : ViewModel() {
                 "account" to phone,
                 "verificationCode" to code,
                 "loginType" to 2,
-                "authorizationClientType" to 4
-            )
+            ), CODE
         )
     }
 
     /**
      * 登录请求
      */
-    suspend fun login(params: MutableMap<String, Any>) {
-        val loginData =
+    suspend fun login(
+        params: MutableMap<String, Any>,
+        @LoginType loginType: Int,
+        password: String? = null,
+        isCheckToken: Boolean = false,
+    ) {
+        // 公共参数
+        params["authorizationClientType"] = 4
+        //区分是否是检验token接口
+        val loginData = if (isCheckToken) {
+            ApiRepository.dealApiResult(mRepo.checkToken(ApiRepository.createRequestBody(params)))
+        } else {
             ApiRepository.dealApiResult(mRepo.login(ApiRepository.createRequestBody(params)))
+        }
         Timber.d("登录接口请求成功$loginData")
         loginData?.let {
             SPRepository.loginInfo = it
             loginInfo.postValue(it)
-        }
+        } ?: throw CommonCustomException(-1, "返回数据为空")
 
         requestUserInfo()
+
+        // 当请求到登录信息和用户信息后，缓存到本地，用于切换账号
+        SPRepository.changeUser?.let { list ->
+            //移除之前的缓存
+            val index: Int =
+                list.indexOfFirst { it.loginInfo.userId == SPRepository.loginInfo!!.userId }
+            if (-1 != index) {
+                list.removeAt(index)
+            }
+            list.add(
+                ChangeUserEntity(
+                    loginType,
+                    password,
+                    SPRepository.loginInfo!!,
+                    SPRepository.userInfo!!
+                )
+            )
+            SPRepository.changeUser = list
+        }
         requestUserPermissions()
+    }
+
+    /**
+     * 请求用户权限
+     */
+    fun requestUserInfoAsync() {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                requestUserInfo()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     /**
      * 请求用户信息
      */
-    suspend fun requestUserInfo() {
+    private suspend fun requestUserInfo() {
         val userInfoData = ApiRepository.dealApiResult(mRepo.userInfo())
         Timber.d("用户信息请求成功$userInfoData")
         userInfoData?.let {
             SPRepository.userInfo = it
             userInfo.postValue(it)
+        } ?: throw CommonCustomException(-1, "返回数据为空")
+    }
+
+    /**
+     * 请求用户权限
+     */
+    fun requestUserPermissionsAsync() {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                requestUserPermissions()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
     /**
      * 请求用户权限
      */
-    suspend fun requestUserPermissions() {
+    private suspend fun requestUserPermissions() {
         val userPermissionData = ApiRepository.dealApiResult(mRepo.permissionByUser())
         Timber.d("用户权限请求成功$userPermissionData")
         userPermissionData?.let {

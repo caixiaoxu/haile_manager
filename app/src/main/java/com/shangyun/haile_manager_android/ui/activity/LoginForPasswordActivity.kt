@@ -1,6 +1,7 @@
 package com.shangyun.haile_manager_android.ui.activity
 
 import android.content.Intent
+import android.text.InputType
 import android.view.View
 import com.lsy.framelib.utils.AppManager
 import com.lsy.framelib.utils.SToast

@@ -2,6 +2,7 @@ package com.shangyun.haile_manager_android.ui.activity
 
 import android.content.Intent
 import android.graphics.Color
+import android.view.View
 import com.lsy.framelib.utils.AppManager
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.SettingViewModel
@@ -17,13 +18,16 @@ class SettingActivity : BaseBusinessActivity<ActivitySettingBinding, SettingView
 
 
     override fun getVM(): SettingViewModel = mSettingViewModel
+
+    override fun backBtn(): View = mBinding.loginTitleBar.getBackBtn()
+
     override fun initView() {
         window.statusBarColor = Color.WHITE
 
         mBinding.vm = mSettingViewModel
 
         mBinding.tvChangeAccount.setOnClickListener {
-            startActivity(Intent(this@SettingActivity, ChangeAccountActivity::class.java))
+            startActivity(Intent(this@SettingActivity, ChangeUserActivity::class.java))
         }
     }
 

@@ -38,6 +38,16 @@ class MainActivity : BaseBusinessActivity<ActivityMainBinding, MainViewModel>() 
     override fun initEvent() {
         super.initEvent()
 
+        // 如果用户信息为空，重新请求
+        if (null == SPRepository.userInfo) {
+            mSharedViewModel.requestUserInfoAsync()
+        }
+
+        // 如果权限数据为空，重新请求
+        if (null == SPRepository.userPermissions) {
+            mSharedViewModel.requestUserPermissionsAsync()
+        }
+
         mMainViewModel.checkId.observe(this) {
             when (it) {
                 R.id.rb_main_tab_home -> showChildFragment(it)
@@ -66,8 +76,5 @@ class MainActivity : BaseBusinessActivity<ActivityMainBinding, MainViewModel>() 
     }
 
     override fun initData() {
-        if (FROM_TYPE_SPLASH == intent.getIntExtra(FROM_TYPE, FROM_TYPE_SPLASH)) {
-            mMainViewModel.requestUserPermissions(mSharedViewModel)
-        }
     }
 }

@@ -42,7 +42,7 @@ object GsonUtils {
     /**
      * json转指定类型
      */
-    fun <T> json2List(json: String?, clz: Class<T>): List<T>? =
+    fun <T> json2List(json: String?, clz: Class<T>): MutableList<T>? =
         gson.fromJson(json, ParameterizedTypeImpl(clz))
 
     internal class ParameterizedTypeImpl<T>(private val clz: Class<T>) : ParameterizedType {

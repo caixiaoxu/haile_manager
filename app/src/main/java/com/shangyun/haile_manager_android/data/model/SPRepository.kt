@@ -2,6 +2,7 @@ package com.shangyun.haile_manager_android.data.model
 
 import com.lsy.framelib.utils.SPUtils
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.shangyun.haile_manager_android.data.entities.ChangeUserEntity
 import com.shangyun.haile_manager_android.data.entities.LoginEntity
 import com.shangyun.haile_manager_android.data.entities.UserInfoEntity
 import com.shangyun.haile_manager_android.data.entities.UserPermissionEntity
@@ -27,6 +28,8 @@ object SPRepository {
 
     private const val SP_USER_PERMISSION = "sp_user_permission"
 
+    private const val SP_CHANGE_USER = "sp_change_user"
+
     private val sp: SPUtils by lazy { SPUtils.getInstance(SP_NAME) }
 
     /**
@@ -39,7 +42,7 @@ object SPRepository {
     /**
      * 判断是否已登录
      */
-    fun isLogin(): Boolean = null != loginInfo
+    fun isLogin(): Boolean = null != loginInfo && null != userInfo
 
     /**
      * 获取登录Token
@@ -99,6 +102,23 @@ object SPRepository {
                 sp.put(SP_USER_PERMISSION, "")
             } else {//重新设置缓存
                 sp.put(SP_USER_PERMISSION, GsonUtils.any2Json(value))
+            }
+            field = value
+        }
+
+    var changeUser:MutableList<ChangeUserEntity>? = null
+        get() {
+            return field ?: GsonUtils.json2List(
+                sp.getString(
+                    SP_CHANGE_USER
+                ), ChangeUserEntity::class.java
+            ) ?: arrayListOf()
+        }
+        set(value) {
+            if (null == value) {//清空缓存
+                sp.put(SP_CHANGE_USER, "")
+            } else {//重新设置缓存
+                sp.put(SP_CHANGE_USER, GsonUtils.any2Json(value))
             }
             field = value
         }

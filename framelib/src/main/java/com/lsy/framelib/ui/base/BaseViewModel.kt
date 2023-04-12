@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.lsy.framelib.business.UnPeekLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Title : BaseViewModel
@@ -39,11 +40,11 @@ open class BaseViewModel : ViewModel() {
             try {
                 block()
             } catch (e: Exception) {
-                viewModelScope.launch(Dispatchers.Main){
+                withContext(Dispatchers.Main){
                     error(e)
                 }
             } finally {
-                viewModelScope.launch(Dispatchers.Main){
+                withContext(Dispatchers.Main){
                     complete()
                 }
                 //隐藏加载弹窗

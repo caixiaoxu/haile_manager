@@ -18,6 +18,8 @@
     <color name="common_txt_hint_color">#CCCCCC</color>
     <color name="dividing_line_color">#E3E3E3</color>
 
+    <color name="common_sub_txt_color">#999999</color>
+
     <color name="hint_color">#FF3B30</color>
 
 </resources>

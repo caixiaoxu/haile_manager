@@ -44,6 +44,12 @@ interface LoginUserService {
     suspend fun userInfo(): ResponseWrapper<UserInfoEntity>
 
     /**
+     * 检验Token是否有效接口
+     */
+    @POST("/login/checkToken")
+    suspend fun checkToken(@Body body: RequestBody): ResponseWrapper<LoginEntity>
+
+    /**
      * 登出接口
      */
     @POST("/login/logout")

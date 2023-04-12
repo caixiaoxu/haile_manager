@@ -23,7 +23,7 @@ class PasswordEditText @JvmOverloads constructor(
 ) : AppCompatEditText(context, attrs) {
 
     init {
-        inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
+        inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
         maxLines = 1
         filters = arrayOf(
             InputFilter.LengthFilter(12),

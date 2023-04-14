@@ -14,62 +14,62 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activity.UpdateLoginPasswordActivity"
+            android:name=".ui.activity.login.UpdateLoginPasswordActivity"
             android:windowSoftInputMode="adjustResize|stateHidden"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.ChangeUserActivity"
+            android:name=".ui.activity.login.ChangeUserActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.SettingActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.RealNameActivity"
+            android:name=".ui.activity.personal.RealNameActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.BankCardActivity"
+            android:name=".ui.activity.personal.BankCardActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.IncomeActivity"
+            android:name=".ui.activity.personal.IncomeActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.BalanceActivity"
+            android:name=".ui.activity.personal.BalanceActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.WalletActivity"
+            android:name=".ui.activity.personal.WalletActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.SubAccountManagerActivity"
+            android:name=".ui.activity.subAccount.SubAccountManagerActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.DiscountsManagerActivity"
+            android:name=".ui.activity.discounts.DiscountsManagerActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.StaffManagerActivity"
+            android:name=".ui.activity.staff.StaffManagerActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.OrderManagerActivity"
+            android:name=".ui.activity.order.OrderManagerActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.ShopManagerActivity"
+            android:name=".ui.activity.shop.ShopManagerActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.DeviceManagerActivity"
+            android:name=".ui.activity.device.DeviceManagerActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.ResetLoginPasswordActivity"
+            android:name=".ui.activity.login.ResetLoginPasswordActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.LoginForPhoneActivity"
+            android:name=".ui.activity.login.LoginForPhoneActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.LoginForPasswordActivity"
+            android:name=".ui.activity.login.LoginForPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.LoginActivity"
+            android:name=".ui.activity.login.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"

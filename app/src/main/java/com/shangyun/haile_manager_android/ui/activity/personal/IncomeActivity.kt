@@ -1,8 +1,9 @@
-package com.shangyun.haile_manager_android.ui.activity
+package com.shangyun.haile_manager_android.ui.activity.personal
 
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.IncomeViewModel
 import com.shangyun.haile_manager_android.databinding.ActivityIncomeBinding
+import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 
 class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewModel>() {
 

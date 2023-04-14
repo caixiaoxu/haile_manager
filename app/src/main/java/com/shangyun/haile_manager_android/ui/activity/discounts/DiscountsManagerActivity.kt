@@ -1,8 +1,9 @@
-package com.shangyun.haile_manager_android.ui.activity
+package com.shangyun.haile_manager_android.ui.activity.discounts
 
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.DiscountsManagerViewModel
 import com.shangyun.haile_manager_android.databinding.ActivityDiscountsManagerBinding
+import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 
 class DiscountsManagerActivity : BaseBusinessActivity<ActivityDiscountsManagerBinding, DiscountsManagerViewModel>() {
 

@@ -21,3 +21,10 @@ data class ResponseWrapper<out T>(
     var dataState: ApiStatus? = null,
     var error: Throwable? = null
 ) : Serializable
+
+data class ResponseList<T>(
+    val page: Int,
+    val pageSize: Int,
+    val total: Int,
+    val items: MutableList<T>
+)

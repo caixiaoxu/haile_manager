@@ -7,7 +7,7 @@ import android.os.Looper
 import com.lsy.framelib.ui.base.activity.BaseActivity
 import com.shangyun.haile_manager_android.data.model.SPRepository
 import com.shangyun.haile_manager_android.databinding.ActivitySplashBinding
-import com.shangyun.haile_manager_android.ui.activity.LoginActivity
+import com.shangyun.haile_manager_android.ui.activity.login.LoginActivity
 import com.shangyun.haile_manager_android.ui.activity.MainActivity
 
 class SplashActivity : BaseActivity() {

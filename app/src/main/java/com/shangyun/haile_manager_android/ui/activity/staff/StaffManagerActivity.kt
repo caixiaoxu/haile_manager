@@ -1,8 +1,9 @@
-package com.shangyun.haile_manager_android.ui.activity
+package com.shangyun.haile_manager_android.ui.activity.staff
 
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.StaffManagerViewModel
 import com.shangyun.haile_manager_android.databinding.ActivityStaffManagerBinding
+import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 
 class StaffManagerActivity : BaseBusinessActivity<ActivityStaffManagerBinding, StaffManagerViewModel>() {
     private val mStaffManagerViewModel by lazy {

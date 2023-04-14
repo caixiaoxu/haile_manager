@@ -1,16 +1,13 @@
 package com.shangyun.haile_manager_android.data.model
 
-import android.content.Intent
 import android.os.Handler
 import android.os.Looper
-import com.lsy.framelib.data.constants.Constants
 import com.lsy.framelib.network.ApiService
 import com.lsy.framelib.network.exception.CommonCustomException
+import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.BuildConfig
-import com.shangyun.haile_manager_android.data.entities.LoginEntity
-import com.shangyun.haile_manager_android.ui.activity.LoginActivity
 import com.shangyun.haile_manager_android.utils.ActivityManagerUtils
 import okhttp3.MediaType
 import okhttp3.RequestBody

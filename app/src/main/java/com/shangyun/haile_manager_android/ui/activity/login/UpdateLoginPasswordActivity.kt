@@ -1,17 +1,11 @@
-package com.shangyun.haile_manager_android.ui.activity
+package com.shangyun.haile_manager_android.ui.activity.login
 
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.view.View
-import com.lsy.framelib.utils.SToast
-import com.shangyun.haile_manager_android.BuildConfig
 import com.shangyun.haile_manager_android.R
-import com.shangyun.haile_manager_android.business.vm.ResetPasswordViewModel
 import com.shangyun.haile_manager_android.business.vm.UpdatePasswordViewModel
-import com.shangyun.haile_manager_android.databinding.ActivityResetPasswordBinding
 import com.shangyun.haile_manager_android.databinding.ActivityUpdateLoginPasswordBinding
-import com.shangyun.haile_manager_android.utils.ViewUtils
+import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 
 class UpdateLoginPasswordActivity :
     BaseBusinessActivity<ActivityUpdateLoginPasswordBinding, UpdatePasswordViewModel>() {

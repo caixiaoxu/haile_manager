@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        tools:context=".ui.activity.LoginForPhoneActivity">
+        tools:context=".ui.activity.login.LoginForPhoneActivity">
 
         <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/login_title_bar"

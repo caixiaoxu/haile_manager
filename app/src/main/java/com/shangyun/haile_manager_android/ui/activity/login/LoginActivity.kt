@@ -1,4 +1,4 @@
-package com.shangyun.haile_manager_android.ui.activity
+package com.shangyun.haile_manager_android.ui.activity.login
 
 import android.content.Intent
 import android.os.Bundle

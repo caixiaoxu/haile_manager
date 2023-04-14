@@ -24,7 +24,13 @@ class CommonRecyclerAdapter<T : ViewDataBinding, D>(
     private val onItemBind: ((mBinding: T?, date: D) -> Unit)?,
 ) : RecyclerView.Adapter<MyViewHolder<T, D>>() {
 
-    protected val list: MutableList<D> = mutableListOf()
+    private val list: MutableList<D> = mutableListOf()
+
+    fun addList(list: MutableList<D>) {
+        val start = this.list.size
+        this.list.addAll(list)
+        notifyItemRangeInserted(start, list.size)
+    }
 
     fun refreshList(list: MutableList<D>) {
         this.list.clear()

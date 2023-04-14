@@ -1,8 +1,9 @@
-package com.shangyun.haile_manager_android.ui.activity
+package com.shangyun.haile_manager_android.ui.activity.order
 
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.OrderManagerViewModel
 import com.shangyun.haile_manager_android.databinding.ActivityOrderManagerBinding
+import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 
 class OrderManagerActivity : BaseBusinessActivity<ActivityOrderManagerBinding, OrderManagerViewModel>() {
 

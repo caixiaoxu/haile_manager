@@ -50,7 +50,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/login_input_h</item>
         <item name="android:layout_marginTop">@dimen/login_input_mt</item>
-        <item name="android:background">@drawable/shape_bottom_stroke_e3e3e3</item>
+        <item name="android:background">@drawable/shape_bottom_stroke_dividing</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 

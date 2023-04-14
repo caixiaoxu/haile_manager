@@ -1,8 +1,9 @@
-package com.shangyun.haile_manager_android.ui.activity
+package com.shangyun.haile_manager_android.ui.activity.personal
 
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.RealNameViewModel
 import com.shangyun.haile_manager_android.databinding.ActivityRealNameBinding
+import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 
 class RealNameActivity : BaseBusinessActivity<ActivityRealNameBinding, RealNameViewModel>() {
 

@@ -1,12 +1,9 @@
-package com.shangyun.haile_manager_android.ui.activity
+package com.shangyun.haile_manager_android.ui.activity.subAccount
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import com.shangyun.haile_manager_android.R
-import com.shangyun.haile_manager_android.business.vm.DeviceManagerViewModel
 import com.shangyun.haile_manager_android.business.vm.SubAccountManagerViewModel
-import com.shangyun.haile_manager_android.databinding.ActivityDeviceManagerBinding
 import com.shangyun.haile_manager_android.databinding.ActivitySubAccountManagerBinding
+import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 
 class SubAccountManagerActivity :
     BaseBusinessActivity<ActivitySubAccountManagerBinding, SubAccountManagerViewModel>() {

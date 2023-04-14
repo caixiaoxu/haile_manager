@@ -7,6 +7,9 @@ import com.lsy.framelib.utils.AppManager
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.SettingViewModel
 import com.shangyun.haile_manager_android.databinding.ActivitySettingBinding
+import com.shangyun.haile_manager_android.ui.activity.login.ChangeUserActivity
+import com.shangyun.haile_manager_android.ui.activity.login.LoginActivity
+import com.shangyun.haile_manager_android.ui.activity.login.UpdateLoginPasswordActivity
 
 class SettingActivity : BaseBusinessActivity<ActivitySettingBinding, SettingViewModel>() {
 

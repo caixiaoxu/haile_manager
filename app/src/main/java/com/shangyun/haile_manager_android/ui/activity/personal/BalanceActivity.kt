@@ -1,8 +1,9 @@
-package com.shangyun.haile_manager_android.ui.activity
+package com.shangyun.haile_manager_android.ui.activity.personal
 
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.BalanceViewModel
 import com.shangyun.haile_manager_android.databinding.ActivityBalanceBinding
+import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 
 class BalanceActivity : BaseBusinessActivity<ActivityBalanceBinding, BalanceViewModel>() {
 

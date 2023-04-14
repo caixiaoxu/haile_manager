@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.ui.activity.*
+import com.shangyun.haile_manager_android.ui.activity.personal.*
 
 /**
  * Title :

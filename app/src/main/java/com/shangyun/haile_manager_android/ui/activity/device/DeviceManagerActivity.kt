@@ -1,10 +1,11 @@
-package com.shangyun.haile_manager_android.ui.activity
+package com.shangyun.haile_manager_android.ui.activity.device
 
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.DeviceManagerViewModel
 import com.shangyun.haile_manager_android.databinding.ActivityDeviceManagerBinding
+import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 
-class DeviceManagerActivity : BaseBusinessActivity<ActivityDeviceManagerBinding,DeviceManagerViewModel>() {
+class DeviceManagerActivity : BaseBusinessActivity<ActivityDeviceManagerBinding, DeviceManagerViewModel>() {
 
     private val mDeviceManagerViewModel by lazy {
         getActivityViewModelProvider(this)[DeviceManagerViewModel::class.java]

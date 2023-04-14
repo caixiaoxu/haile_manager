@@ -1,12 +1,12 @@
-package com.shangyun.haile_manager_android.ui.activity
+package com.shangyun.haile_manager_android.ui.activity.login
 
 import android.view.View
-import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.utils.SToast
 import com.shangyun.haile_manager_android.BuildConfig
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.ResetPasswordViewModel
 import com.shangyun.haile_manager_android.databinding.ActivityResetPasswordBinding
+import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.utils.ViewUtils
 
 class ResetLoginPasswordActivity :

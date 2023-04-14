@@ -1,7 +1,6 @@
-package com.shangyun.haile_manager_android.ui.activity
+package com.shangyun.haile_manager_android.ui.activity.login
 
 import android.content.Intent
-import android.text.InputType
 import android.view.View
 import com.lsy.framelib.utils.AppManager
 import com.lsy.framelib.utils.SToast
@@ -10,6 +9,8 @@ import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.LoginForPasswordViewModel
 import com.shangyun.haile_manager_android.data.ActivityTag
 import com.shangyun.haile_manager_android.databinding.ActivityLoginForPasswordBinding
+import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.shangyun.haile_manager_android.ui.activity.MainActivity
 import com.shangyun.haile_manager_android.utils.ViewUtils
 
 class LoginForPasswordActivity :

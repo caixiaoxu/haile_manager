@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.activity.RealNameActivity">
+        tools:context=".ui.activity.personal.RealNameActivity">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

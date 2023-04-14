@@ -9,7 +9,7 @@
 
     <LinearLayout
 
-        tools:context=".ui.activity.ChangeUserActivity"
+        tools:context=".ui.activity.login.ChangeUserActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">

@@ -39,6 +39,10 @@ object ThirdLibs {
 
     // 滚轮控件
     const val wheelView = "com.contrarywind:wheelview:4.1.0"
+
+    // 刷新控件
+    const val smartRefresh = "io.github.scwang90:refresh-layout-kernel:2.0.5"
+    const val smartRefresh_ClassHeader = "io.github.scwang90:refresh-header-classics:2.0.5" //经典刷新头
 }
 
 object TestLibs {

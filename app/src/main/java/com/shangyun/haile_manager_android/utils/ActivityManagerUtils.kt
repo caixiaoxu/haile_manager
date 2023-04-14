@@ -3,7 +3,7 @@ package com.shangyun.haile_manager_android.utils
 import android.content.Intent
 import com.lsy.framelib.data.constants.Constants
 import com.shangyun.haile_manager_android.data.model.SPRepository
-import com.shangyun.haile_manager_android.ui.activity.LoginActivity
+import com.shangyun.haile_manager_android.ui.activity.login.LoginActivity
 
 /**
  * Title :

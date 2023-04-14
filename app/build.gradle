@@ -20,8 +20,24 @@ android {
 
     android.applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "海乐管家_${AndroidConfig.defaultConfig.versionName}_debug.apk"
+            outputFileName = "HaileManager_${AndroidConfig.defaultConfig.versionName}_debug.apk"
         }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('haile-manager.jks')
+            storePassword 'yunshang123'
+            keyAlias = 'business'
+            keyPassword 'yunshang123'
+        }
+        release {
+            storeFile file('haile-manager.jks')
+            storePassword 'yunshang123'
+            keyAlias = 'business'
+            keyPassword 'yunshang123'
+        }
+
     }
 
     buildTypes {
@@ -30,13 +46,14 @@ android {
             buildConfigField "String", "BASE_URL", EnvConfig.HTTP_BASE_DEBUG
             buildConfigField "String", "TEST_ACCOUNT", EnvConfig.TEST_ACCOUNT
             buildConfigField "String", "TEST_PWD", EnvConfig.TEST_PWD
+            signingConfig signingConfigs.debug
         }
         release {
             buildConfigField "String", "BASE_URL", EnvConfig.HTTP_BASE_RELEASE
 
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -78,4 +95,7 @@ dependencies {
     implementation ThirdLibs.mpAndroid
 
     implementation ThirdLibs.wheelView
+
+    implementation ThirdLibs.smartRefresh
+    implementation ThirdLibs.smartRefresh_ClassHeader
 }

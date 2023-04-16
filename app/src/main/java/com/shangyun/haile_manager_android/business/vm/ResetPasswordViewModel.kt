@@ -8,11 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.StringUtils
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.apiService.LoginUserService
 import com.shangyun.haile_manager_android.data.model.ApiRepository
-import com.shangyun.haile_manager_android.utils.ResourceUtils
-import com.shangyun.haile_manager_android.utils.StringUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -37,7 +36,7 @@ class ResetPasswordViewModel : BaseViewModel() {
     val code: MutableLiveData<String> = MutableLiveData()
 
     // 验证码发送按钮内容
-    private val defaultCodeTxt = ResourceUtils.getStringForResId(R.string.login_code_send)
+    private val defaultCodeTxt = StringUtils.getString(R.string.login_code_send)
 
     // 同意协议
     val isAgree: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -90,7 +89,7 @@ class ResetPasswordViewModel : BaseViewModel() {
             return
         }
 
-        if (!StringUtils.checkPassword(newPwd.value)) {
+        if (!com.shangyun.haile_manager_android.utils.StringUtils.checkPassword(newPwd.value)) {
             SToast.showToast(view.context, "密码必须包含6-12位大小写字母和数字")
             return
         }
@@ -192,6 +191,6 @@ class ResetPasswordViewModel : BaseViewModel() {
     override fun onCleared() {
         super.onCleared()
         timer?.cancel()
-        timer = null;
+        timer = null
     }
 }

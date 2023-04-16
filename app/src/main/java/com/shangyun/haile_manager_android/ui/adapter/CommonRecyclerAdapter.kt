@@ -26,16 +26,22 @@ class CommonRecyclerAdapter<T : ViewDataBinding, D>(
 
     private val list: MutableList<D> = mutableListOf()
 
-    fun addList(list: MutableList<D>) {
+    /**
+     * 刷新数据
+     * @param isRefresh 是否替换列表
+     * @param list 数据列表
+     */
+    fun refreshList(list: MutableList<D>, isRefresh: Boolean = false) {
+        if (isRefresh) {
+            this.list.clear()
+        }
         val start = this.list.size
         this.list.addAll(list)
-        notifyItemRangeInserted(start, list.size)
-    }
-
-    fun refreshList(list: MutableList<D>) {
-        this.list.clear()
-        this.list.addAll(list)
-        notifyDataSetChanged()
+        if (isRefresh) {
+            notifyDataSetChanged()
+        } else {
+            notifyItemRangeInserted(start, list.size)
+        }
     }
 
     override fun getItemCount(): Int = list.size

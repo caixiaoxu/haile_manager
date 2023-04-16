@@ -13,6 +13,6 @@ package com.shangyun.haile_manager_android.data.entities
 data class ShopEntity(
     val id: Int,
     val name: String,
-    val income: Int,
+    val income: Double,
     val deviceNum: Int
 )

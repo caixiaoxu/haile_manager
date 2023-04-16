@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.StringUtils
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.apiService.CapitalService
 import com.shangyun.haile_manager_android.business.apiService.MessageService
@@ -18,7 +19,6 @@ import com.shangyun.haile_manager_android.ui.activity.shop.ShopManagerActivity
 import com.shangyun.haile_manager_android.ui.activity.staff.StaffManagerActivity
 import com.shangyun.haile_manager_android.ui.activity.subAccount.SubAccountManagerActivity
 import com.shangyun.haile_manager_android.utils.DateTimeUtils
-import com.shangyun.haile_manager_android.utils.ResourceUtils
 import com.shangyun.haile_manager_android.utils.UserPermissionUtils
 import timber.log.Timber
 import java.util.*
@@ -59,25 +59,25 @@ class HomeViewModel : BaseViewModel() {
     val funcList: MutableLiveData<List<FunItem>> = MutableLiveData(
         arrayListOf(
             FunItem(
-                ResourceUtils.getStringForResId(R.string.device_manager),
+                StringUtils.getString(R.string.device_manager),
                 R.mipmap.icon_device_manager,
                 DeviceManagerActivity::class.java,
                 UserPermissionUtils.hasDevicePermission()
             ),
             FunItem(
-                ResourceUtils.getStringForResId(R.string.shop_manager),
+                StringUtils.getString(R.string.shop_manager),
                 R.mipmap.icon_shop_manager,
                 ShopManagerActivity::class.java,
                 UserPermissionUtils.hasShopPermission()
             ),
             FunItem(
-                ResourceUtils.getStringForResId(R.string.order_manager),
+                StringUtils.getString(R.string.order_manager),
                 R.mipmap.icon_order_manager,
                 OrderManagerActivity::class.java,
                 UserPermissionUtils.hasOrderPermission()
             ),
             FunItem(
-                ResourceUtils.getStringForResId(R.string.staff_manager),
+                StringUtils.getString(R.string.staff_manager),
                 R.mipmap.icon_staff_manager,
                 StaffManagerActivity::class.java,
                 UserPermissionUtils.hasPersonPermission()
@@ -89,7 +89,7 @@ class HomeViewModel : BaseViewModel() {
     val marketingList: MutableLiveData<List<FunItem>> = MutableLiveData(
         arrayListOf(
             FunItem(
-                ResourceUtils.getStringForResId(R.string.discount_manager),
+                StringUtils.getString(R.string.discount_manager),
                 R.mipmap.icon_discounts_manager,
                 DiscountsManagerActivity::class.java,
                 UserPermissionUtils.hasMarketingPermission()
@@ -101,7 +101,7 @@ class HomeViewModel : BaseViewModel() {
     val capitalList: MutableLiveData<List<FunItem>> = MutableLiveData(
         arrayListOf(
             FunItem(
-                ResourceUtils.getStringForResId(R.string.sub_account_manager),
+                StringUtils.getString(R.string.sub_account_manager),
                 R.mipmap.icon_sub_account_manager,
                 SubAccountManagerActivity::class.java,
                 UserPermissionUtils.hasDistributionPermission()

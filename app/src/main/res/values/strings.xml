@@ -15,7 +15,7 @@
     <string name="login_code_send">获取验证码</string>
     <string name="reset_login_password">重置登录密码</string>
     <string name="login_old_password_hint">请输入旧密码</string>
-    <string name="login_new_password_hint">请输入新密码（6-12位数字或字母）</string>
+    <string name="login_new_password_hint">请输入新密码（6–12位数字或字母）</string>
     <string name="login_new_password_again_hint">请再次输入新密码</string>
 
     <string name="agreement_hint">根据国家法律法规的要求，我们更新了《隐私政策》，帮助您了解我们收集、使用、存储和共享个人信息的情况，特别是我们所采集的个人信息类型及用途，同时您还可以了解到您所共享的相关权利和实现途径，以及我们为了保护好您的个人信息安全所采取的相关策略。</string>
@@ -32,7 +32,9 @@
     <string name="shop_manager">门店管理</string>
     <string name="add_shop">添加店铺</string>
     <string name="shop_search_hint">搜索店铺名称</string>
-    <string name="shop_num_hint">全部$1%d家店铺</string>
+    <string name="shop_num_hint">全部%1$d家店铺</string>
+    <string name="total_income">总收入</string>
+    <string name="device_num">设备数</string>
 
     <string name="order_manager">订单管理</string>
     <string name="staff_manager">人员管理</string>
@@ -67,5 +69,8 @@
 
     <string name="logout">退出登录</string>
     <string name="refresh_list">刷新列表</string>
+
+    <string name="unit_yuan">元</string>
+    <string name="unit_tai">台</string>
 
 </resources>

@@ -1,13 +1,12 @@
 package com.shangyun.haile_manager_android.utils
 
 import android.content.Context
+import android.text.ParcelableSpan
+import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
-import android.text.style.ForegroundColorSpan
-import androidx.core.content.ContextCompat
 import com.lsy.framelib.utils.DimensionUtils
-import com.shangyun.haile_manager_android.R
 import java.util.regex.Pattern
 
 /**
@@ -62,4 +61,22 @@ object StringUtils {
      */
     @JvmStatic
     fun formatPhone(phone: String): String = phone.replaceRange(IntRange(3, 7), "****")
+
+    /**
+     * 格式化多样式字符串
+     * @param content 内容
+     * @param spans 多样式
+     * @param start 开始位置
+     * @param end 结束位置
+     */
+    fun formatMultiStyleStr(
+        content: String,
+        spans: Array<ParcelableSpan>,
+        start: Int,
+        end: Int
+    ): SpannableString = SpannableString(content).apply {
+        spans.forEach {
+            setSpan(it, start, end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
+        }
+    }
 }

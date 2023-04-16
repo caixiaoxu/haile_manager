@@ -1,14 +1,20 @@
 package com.shangyun.haile_manager_android.ui.activity.shop
 
 import android.graphics.Color
+import android.graphics.Typeface
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
+import android.text.style.TypefaceSpan
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.StringUtils
 import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.ShopManagerViewModel
@@ -17,7 +23,8 @@ import com.shangyun.haile_manager_android.databinding.ActivityShopManagerBinding
 import com.shangyun.haile_manager_android.databinding.ItemShopListBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.adapter.CommonRecyclerAdapter
-import timber.log.Timber
+import com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+import com.shangyun.haile_manager_android.utils.NumberUtils
 
 class ShopManagerActivity :
     BaseBusinessActivity<ActivityShopManagerBinding, ShopManagerViewModel>() {
@@ -35,16 +42,57 @@ class ShopManagerActivity :
         window.statusBarColor = Color.WHITE
         initRightBtn()
 
-        mBinding.rrvShopList.layoutManager = LinearLayoutManager(this)
-        mBinding.rrvShopList.adapter = CommonRecyclerAdapter<ItemShopListBinding, ShopEntity>(
+        mBinding.rvShopList.layoutManager = LinearLayoutManager(this)
+        mBinding.rvShopList.adapter = CommonRecyclerAdapter<ItemShopListBinding, ShopEntity>(
             R.layout.item_shop_list,
             BR.item
         ) { mBinding, item ->
+            mBinding?.item = item
 
+            var title = StringUtils.getString(R.string.total_income)
+            var value = NumberUtils.keepTwoDecimals(item.income)+ StringUtils.getString(R.string.unit_yuan)
+            var start = title.length + 1
+            var end = title.length + 1 + value.length
+
+            // 格式化总收益样式
+            mBinding?.tvItemShopTotalIncome?.text = com.shangyun.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
+                "$title：$value",
+                arrayOf(
+                    ForegroundColorSpan(
+                        ResourcesCompat.getColor(
+                            resources,
+                            R.color.colorPrimary,
+                            null
+                        )
+                    ),
+                    AbsoluteSizeSpan(18),
+                    StyleSpan(Typeface.BOLD),
+                    TypefaceSpan("money")
+                ), start, end
+            )
+            title = StringUtils.getString(R.string.device_num)
+            value = item.deviceNum.toString() + StringUtils.getString(R.string.unit_tai)
+             start = title.length + 1
+             end = title.length + 1 + value.length
+            // 格式化设备数样式
+            mBinding?.tvItemShopDeviceNum?.text = com.shangyun.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
+                "$title：$value",
+                arrayOf(
+                    AbsoluteSizeSpan(16),
+                    StyleSpan(Typeface.BOLD),
+                ), start, end
+            )
         }
-        mBinding.rrvShopList.requestData = { page, pageSize, callBack ->
-            mShopManagerViewModel.requestShopList(page, pageSize, callBack)
-        }
+        mBinding.rvShopList.requestData =
+            object : CommonRefreshRecyclerView.OnRequestDataListener<ShopEntity>() {
+                override fun requestData(
+                    page: Int,
+                    pageSize: Int,
+                    callBack: (responseList: ResponseList<ShopEntity>) -> Unit
+                ) {
+                    mShopManagerViewModel.requestShopList(page, pageSize, callBack)
+                }
+            }
     }
 
     /**
@@ -80,6 +128,6 @@ class ShopManagerActivity :
     }
 
     override fun initData() {
+        mBinding.vm = mShopManagerViewModel
     }
-
 }

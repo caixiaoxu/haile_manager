@@ -214,7 +214,7 @@
                         android:id="@+id/view_last_msg_right"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/icon_arrow_right"
+                        android:src="@mipmap/icon_arrow_right_with_padding"
                         app:layout_constraintBottom_toBottomOf="@id/view_last_msg_unread"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/view_last_msg_unread"

@@ -4,8 +4,10 @@ import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.shangyun.haile_manager_android.data.entities.HomeIncomeEntity
 import com.shangyun.haile_manager_android.data.entities.ShopEntity
+import com.shangyun.haile_manager_android.data.entities.ShopTypeEntity
 import okhttp3.RequestBody
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 /**
@@ -25,4 +27,10 @@ interface ShopService {
      */
     @POST("/shop/shopList")
     suspend fun shopList(@Body body: RequestBody): ResponseWrapper<ResponseList<ShopEntity>>
+
+    /**
+     * 店铺类型
+     */
+    @GET("/shop/getShopTypeList")
+    suspend fun shopTypeList(): ResponseWrapper<List<ShopTypeEntity>>
 }

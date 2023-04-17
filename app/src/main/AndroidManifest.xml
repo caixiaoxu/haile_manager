@@ -14,9 +14,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ui.activity.login.UpdateLoginPasswordActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:name=".ui.activity.shop.SchoolSelectActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.activity.shop.ShopCreateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.login.UpdateLoginPasswordActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".ui.activity.login.ChangeUserActivity"
             android:exported="false" />

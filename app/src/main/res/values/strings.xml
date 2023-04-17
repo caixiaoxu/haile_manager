@@ -2,6 +2,10 @@
     <string name="app_name">海乐管家</string>
 
     <string name="sure">确定</string>
+    <string name="submit">提交</string>
+    <string name="please_input">请输入</string>
+    <string name="please_select">请选择</string>
+    <string name="cancel">取消</string>
 
     <string name="login_name">登录</string>
     <string name="login_account_password">账号密码登录</string>
@@ -35,6 +39,17 @@
     <string name="shop_num_hint">全部%1$d家店铺</string>
     <string name="total_income">总收入</string>
     <string name="device_num">设备数</string>
+    <string name="shop_info">门店信息</string>
+    <string name="shop_name">门店名称</string>
+    <string name="shop_type">门店类型</string>
+    <string name="school_name">学校名称</string>
+    <string name="area">所在区域</string>
+    <string name="mansion">小区/大厦</string>
+    <string name="location_detail">详细位置</string>
+    <string name="location_floor">楼栋/楼层</string>
+    <string name="business_hours">营业时间</string>
+    <string name="business_phone">客服电话</string>
+    <string name="business_type">业务类型</string>
 
     <string name="order_manager">订单管理</string>
     <string name="staff_manager">人员管理</string>

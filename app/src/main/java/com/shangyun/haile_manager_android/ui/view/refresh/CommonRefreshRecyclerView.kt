@@ -65,7 +65,8 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
 
         // 刷新
         mBinding.refreshLayout.setOnRefreshListener {
-            requestData?.requestData(page.also { page = 1 }, pageSize) {
+            page = 1
+            requestData?.requestData(page, pageSize) {
                 onRefresh(it)
             }
         }

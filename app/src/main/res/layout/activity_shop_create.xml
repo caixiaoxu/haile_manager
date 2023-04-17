@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.shangyun.haile_manager_android.business.vm.ShopCreateViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context=".ui.activity.shop.ShopCreateActivity">
+
+        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/shop_title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            app:bgColor="@color/white"
+            app:title="@string/shop_manager" />
+
+        <include layout="@layout/include_dividing1" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_12_999999"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginHorizontal="16dp"
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            android:gravity="center_vertical"
+            android:text="@string/shop_info" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    app:itemContent="@={vm.shopDetails.name}"
+                    app:title="@string/shop_name"
+                    app:type="input" />
+
+                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    app:itemContent="@{vm.shopTypeValue.name}"
+                    app:title="@string/shop_type"
+                    app:type="info" />
+
+                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_school_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="@{1 == vm.shopTypeValue.type?View.VISIBLE:View.GONE}"
+                    app:itemContent="@{vm.schoolNameValue}"
+                    app:title="@string/school_name"
+                    app:type="info" />
+
+                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    app:itemContent="@{vm.areaValue}"
+                    app:title="@string/area"
+                    app:type="info" />
+
+                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_mansion"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="@{1 != vm.shopTypeValue.type? View.VISIBLE:View.GONE}"
+                    app:itemContent="@{vm.shopDetails.area}"
+                    app:title="@string/mansion"
+                    app:type="info" />
+
+                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_location_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    app:itemContent="@={vm.shopDetails.address}"
+                    app:title="@string/location_detail"
+                    app:type="input" />
+
+                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_location_floor"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="@{1 == vm.shopTypeValue.type?View.VISIBLE:View.GONE}"
+                    app:itemContent="@={vm.shopDetails.area}"
+                    app:title="@string/location_floor"
+                    app:type="input" />
+
+                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_business_hours"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    app:itemContent="@{vm.shopDetails.workTime}"
+                    app:title="@string/business_hours"
+                    app:type="info" />
+
+                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_business_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    app:itemContent="@={vm.shopDetails.serviceTelephone}"
+                    app:title="@string/business_phone"
+                    app:type="input" />
+
+                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_business_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    app:itemContent="@{vm.businessTypeValue}"
+                    app:title="@string/business_type"
+                    app:type="info" />
+            </LinearLayout>
+        </ScrollView>
+
+        <include layout="@layout/include_dividing1" />
+
+        <com.shangyun.haile_manager_android.ui.view.CommonButton
+            android:id="@+id/btn_shop_create_submit"
+            style="@style/CommonMatchBtnStyle1"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="42dp"
+            android:onClick="@{vm::submit}"
+            android:text="@string/submit" />
+
+    </LinearLayout>
+</layout>

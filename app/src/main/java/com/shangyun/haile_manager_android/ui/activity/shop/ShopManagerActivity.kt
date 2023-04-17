@@ -1,5 +1,6 @@
 package com.shangyun.haile_manager_android.ui.activity.shop
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.text.style.AbsoluteSizeSpan
@@ -11,6 +12,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
@@ -43,6 +45,15 @@ class ShopManagerActivity :
         initRightBtn()
 
         mBinding.rvShopList.layoutManager = LinearLayoutManager(this)
+        mBinding.rvShopList.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                DividerItemDecoration.VERTICAL
+            ).apply {
+                ResourcesCompat.getDrawable(resources, R.drawable.shape_height_8, null)?.let {
+                    setDrawable(it)
+                }
+            })
         mBinding.rvShopList.adapter = CommonRecyclerAdapter<ItemShopListBinding, ShopEntity>(
             R.layout.item_shop_list,
             BR.item
@@ -50,38 +61,41 @@ class ShopManagerActivity :
             mBinding?.item = item
 
             var title = StringUtils.getString(R.string.total_income)
-            var value = NumberUtils.keepTwoDecimals(item.income)+ StringUtils.getString(R.string.unit_yuan)
+            var value =
+                NumberUtils.keepTwoDecimals(item.income) + StringUtils.getString(R.string.unit_yuan)
             var start = title.length + 1
             var end = title.length + 1 + value.length
 
             // 格式化总收益样式
-            mBinding?.tvItemShopTotalIncome?.text = com.shangyun.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
-                "$title：$value",
-                arrayOf(
-                    ForegroundColorSpan(
-                        ResourcesCompat.getColor(
-                            resources,
-                            R.color.colorPrimary,
-                            null
-                        )
-                    ),
-                    AbsoluteSizeSpan(18),
-                    StyleSpan(Typeface.BOLD),
-                    TypefaceSpan("money")
-                ), start, end
-            )
+            mBinding?.tvItemShopTotalIncome?.text =
+                com.shangyun.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
+                    "$title：$value",
+                    arrayOf(
+                        ForegroundColorSpan(
+                            ResourcesCompat.getColor(
+                                resources,
+                                R.color.colorPrimary,
+                                null
+                            )
+                        ),
+                        AbsoluteSizeSpan(DimensionUtils.sp2px(this@ShopManagerActivity, 18f)),
+                        StyleSpan(Typeface.BOLD),
+                        TypefaceSpan("money")
+                    ), start, end
+                )
             title = StringUtils.getString(R.string.device_num)
             value = item.deviceNum.toString() + StringUtils.getString(R.string.unit_tai)
-             start = title.length + 1
-             end = title.length + 1 + value.length
+            start = title.length + 1
+            end = title.length + 1 + value.length
             // 格式化设备数样式
-            mBinding?.tvItemShopDeviceNum?.text = com.shangyun.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
-                "$title：$value",
-                arrayOf(
-                    AbsoluteSizeSpan(16),
-                    StyleSpan(Typeface.BOLD),
-                ), start, end
-            )
+            mBinding?.tvItemShopDeviceNum?.text =
+                com.shangyun.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
+                    "$title：$value",
+                    arrayOf(
+                        AbsoluteSizeSpan(DimensionUtils.sp2px(this@ShopManagerActivity, 16f)),
+                        StyleSpan(Typeface.BOLD),
+                    ), start, end
+                )
         }
         mBinding.rvShopList.requestData =
             object : CommonRefreshRecyclerView.OnRequestDataListener<ShopEntity>() {
@@ -115,7 +129,12 @@ class ShopManagerActivity :
                     gravity = Gravity.CENTER
                     setBackgroundResource(R.drawable.shape_sf0a258_r22)
                     setOnClickListener {
-                        // TODO 添加店铺
+                        startActivity(
+                            Intent(
+                                this@ShopManagerActivity,
+                                ShopCreateActivity::class.java
+                            )
+                        )
                     }
                 },
                 LinearLayout.LayoutParams(

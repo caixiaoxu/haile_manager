@@ -23,7 +23,7 @@ object SToast {
      * @param duration 时长（可选）
      */
     fun showToast(
-        context: Context = Constants.APP_CONTEXT,
+        context: Context? = Constants.APP_CONTEXT,
         msg: String,
         duration: Int = Toast.LENGTH_SHORT
     ) {
@@ -36,7 +36,7 @@ object SToast {
      * @param duration 时长（可选）
      */
     fun showToast(
-        context: Context = Constants.APP_CONTEXT,
+        context: Context? = Constants.APP_CONTEXT,
         msgResId: Int,
         duration: Int = Toast.LENGTH_SHORT
     ) {

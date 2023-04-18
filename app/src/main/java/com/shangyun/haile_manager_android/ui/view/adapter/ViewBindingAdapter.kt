@@ -1,4 +1,4 @@
-package com.shangyun.haile_manager_android.ui.adapter
+package com.shangyun.haile_manager_android.ui.view.adapter
 
 import android.widget.ImageView
 import android.widget.TextView
@@ -7,6 +7,7 @@ import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import com.lsy.framelib.utils.DimensionUtils
 import com.shangyun.haile_manager_android.ui.view.CircleImageView
+import com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
 import com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
 import com.shangyun.haile_manager_android.utils.GlideUtils
 import com.shangyun.haile_manager_android.utils.StringUtils
@@ -22,6 +23,28 @@ import com.shangyun.haile_manager_android.utils.StringUtils
  * 作者姓名 修改时间 版本号 描述
  */
 object ViewBindingAdapter {
+
+    /**
+     * 显示标题
+     */
+    @BindingAdapter("title")
+    @JvmStatic
+    fun CommonTitleActionBar.setTitle(title: String?) {
+        getTitle().text = title ?: ""
+    }
+
+    /**
+     * TextView显示首字母
+     */
+    @BindingAdapter("firstLetter")
+    @JvmStatic
+    fun TextView.setFirstLetter(content: String) {
+        if (content.isEmpty()) {
+            text = ""
+        } else {
+            text = StringUtils.getFirstLetter(content[0])?.toString() ?: ""
+        }
+    }
 
     /**
      * TextView显示金额
@@ -61,10 +84,13 @@ object ViewBindingAdapter {
         }
     }
 
+    /**
+     * 自定义itemContent
+     */
     @BindingAdapter("itemContent")
     @JvmStatic
     fun MultiTypeItemView.setItemContent(content: String?) {
-        getContentView().text = content ?:""
+        getContentView().text = content ?: ""
     }
 
     @InverseBindingAdapter(attribute = "itemContent", event = "itemContentAttrChanged")

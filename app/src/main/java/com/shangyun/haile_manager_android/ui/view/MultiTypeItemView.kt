@@ -33,7 +33,6 @@ class MultiTypeItemView @JvmOverloads constructor(
         TextView(context).apply {
             textSize = 16f
             setTextColor(ResourcesCompat.getColor(resources, R.color.common_txt_color, null))
-            gravity = Gravity.CENTER_VERTICAL
             setPadding(0, 0, DimensionUtils.dip2px(context, 8f), 0)
         }
     }
@@ -136,7 +135,7 @@ class MultiTypeItemView @JvmOverloads constructor(
             titleView,
             LayoutParams(
                 DimensionUtils.dip2px(context, 104f),
-                LayoutParams.MATCH_PARENT
+                LayoutParams.WRAP_CONTENT
             )
         )
     }
@@ -145,8 +144,8 @@ class MultiTypeItemView @JvmOverloads constructor(
         addView(
             getContentView(),
             LayoutParams(
-                LayoutParams.WRAP_CONTENT,
-                LayoutParams.MATCH_PARENT
+                LayoutParams.MATCH_PARENT,
+                LayoutParams.WRAP_CONTENT
             ).apply {
                 weight = 1f
             }

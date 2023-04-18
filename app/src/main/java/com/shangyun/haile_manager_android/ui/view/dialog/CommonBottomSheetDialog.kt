@@ -3,18 +3,16 @@ package com.shangyun.haile_manager_android.ui.view.dialog
 import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
-import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioButton
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
 import com.shangyun.haile_manager_android.R
-import com.shangyun.haile_manager_android.data.entities.CommonBottomItemEntity
+import com.shangyun.haile_manager_android.data.rule.CommonBottomItemEntity
 import com.shangyun.haile_manager_android.databinding.DialogCommonBottomSheetBinding
 import com.shangyun.haile_manager_android.databinding.ItemCommonBottomSheetDialogBinding
 

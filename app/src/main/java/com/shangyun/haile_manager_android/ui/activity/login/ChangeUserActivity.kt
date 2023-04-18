@@ -14,7 +14,7 @@ import com.shangyun.haile_manager_android.databinding.ActivityChangeUserBinding
 import com.shangyun.haile_manager_android.databinding.ItemChangeAccountBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.activity.MainActivity
-import com.shangyun.haile_manager_android.ui.adapter.CommonRecyclerAdapter
+import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 
 class ChangeUserActivity :
     BaseBusinessActivity<ActivityChangeUserBinding, ChangeUserViewModel>() {

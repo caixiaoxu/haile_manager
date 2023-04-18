@@ -21,7 +21,11 @@
         <attr name="showArrow" format="boolean" />
     </declare-styleable>
 
+    <attr name="maxHeight" format="dimension" />
     <declare-styleable name="MaxHeightScrollView">
-        <attr name="maxHeight" format="dimension" />
+        <attr name="maxHeight"/>
+    </declare-styleable>
+    <declare-styleable name="MaxHeightRecyclerView">
+        <attr name="maxHeight"/>
     </declare-styleable>
 </resources>

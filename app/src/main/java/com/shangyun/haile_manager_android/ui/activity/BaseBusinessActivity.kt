@@ -2,8 +2,8 @@ package com.shangyun.haile_manager_android.ui.activity
 
 import android.os.Bundle
 import androidx.databinding.ViewDataBinding
-import com.lsy.framelib.ui.base.activity.BaseVMActivity
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.lsy.framelib.ui.base.activity.BaseVMActivity
 import com.shangyun.haile_manager_android.business.vm.SharedViewModel
 
 /**
@@ -25,11 +25,16 @@ abstract class BaseBusinessActivity<T : ViewDataBinding, VM : BaseViewModel> :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        initIntent()
         initView()
         initEvent()
         initData()
     }
+
+    /**
+     * 初始化Intent传参
+     */
+    protected open fun initIntent() {}
 
     /**
      * 初始化界面

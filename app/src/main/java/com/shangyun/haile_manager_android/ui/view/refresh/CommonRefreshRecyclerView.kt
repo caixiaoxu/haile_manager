@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.lsy.framelib.network.response.ResponseList
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.databinding.CustomRefreshRecyclerViewBinding
-import com.shangyun.haile_manager_android.ui.adapter.CommonRecyclerAdapter
+import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 
 /**
  * Title :

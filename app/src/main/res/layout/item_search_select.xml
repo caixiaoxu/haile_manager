@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="com.shangyun.haile_manager_android.data.rule.SearchSelectEntity" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
+        android:padding="16dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_search_select_title"
+            style="@style/Font_16_333333"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@{item.title}"
+            app:layout_constraintEnd_toStartOf="@id/tv_search_select_value"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="标题标题标题标题" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_search_select_value"
+            style="@style/Font_12_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.value}"
+            android:visibility="@{null == item.value?View.GONE:View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_search_select_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_search_select_title"
+            tools:text="0.01km" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_search_select_content1"
+            style="@style/Font_12_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text='@{item.content.length > 0?item.content[0]:""}'
+            android:visibility="@{item.content.length > 0?View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toStartOf="@id/tv_search_select_value"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_search_select_title"
+            tools:text="杭州市拱墅区xx路夺桂林村村奇才桂林霜无可无不可 fdsf标杆枯堙村要要" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_search_select_content2"
+            style="@style/Font_12_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text='@{item.content.length > 1?item.content[1]:""}'
+            android:visibility="@{item.content.length > 1?View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toEndOf="@id/tv_search_select_content1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_search_select_content1"
+            tools:text="设备名称 洗衣模式" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_search_select_content3"
+            style="@style/Font_12_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text='@{item.content.length > 2?item.content[2]:""}'
+            android:visibility="@{item.content.length > 2?View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toEndOf="@id/tv_search_select_content2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_search_select_content2"
+            tools:text="123123123123123123123123121312" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -24,7 +24,7 @@ import com.shangyun.haile_manager_android.data.entities.ShopEntity
 import com.shangyun.haile_manager_android.databinding.ActivityShopManagerBinding
 import com.shangyun.haile_manager_android.databinding.ItemShopListBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
-import com.shangyun.haile_manager_android.ui.adapter.CommonRecyclerAdapter
+import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.shangyun.haile_manager_android.utils.NumberUtils
 

@@ -1,4 +1,4 @@
-package com.shangyun.haile_manager_android.ui.adapter
+package com.shangyun.haile_manager_android.ui.view.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 class CommonRecyclerAdapter<T : ViewDataBinding, D>(
     private val layoutId: Int,
     private val br: Int,
-    private val onItemBind: ((mBinding: T?, date: D) -> Unit)?,
+    private val onItemBind: ((mBinding: T?, item: D) -> Unit)?,
 ) : RecyclerView.Adapter<MyViewHolder<T, D>>() {
 
     private val list: MutableList<D> = mutableListOf()
@@ -31,7 +31,7 @@ class CommonRecyclerAdapter<T : ViewDataBinding, D>(
      * @param isRefresh 是否替换列表
      * @param list 数据列表
      */
-    fun refreshList(list: MutableList<D>, isRefresh: Boolean = false) {
+    fun refreshList(list: MutableList<out D>, isRefresh: Boolean = false) {
         if (isRefresh) {
             this.list.clear()
         }

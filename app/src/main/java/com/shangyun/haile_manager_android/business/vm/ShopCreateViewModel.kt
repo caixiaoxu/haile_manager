@@ -1,17 +1,15 @@
 package com.shangyun.haile_manager_android.business.vm
 
 import android.view.View
-import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.shangyun.haile_manager_android.business.apiService.ShopService
+import com.shangyun.haile_manager_android.data.entities.SchoolSelectEntity
 import com.shangyun.haile_manager_android.data.entities.ShopDetailsEntity
 import com.shangyun.haile_manager_android.data.entities.ShopTypeEntity
 import com.shangyun.haile_manager_android.data.model.ApiRepository
+import com.shangyun.haile_manager_android.utils.StringUtils
 import timber.log.Timber
 
 /**
@@ -41,9 +39,16 @@ class ShopCreateViewModel : BaseViewModel() {
     // 所在区域
     val areaValue: MutableLiveData<String> = MutableLiveData()
 
+    // 详细地址
+    val addressValue: MutableLiveData<String> = MutableLiveData()
+
+
     // 业务类型
     val businessTypeValue: MutableLiveData<String> = MutableLiveData()
 
+    /**
+     * 初始化数据
+     */
     fun requestData() {
         launch(
             {
@@ -61,7 +66,52 @@ class ShopCreateViewModel : BaseViewModel() {
 
     }
 
+    /**
+     * 切换学校
+     */
+    fun changeSchool(school: SchoolSelectEntity?) {
+        // 学校id
+        shopDetails.value?.schoolId = school?.id ?: -1
+        // 学校名
+        shopDetails.value?.schoolName = school?.name ?: ""
+        schoolNameValue.value = school?.name ?: ""
+        // 省市区
+        changeArea(
+            school?.provinceId ?: -1,
+            school?.provinceName,
+            school?.cityId ?: -1,
+            school?.cityName,
+            school?.districtId ?: -1,
+            school?.districtName
+        )
+        // 详细地址
+        shopDetails.value?.address = school?.address ?: ""
+        addressValue.value = school?.address ?: ""
+    }
+
+    /**
+     * 切换地区，省市区
+     */
+    fun changeArea(
+        provinceId: Int,
+        provinceName: String?,
+        cityId: Int,
+        cityName: String?,
+        districtId: Int,
+        districtName: String?
+    ) {
+        shopDetails.value?.provinceId = provinceId
+        shopDetails.value?.cityId = cityId
+        shopDetails.value?.districtId = districtId
+        areaValue.value = StringUtils.formatArea(
+            provinceName,
+            cityName,
+            districtName
+        )
+    }
 
     fun submit(view: View) {
     }
+
+
 }

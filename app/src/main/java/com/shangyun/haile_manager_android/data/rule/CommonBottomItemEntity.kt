@@ -1,4 +1,4 @@
-package com.shangyun.haile_manager_android.data.entities
+package com.shangyun.haile_manager_android.data.rule
 
 /**
  * Title :

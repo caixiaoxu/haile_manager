@@ -2,7 +2,7 @@ package com.shangyun.haile_manager_android.business.apiService
 
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
-import com.shangyun.haile_manager_android.data.entities.HomeIncomeEntity
+import com.shangyun.haile_manager_android.data.entities.SchoolSelectEntity
 import com.shangyun.haile_manager_android.data.entities.ShopEntity
 import com.shangyun.haile_manager_android.data.entities.ShopTypeEntity
 import okhttp3.RequestBody
@@ -33,4 +33,10 @@ interface ShopService {
      */
     @GET("/shop/getShopTypeList")
     suspend fun shopTypeList(): ResponseWrapper<List<ShopTypeEntity>>
+
+    /**
+     * 学校列表
+     */
+    @POST("/shop/getSchoolList")
+    suspend fun schoolList(@Body body: RequestBody): ResponseWrapper<MutableList<SchoolSelectEntity>>
 }

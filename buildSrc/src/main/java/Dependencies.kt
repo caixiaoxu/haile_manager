@@ -43,6 +43,11 @@ object ThirdLibs {
     // 刷新控件
     const val smartRefresh = "io.github.scwang90:refresh-layout-kernel:2.0.5"
     const val smartRefresh_ClassHeader = "io.github.scwang90:refresh-header-classics:2.0.5" //经典刷新头
+
+    //高德地图
+    const val amap2d =  "com.amap.api:map2d:latest.integration"
+    const val amapLocation =  "com.amap.api:location:latest.integration"
+    const val amapSearch =  "com.amap.api:search:latest.integration"
 }
 
 object TestLibs {

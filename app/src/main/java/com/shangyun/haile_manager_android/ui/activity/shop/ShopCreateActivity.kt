@@ -22,6 +22,8 @@ class ShopCreateActivity :
     companion object {
         const val SchoolResultCode = 10001
         const val SchoolResultData = "SchoolResultData"
+        const val LocationResultCode = 10002
+        const val LocationResultData = "LocationResultData"
     }
 
     // 店铺类型
@@ -37,6 +39,9 @@ class ShopCreateActivity :
                             mShopCreateViewModel.changeSchool(school)
                         }
                     }
+                }
+                LocationResultCode->{
+
                 }
             }
         }
@@ -89,8 +94,13 @@ class ShopCreateActivity :
             mAreaDialog.show(supportFragmentManager)
         }
         // 小区/大厦
-        mBinding.mtivShopCreateMansion.onSelectedEvent={
-
+        mBinding.mtivShopCreateMansion.onSelectedEvent = {
+            startSearchSelect.launch(
+                Intent(
+                    this@ShopCreateActivity,
+                    LocationSelectActivity::class.java
+                )
+            )
         }
     }
 

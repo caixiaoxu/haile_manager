@@ -51,7 +51,10 @@
     <string name="business_phone">客服电话</string>
     <string name="business_type">业务类型</string>
     <string name="school">学校</string>
+    <string name="input_school_hint">请输入学校名称</string>
+    <string name="input_location_hint">请输入您的详细地址</string>
     <string name="area_select_title">请选择所在地区</string>
+    <string name="location_select">地址选择</string>
     <string name="select_province">请选择省</string>
     <string name="select_city">请选择市</string>
     <string name="select_district">请选择区/县</string>

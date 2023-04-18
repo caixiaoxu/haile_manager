@@ -5,12 +5,15 @@ import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel
+import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel.Companion.LOCATION
+import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SCHOOL
 import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SEARCH_TYPE
 import com.shangyun.haile_manager_android.data.rule.SearchSelectEntity
 import com.shangyun.haile_manager_android.databinding.ActivitySearchSelectBinding
@@ -30,15 +33,21 @@ class SearchSelectActivity :
             BR.item
         ) { mBinding, d ->
             mBinding?.root?.setOnClickListener {
-                setResult(ShopCreateActivity.SchoolResultCode, Intent().apply {
-                    putExtra(ShopCreateActivity.SchoolResultData, GsonUtils.any2Json(d))
-                })
+                if (SCHOOL == mSearchSelectViewModel.searchType.value) {
+                    setResult(ShopCreateActivity.SchoolResultCode, Intent().apply {
+                        putExtra(ShopCreateActivity.SchoolResultData, GsonUtils.any2Json(d))
+                    })
+                } else if (LOCATION == mSearchSelectViewModel.searchType.value) {
+                    setResult(RESULT_OK, Intent().apply {
+                        putExtra(ShopCreateActivity.SchoolResultData, GsonUtils.any2Json(d))
+                    })
+                }
                 finish()
             }
         }
     }
 
-    private val mHander: Handler by lazy {
+    private val mHandler: Handler by lazy {
         Handler(Looper.getMainLooper()) {
             if (0 == it.what) {
                 mSearchSelectViewModel.search()
@@ -65,9 +74,17 @@ class SearchSelectActivity :
         mBinding.rvSearchSelectList.layoutManager = LinearLayoutManager(this)
         mBinding.rvSearchSelectList.adapter = mAdapter
 
+        mBinding.etSearchContent.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                mHandler.removeMessages(0)
+                mHandler.sendEmptyMessage(0)
+            }
+            false
+        }
+
         mBinding.etSearchContent.addTextChangedListener {
-            mHander.removeMessages(0)
-            mHander.sendEmptyMessageDelayed(0, 500)
+            mHandler.removeMessages(0)
+            mHandler.sendEmptyMessageDelayed(0, 500)
         }
     }
 

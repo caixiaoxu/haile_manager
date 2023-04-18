@@ -3,6 +3,8 @@ package com.shangyun.haile_manager_android.business.vm
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.StringUtils
+import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.apiService.ShopService
 import com.shangyun.haile_manager_android.data.model.ApiRepository
 import com.shangyun.haile_manager_android.data.rule.SearchSelectEntity
@@ -25,8 +27,7 @@ class SearchSelectViewModel : BaseViewModel() {
         const val SEARCH_TYPE = "searchType"
 
         const val SCHOOL: Int = 0
-        const val AREA: Int = 1
-        const val MANSION: Int = 2
+        const val LOCATION: Int = 1
     }
 
     // 搜索类型
@@ -34,16 +35,14 @@ class SearchSelectViewModel : BaseViewModel() {
 
     // 搜索提示语
     val searchTitles = arrayOf(
-        "学校",
-        "地址选择",
-        "地址选择",
+        StringUtils.getString(R.string.school),
+        StringUtils.getString(R.string.location_select),
     )
 
     // 搜索提示语
     val searchHints = arrayOf(
-        "请输入学校名称",
-        "请输入您的详细地址",
-        "请输入您的小区或大厦名称",
+        StringUtils.getString(R.string.input_school_hint),
+        StringUtils.getString(R.string.input_location_hint),
     )
 
     // 搜索内容
@@ -56,6 +55,7 @@ class SearchSelectViewModel : BaseViewModel() {
         launch({
             when (searchType.value) {
                 SCHOOL -> searchSchoolList()
+                LOCATION->searchLocationList()
             }
         }, {
             it.message?.let { it1 -> SToast.showToast(msg = it1) }
@@ -65,7 +65,26 @@ class SearchSelectViewModel : BaseViewModel() {
         }, false)
     }
 
+    /**
+     * 搜索学校列表
+     */
     private suspend fun searchSchoolList() {
+        val list = ApiRepository.dealApiResult(
+            mRepo.schoolList(
+                ApiRepository.createRequestBody(
+                    hashMapOf(
+                        "name" to (searchContent.value ?: "")
+                    )
+                )
+            )
+        )
+        searchList.postValue(list)
+    }
+
+    /**
+     * 搜索位置列表
+     */
+    private suspend fun searchLocationList() {
         val list = ApiRepository.dealApiResult(
             mRepo.schoolList(
                 ApiRepository.createRequestBody(

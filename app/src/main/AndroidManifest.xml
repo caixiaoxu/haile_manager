@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".BusinessApp"
@@ -99,9 +100,12 @@
             </intent-filter>
         </activity>
 
+        <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
+        <service android:name="com.amap.api.location.APSService"/>
+
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="58f1120f895d77115892797b4703bc17" />
+            android:value="5f90ead1c370be414645533daa7ae38a" />
     </application>
 
 </manifest>

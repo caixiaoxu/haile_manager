@@ -42,7 +42,7 @@ android {
 
     buildTypes {
         debug {
-//            applicationIdSuffix ".debug"
+            applicationIdSuffix ".debug"
             buildConfigField "String", "BASE_URL", EnvConfig.HTTP_BASE_DEBUG
             buildConfigField "String", "TEST_ACCOUNT", EnvConfig.TEST_ACCOUNT
             buildConfigField "String", "TEST_PWD", EnvConfig.TEST_PWD

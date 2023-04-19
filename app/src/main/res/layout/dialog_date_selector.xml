@@ -111,19 +111,43 @@
                 android:id="@+id/wv_date_time_year"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:visibility="gone" />
 
             <com.contrarywind.view.WheelView
                 android:id="@+id/wv_date_time_month"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:visibility="gone" />
 
             <com.contrarywind.view.WheelView
                 android:id="@+id/wv_date_time_day"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:visibility="gone" />
+
+            <com.contrarywind.view.WheelView
+                android:id="@+id/wv_date_time_hour"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="gone" />
+
+            <com.contrarywind.view.WheelView
+                android:id="@+id/wv_date_time_minute"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="gone" />
+
+            <com.contrarywind.view.WheelView
+                android:id="@+id/wv_date_time_second"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="gone" />
         </LinearLayout>
     </FrameLayout>
 

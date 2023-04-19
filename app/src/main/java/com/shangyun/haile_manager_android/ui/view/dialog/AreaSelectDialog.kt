@@ -57,7 +57,7 @@ class AreaSelectDialog private constructor(private val builder: Builder) :
     private var district: AreaEntity? = null
 
     private val mAdapter: CommonRecyclerAdapter<ItemAreaSelectBinding, AreaEntity> by lazy {
-        CommonRecyclerAdapter(R.layout.item_area_select, BR.item) { mItemBinding, item ->
+        CommonRecyclerAdapter(R.layout.item_area_select, BR.item) { mItemBinding, _, item ->
             mItemBinding?.root?.setOnClickListener {
                 when (selectType) {
                     0 -> changeProvince(item)
@@ -130,7 +130,7 @@ class AreaSelectDialog private constructor(private val builder: Builder) :
      * 请求数据
      */
     private fun requestArea(type: Int, parentId: Int) {
-        if(selectType == type){
+        if (selectType == type) {
             return
         }
 

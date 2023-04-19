@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 class CommonRecyclerAdapter<T : ViewDataBinding, D>(
     private val layoutId: Int,
     private val br: Int,
-    private val onItemBind: ((mBinding: T?, item: D) -> Unit)?,
+    private val onItemBind: ((mBinding: T?, pos: Int, item: D) -> Unit)?,
 ) : RecyclerView.Adapter<MyViewHolder<T, D>>() {
 
     private val list: MutableList<D> = mutableListOf()
@@ -52,7 +52,7 @@ class CommonRecyclerAdapter<T : ViewDataBinding, D>(
 
     override fun onBindViewHolder(holder: MyViewHolder<T, D>, position: Int) {
         holder.bind(br, list[position])
-        onItemBind?.invoke(holder.mBinding, list[position])
+        onItemBind?.invoke(holder.mBinding, position, list[position])
     }
 }
 

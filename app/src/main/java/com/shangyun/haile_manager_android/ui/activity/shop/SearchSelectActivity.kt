@@ -15,6 +15,7 @@ import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel
 import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel.Companion.LOCATION
 import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SCHOOL
 import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SEARCH_TYPE
+import com.shangyun.haile_manager_android.data.entities.LocationSelectEntity
 import com.shangyun.haile_manager_android.data.rule.SearchSelectEntity
 import com.shangyun.haile_manager_android.databinding.ActivitySearchSelectBinding
 import com.shangyun.haile_manager_android.databinding.ItemSearchSelectBinding
@@ -31,7 +32,7 @@ class SearchSelectActivity :
         CommonRecyclerAdapter(
             R.layout.item_search_select,
             BR.item
-        ) { mBinding, d ->
+        ) { mBinding, _, d ->
             mBinding?.root?.setOnClickListener {
                 if (SCHOOL == mSearchSelectViewModel.searchType.value) {
                     setResult(ShopCreateActivity.SchoolResultCode, Intent().apply {
@@ -39,7 +40,10 @@ class SearchSelectActivity :
                     })
                 } else if (LOCATION == mSearchSelectViewModel.searchType.value) {
                     setResult(RESULT_OK, Intent().apply {
-                        putExtra(ShopCreateActivity.SchoolResultData, GsonUtils.any2Json(d))
+                        putExtra(
+                            ShopCreateActivity.LocationResultData,
+                            GsonUtils.any2Json((d as LocationSelectEntity).poi)
+                        )
                     })
                 }
                 finish()
@@ -50,7 +54,7 @@ class SearchSelectActivity :
     private val mHandler: Handler by lazy {
         Handler(Looper.getMainLooper()) {
             if (0 == it.what) {
-                mSearchSelectViewModel.search()
+                mSearchSelectViewModel.search(this@SearchSelectActivity)
             }
             false
         }
@@ -65,6 +69,9 @@ class SearchSelectActivity :
     override fun initIntent() {
         intent.getIntExtra(SEARCH_TYPE, -1).run {
             mSearchSelectViewModel.searchType.postValue(this)
+        }
+        intent.getStringExtra(SearchSelectViewModel.CityCode)?.run {
+            mSearchSelectViewModel.cityCode = this
         }
     }
 

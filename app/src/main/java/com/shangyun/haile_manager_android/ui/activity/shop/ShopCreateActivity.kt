@@ -4,8 +4,11 @@ import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import com.amap.api.services.core.PoiItem
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.R
+import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel
 import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SCHOOL
 import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SEARCH_TYPE
 import com.shangyun.haile_manager_android.business.vm.ShopCreateViewModel
@@ -15,6 +18,10 @@ import com.shangyun.haile_manager_android.databinding.ActivityShopCreateBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.view.dialog.AreaSelectDialog
 import com.shangyun.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
+import com.shangyun.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
+import com.shangyun.haile_manager_android.utils.DateTimeUtils
+import timber.log.Timber
+import java.util.*
 
 class ShopCreateActivity :
     BaseBusinessActivity<ActivityShopCreateBinding, ShopCreateViewModel>() {
@@ -40,8 +47,15 @@ class ShopCreateActivity :
                         }
                     }
                 }
-                LocationResultCode->{
-
+                LocationResultCode -> {
+                    it.data?.getStringExtra(LocationResultData)?.let { json ->
+                        GsonUtils.json2Class(json, PoiItem::class.java)?.let { poiItem ->
+                            mShopCreateViewModel.changeMansion(
+                                poiItem.title,
+                                poiItem.provinceName + poiItem.cityName + poiItem.adName + poiItem.snippet
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -95,12 +109,41 @@ class ShopCreateActivity :
         }
         // 小区/大厦
         mBinding.mtivShopCreateMansion.onSelectedEvent = {
-            startSearchSelect.launch(
-                Intent(
-                    this@ShopCreateActivity,
-                    LocationSelectActivity::class.java
+            if (null == mShopCreateViewModel.shopDetails.value?.cityId
+                || -1 == mShopCreateViewModel.shopDetails.value?.cityId
+            ) {
+                SToast.showToast(this@ShopCreateActivity, "请先选择所在区域")
+            } else {
+                startSearchSelect.launch(
+                    Intent(
+                        this@ShopCreateActivity,
+                        LocationSelectActivity::class.java
+                    ).apply {
+                        putExtra(
+                            LocationSelectActivity.CityCode,
+                            mShopCreateViewModel.shopDetails.value?.cityId?.toString()
+                        )
+                    }
                 )
-            )
+            }
+        }
+
+        // 营业时间
+        mBinding.mtivShopCreateBusinessHours.onSelectedEvent = {
+            val dailog = DateSelectorDialog.Builder().apply {
+                selectModel = 1
+                showModel = 4
+                onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
+                    override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
+                        Timber.i("选择的日期${DateTimeUtils.formatDateTime("yyyy-MM", date1)}")
+                        //更换时间
+                        mShopCreateViewModel.changeWorkTime(
+                            "${DateTimeUtils.formatDateTime("HH:mm", date1)}-${DateTimeUtils.formatDateTime("HH:mm", date2)}"
+                        )
+                    }
+                }
+            }.build()
+            dailog.show(supportFragmentManager)
         }
     }
 

@@ -80,7 +80,7 @@
                     android:id="@+id/mtiv_shop_create_mansion"
                     style="@style/MultiTypeItemViewStyle"
                     android:visibility="@{1 != vm.shopTypeValue.type? View.VISIBLE:View.GONE}"
-                    app:itemContent="@{vm.shopDetails.area}"
+                    app:itemContent="@{vm.mansionValue}"
                     app:title="@string/mansion"
                     app:type="info" />
 
@@ -102,7 +102,7 @@
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_business_hours"
                     style="@style/MultiTypeItemViewStyle"
-                    app:itemContent="@{vm.shopDetails.workTime}"
+                    app:itemContent="@{vm.workTimeValue}"
                     app:title="@string/business_hours"
                     app:type="info" />
 

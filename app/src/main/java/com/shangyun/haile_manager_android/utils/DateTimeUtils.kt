@@ -134,6 +134,36 @@ object DateTimeUtils {
         }
 
     /**
+     * 获取小时列表
+     */
+    fun getHourSection(): List<String> =
+        ArrayList<String>().apply {
+            for (i in 0 .. 23) {
+                add("${i}时")
+            }
+        }
+
+    /**
+     * 获取分钟列表
+     */
+    fun getMinuteSection(): List<String> =
+        ArrayList<String>().apply {
+            for (i in 0 .. 59) {
+                add("${i}分")
+            }
+        }
+
+    /**
+     * 获取秒列表
+     */
+    fun getSecondSection(): List<String> =
+        ArrayList<String>().apply {
+            for (i in 0 .. 59) {
+                add("${i}分")
+            }
+        }
+
+    /**
      * 获取天份列表
      */
     fun getDaySection(maxDay: Int): List<String> =

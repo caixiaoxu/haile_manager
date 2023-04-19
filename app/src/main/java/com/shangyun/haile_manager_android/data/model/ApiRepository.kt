@@ -47,10 +47,11 @@ object ApiRepository {
         if (0 != response.code) {
             // 1 参数不正常
             // 100000 未账号注册
+            // 100002 登录失效
             // 100003 账号在其他地方登录
 
             when (response.code) {
-                100003 -> {
+                100002, 100003 -> {
                     mHandler.post {
                         ActivityManagerUtils.clearLoginInfoGoLogin()
                     }

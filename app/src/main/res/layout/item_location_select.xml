@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.amap.api.services.core.PoiItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr8"
+        android:padding="8dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_item_location_select_poi_icon"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/icon_location_poi"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_item_location_select_poi_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_item_location_select_poi_name"
+            style="@style/Font_16_f0a258"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:text="@{item.title}"
+            app:layout_constraintBottom_toTopOf="@id/tv_item_location_select_poi_address"
+            app:layout_constraintEnd_toStartOf="@id/tv_item_location_select_poi_distance"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/iv_item_location_select_poi_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="米果集团；共赋未来谷" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_item_location_select_poi_address"
+            style="@style/Font_12_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@{item.getProvinceName() + item.getCityName() + item.getAdName() + item.getSnippet()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_item_location_select_poi_name"
+            app:layout_constraintStart_toStartOf="@id/tv_item_location_select_poi_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_location_select_poi_name"
+            tools:text="杭州市在顺顺果蝇要呵哥呵查颗星果颗星棵昌sjsjsjsjsjsjsjsjsj是sjsj是是" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_item_location_select_poi_distance"
+            style="@style/Font_12_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/tv_item_location_select_poi_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_item_location_select_poi_name"
+            app:layout_constraintTop_toTopOf="@id/tv_item_location_select_poi_name"
+            tools:text="100.00km" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

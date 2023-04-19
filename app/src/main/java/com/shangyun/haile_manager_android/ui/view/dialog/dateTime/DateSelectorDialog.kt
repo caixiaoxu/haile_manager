@@ -121,6 +121,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
         }
 
         // 初始化滚轮
+        // 年
         initWheelView(
             mBinding.wvDateTimeYear,
             (0 == builder.showModel || 1 == builder.showModel)
@@ -131,18 +132,53 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
                 refreshTimeVal()
             }
         }
-        initWheelView(mBinding.wvDateTimeMonth, true) { index ->
+        // 月
+        initWheelView(
+            mBinding.wvDateTimeMonth,
+            (0 == builder.showModel || 1 == builder.showModel || 2 == builder.showModel)
+        ) { index ->
             getCurSelectCalender().set(Calendar.MONTH, index)
             refreshDayData()
             if (0 != builder.selectModel) {
                 refreshTimeVal()
             }
         }
+        // 日
         initWheelView(
             mBinding.wvDateTimeDay,
             (0 == builder.showModel || 2 == builder.showModel)
         ) { index ->
             getCurSelectCalender().set(Calendar.DAY_OF_MONTH, 1 + index)
+            if (0 != builder.selectModel) {
+                refreshTimeVal()
+            }
+        }
+        // 时
+        initWheelView(
+            mBinding.wvDateTimeHour,
+            (3 == builder.showModel || 4 == builder.showModel)
+        ) { index ->
+            getCurSelectCalender().set(Calendar.HOUR_OF_DAY, index)
+            if (0 != builder.selectModel) {
+                refreshTimeVal()
+            }
+        }
+        // 分
+        initWheelView(
+            mBinding.wvDateTimeMinute,
+            (3 == builder.showModel || 4 == builder.showModel|| 5 == builder.showModel)
+        ) { index ->
+            getCurSelectCalender().set(Calendar.MINUTE, index)
+            if (0 != builder.selectModel) {
+                refreshTimeVal()
+            }
+        }
+        //秒
+        initWheelView(
+            mBinding.wvDateTimeSecond,
+            (3 == builder.showModel || 5 == builder.showModel)
+        ) { index ->
+            getCurSelectCalender().set(Calendar.SECOND, index)
             if (0 != builder.selectModel) {
                 refreshTimeVal()
             }
@@ -208,6 +244,9 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
         0 -> "yyyy-MM-dd"
         1 -> "yyyy-MM"
         2 -> "MM-dd"
+        3 -> "HH:mm:ss"
+        4 -> "HH:mm"
+        5 -> "mm:ss"
         else -> "yyyy-MM-dd"
     }
 
@@ -268,6 +307,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
      * 刷新所有滚轮数据
      */
     private fun refreshAllWheelData() {
+        // 年
         if ((0 == builder.showModel || 1 == builder.showModel)) {
             refreshWheelData(
                 mBinding.wvDateTimeYear,
@@ -278,12 +318,42 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
                 )
             )
         }
-        refreshWheelData(
-            mBinding.wvDateTimeMonth,
-            getCurSelectCalender().get(Calendar.MONTH),
-            DateTimeUtils.getMonthSection()
-        )
-        refreshDayData()
+        // 月
+        if ((0 == builder.showModel || 1 == builder.showModel || 2 == builder.showModel)) {
+            refreshWheelData(
+                mBinding.wvDateTimeMonth,
+                getCurSelectCalender().get(Calendar.MONTH),
+                DateTimeUtils.getMonthSection()
+            )
+        }
+        // 日
+        if ((0 == builder.showModel || 2 == builder.showModel)) {
+            refreshDayData()
+        }
+        // 时
+        if ((3 == builder.showModel || 4 == builder.showModel)) {
+            refreshWheelData(
+                mBinding.wvDateTimeHour,
+                getCurSelectCalender().get(Calendar.HOUR_OF_DAY),
+                DateTimeUtils.getHourSection()
+            )
+        }
+        // 分
+        if ((3 == builder.showModel || 4 == builder.showModel || 5 == builder.showModel)) {
+            refreshWheelData(
+                mBinding.wvDateTimeMinute,
+                getCurSelectCalender().get(Calendar.MINUTE),
+                DateTimeUtils.getMinuteSection()
+            )
+        }
+        // 秒
+        if ((3 == builder.showModel || 5 == builder.showModel)) {
+            refreshWheelData(
+                mBinding.wvDateTimeSecond,
+                getCurSelectCalender().get(Calendar.SECOND),
+                DateTimeUtils.getSecondSection()
+            )
+        }
     }
 
     /**
@@ -324,7 +394,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
         // 0单选/1区间
         var selectModel: Int = 0
 
-        // 显示年月日，0年月日/1年月/2月是
+        // 显示年月日，0年月日/1年月/2月日/3时分秒/4时分/5分秒
         var showModel: Int = 0
 
         // 最小或最大时间

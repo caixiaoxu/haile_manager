@@ -26,7 +26,7 @@ class ChangeUserActivity :
     private val mAdapter by lazy {
         CommonRecyclerAdapter<ItemChangeAccountBinding, ChangeUserEntity>(
             R.layout.item_change_account, BR.user,
-        ) { mBinding, data ->
+        ) { mBinding,_, data ->
             mBinding?.root?.setOnClickListener {
                 if (!data.isCurUser()) {
                     mChangeUserViewModel.changeUser(data, mSharedViewModel)

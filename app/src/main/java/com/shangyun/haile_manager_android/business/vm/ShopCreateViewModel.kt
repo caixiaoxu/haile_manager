@@ -39,12 +39,17 @@ class ShopCreateViewModel : BaseViewModel() {
     // 所在区域
     val areaValue: MutableLiveData<String> = MutableLiveData()
 
+    // 小区
+    val mansionValue: MutableLiveData<String> = MutableLiveData()
+
     // 详细地址
     val addressValue: MutableLiveData<String> = MutableLiveData()
 
-
     // 业务类型
     val businessTypeValue: MutableLiveData<String> = MutableLiveData()
+
+    // 营业时间
+    val workTimeValue: MutableLiveData<String> = MutableLiveData()
 
     /**
      * 初始化数据
@@ -84,9 +89,7 @@ class ShopCreateViewModel : BaseViewModel() {
             school?.districtId ?: -1,
             school?.districtName
         )
-        // 详细地址
-        shopDetails.value?.address = school?.address ?: ""
-        addressValue.value = school?.address ?: ""
+        changeAddress(school?.address)
     }
 
     /**
@@ -108,6 +111,32 @@ class ShopCreateViewModel : BaseViewModel() {
             cityName,
             districtName
         )
+    }
+
+    /**
+     * 切换小区
+     */
+    fun changeMansion(mansion: String, address: String?) {
+        shopDetails.value?.area = mansion
+        mansionValue.value = mansion
+        changeAddress(address)
+    }
+
+    /**
+     * 切换地区
+     */
+    private fun changeAddress(address: String?) {
+        // 详细地址
+        shopDetails.value?.address = address ?: ""
+        addressValue.value = address ?: ""
+    }
+
+    /**
+     * 切换营业时间
+     */
+    fun changeWorkTime(time: String) {
+        shopDetails.value?.workTime = time
+        workTimeValue.value = time
     }
 
     fun submit(view: View) {

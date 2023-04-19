@@ -8,6 +8,7 @@ import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
 import com.lsy.framelib.utils.DimensionUtils
 import java.io.UnsupportedEncodingException
+import java.text.DecimalFormat
 import java.util.regex.Pattern
 
 
@@ -151,5 +152,17 @@ object StringUtils {
             i++
         }
         return result
+    }
+
+    /**
+     * 格式化距离
+     */
+    fun friendJuli(juli: Int): String {
+        val df = DecimalFormat("0.00")
+        return if (juli >= 1000) {
+            "${df.format(juli / 1000)}km"
+        } else {
+            "${df.format(juli)}m"
+        }
     }
 }

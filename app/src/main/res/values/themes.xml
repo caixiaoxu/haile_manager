@@ -181,6 +181,11 @@
         <item name="android:textColor">@color/common_txt_color</item>
     </style>
 
+    <style name="Font_16_f0a258">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
     <style name="Font_18_333333">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/common_txt_color</item>

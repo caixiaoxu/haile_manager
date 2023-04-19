@@ -57,7 +57,7 @@ class ShopManagerActivity :
         mBinding.rvShopList.adapter = CommonRecyclerAdapter<ItemShopListBinding, ShopEntity>(
             R.layout.item_shop_list,
             BR.item
-        ) { mBinding, item ->
+        ) { mBinding, _, item ->
             mBinding?.item = item
 
             var title = StringUtils.getString(R.string.total_income)

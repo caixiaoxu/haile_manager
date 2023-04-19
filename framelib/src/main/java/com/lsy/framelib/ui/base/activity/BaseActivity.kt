@@ -1,6 +1,5 @@
 package com.lsy.framelib.ui.base.activity
 
-import android.R
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
@@ -63,7 +62,7 @@ abstract class BaseActivity : AppCompatActivity() {
      */
     private fun setRootViewPT() {
         if (!isFullScreen()) {
-            val rootView = window.decorView.findViewById<FrameLayout>(R.id.content)
+            val rootView = window.decorView.findViewById<FrameLayout>(android.R.id.content)
             rootView.setPadding(0, StatusBarUtils.getStatusBarHeight(), 0, 0)
         }
     }

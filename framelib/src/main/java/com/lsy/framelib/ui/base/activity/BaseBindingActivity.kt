@@ -3,6 +3,7 @@ package com.lsy.framelib.ui.base.activity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.lsy.framelib.utils.SoftHideKeyBoardUtil
 
 /**
  * Title : Activity基类(构建布局DataBinding)
@@ -19,9 +20,12 @@ abstract class BaseBindingActivity<T : ViewDataBinding> : BaseActivity() {
         DataBindingUtil.setContentView(this, layoutId())
     }
 
+    private lateinit var softHideKeyBoardUtil: SoftHideKeyBoardUtil
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding.lifecycleOwner = this
+        softHideKeyBoardUtil = SoftHideKeyBoardUtil(this)
         initStatusBarTxtColor(mBinding.root)
     }
 
@@ -29,4 +33,9 @@ abstract class BaseBindingActivity<T : ViewDataBinding> : BaseActivity() {
      * 根布局
      */
     abstract fun layoutId(): Int
+
+    override fun onDestroy() {
+        softHideKeyBoardUtil.onDestroy()
+        super.onDestroy()
+    }
 }

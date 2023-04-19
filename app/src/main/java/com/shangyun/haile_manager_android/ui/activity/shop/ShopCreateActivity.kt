@@ -2,7 +2,6 @@ package com.shangyun.haile_manager_android.ui.activity.shop
 
 import android.content.Intent
 import android.graphics.Color
-import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import com.amap.api.services.core.PoiItem
@@ -22,7 +21,6 @@ import com.shangyun.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.shangyun.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
 import com.shangyun.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.shangyun.haile_manager_android.utils.DateTimeUtils
-import com.shangyun.haile_manager_android.utils.SoftHideKeyBoardUtil
 import timber.log.Timber
 import java.util.*
 
@@ -78,12 +76,6 @@ class ShopCreateActivity :
 
     private val mShopCreateViewModel by lazy {
         getActivityViewModelProvider(this)[ShopCreateViewModel::class.java]
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        SoftHideKeyBoardUtil.assistActivity(this)
     }
 
     override fun layoutId(): Int = R.layout.activity_shop_create

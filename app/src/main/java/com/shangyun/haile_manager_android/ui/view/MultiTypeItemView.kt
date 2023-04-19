@@ -1,6 +1,7 @@
 package com.shangyun.haile_manager_android.ui.view
 
 import android.content.Context
+import android.text.InputFilter.LengthFilter
 import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.EditText
@@ -93,6 +94,9 @@ class MultiTypeItemView @JvmOverloads constructor(
         val title = array.getString(R.styleable.MultiTypeItemView_title)
         type = array.getInt(R.styleable.MultiTypeItemView_type, 0)
         val hint = array.getString(R.styleable.MultiTypeItemView_hint)
+        val inputType = array.getInt(R.styleable.MultiTypeItemView_android_inputType, 0)
+        val maxLength = array.getInt(R.styleable.MultiTypeItemView_android_maxLength, 0)
+        val maxLines = array.getInt(R.styleable.MultiTypeItemView_android_maxLines, 0)
         val showArrow = array.getBoolean(R.styleable.MultiTypeItemView_showArrow, true)
         array.recycle()
 
@@ -116,6 +120,15 @@ class MultiTypeItemView @JvmOverloads constructor(
             // 输入
             1 -> {
                 getContentView().hint = hint ?: resources.getString(R.string.please_input)
+                if (inputType > 0) {
+                    getContentView().inputType = inputType
+                }
+                if (maxLength > 0) {
+                    getContentView().filters = arrayOf(LengthFilter(maxLength))
+                }
+                if (maxLines > 0) {
+                    getContentView().maxLines = maxLines
+                }
             }
         }
         // 显示右箭头

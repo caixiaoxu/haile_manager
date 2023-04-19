@@ -19,6 +19,9 @@
         <attr name="title"/>
         <attr name="hint" format="string" />
         <attr name="showArrow" format="boolean" />
+        <attr name="android:inputType"/>
+        <attr name="android:maxLength"/>
+        <attr name="android:maxLines"/>
     </declare-styleable>
 
     <attr name="maxHeight" format="dimension" />

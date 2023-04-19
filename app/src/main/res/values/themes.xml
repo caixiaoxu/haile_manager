@@ -116,7 +116,17 @@
         <item name="android:button">@null</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/common_bottom_sheet_item</item>
-        <item name="android:background">@drawable/common_bottom_sheet_item_bg</item>
+        <item name="android:background">@drawable/selector_common_bottom_sheet_item_bg</item>
+    </style>
+
+    <style name="MultiSelectBottomSheetStyle">
+        <item name="android:layout_width">68dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:button">@null</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/common_bottom_sheet_item</item>
+        <item name="android:background">@drawable/selector_multi_select_bottom_sheet_item_bg</item>
     </style>
 
     <style name="Font_10_f0a258">

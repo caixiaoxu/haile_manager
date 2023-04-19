@@ -109,6 +109,8 @@
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_business_phone"
                     style="@style/MultiTypeItemViewStyle"
+                    android:maxLength="11"
+                    android:inputType="phone"
                     app:itemContent="@={vm.shopDetails.serviceTelephone}"
                     app:title="@string/business_phone"
                     app:type="input" />

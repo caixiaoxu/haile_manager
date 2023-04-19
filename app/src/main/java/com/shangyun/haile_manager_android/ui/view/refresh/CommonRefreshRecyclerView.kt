@@ -81,6 +81,14 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
         mBinding.refreshLayout.autoRefresh()
     }
 
+    fun requestRefresh(){
+        mBinding.refreshLayout.autoRefresh()
+    }
+
+    fun requestLoadMore(){
+        mBinding.refreshLayout.autoLoadMore()
+    }
+
     /**
      * 刷新数据
      */

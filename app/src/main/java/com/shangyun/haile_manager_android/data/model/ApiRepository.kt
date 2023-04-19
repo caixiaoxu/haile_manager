@@ -38,7 +38,14 @@ object ApiRepository {
      * 生成请求body
      */
     fun createRequestBody(params: Map<String, Any>): RequestBody =
-        RequestBody.create(MediaType.parse("application/json"), GsonUtils.any2Json(params))
+        createRequestBody(GsonUtils.any2Json(params))
+
+
+    /**
+     * 生成请求body
+     */
+    fun createRequestBody(paramsJson: String): RequestBody =
+        RequestBody.create(MediaType.parse("application/json"), paramsJson)
 
     /**
      * 处理网络请求结果

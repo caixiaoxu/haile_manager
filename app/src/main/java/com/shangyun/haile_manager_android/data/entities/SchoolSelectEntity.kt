@@ -16,8 +16,8 @@ data class SchoolSelectEntity(
     val id: Int,
     val name: String,//名称
     val type: Int,//组织类型<1：学校>
-    val lng: Int,//经度
-    val lat: Int,//纬度
+    val lng: Double,//经度
+    val lat: Double,//纬度
     val provinceName: String,//省
     val cityName: String,//市
     val districtName: String,//区

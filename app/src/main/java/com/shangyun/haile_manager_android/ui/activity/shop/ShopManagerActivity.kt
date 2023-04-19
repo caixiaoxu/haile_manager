@@ -11,15 +11,19 @@ import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.amap.api.services.core.PoiItem
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.StringUtils
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.ShopManagerViewModel
+import com.shangyun.haile_manager_android.data.entities.SchoolSelectEntity
 import com.shangyun.haile_manager_android.data.entities.ShopEntity
 import com.shangyun.haile_manager_android.databinding.ActivityShopManagerBinding
 import com.shangyun.haile_manager_android.databinding.ItemShopListBinding
@@ -33,6 +37,14 @@ class ShopManagerActivity :
     private val mShopManagerViewModel by lazy {
         getActivityViewModelProvider(this)[ShopManagerViewModel::class.java]
     }
+
+    // 跳转
+    private val startNext =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK){
+                mBinding.rvShopList.requestRefresh()
+            }
+        }
 
     override fun layoutId(): Int = R.layout.activity_shop_manager
 
@@ -129,7 +141,7 @@ class ShopManagerActivity :
                     gravity = Gravity.CENTER
                     setBackgroundResource(R.drawable.shape_sf0a258_r22)
                     setOnClickListener {
-                        startActivity(
+                        startNext.launch(
                             Intent(
                                 this@ShopManagerActivity,
                                 ShopCreateActivity::class.java

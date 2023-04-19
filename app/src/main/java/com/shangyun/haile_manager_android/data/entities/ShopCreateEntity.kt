@@ -10,7 +10,7 @@ package com.shangyun.haile_manager_android.data.entities
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-data class ShopDetailsEntity(
+data class ShopCreateEntity(
     val id: Int? = null,
     var shopType: Int = -1,
     var name: String = "",
@@ -19,8 +19,8 @@ data class ShopDetailsEntity(
     var districtId: Int = -1,
     var area: String = "",
     var address: String = "",
-    var lng: Int = -1,
-    var lat: Int = -1,
+    var lng: Double? = null,
+    var lat: Double? = null,
     var schoolName: String = "",
     var workTime: String = "",
     var serviceTelephone: String = "",

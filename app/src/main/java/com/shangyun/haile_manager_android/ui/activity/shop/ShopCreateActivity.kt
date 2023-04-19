@@ -8,16 +8,17 @@ import com.amap.api.services.core.PoiItem
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.R
-import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel
 import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SCHOOL
 import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SEARCH_TYPE
 import com.shangyun.haile_manager_android.business.vm.ShopCreateViewModel
 import com.shangyun.haile_manager_android.data.entities.SchoolSelectEntity
+import com.shangyun.haile_manager_android.data.entities.ShopBusinessTypeEntity
 import com.shangyun.haile_manager_android.data.entities.ShopTypeEntity
 import com.shangyun.haile_manager_android.databinding.ActivityShopCreateBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.view.dialog.AreaSelectDialog
 import com.shangyun.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
+import com.shangyun.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
 import com.shangyun.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.shangyun.haile_manager_android.utils.DateTimeUtils
 import timber.log.Timber
@@ -50,10 +51,7 @@ class ShopCreateActivity :
                 LocationResultCode -> {
                     it.data?.getStringExtra(LocationResultData)?.let { json ->
                         GsonUtils.json2Class(json, PoiItem::class.java)?.let { poiItem ->
-                            mShopCreateViewModel.changeMansion(
-                                poiItem.title,
-                                poiItem.provinceName + poiItem.cityName + poiItem.adName + poiItem.snippet
-                            )
+                            mShopCreateViewModel.changeMansion(poiItem)
                         }
                     }
                 }
@@ -138,12 +136,40 @@ class ShopCreateActivity :
                         Timber.i("选择的日期${DateTimeUtils.formatDateTime("yyyy-MM", date1)}")
                         //更换时间
                         mShopCreateViewModel.changeWorkTime(
-                            "${DateTimeUtils.formatDateTime("HH:mm", date1)}-${DateTimeUtils.formatDateTime("HH:mm", date2)}"
+                            "${
+                                DateTimeUtils.formatDateTime(
+                                    "HH:mm",
+                                    date1
+                                )
+                            }-${DateTimeUtils.formatDateTime("HH:mm", date2)}"
                         )
                     }
                 }
             }.build()
             dailog.show(supportFragmentManager)
+        }
+
+        // 业务类型
+        mBinding.mtivShopCreateBusinessType.onSelectedEvent = {
+            mShopCreateViewModel.shopBusinessTypeList.value?.let { list ->
+                val select = mShopCreateViewModel.businessTypeValue.value?.split("、")
+                select?.let {
+                    list.forEach { type ->
+                        type.isCheck = select.contains(type.businessName)
+                    }
+                }
+
+                val multiDialog =
+                    MultiSelectBottomSheetDialog.Builder("选择业务类型", list).apply {
+                        onValueSureListener = object :
+                            MultiSelectBottomSheetDialog.OnValueSureListener<ShopBusinessTypeEntity> {
+                            override fun onValue(datas: List<ShopBusinessTypeEntity>) {
+                                mShopCreateViewModel.changeBusinessType(datas)
+                            }
+                        }
+                    }.build()
+                multiDialog.show(supportFragmentManager)
+            }
         }
     }
 
@@ -158,18 +184,16 @@ class ShopCreateActivity :
                         onValueSureListener =
                             object : CommonBottomSheetDialog.OnValueSureListener<ShopTypeEntity> {
                                 override fun onValue(data: ShopTypeEntity) {
-
-                                    if (data.type != mShopCreateViewModel.shopTypeValue.value?.type) {
-                                        mShopCreateViewModel.shopTypeValue.postValue(data)
-                                        mShopCreateViewModel.shopDetails.value?.let {
-                                            it.shopType = data.type
-                                        }
-                                        mShopCreateViewModel.changeSchool(null)
-                                    }
+                                    mShopCreateViewModel.changeShopType(data)
                                 }
                             }
                     }.build()
             }
+        }
+
+        mShopCreateViewModel.jump.observe(this) {
+            setResult(RESULT_OK)
+            finish()
         }
     }
 

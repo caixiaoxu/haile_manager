@@ -7,6 +7,7 @@ import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 /**
  * Title : 店铺接口
@@ -67,4 +68,9 @@ interface ShopService {
      */
     @POST("/shop/deleteShop")
     suspend fun deleteShop(@Body body: RequestBody): ResponseWrapper<Any>
+
+    @GET("/appoint/getSetting")
+    suspend fun getShopAppointmentSettingList(@Query("shopId") shopId: Int): ResponseWrapper<MutableList<AppointmentSettingEntity>>
+    @GET("/appoint/setting")
+    suspend fun setShopAppointment(@Body body: RequestBody): ResponseWrapper<Any>
 }

@@ -61,17 +61,28 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
 
         // 预约
         mBinding.btnShopDetailAppointment.setOnClickListener {
-            // TODO 编辑预约
+            startActivity(
+                Intent(
+                    this@ShopDetailActivity,
+                    ShopAppointmentSettingActivity::class.java
+                ).apply {
+                    putExtra(ShopAppointmentSettingActivity.ShopId, mShopDetailViewModel.shopId)
+                }
+            )
         }
 
         // 编辑
         mBinding.btnShopDetailEdit.setOnClickListener {
-            startActivity(Intent(this@ShopDetailActivity, ShopCreateAndUpdateActivity::class.java).apply {
-                putExtra(
-                    ShopCreateAndUpdateActivity.ShopDetail,
-                    GsonUtils.any2Json(mShopDetailViewModel.shopDetail.value!!)
-                )
-            })
+            startActivity(
+                Intent(
+                    this@ShopDetailActivity,
+                    ShopCreateAndUpdateActivity::class.java
+                ).apply {
+                    putExtra(
+                        ShopCreateAndUpdateActivity.ShopDetail,
+                        GsonUtils.any2Json(mShopDetailViewModel.shopDetail.value!!)
+                    )
+                })
         }
 
         // 删除
@@ -116,11 +127,11 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
         }
 
         // 修改成功后
-        LiveDataBus.with(BusEvents.SHOP_DETAILS_STATUS)?.observe(this){
+        LiveDataBus.with(BusEvents.SHOP_DETAILS_STATUS)?.observe(this) {
             mShopDetailViewModel.requestShopDetail()
         }
 
-        mShopDetailViewModel.jump.observe(this){
+        mShopDetailViewModel.jump.observe(this) {
             finish()
         }
 

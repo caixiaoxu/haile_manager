@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.shangyun.haile_manager_android.business.vm.AppointmentSettingViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context=".ui.activity.shop.ShopAppointmentSettingActivity">
+
+        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_shop_appointment_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/appointment_setting" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_shop_appointment_setting_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <include layout="@layout/include_dividing1" />
+
+        <com.shangyun.haile_manager_android.ui.view.CommonButton
+            style="@style/CommonMatchBtnStyle1"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="42dp"
+            android:enabled="@{null != vm.appointmentSettingList &amp;&amp; vm.appointmentSettingList.size() > 0}"
+            android:onClick="@{vm::save}"
+            android:text="@string/save" />
+    </LinearLayout>
+</layout>

@@ -14,4 +14,7 @@
 
     <dimen name="item_height">54dp</dimen>
 
+    <dimen name="switch_default_w">52dp</dimen>
+    <dimen name="switch_default_h">26dp</dimen>
+    <dimen name="switch_default_offset">2dp</dimen>
 </resources>

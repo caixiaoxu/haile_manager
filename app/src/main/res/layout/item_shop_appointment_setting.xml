@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.shangyun.haile_manager_android.data.entities.AppointmentSettingEntity" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_16_333333"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@{item.goodsCategoryName}"
+            tools:text="洗衣机预约" />
+
+        <Switch
+            android:id="@+id/switch__shop_appointment_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{1 == item.appointSwitch}"
+            android:thumb="@drawable/selector_default_switch_thumb"
+            android:track="@drawable/selector_default_switch_track" />
+
+    </LinearLayout>
+</layout>

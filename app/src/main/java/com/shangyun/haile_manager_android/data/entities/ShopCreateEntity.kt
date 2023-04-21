@@ -11,7 +11,7 @@ package com.shangyun.haile_manager_android.data.entities
  * 作者姓名 修改时间 版本号 描述
  */
 data class ShopCreateEntity(
-    val id: Int? = null,
+    var id: Int? = null,
     var shopType: Int = -1,
     var name: String = "",
     var provinceId: Int = -1,

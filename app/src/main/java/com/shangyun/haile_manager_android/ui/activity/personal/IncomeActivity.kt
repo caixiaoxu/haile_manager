@@ -13,8 +13,8 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
 
     override fun layoutId(): Int = R.layout.activity_income
 
-
     override fun getVM(): IncomeViewModel = mIncomeViewModel
+
     override fun initView() {
     }
 

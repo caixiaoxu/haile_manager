@@ -5,7 +5,7 @@
             <solid android:color="@color/white" />  <!-- 主体背景颜色 -->
         </shape>
     </item>
-    <item android:left="8dp" android:right="8dp"> <!-- 格子间的连接处颜色 -->
+    <item android:left="12dp" android:right="12dp"> <!-- 格子间的连接处颜色 -->
         <shape>
             <solid android:color="@color/dividing_line_color1" />
         </shape>

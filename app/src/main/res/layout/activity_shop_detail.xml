@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.shangyun.haile_manager_android.business.vm.ShopDetailViewModel" />
+
+        <variable
+            name="shared"
+            type="com.shangyun.haile_manager_android.business.vm.SharedViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.shop.ShopDetailActivity">
+
+        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_shop_detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/shop_detail" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toTopOf="@id/view_shop_detail_bottom"
+            app:layout_constraintTop_toBottomOf="@id/bar_shop_detail_title">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/bg_shop_detail_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="84dp"
+                    android:background="@color/white"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_shop_detail_main"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/icon_shop_detail_main"
+                    app:layout_constraintStart_toStartOf="@id/bg_shop_detail_title"
+                    app:layout_constraintTop_toTopOf="@id/bg_shop_detail_title" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_title"
+                    style="@style/Font_16_333333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="@{vm.shopDetail.name}"
+                    app:layout_constraintBottom_toTopOf="@id/tv_shop_detail_type"
+                    app:layout_constraintStart_toEndOf="@id/iv_shop_detail_main"
+                    app:layout_constraintTop_toTopOf="@id/iv_shop_detail_main"
+                    app:layout_constraintVertical_chainStyle="spread_inside"
+                    tools:text="1号店铺" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_type"
+                    style="@style/Font_10_f0a258"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_strokef0a258_solid26f0a258_r4"
+                    android:paddingHorizontal="4dp"
+                    android:paddingVertical="2dp"
+                    android:text="@{vm.shopDetail.shopTypeName}"
+                    android:visibility="@{0 == vm.shopDetail.shopType?View.GONE:View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_shop_detail_main"
+                    app:layout_constraintStart_toEndOf="@id/tv_shop_detail_title"
+                    app:layout_constraintStart_toStartOf="@id/tv_shop_detail_title"
+                    tools:text="学校" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_base_info"
+                    style="@style/ShopDetailTitleItemStyle"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/shop_base_info"
+                    app:layout_constraintTop_toBottomOf="@id/bg_shop_detail_title" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_school"
+                    style="@style/ShopDetailItemContentStyle"
+                    android:layout_width="match_parent"
+                    android:text="@{vm.shopDetail.schoolName}"
+                    android:visibility="@{-1 == vm.shopDetail.schoolId?View.GONE:View.VISIBLE}"
+                    app:layout_constraintTop_toBottomOf="@id/tv_shop_detail_base_info"
+                    tools:text="浙江大学" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_school_title"
+                    style="@style/ShopDetailItemStyle"
+                    android:layout_width="match_parent"
+                    android:text="@string/school_name"
+                    app:layout_constraintTop_toTopOf="@id/tv_shop_detail_school" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_location"
+                    style="@style/ShopDetailItemContentStyle"
+                    android:layout_width="match_parent"
+                    android:text='@{vm.shopDetail.provinceName + " " + vm.shopDetail.cityName + " " + vm.shopDetail.districtName}'
+                    android:visibility="@{0 == vm.shopDetail.provinceId || 0 == vm.shopDetail.cityId || 0 == vm.shopDetail.districtId ?View.GONE:View.VISIBLE}"
+                    app:layout_constraintTop_toBottomOf="@id/tv_shop_detail_school"
+                    tools:text="浙江省杭州市西湖区" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_location_title"
+                    style="@style/ShopDetailItemStyle"
+                    android:layout_width="match_parent"
+                    android:text="@string/area"
+                    app:layout_constraintTop_toTopOf="@id/tv_shop_detail_location" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_address_location"
+                    style="@style/ShopDetailItemContentStyle"
+                    android:layout_width="match_parent"
+                    android:text="@{vm.shopDetail.getRealAddress()}"
+                    android:visibility="@{0 == vm.shopDetail.getRealAddress().length()?View.GONE:View.VISIBLE}"
+                    app:layout_constraintTop_toBottomOf="@id/tv_shop_detail_location"
+                    tools:text="余杭塘路866号" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_address_title"
+                    style="@style/ShopDetailItemStyle"
+                    android:layout_width="match_parent"
+                    android:text="@string/location_detail"
+                    app:layout_constraintTop_toTopOf="@id/tv_shop_detail_address_location" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_work_time_location"
+                    style="@style/ShopDetailItemContentStyle"
+                    android:layout_width="match_parent"
+                    android:text="@{vm.shopDetail.workTime}"
+                    android:visibility="@{0 == vm.shopDetail.workTime.length()?View.GONE:View.VISIBLE}"
+                    app:layout_constraintTop_toBottomOf="@id/tv_shop_detail_address_location"
+                    tools:text="——" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_work_time_title"
+                    style="@style/ShopDetailItemStyle"
+                    android:layout_width="match_parent"
+                    android:text="@string/business_hours"
+                    app:layout_constraintTop_toTopOf="@id/tv_shop_detail_work_time_location" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_creator_location"
+                    style="@style/ShopDetailItemContentStyle"
+                    android:layout_width="match_parent"
+                    android:text="@{vm.shopDetail.createName}"
+                    android:visibility="@{0 == vm.shopDetail.createName.length()?View.GONE:View.VISIBLE}"
+                    app:layout_constraintTop_toBottomOf="@id/tv_shop_detail_work_time_location"
+                    tools:text="张三" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_creator_title"
+                    style="@style/ShopDetailItemStyle"
+                    android:layout_width="match_parent"
+                    android:text="@string/creator"
+                    app:layout_constraintTop_toTopOf="@id/tv_shop_detail_creator_location" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_create_time_location"
+                    style="@style/ShopDetailItemContentStyle"
+                    android:layout_width="match_parent"
+                    android:text="@{vm.shopDetail.createTime}"
+                    android:visibility="@{0 == vm.shopDetail.createTime.length()?View.GONE:View.VISIBLE}"
+                    app:layout_constraintTop_toBottomOf="@id/tv_shop_detail_creator_location"
+                    tools:text="2023/04/01/ 15:30:23" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_create_time_title"
+                    style="@style/ShopDetailItemStyle"
+                    android:layout_width="match_parent"
+                    android:text="@string/create_time"
+                    app:layout_constraintTop_toTopOf="@id/tv_shop_detail_create_time_location" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_appointment_info_title"
+                    style="@style/ShopDetailTitleItemStyle"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:drawableEnd="@mipmap/icon_arrow_down_with_padding"
+                    android:text="@string/appointment_status"
+                    android:visibility="@{null == vm.shopDetail.appointSettingList?View.GONE:View.VISIBLE}"
+                    app:layout_constraintTop_toBottomOf="@id/tv_shop_detail_create_time_location" />
+
+                <View
+                    android:id="@+id/bg_shop_detail_appointment_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/white"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/ll_shop_detail_appointment_info"
+                    app:layout_constraintTop_toBottomOf="@id/tv_shop_detail_appointment_info_title" />
+
+                <com.shangyun.haile_manager_android.ui.view.CustomChildListLinearLayout
+                    android:id="@+id/ll_shop_detail_appointment_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:background="@drawable/shape_sf7f7f7_r8"
+                    android:orientation="vertical"
+                    app:itemLayout="@layout/item_shop_detail_appointment"
+                    app:layout_constraintBottom_toBottomOf="@id/bg_shop_detail_appointment_info"
+                    app:layout_constraintTop_toTopOf="@id/bg_shop_detail_appointment_info" />
+
+                <View
+                    android:id="@+id/bg_shop_detail_server_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white"
+                    app:layout_constraintTop_toBottomOf="@id/bg_shop_detail_appointment_info" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_service_phone"
+                    style="@style/ShopDetailTitleItemStyle"
+                    android:layout_width="wrap_content"
+                    android:text='@{@string/business_phone+"："+vm.shopDetail.serviceTelephone}'
+                    app:layout_constraintBottom_toBottomOf="@id/bg_shop_detail_server_phone"
+                    app:layout_constraintEnd_toStartOf="@id/tv_shop_detail_service_phone_copy"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/bg_shop_detail_server_phone"
+                    tools:Text="客服电话：18888888888" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_service_phone_copy"
+                    style="@style/ShopDetailTitleItemStyle"
+                    android:layout_width="wrap_content"
+                    android:text="@string/copy_phone"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="@id/bg_shop_detail_server_phone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_shop_detail_service_phone"
+                    app:layout_constraintTop_toTopOf="@id/bg_shop_detail_server_phone"
+                    tools:Text="客服电话：18888888888" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="17dp"
+                    android:background="@color/dividing_line_color"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_shop_detail_service_phone_copy"
+                    app:layout_constraintStart_toStartOf="@id/tv_shop_detail_service_phone_copy"
+                    app:layout_constraintTop_toTopOf="@id/tv_shop_detail_service_phone_copy" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <View
+            android:id="@+id/view_shop_detail_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="92dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_shop_detail_bottom_btns_top"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="80dp"
+            app:layout_constraintTop_toTopOf="@id/view_shop_detail_bottom" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_shop_detail_delete"
+            style="@style/CommonStrokeBtnStyle"
+            android:layout_marginEnd="16dp"
+            android:text="@string/delete"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/gl_shop_detail_bottom_btns_top" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_shop_detail_edit"
+            style="@style/CommonStrokeBtnStyle"
+            android:layout_marginEnd="8dp"
+            android:text="@string/edit"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/btn_shop_detail_delete"
+            app:layout_constraintTop_toTopOf="@id/gl_shop_detail_bottom_btns_top" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_shop_detail_appointment"
+            style="@style/CommonStrokeBtnStyle"
+            android:layout_marginEnd="8dp"
+            android:visibility="gone"
+            android:text="@string/appointment_setting"
+            app:layout_constraintEnd_toStartOf="@id/btn_shop_detail_edit"
+            app:layout_constraintTop_toTopOf="@id/gl_shop_detail_bottom_btns_top" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

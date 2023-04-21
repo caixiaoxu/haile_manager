@@ -10,11 +10,11 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SCHOOL
 import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SEARCH_TYPE
-import com.shangyun.haile_manager_android.business.vm.ShopCreateViewModel
+import com.shangyun.haile_manager_android.business.vm.ShopCreateAndUpdateViewModel
 import com.shangyun.haile_manager_android.data.entities.SchoolSelectEntity
 import com.shangyun.haile_manager_android.data.entities.ShopBusinessTypeEntity
 import com.shangyun.haile_manager_android.data.entities.ShopTypeEntity
-import com.shangyun.haile_manager_android.databinding.ActivityShopCreateBinding
+import com.shangyun.haile_manager_android.databinding.ActivityShopCreateAndUpdateBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.view.dialog.AreaSelectDialog
 import com.shangyun.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
@@ -24,14 +24,16 @@ import com.shangyun.haile_manager_android.utils.DateTimeUtils
 import timber.log.Timber
 import java.util.*
 
-class ShopCreateActivity :
-    BaseBusinessActivity<ActivityShopCreateBinding, ShopCreateViewModel>() {
+class ShopCreateAndUpdateActivity :
+    BaseBusinessActivity<ActivityShopCreateAndUpdateBinding, ShopCreateAndUpdateViewModel>() {
 
     companion object {
         const val SchoolResultCode = 10001
         const val SchoolResultData = "SchoolResultData"
         const val LocationResultCode = 10002
         const val LocationResultData = "LocationResultData"
+
+        const val ShopDetail = "ShopDetail"
     }
 
     // 店铺类型
@@ -44,14 +46,19 @@ class ShopCreateActivity :
                 SchoolResultCode -> {
                     it.data?.getStringExtra(SchoolResultData)?.let { json ->
                         GsonUtils.json2Class(json, SchoolSelectEntity::class.java)?.let { school ->
-                            mShopCreateViewModel.changeSchool(school)
+                            mShopCreateAndUpdateViewModel.changeSchool(school)
                         }
                     }
                 }
                 LocationResultCode -> {
                     it.data?.getStringExtra(LocationResultData)?.let { json ->
                         GsonUtils.json2Class(json, PoiItem::class.java)?.let { poiItem ->
-                            mShopCreateViewModel.changeMansion(poiItem)
+                            mShopCreateAndUpdateViewModel.changeMansion(
+                                poiItem.title,
+                                poiItem.latLonPoint.latitude,
+                                poiItem.latLonPoint.longitude,
+                                poiItem.provinceName + poiItem.cityName + poiItem.adName + poiItem.snippet
+                            )
                         }
                     }
                 }
@@ -62,7 +69,7 @@ class ShopCreateActivity :
     private val mAreaDialog: AreaSelectDialog by lazy {
         AreaSelectDialog.Builder().apply {
             onAreaSelect = { province, city, distract ->
-                mShopCreateViewModel.changeArea(
+                mShopCreateAndUpdateViewModel.changeArea(
                     province.areaId,
                     province.areaName,
                     city.areaId,
@@ -74,15 +81,20 @@ class ShopCreateActivity :
         }.build()
     }
 
-    private val mShopCreateViewModel by lazy {
-        getActivityViewModelProvider(this)[ShopCreateViewModel::class.java]
+    private val mShopCreateAndUpdateViewModel by lazy {
+        getActivityViewModelProvider(this)[ShopCreateAndUpdateViewModel::class.java]
     }
 
-    override fun layoutId(): Int = R.layout.activity_shop_create
+    override fun layoutId(): Int = R.layout.activity_shop_create_and_update
 
-    override fun getVM(): ShopCreateViewModel = mShopCreateViewModel
+    override fun getVM(): ShopCreateAndUpdateViewModel = mShopCreateAndUpdateViewModel
 
     override fun backBtn(): View = mBinding.shopTitleBar.getBackBtn()
+
+    override fun initIntent() {
+        super.initIntent()
+        mShopCreateAndUpdateViewModel.updateShopDetail(intent.getStringExtra(ShopDetail))
+    }
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
@@ -95,7 +107,7 @@ class ShopCreateActivity :
         mBinding.mtivShopCreateSchoolName.onSelectedEvent = {
             startSearchSelect.launch(
                 Intent(
-                    this@ShopCreateActivity,
+                    this@ShopCreateAndUpdateActivity,
                     SearchSelectActivity::class.java
                 ).apply {
                     putExtra(SEARCH_TYPE, SCHOOL)
@@ -107,19 +119,19 @@ class ShopCreateActivity :
         }
         // 小区/大厦
         mBinding.mtivShopCreateMansion.onSelectedEvent = {
-            if (null == mShopCreateViewModel.shopDetails.value?.cityId
-                || -1 == mShopCreateViewModel.shopDetails.value?.cityId
+            if (null == mShopCreateAndUpdateViewModel.createAndUpdateEntity.value?.cityId
+                || -1 == mShopCreateAndUpdateViewModel.createAndUpdateEntity.value?.cityId
             ) {
-                SToast.showToast(this@ShopCreateActivity, "请先选择所在区域")
+                SToast.showToast(this@ShopCreateAndUpdateActivity, "请先选择所在区域")
             } else {
                 startSearchSelect.launch(
                     Intent(
-                        this@ShopCreateActivity,
+                        this@ShopCreateAndUpdateActivity,
                         LocationSelectActivity::class.java
                     ).apply {
                         putExtra(
                             LocationSelectActivity.CityCode,
-                            mShopCreateViewModel.shopDetails.value?.cityId?.toString()
+                            mShopCreateAndUpdateViewModel.createAndUpdateEntity.value?.cityId?.toString()
                         )
                     }
                 )
@@ -135,7 +147,7 @@ class ShopCreateActivity :
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
                         Timber.i("选择的日期${DateTimeUtils.formatDateTime("yyyy-MM", date1)}")
                         //更换时间
-                        mShopCreateViewModel.changeWorkTime(
+                        mShopCreateAndUpdateViewModel.changeWorkTime(
                             "${
                                 DateTimeUtils.formatDateTime(
                                     "HH:mm",
@@ -151,8 +163,8 @@ class ShopCreateActivity :
 
         // 业务类型
         mBinding.mtivShopCreateBusinessType.onSelectedEvent = {
-            mShopCreateViewModel.shopBusinessTypeList.value?.let { list ->
-                val select = mShopCreateViewModel.businessTypeValue.value?.split("、")
+            mShopCreateAndUpdateViewModel.shopBusinessTypeList.value?.let { list ->
+                val select = mShopCreateAndUpdateViewModel.businessTypeValue.value?.split("、")
                 select?.let {
                     list.forEach { type ->
                         type.isCheck = select.contains(type.businessName)
@@ -164,7 +176,7 @@ class ShopCreateActivity :
                         onValueSureListener = object :
                             MultiSelectBottomSheetDialog.OnValueSureListener<ShopBusinessTypeEntity> {
                             override fun onValue(datas: List<ShopBusinessTypeEntity>) {
-                                mShopCreateViewModel.changeBusinessType(datas)
+                                mShopCreateAndUpdateViewModel.changeBusinessType(datas)
                             }
                         }
                     }.build()
@@ -177,29 +189,29 @@ class ShopCreateActivity :
         super.initEvent()
 
         // 初始化门店类型弹窗
-        mShopCreateViewModel.shopTypeList.observe(this) { list ->
+        mShopCreateAndUpdateViewModel.shopTypeList.observe(this) { list ->
             if (null == mShopTypeDialog) {
                 mShopTypeDialog =
                     CommonBottomSheetDialog.Builder("门店类型", list).apply {
                         onValueSureListener =
                             object : CommonBottomSheetDialog.OnValueSureListener<ShopTypeEntity> {
                                 override fun onValue(data: ShopTypeEntity) {
-                                    mShopCreateViewModel.changeShopType(data)
+                                    mShopCreateAndUpdateViewModel.changeShopType(data)
                                 }
                             }
                     }.build()
             }
         }
 
-        mShopCreateViewModel.jump.observe(this) {
+        mShopCreateAndUpdateViewModel.jump.observe(this) {
             setResult(RESULT_OK)
             finish()
         }
     }
 
     override fun initData() {
-        mBinding.vm = mShopCreateViewModel
+        mBinding.vm = mShopCreateAndUpdateViewModel
 
-        mShopCreateViewModel.requestData()
+        mShopCreateAndUpdateViewModel.requestData()
     }
 }

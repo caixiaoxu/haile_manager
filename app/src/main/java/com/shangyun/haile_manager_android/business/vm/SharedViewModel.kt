@@ -33,15 +33,34 @@ class SharedViewModel : ViewModel() {
     val userInfo: MutableLiveData<UserInfoEntity?> = MutableLiveData(SPRepository.userInfo)
     val hasUserPermission: MutableLiveData<Boolean> = MutableLiveData(false)
 
+    /** -----------LiveData.map 存在一个问题，不调用observable，不会初化始----------- **/
     /** ---------------------用户权限------------------------- **/
+
     val hasProfitPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasProfitPermission() }
     val hasMessagePermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasMessagePermission() }
     val hasDevicePermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasDevicePermission() }
+
+    /** ---------------------店铺权限------------------------- **/
     val hasShopPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasShopPermission() }
+    val hasShopListPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasShopListPermission() }
+    val hasShopInfoPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasShopInfoPermission() }
+    val hasShopProfitPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasShopProfitPermission() }
+    val hasShopAddPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasShopAddPermission() }
+    val hasShopDeletePermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasShopDeletePermission() }
+    val hasShopUpdatePermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasShopUpdatePermission() }
+    val hasShopAppointPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasShopAppointPermission() }
+
     val hasOrderPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasOrderPermission() }
     val hasPersonPermission: LiveData<Boolean> =
@@ -51,6 +70,7 @@ class SharedViewModel : ViewModel() {
     val hasDistributionPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasDistributionPermission() }
 
+    /** ---------------------用户权限------------------------- **/
 
     /**
      * 密码登录

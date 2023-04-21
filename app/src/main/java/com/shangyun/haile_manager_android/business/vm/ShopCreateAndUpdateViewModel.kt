@@ -2,15 +2,13 @@ package com.shangyun.haile_manager_android.business.vm
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
-import com.amap.api.services.core.PoiItem
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.business.apiService.ShopService
-import com.shangyun.haile_manager_android.data.entities.SchoolSelectEntity
-import com.shangyun.haile_manager_android.data.entities.ShopBusinessTypeEntity
-import com.shangyun.haile_manager_android.data.entities.ShopCreateEntity
-import com.shangyun.haile_manager_android.data.entities.ShopTypeEntity
+import com.shangyun.haile_manager_android.business.event.BusEvents
+import com.shangyun.haile_manager_android.data.entities.*
 import com.shangyun.haile_manager_android.data.model.ApiRepository
 import com.shangyun.haile_manager_android.utils.StringUtils
 import timber.log.Timber
@@ -25,11 +23,12 @@ import timber.log.Timber
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class ShopCreateViewModel : BaseViewModel() {
+class ShopCreateAndUpdateViewModel : BaseViewModel() {
     private val mRepo = ApiRepository.apiClient(ShopService::class.java)
 
     // 店铺数据
-    val shopDetails: MutableLiveData<ShopCreateEntity> = MutableLiveData(ShopCreateEntity())
+    val createAndUpdateEntity: MutableLiveData<ShopCreateEntity> =
+        MutableLiveData(ShopCreateEntity())
 
     // 门店类型列表
     val shopTypeList: MutableLiveData<List<ShopTypeEntity>> = MutableLiveData()
@@ -80,9 +79,9 @@ class ShopCreateViewModel : BaseViewModel() {
      * 切换店铺类型
      */
     fun changeShopType(data: ShopTypeEntity) {
-        if (data.type != shopTypeValue.value?.type) {
+        if (-1 != data.type && data.type != shopTypeValue.value?.type) {
             shopTypeValue.postValue(data)
-            shopDetails.value?.let {
+            createAndUpdateEntity.value?.let {
                 it.shopType = data.type
             }
             changeSchool(null)
@@ -94,12 +93,12 @@ class ShopCreateViewModel : BaseViewModel() {
      */
     fun changeSchool(school: SchoolSelectEntity?) {
         // 学校id
-        shopDetails.value?.schoolId = school?.id ?: -1
+        createAndUpdateEntity.value?.schoolId = school?.id ?: -1
         // 学校名
-        shopDetails.value?.schoolName = school?.name ?: ""
+        createAndUpdateEntity.value?.schoolName = school?.name ?: ""
         schoolNameValue.value = school?.name ?: ""
-        shopDetails.value?.lat = school?.lat
-        shopDetails.value?.lng = school?.lng
+        createAndUpdateEntity.value?.lat = school?.lat
+        createAndUpdateEntity.value?.lng = school?.lng
         // 省市区
         changeArea(
             school?.provinceId ?: -1,
@@ -123,9 +122,9 @@ class ShopCreateViewModel : BaseViewModel() {
         districtId: Int,
         districtName: String?
     ) {
-        shopDetails.value?.provinceId = provinceId
-        shopDetails.value?.cityId = cityId
-        shopDetails.value?.districtId = districtId
+        createAndUpdateEntity.value?.provinceId = provinceId
+        createAndUpdateEntity.value?.cityId = cityId
+        createAndUpdateEntity.value?.districtId = districtId
         areaValue.value = StringUtils.formatArea(
             provinceName,
             cityName,
@@ -136,12 +135,12 @@ class ShopCreateViewModel : BaseViewModel() {
     /**
      * 切换小区
      */
-    fun changeMansion(poiItem: PoiItem) {
-        shopDetails.value?.area = poiItem.title
-        shopDetails.value?.lat = poiItem.latLonPoint.latitude
-        shopDetails.value?.lng = poiItem.latLonPoint.longitude
-        mansionValue.value = poiItem.title
-        changeAddress(poiItem.provinceName + poiItem.cityName + poiItem.adName + poiItem.snippet)
+    fun changeMansion(title: String, latitude: Double, longitude: Double, address: String) {
+        createAndUpdateEntity.value?.area = title
+        createAndUpdateEntity.value?.lat = latitude
+        createAndUpdateEntity.value?.lng = longitude
+        mansionValue.value = title
+        changeAddress(address)
     }
 
     /**
@@ -149,7 +148,7 @@ class ShopCreateViewModel : BaseViewModel() {
      */
     private fun changeAddress(address: String?) {
         // 详细地址
-        shopDetails.value?.address = address ?: ""
+        createAndUpdateEntity.value?.address = address ?: ""
         addressValue.value = address ?: ""
     }
 
@@ -157,7 +156,7 @@ class ShopCreateViewModel : BaseViewModel() {
      * 切换营业时间
      */
     fun changeWorkTime(time: String) {
-        shopDetails.value?.workTime = time
+        createAndUpdateEntity.value?.workTime = time
         workTimeValue.value = time
     }
 
@@ -178,11 +177,11 @@ class ShopCreateViewModel : BaseViewModel() {
             sbId.deleteCharAt(sbId.length - 1)
         }
         businessTypeValue.postValue(sb.toString())
-        shopDetails.value?.shopBusiness = sbId.toString()
+        createAndUpdateEntity.value?.shopBusiness = sbId.toString()
     }
 
     fun submit(view: View) {
-        shopDetails.value?.let { params ->
+        createAndUpdateEntity.value?.let { params ->
             if (params.name.isEmpty()) {
                 SToast.showToast(msg = "请输入门店名称")
                 return
@@ -235,11 +234,19 @@ class ShopCreateViewModel : BaseViewModel() {
 
             launch({
                 ApiRepository.dealApiResult(
-                    mRepo.createShop(
-                        ApiRepository.createRequestBody(GsonUtils.any2Json(params))
-                    )
+                    if (null == params.id) {
+                        mRepo.createShop(
+                            ApiRepository.createRequestBody(GsonUtils.any2Json(params))
+                        )
+                    } else {
+                        mRepo.updateShop(
+                            ApiRepository.createRequestBody(GsonUtils.any2Json(params))
+                        )
+                    }
                 )
                 jump.postValue(0)
+                LiveDataBus.post(BusEvents.SHOP_LIST_STATUS, true)
+                LiveDataBus.post(BusEvents.SHOP_DETAILS_STATUS, true)
             }, {
                 it.message?.let { it1 -> SToast.showToast(msg = it1) }
                 Timber.d("请求失败或异常$it")
@@ -247,5 +254,67 @@ class ShopCreateViewModel : BaseViewModel() {
                 Timber.d("请求结束")
             })
         } ?: SToast.showToast(msg = "数据丢失了，请重新输入")
+    }
+
+    /**
+     * 把店铺详情的数据赋值到编辑参数中
+     */
+    fun updateShopDetail(json: String?) {
+        val shopDetailEntity = GsonUtils.json2Class(json, ShopDetailEntity::class.java)
+        shopDetailEntity?.let {
+            createAndUpdateEntity.value =
+                    // id、店铺名、详细地址
+                ShopCreateEntity(
+                    shopDetailEntity.id,
+                    name = shopDetailEntity.name,
+                    address = if (1 == shopDetailEntity.shopType) shopDetailEntity.area else shopDetailEntity.address,
+                    serviceTelephone = shopDetailEntity.serviceTelephone
+                )
+
+
+            // 店铺类型
+            changeShopType(ShopTypeEntity(shopDetailEntity.shopType, shopDetailEntity.shopTypeName))
+
+            if (1 == shopDetailEntity.shopType) {
+                changeSchool(
+                    SchoolSelectEntity(
+                        shopDetailEntity.schoolId,
+                        shopDetailEntity.schoolName,
+                        shopDetailEntity.shopType,
+                        shopDetailEntity.lng,
+                        shopDetailEntity.lat,
+                        shopDetailEntity.provinceName,
+                        shopDetailEntity.cityName,
+                        shopDetailEntity.districtName,
+                        shopDetailEntity.provinceId,
+                        shopDetailEntity.cityId,
+                        shopDetailEntity.districtId,
+                        shopDetailEntity.area,
+                    )
+                )
+            } else {
+                //省市区
+                changeArea(
+                    shopDetailEntity.provinceId,
+                    shopDetailEntity.provinceName,
+                    shopDetailEntity.cityId,
+                    shopDetailEntity.cityName,
+                    shopDetailEntity.districtId,
+                    shopDetailEntity.districtName,
+                )
+                //小区、经纬度、详细地址
+                changeMansion(
+                    shopDetailEntity.area,
+                    shopDetailEntity.lat,
+                    shopDetailEntity.lng,
+                    shopDetailEntity.address
+                )
+
+                // 营业时间
+                changeWorkTime(shopDetailEntity.workTime)
+                // 业务类型
+                changeBusinessType(shopDetailEntity.businessName)
+            }
+        }
     }
 }

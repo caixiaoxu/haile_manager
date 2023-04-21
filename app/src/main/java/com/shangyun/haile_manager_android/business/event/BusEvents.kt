@@ -13,5 +13,7 @@ package com.shangyun.haile_manager_android.business.event
 object BusEvents {
 
     const val LOGIN_STATUS = "login_status"
+    const val SHOP_LIST_STATUS = "shop_list_change"
+    const val SHOP_DETAILS_STATUS = "shop_detail_change"
 
 }

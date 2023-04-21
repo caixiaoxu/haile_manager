@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.ShopCreateViewModel" />
+            type="com.shangyun.haile_manager_android.business.vm.ShopCreateAndUpdateViewModel" />
     </data>
 
     <LinearLayout
@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
-        tools:context=".ui.activity.shop.ShopCreateActivity">
+        tools:context=".ui.activity.shop.ShopCreateAndUpdateActivity">
 
         <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/shop_title_bar"
@@ -50,7 +50,7 @@
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_name"
                     style="@style/MultiTypeItemViewStyle"
-                    app:itemContent="@={vm.shopDetails.name}"
+                    app:itemContent="@={vm.createAndUpdateEntity.name}"
                     app:title="@string/shop_name"
                     app:type="input" />
 
@@ -95,7 +95,7 @@
                     android:id="@+id/mtiv_shop_create_location_floor"
                     style="@style/MultiTypeItemViewStyle"
                     android:visibility="@{1 == vm.shopTypeValue.type?View.VISIBLE:View.GONE}"
-                    app:itemContent="@={vm.shopDetails.area}"
+                    app:itemContent="@={vm.createAndUpdateEntity.area}"
                     app:title="@string/location_floor"
                     app:type="input" />
 
@@ -111,7 +111,7 @@
                     style="@style/MultiTypeItemViewStyle"
                     android:maxLength="11"
                     android:inputType="phone"
-                    app:itemContent="@={vm.shopDetails.serviceTelephone}"
+                    app:itemContent="@={vm.createAndUpdateEntity.serviceTelephone}"
                     app:title="@string/business_phone"
                     app:type="input" />
 

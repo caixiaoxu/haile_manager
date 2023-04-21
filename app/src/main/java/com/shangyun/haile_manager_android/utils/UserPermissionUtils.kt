@@ -1,5 +1,6 @@
 package com.shangyun.haile_manager_android.utils
 
+import android.content.Context
 import com.shangyun.haile_manager_android.data.entities.UserPermissionEntity
 import com.shangyun.haile_manager_android.data.model.SPRepository
 
@@ -246,7 +247,6 @@ object UserPermissionUtils {
      */
     @JvmStatic
     fun hasShopAddPermission(): Boolean {
-
         return null != userPermissionsMap["league:shop:add"]
     }
 
@@ -270,8 +270,16 @@ object UserPermissionUtils {
      */
     @JvmStatic
     fun hasShopDeletePermission(): Boolean {
-
         return null != userPermissionsMap["league:shop:delete"]
+    }
+
+    /**
+     * 是否含有门店预约权限
+     *
+     * @return
+     */
+    fun hasShopAppointPermission(): Boolean {
+        return null != userPermissionsMap["league:shop:appointment"]
     }
 
     /**
@@ -282,7 +290,6 @@ object UserPermissionUtils {
      */
     @JvmStatic
     fun hasShopProfitPermission(): Boolean {
-
         return null != userPermissionsMap["league:shop:profit"]
     }
 

@@ -25,9 +25,9 @@ data class SchoolSelectEntity(
     val cityId: Int,//市id
     val districtId: Int,//区id
     val address: String,//详细地址
-    val subType: String,//学校类弄
-    val attribute: Int,//学校属性
-    val createTime: String//创建时间
+    var subType: String = "",//学校类弄
+    var attribute: Int = -1,//学校属性
+    var createTime: String = ""//创建时间
 ) : SearchSelectEntity {
     override fun getTitle(): String = name
 

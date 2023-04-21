@@ -11,19 +11,17 @@ import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.amap.api.services.core.PoiItem
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.StringUtils
-import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
+import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.business.vm.ShopManagerViewModel
-import com.shangyun.haile_manager_android.data.entities.SchoolSelectEntity
 import com.shangyun.haile_manager_android.data.entities.ShopEntity
 import com.shangyun.haile_manager_android.databinding.ActivityShopManagerBinding
 import com.shangyun.haile_manager_android.databinding.ItemShopListBinding
@@ -38,13 +36,6 @@ class ShopManagerActivity :
         getActivityViewModelProvider(this)[ShopManagerViewModel::class.java]
     }
 
-    // 跳转
-    private val startNext =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == RESULT_OK){
-                mBinding.rvShopList.requestRefresh()
-            }
-        }
 
     override fun layoutId(): Int = R.layout.activity_shop_manager
 
@@ -52,9 +43,45 @@ class ShopManagerActivity :
 
     override fun backBtn(): View = mBinding.shopTitleBar.getBackBtn()
 
+    /**
+     * 设置标题右侧按钮
+     */
+    private fun initRightBtn() {
+        mBinding.shopTitleBar.getRightArea()
+            .addView(
+                Button(this).apply {
+                    setText(R.string.add_shop)
+                    setTextColor(Color.WHITE)
+                    textSize = 14f
+                    setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        R.mipmap.icon_add, 0, 0, 0
+                    )
+                    compoundDrawablePadding = DimensionUtils.dip2px(this@ShopManagerActivity, 4f)
+                    val pH = DimensionUtils.dip2px(this@ShopManagerActivity, 12f)
+                    val pV = DimensionUtils.dip2px(this@ShopManagerActivity, 4f)
+                    setPadding(pH, pV, pH, pV)
+                    gravity = Gravity.CENTER
+                    setBackgroundResource(R.drawable.shape_sf0a258_r22)
+                    setOnClickListener {
+                        startActivity(
+                            Intent(
+                                this@ShopManagerActivity,
+                                ShopCreateAndUpdateActivity::class.java
+                            )
+                        )
+                    }
+                },
+                LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    DimensionUtils.dip2px(this@ShopManagerActivity, 28f)
+                ).apply {
+                    setMargins(0, 0, DimensionUtils.dip2px(this@ShopManagerActivity, 16f), 0)
+                }
+            )
+    }
+
     override fun initView() {
         window.statusBarColor = Color.WHITE
-        initRightBtn()
 
         mBinding.rvShopList.layoutManager = LinearLayoutManager(this)
         mBinding.rvShopList.addItemDecoration(
@@ -77,7 +104,6 @@ class ShopManagerActivity :
                 NumberUtils.keepTwoDecimals(item.income) + StringUtils.getString(R.string.unit_yuan)
             var start = title.length + 1
             var end = title.length + 1 + value.length
-
             // 格式化总收益样式
             mBinding?.tvItemShopTotalIncome?.text =
                 com.shangyun.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
@@ -95,6 +121,12 @@ class ShopManagerActivity :
                         TypefaceSpan("money")
                     ), start, end
                 )
+            mBinding?.tvItemShopTotalIncome?.setOnClickListener {
+                if (true == mSharedViewModel.hasShopProfitPermission.value) {
+                    // TODO 跳转到店铺收益
+                }
+            }
+
             title = StringUtils.getString(R.string.device_num)
             value = item.deviceNum.toString() + StringUtils.getString(R.string.unit_tai)
             start = title.length + 1
@@ -108,6 +140,18 @@ class ShopManagerActivity :
                         StyleSpan(Typeface.BOLD),
                     ), start, end
                 )
+
+            // 进入详情
+            mBinding?.root?.setOnClickListener {
+                if (true == mSharedViewModel.hasShopInfoPermission.value) {
+                    startActivity(Intent(
+                        this@ShopManagerActivity,
+                        ShopDetailActivity::class.java
+                    ).apply {
+                        putExtra(ShopDetailActivity.ShopId, item.id)
+                    })
+                }
+            }
         }
         mBinding.rvShopList.requestData =
             object : CommonRefreshRecyclerView.OnRequestDataListener<ShopEntity>() {
@@ -116,46 +160,28 @@ class ShopManagerActivity :
                     pageSize: Int,
                     callBack: (responseList: ResponseList<ShopEntity>) -> Unit
                 ) {
-                    mShopManagerViewModel.requestShopList(page, pageSize, callBack)
+                    if (true == mSharedViewModel.hasShopListPermission.value) {
+                        mShopManagerViewModel.requestShopList(page, pageSize, callBack)
+                    }
                 }
             }
     }
 
-    /**
-     * 设置标题右侧按钮
-     */
-    private fun initRightBtn() {
-        mBinding.shopTitleBar.getRightArea()
-            .addView(
-                Button(this).apply {
-                    setText(R.string.add_shop)
-                    setTextColor(Color.WHITE)
-                    textSize = 14f
-                    setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        R.mipmap.icon_add, 0, 0, 0
-                    )
-                    compoundDrawablePadding = DimensionUtils.dip2px(this@ShopManagerActivity, 4f)
-                    val pH = DimensionUtils.dip2px(this@ShopManagerActivity, 12f)
-                    val pV = DimensionUtils.dip2px(this@ShopManagerActivity, 4f)
-                    setPadding(pH, pV, pH, pV)
-                    gravity = Gravity.CENTER
-                    setBackgroundResource(R.drawable.shape_sf0a258_r22)
-                    setOnClickListener {
-                        startNext.launch(
-                            Intent(
-                                this@ShopManagerActivity,
-                                ShopCreateActivity::class.java
-                            )
-                        )
-                    }
-                },
-                LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    DimensionUtils.dip2px(this@ShopManagerActivity, 28f)
-                ).apply {
-                    setMargins(0, 0, DimensionUtils.dip2px(this@ShopManagerActivity, 16f), 0)
-                }
-            )
+    override fun initEvent() {
+        super.initEvent()
+
+        mSharedViewModel.hasShopListPermission.observe(this) {}
+        mSharedViewModel.hasShopInfoPermission.observe(this) {}
+        mSharedViewModel.hasShopProfitPermission.observe(this) {}
+        mSharedViewModel.hasShopAddPermission.observe(this) {
+            if (it)
+                initRightBtn()
+        }
+
+        // 修改成功后
+        LiveDataBus.with(BusEvents.SHOP_LIST_STATUS)?.observe(this) {
+            mBinding.rvShopList.requestRefresh()
+        }
     }
 
     override fun initData() {

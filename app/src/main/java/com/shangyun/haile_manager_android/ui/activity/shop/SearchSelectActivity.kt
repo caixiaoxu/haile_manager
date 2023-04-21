@@ -35,13 +35,13 @@ class SearchSelectActivity :
         ) { mBinding, _, d ->
             mBinding?.root?.setOnClickListener {
                 if (SCHOOL == mSearchSelectViewModel.searchType.value) {
-                    setResult(ShopCreateActivity.SchoolResultCode, Intent().apply {
-                        putExtra(ShopCreateActivity.SchoolResultData, GsonUtils.any2Json(d))
+                    setResult(ShopCreateAndUpdateActivity.SchoolResultCode, Intent().apply {
+                        putExtra(ShopCreateAndUpdateActivity.SchoolResultData, GsonUtils.any2Json(d))
                     })
                 } else if (LOCATION == mSearchSelectViewModel.searchType.value) {
                     setResult(RESULT_OK, Intent().apply {
                         putExtra(
-                            ShopCreateActivity.LocationResultData,
+                            ShopCreateAndUpdateActivity.LocationResultData,
                             GsonUtils.any2Json((d as LocationSelectEntity).poi)
                         )
                     })

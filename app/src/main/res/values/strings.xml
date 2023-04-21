@@ -6,6 +6,10 @@
     <string name="please_input">请输入</string>
     <string name="please_select">请选择</string>
     <string name="cancel">取消</string>
+    <string name="delete">删除</string>
+    <string name="edit">编辑</string>
+    <string name="out_of_service">已停用</string>
+    <string name="in_use">启用中</string>
 
     <string name="login_name">登录</string>
     <string name="login_account_password">账号密码登录</string>
@@ -58,7 +62,14 @@
     <string name="select_province">请选择省</string>
     <string name="select_city">请选择市</string>
     <string name="select_district">请选择区/县</string>
-
+    <string name="shop_detail">门店详情</string>
+    <string name="shop_base_info">店铺基础信息</string>
+    <string name="creator">创建人</string>
+    <string name="create_time">创建时间</string>
+    <string name="appointment">预约</string>
+    <string name="appointment_status">预约状态</string>
+    <string name="appointment_setting">预约设置</string>
+    <string name="copy_phone">复制手机号</string>
 
     <string name="order_manager">订单管理</string>
     <string name="staff_manager">人员管理</string>

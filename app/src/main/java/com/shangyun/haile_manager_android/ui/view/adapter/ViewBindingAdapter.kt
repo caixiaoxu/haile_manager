@@ -1,5 +1,6 @@
 package com.shangyun.haile_manager_android.ui.view.adapter
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -8,6 +9,7 @@ import androidx.databinding.InverseBindingListener
 import com.lsy.framelib.utils.DimensionUtils
 import com.shangyun.haile_manager_android.ui.view.CircleImageView
 import com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+import com.shangyun.haile_manager_android.ui.view.CustomChildListLinearLayout
 import com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
 import com.shangyun.haile_manager_android.utils.GlideUtils
 import com.shangyun.haile_manager_android.utils.StringUtils

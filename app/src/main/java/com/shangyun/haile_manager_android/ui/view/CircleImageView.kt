@@ -20,7 +20,9 @@ import kotlin.math.min
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
 </desc></version></time></author> */
-class CircleImageView : AppCompatImageView {
+class CircleImageView @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null
+) : AppCompatImageView(context, attrs) {
     private val defaultStrokeWidth = 3
     private val defaultStrokeColor =
         ResourcesCompat.getColor(resources, R.color.dividing_line_color, null)
@@ -29,11 +31,7 @@ class CircleImageView : AppCompatImageView {
     private val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val path = Path()
 
-    constructor(context: Context) : super(context) {
-        initPaint()
-    }
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+    init {
         val array = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView)
         strokeWidth = array.getDimensionPixelOffset(
             R.styleable.CircleImageView_strokeWidth,
@@ -41,14 +39,6 @@ class CircleImageView : AppCompatImageView {
         )
         strokeColor = array.getColor(R.styleable.CircleImageView_strokeColor, defaultStrokeColor)
         array.recycle()
-        initPaint()
-    }
-
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    ) {
         initPaint()
     }
 

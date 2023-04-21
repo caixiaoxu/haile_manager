@@ -131,6 +131,7 @@ class LocationSelectActivity :
             }
             if (isAllow) {
                 initMap()
+                locationClient.startLocation()
             }
         }
     }
@@ -139,7 +140,7 @@ class LocationSelectActivity :
     private val startSearchSelect =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
-                setResult(ShopCreateActivity.LocationResultCode, it.data)
+                setResult(ShopCreateAndUpdateActivity.LocationResultCode, it.data)
                 finish()
             }
         }
@@ -157,8 +158,8 @@ class LocationSelectActivity :
             mBinding?.tvItemLocationSelectPoiDistance?.text = StringUtils.friendJuli(item.distance)
 
             mBinding?.root?.setOnClickListener {
-                setResult(ShopCreateActivity.LocationResultCode, Intent().apply {
-                    putExtra(ShopCreateActivity.LocationResultData, GsonUtils.any2Json(item))
+                setResult(ShopCreateAndUpdateActivity.LocationResultCode, Intent().apply {
+                    putExtra(ShopCreateAndUpdateActivity.LocationResultData, GsonUtils.any2Json(item))
                 })
                 finish()
             }
@@ -262,8 +263,6 @@ class LocationSelectActivity :
 
     override fun initData() {
         mBinding.vm = mLocationSelectViewModel
-
-        locationClient.startLocation()
     }
 
     override fun activate(listener: LocationSource.OnLocationChangedListener?) {

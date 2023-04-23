@@ -34,7 +34,7 @@ class ShopManagerViewModel : BaseViewModel() {
     fun requestShopList(
         page: Int,
         pageSize: Int,
-        result: (listWrapper: ResponseList<ShopEntity>) -> Unit
+        result: (listWrapper: ResponseList<ShopEntity>?) -> Unit
     ) {
         launch({
             val listWrapper = ApiRepository.dealApiResult(
@@ -58,6 +58,9 @@ class ShopManagerViewModel : BaseViewModel() {
         }, {
             it.message?.let { it1 -> SToast.showToast(msg = it1) }
             Timber.d("请求失败或异常$it")
+            withContext(Dispatchers.Main) {
+                result.invoke(null)
+            }
         }, { Timber.d("请求结束") }, 1 == page)
     }
 }

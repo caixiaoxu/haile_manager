@@ -37,6 +37,12 @@
 
     <string name="home_func_title">功能管理</string>
     <string name="device_manager">设备管理</string>
+    <string name="department">所属门店</string>
+    <string name="device_category">添加设备</string>
+    <string name="device_model">设备型号</string>
+    <string name="network_status">网络状态</string>
+    <string name="add_device">添加设备</string>
+    <string name="device_num_hint">全部%1$d台设备</string>
 
     <string name="shop_manager">门店管理</string>
     <string name="add_shop">添加店铺</string>

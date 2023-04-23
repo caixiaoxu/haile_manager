@@ -40,8 +40,24 @@ class SharedViewModel : ViewModel() {
         hasUserPermission.map { UserPermissionUtils.hasProfitPermission() }
     val hasMessagePermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasMessagePermission() }
+
+    /** ---------------------设备权限------------------------- **/
     val hasDevicePermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasDevicePermission() }
+    val hasDeviceListPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasDeviceListPermission() }
+    val hasDeviceInfoPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasDeviceInfoPermission() }
+    val hasDeviceProfitPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasDeviceProfitPermission() }
+    val hasDeviceAddPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasDeviceAddPermission() }
+    val hasDeviceDeletePermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasDeviceDeletePermission() }
+    val hasDeviceUpdatePermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasDeviceUpdatePermission() }
+
+    /** ---------------------设备权限------------------------- **/
 
     /** ---------------------店铺权限------------------------- **/
     val hasShopPermission: LiveData<Boolean> =

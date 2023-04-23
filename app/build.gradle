@@ -106,4 +106,6 @@ dependencies {
     implementation ThirdLibs.amap2d
     implementation ThirdLibs.amapLocation
     implementation ThirdLibs.amapSearch
+
+    implementation ThirdLibs.indicator
 }

@@ -7,10 +7,7 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import com.lsy.framelib.utils.DimensionUtils
-import com.shangyun.haile_manager_android.ui.view.CircleImageView
-import com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
-import com.shangyun.haile_manager_android.ui.view.CustomChildListLinearLayout
-import com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+import com.shangyun.haile_manager_android.ui.view.*
 import com.shangyun.haile_manager_android.utils.GlideUtils
 import com.shangyun.haile_manager_android.utils.StringUtils
 
@@ -103,5 +100,19 @@ object ViewBindingAdapter {
     @JvmStatic
     fun MultiTypeItemView.itemContentChange(attrChange: InverseBindingListener) {
         onItemContentChange = attrChange
+    }
+
+    @BindingAdapter("bgResIds", "txtColors", "type")
+    @JvmStatic
+    fun MultiTypeTextView.setBgResIds(bgs: IntArray?, colors: IntArray?, type: Int?) {
+        bgs?.let {
+            bgResIds = it
+        }
+        colors?.let {
+            txtColors = it
+        }
+        type?.let {
+            this.type = it
+        }
     }
 }

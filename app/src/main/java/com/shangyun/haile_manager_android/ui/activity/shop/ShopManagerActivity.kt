@@ -36,7 +36,6 @@ class ShopManagerActivity :
         getActivityViewModelProvider(this)[ShopManagerViewModel::class.java]
     }
 
-
     override fun layoutId(): Int = R.layout.activity_shop_manager
 
     override fun getVM(): ShopManagerViewModel = mShopManagerViewModel
@@ -82,6 +81,11 @@ class ShopManagerActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+
+        // 刷新
+        mBinding.tvShopManagerListRefresh.setOnClickListener {
+            mBinding.rvShopList.requestRefresh()
+        }
 
         mBinding.rvShopList.layoutManager = LinearLayoutManager(this)
         mBinding.rvShopList.addItemDecoration(
@@ -158,7 +162,7 @@ class ShopManagerActivity :
                 override fun requestData(
                     page: Int,
                     pageSize: Int,
-                    callBack: (responseList: ResponseList<ShopEntity>) -> Unit
+                    callBack: (responseList: ResponseList<ShopEntity>?) -> Unit
                 ) {
                     if (true == mSharedViewModel.hasShopListPermission.value) {
                         mShopManagerViewModel.requestShopList(page, pageSize, callBack)

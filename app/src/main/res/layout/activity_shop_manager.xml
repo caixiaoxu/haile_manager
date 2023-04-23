@@ -72,10 +72,13 @@
             tools:text="全部8家店铺" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_shop_manager_list_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
+            android:drawableStart="@mipmap/icon_refresh"
+            android:drawablePadding="4dp"
             android:text="@string/refresh_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_shop_manager_search_parent_bg" />

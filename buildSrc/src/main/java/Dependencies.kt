@@ -48,6 +48,9 @@ object ThirdLibs {
     const val amap2d =  "com.amap.api:map2d:latest.integration"
     const val amapLocation =  "com.amap.api:location:latest.integration"
     const val amapSearch =  "com.amap.api:search:latest.integration"
+
+    //指示器
+    const val indicator =  "com.github.hackware1993:MagicIndicator:1.7.0"
 }
 
 object TestLibs {

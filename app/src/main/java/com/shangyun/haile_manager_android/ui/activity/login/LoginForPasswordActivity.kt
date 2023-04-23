@@ -59,10 +59,10 @@ class LoginForPasswordActivity :
     override fun initData() {
         if (BuildConfig.DEBUG) {
             // 模拟数据
-//            mLoginForPasswordViewModel.phone.value = "17028000053"
-//            mLoginForPasswordViewModel.password.value = "Dp8Lv5"
-            mLoginForPasswordViewModel.phone.value = "13067949521"
-            mLoginForPasswordViewModel.password.value = "Aa123456"
+            mLoginForPasswordViewModel.phone.value = "17028000053"
+            mLoginForPasswordViewModel.password.value = "Dp8Lv5"
+//            mLoginForPasswordViewModel.phone.value = "13067949521"
+//            mLoginForPasswordViewModel.password.value = "Aa123456"
             mLoginForPasswordViewModel.isAgree.value = true
         }
     }

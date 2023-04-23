@@ -164,6 +164,24 @@
         <item name="android:background">@drawable/shape_bottom_stroke_dividing_efefef_mlr12</item>
     </style>
 
+    <style name="DeviceManagerCategoryBtnStyle" parent="Font_14_333333">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:drawableEnd">@mipmap/icon_triangle_down</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:background">@drawable/shape_sf7f7f7_r18</item>
+    </style>
+
+    <style name="Font_10_333333">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/common_txt_color</item>
+    </style>
+
     <style name="Font_10_f0a258">
         <item name="android:textSize">10sp</item>
         <item name="android:textColor">@color/colorPrimary</item>
@@ -228,6 +246,10 @@
     <style name="Font_16_333333">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/common_txt_color</item>
+    </style>
+
+    <style name="Font_16_333333_bold" parent="Font_16_333333">
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Font_16_f0a258">

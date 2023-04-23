@@ -65,44 +65,72 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
 
         // 刷新
         mBinding.refreshLayout.setOnRefreshListener {
-            page = 1
-            requestData?.requestData(page, pageSize) {
-                onRefresh(it)
-            }
+            requestData(true)
         }
 
         // 加载
         mBinding.refreshLayout.setOnLoadMoreListener {
-            requestData?.requestData(page, pageSize) {
-                onLoadMore(it)
-            }
+            requestData(false)
         }
-        // 自动刷新
-        mBinding.refreshLayout.autoRefresh()
+        requestRefresh()
     }
 
-    fun requestRefresh(){
-        mBinding.refreshLayout.autoRefresh()
+    /**
+     * 请求数据
+     */
+    private fun requestData(isRefresh: Boolean) {
+        if (isRefresh) page = 1
+        requestData?.requestData(page, pageSize) {
+            if (isRefresh) {
+
+                onRefresh(it)
+            } else
+                onLoadMore(it)
+        }
     }
 
-    fun requestLoadMore(){
-        mBinding.refreshLayout.autoLoadMore()
+    /**
+     * 刷新
+     * @param isRefreshLayout 是否需要刷新界面
+     */
+    fun requestRefresh(isRefreshLayout: Boolean = false) {
+        if (isRefreshLayout) {
+            mBinding.refreshLayout.autoRefresh()
+        } else {
+            requestData(true)
+        }
+    }
+
+    /**
+     * 加载
+     * @param isLoadMoreLayout 是否需要加载界面
+     */
+    fun requestLoadMore(isLoadMoreLayout: Boolean = false) {
+        if (isLoadMoreLayout) {
+            mBinding.refreshLayout.autoLoadMore()
+        } else {
+            requestData(false)
+        }
     }
 
     /**
      * 刷新数据
      */
-    private fun onRefresh(it: ResponseList<D>) {
+    private fun onRefresh(list: ResponseList<D>?) {
         mBinding.refreshLayout.finishRefresh()
-        refreshDate(it, true)
+        list?.let {
+            refreshDate(it, true)
+        }
     }
 
     /**
      * 加载数据
      */
-    private fun onLoadMore(it: ResponseList<D>) {
+    private fun onLoadMore(list: ResponseList<D>?) {
         mBinding.refreshLayout.finishLoadMore()
-        refreshDate(it)
+        list?.let {
+            refreshDate(it)
+        }
     }
 
     /**
@@ -142,7 +170,7 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
         abstract fun requestData(
             page: Int,
             pageSize: Int,
-            callBack: (responseList: ResponseList<D>) -> Unit
+            callBack: (responseList: ResponseList<D>?) -> Unit
         )
 
         /**

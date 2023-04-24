@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.shangyun.haile_manager_android.business.vm.DeviceManagerViewModel" />
@@ -77,18 +79,23 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_device_category_department"
                     style="@style/DeviceManagerCategoryBtnStyle"
                     android:text="@string/department" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_device_category_category"
                     style="@style/DeviceManagerCategoryBtnStyle"
                     android:text="@string/device_category" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_device_category_model"
                     style="@style/DeviceManagerCategoryBtnStyle"
-                    android:text="@string/device_model" />
+                    android:text="@string/device_model"
+                    android:visibility="@{null == vm.selectDeviceCategory?View.GONE:View.VISIBLE}" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_device_category_network_status"
                     style="@style/DeviceManagerCategoryBtnStyle"
                     android:text="@string/network_status" />
             </LinearLayout>
@@ -98,8 +105,8 @@
             android:id="@+id/indicator_device_status"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:paddingHorizontal="16dp"
             android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            android:paddingHorizontal="16dp"
             app:layout_constraintTop_toBottomOf="@id/bg_device_manager_category" />
 
         <androidx.appcompat.widget.AppCompatTextView

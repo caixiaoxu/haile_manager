@@ -1,7 +1,7 @@
 package com.shangyun.haile_manager_android.data.entities
 
 import com.amap.api.services.core.PoiItem
-import com.shangyun.haile_manager_android.data.rule.SearchSelectEntity
+import com.shangyun.haile_manager_android.data.rule.ISearchSelectEntity
 
 /**
  * Title :
@@ -13,7 +13,7 @@ import com.shangyun.haile_manager_android.data.rule.SearchSelectEntity
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-data class LocationSelectEntity(val poi: PoiItem) : SearchSelectEntity {
+data class LocationSelectEntityI(val poi: PoiItem) : ISearchSelectEntity {
     override fun getTitle(): String = poi.title
 
     override fun getContent(): Array<String> = arrayOf(

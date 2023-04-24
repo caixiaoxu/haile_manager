@@ -1,6 +1,6 @@
 package com.shangyun.haile_manager_android.data.entities
 
-import com.shangyun.haile_manager_android.data.rule.CommonBottomItemEntity
+import com.shangyun.haile_manager_android.data.rule.ICommonBottomItemEntity
 
 /**
  * Title :
@@ -12,6 +12,6 @@ import com.shangyun.haile_manager_android.data.rule.CommonBottomItemEntity
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-data class ShopTypeEntity(val type: Int, val name: String) : CommonBottomItemEntity {
+data class ShopTypeEntityI(val type: Int, val name: String) : ICommonBottomItemEntity {
     override fun getTitle(): String = name
 }

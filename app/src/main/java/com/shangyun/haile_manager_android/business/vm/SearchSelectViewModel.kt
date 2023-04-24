@@ -2,15 +2,14 @@ package com.shangyun.haile_manager_android.business.vm
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import com.amap.api.services.core.LatLonPoint
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.apiService.ShopService
-import com.shangyun.haile_manager_android.data.entities.LocationSelectEntity
+import com.shangyun.haile_manager_android.data.entities.LocationSelectEntityI
 import com.shangyun.haile_manager_android.data.model.ApiRepository
-import com.shangyun.haile_manager_android.data.rule.SearchSelectEntity
+import com.shangyun.haile_manager_android.data.rule.ISearchSelectEntity
 import com.shangyun.haile_manager_android.utils.LocationUtils
 import timber.log.Timber
 
@@ -58,7 +57,7 @@ class SearchSelectViewModel : BaseViewModel() {
     val searchContent: MutableLiveData<String> = MutableLiveData()
 
     //
-    val searchList: MutableLiveData<MutableList<out SearchSelectEntity>> = MutableLiveData()
+    val searchList: MutableLiveData<MutableList<out ISearchSelectEntity>> = MutableLiveData()
 
     fun search(context: Context) {
         launch({
@@ -103,7 +102,7 @@ class SearchSelectViewModel : BaseViewModel() {
             if (1000 == rCode) {
 
                 val poiList = poiResult.pois.map {
-                    LocationSelectEntity(it)
+                    LocationSelectEntityI(it)
                 }
                 searchList.postValue(poiList.toMutableList())
             } else {

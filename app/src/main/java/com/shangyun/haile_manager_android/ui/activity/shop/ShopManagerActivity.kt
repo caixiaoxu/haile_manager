@@ -174,7 +174,9 @@ class ShopManagerActivity :
     override fun initEvent() {
         super.initEvent()
 
-        mSharedViewModel.hasShopListPermission.observe(this) {}
+        mSharedViewModel.hasShopListPermission.observe(this) {
+            mBinding.rvShopList.requestRefresh()
+        }
         mSharedViewModel.hasShopInfoPermission.observe(this) {}
         mSharedViewModel.hasShopProfitPermission.observe(this) {}
         mSharedViewModel.hasShopAddPermission.observe(this) {

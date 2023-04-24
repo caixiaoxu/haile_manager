@@ -31,10 +31,17 @@ class CommonRecyclerAdapter<T : ViewDataBinding, D>(
      * @param isRefresh 是否替换列表
      * @param list 数据列表
      */
-    fun refreshList(list: MutableList<out D>, isRefresh: Boolean = false) {
+    fun refreshList(list: MutableList<out D>?, isRefresh: Boolean = false) {
         if (isRefresh) {
             this.list.clear()
         }
+        if (null == list){
+            if (isRefresh){
+                notifyDataSetChanged()
+            }
+            return
+        }
+
         val start = this.list.size
         this.list.addAll(list)
         if (isRefresh) {

@@ -12,7 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
 import com.shangyun.haile_manager_android.R
-import com.shangyun.haile_manager_android.data.rule.CommonBottomItemEntity
+import com.shangyun.haile_manager_android.data.rule.ICommonBottomItemEntity
 import com.shangyun.haile_manager_android.databinding.DialogCommonBottomSheetBinding
 import com.shangyun.haile_manager_android.databinding.ItemCommonBottomSheetDialogBinding
 
@@ -27,7 +27,7 @@ import com.shangyun.haile_manager_android.databinding.ItemCommonBottomSheetDialo
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class CommonBottomSheetDialog<D : CommonBottomItemEntity> private constructor(private val builder: Builder<D>) :
+class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(private val builder: Builder<D>) :
     BottomSheetDialogFragment() {
     private val COMMON_BOTTOM_SHEET_TAG = "common_bottom_sheet_tag"
     private lateinit var mBinding: DialogCommonBottomSheetBinding
@@ -113,7 +113,7 @@ class CommonBottomSheetDialog<D : CommonBottomItemEntity> private constructor(pr
         show(manager, COMMON_BOTTOM_SHEET_TAG)
     }
 
-    internal class Builder<D : CommonBottomItemEntity>(val title: String, val list: List<D>) {
+    internal class Builder<D : ICommonBottomItemEntity>(val title: String, val list: List<D>) {
 
         // 不可取消
         var isCancelable = true
@@ -127,7 +127,7 @@ class CommonBottomSheetDialog<D : CommonBottomItemEntity> private constructor(pr
         fun build(): CommonBottomSheetDialog<D> = CommonBottomSheetDialog(this)
     }
 
-    interface OnValueSureListener<D : CommonBottomItemEntity> {
+    interface OnValueSureListener<D : ICommonBottomItemEntity> {
         fun onValue(data: D)
     }
 }

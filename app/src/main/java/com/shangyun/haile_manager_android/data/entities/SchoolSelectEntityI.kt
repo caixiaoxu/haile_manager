@@ -1,6 +1,6 @@
 package com.shangyun.haile_manager_android.data.entities
 
-import com.shangyun.haile_manager_android.data.rule.SearchSelectEntity
+import com.shangyun.haile_manager_android.data.rule.ISearchSelectEntity
 
 /**
  * Title :
@@ -12,7 +12,7 @@ import com.shangyun.haile_manager_android.data.rule.SearchSelectEntity
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-data class SchoolSelectEntity(
+data class SchoolSelectEntityI(
     val id: Int,
     val name: String,//名称
     val type: Int,//组织类型<1：学校>
@@ -28,7 +28,7 @@ data class SchoolSelectEntity(
     var subType: String = "",//学校类弄
     var attribute: Int = -1,//学校属性
     var createTime: String = ""//创建时间
-) : SearchSelectEntity {
+) : ISearchSelectEntity {
     override fun getTitle(): String = name
 
     override fun getContent(): Array<String> =

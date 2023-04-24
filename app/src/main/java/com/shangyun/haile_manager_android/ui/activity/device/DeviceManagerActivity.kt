@@ -1,6 +1,7 @@
 package com.shangyun.haile_manager_android.ui.activity.device
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.text.style.AbsoluteSizeSpan
@@ -11,6 +12,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -18,14 +20,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.StringUtils
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.DeviceManagerViewModel
+import com.shangyun.haile_manager_android.business.vm.SearchSelectRadioViewModel
+import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
+import com.shangyun.haile_manager_android.data.entities.CategoryEntityI
 import com.shangyun.haile_manager_android.data.entities.DeviceEntity
 import com.shangyun.haile_manager_android.databinding.ActivityDeviceManagerBinding
 import com.shangyun.haile_manager_android.databinding.ItemDeviceListBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.shangyun.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
+import com.shangyun.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.shangyun.haile_manager_android.utils.NumberUtils
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
@@ -43,8 +51,28 @@ class DeviceManagerActivity :
         getActivityViewModelProvider(this)[DeviceManagerViewModel::class.java]
     }
 
-    override fun layoutId(): Int = R.layout.activity_device_manager
+    // 搜索选择界面
+    private val startSearchSelect =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            it.data?.let { intent ->
+                intent.getStringExtra(SearchSelectRadioActivity.ResultData)?.let { json ->
+                    GsonUtils.json2Class(json, SearchSelectParam::class.java)
+                        ?.let { selected ->
+                            when (it.resultCode) {
+                                SearchSelectRadioActivity.ShopResultCode -> {
+                                    mDeviceManagerViewModel.selectDepartment.value = selected
+                                }
+                                SearchSelectRadioActivity.DeviceModelResultCode -> {
+                                    mDeviceManagerViewModel.selectDeviceModel.value = selected
+                                }
+                            }
+                        }
+                }
+            }
 
+        }
+
+    override fun layoutId(): Int = R.layout.activity_device_manager
 
     override fun getVM(): DeviceManagerViewModel = mDeviceManagerViewModel
 
@@ -84,6 +112,69 @@ class DeviceManagerActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+
+        // 所属门店
+        mBinding.tvDeviceCategoryDepartment.setOnClickListener {
+            startSearchSelect.launch(
+                Intent(
+                    this@DeviceManagerActivity,
+                    SearchSelectRadioActivity::class.java
+                ).apply {
+                    putExtra(
+                        SearchSelectRadioActivity.SearchSelectType,
+                        SearchSelectRadioViewModel.SearchSelectTypeShop
+                    )
+                }
+            )
+        }
+
+        // 设备类型
+        mBinding.tvDeviceCategoryCategory.setOnClickListener {
+            mDeviceManagerViewModel.categoryList.value?.let {
+                showDeviceCategoryDialog(it)
+            } ?: mDeviceManagerViewModel.requestData(1)
+        }
+
+        // 设备模型
+        mBinding.tvDeviceCategoryModel.setOnClickListener {
+            startSearchSelect.launch(
+                Intent(
+                    this@DeviceManagerActivity,
+                    SearchSelectRadioActivity::class.java
+                ).apply {
+                    putExtra(
+                        SearchSelectRadioActivity.SearchSelectType,
+                        SearchSelectRadioViewModel.SearchSelectTypeDeviceModel
+                    )
+                    putExtra(
+                        SearchSelectRadioActivity.CategoryId,
+                        mDeviceManagerViewModel.selectDeviceCategory.value?.id ?: -1
+                    )
+                }
+            )
+        }
+
+        // 网络状态
+        mBinding.tvDeviceCategoryNetworkStatus.setOnClickListener {
+
+            val deviceCategoryDialog =
+                CommonBottomSheetDialog.Builder(
+                    getString(R.string.network_status), arrayListOf(
+                        SearchSelectParam(1, getString(R.string.online)),
+                        SearchSelectParam(2, getString(R.string.offline)),
+                        SearchSelectParam(4, getString(R.string.break_down)),
+                    )
+                ).apply {
+                    onValueSureListener =
+                        object : CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
+                            override fun onValue(data: SearchSelectParam) {
+                                mDeviceManagerViewModel.selectNetworkStatus.value = data
+                            }
+                        }
+                }
+                    .build()
+            deviceCategoryDialog.show(supportFragmentManager)
+        }
 
         // 刷新
         mBinding.tvDeviceManagerListRefresh.setOnClickListener {
@@ -195,22 +286,71 @@ class DeviceManagerActivity :
                                 this@DeviceManagerActivity,
                                 R.color.colorPrimary
                             )
-                            roundRadius = DimensionUtils.dip2px(this@DeviceManagerActivity,14f).toFloat()
+                            roundRadius =
+                                DimensionUtils.dip2px(this@DeviceManagerActivity, 14f).toFloat()
                         }
                     }
                 }
             }
         }
 
-        // 切换工作状态
-        mDeviceManagerViewModel.curWorkStatus.observe(this){
+        // 设备类型
+        mDeviceManagerViewModel.categoryList.observe(this) {
+            showDeviceCategoryDialog(it)
+        }
+
+
+        // 选择店铺
+        mDeviceManagerViewModel.selectDepartment.observe(this) {
+            mBinding.tvDeviceCategoryDepartment.text = it.name
             mBinding.rvDeviceManagerList.requestRefresh()
         }
+
+        // 选择设备类型
+        mDeviceManagerViewModel.selectDeviceCategory.observe(this) {
+            mBinding.tvDeviceCategoryCategory.text = it.name
+            mBinding.rvDeviceManagerList.requestRefresh()
+        }
+
+        // 选择设备模型
+        mDeviceManagerViewModel.selectDeviceModel.observe(this) {
+            mBinding.tvDeviceCategoryModel.text = it.name
+            mBinding.rvDeviceManagerList.requestRefresh()
+        }
+
+        // 选择设备模型
+        mDeviceManagerViewModel.selectNetworkStatus.observe(this) {
+            mBinding.tvDeviceCategoryNetworkStatus.text = it.name
+            mBinding.rvDeviceManagerList.requestRefresh()
+        }
+
+        // 切换工作状态
+        mDeviceManagerViewModel.curWorkStatus.observe(this) {
+            mBinding.rvDeviceManagerList.requestRefresh()
+        }
+    }
+
+    /**
+     * 显示设备类型弹窗
+     */
+    private fun showDeviceCategoryDialog(categoryEntities: List<CategoryEntityI>) {
+        val deviceCategoryDialog =
+            CommonBottomSheetDialog.Builder(getString(R.string.device_category), categoryEntities)
+                .apply {
+                    onValueSureListener =
+                        object : CommonBottomSheetDialog.OnValueSureListener<CategoryEntityI> {
+                            override fun onValue(data: CategoryEntityI) {
+                                mDeviceManagerViewModel.selectDeviceCategory.value = data
+                            }
+                        }
+                }
+                .build()
+        deviceCategoryDialog.show(supportFragmentManager)
     }
 
     override fun initData() {
         mBinding.vm = mDeviceManagerViewModel
 
-        mDeviceManagerViewModel.requestDeviceStatusTotals()
+        mDeviceManagerViewModel.requestData(4)
     }
 }

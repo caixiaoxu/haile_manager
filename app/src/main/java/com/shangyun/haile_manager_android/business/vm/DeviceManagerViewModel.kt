@@ -6,7 +6,10 @@ import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.shangyun.haile_manager_android.R
+import com.shangyun.haile_manager_android.business.apiService.CategoryService
 import com.shangyun.haile_manager_android.business.apiService.DeviceService
+import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
+import com.shangyun.haile_manager_android.data.entities.CategoryEntityI
 import com.shangyun.haile_manager_android.data.entities.DeviceEntity
 import com.shangyun.haile_manager_android.data.model.ApiRepository
 import com.shangyun.haile_manager_android.data.rule.IndicatorEntity
@@ -25,9 +28,34 @@ import timber.log.Timber
  * 作者姓名 修改时间 版本号 描述
  */
 class DeviceManagerViewModel : BaseViewModel() {
-    private val mRepo = ApiRepository.apiClient(DeviceService::class.java)
+    private val mDeviceRepo = ApiRepository.apiClient(DeviceService::class.java)
+    private val mCategoryRepo = ApiRepository.apiClient(CategoryService::class.java)
 
+    // 设备类型
+    val categoryList: MutableLiveData<List<CategoryEntityI>> = MutableLiveData()
+
+    // 设备数量
     val mDeviceCountStr: MutableLiveData<String> = MutableLiveData()
+
+    // 选择的店铺
+    val selectDepartment: MutableLiveData<SearchSelectParam> by lazy {
+        MutableLiveData()
+    }
+
+    // 选择的设备类型
+    val selectDeviceCategory: MutableLiveData<CategoryEntityI> by lazy {
+        MutableLiveData()
+    }
+
+    // 选择的设备类型
+    val selectDeviceModel: MutableLiveData<SearchSelectParam> by lazy {
+        MutableLiveData()
+    }
+
+    // 选择的网络状态
+    val selectNetworkStatus: MutableLiveData<SearchSelectParam> by lazy {
+        MutableLiveData()
+    }
 
     // 状态的工作状态
     val curWorkStatus: MutableLiveData<String> = MutableLiveData("")
@@ -42,23 +70,16 @@ class DeviceManagerViewModel : BaseViewModel() {
         )
     )
 
+
     /**
-     * 状态数量
+     * 请求准备数据
      */
-    fun requestDeviceStatusTotals() {
+    fun requestData(type: Int) {
         launch(
             {
-                val totals = ApiRepository.dealApiResult(
-                    mRepo.deviceStatusTotals(hashMapOf())
-                )
-                deviceStatus.value?.let { list ->
-                    val titles = arrayListOf<IndicatorEntity<String>>()
-                    titles.addAll(list)
-                    titles[1].num = totals?.getTotal(20) ?: 0
-                    titles[2].num = totals?.getTotal(10) ?: 0
-                    titles[3].num = totals?.getTotal(30) ?: 0
-                    titles[4].num = totals?.getTotal(40) ?: 0
-                    deviceStatus.postValue(titles)
+                when (type) {
+                    1 -> requestDeviceCategory()
+                    4 -> requestDeviceStatusTotals()
                 }
             },
             {
@@ -70,6 +91,36 @@ class DeviceManagerViewModel : BaseViewModel() {
     }
 
     /**
+     * 请求设备类型
+     */
+    private suspend fun requestDeviceCategory() {
+        val list = ApiRepository.dealApiResult(
+            mCategoryRepo.category(1)
+        )
+        list?.let {
+            categoryList.postValue(it)
+        }
+    }
+
+    /**
+     * 状态数量
+     */
+    private suspend fun requestDeviceStatusTotals() {
+        val totals = ApiRepository.dealApiResult(
+            mDeviceRepo.deviceStatusTotals(hashMapOf())
+        )
+        deviceStatus.value?.let { list ->
+            val titles = arrayListOf<IndicatorEntity<String>>()
+            titles.addAll(list)
+            titles[1].num = totals?.getTotal(20) ?: 0
+            titles[2].num = totals?.getTotal(10) ?: 0
+            titles[3].num = totals?.getTotal(30) ?: 0
+            titles[4].num = totals?.getTotal(40) ?: 0
+            deviceStatus.postValue(titles)
+        }
+    }
+
+    /**
      * 刷新设备列表
      */
     fun requestDeviceList(
@@ -78,14 +129,30 @@ class DeviceManagerViewModel : BaseViewModel() {
         result: (listWrapper: ResponseList<DeviceEntity>?) -> Unit
     ) {
         launch({
+            val params: HashMap<String, Any> = hashMapOf(
+                "page" to page,
+                "pageSize" to pageSize,
+                "workStatus" to (curWorkStatus.value ?: ""),
+            )
+            // 店铺
+            selectDepartment.value?.let {
+                params["shopId"] = it.id
+            }
+            // 设备类型
+            selectDeviceCategory.value?.let {
+                params["categoryId"] = it.id
+            }
+            // 设备模型
+            selectDeviceModel.value?.let {
+                params["spuId"] = it.id
+            }
+            // 网络状态
+            selectNetworkStatus.value?.let {
+                params["iotStatus"] = it.id
+            }
+
             val listWrapper = ApiRepository.dealApiResult(
-                mRepo.deviceList(
-                    hashMapOf(
-                        "page" to page,
-                        "pageSize" to pageSize,
-                        "curWorkStatus" to (curWorkStatus.value ?: "")
-                    )
-                )
+                mDeviceRepo.deviceList(params)
             )
             listWrapper?.let {
                 mDeviceCountStr.postValue(

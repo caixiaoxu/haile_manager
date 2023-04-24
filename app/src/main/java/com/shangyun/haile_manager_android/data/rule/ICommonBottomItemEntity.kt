@@ -10,6 +10,6 @@ package com.shangyun.haile_manager_android.data.rule
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-interface CommonBottomItemEntity {
+interface ICommonBottomItemEntity {
     fun getTitle(): String
 }

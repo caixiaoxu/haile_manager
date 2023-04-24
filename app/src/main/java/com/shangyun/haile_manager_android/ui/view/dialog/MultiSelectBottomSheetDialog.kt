@@ -6,14 +6,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.helper.widget.Flow
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
 import com.shangyun.haile_manager_android.R
-import com.shangyun.haile_manager_android.data.rule.CommonBottomItemEntity
 import com.shangyun.haile_manager_android.data.rule.MultiSelectBottomItemEntity
 import com.shangyun.haile_manager_android.databinding.DialogMultiSelectBottomSheetBinding
 import com.shangyun.haile_manager_android.databinding.ItemMultiSelectSheetDialogBinding

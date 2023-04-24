@@ -15,8 +15,8 @@ import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel
 import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel.Companion.LOCATION
 import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SCHOOL
 import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SEARCH_TYPE
-import com.shangyun.haile_manager_android.data.entities.LocationSelectEntity
-import com.shangyun.haile_manager_android.data.rule.SearchSelectEntity
+import com.shangyun.haile_manager_android.data.entities.LocationSelectEntityI
+import com.shangyun.haile_manager_android.data.rule.ISearchSelectEntity
 import com.shangyun.haile_manager_android.databinding.ActivitySearchSelectBinding
 import com.shangyun.haile_manager_android.databinding.ItemSearchSelectBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -28,7 +28,7 @@ class SearchSelectActivity :
         getActivityViewModelProvider(this)[SearchSelectViewModel::class.java]
     }
 
-    private val mAdapter: CommonRecyclerAdapter<ItemSearchSelectBinding, SearchSelectEntity> by lazy {
+    private val mAdapter: CommonRecyclerAdapter<ItemSearchSelectBinding, ISearchSelectEntity> by lazy {
         CommonRecyclerAdapter(
             R.layout.item_search_select,
             BR.item
@@ -42,7 +42,7 @@ class SearchSelectActivity :
                     setResult(RESULT_OK, Intent().apply {
                         putExtra(
                             ShopCreateAndUpdateActivity.LocationResultData,
-                            GsonUtils.any2Json((d as LocationSelectEntity).poi)
+                            GsonUtils.any2Json((d as LocationSelectEntityI).poi)
                         )
                     })
                 }

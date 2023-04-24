@@ -4,7 +4,9 @@ import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.shangyun.haile_manager_android.data.entities.DeviceEntity
 import com.shangyun.haile_manager_android.data.entities.DeviceStatusTotal
+import com.shangyun.haile_manager_android.data.entities.SpuEntity
 import retrofit2.http.GET
+import retrofit2.http.Query
 import retrofit2.http.QueryMap
 
 /**
@@ -20,6 +22,12 @@ import retrofit2.http.QueryMap
 interface DeviceService {
 
     /**
+     * spu列表接口
+     */
+    @GET("/spu/list")
+    suspend fun spuList(@Query("categoryId") categoryId:Int): ResponseWrapper<MutableList<SpuEntity>>
+
+    /**
      * 设备状态接口
      */
     @GET("/goods/statusTotals")
@@ -30,6 +38,5 @@ interface DeviceService {
      */
     @GET("/goods/list")
     suspend fun deviceList(@QueryMap params: HashMap<String, Any>): ResponseWrapper<ResponseList<DeviceEntity>>
-
 
 }

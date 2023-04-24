@@ -31,13 +31,13 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
         MutableLiveData(ShopCreateEntity())
 
     // 门店类型列表
-    val shopTypeList: MutableLiveData<List<ShopTypeEntity>> = MutableLiveData()
+    val shopTypeList: MutableLiveData<List<ShopTypeEntityI>> = MutableLiveData()
 
     // 门店业务列表
     val shopBusinessTypeList: MutableLiveData<List<ShopBusinessTypeEntity>> = MutableLiveData()
 
     // 门店类型
-    val shopTypeValue: MutableLiveData<ShopTypeEntity> = MutableLiveData()
+    val shopTypeValue: MutableLiveData<ShopTypeEntityI> = MutableLiveData()
 
     // 学校名称
     val schoolNameValue: MutableLiveData<String> = MutableLiveData()
@@ -78,7 +78,7 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
     /**
      * 切换店铺类型
      */
-    fun changeShopType(data: ShopTypeEntity) {
+    fun changeShopType(data: ShopTypeEntityI) {
         if (-1 != data.type && data.type != shopTypeValue.value?.type) {
             shopTypeValue.postValue(data)
             createAndUpdateEntity.value?.let {
@@ -91,7 +91,7 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
     /**
      * 切换学校
      */
-    fun changeSchool(school: SchoolSelectEntity?) {
+    fun changeSchool(school: SchoolSelectEntityI?) {
         // 学校id
         createAndUpdateEntity.value?.schoolId = school?.id ?: -1
         // 学校名
@@ -273,11 +273,11 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
 
 
             // 店铺类型
-            changeShopType(ShopTypeEntity(shopDetailEntity.shopType, shopDetailEntity.shopTypeName))
+            changeShopType(ShopTypeEntityI(shopDetailEntity.shopType, shopDetailEntity.shopTypeName))
 
             if (1 == shopDetailEntity.shopType) {
                 changeSchool(
-                    SchoolSelectEntity(
+                    SchoolSelectEntityI(
                         shopDetailEntity.schoolId,
                         shopDetailEntity.schoolName,
                         shopDetailEntity.shopType,

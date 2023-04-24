@@ -37,7 +37,7 @@ interface ShopService {
      * 店铺类型
      */
     @GET("/shop/getShopTypeList")
-    suspend fun shopTypeList(): ResponseWrapper<List<ShopTypeEntity>>
+    suspend fun shopTypeList(): ResponseWrapper<List<ShopTypeEntityI>>
 
     /**
      * 店铺业务类型
@@ -49,7 +49,7 @@ interface ShopService {
      * 学校列表
      */
     @POST("/shop/getSchoolList")
-    suspend fun schoolList(@Body body: RequestBody): ResponseWrapper<MutableList<SchoolSelectEntity>>
+    suspend fun schoolList(@Body body: RequestBody): ResponseWrapper<MutableList<SchoolSelectEntityI>>
 
     /**
      * 店铺创建
@@ -69,8 +69,21 @@ interface ShopService {
     @POST("/shop/deleteShop")
     suspend fun deleteShop(@Body body: RequestBody): ResponseWrapper<Any>
 
+    /**
+     * 店铺选择列表
+     */
+    @POST("/shop/shopSelectList")
+    suspend fun shopSelectList(@Body body: RequestBody): ResponseWrapper<MutableList<ShopSelectEntity>>
+
+    /**
+     * 店铺预约设置列表
+     */
     @GET("/appoint/getSetting")
     suspend fun getShopAppointmentSettingList(@Query("shopId") shopId: Int): ResponseWrapper<MutableList<AppointmentSettingEntity>>
+
+    /**
+     * 店铺预约设置
+     */
     @GET("/appoint/setting")
     suspend fun setShopAppointment(@Body body: RequestBody): ResponseWrapper<Any>
 }

@@ -72,7 +72,6 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
         mBinding.refreshLayout.setOnLoadMoreListener {
             requestData(false)
         }
-        requestRefresh()
     }
 
     /**

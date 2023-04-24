@@ -13,8 +13,8 @@ class BalanceActivity : BaseBusinessActivity<ActivityBalanceBinding, BalanceView
 
     override fun layoutId(): Int = R.layout.activity_balance
 
-
     override fun getVM(): BalanceViewModel =mBalanceViewModel
+
     override fun initView() {
     }
 

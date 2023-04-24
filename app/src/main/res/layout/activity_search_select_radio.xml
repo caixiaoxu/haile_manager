@@ -22,7 +22,7 @@
             android:layout_height="@dimen/title_action_bar_h"
             android:background="@drawable/shape_bottom_stroke_dividing_efefef"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/department" />
+            app:title="@{vm.searchSelectTitle}" />
 
         <View
             android:id="@+id/view_device_manager_search_parent_bg"
@@ -58,7 +58,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="4dp"
             android:background="@color/transparent"
-            android:hint="@string/shop_search_hint"
+            android:hint="@{vm.searchSelectHint}"
             android:text="@={vm.searchKey}"
             app:layout_constraintBottom_toBottomOf="@id/view_device_manager_search_bg"
             app:layout_constraintEnd_toEndOf="@id/view_device_manager_search_bg"
@@ -73,7 +73,7 @@
             android:background="@drawable/shape_bottom_stroke_dividing_efefef"
             android:gravity="center_vertical"
             android:paddingStart="16dp"
-            android:text="@string/shop_info"
+            android:text="@{vm.searchSelectListHint}"
             app:layout_constraintTop_toBottomOf="@id/view_device_manager_search_parent_bg" />
 
         <androidx.core.widget.NestedScrollView

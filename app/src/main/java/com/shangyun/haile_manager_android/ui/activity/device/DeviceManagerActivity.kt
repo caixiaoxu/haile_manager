@@ -69,7 +69,6 @@ class DeviceManagerActivity :
                         }
                 }
             }
-
         }
 
     override fun layoutId(): Int = R.layout.activity_device_manager
@@ -98,7 +97,12 @@ class DeviceManagerActivity :
                     gravity = Gravity.CENTER
                     setBackgroundResource(R.drawable.shape_sf0a258_r22)
                     setOnClickListener {
-                        //TODO 创建
+                        startActivity(
+                            Intent(
+                                this@DeviceManagerActivity,
+                                DeviceCreateAndUpdateActivity::class.java
+                            )
+                        )
                     }
                 },
                 LinearLayout.LayoutParams(

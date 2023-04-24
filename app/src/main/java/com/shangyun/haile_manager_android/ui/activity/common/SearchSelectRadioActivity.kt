@@ -104,6 +104,7 @@ class SearchSelectRadioActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+
         initRightBtn()
     }
 

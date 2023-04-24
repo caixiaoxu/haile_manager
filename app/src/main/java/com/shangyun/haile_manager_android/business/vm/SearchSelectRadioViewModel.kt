@@ -1,8 +1,12 @@
 package com.shangyun.haile_manager_android.business.vm
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.StringUtils
+import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.apiService.DeviceService
 import com.shangyun.haile_manager_android.business.apiService.ShopService
 import com.shangyun.haile_manager_android.data.model.ApiRepository
@@ -30,6 +34,30 @@ class SearchSelectRadioViewModel : BaseViewModel() {
 
     // 搜索类型
     val searchSelectType: MutableLiveData<Int> = MutableLiveData()
+
+    val searchSelectTitle: LiveData<String> = searchSelectType.map {
+        when (it) {
+            SearchSelectTypeShop -> StringUtils.getString(R.string.department)
+            SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model))
+            else->""
+        }
+    }
+
+    val searchSelectHint: LiveData<String> = searchSelectType.map {
+        when (it) {
+            SearchSelectTypeShop -> StringUtils.getString(R.string.shop_search_hint)
+            SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model_search_hint))
+            else->""
+        }
+    }
+
+    val searchSelectListHint: LiveData<String> = searchSelectType.map {
+        when (it) {
+            SearchSelectTypeShop -> StringUtils.getString(R.string.shop_info)
+            SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model))
+            else->""
+        }
+    }
 
     // 设备类型id
     var categoryId: Int = -1

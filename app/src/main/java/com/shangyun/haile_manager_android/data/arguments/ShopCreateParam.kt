@@ -1,4 +1,4 @@
-package com.shangyun.haile_manager_android.data.entities
+package com.shangyun.haile_manager_android.data.arguments
 
 /**
  * Title :
@@ -10,7 +10,7 @@ package com.shangyun.haile_manager_android.data.entities
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-data class ShopCreateEntity(
+data class ShopCreateParam(
     var id: Int? = null,
     var shopType: Int = -1,
     var name: String = "",

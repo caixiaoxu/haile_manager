@@ -8,6 +8,7 @@ import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.business.apiService.ShopService
 import com.shangyun.haile_manager_android.business.event.BusEvents
+import com.shangyun.haile_manager_android.data.arguments.ShopCreateParam
 import com.shangyun.haile_manager_android.data.entities.*
 import com.shangyun.haile_manager_android.data.model.ApiRepository
 import com.shangyun.haile_manager_android.utils.StringUtils
@@ -27,8 +28,8 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
     private val mRepo = ApiRepository.apiClient(ShopService::class.java)
 
     // 店铺数据
-    val createAndUpdateEntity: MutableLiveData<ShopCreateEntity> =
-        MutableLiveData(ShopCreateEntity())
+    val createAndUpdateEntity: MutableLiveData<ShopCreateParam> =
+        MutableLiveData(ShopCreateParam())
 
     // 门店类型列表
     val shopTypeList: MutableLiveData<List<ShopTypeEntityI>> = MutableLiveData()
@@ -264,7 +265,7 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
         shopDetailEntity?.let {
             createAndUpdateEntity.value =
                     // id、店铺名、详细地址
-                ShopCreateEntity(
+                ShopCreateParam(
                     shopDetailEntity.id,
                     name = shopDetailEntity.name,
                     address = if (1 == shopDetailEntity.shopType) shopDetailEntity.area else shopDetailEntity.address,

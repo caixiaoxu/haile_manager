@@ -97,6 +97,7 @@ class MultiTypeItemView @JvmOverloads constructor(
         val inputType = array.getInt(R.styleable.MultiTypeItemView_android_inputType, 0)
         val maxLength = array.getInt(R.styleable.MultiTypeItemView_android_maxLength, 0)
         val maxLines = array.getInt(R.styleable.MultiTypeItemView_android_maxLines, 0)
+        val drawableEnd = array.getResourceId(R.styleable.MultiTypeItemView_android_drawableEnd, -1)
         val showArrow = array.getBoolean(R.styleable.MultiTypeItemView_showArrow, true)
         array.recycle()
 
@@ -132,13 +133,17 @@ class MultiTypeItemView @JvmOverloads constructor(
             }
         }
         // 显示右箭头
-        if (0 == type && showArrow) {
-            contentInfoView.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                0,
-                0,
-                R.mipmap.icon_arrow_right,
-                0
-            )
+        if (0 == type) {
+            if (showArrow) {
+                contentInfoView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    0, 0, R.mipmap.icon_arrow_right, 0
+                )
+            }
+            if (-1 != drawableEnd) {
+                contentInfoView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    0, 0, drawableEnd, 0
+                )
+            }
         }
         addContent()
     }

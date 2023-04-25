@@ -51,8 +51,10 @@
                     style="@style/MultiTypeItemViewStyle"
                     android:drawableEnd="@mipmap/icon_device_scan"
                     app:hint="@string/scan_hint"
-                    app:itemContent="@{vm.createAndUpdateEntity.code}"
+                    app:itemContent="@{vm.payCode}"
                     app:title="@string/pay_code"
+                    app:titleDrawableEnd="@mipmap/icon_item_required"
+                    app:titleDrawablePadding="4dp"
                     app:type="info" />
 
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
@@ -60,14 +62,16 @@
                     style="@style/MultiTypeItemViewStyle"
                     android:drawableEnd="@mipmap/icon_device_scan"
                     app:hint="@string/scan_hint"
-                    app:itemContent="@{vm.createAndUpdateEntity.imei}"
+                    app:itemContent="@{vm.imeiCode}"
                     app:title="@string/imei"
+                    app:titleDrawableEnd="@mipmap/icon_item_required"
+                    app:titleDrawablePadding="4dp"
                     app:type="info" />
 
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_device_create_model"
                     style="@style/MultiTypeItemViewStyle"
-                    app:itemContent="@{vm.createAndUpdateEntity.code}"
+                    app:itemContent="@{vm.createDeviceModelName}"
                     app:title="@string/device_model"
                     app:type="info" />
 
@@ -81,7 +85,7 @@
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_device_create_department"
                     style="@style/MultiTypeItemViewStyle"
-                    app:itemContent="@{vm.createAndUpdateEntity.code}"
+                    app:itemContent="@{vm.createDeviceShop.name}"
                     app:title="@string/department"
                     app:type="info" />
 
@@ -99,11 +103,12 @@
         <include layout="@layout/include_dividing1" />
 
         <com.shangyun.haile_manager_android.ui.view.CommonButton
-            android:id="@+id/btn_shop_create_submit"
+            android:id="@+id/btn_device_create_submit"
             style="@style/CommonMatchBtnStyle1"
             android:layout_marginHorizontal="14dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="42dp"
+            android:onClick="@{vm::submit}"
             android:text="@string/submit" />
     </LinearLayout>
 </layout>

@@ -8,6 +8,7 @@ import com.lsy.framelib.intfs.ILoadingDialog
 import com.lsy.framelib.ui.base.BaseApp
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.ui.weight.loading.LoadDialogMgr
+import timber.log.Timber
 
 /**
  * Title : Activity基类(构建ViewModel)

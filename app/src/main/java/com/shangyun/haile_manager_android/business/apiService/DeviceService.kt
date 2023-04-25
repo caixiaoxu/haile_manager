@@ -4,6 +4,7 @@ import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.shangyun.haile_manager_android.data.entities.DeviceEntity
 import com.shangyun.haile_manager_android.data.entities.DeviceStatusTotal
+import com.shangyun.haile_manager_android.data.entities.DeviceTypeOfImeiEntity
 import com.shangyun.haile_manager_android.data.entities.SpuEntity
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -25,7 +26,13 @@ interface DeviceService {
      * spu列表接口
      */
     @GET("/spu/list")
-    suspend fun spuList(@Query("categoryId") categoryId:Int): ResponseWrapper<MutableList<SpuEntity>>
+    suspend fun spuList(@Query("categoryId") categoryId: Int): ResponseWrapper<MutableList<SpuEntity>>
+
+    /**
+     * spu列表接口
+     */
+    @GET("/spu/deviceType")
+    suspend fun deviceTypeOfImei(@Query("imei") imei: String): ResponseWrapper<DeviceTypeOfImeiEntity>
 
     /**
      * 设备状态接口

@@ -56,6 +56,9 @@ data class Spu(
     val communicationType: Int,
 ) : SearchSelectRadioEntity {
     @Transient
+    var shortFeature: String? = null
+
+    @Transient
     var isSelect: MutableLiveData<Boolean>? = null
         get() {
             if (null == field) {

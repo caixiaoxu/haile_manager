@@ -108,4 +108,6 @@ dependencies {
     implementation ThirdLibs.amapSearch
 
     implementation ThirdLibs.indicator
+
+    implementation ThirdLibs.zxing_embedded
 }

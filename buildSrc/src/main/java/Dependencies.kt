@@ -51,6 +51,10 @@ object ThirdLibs {
 
     //指示器
     const val indicator =  "com.github.hackware1993:MagicIndicator:1.7.0"
+
+    //扫码 zxing 需独立出扫码功能
+//    const val zxing =  "com.google.zxing:core:3.5.1"
+    const val zxing_embedded =  "com.journeyapps:zxing-android-embedded:4.3.0"
 }
 
 object TestLibs {

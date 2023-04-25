@@ -56,6 +56,8 @@
     <string name="scan_hint">扫描模块上的二维码</string>
     <string name="no_configure">未配置</string>
     <string name="configured">已配置</string>
+    <string name="pay_code_error">该付款码无效</string>
+    <string name="imei_code_error">该IMEI码无效</string>
 
     <string name="shop_manager">门店管理</string>
     <string name="add_shop">添加店铺</string>

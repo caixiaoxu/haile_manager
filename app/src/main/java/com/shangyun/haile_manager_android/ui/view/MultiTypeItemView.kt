@@ -5,6 +5,7 @@ import android.text.InputFilter.LengthFilter
 import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
@@ -92,12 +93,18 @@ class MultiTypeItemView @JvmOverloads constructor(
     init {
         val array = context.obtainStyledAttributes(attrs, R.styleable.MultiTypeItemView)
         val title = array.getString(R.styleable.MultiTypeItemView_title)
+        val titleDrawableEnd =
+            array.getResourceId(R.styleable.MultiTypeItemView_titleDrawableEnd, -1)
+        val titleDrawablePadding =
+            array.getDimensionPixelSize(R.styleable.MultiTypeItemView_titleDrawablePadding, -1)
         type = array.getInt(R.styleable.MultiTypeItemView_type, 0)
         val hint = array.getString(R.styleable.MultiTypeItemView_hint)
         val inputType = array.getInt(R.styleable.MultiTypeItemView_android_inputType, 0)
         val maxLength = array.getInt(R.styleable.MultiTypeItemView_android_maxLength, 0)
         val maxLines = array.getInt(R.styleable.MultiTypeItemView_android_maxLines, 0)
         val drawableEnd = array.getResourceId(R.styleable.MultiTypeItemView_android_drawableEnd, -1)
+        val drawablePadding =
+            array.getDimensionPixelSize(R.styleable.MultiTypeItemView_android_drawablePadding, -1)
         val showArrow = array.getBoolean(R.styleable.MultiTypeItemView_showArrow, true)
         array.recycle()
 
@@ -107,6 +114,14 @@ class MultiTypeItemView @JvmOverloads constructor(
         // 添加布局
         // 标题
         titleView.text = title
+        if (-1 != titleDrawableEnd) {
+            titleView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0, 0, titleDrawableEnd, 0
+            )
+            if (-1 != titleDrawablePadding) {
+                titleView.compoundDrawablePadding = titleDrawablePadding
+            }
+        }
         addTitle()
         // 内容
         // 提示语
@@ -138,19 +153,36 @@ class MultiTypeItemView @JvmOverloads constructor(
                 contentInfoView.setCompoundDrawablesRelativeWithIntrinsicBounds(
                     0, 0, R.mipmap.icon_arrow_right, 0
                 )
+                if (-1 != drawablePadding) {
+                    titleView.compoundDrawablePadding = drawablePadding
+                }
             }
             if (-1 != drawableEnd) {
                 contentInfoView.setCompoundDrawablesRelativeWithIntrinsicBounds(
                     0, 0, drawableEnd, 0
                 )
+                if (-1 != drawablePadding) {
+                    titleView.compoundDrawablePadding = drawablePadding
+                }
             }
         }
         addContent()
     }
 
     private fun addTitle() {
-        addView(
+        val frameLayout = FrameLayout(context)
+        frameLayout.addView(
             titleView,
+            FrameLayout.LayoutParams(
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT
+            ).apply {
+                gravity = Gravity.CENTER_VERTICAL
+            }
+        )
+
+        addView(
+            frameLayout,
             LayoutParams(
                 DimensionUtils.dip2px(context, 104f),
                 LayoutParams.WRAP_CONTENT

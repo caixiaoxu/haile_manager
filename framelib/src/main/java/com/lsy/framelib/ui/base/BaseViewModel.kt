@@ -47,10 +47,10 @@ open class BaseViewModel : ViewModel() {
                 withContext(Dispatchers.Main){
                     complete()
                 }
-                //隐藏加载弹窗
-                if (showLoading)
-                    loadingStatus.postValue(false)
             }
+            //隐藏加载弹窗
+            if (showLoading)
+                loadingStatus.postValue(false)
         }
     }
 }

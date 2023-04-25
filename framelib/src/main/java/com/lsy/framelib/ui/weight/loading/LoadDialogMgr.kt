@@ -1,6 +1,7 @@
 package com.lsy.framelib.ui.weight.loading
 
 import androidx.fragment.app.FragmentActivity
+import timber.log.Timber
 
 /**
  * Title : 加载Dialog管理
@@ -30,7 +31,7 @@ object LoadDialogMgr {
             return
         }
         manager.beginTransaction().remove(loadingDialog).add(loadingDialog, LOAD_TIP_DIALOG_TAG)
-            .commitAllowingStateLoss()
+            .commitNowAllowingStateLoss()
     }
 
     /**

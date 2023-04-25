@@ -32,8 +32,8 @@ object StringUtils {
      * @return
      */
     @JvmStatic
-    fun checkPassword(password: String?): Boolean {
-        var flag: Boolean = try {
+    fun checkPassword(password: String?): Boolean =
+        try {
             val check = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\\d]{6,12}$"
             val regex = Pattern.compile(check)
             val matcher = regex.matcher(password)
@@ -41,8 +41,6 @@ object StringUtils {
         } catch (e: Exception) {
             false
         }
-        return flag
-    }
 
     /**
      * 创建金额字符串
@@ -164,5 +162,31 @@ object StringUtils {
         } else {
             "${df.format(juli)}m"
         }
+    }
+
+    private val PayCodeH5 = "^(https://h5.haier\\-ioc.com/scan\\?N=\\S*)$"
+    private val HaiLiCode1 = "^((http|https)://(uhome.haier.net|app.mrhi.cn)" +
+            "/download/app/washcall/index.html\\?devid=\\S*)"
+    private val HaiLiCode2 = "^((http|https)://(barcodewasher.haier.net/washer|bcw.haier.net)/barCode/\\S*)"
+
+    /**
+     * 截取付款码
+     */
+    fun getPayCode(payCodeStr: String): String? = try {
+        if (payCodeStr.matches(Regex(PayCodeH5))) {
+            payCodeStr.split("\\?N=".toRegex()).dropLastWhile { it.isEmpty() }
+                .toTypedArray()[1]
+        } else if (payCodeStr.matches(Regex(HaiLiCode1))) {
+            payCodeStr.split("\\?devid=".toRegex()).dropLastWhile { it.isEmpty() }
+                .toTypedArray()[1]
+        } else if (payCodeStr.matches(Regex(HaiLiCode2))) {
+            payCodeStr.split("barCode/".toRegex()).dropLastWhile { it.isEmpty() }
+                .toTypedArray()[1]
+        } else {
+            null
+        }
+    } catch (e: java.lang.Exception) {
+        e.printStackTrace()
+        null
     }
 }

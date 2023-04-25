@@ -12,10 +12,10 @@ import com.shangyun.haile_manager_android.data.rule.ICommonBottomItemEntity
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-data class CategoryEntityI(
+data class CategoryEntity(
     val id: Int,
     val parentId: Int,
-    val parent: CategoryParent,
+    val parent: CategoryEntity,
     val code: String,
     val platform: Int,
     val type: Int,
@@ -32,25 +32,6 @@ data class CategoryEntityI(
 ) : ICommonBottomItemEntity {
     override fun getTitle(): String = name
 }
-
-data class CategoryParent(
-    val brands: List<Any>,
-    val children: List<Any>,
-    val code: String,
-    val creatorId: Int,
-    val creatorName: String,
-    val description: String,
-    val icon: String,
-    val id: Int,
-    val lastEditor: Int,
-    val name: String,
-    val parent: String,
-    val parentId: Int,
-    val picUrl: String,
-    val platform: Int,
-    val specs: List<Any>,
-    val type: Int
-)
 
 data class CategoryChildren(
     val brands: List<Any>,

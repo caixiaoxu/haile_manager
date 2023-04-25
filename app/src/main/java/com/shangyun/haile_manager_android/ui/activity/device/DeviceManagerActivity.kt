@@ -26,7 +26,7 @@ import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.DeviceManagerViewModel
 import com.shangyun.haile_manager_android.business.vm.SearchSelectRadioViewModel
 import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
-import com.shangyun.haile_manager_android.data.entities.CategoryEntityI
+import com.shangyun.haile_manager_android.data.entities.CategoryEntity
 import com.shangyun.haile_manager_android.data.entities.DeviceEntity
 import com.shangyun.haile_manager_android.databinding.ActivityDeviceManagerBinding
 import com.shangyun.haile_manager_android.databinding.ItemDeviceListBinding
@@ -337,13 +337,13 @@ class DeviceManagerActivity :
     /**
      * 显示设备类型弹窗
      */
-    private fun showDeviceCategoryDialog(categoryEntities: List<CategoryEntityI>) {
+    private fun showDeviceCategoryDialog(categoryEntities: List<CategoryEntity>) {
         val deviceCategoryDialog =
             CommonBottomSheetDialog.Builder(getString(R.string.device_category), categoryEntities)
                 .apply {
                     onValueSureListener =
-                        object : CommonBottomSheetDialog.OnValueSureListener<CategoryEntityI> {
-                            override fun onValue(data: CategoryEntityI) {
+                        object : CommonBottomSheetDialog.OnValueSureListener<CategoryEntity> {
+                            override fun onValue(data: CategoryEntity) {
                                 mDeviceManagerViewModel.selectDeviceCategory.value = data
                             }
                         }

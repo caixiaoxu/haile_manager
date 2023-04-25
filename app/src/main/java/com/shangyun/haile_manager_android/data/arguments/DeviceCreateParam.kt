@@ -21,6 +21,7 @@ data class DeviceCreateParam(
     var extAttr: String = "",//	附加属性
     var soldState: Int = -1,//售卖状态。1上架，2下架
     var items: List<DeviceCreateItem> = arrayListOf(),//	功能列表
+    var communicationType: Int = -1,
 )
 
 data class DeviceCreateItem(

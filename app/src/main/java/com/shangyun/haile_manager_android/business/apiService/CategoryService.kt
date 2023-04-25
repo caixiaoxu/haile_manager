@@ -1,7 +1,7 @@
 package com.shangyun.haile_manager_android.business.apiService
 
 import com.lsy.framelib.network.response.ResponseWrapper
-import com.shangyun.haile_manager_android.data.entities.CategoryEntityI
+import com.shangyun.haile_manager_android.data.entities.CategoryEntity
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -21,6 +21,6 @@ interface CategoryService {
      * 分类接口
      */
     @GET("/category/list")
-    suspend fun category(@Query("parentId") parentId: Int): ResponseWrapper<List<CategoryEntityI>>
+    suspend fun category(@Query("parentId") parentId: Int): ResponseWrapper<List<CategoryEntity>>
 
 }

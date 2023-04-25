@@ -9,7 +9,7 @@ import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.apiService.CategoryService
 import com.shangyun.haile_manager_android.business.apiService.DeviceService
 import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
-import com.shangyun.haile_manager_android.data.entities.CategoryEntityI
+import com.shangyun.haile_manager_android.data.entities.CategoryEntity
 import com.shangyun.haile_manager_android.data.entities.DeviceEntity
 import com.shangyun.haile_manager_android.data.model.ApiRepository
 import com.shangyun.haile_manager_android.data.rule.IndicatorEntity
@@ -32,7 +32,7 @@ class DeviceManagerViewModel : BaseViewModel() {
     private val mCategoryRepo = ApiRepository.apiClient(CategoryService::class.java)
 
     // 设备类型
-    val categoryList: MutableLiveData<List<CategoryEntityI>> = MutableLiveData()
+    val categoryList: MutableLiveData<List<CategoryEntity>> = MutableLiveData()
 
     // 设备数量
     val mDeviceCountStr: MutableLiveData<String> = MutableLiveData()
@@ -43,7 +43,7 @@ class DeviceManagerViewModel : BaseViewModel() {
     }
 
     // 选择的设备类型
-    val selectDeviceCategory: MutableLiveData<CategoryEntityI> by lazy {
+    val selectDeviceCategory: MutableLiveData<CategoryEntity> by lazy {
         MutableLiveData()
     }
 

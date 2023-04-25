@@ -119,7 +119,7 @@ class LocationSelectActivity :
     }
 
     // 权限
-    private val requestMultiplePermission by lazy {
+    private val requestMultiplePermission =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result: Map<String, Boolean> ->
 
             var isAllow = true
@@ -134,7 +134,6 @@ class LocationSelectActivity :
                 locationClient.startLocation()
             }
         }
-    }
 
     // 搜索界面
     private val startSearchSelect =
@@ -159,7 +158,10 @@ class LocationSelectActivity :
 
             mBinding?.root?.setOnClickListener {
                 setResult(ShopCreateAndUpdateActivity.LocationResultCode, Intent().apply {
-                    putExtra(ShopCreateAndUpdateActivity.LocationResultData, GsonUtils.any2Json(item))
+                    putExtra(
+                        ShopCreateAndUpdateActivity.LocationResultData,
+                        GsonUtils.any2Json(item)
+                    )
                 })
                 finish()
             }

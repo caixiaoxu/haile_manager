@@ -17,6 +17,12 @@
         <item name="android:windowBackground">@color/page_bg</item>
     </style>
 
+    <style name="DividingStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/dividing_line_color_efefef</item>
+    </style>
+
     <style name="CommonMatchBtnStyle" parent="@style/Widget.AppCompat.Button.Borderless">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/common_btn_h</item>
@@ -100,13 +106,17 @@
         <item name="android:paddingEnd">8dp</item>
     </style>
 
-    <style name="MultiTypeItemViewStyle">
+    <style name="MultiTypeItemStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingTop">16dp</item>
         <item name="android:paddingBottom">16dp</item>
         <item name="android:layout_marginStart">16dp</item>
         <item name="android:layout_marginEnd">8sp</item>
+    </style>
+
+    <style name="MultiTypeItemViewStyle" parent="MultiTypeItemStyle">
+        <item name="android:background">@drawable/shape_bottom_stroke_dividing_efefef_mr8</item>
     </style>
 
     <style name="CommonBottomSheetStyle">
@@ -253,9 +263,18 @@
         <item name="android:textColor">@color/common_txt_hint_color</item>
     </style>
 
+    <style name="Font_16_cccccc">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/common_txt_hint_color</item>
+    </style>
+
     <style name="Font_16_333333">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/common_txt_color</item>
+    </style>
+
+    <style name="Font_16_333333_cccccc" parent="Font_16_333333">
+        <item name="android:textColorHint">@color/common_txt_hint_color</item>
     </style>
 
     <style name="Font_16_333333_bold" parent="Font_16_333333">

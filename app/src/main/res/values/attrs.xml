@@ -3,8 +3,8 @@
     <attr name="title" format="string" />
     <declare-styleable name="CommonTitleActionBar">
         <attr name="bgColor" format="color" />
-        <attr name="android:background"/>
-        <attr name="title"/>
+        <attr name="android:background" />
+        <attr name="title" />
     </declare-styleable>
 
     <declare-styleable name="CircleImageView">
@@ -17,26 +17,28 @@
             <enum name="info" value="0" />
             <enum name="input" value="1" />
         </attr>
-        <attr name="title"/>
-        <attr name="titleDrawableEnd" format="reference"/>
-        <attr name="titleDrawablePadding" format="dimension"/>
+        <attr name="title" />
+        <attr name="titleDrawableEnd" format="reference" />
+        <attr name="titleDrawablePadding" format="dimension" />
         <attr name="hint" format="string" />
+        <attr name="android:background" />
         <attr name="showArrow" format="boolean" />
-        <attr name="android:inputType"/>
-        <attr name="android:maxLength"/>
-        <attr name="android:maxLines"/>
-        <attr name="android:drawableEnd"/>
-        <attr name="android:drawablePadding"/>
+        <attr name="android:inputType" />
+        <attr name="android:maxLength" />
+        <attr name="android:maxLines" />
+        <attr name="android:drawableEnd" />
+        <attr name="android:drawablePadding" />
+        <attr name="unitHint" format="string" />
     </declare-styleable>
 
     <attr name="maxHeight" format="dimension" />
     <declare-styleable name="MaxHeightScrollView">
-        <attr name="maxHeight"/>
+        <attr name="maxHeight" />
     </declare-styleable>
     <declare-styleable name="MaxHeightRecyclerView">
-        <attr name="maxHeight"/>
+        <attr name="maxHeight" />
     </declare-styleable>
     <declare-styleable name="CustomChildListLinearLayout">
-        <attr name="itemLayout" format="reference"/>
+        <attr name="itemLayout" format="reference" />
     </declare-styleable>
 </resources>

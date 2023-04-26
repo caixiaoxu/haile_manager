@@ -26,7 +26,7 @@ class SearchSelectRadioActivity :
     companion object {
         const val SearchSelectType = "searchSelectType"
         const val CategoryId = "categoryId"
-        const val ShopResultCode = 90001
+        const val ShopResultCode = 0x90001
         const val DeviceModelResultCode = 90002
         const val ResultData = "resultData"
     }

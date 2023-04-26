@@ -6,6 +6,8 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
+import androidx.annotation.IntDef
+import androidx.annotation.StringDef
 import com.lsy.framelib.utils.DimensionUtils
 import java.io.UnsupportedEncodingException
 import java.text.DecimalFormat
@@ -167,7 +169,8 @@ object StringUtils {
     private val PayCodeH5 = "^(https://h5.haier\\-ioc.com/scan\\?N=\\S*)$"
     private val HaiLiCode1 = "^((http|https)://(uhome.haier.net|app.mrhi.cn)" +
             "/download/app/washcall/index.html\\?devid=\\S*)"
-    private val HaiLiCode2 = "^((http|https)://(barcodewasher.haier.net/washer|bcw.haier.net)/barCode/\\S*)"
+    private val HaiLiCode2 =
+        "^((http|https)://(barcodewasher.haier.net/washer|bcw.haier.net)/barCode/\\S*)"
 
     /**
      * 截取付款码

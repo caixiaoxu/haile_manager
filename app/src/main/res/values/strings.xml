@@ -58,6 +58,15 @@
     <string name="configured">已配置</string>
     <string name="pay_code_error">该付款码无效</string>
     <string name="imei_code_error">该IMEI码无效</string>
+    <string name="device_func_configuration_title">功能配置%1$d</string>
+    <string name="model_name">模式名称</string>
+    <string name="wash_time">洗涤时间</string>
+    <string name="dryer_time">烘干时间</string>
+    <string name="wash_money">洗涤费用</string>
+    <string name="pulse_count">脉冲数</string>
+    <string name="desc">描述信息</string>
+    <string name="money">金额</string>
+    <string name="dryer_time_title">选择烘干时间（可多选）</string>
 
     <string name="shop_manager">门店管理</string>
     <string name="add_shop">添加店铺</string>
@@ -129,5 +138,12 @@
 
     <string name="unit_yuan">元</string>
     <string name="unit_tai">台</string>
+    <string name="unit_minute_hint">（分）</string>
+    <string name="unit_yuan_hint">（元）</string>
+    <string name="unit_ge_hint">（个）</string>
+    <string name="unit_pulse_hint">（脉冲）</string>
+    <string name="unit_minute_num">%1$d分钟</string>
+    <string name="unit_device_configuration_hint1">%1$.2f元/%2$d分钟</string>
+    <string name="unit_device_configuration_hint2">%1$.2f元/%2$d分钟/%3$d个脉冲</string>
 
 </resources>

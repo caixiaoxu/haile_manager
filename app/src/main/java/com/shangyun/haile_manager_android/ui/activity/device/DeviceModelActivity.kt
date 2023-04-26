@@ -13,6 +13,7 @@ import com.lsy.framelib.utils.DimensionUtils
 import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.DeviceModelViewModel
+import com.shangyun.haile_manager_android.data.arguments.DeviceCategory
 import com.shangyun.haile_manager_android.data.arguments.DeviceModelParam
 import com.shangyun.haile_manager_android.data.entities.Spu
 import com.shangyun.haile_manager_android.databinding.ActivityDeviceModelBinding
@@ -43,10 +44,9 @@ class DeviceModelActivity :
     BaseBusinessActivity<ActivityDeviceModelBinding, DeviceModelViewModel>() {
 
     companion object {
-        const val ResultCode = 0x90001
+        const val ResultCode = 0x90002
         const val ResultDataName = "resultDataName"
         const val ResultDataId = "resultDataId"
-        const val ResultDataCommunicationType = "resultDataCommunicationType"
     }
 
     private val mDeviceModelViewModel by lazy {
@@ -73,7 +73,15 @@ class DeviceModelActivity :
                             setResult(ResultCode, Intent().apply {
                                 putExtra(ResultDataName, "${spu.name}${spu.feature}")
                                 putExtra(ResultDataId, spu.id)
-                                putExtra(ResultDataCommunicationType, spu.communicationType)
+                                putExtra(
+                                    DeviceCategory.CategoryId,
+                                    mDeviceModelViewModel.selectCategory.value?.id
+                                )
+                                putExtra(
+                                    DeviceCategory.CategoryCode,
+                                    mDeviceModelViewModel.selectCategory.value?.code
+                                )
+                                putExtra(DeviceCategory.CommunicationType, spu.communicationType)
                             })
                             finish()
                         }
@@ -126,7 +134,7 @@ class DeviceModelActivity :
                     }
                     itemBinding.rbDeviceCategory.text = entity.name
                     itemBinding.root.setOnClickListener {
-                        mDeviceModelViewModel.requestData(1, entity.id)
+                        mDeviceModelViewModel.selectCategory.value = entity
                     }
                     mBinding.rgDeviceModelCategory.addView(
                         itemBinding.root,
@@ -137,6 +145,10 @@ class DeviceModelActivity :
                     )
                 }
             }
+        }
+
+        mDeviceModelViewModel.selectCategory.observe(this) {
+            mDeviceModelViewModel.requestData(1, it.id)
         }
 
         mDeviceModelViewModel.deviceModel.observe(this) {

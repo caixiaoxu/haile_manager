@@ -2,14 +2,15 @@ package com.shangyun.haile_manager_android.business.vm
 
 import android.view.View
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.shangyun.haile_manager_android.business.apiService.DeviceService
-import com.shangyun.haile_manager_android.data.arguments.DeviceCreateItem
 import com.shangyun.haile_manager_android.data.arguments.DeviceCreateParam
 import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
+import com.shangyun.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.shangyun.haile_manager_android.data.model.ApiRepository
 import timber.log.Timber
 
@@ -43,22 +44,77 @@ class DeviceCreateAndUpdateViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
+    val isSelectedModel: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    var deviceCategoryCode: String? = ""
+
     // 是否是脉冲
-    var communicationType: Int = -1
+    var deviceCommunicationType: Int = -1
+
+    // 设备名称
+    val deviceName:MutableLiveData<String>  by lazy {
+        MutableLiveData()
+    }
 
     // 所属门店
     val createDeviceShop: MutableLiveData<SearchSelectParam> by lazy {
         MutableLiveData()
     }
 
-    private val createDeviceShop1: LiveData<Boolean> = createDeviceShop.map {
-        createAndUpdateEntity.value?.shopId = it.id
-        false
+    // 功能配置
+    val createDeviceFunConfigure: MutableLiveData<List<SkuFuncConfigurationParam>> by lazy {
+        MutableLiveData()
     }
 
-    // 功能配置
-    val createDeviceFunConfigure: MutableLiveData<List<DeviceCreateItem>> by lazy {
-        MutableLiveData()
+    // 是否可提交
+    val canSubmit: MediatorLiveData<Boolean> = MediatorLiveData(false).apply {
+        addSource(payCode) {
+            value = checkSubmit()
+        }
+        addSource(imeiCode) {
+            value = checkSubmit()
+        }
+        addSource(createDeviceModelName) {
+            value = checkSubmit()
+        }
+        addSource(deviceName) {
+            value = checkSubmit()
+        }
+        addSource(createDeviceShop) {
+            value = checkSubmit()
+        }
+        addSource(createDeviceFunConfigure) {
+            value = checkSubmit()
+        }
+    }
+
+    /**
+     * 检测是否可提交
+     */
+    private fun checkSubmit(): Boolean = (!createAndUpdateEntity.value?.code.isNullOrEmpty()
+            && !createAndUpdateEntity.value?.imei.isNullOrEmpty()
+            && (-1 != createAndUpdateEntity.value?.spuId)
+            && (-1 != createAndUpdateEntity.value?.shopCategoryId)
+            && !createAndUpdateEntity.value?.name.isNullOrEmpty()
+            && (-1 != createAndUpdateEntity.value?.shopId)
+            && null != createDeviceFunConfigure.value)
+
+    /**
+     * 切换设备型号
+     */
+    fun changeDeviceModel(
+        spuId: Int,
+        spuName: String?,
+        categoryId: Int,
+        categoryCode: String?,
+        communicationType: Int
+    ) {
+        createAndUpdateEntity.value?.spuId = spuId
+        createDeviceModelName.value = spuName
+        createAndUpdateEntity.value?.shopCategoryId = categoryId
+        deviceCategoryCode = categoryCode
+        deviceCommunicationType = communicationType
+        isSelectedModel.value = true
     }
 
     /**
@@ -68,10 +124,13 @@ class DeviceCreateAndUpdateViewModel : BaseViewModel() {
         launch({
             val deviceType = ApiRepository.dealApiResult(mRepo.deviceTypeOfImei(imei))
             deviceType?.let { type ->
-                createAndUpdateEntity.value?.spuId = type.spu.id
-                createAndUpdateEntity.value?.code = type.category.code
-                createAndUpdateEntity.value?.communicationType = type.spu.communicationType
-                createDeviceModelName.postValue(type.spu.name + type.spu.feature)
+                changeDeviceModel(
+                    type.spu.id,
+                    type.spu.name + type.spu.feature,
+                    type.category.id,
+                    type.category.code,
+                    type.spu.communicationType
+                )
             }
         }, {
             it.message?.let { it1 -> SToast.showToast(msg = it1) }

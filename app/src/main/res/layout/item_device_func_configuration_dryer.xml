@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.shangyun.haile_manager_android.data.entities.SkuEntity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_device_fun_configuration_index"
+                style="@style/Font_16_333333_bold"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                tools:text="功能配置1" />
+
+            <Switch
+                android:id="@+id/switch_device_fun_configuration_open"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@{1 == item.soldState}"
+                android:onCheckedChanged="@{(btn,checked)->item.setSoldState(checked?1:2)}"
+                android:thumb="@drawable/selector_default_switch_thumb"
+                android:track="@drawable/selector_default_switch_track" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/DividingStyle"
+            android:layout_marginHorizontal="16dp" />
+
+        <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+            android:id="@+id/mtiv_device_fun_configuration_name"
+            style="@style/MultiTypeItemStyle"
+            app:itemContent="@={item.name}"
+            app:title="@string/model_name"
+            app:type="input" />
+
+        <View
+            style="@style/DividingStyle"
+            android:layout_marginHorizontal="16dp" />
+
+        <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+            android:id="@+id/mtiv_device_fun_configuration_desc"
+            style="@style/MultiTypeItemStyle"
+            app:itemContent="@={item.feature}"
+            app:title="@string/desc"
+            app:titleDrawableEnd="@mipmap/icon_item_required"
+            app:titleDrawablePadding="4dp"
+            app:type="input" />
+
+        <View
+            style="@style/DividingStyle"
+            android:layout_marginHorizontal="16dp" />
+
+        <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+            android:id="@+id/mtiv_device_fun_configuration_dryer_time"
+            style="@style/MultiTypeItemStyle"
+            app:itemContent="@{item.extAttrStr}"
+            android:inputType="numberDecimal"
+            app:title="@string/dryer_time"
+            app:type="info" />
+
+        <View
+            style="@style/DividingStyle"
+            android:layout_marginHorizontal="16dp" />
+
+        <LinearLayout
+            android:id="@+id/ll_device_fun_configuration_dryer_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+
+    </LinearLayout>
+</layout>

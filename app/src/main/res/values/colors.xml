@@ -18,7 +18,7 @@
     <color name="common_txt_color">#333333</color>
     <color name="common_txt_hint_color">#CCCCCC</color>
     <color name="dividing_line_color">#E3E3E3</color>
-    <color name="dividing_line_color1">#EFEFEF</color>
+    <color name="dividing_line_color_efefef">#EFEFEF</color>
 
     <color name="common_sub_txt_color">#999999</color>
 

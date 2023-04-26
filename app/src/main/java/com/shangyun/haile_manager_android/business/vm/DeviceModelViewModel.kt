@@ -28,6 +28,9 @@ class DeviceModelViewModel : BaseViewModel() {
 
     // 设备类别
     val categoryList: MutableLiveData<List<CategoryEntity>> = MutableLiveData()
+    val selectCategory: MutableLiveData<CategoryEntity> by lazy {
+        MutableLiveData()
+    }
 
     // 设备型号缓存
     val deviceModelCache: MutableMap<Int, MutableList<DeviceModelParam>> = hashMapOf()
@@ -37,8 +40,8 @@ class DeviceModelViewModel : BaseViewModel() {
         launch({
             when (type) {
                 0 -> {
-                     requestDeviceCategory()?.let {
-                        requestDeviceModel(it)
+                    requestDeviceCategory()?.let {
+                        selectCategory.postValue(it)
                     }
                 }
                 1 -> {
@@ -60,14 +63,14 @@ class DeviceModelViewModel : BaseViewModel() {
      * 请求设备类别
      * @return 第一个类别的id
      */
-    private suspend fun requestDeviceCategory(): Int? {
+    private suspend fun requestDeviceCategory(): CategoryEntity? {
         val list = ApiRepository.dealApiResult(
             mCategoryRepo.category(1)
         )
         list?.let {
             categoryList.postValue(it)
         }
-        return list?.get(0)?.id
+        return list?.get(0)
     }
 
     /**

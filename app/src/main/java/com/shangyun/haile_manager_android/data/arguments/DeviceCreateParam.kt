@@ -1,5 +1,7 @@
 package com.shangyun.haile_manager_android.data.arguments
 
+import com.shangyun.haile_manager_android.data.entities.SkuFuncConfigurationParam
+
 /**
  * Title :
  * Author: Lsy
@@ -20,18 +22,6 @@ data class DeviceCreateParam(
     var code: String = "",//付款码
     var extAttr: String = "",//	附加属性
     var soldState: Int = -1,//售卖状态。1上架，2下架
-    var items: List<DeviceCreateItem> = arrayListOf(),//	功能列表
+    var items: List<SkuFuncConfigurationParam> = arrayListOf(),//	功能列表
     var communicationType: Int = -1,
-)
-
-data class DeviceCreateItem(
-    val extAttr: String,
-    val feature: String,
-    val id: Int,
-    val name: String,
-    val price: String,
-    val pulse: Int,
-    val skuId: Int,
-    val soldState: Int,
-    val unit: String
 )

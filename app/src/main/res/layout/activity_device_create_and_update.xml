@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.shangyun.haile_manager_android.business.vm.DeviceCreateAndUpdateViewModel" />
@@ -78,8 +80,8 @@
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_device_create_name"
                     style="@style/MultiTypeItemViewStyle"
-                    app:itemContent="@{vm.createAndUpdateEntity.code}"
-                    app:title="@string/device_model"
+                    app:itemContent="@={vm.deviceName}"
+                    app:title="@string/device_name"
                     app:type="input" />
 
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
@@ -91,10 +93,26 @@
 
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_device_create_fun_configure"
-                    style="@style/MultiTypeItemViewStyle"
+                    style="@style/MultiTypeItemStyle"
+                    android:visibility='@{vm.isSelectedModel?View.VISIBLE:View.GONE}'
                     app:itemContent="@{(null == vm.createDeviceFunConfigure || 0 == vm.createDeviceFunConfigure.size())?@string/no_configure:@string/configured}"
                     app:title="@string/fun_configure"
                     app:type="info" />
+
+                <LinearLayout
+                    android:id="@+id/ll_device_create_select_fun_configuration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shape_sf7f7f7_r8"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="12dp"
+                    android:visibility="@{(null == vm.createDeviceFunConfigure || 0 == vm.createDeviceFunConfigure.size())?View.GONE:View.VISIBLE}" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:visibility="@{(null == vm.createDeviceFunConfigure || 0 == vm.createDeviceFunConfigure.size())?View.GONE:View.VISIBLE}" />
 
             </LinearLayout>
 
@@ -108,6 +126,7 @@
             android:layout_marginHorizontal="14dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="42dp"
+            android:enabled="@{vm.canSubmit}"
             android:onClick="@{vm::submit}"
             android:text="@string/submit" />
     </LinearLayout>

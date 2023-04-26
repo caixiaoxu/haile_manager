@@ -2,11 +2,9 @@ package com.shangyun.haile_manager_android.business.apiService
 
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
-import com.shangyun.haile_manager_android.data.entities.DeviceEntity
-import com.shangyun.haile_manager_android.data.entities.DeviceStatusTotal
-import com.shangyun.haile_manager_android.data.entities.DeviceTypeOfImeiEntity
-import com.shangyun.haile_manager_android.data.entities.SpuEntity
+import com.shangyun.haile_manager_android.data.entities.*
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
 
@@ -21,6 +19,12 @@ import retrofit2.http.QueryMap
  * 作者姓名 修改时间 版本号 描述
  */
 interface DeviceService {
+
+    /**
+     * spu列表接口
+     */
+    @GET("/spu/{spuId}/sku")
+    suspend fun sku(@Path("spuId") spuId: Int): ResponseWrapper<MutableList<SkuEntity>>
 
     /**
      * spu列表接口

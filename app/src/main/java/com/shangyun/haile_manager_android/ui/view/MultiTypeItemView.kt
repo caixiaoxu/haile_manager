@@ -85,6 +85,15 @@ class MultiTypeItemView @JvmOverloads constructor(
         }
     }
 
+    // 单位界面界面
+    private val unitView: TextView by lazy {
+        TextView(context).apply {
+            textSize = 16f
+            setTextColor(ResourcesCompat.getColor(resources, R.color.common_txt_hint_color, null))
+            setPadding(DimensionUtils.dip2px(context, 8f), 0, 0, 0)
+        }
+    }
+
     var onSelectedEvent: (() -> Unit)? = null
 
     // 内容变化监听
@@ -93,6 +102,7 @@ class MultiTypeItemView @JvmOverloads constructor(
     init {
         val array = context.obtainStyledAttributes(attrs, R.styleable.MultiTypeItemView)
         val title = array.getString(R.styleable.MultiTypeItemView_title)
+        val background = array.getResourceId(R.styleable.MultiTypeItemView_android_background, -1)
         val titleDrawableEnd =
             array.getResourceId(R.styleable.MultiTypeItemView_titleDrawableEnd, -1)
         val titleDrawablePadding =
@@ -106,10 +116,12 @@ class MultiTypeItemView @JvmOverloads constructor(
         val drawablePadding =
             array.getDimensionPixelSize(R.styleable.MultiTypeItemView_android_drawablePadding, -1)
         val showArrow = array.getBoolean(R.styleable.MultiTypeItemView_showArrow, true)
+        val unitHint = array.getString(R.styleable.MultiTypeItemView_unitHint)
         array.recycle()
 
-        // 底线
-        setBackgroundResource(R.drawable.shape_bottom_stroke_dividing_efefef_mr8)
+        // 背景
+        if (-1 != background)
+            setBackgroundResource(background)
 
         // 添加布局
         // 标题
@@ -167,8 +179,15 @@ class MultiTypeItemView @JvmOverloads constructor(
             }
         }
         addContent()
+        if (!unitHint.isNullOrEmpty()){
+            unitView.text = unitHint
+            addUnit()
+        }
     }
 
+    /**
+     * 添加标题控件
+     */
     private fun addTitle() {
         val frameLayout = FrameLayout(context)
         frameLayout.addView(
@@ -190,15 +209,31 @@ class MultiTypeItemView @JvmOverloads constructor(
         )
     }
 
+    /**
+     * 添加内容控件
+     */
     private fun addContent() {
         addView(
             getContentView(),
             LayoutParams(
-                LayoutParams.MATCH_PARENT,
+                0,
                 LayoutParams.WRAP_CONTENT
             ).apply {
                 weight = 1f
             }
+        )
+    }
+
+    /**
+     * 添加单位控件
+     */
+    private fun addUnit() {
+        addView(
+            unitView,
+            LayoutParams(
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT
+            )
         )
     }
 

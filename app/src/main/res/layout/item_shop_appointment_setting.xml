@@ -28,7 +28,7 @@
             tools:text="洗衣机预约" />
 
         <Switch
-            android:id="@+id/switch__shop_appointment_open"
+            android:id="@+id/switch_shop_appointment_open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="@{1 == item.appointSwitch}"

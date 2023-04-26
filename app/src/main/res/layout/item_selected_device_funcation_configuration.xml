@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.shangyun.haile_manager_android.data.entities.SkuFuncConfigurationParam" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_select_func_configuration_name"
+            style="@style/Font_14_333333"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:text="@{item.name + '：'}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="普通洗：" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_select_func_configuration"
+            style="@style/Font_14_333333"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{item.getConfigurationStr}"
+            app:layout_constraintEnd_toStartOf="@id/tv_select_func_configuration_status"
+            app:layout_constraintStart_toEndOf="@id/tv_select_func_configuration_name"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2.00元/30分钟/1个脉冲" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_select_func_configuration_status"
+            style="@style/Font_14_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{item.getSoldStateValue}'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="已停用" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_select_func_configuration_feature"
+            style="@style/Font_14_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{item.feature}"
+            app:layout_constraintEnd_toEndOf="@id/tv_select_func_configuration"
+            app:layout_constraintStart_toStartOf="@id/tv_select_func_configuration"
+            app:layout_constraintTop_toBottomOf="@id/tv_select_func_configuration"
+            tools:text="适合夏日轻薄的衣物洗涤" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

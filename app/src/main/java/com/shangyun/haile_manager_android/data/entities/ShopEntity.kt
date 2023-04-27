@@ -1,5 +1,7 @@
 package com.shangyun.haile_manager_android.data.entities
 
+import com.shangyun.haile_manager_android.data.rule.ISearchSelectEntity
+
 /**
  * Title :
  * Author: Lsy

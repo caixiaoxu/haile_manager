@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import com.lsy.framelib.network.response.ResponseList
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.databinding.CustomRefreshRecyclerViewBinding
 import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
@@ -21,7 +20,7 @@ import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
+class CommonLoadMoreRecyclerView<D> @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : FrameLayout(context, attrs) {
 
@@ -48,20 +47,6 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
         mBinding.rvRefreshList.addItemDecoration(decor)
     }
 
-    // 禁用/启动刷新
-    var enableRefresh: Boolean = true
-        set(value) {
-            field = value
-            mBinding.refreshLayout.setEnableRefresh(value)
-        }
-
-    // 禁用/启动加载
-    var enableLoadMore: Boolean = true
-        set(value) {
-            field = value
-            mBinding.refreshLayout.setEnableLoadMore(value)
-        }
-
     // 页数
     var page: Int = 1
 
@@ -77,10 +62,7 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
         )
         addView(mBinding.root)
 
-        // 刷新
-        mBinding.refreshLayout.setOnRefreshListener {
-            requestData(true)
-        }
+        mBinding.refreshLayout.setEnableRefresh(false)
 
         // 加载
         mBinding.refreshLayout.setOnLoadMoreListener {
@@ -94,79 +76,56 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
     private fun requestData(isRefresh: Boolean) {
         if (isRefresh) page = 1
         requestData?.requestData(page, pageSize) {
-            if (isRefresh) {
-                onRefresh(it)
-            } else
-                onLoadMore(it)
-        }
-    }
-
-    /**
-     * 刷新
-     * @param isRefreshLayout 是否需要刷新界面
-     */
-    fun requestRefresh(isRefreshLayout: Boolean = false) {
-        if (isRefreshLayout && enableRefresh) {
-            mBinding.refreshLayout.autoRefresh()
-        } else {
-            requestData(true)
+            onLoadMore(it, isRefresh)
         }
     }
 
     /**
      * 加载
+     * @param isRefresh 是否重新加载
      * @param isLoadMoreLayout 是否需要加载界面
      */
-    fun requestLoadMore(isLoadMoreLayout: Boolean = true) {
-        if (isLoadMoreLayout && enableLoadMore) {
-            mBinding.refreshLayout.autoLoadMore()
+    fun requestLoadMore(isRefresh: Boolean = false, isLoadMoreLayout: Boolean = true) {
+        if (isRefresh) {
+            requestData(true)
         } else {
-            requestData(false)
-        }
-    }
-
-    /**
-     * 刷新数据
-     */
-    private fun onRefresh(list: ResponseList<out D>?) {
-        mBinding.refreshLayout.finishRefresh()
-        list?.let {
-            refreshDate(it, true)
+            if (isLoadMoreLayout) {
+                mBinding.refreshLayout.autoLoadMore()
+            } else {
+                requestData(false)
+            }
         }
     }
 
     /**
      * 加载数据
      */
-    private fun onLoadMore(list: ResponseList<out D>?) {
+    private fun onLoadMore(list: MutableList<out D>?, isRefresh: Boolean) {
         mBinding.refreshLayout.finishLoadMore()
         list?.let {
-            refreshDate(it)
+            refreshDate(it, isRefresh)
         }
     }
 
     /**
      * 刷新数据
      * @param it 数据列表
-     * @param isRefresh 是否刷新
      */
-    private fun refreshDate(it: ResponseList<out D>, isRefresh: Boolean = false) {
+    private fun refreshDate(it: MutableList<out D>, isRefresh: Boolean) {
         //判断 当前页 数量不为0，页数加1
-        if (0 < it.pageSize) {
+        if (0 < it.size) {
             page++
         }
 
         // 自定义处理
-        if (true == if (isRefresh) requestData?.onRefresh(it) else requestData?.onLoadMore(it)) {
+        if (true == requestData?.onLoadMore(it)) {
             return
         }
         // 刷新数据
-        adapter?.refreshList(it.items, isRefresh)
+        adapter?.refreshList(it, isRefresh)
 
-        // 判断列表数量 >= 总数据数量
-        if ((adapter?.itemCount ?: 0) >= it.total) {
+        if (it.size <= pageSize)
             mBinding.refreshLayout.setEnableLoadMore(false)
-        }
     }
 
     /**
@@ -182,21 +141,14 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
         abstract fun requestData(
             page: Int,
             pageSize: Int,
-            callBack: (responseList: ResponseList<out D>?) -> Unit
+            callBack: (responseList: MutableList<out D>?) -> Unit
         )
-
-        /**
-         * 刷新数据
-         * @param responseList 返回的列表数据
-         * @return 是否拦截后续操作
-         */
-        fun onRefresh(responseList: ResponseList<out D>): Boolean = false
 
         /**
          * 加载数据
          * @param responseList 返回的列表数据
          * @return 是否拦截后续操作
          */
-        fun onLoadMore(responseList: ResponseList<out D>): Boolean = false
+        fun onLoadMore(responseList: MutableList<out D>): Boolean = false
     }
 }

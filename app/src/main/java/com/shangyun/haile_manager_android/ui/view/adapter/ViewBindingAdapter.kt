@@ -95,7 +95,6 @@ object ViewBindingAdapter {
             (getContentView() as EditText).setSelection(getContentView().text.length)
         }
     }
-
     @InverseBindingAdapter(attribute = "itemContent", event = "itemContentAttrChanged")
     @JvmStatic
     fun MultiTypeItemView.getItemContent(): String = getContentView().text.toString()

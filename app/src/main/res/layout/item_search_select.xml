@@ -21,7 +21,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_search_select_title"
-            style="@style/Font_16_333333"
+            style="@style/Font_16_333333_bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"

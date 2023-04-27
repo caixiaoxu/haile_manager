@@ -22,10 +22,12 @@ import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.business.vm.ShopManagerViewModel
+import com.shangyun.haile_manager_android.data.arguments.SearchType
 import com.shangyun.haile_manager_android.data.entities.ShopEntity
 import com.shangyun.haile_manager_android.databinding.ActivityShopManagerBinding
 import com.shangyun.haile_manager_android.databinding.ItemShopListBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.shangyun.haile_manager_android.ui.activity.common.SearchActivity
 import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.shangyun.haile_manager_android.utils.NumberUtils
@@ -81,6 +83,13 @@ class ShopManagerActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+
+        // 搜索界面
+        mBinding.viewShopManagerSearchBg.setOnClickListener {
+            startActivity(Intent(this@ShopManagerActivity, SearchActivity::class.java).apply {
+                putExtra(SearchType.SearchType,SearchType.Shop)
+            })
+        }
 
         // 刷新
         mBinding.tvShopManagerListRefresh.setOnClickListener {
@@ -162,7 +171,7 @@ class ShopManagerActivity :
                 override fun requestData(
                     page: Int,
                     pageSize: Int,
-                    callBack: (responseList: ResponseList<ShopEntity>?) -> Unit
+                    callBack: (responseList: ResponseList<out ShopEntity>?) -> Unit
                 ) {
                     if (true == mSharedViewModel.hasShopListPermission.value) {
                         mShopManagerViewModel.requestShopList(page, pageSize, callBack)

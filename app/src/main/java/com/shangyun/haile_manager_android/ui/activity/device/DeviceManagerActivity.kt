@@ -28,11 +28,13 @@ import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.business.vm.DeviceManagerViewModel
 import com.shangyun.haile_manager_android.business.vm.SearchSelectRadioViewModel
 import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
+import com.shangyun.haile_manager_android.data.arguments.SearchType
 import com.shangyun.haile_manager_android.data.entities.CategoryEntity
 import com.shangyun.haile_manager_android.data.entities.DeviceEntity
 import com.shangyun.haile_manager_android.databinding.ActivityDeviceManagerBinding
 import com.shangyun.haile_manager_android.databinding.ItemDeviceListBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.shangyun.haile_manager_android.ui.activity.common.SearchActivity
 import com.shangyun.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.shangyun.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
@@ -118,6 +120,12 @@ class DeviceManagerActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+
+        mBinding.viewDeviceManagerSearchBg.setOnClickListener {
+            startActivity(Intent(this@DeviceManagerActivity, SearchActivity::class.java).apply {
+                putExtra(SearchType.SearchType, SearchType.Device)
+            })
+        }
 
         // 所属门店
         mBinding.tvDeviceCategoryDepartment.setOnClickListener {
@@ -244,7 +252,7 @@ class DeviceManagerActivity :
                 override fun requestData(
                     page: Int,
                     pageSize: Int,
-                    callBack: (responseList: ResponseList<DeviceEntity>?) -> Unit
+                    callBack: (responseList: ResponseList<out DeviceEntity>?) -> Unit
                 ) {
                     if (true == mSharedViewModel.hasDeviceListPermission.value) {
                         mDeviceManagerViewModel.requestDeviceList(page, pageSize, callBack)
@@ -335,7 +343,7 @@ class DeviceManagerActivity :
         }
 
         // 监听刷新
-        LiveDataBus.with(BusEvents.DEVICE_LIST_STATUS)?.observe(this){
+        LiveDataBus.with(BusEvents.DEVICE_LIST_STATUS)?.observe(this) {
             mBinding.rvDeviceManagerList.requestRefresh()
         }
     }

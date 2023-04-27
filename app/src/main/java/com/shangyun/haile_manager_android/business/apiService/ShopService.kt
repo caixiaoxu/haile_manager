@@ -28,6 +28,12 @@ interface ShopService {
     suspend fun shopList(@Body body: RequestBody): ResponseWrapper<ResponseList<ShopEntity>>
 
     /**
+     * 店铺搜索列表接口
+     */
+    @POST("/shop/shopSearchList")
+    suspend fun shopSearchList(@Body body: RequestBody): ResponseWrapper<MutableList<ShopSearchEntity>>
+
+    /**
      * 店铺详情接口
      */
     @POST("/shop/shopDetail")

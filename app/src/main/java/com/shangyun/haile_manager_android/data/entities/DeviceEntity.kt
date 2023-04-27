@@ -4,6 +4,8 @@ import android.graphics.Color
 import androidx.core.content.ContextCompat
 import com.lsy.framelib.data.constants.Constants
 import com.shangyun.haile_manager_android.R
+import com.shangyun.haile_manager_android.data.arguments.DeviceCategory
+import com.shangyun.haile_manager_android.data.rule.ISearchSelectEntity
 
 /**
  * Title :
@@ -45,24 +47,7 @@ data class DeviceEntity(
     val iotStatus: Int,//网络状态(1-在线；2-离线；4-故障)
     val signals: Int,//信号值
     val income: Double//总收益
-) {
-    companion object {
-        //洗衣机
-        const val DEVICE_WASHING_MACHINE_CODE = "00"
-
-        //洗鞋机
-        const val DEVICE_SHOES_CODE = "01"
-
-        //烘干机
-        const val DEVICE_DRYER_CODE = "02"
-
-        //吹风机
-        const val DEVICE_HAIR_CODE = "03"
-
-        //饮水机
-        const val DEVICE_WATER_CODE = "04"
-    }
-
+) :ISearchSelectEntity{
     fun getCategoryBgRes() = intArrayOf(
         R.drawable.shape_strokef0a258_solid26f0a258_r9,
         R.drawable.shape_stroke30c19a_solid2630c19a_r9,
@@ -84,9 +69,9 @@ data class DeviceEntity(
      * 获取类型
      */
     fun getDeviceCategory(): Int = when (categoryCode) {
-        DEVICE_WASHING_MACHINE_CODE -> 0
-        DEVICE_SHOES_CODE -> 1
-        DEVICE_DRYER_CODE -> 2
+        DeviceCategory.Washing -> 0
+        DeviceCategory.Shoes -> 1
+        DeviceCategory.Dryer -> 2
         else -> 3
     }
 
@@ -134,4 +119,6 @@ data class DeviceEntity(
      * 显示信号状态
      */
     fun isIotShow(): Boolean = 0 != iotStatus
+    override fun getTitle(): String = name
+
 }

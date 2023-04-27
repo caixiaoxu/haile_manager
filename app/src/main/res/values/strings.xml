@@ -15,6 +15,7 @@
     <string name="online">在线</string>
     <string name="offline">离线</string>
     <string name="break_down">故障</string>
+    <string name="search">搜索</string>
 
     <string name="login_name">登录</string>
     <string name="login_account_password">账号密码登录</string>
@@ -67,6 +68,7 @@
     <string name="desc">描述信息</string>
     <string name="money">金额</string>
     <string name="dryer_time_title">选择烘干时间（可多选）</string>
+    <string name="search_device_hint">请输入设备型号/名称</string>
 
     <string name="shop_manager">门店管理</string>
     <string name="add_shop">添加店铺</string>
@@ -101,6 +103,7 @@
     <string name="appointment_status">预约状态</string>
     <string name="appointment_setting">预约设置</string>
     <string name="copy_phone">复制手机号</string>
+    <string name="search_shop_hint">请输入店铺名称</string>
 
     <string name="order_manager">订单管理</string>
     <string name="staff_manager">人员管理</string>
@@ -110,6 +113,7 @@
     <string name="sub_account_manager">分账管理</string>
     <string name="home_msg_title">最近消息</string>
     <string name="home_msg_num">条新消息</string>
+    <string name="search_order_hint">请输入订单编号或手机号</string>
 
     <string name="date_time_title">请选择时间</string>
     <string name="to">至</string>

@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="isDryer"
+            type="java.lang.Boolean" />
+
+        <variable
             name="item"
             type="com.shangyun.haile_manager_android.data.entities.SkuFuncConfigurationParam" />
     </data>
@@ -29,7 +33,7 @@
             style="@style/Font_14_333333"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{item.getConfigurationStr}"
+            android:text="@{item.getConfigurationStr(isDryer)}"
             app:layout_constraintEnd_toStartOf="@id/tv_select_func_configuration_status"
             app:layout_constraintStart_toEndOf="@id/tv_select_func_configuration_name"
             app:layout_constraintTop_toTopOf="parent"

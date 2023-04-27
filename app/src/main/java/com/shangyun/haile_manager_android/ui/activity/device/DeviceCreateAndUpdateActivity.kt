@@ -211,6 +211,8 @@ class DeviceCreateAndUpdateActivity :
                         )
                     mFuncConfigBinding?.let {
                         mFuncConfigBinding.item = config
+                        mFuncConfigBinding.isDryer =
+                            DeviceCategory.isDryer(mDeviceCreateAndUpdateViewModel.deviceCategoryCode)
                         mBinding.llDeviceCreateSelectFunConfiguration.addView(
                             mFuncConfigBinding.root,
                             LinearLayout.LayoutParams(
@@ -223,6 +225,11 @@ class DeviceCreateAndUpdateActivity :
                     }
                 }
             }
+        }
+
+        // 跳转
+        mDeviceCreateAndUpdateViewModel.jump.observe(this) {
+            finish()
         }
     }
 

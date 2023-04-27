@@ -40,7 +40,7 @@ data class SkuEntity(
         get() = unit.toString()
         set(value) {
             try {
-                unit = if (value.isNullOrEmpty()) 0 else value.toInt()
+                unit = if (value.isNullOrEmpty()) -1 else value.toInt()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -50,7 +50,7 @@ data class SkuEntity(
         get() = price.toString()
         set(value) {
             try {
-                price = if (value.isNullOrEmpty()) 0.0 else value.toDouble()
+                price = if (value.isNullOrEmpty()) -1.0 else value.toDouble()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -60,7 +60,7 @@ data class SkuEntity(
         get() = pulse.toString()
         set(value) {
             try {
-                pulse = if (value.isNullOrEmpty()) 0 else value.toInt()
+                pulse = if (value.isNullOrEmpty()) -1 else value.toInt()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -152,21 +152,21 @@ data class ExtAttrBean(
 
     override fun getTitle(): String = StringUtils.getString(R.string.unit_minute_num, minutes)
 
-    var priceValue: String
+    var priceValue: String?
         get() = price.toString()
         set(value) {
             try {
-                price = if (value.isEmpty()) 0.0 else value.toDouble()
+                price = if (value.isNullOrEmpty()) -1.0 else value.toDouble()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
 
-    var pulseValue: String
+    var pulseValue: String?
         get() = pulse.toString()
         set(value) {
             try {
-                pulse = if (value.isEmpty()) 0 else value.toInt()
+                pulse = if (value.isNullOrEmpty()) -1 else value.toInt()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -195,11 +195,30 @@ data class SkuFuncConfigurationParam(
     val feature: String,
     val soldState: Int,
 ) {
-    fun getConfigurationStr() =
-        if (pulse > 0)
-            StringUtils.getString(R.string.unit_device_configuration_hint2, price, unit, pulse)
-        else
-            StringUtils.getString(R.string.unit_device_configuration_hint1, price, unit)
+    /**
+     * 根据型号区分配置内容
+     */
+    fun getConfigurationStr(isDryer: Boolean): String =
+        if (isDryer) {
+            GsonUtils.json2List(extAtt, ExtAttrBean::class.java)?.joinToString("\n") {
+                getConfigStr(it.price, it.minutes, it.pulse)
+            } ?: ""
+        } else {
+            getConfigStr(price, unit, pulse)
+        }
+
+    /**
+     * 配置内容
+     */
+    private fun getConfigStr(price: Double, minute: Int, pulse: Int) = if (this.pulse > 0)
+        StringUtils.getString(
+            R.string.unit_device_configuration_hint2,
+            price,
+            minute,
+            pulse
+        )
+    else
+        StringUtils.getString(R.string.unit_device_configuration_hint1, price, minute)
 
     fun getSoldStateValue() =
         StringUtils.getString(if (1 == soldState) R.string.in_use else R.string.out_of_service)

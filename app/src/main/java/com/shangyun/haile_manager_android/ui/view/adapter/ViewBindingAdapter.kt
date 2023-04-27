@@ -1,6 +1,7 @@
 package com.shangyun.haile_manager_android.ui.view.adapter
 
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -90,6 +91,9 @@ object ViewBindingAdapter {
     @JvmStatic
     fun MultiTypeItemView.setItemContent(content: String?) {
         getContentView().text = content ?: ""
+        if (getContentView() is EditText){
+            (getContentView() as EditText).setSelection(getContentView().text.length)
+        }
     }
 
     @InverseBindingAdapter(attribute = "itemContent", event = "itemContentAttrChanged")

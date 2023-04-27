@@ -1,13 +1,14 @@
 package com.shangyun.haile_manager_android.business.vm
 
 import android.view.View
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.shangyun.haile_manager_android.business.apiService.DeviceService
+import com.shangyun.haile_manager_android.business.event.BusEvents
+import com.shangyun.haile_manager_android.data.arguments.DeviceCategory
 import com.shangyun.haile_manager_android.data.arguments.DeviceCreateParam
 import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
 import com.shangyun.haile_manager_android.data.entities.SkuFuncConfigurationParam
@@ -26,6 +27,8 @@ import timber.log.Timber
  */
 class DeviceCreateAndUpdateViewModel : BaseViewModel() {
     private val mRepo = ApiRepository.apiClient(DeviceService::class.java)
+
+    var id: Int = -1
 
     // 设备 创建/修改 数据
     val createAndUpdateEntity: MutableLiveData<DeviceCreateParam> =
@@ -52,9 +55,7 @@ class DeviceCreateAndUpdateViewModel : BaseViewModel() {
     var deviceCommunicationType: Int = -1
 
     // 设备名称
-    val deviceName:MutableLiveData<String>  by lazy {
-        MutableLiveData()
-    }
+    val deviceName: MutableLiveData<String> = MutableLiveData()
 
     // 所属门店
     val createDeviceShop: MutableLiveData<SearchSelectParam> by lazy {
@@ -115,6 +116,7 @@ class DeviceCreateAndUpdateViewModel : BaseViewModel() {
         deviceCategoryCode = categoryCode
         deviceCommunicationType = communicationType
         isSelectedModel.value = true
+        createDeviceFunConfigure.value = null
     }
 
     /**
@@ -141,7 +143,25 @@ class DeviceCreateAndUpdateViewModel : BaseViewModel() {
         })
     }
 
+    /**
+     * 创建设备
+     */
     fun submit(view: View) {
-
+        launch({
+            ApiRepository.dealApiResult(
+                mRepo.deviceCreate(
+                    ApiRepository.createRequestBody(
+                        createAndUpdateEntity.value?.toDeviceJson(id) ?: ""
+                    )
+                )
+            )
+            LiveDataBus.post(BusEvents.DEVICE_LIST_STATUS, true)
+            jump.postValue(0)
+        }, {
+            it.message?.let { it1 -> SToast.showToast(msg = it1) }
+            Timber.d("请求失败或异常$it")
+        }, {
+            Timber.d("请求结束")
+        })
     }
 }

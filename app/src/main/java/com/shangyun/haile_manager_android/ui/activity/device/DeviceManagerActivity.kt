@@ -17,12 +17,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
+import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.business.vm.DeviceManagerViewModel
 import com.shangyun.haile_manager_android.business.vm.SearchSelectRadioViewModel
 import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
@@ -303,7 +305,6 @@ class DeviceManagerActivity :
             showDeviceCategoryDialog(it)
         }
 
-
         // 选择店铺
         mDeviceManagerViewModel.selectDepartment.observe(this) {
             mBinding.tvDeviceCategoryDepartment.text = it.name
@@ -330,6 +331,11 @@ class DeviceManagerActivity :
 
         // 切换工作状态
         mDeviceManagerViewModel.curWorkStatus.observe(this) {
+            mBinding.rvDeviceManagerList.requestRefresh()
+        }
+
+        // 监听刷新
+        LiveDataBus.with(BusEvents.DEVICE_LIST_STATUS)?.observe(this){
             mBinding.rvDeviceManagerList.requestRefresh()
         }
     }

@@ -3,10 +3,8 @@ package com.shangyun.haile_manager_android.business.apiService
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.shangyun.haile_manager_android.data.entities.*
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
-import retrofit2.http.QueryMap
+import okhttp3.RequestBody
+import retrofit2.http.*
 
 /**
  * Title : 设备接口
@@ -49,5 +47,17 @@ interface DeviceService {
      */
     @GET("/goods/list")
     suspend fun deviceList(@QueryMap params: HashMap<String, Any>): ResponseWrapper<ResponseList<DeviceEntity>>
+
+    /**
+     * 设备创建接口
+     */
+    @POST("/goods/create")
+    suspend fun deviceCreate(@Body params: RequestBody): ResponseWrapper<DeviceDetailEntity>
+
+    /**
+     * 设备编辑接口
+     */
+    @POST("/goods/edit")
+    suspend fun deviceUpdate(@Body params: RequestBody): ResponseWrapper<DeviceDetailEntity>
 
 }

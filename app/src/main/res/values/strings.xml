@@ -69,6 +69,8 @@
     <string name="money">金额</string>
     <string name="dryer_time_title">选择烘干时间（可多选）</string>
     <string name="search_device_hint">请输入设备型号/名称</string>
+    <string name="device_detail">设备详情</string>
+    <string name="advanced_setup">高级设置</string>
 
     <string name="shop_manager">门店管理</string>
     <string name="add_shop">添加店铺</string>

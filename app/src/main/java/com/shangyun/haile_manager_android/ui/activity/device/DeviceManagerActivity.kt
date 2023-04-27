@@ -36,6 +36,7 @@ import com.shangyun.haile_manager_android.databinding.ItemDeviceListBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.activity.common.SearchActivity
 import com.shangyun.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.shangyun.haile_manager_android.ui.activity.shop.ShopDetailActivity
 import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.shangyun.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
@@ -243,7 +244,15 @@ class DeviceManagerActivity :
                 // 进入详情
                 mBinding?.root?.setOnClickListener {
                     if (true == mSharedViewModel.hasDeviceInfoPermission.value) {
-                        //TODO 设备详情
+                        // 设备详情
+                        startActivity(
+                            Intent(
+                                this@DeviceManagerActivity,
+                                DeviceDetailActivity::class.java
+                            ).apply {
+                                putExtra(DeviceDetailActivity.GoodsId, item.id)
+                            }
+                        )
                     }
                 }
             }

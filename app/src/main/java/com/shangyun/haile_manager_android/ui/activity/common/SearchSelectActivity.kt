@@ -1,4 +1,4 @@
-package com.shangyun.haile_manager_android.ui.activity.shop
+package com.shangyun.haile_manager_android.ui.activity.common
 
 import android.content.Intent
 import android.graphics.Color
@@ -20,6 +20,7 @@ import com.shangyun.haile_manager_android.data.rule.ISearchSelectEntity
 import com.shangyun.haile_manager_android.databinding.ActivitySearchSelectBinding
 import com.shangyun.haile_manager_android.databinding.ItemSearchSelectBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.shangyun.haile_manager_android.ui.activity.shop.ShopCreateAndUpdateActivity
 import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 
 class SearchSelectActivity :

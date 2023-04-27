@@ -72,7 +72,6 @@ class MultiSelectBottomSheetDialog<D : MultiSelectBottomItemEntity> private cons
 
         // 确定
         mBinding.tvMultiSelectDialogSure.setOnClickListener {
-
             // 提取选中数据
             val selectList = builder.list.filter { entity -> entity.isCheck }
             if (selectList.isEmpty()) {

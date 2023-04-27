@@ -47,7 +47,7 @@
             android:name=".ui.activity.shop.LocationSelectActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.shop.SearchSelectActivity"
+            android:name=".ui.activity.common.SearchSelectActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.shop.ShopCreateAndUpdateActivity"

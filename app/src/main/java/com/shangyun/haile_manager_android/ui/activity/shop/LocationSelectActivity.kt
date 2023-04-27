@@ -25,6 +25,7 @@ import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel
 import com.shangyun.haile_manager_android.databinding.ActivityLocationSelectBinding
 import com.shangyun.haile_manager_android.databinding.ItemLocationSelectBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.shangyun.haile_manager_android.ui.activity.common.SearchSelectActivity
 import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.shangyun.haile_manager_android.utils.StringUtils
 import timber.log.Timber

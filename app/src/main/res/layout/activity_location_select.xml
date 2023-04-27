@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/page_bg"
-        tools:context=".ui.activity.shop.SearchSelectActivity">
+        tools:context=".ui.activity.common.SearchSelectActivity">
 
         <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/location_select_title_bar"

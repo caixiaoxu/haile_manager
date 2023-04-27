@@ -12,7 +12,7 @@ import com.shangyun.haile_manager_android.data.rule.ISearchSelectEntity
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-data class SchoolSelectEntityI(
+data class SchoolSelectEntity(
     val id: Int,
     val name: String,//名称
     val type: Int,//组织类型<1：学校>

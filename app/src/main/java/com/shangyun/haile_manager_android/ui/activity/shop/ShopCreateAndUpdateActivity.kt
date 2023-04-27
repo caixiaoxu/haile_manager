@@ -11,11 +11,12 @@ import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SCHOOL
 import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SEARCH_TYPE
 import com.shangyun.haile_manager_android.business.vm.ShopCreateAndUpdateViewModel
-import com.shangyun.haile_manager_android.data.entities.SchoolSelectEntityI
+import com.shangyun.haile_manager_android.data.entities.SchoolSelectEntity
 import com.shangyun.haile_manager_android.data.entities.ShopBusinessTypeEntity
-import com.shangyun.haile_manager_android.data.entities.ShopTypeEntityI
+import com.shangyun.haile_manager_android.data.entities.ShopTypeEntity
 import com.shangyun.haile_manager_android.databinding.ActivityShopCreateAndUpdateBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.shangyun.haile_manager_android.ui.activity.common.SearchSelectActivity
 import com.shangyun.haile_manager_android.ui.view.dialog.AreaSelectDialog
 import com.shangyun.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.shangyun.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
@@ -37,7 +38,7 @@ class ShopCreateAndUpdateActivity :
     }
 
     // 店铺类型
-    private var mShopTypeDialog: CommonBottomSheetDialog<ShopTypeEntityI>? = null
+    private var mShopTypeDialog: CommonBottomSheetDialog<ShopTypeEntity>? = null
 
     // 搜索界面
     private val startSearchSelect =
@@ -45,7 +46,7 @@ class ShopCreateAndUpdateActivity :
             when (it.resultCode) {
                 SchoolResultCode -> {
                     it.data?.getStringExtra(SchoolResultData)?.let { json ->
-                        GsonUtils.json2Class(json, SchoolSelectEntityI::class.java)?.let { school ->
+                        GsonUtils.json2Class(json, SchoolSelectEntity::class.java)?.let { school ->
                             mShopCreateAndUpdateViewModel.changeSchool(school)
                         }
                     }
@@ -193,7 +194,12 @@ class ShopCreateAndUpdateActivity :
             if (null == mShopTypeDialog) {
                 mShopTypeDialog =
                     CommonBottomSheetDialog.Builder("门店类型", list).apply {
-
+                        onValueSureListener =
+                            object : CommonBottomSheetDialog.OnValueSureListener<ShopTypeEntity> {
+                                override fun onValue(data: ShopTypeEntity) {
+                                    mShopCreateAndUpdateViewModel.changeShopType(data)
+                                }
+                            }
                     }.build()
             }
         }

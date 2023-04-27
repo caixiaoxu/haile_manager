@@ -74,26 +74,32 @@ class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(p
 
         // 确定
         mBinding.tvCommonDialogSure.setOnClickListener {
-            curEntity?.let { cur ->
-                dismiss()
-                builder.onValueSureListener?.onValue(cur)
-            } ?: SToast.showToast(context, "您还没有选择选项")
+            if (null == curEntity) {
+                SToast.showToast(context, "您还没有选择选项")
+                return@setOnClickListener
+            }
+
+            dismiss()
+            builder.onValueSureListener?.onValue(curEntity!!)
         }
 
         //选项
         mBinding.llDialogCommonList.removeAllViews()
-        builder.list.forEach { data ->
+        builder.list.forEachIndexed { index, data ->
             val itemBinding = ItemCommonBottomSheetDialogBinding.bind(
                 layoutInflater.inflate(
                     R.layout.item_common_bottom_sheet_dialog,
                     null
                 )
             )
+            itemBinding.root.id = index
+
             mBinding.llDialogCommonList.addView(
                 itemBinding.root.apply {
                     text = data.getTitle()
                     setOnCheckedChangeListener { _, isChecked ->
-                        if (isChecked) curEntity = data
+                        if (isChecked)
+                            curEntity = data
                     }
                 },
                 ViewGroup.LayoutParams(

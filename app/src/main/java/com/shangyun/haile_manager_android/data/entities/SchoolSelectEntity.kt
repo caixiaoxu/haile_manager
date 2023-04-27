@@ -29,6 +29,8 @@ data class SchoolSelectEntity(
     var attribute: Int = -1,//学校属性
     var createTime: String = ""//创建时间
 ) : ISearchSelectEntity {
+    override fun getSearchId(): Int = id
+
     override fun getTitle(): String = name
 
     override fun getContent(): Array<String> =

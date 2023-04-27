@@ -1,5 +1,6 @@
 package com.shangyun.haile_manager_android.ui.activity.common
 
+import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.network.response.ResponseList
@@ -12,6 +13,7 @@ import com.shangyun.haile_manager_android.data.rule.ISearchSelectEntity
 import com.shangyun.haile_manager_android.databinding.ActivitySearchBinding
 import com.shangyun.haile_manager_android.databinding.ItemSearchSelectBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.shangyun.haile_manager_android.ui.activity.shop.ShopDetailActivity
 import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.shangyun.haile_manager_android.ui.view.refresh.CommonLoadMoreRecyclerView
 import com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
@@ -28,6 +30,22 @@ class SearchActivity :
             BR.item
         ) { mBinding, _, item ->
             mBinding?.item = item
+            mBinding?.root?.setOnClickListener {
+
+                when (mSearchViewModel.searchType) {
+                    SearchType.Device -> {}
+                    SearchType.Shop -> startActivity(
+                        Intent(
+                            this@SearchActivity,
+                            ShopDetailActivity::class.java
+                        ).apply {
+                            putExtra(ShopDetailActivity.ShopId, item.getSearchId())
+                        }
+                    )
+                    SearchType.Order -> {}
+                }
+                finish()
+            }
         }
     }
 

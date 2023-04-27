@@ -12,6 +12,8 @@ package com.shangyun.haile_manager_android.data.rule
  */
 interface ISearchSelectEntity {
 
+    fun getSearchId(): Int
+
     /**
      * 获取标题
      */

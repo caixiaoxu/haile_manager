@@ -14,6 +14,8 @@ import com.shangyun.haile_manager_android.data.rule.ISearchSelectEntity
  * 作者姓名 修改时间 版本号 描述
  */
 data class LocationSelectEntityI(val poi: PoiItem) : ISearchSelectEntity {
+    override fun getSearchId(): Int = -1
+
     override fun getTitle(): String = poi.title
 
     override fun getContent(): Array<String> = arrayOf(

@@ -119,6 +119,8 @@ data class DeviceEntity(
      * 显示信号状态
      */
     fun isIotShow(): Boolean = 0 != iotStatus
+    override fun getSearchId(): Int = id
+
     override fun getTitle(): String = name
 
 }

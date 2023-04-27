@@ -24,6 +24,8 @@ data class ShopSearchEntity(
     val area: String,
     val address: String,
 ) : ISearchSelectEntity {
+    override fun getSearchId(): Int = id
+
     override fun getTitle(): String = name
     override fun getContent(): Array<String> = arrayOf(
         provinceName + cityName + districtName + area + address

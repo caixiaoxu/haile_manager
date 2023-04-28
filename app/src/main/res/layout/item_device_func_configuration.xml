@@ -30,14 +30,14 @@
                 android:gravity="center_vertical"
                 tools:text="功能配置1" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switch_device_fun_configuration_open"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="@{1 == item.soldState}"
                 android:onCheckedChanged="@{(btn,checked)->item.setSoldState(checked?1:2)}"
                 android:thumb="@drawable/selector_default_switch_thumb"
-                android:track="@drawable/selector_default_switch_track" />
+                app:track="@drawable/selector_default_switch_track" />
 
         </LinearLayout>
 

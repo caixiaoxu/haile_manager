@@ -1,19 +1,21 @@
 package com.shangyun.haile_manager_android.ui.activity.device
 
-import android.content.Intent
 import android.graphics.Color
-import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.ScreenUtils
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.DeviceDetailModel
 import com.shangyun.haile_manager_android.databinding.ActivityDeviceDetailBinding
+import com.shangyun.haile_manager_android.databinding.ItemDeviceDetailFuncPriceBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
-import com.shangyun.haile_manager_android.ui.activity.shop.ShopCreateAndUpdateActivity
 
 class DeviceDetailActivity :
     BaseBusinessActivity<ActivityDeviceDetailBinding, DeviceDetailModel>() {
@@ -40,7 +42,12 @@ class DeviceDetailActivity :
             .addView(
                 TextView(this).apply {
                     setText(R.string.advanced_setup)
-                    setTextColor(ContextCompat.getColor(this@DeviceDetailActivity,R.color.colorPrimary))
+                    setTextColor(
+                        ContextCompat.getColor(
+                            this@DeviceDetailActivity,
+                            R.color.colorPrimary
+                        )
+                    )
                     textSize = 14f
                     setOnClickListener {
                         // 高级设置
@@ -55,12 +62,83 @@ class DeviceDetailActivity :
             )
     }
 
+    override fun initIntent() {
+        super.initIntent()
+        mDeviceDetailModel.goodsId = intent.getIntExtra(GoodsId, -1)
+    }
+
+    override fun initEvent() {
+        super.initEvent()
+
+        val mTB = DimensionUtils.dip2px(this, 12f)
+        mDeviceDetailModel.deviceDetail.observe(this) {
+            it?.items?.forEachIndexed { index, item ->
+                val itemBinding = LayoutInflater.from(this@DeviceDetailActivity)
+                    .inflate(R.layout.item_device_detail_func_price, null, false).let { view ->
+                        DataBindingUtil.bind<ItemDeviceDetailFuncPriceBinding>(view)
+                    }
+                itemBinding?.let {
+                    itemBinding.item = item
+                    mBinding.llDeviceDetailFuncPrice.addView(
+                        itemBinding.root, LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                        ).apply {
+                            setMargins(0, if (0 == index) mTB else 0, 0, mTB)
+                        }
+                    )
+                }
+            }
+        }
+
+        mDeviceDetailModel.deviceAdvancedValues.observe(this) {
+            if (!it.isNullOrEmpty()) {
+                initRightBtn()
+            }
+        }
+    }
+
     override fun initView() {
         window.statusBarColor = Color.WHITE
 
-        initRightBtn()
+        // 初始化功能操作区
+        val itemW = ScreenUtils.screenWidth / mBinding.glDeviceDetailFunc.columnCount
+        val pLR = DimensionUtils.dip2px(this, 8f)
+        val pTB = DimensionUtils.dip2px(this, 16f)
+        mDeviceDetailModel.getDeviceDetailFunOperate(
+            mSharedViewModel.hasDeviceResetPermission,
+            mSharedViewModel.hasDeviceStartPermission,
+            mSharedViewModel.hasDeviceCleanPermission,
+            mSharedViewModel.hasDeviceQrcodePermission,
+            mSharedViewModel.hasDeviceUpdatePermission,
+            mSharedViewModel.hasDeviceAppointmentPermission,
+        ).forEachIndexed { index, config ->
+            (LayoutInflater.from(this@DeviceDetailActivity)
+                .inflate(R.layout.item_device_detail_func, null, false) as AppCompatTextView).also {
+                it.text = config.title
+                it.setCompoundDrawablesRelativeWithIntrinsicBounds(0, config.icon, 0, 0)
+                it.setPadding(
+                    pLR,
+                    if (0 == index % mBinding.glDeviceDetailFunc.columnCount) pTB else 0,
+                    pLR,
+                    pTB
+                )
+                config.show.observe(this) { show ->
+                    if (!show) {
+                        mBinding.glDeviceDetailFunc.removeView(it)
+                    }
+                }
+                mBinding.glDeviceDetailFunc.addView(
+                    it, ViewGroup.LayoutParams(itemW, ViewGroup.LayoutParams.WRAP_CONTENT)
+                )
+            }
+        }
     }
 
     override fun initData() {
+        mBinding.vm = mDeviceDetailModel
+        mBinding.shared = mSharedViewModel
+
+        mDeviceDetailModel.requestData()
     }
 }

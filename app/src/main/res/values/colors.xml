@@ -21,6 +21,8 @@
     <color name="dividing_line_color_efefef">#EFEFEF</color>
 
     <color name="common_sub_txt_color">#999999</color>
+    <color name="color_err">#FC7F6F</color>
+    <color name="color_err_second">#26FC7F6F</color>
 
     <color name="hint_color">#FF3B30</color>
     <color name="color_pink">#FC7F6F</color>

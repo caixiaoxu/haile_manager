@@ -84,7 +84,7 @@
     </style>
 
     <style name="SettingItem" parent="SettingButton">
-        <item name="android:drawableEnd">@mipmap/icon_arrow_right_with_padding</item>
+        <item name="android:drawableEnd">@drawable/icon_arrow_right_with_padding</item>
     </style>
 
     <style name="SettingButton" parent="Font_16_333333">
@@ -144,7 +144,8 @@
     </style>
 
     <style name="ShopDetailItemStyle" parent="Font_14_999999">
-        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingTop">12dp</item>
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingStart">16dp</item>
@@ -152,12 +153,13 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
-    <style name="ShopDetailItemContentStyle" parent="ShopDetailItemStyle">
+    <style name="ShopDetailItemContentStyle">
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
         <item name="android:textColor">@color/common_txt_color</item>
-        <item name="android:paddingStart">116dp</item>
         <item name="android:gravity">center_vertical|end</item>
-        <item name="android:background">@drawable/shape_bottom_stroke_dividing_efefef_mlr12</item>
     </style>
 
     <style name="ShopDetailTitleItemStyle" parent="ShopDetailItemStyle">
@@ -179,6 +181,16 @@
         <item name="android:background">@drawable/shape_sf7f7f7_r18</item>
     </style>
 
+    <style name="StrokeBtnStyle" parent="Font_14_333333">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:background">@drawable/shape_stroke_979797_r36</item>
+    </style>
+
     <style name="DeviceCategoryItemStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">36dp</item>
@@ -197,6 +209,16 @@
     <style name="Font_10_f0a258">
         <item name="android:textSize">10sp</item>
         <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="font_10_fc7f6f">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/color_err</item>
+    </style>
+
+    <style name="Font_10_999999">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/common_sub_txt_color</item>
     </style>
 
     <style name="Font_12_333333">

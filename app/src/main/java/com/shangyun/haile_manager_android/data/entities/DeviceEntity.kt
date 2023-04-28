@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat
 import com.lsy.framelib.data.constants.Constants
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.data.arguments.DeviceCategory
+import com.shangyun.haile_manager_android.data.rule.IMultiTypeEntity
 import com.shangyun.haile_manager_android.data.rule.ISearchSelectEntity
 
 /**
@@ -47,15 +48,26 @@ data class DeviceEntity(
     val iotStatus: Int,//网络状态(1-在线；2-离线；4-故障)
     val signals: Int,//信号值
     val income: Double//总收益
-) :ISearchSelectEntity{
-    fun getCategoryBgRes() = intArrayOf(
+) :ISearchSelectEntity, IMultiTypeEntity {
+
+    /**
+     * 获取类型
+     */
+    override fun getMultiType(): Int = when (categoryCode) {
+        DeviceCategory.Washing -> 0
+        DeviceCategory.Shoes -> 1
+        DeviceCategory.Dryer -> 2
+        else -> 3
+    }
+
+    override fun getMultiTypeBgRes() = intArrayOf(
         R.drawable.shape_strokef0a258_solid26f0a258_r9,
         R.drawable.shape_stroke30c19a_solid2630c19a_r9,
         R.drawable.shape_strokefc7f6f_solid26fc7f6f_r9,
         R.drawable.shape_stroke999999_solid26999999_r9,
     )
 
-    fun getCategoryTxtColors() = intArrayOf(
+    override fun getMultiTypeTxtColors() = intArrayOf(
         ContextCompat.getColor(
             Constants.APP_CONTEXT,
             R.color.colorPrimary
@@ -64,16 +76,6 @@ data class DeviceEntity(
         Color.parseColor("#FC7F6F"),
         Color.parseColor("#999999")
     )
-
-    /**
-     * 获取类型
-     */
-    fun getDeviceCategory(): Int = when (categoryCode) {
-        DeviceCategory.Washing -> 0
-        DeviceCategory.Shoes -> 1
-        DeviceCategory.Dryer -> 2
-        else -> 3
-    }
 
     fun getStatusBgRes() = intArrayOf(
         R.drawable.shape_stroke30c19a_r9,

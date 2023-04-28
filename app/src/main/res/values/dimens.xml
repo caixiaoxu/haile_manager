@@ -17,4 +17,7 @@
     <dimen name="switch_default_w">52dp</dimen>
     <dimen name="switch_default_h">26dp</dimen>
     <dimen name="switch_default_offset">2dp</dimen>
+
+    <dimen name="dimen_8">8dp</dimen>
+    <dimen name="dimen_56">56dp</dimen>
 </resources>

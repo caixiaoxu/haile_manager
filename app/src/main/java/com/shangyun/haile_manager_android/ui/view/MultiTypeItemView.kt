@@ -163,7 +163,7 @@ class MultiTypeItemView @JvmOverloads constructor(
         if (0 == type) {
             if (showArrow) {
                 contentInfoView.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                    0, 0, R.mipmap.icon_arrow_right, 0
+                    0, 0, R.drawable.icon_arrow_right, 0
                 )
                 if (-1 != drawablePadding) {
                     titleView.compoundDrawablePadding = drawablePadding

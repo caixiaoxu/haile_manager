@@ -16,6 +16,7 @@
     <string name="offline">离线</string>
     <string name="break_down">故障</string>
     <string name="search">搜索</string>
+    <string name="copy">复制</string>
 
     <string name="login_name">登录</string>
     <string name="login_account_password">账号密码登录</string>
@@ -52,6 +53,7 @@
     <string name="device_info">设备信息</string>
     <string name="pay_code">付款码</string>
     <string name="imei">IMEI</string>
+    <string name="imei_title">模块编码（IMEI）</string>
     <string name="device_name">设备名称</string>
     <string name="fun_configure">功能配置</string>
     <string name="scan_hint">扫描模块上的二维码</string>
@@ -71,6 +73,25 @@
     <string name="search_device_hint">请输入设备型号/名称</string>
     <string name="device_detail">设备详情</string>
     <string name="advanced_setup">高级设置</string>
+    <string name="func_operate">功能操作</string>
+    <string name="restart">复位</string>
+    <string name="start">启动</string>
+    <string name="self_clean">桶自洁</string>
+    <string name="change_model">更换模块</string>
+    <string name="change_pay_code">付款码更换</string>
+    <string name="create_pay_code">生成付款码</string>
+    <string name="update_func_price">修改功能价格</string>
+    <string name="update_device_name">修改设备名称</string>
+    <string name="device_transfer">设备转移</string>
+    <string name="device_appointment_setting">预约设置</string>
+    <string name="func_price">功能价格</string>
+    <string name="func_price_item1">%1$s：%2$s元/%3$s分钟</string>
+    <string name="func_price_item2">%1$s：%2$s元/%3$s分钟/%4$s个脉冲</string>
+    <string name="device_base_info">设备基础信息</string>
+    <string name="communication_type">通信类型</string>
+    <string name="serial_port">串口</string>
+    <string name="pulse">脉冲</string>
+    <string name="company">公司</string>
 
     <string name="shop_manager">门店管理</string>
     <string name="add_shop">添加店铺</string>

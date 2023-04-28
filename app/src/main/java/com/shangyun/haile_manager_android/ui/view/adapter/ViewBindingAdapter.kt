@@ -1,9 +1,11 @@
 package com.shangyun.haile_manager_android.ui.view.adapter
 
-import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.view.MarginLayoutParamsCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
@@ -23,6 +25,16 @@ import com.shangyun.haile_manager_android.utils.StringUtils
  * 作者姓名 修改时间 版本号 描述
  */
 object ViewBindingAdapter {
+
+    @BindingAdapter("marginStart")
+    @JvmStatic
+    fun AppCompatTextView.marginStart(mS: Float?) {
+        if (layoutParams is ViewGroup.MarginLayoutParams)
+            MarginLayoutParamsCompat.setMarginStart(
+                layoutParams as ViewGroup.MarginLayoutParams,
+                mS?.toInt() ?: 0
+            )
+    }
 
     /**
      * 显示标题
@@ -91,10 +103,11 @@ object ViewBindingAdapter {
     @JvmStatic
     fun MultiTypeItemView.setItemContent(content: String?) {
         getContentView().text = content ?: ""
-        if (getContentView() is EditText){
+        if (getContentView() is EditText) {
             (getContentView() as EditText).setSelection(getContentView().text.length)
         }
     }
+
     @InverseBindingAdapter(attribute = "itemContent", event = "itemContentAttrChanged")
     @JvmStatic
     fun MultiTypeItemView.getItemContent(): String = getContentView().text.toString()

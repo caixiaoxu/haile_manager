@@ -150,7 +150,6 @@ object UserPermissionUtils {
      */
     @JvmStatic
     fun hasDeviceStartPermission(): Boolean {
-
         return null != userPermissionsMap["league:normal:goods:start"]
     }
 
@@ -162,7 +161,6 @@ object UserPermissionUtils {
      */
     @JvmStatic
     fun hasDeviceCleanPermission(): Boolean {
-
         return null != userPermissionsMap["league:normal:goods:clean"]
     }
 
@@ -174,7 +172,6 @@ object UserPermissionUtils {
      */
     @JvmStatic
     fun hasDeviceQrcodePermission(): Boolean {
-
         return null != userPermissionsMap["league:normal:goods:qrcode"]
     }
 
@@ -186,7 +183,6 @@ object UserPermissionUtils {
      */
     @JvmStatic
     fun hasDeviceTiggerPermission(): Boolean {
-
         return null != userPermissionsMap["league:normal:goods:tigger"]
     }
 
@@ -198,8 +194,18 @@ object UserPermissionUtils {
      */
     @JvmStatic
     fun hasDeviceProfitPermission(): Boolean {
-
         return null != userPermissionsMap["league:normal:goods:profit"]
+    }
+
+    /**
+     * 是否含有设备预约收益权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasDeviceAppointmentPermission(): Boolean {
+        return null != userPermissionsMap["league:normal:goods:appointment"]
     }
 
     /** ------------------------设备管理权限------------------------  */

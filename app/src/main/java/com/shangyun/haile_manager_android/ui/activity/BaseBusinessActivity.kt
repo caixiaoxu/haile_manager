@@ -26,8 +26,8 @@ abstract class BaseBusinessActivity<T : ViewDataBinding, VM : BaseViewModel> :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initIntent()
-        initView()
         initEvent()
+        initView()
         initData()
     }
 
@@ -37,14 +37,14 @@ abstract class BaseBusinessActivity<T : ViewDataBinding, VM : BaseViewModel> :
     protected open fun initIntent() {}
 
     /**
-     * 初始化界面
-     */
-    abstract fun initView()
-
-    /**
      * 初始化监听事件
      */
     protected open fun initEvent() {}
+
+    /**
+     * 初始化界面
+     */
+    abstract fun initView()
 
     /**
      * 初始化数据

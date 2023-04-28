@@ -1,5 +1,8 @@
 package com.shangyun.haile_manager_android.data.entities
 
+import com.lsy.framelib.utils.StringUtils
+import com.shangyun.haile_manager_android.R
+
 /**
  * Title :
  * Author: Lsy
@@ -36,9 +39,21 @@ data class ShopDetailEntity(
     val businessName: List<ShopBusinessTypeEntity>,// 店铺业务名称
     val attribute: Int,// 店铺属性1联营店,0非联营
     val appointSettingList: List<AppointSetting>,//预约开关
-){
+) {
+    fun getRealAddress(): String = if (1 == shopType) area else address
+    fun hasSchoolName(): Boolean = 0 != schoolId && !schoolName.isNullOrEmpty()
+    fun getSchoolNameTitle(): String = StringUtils.getString(R.string.school_name)
+    fun hasArea(): Boolean = 0 != provinceId && 0 != cityId && 0 != districtId
+    fun getAreaTitle(): String = StringUtils.getString(R.string.area)
+    fun hasLocation(): Boolean = !getRealAddress().isNullOrEmpty()
+    fun getLocationTitle(): String = StringUtils.getString(R.string.location_detail)
+    fun hasWorkTime(): Boolean = !workTime.isNullOrEmpty()
+    fun getWorkTimeTitle(): String = StringUtils.getString(R.string.business_hours)
+    fun hasCreator(): Boolean = !createName.isNullOrEmpty()
+    fun getCreatorTitle(): String = StringUtils.getString(R.string.creator)
+    fun hasCreateTime(): Boolean = !createTime.isNullOrEmpty()
+    fun getCreateTimeTitle(): String = StringUtils.getString(R.string.create_time)
 
-    fun getRealAddress():String = if(1 == shopType) area else address
 }
 
 data class AppointSetting(

@@ -60,4 +60,21 @@ interface DeviceService {
     @POST("/goods/edit")
     suspend fun deviceUpdate(@Body params: RequestBody): ResponseWrapper<DeviceDetailEntity>
 
+    /**
+     * 设备详情接口
+     */
+    @GET("/goods/details")
+    suspend fun deviceDetail(@Query("goodsId") goodsId: Int): ResponseWrapper<DeviceDetailEntity>
+
+    /**
+     * 高级设置接口
+     */
+    @GET("/device/advanced/values")
+    suspend fun deviceAdvancedValues(@Query("goodsId") goodsId: Int): ResponseWrapper<MutableList<DeviceAdvancedSettingEntity>>
+
+    /**
+     * 设置高级设置接口
+     */
+    @POST("/device/advanced/setting")
+    suspend fun deviceAdvancedSetting(@Body params: RequestBody): ResponseWrapper<Any>
 }

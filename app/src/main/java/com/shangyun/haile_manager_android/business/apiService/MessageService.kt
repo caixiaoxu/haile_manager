@@ -1,10 +1,9 @@
 package com.shangyun.haile_manager_android.business.apiService
 
-import com.lsy.framelib.data.entiy.ResponseListEntity
+import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.shangyun.haile_manager_android.data.entities.MessageEntity
 import com.shangyun.haile_manager_android.data.entities.MessageTypeCountEntity
-import com.shangyun.haile_manager_android.data.model.ApiRepository
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -31,5 +30,5 @@ interface MessageService {
      * 消息列表接口
      */
     @POST("/message/list")
-    suspend fun messageList(@Body body: RequestBody): ResponseWrapper<ResponseListEntity<MessageEntity>>
+    suspend fun messageList(@Body body: RequestBody): ResponseWrapper<ResponseList<MessageEntity>>
 }

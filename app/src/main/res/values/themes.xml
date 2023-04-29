@@ -198,7 +198,7 @@
         <item name="android:button">@null</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/common_bottom_sheet_item</item>
-        <item name="android:background">@color/selector_26f0a258_ffffff</item>
+        <item name="android:background">@drawable/selector_26f0a258_ffffff</item>
     </style>
 
     <style name="Font_10_333333">

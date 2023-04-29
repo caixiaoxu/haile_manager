@@ -1,6 +1,7 @@
 package com.shangyun.haile_manager_android.business.vm
 
 import android.view.View
+import android.view.View.OnClickListener
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
@@ -47,6 +48,13 @@ class DeviceDetailModel : BaseViewModel() {
             (!deviceDetail.value?.items.isNullOrEmpty()) && !(showFuncPrice.value ?: false)
     }
 
+    val showAppointment: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    fun changeAppointment(view: View) {
+        showAppointment.value =
+            (null != deviceDetail.value) && !(showAppointment.value ?: false)
+    }
+
     val showInfo: MutableLiveData<Boolean> = MutableLiveData(false)
 
     fun changeShowInfo(view: View) {
@@ -69,48 +77,69 @@ class DeviceDetailModel : BaseViewModel() {
             StringUtils.getString(R.string.restart),
             R.mipmap.icon_device_restart,
             hasReStart
-        ),
-        ItemShowParam(StringUtils.getString(R.string.start), R.mipmap.icon_device_start, hasStart),
+        ) {
+            //复位事件
+        },
+        ItemShowParam(StringUtils.getString(R.string.start), R.mipmap.icon_device_start, hasStart) {
+            //启动事件
+        },
         ItemShowParam(
             StringUtils.getString(R.string.self_clean),
             R.mipmap.icon_device_self_clean,
             hasClean
-        ),
+        ) {
+            //桶自洁事件
+        },
         ItemShowParam(
             StringUtils.getString(R.string.change_model),
             R.mipmap.icon_device_change_model,
             MutableLiveData(true)
-        ),
+        ) {
+            // 更换模块事件
+        },
         ItemShowParam(
             StringUtils.getString(R.string.change_pay_code),
             R.mipmap.icon_device_change_pay_code,
             hasPayCode
-        ),
+        ) {
+            //付款码更换事件
+        },
         ItemShowParam(
             StringUtils.getString(R.string.create_pay_code),
             R.mipmap.icon_device_create_pay_code,
             hasPayCode
-        ),
+        ) {
+            //生成付款码事件
+        },
         ItemShowParam(
             StringUtils.getString(R.string.update_func_price),
             R.mipmap.icon_device_update,
             hasUpdate
-        ),
+        ) {
+            //修改功能价格事件
+          jump.postValue(1)
+        },
         ItemShowParam(
             StringUtils.getString(R.string.update_device_name),
             R.mipmap.icon_device_update,
             hasUpdate
-        ),
+        ) {
+            //修改设备名称事件
+        },
         ItemShowParam(
             StringUtils.getString(R.string.device_transfer),
             R.mipmap.icon_device_device_transfer,
             MutableLiveData(true)
-        ),
+        ) {
+            //设备转移事件
+        },
         ItemShowParam(
             StringUtils.getString(R.string.device_appointment_setting),
             R.mipmap.icon_device_device_appointment_setting,
             hasAppointment
-        ),
+        ) {
+            //预约设置事件
+        },
     )
 
     fun requestData() {

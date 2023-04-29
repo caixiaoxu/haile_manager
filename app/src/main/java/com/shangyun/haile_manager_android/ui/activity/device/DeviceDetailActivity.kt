@@ -1,5 +1,6 @@
 package com.shangyun.haile_manager_android.ui.activity.device
 
+import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +12,12 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.ScreenUtils
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.DeviceDetailModel
+import com.shangyun.haile_manager_android.data.arguments.DeviceCategory
 import com.shangyun.haile_manager_android.databinding.ActivityDeviceDetailBinding
+import com.shangyun.haile_manager_android.databinding.ItemDeviceDetailAppointmentBinding
 import com.shangyun.haile_manager_android.databinding.ItemDeviceDetailFuncPriceBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 
@@ -89,11 +93,65 @@ class DeviceDetailActivity :
                     )
                 }
             }
+            it?.items?.forEachIndexed { index, item ->
+                val itemBinding = LayoutInflater.from(this@DeviceDetailActivity)
+                    .inflate(R.layout.item_device_detail_appointment, null, false).let { view ->
+                        DataBindingUtil.bind<ItemDeviceDetailAppointmentBinding>(view)
+                    }
+                itemBinding?.let {
+                    itemBinding.item = item
+                    mBinding.llDeviceDetailAppointment.addView(
+                        itemBinding.root, LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                        ).apply {
+                            setMargins(0, if (0 == index) mTB else 0, 0, mTB)
+                        }
+                    )
+                }
+            }
         }
 
+        // 是否有高级参数设置
         mDeviceDetailModel.deviceAdvancedValues.observe(this) {
             if (!it.isNullOrEmpty()) {
                 initRightBtn()
+            }
+        }
+
+        mDeviceDetailModel.jump.observe(this) {
+            when (it) {
+                0 -> finish()
+                1 -> {
+                    mDeviceDetailModel.deviceDetail.value?.let {detail->
+                        startActivity(
+                            Intent(
+                                this@DeviceDetailActivity,
+                                DeviceFunctionConfigurationActivity::class.java
+                            ).apply {
+                                putExtra(
+                                    DeviceFunctionConfigurationActivity.SpuId,
+                                    detail.spuId
+                                )
+                                putExtra(
+                                    DeviceCategory.CategoryCode,
+                                    detail.categoryCode
+                                )
+                                putExtra(
+                                    DeviceCategory.CommunicationType,
+                                    detail.communicationType
+                                )
+                                if (detail.items.isNotEmpty()){
+                                    putExtra(
+                                        DeviceFunctionConfigurationActivity.OldFuncConfiguration,
+                                        GsonUtils.any2Json(detail.items.map {item-> item.changeConfigurationParam() })
+                                    )
+                                }
+                            }
+                        )
+                    }
+                }
+
             }
         }
     }
@@ -128,6 +186,7 @@ class DeviceDetailActivity :
                         mBinding.glDeviceDetailFunc.removeView(it)
                     }
                 }
+                it.setOnClickListener(config.onClick)
                 mBinding.glDeviceDetailFunc.addView(
                     it, ViewGroup.LayoutParams(itemW, ViewGroup.LayoutParams.WRAP_CONTENT)
                 )

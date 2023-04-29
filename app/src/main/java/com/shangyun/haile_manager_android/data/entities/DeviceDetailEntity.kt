@@ -108,8 +108,38 @@ data class Item(
     val feature: String,
     val soldState: Int,
 ) {
+
     fun getTitle() =
         if (pulse.isNullOrEmpty())
             StringUtils.getString(R.string.func_price_item1, name, price, unit)
         else StringUtils.getString(R.string.func_price_item2, name, price, unit, pulse)
+
+    /**
+     * 切换数据格式
+     */
+    fun changeConfigurationParam(): SkuFuncConfigurationParam? {
+        val priceV: Double
+        try {
+            priceV = if (price.isNullOrEmpty()) 0.0 else price.toDouble()
+        } catch (e: NumberFormatException) {
+            e.printStackTrace()
+            return null
+        }
+        val pulseV: Int
+        try {
+            pulseV = if (pulse.isNullOrEmpty()) 0 else pulse.toInt()
+        } catch (e: NumberFormatException) {
+            e.printStackTrace()
+            return null
+        }
+        val unitV: Int
+        try {
+            unitV = if (unit.isNullOrEmpty()) 0 else unit.toInt()
+        } catch (e: NumberFormatException) {
+            e.printStackTrace()
+            return null
+        }
+
+        return SkuFuncConfigurationParam(skuId, name, priceV,pulseV,unitV,extAttr,feature,soldState)
+    }
 }

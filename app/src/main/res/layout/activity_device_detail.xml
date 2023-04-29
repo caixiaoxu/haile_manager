@@ -174,6 +174,40 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_14_333333_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:background="@color/white"
+                        android:drawableEnd="@{vm.showAppointment?@drawable/icon_arrow_down_with_padding:@drawable/icon_arrow_right_with_padding}"
+                        android:gravity="center_vertical"
+                        android:onClick="@{vm::changeAppointment}"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="8dp"
+                        android:text="@string/appointment_status" />
+
+                    <View
+                        style="@style/DividingStyle"
+                        android:visibility="@{vm.showAppointment?View.VISIBLE:View.GONE}" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_device_detail_appointment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="12dp"
+                        android:background="@drawable/shape_sf7f7f7_r8"
+                        android:orientation="vertical"
+                        android:visibility="@{vm.showAppointment?View.VISIBLE:View.GONE}" />
+
+                </LinearLayout>
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

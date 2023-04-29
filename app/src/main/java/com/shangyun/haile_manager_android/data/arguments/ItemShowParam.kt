@@ -1,5 +1,6 @@
 package com.shangyun.haile_manager_android.data.arguments
 
+import android.view.View.OnClickListener
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.LiveData
 
@@ -17,4 +18,5 @@ data class ItemShowParam(
     val title: String,
     @DrawableRes val icon: Int,
     val show: LiveData<Boolean>,
+    val onClick:OnClickListener,
 )

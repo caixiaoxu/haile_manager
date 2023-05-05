@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="isDryer"
+            type="java.lang.Boolean" />
 
         <variable
             name="item"
             type="com.shangyun.haile_manager_android.data.entities.Item" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -17,19 +22,46 @@
         android:paddingHorizontal="12dp">
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_fun_price_title"
+            style="@style/Font_14_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{item.name + "："}'
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="普通洗：" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_fun_price_spec"
             style="@style/Font_14_333333"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@{item.getTitle}"
-            tools:text="普通洗：2.00元/30分钟" />
+            android:text="@{item.getConfigurationStr(isDryer)}"
+            app:layout_constraintEnd_toStartOf="@id/tv_fun_price_status"
+            app:layout_constraintStart_toEndOf="@id/tv_fun_price_title"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2.00元/30分钟" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_fun_price_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{1 == item.soldState?@string/in_use:@string/out_of_service}"
             android:textColor="@{1== item.soldState?@color/colorPrimary:@color/common_txt_color}"
             android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="已停用" />
-    </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_fun_price_desc"
+            style="@style/Font_14_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{item.feature}"
+            app:layout_constraintStart_toStartOf="@id/tv_fun_price_spec"
+            app:layout_constraintEnd_toEndOf="@id/tv_fun_price_spec"
+            app:layout_constraintTop_toBottomOf="@id/tv_fun_price_spec"
+            tools:text="描述信息" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

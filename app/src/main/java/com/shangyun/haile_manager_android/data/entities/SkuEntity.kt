@@ -106,8 +106,8 @@ data class SkuEntity(
             price = old.price
             pulse = old.pulse
             unit = old.unit
-            if (old.extAtt.isNotEmpty()) {
-                val oldExtAttrValue = GsonUtils.json2List(old.extAtt, ExtAttrBean::class.java)
+            if (old.extAttr.isNotEmpty()) {
+                val oldExtAttrValue = GsonUtils.json2List(old.extAttr, ExtAttrBean::class.java)
                 oldExtAttrValue?.let {
                     extAttrValue = GsonUtils.json2List(extAttr, ExtAttrBean::class.java)
                     extAttrValue?.forEach { ext ->
@@ -148,6 +148,7 @@ data class ExtAttrBean(
     var pulse: Int,
 ) : MultiSelectBottomItemEntity {
 
+    @Transient
     override var isCheck: Boolean = false
 
     override fun getTitle(): String = StringUtils.getString(R.string.unit_minute_num, minutes)
@@ -185,22 +186,22 @@ data class ExtAttrBean(
 }
 
 data class SkuFuncConfigurationParam(
-//    val id: Int,
     val skuId: Int,
     val name: String,
     val price: Double,
     val pulse: Int,
     val unit: Int,
-    val extAtt: String,
+    val extAttr: String,
     val feature: String,
     val soldState: Int,
+    val id: Int = -1,
 ) {
     /**
      * 根据型号区分配置内容
      */
     fun getConfigurationStr(isDryer: Boolean): String =
         if (isDryer) {
-            GsonUtils.json2List(extAtt, ExtAttrBean::class.java)?.joinToString("\n") {
+            GsonUtils.json2List(extAttr, ExtAttrBean::class.java)?.joinToString("\n") {
                 getConfigStr(it.price, it.minutes, it.pulse)
             } ?: ""
         } else {

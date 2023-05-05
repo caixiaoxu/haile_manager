@@ -38,7 +38,7 @@
             android:name=".ui.activity.device.DeviceModelActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.device.DeviceCreateAndUpdateActivity"
+            android:name=".ui.activity.device.DeviceCreateActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.common.SearchSelectRadioActivity"

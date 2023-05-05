@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.DeviceCreateAndUpdateViewModel" />
+            type="com.shangyun.haile_manager_android.business.vm.DeviceCreateViewModel" />
 
     </data>
 
@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
-        tools:context=".ui.activity.device.DeviceCreateAndUpdateActivity">
+        tools:context=".ui.activity.device.DeviceCreateActivity">
 
         <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_device_create_title"

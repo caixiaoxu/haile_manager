@@ -13,12 +13,12 @@ import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.R
-import com.shangyun.haile_manager_android.business.vm.DeviceCreateAndUpdateViewModel
+import com.shangyun.haile_manager_android.business.vm.DeviceCreateViewModel
 import com.shangyun.haile_manager_android.business.vm.SearchSelectRadioViewModel
 import com.shangyun.haile_manager_android.data.arguments.DeviceCategory
 import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
 import com.shangyun.haile_manager_android.data.entities.SkuFuncConfigurationParam
-import com.shangyun.haile_manager_android.databinding.ActivityDeviceCreateAndUpdateBinding
+import com.shangyun.haile_manager_android.databinding.ActivityDeviceCreateBinding
 import com.shangyun.haile_manager_android.databinding.ItemSelectedDeviceFuncationConfigurationBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.activity.common.CustomCaptureActivity
@@ -26,11 +26,11 @@ import com.shangyun.haile_manager_android.ui.activity.common.SearchSelectRadioAc
 import com.shangyun.haile_manager_android.utils.StringUtils
 
 
-class DeviceCreateAndUpdateActivity :
-    BaseBusinessActivity<ActivityDeviceCreateAndUpdateBinding, DeviceCreateAndUpdateViewModel>() {
+class DeviceCreateActivity :
+    BaseBusinessActivity<ActivityDeviceCreateBinding, DeviceCreateViewModel>() {
 
-    private val mDeviceCreateAndUpdateViewModel by lazy {
-        getActivityViewModelProvider(this)[DeviceCreateAndUpdateViewModel::class.java]
+    private val mDeviceCreateViewModel by lazy {
+        getActivityViewModelProvider(this)[DeviceCreateViewModel::class.java]
     }
 
     // 付款码相机启动器
@@ -38,7 +38,7 @@ class DeviceCreateAndUpdateActivity :
         result.contents?.let {
             val payCode = StringUtils.getPayCode(it)
             payCode?.let { code ->
-                mDeviceCreateAndUpdateViewModel.payCode.value = code
+                mDeviceCreateViewModel.payCode.value = code
             } ?: SToast.showToast(this, R.string.pay_code_error)
         }
     }
@@ -46,7 +46,7 @@ class DeviceCreateAndUpdateActivity :
     // IMEI相机启动器
     private val imeiLauncher = registerForActivityResult(ScanContract()) { result ->
         result.contents?.let {
-            mDeviceCreateAndUpdateViewModel.imeiCode.value = it
+            mDeviceCreateViewModel.imeiCode.value = it
         } ?: SToast.showToast(this, R.string.imei_code_error)
     }
 
@@ -68,13 +68,13 @@ class DeviceCreateAndUpdateActivity :
                 SearchSelectRadioActivity.ShopResultCode -> {
                     result.data?.getStringExtra(SearchSelectRadioActivity.ResultData)?.let { json ->
                         GsonUtils.json2Class(json, SearchSelectParam::class.java)?.let { selected ->
-                            mDeviceCreateAndUpdateViewModel.createDeviceShop.value = selected
+                            mDeviceCreateViewModel.createDeviceShop.value = selected
                         }
                     }
                 }
                 DeviceModelActivity.ResultCode -> {
                     result.data?.let { intent ->
-                        mDeviceCreateAndUpdateViewModel.changeDeviceModel(
+                        mDeviceCreateViewModel.changeDeviceModel(
                             intent.getIntExtra(DeviceModelActivity.ResultDataId, -1),
                             intent.getStringExtra(DeviceModelActivity.ResultDataName),
                             intent.getIntExtra(DeviceCategory.CategoryId, -1),
@@ -90,16 +90,16 @@ class DeviceCreateAndUpdateActivity :
                                 DeviceFunctionConfigurationActivity.ResultData
                             ), SkuFuncConfigurationParam::class.java
                         )?.let {
-                            mDeviceCreateAndUpdateViewModel.createDeviceFunConfigure.value = it
+                            mDeviceCreateViewModel.createDeviceFunConfigure.value = it
                         }
                     }
                 }
             }
         }
 
-    override fun layoutId(): Int = R.layout.activity_device_create_and_update
+    override fun layoutId(): Int = R.layout.activity_device_create
 
-    override fun getVM(): DeviceCreateAndUpdateViewModel = mDeviceCreateAndUpdateViewModel
+    override fun getVM(): DeviceCreateViewModel = mDeviceCreateViewModel
 
     override fun backBtn(): View = mBinding.barDeviceCreateTitle.getBackBtn()
 
@@ -120,7 +120,7 @@ class DeviceCreateAndUpdateActivity :
         mBinding.mtivDeviceCreateModel.onSelectedEvent = {
             startNext.launch(
                 Intent(
-                    this@DeviceCreateAndUpdateActivity,
+                    this@DeviceCreateActivity,
                     DeviceModelActivity::class.java
                 )
             )
@@ -130,7 +130,7 @@ class DeviceCreateAndUpdateActivity :
         // 所属门店
         mBinding.mtivDeviceCreateDepartment.onSelectedEvent = {
             startNext.launch(Intent(
-                this@DeviceCreateAndUpdateActivity,
+                this@DeviceCreateActivity,
                 SearchSelectRadioActivity::class.java
             ).apply {
                 putExtra(
@@ -144,22 +144,22 @@ class DeviceCreateAndUpdateActivity :
         mBinding.mtivDeviceCreateFunConfigure.onSelectedEvent = {
             startNext.launch(
                 Intent(
-                    this@DeviceCreateAndUpdateActivity,
+                    this@DeviceCreateActivity,
                     DeviceFunctionConfigurationActivity::class.java
                 ).apply {
                     putExtra(
                         DeviceFunctionConfigurationActivity.SpuId,
-                        mDeviceCreateAndUpdateViewModel.createAndUpdateEntity.value?.spuId
+                        mDeviceCreateViewModel.createAndUpdateEntity.value?.spuId
                     )
                     putExtra(
                         DeviceCategory.CategoryCode,
-                        mDeviceCreateAndUpdateViewModel.deviceCategoryCode
+                        mDeviceCreateViewModel.deviceCategoryCode
                     )
                     putExtra(
                         DeviceCategory.CommunicationType,
-                        mDeviceCreateAndUpdateViewModel.deviceCommunicationType
+                        mDeviceCreateViewModel.deviceCommunicationType
                     )
-                    mDeviceCreateAndUpdateViewModel.createDeviceFunConfigure.value?.let { configs ->
+                    mDeviceCreateViewModel.createDeviceFunConfigure.value?.let { configs ->
                         putExtra(
                             DeviceFunctionConfigurationActivity.OldFuncConfiguration,
                             GsonUtils.any2Json(configs)
@@ -173,33 +173,33 @@ class DeviceCreateAndUpdateActivity :
     override fun initEvent() {
         super.initEvent()
         // 付款码
-        mDeviceCreateAndUpdateViewModel.payCode.observe(this) {
-            mDeviceCreateAndUpdateViewModel.createAndUpdateEntity.value?.code = it
+        mDeviceCreateViewModel.payCode.observe(this) {
+            mDeviceCreateViewModel.createAndUpdateEntity.value?.code = it
         }
         // IMEI
-        mDeviceCreateAndUpdateViewModel.imeiCode.observe(this) {
-            mDeviceCreateAndUpdateViewModel.createAndUpdateEntity.value?.imei = it
-            mDeviceCreateAndUpdateViewModel.requestModelOfImei(it)
+        mDeviceCreateViewModel.imeiCode.observe(this) {
+            mDeviceCreateViewModel.createAndUpdateEntity.value?.imei = it
+            mDeviceCreateViewModel.requestModelOfImei(it)
         }
 
         //设备名称
-        mDeviceCreateAndUpdateViewModel.deviceName.observe(this) {
-            mDeviceCreateAndUpdateViewModel.createAndUpdateEntity.value?.name = it
+        mDeviceCreateViewModel.deviceName.observe(this) {
+            mDeviceCreateViewModel.createAndUpdateEntity.value?.name = it
         }
 
         // 门店
-        mDeviceCreateAndUpdateViewModel.createDeviceShop.observe(this) {
-            mDeviceCreateAndUpdateViewModel.createAndUpdateEntity.value?.shopId = it.id
+        mDeviceCreateViewModel.createDeviceShop.observe(this) {
+            mDeviceCreateViewModel.createAndUpdateEntity.value?.shopId = it.id
         }
 
         // 功能配置
-        mDeviceCreateAndUpdateViewModel.createDeviceFunConfigure.observe(this) {
+        mDeviceCreateViewModel.createDeviceFunConfigure.observe(this) {
             it?.let { list ->
                 mBinding.llDeviceCreateSelectFunConfiguration.removeAllViews()
-                val mtb = DimensionUtils.dip2px(this@DeviceCreateAndUpdateActivity, 12f)
+                val mtb = DimensionUtils.dip2px(this@DeviceCreateActivity, 12f)
                 list.forEachIndexed { index, config ->
                     val selectFuncConfigItem =
-                        LayoutInflater.from(this@DeviceCreateAndUpdateActivity)
+                        LayoutInflater.from(this@DeviceCreateActivity)
                             .inflate(
                                 R.layout.item_selected_device_funcation_configuration,
                                 null,
@@ -212,7 +212,7 @@ class DeviceCreateAndUpdateActivity :
                     mFuncConfigBinding?.let {
                         mFuncConfigBinding.item = config
                         mFuncConfigBinding.isDryer =
-                            DeviceCategory.isDryer(mDeviceCreateAndUpdateViewModel.deviceCategoryCode)
+                            DeviceCategory.isDryer(mDeviceCreateViewModel.deviceCategoryCode)
                         mBinding.llDeviceCreateSelectFunConfiguration.addView(
                             mFuncConfigBinding.root,
                             LinearLayout.LayoutParams(
@@ -228,12 +228,12 @@ class DeviceCreateAndUpdateActivity :
         }
 
         // 跳转
-        mDeviceCreateAndUpdateViewModel.jump.observe(this) {
+        mDeviceCreateViewModel.jump.observe(this) {
             finish()
         }
     }
 
     override fun initData() {
-        mBinding.vm = mDeviceCreateAndUpdateViewModel
+        mBinding.vm = mDeviceCreateViewModel
     }
 }

@@ -7,19 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.ScreenUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.R
+import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.business.vm.DeviceDetailModel
 import com.shangyun.haile_manager_android.data.arguments.DeviceCategory
+import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
+import com.shangyun.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.shangyun.haile_manager_android.databinding.ActivityDeviceDetailBinding
 import com.shangyun.haile_manager_android.databinding.ItemDeviceDetailAppointmentBinding
 import com.shangyun.haile_manager_android.databinding.ItemDeviceDetailFuncPriceBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.shangyun.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 
 class DeviceDetailActivity :
     BaseBusinessActivity<ActivityDeviceDetailBinding, DeviceDetailModel>() {
@@ -75,14 +81,16 @@ class DeviceDetailActivity :
         super.initEvent()
 
         val mTB = DimensionUtils.dip2px(this, 12f)
-        mDeviceDetailModel.deviceDetail.observe(this) {
-            it?.items?.forEachIndexed { index, item ->
+        mDeviceDetailModel.deviceDetail.observe(this) {detail->
+            mBinding.llDeviceDetailFuncPrice.removeAllViews()
+            detail?.items?.forEachIndexed { index, item ->
                 val itemBinding = LayoutInflater.from(this@DeviceDetailActivity)
                     .inflate(R.layout.item_device_detail_func_price, null, false).let { view ->
                         DataBindingUtil.bind<ItemDeviceDetailFuncPriceBinding>(view)
                     }
                 itemBinding?.let {
                     itemBinding.item = item
+                    itemBinding.isDryer = DeviceCategory.isDryer(detail.categoryCode)
                     mBinding.llDeviceDetailFuncPrice.addView(
                         itemBinding.root, LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -93,7 +101,9 @@ class DeviceDetailActivity :
                     )
                 }
             }
-            it?.items?.forEachIndexed { index, item ->
+
+            mBinding.llDeviceDetailAppointment.removeAllViews()
+            detail?.items?.forEachIndexed { index, item ->
                 val itemBinding = LayoutInflater.from(this@DeviceDetailActivity)
                     .inflate(R.layout.item_device_detail_appointment, null, false).let { view ->
                         DataBindingUtil.bind<ItemDeviceDetailAppointmentBinding>(view)
@@ -130,6 +140,10 @@ class DeviceDetailActivity :
                                 DeviceFunctionConfigurationActivity::class.java
                             ).apply {
                                 putExtra(
+                                    DeviceFunctionConfigurationActivity.GoodId,
+                                    mDeviceDetailModel.goodsId
+                                )
+                                putExtra(
                                     DeviceFunctionConfigurationActivity.SpuId,
                                     detail.spuId
                                 )
@@ -153,6 +167,11 @@ class DeviceDetailActivity :
                 }
 
             }
+        }
+
+        // 监听刷新
+        LiveDataBus.with(BusEvents.DEVICE_DETAILS_STATUS)?.observe(this) {
+            mDeviceDetailModel.requestData()
         }
     }
 

@@ -1,6 +1,7 @@
 package com.shangyun.haile_manager_android.data.entities
 
 import com.lsy.framelib.utils.StringUtils
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.R
 
 /**
@@ -28,7 +29,7 @@ data class DeviceDetailEntity(
     val mainVideo: String,
     val code: String,
     val tags: String,
-    val soldState: Int,
+    var soldState: Int,
     val soldStateOp: Int,
     val inventoryType: Int,
     val chargeUnit: Int,
@@ -109,10 +110,27 @@ data class Item(
     val soldState: Int,
 ) {
 
-    fun getTitle() =
+    /**
+     * 根据型号区分配置内容
+     */
+    fun getConfigurationStr(isDryer: Boolean): String =
+        if (isDryer) {
+            GsonUtils.json2List(extAttr, ExtAttrBean::class.java)?.joinToString("\n") {
+                getSpec(
+                    if (0.0 == it.price) "" else it.price.toString(),
+                    if (0 == it.minutes) "" else it.minutes.toString(),
+                    if (0 == it.pulse) "" else it.pulse.toString()
+                )
+            } ?: ""
+        } else {
+            getSpec(price, unit, pulse)
+        }
+
+    fun getSpec(price: String, unit: String, pulse: String?) =
         if (pulse.isNullOrEmpty())
-            StringUtils.getString(R.string.func_price_item1, name, price, unit)
-        else StringUtils.getString(R.string.func_price_item2, name, price, unit, pulse)
+            StringUtils.getString(R.string.unit_device_configuration_hint3, price, unit)
+        else
+            StringUtils.getString(R.string.unit_device_configuration_hint4, price, unit, pulse)
 
     /**
      * 切换数据格式
@@ -140,6 +158,15 @@ data class Item(
             return null
         }
 
-        return SkuFuncConfigurationParam(skuId, name, priceV,pulseV,unitV,extAttr,feature,soldState)
+        return SkuFuncConfigurationParam(
+            skuId,
+            name,
+            priceV,
+            pulseV,
+            unitV,
+            extAttr,
+            feature,
+            soldState
+        )
     }
 }

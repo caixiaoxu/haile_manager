@@ -31,7 +31,7 @@ data class DeviceCreateParam(
     /**
      * 生成提交参数
      */
-    fun toDeviceJson(id: Int): String =
+    fun toDeviceJson(): String =
         GsonUtils.any2Json(
             hashMapOf(
                 "name" to name,
@@ -42,11 +42,7 @@ data class DeviceCreateParam(
                 "code" to code,
                 "extAttr" to extAttr,
                 "items" to items,
-            ).apply {
-                if (-1 != id) {
-                    put("id", id)
-                }
-            }
+            )
         )
 
 

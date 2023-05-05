@@ -174,5 +174,7 @@
     <string name="unit_minute_num">%1$d分钟</string>
     <string name="unit_device_configuration_hint1">%1$.2f元/%2$d分钟</string>
     <string name="unit_device_configuration_hint2">%1$.2f元/%2$d分钟/%3$d个脉冲</string>
+    <string name="unit_device_configuration_hint3">%1$s元/%2$s分钟</string>
+    <string name="unit_device_configuration_hint4">%1$s元/%2$s分钟/%3$s个脉冲</string>
 
 </resources>

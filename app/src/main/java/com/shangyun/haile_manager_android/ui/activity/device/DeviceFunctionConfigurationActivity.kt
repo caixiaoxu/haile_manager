@@ -30,6 +30,7 @@ import com.shangyun.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetD
 class DeviceFunctionConfigurationActivity :
     BaseBusinessActivity<ActivityDeviceFunctionConfigurationBinding, DeviceFunctionConfigurationViewModel>() {
     companion object {
+        const val GoodId = "goodId"
         const val SpuId = "spuId"
         const val OldFuncConfiguration = "oldFuncConfiguration"
         const val ResultCode = 0x90003
@@ -116,6 +117,7 @@ class DeviceFunctionConfigurationActivity :
 
     override fun initIntent() {
         super.initIntent()
+        mDeviceFunctionConfigurationViewModel.goodsId = intent.getIntExtra(GoodId, -1)
         mDeviceFunctionConfigurationViewModel.spuId = intent.getIntExtra(SpuId, -1)
         mDeviceFunctionConfigurationViewModel.categoryCode =
             intent.getStringExtra(DeviceCategory.CategoryCode)
@@ -156,6 +158,12 @@ class DeviceFunctionConfigurationActivity :
                 putExtra(ResultData, GsonUtils.any2Json(it))
             })
             finish()
+        }
+
+        mDeviceFunctionConfigurationViewModel.jump.observe(this) {
+            when (it) {
+                0 -> finish()
+            }
         }
     }
 

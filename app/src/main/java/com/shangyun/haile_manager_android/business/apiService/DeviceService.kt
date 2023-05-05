@@ -61,6 +61,12 @@ interface DeviceService {
     suspend fun deviceUpdate(@Body params: RequestBody): ResponseWrapper<DeviceDetailEntity>
 
     /**
+     * 设备删除接口
+     */
+    @POST("/goods/delete")
+    suspend fun deviceDelete(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
      * 设备详情接口
      */
     @GET("/goods/details")
@@ -77,4 +83,22 @@ interface DeviceService {
      */
     @POST("/device/advanced/setting")
     suspend fun deviceAdvancedSetting(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 设备复位接口
+     */
+    @POST("/device/reset")
+    suspend fun deviceReset(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 设备启动接口
+     */
+    @POST("/device/start")
+    suspend fun deviceStart(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 桶自洁接口
+     */
+    @POST("/device/clean")
+    suspend fun deviceClean(@Body params: RequestBody): ResponseWrapper<Any>
 }

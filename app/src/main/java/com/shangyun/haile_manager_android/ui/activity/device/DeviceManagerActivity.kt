@@ -36,7 +36,6 @@ import com.shangyun.haile_manager_android.databinding.ItemDeviceListBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.activity.common.SearchActivity
 import com.shangyun.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
-import com.shangyun.haile_manager_android.ui.activity.shop.ShopDetailActivity
 import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.shangyun.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
@@ -105,7 +104,7 @@ class DeviceManagerActivity :
                         startActivity(
                             Intent(
                                 this@DeviceManagerActivity,
-                                DeviceCreateAndUpdateActivity::class.java
+                                DeviceCreateActivity::class.java
                             )
                         )
                     }

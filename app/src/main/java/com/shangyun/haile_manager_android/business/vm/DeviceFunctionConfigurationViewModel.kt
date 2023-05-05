@@ -2,9 +2,11 @@ package com.shangyun.haile_manager_android.business.vm
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.shangyun.haile_manager_android.business.apiService.DeviceService
+import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.data.arguments.DeviceCategory
 import com.shangyun.haile_manager_android.data.entities.SkuEntity
 import com.shangyun.haile_manager_android.data.entities.SkuFuncConfigurationParam
@@ -23,6 +25,9 @@ import timber.log.Timber
  */
 class DeviceFunctionConfigurationViewModel : BaseViewModel() {
     private val mDeviceRepo = ApiRepository.apiClient(DeviceService::class.java)
+
+    // goodsId
+    var goodsId: Int = -1
 
     // spuid
     var spuId: Int = -1
@@ -128,10 +133,33 @@ class DeviceFunctionConfigurationViewModel : BaseViewModel() {
             }
         }
 
-        resultData.postValue(
-            configurationList.value?.map {
-                it.getRequestParams()
+        val params = configurationList.value?.map {
+            it.getRequestParams()
+        } ?: arrayListOf()
+        if (-1 == spuId) {
+            resultData.postValue(params)
+        } else {
+            if (-1 == goodsId) {
+                return
             }
-        )
+
+            launch({
+                ApiRepository.dealApiResult(
+                    mDeviceRepo.deviceUpdate(
+                        ApiRepository.createRequestBody(
+                            hashMapOf(
+                                "id" to goodsId,
+                                "items" to params
+                            )
+                        )
+                    )
+                )
+                LiveDataBus.post(BusEvents.DEVICE_DETAILS_STATUS, true)
+                jump.postValue(0)
+            }, {
+                it.message?.let { it1 -> SToast.showToast(msg = it1) }
+                Timber.d("请求失败或异常$it")
+            }, { Timber.d("请求结束") })
+        }
     }
 }

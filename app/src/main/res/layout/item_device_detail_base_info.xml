@@ -7,6 +7,8 @@
 
         <import type="android.view.View" />
 
+        <import type="com.shangyun.haile_manager_android.utils.StringUtils"/>
+
         <variable
             name="title"
             type="java.lang.String" />
@@ -50,6 +52,7 @@
             android:layout_marginEnd="4dp"
             android:background="@drawable/shape_stroke_979797_r36"
             android:gravity="center"
+            android:onClick="@{v->StringUtils.copyToShear(content)}"
             android:text="@string/copy"
             android:visibility="@{showCopy?View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/tv_base_info_content"

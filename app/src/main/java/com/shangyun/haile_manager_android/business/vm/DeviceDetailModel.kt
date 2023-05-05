@@ -1,7 +1,6 @@
 package com.shangyun.haile_manager_android.business.vm
 
 import android.view.View
-import android.view.View.OnClickListener
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
@@ -13,10 +12,7 @@ import com.shangyun.haile_manager_android.data.arguments.ItemShowParam
 import com.shangyun.haile_manager_android.data.entities.DeviceAdvancedSettingEntity
 import com.shangyun.haile_manager_android.data.entities.DeviceDetailEntity
 import com.shangyun.haile_manager_android.data.model.ApiRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.util.ArrayList
 
 /**
  * Title :
@@ -34,6 +30,10 @@ class DeviceDetailModel : BaseViewModel() {
     var goodsId: Int = -1
 
     val deviceDetail: MutableLiveData<DeviceDetailEntity> by lazy {
+        MutableLiveData()
+    }
+
+    val isOpen: MutableLiveData<Boolean> by lazy {
         MutableLiveData()
     }
 
@@ -79,6 +79,7 @@ class DeviceDetailModel : BaseViewModel() {
             hasReStart
         ) {
             //复位事件
+            deviceOperate(0)
         },
         ItemShowParam(StringUtils.getString(R.string.start), R.mipmap.icon_device_start, hasStart) {
             //启动事件
@@ -89,6 +90,7 @@ class DeviceDetailModel : BaseViewModel() {
             hasClean
         ) {
             //桶自洁事件
+            deviceOperate(1)
         },
         ItemShowParam(
             StringUtils.getString(R.string.change_model),
@@ -117,7 +119,7 @@ class DeviceDetailModel : BaseViewModel() {
             hasUpdate
         ) {
             //修改功能价格事件
-          jump.postValue(1)
+            jump.postValue(1)
         },
         ItemShowParam(
             StringUtils.getString(R.string.update_device_name),
@@ -151,12 +153,103 @@ class DeviceDetailModel : BaseViewModel() {
             val detail = ApiRepository.dealApiResult(mDeviceRepo.deviceDetail(goodsId))
             detail?.let {
                 deviceDetail.postValue(detail)
+                isOpen.postValue(1 == detail.soldState)
             }
 
             val list = ApiRepository.dealApiResult(mDeviceRepo.deviceAdvancedValues(goodsId))
             list?.let {
                 deviceAdvancedValues.postValue(it)
             }
+        }, {
+            it.message?.let { it1 -> SToast.showToast(msg = it1) }
+            Timber.d("请求失败或异常$it")
+        }, { Timber.d("请求结束") })
+    }
+
+
+    /**
+     * 切换设备是否上架
+     */
+    fun switchDevice(isCheck: Boolean) {
+        if (-1 == goodsId) {
+            return
+        }
+
+        launch({
+            val soldState = if (isCheck) 1 else 2
+            ApiRepository.dealApiResult(
+                mDeviceRepo.deviceUpdate(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "id" to goodsId,
+                            "soldState" to soldState,
+                        )
+                    )
+                )
+            )
+            deviceDetail.value?.soldState = soldState
+            isOpen.postValue(isCheck)
+        }, {
+            it.message?.let { it1 -> SToast.showToast(msg = it1) }
+            Timber.d("请求失败或异常$it")
+        }, { Timber.d("请求结束") })
+    }
+
+    /**
+     * 设备删除
+     */
+    fun deviceDelete(view: View) {
+        if (-1 == goodsId) {
+            return
+        }
+
+        launch({
+            ApiRepository.dealApiResult(
+                mDeviceRepo.deviceDelete(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "goodsId" to goodsId,
+                        )
+                    )
+                )
+            )
+            jump.postValue(0)
+        }, {
+            it.message?.let { it1 -> SToast.showToast(msg = it1) }
+            Timber.d("请求失败或异常$it")
+        }, { Timber.d("请求结束") })
+    }
+
+    /**
+     * 设备操作
+     */
+    fun deviceOperate(type: Int) {
+        if (-1 == goodsId) {
+            return
+        }
+
+        launch({
+            when (type) {
+                0 -> ApiRepository.dealApiResult(
+                    mDeviceRepo.deviceDelete(
+                        ApiRepository.createRequestBody(
+                            hashMapOf(
+                                "goodsId" to goodsId,
+                            )
+                        )
+                    )
+                )
+                1-> ApiRepository.dealApiResult(
+                    mDeviceRepo.deviceClean(
+                        ApiRepository.createRequestBody(
+                            hashMapOf(
+                                "goodsId" to goodsId,
+                            )
+                        )
+                    )
+                )
+            }
+            jump.postValue(0)
         }, {
             it.message?.let { it1 -> SToast.showToast(msg = it1) }
             Timber.d("请求失败或异常$it")

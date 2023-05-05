@@ -6,10 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
-import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.business.apiService.DeviceService
 import com.shangyun.haile_manager_android.business.event.BusEvents
-import com.shangyun.haile_manager_android.data.arguments.DeviceCategory
 import com.shangyun.haile_manager_android.data.arguments.DeviceCreateParam
 import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
 import com.shangyun.haile_manager_android.data.entities.SkuFuncConfigurationParam
@@ -26,10 +24,8 @@ import timber.log.Timber
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class DeviceCreateAndUpdateViewModel : BaseViewModel() {
+class DeviceCreateViewModel : BaseViewModel() {
     private val mRepo = ApiRepository.apiClient(DeviceService::class.java)
-
-    var id: Int = -1
 
     // 设备 创建/修改 数据
     val createAndUpdateEntity: MutableLiveData<DeviceCreateParam> =
@@ -150,17 +146,13 @@ class DeviceCreateAndUpdateViewModel : BaseViewModel() {
     fun submit(view: View) {
         launch({
             createDeviceFunConfigure.value?.let {
-                if (DeviceCategory.isDryer(deviceCategoryCode)){
-                    createAndUpdateEntity.value?.extAttr = GsonUtils.any2Json(it)
-                } else {
-                    createAndUpdateEntity.value?.items = it
-                }
+                createAndUpdateEntity.value?.items = it
             }
 
             ApiRepository.dealApiResult(
                 mRepo.deviceCreate(
                     ApiRepository.createRequestBody(
-                        createAndUpdateEntity.value?.toDeviceJson(id) ?: ""
+                        createAndUpdateEntity.value?.toDeviceJson() ?: ""
                     )
                 )
             )

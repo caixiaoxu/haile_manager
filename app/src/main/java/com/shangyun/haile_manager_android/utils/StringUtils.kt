@@ -1,14 +1,16 @@
 package com.shangyun.haile_manager_android.utils
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.text.ParcelableSpan
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
-import androidx.annotation.IntDef
-import androidx.annotation.StringDef
+import com.lsy.framelib.data.constants.Constants
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.SToast
 import java.io.UnsupportedEncodingException
 import java.text.DecimalFormat
 import java.util.regex.Pattern
@@ -191,5 +193,16 @@ object StringUtils {
     } catch (e: java.lang.Exception) {
         e.printStackTrace()
         null
+    }
+
+    /**
+     * 复制到剪切板
+     */
+    @JvmStatic
+    fun copyToShear(text: String) {
+        (Constants.APP_CONTEXT.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(
+            ClipData.newPlainText(null, text)
+        )
+        SToast.showToast(msg = "复制成功")
     }
 }

@@ -3,11 +3,13 @@ package com.shangyun.haile_manager_android.business.vm
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.apiService.DeviceService
+import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.data.arguments.ItemShowParam
 import com.shangyun.haile_manager_android.data.entities.DeviceAdvancedSettingEntity
 import com.shangyun.haile_manager_android.data.entities.DeviceDetailEntity
@@ -213,6 +215,7 @@ class DeviceDetailModel : BaseViewModel() {
                     )
                 )
             )
+            LiveDataBus.post(BusEvents.DEVICE_LIST_ITEM_DELETE_STATUS, goodsId)
             jump.postValue(0)
         }, {
             it.message?.let { it1 -> SToast.showToast(msg = it1) }

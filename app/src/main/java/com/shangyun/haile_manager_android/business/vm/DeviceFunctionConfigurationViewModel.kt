@@ -136,12 +136,9 @@ class DeviceFunctionConfigurationViewModel : BaseViewModel() {
         val params = configurationList.value?.map {
             it.getRequestParams()
         } ?: arrayListOf()
-        if (-1 == spuId) {
+        if (-1 == goodsId) {
             resultData.postValue(params)
         } else {
-            if (-1 == goodsId) {
-                return
-            }
 
             launch({
                 ApiRepository.dealApiResult(

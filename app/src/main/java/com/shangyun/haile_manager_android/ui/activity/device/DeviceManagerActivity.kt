@@ -75,6 +75,58 @@ class DeviceManagerActivity :
             }
         }
 
+    private val mAdapter by lazy {
+        CommonRecyclerAdapter<ItemDeviceListBinding, DeviceEntity>(
+            R.layout.item_device_list,
+            BR.item
+        ) { mBinding, _, item ->
+            mBinding?.item = item
+
+            val title = StringUtils.getString(R.string.total_income)
+            val value =
+                NumberUtils.keepTwoDecimals(item.income) + StringUtils.getString(R.string.unit_yuan)
+            val start = title.length + 1
+            val end = title.length + 1 + value.length
+            // 格式化总收益样式
+            mBinding?.tvItemDeviceTotalIncome?.text =
+                com.shangyun.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
+                    "$title：$value",
+                    arrayOf(
+                        ForegroundColorSpan(
+                            ResourcesCompat.getColor(
+                                resources,
+                                R.color.colorPrimary,
+                                null
+                            )
+                        ),
+                        AbsoluteSizeSpan(DimensionUtils.sp2px(this@DeviceManagerActivity, 18f)),
+                        StyleSpan(Typeface.BOLD),
+                        TypefaceSpan("money")
+                    ), start, end
+                )
+            mBinding?.tvItemDeviceTotalIncome?.setOnClickListener {
+                if (true == mSharedViewModel.hasDeviceProfitPermission.value) {
+                    // TODO 跳转到设备收益
+                }
+            }
+
+            // 进入详情
+            mBinding?.root?.setOnClickListener {
+                if (true == mSharedViewModel.hasDeviceInfoPermission.value) {
+                    // 设备详情
+                    startActivity(
+                        Intent(
+                            this@DeviceManagerActivity,
+                            DeviceDetailActivity::class.java
+                        ).apply {
+                            putExtra(DeviceDetailActivity.GoodsId, item.id)
+                        }
+                    )
+                }
+            }
+        }
+    }
+
     override fun layoutId(): Int = R.layout.activity_device_manager
 
     override fun getVM(): DeviceManagerViewModel = mDeviceManagerViewModel
@@ -205,56 +257,9 @@ class DeviceManagerActivity :
                     setDrawable(it)
                 }
             })
-        mBinding.rvDeviceManagerList.adapter =
-            CommonRecyclerAdapter<ItemDeviceListBinding, DeviceEntity>(
-                R.layout.item_device_list,
-                BR.item
-            ) { mBinding, _, item ->
-                mBinding?.item = item
 
-                val title = StringUtils.getString(R.string.total_income)
-                val value =
-                    NumberUtils.keepTwoDecimals(item.income) + StringUtils.getString(R.string.unit_yuan)
-                val start = title.length + 1
-                val end = title.length + 1 + value.length
-                // 格式化总收益样式
-                mBinding?.tvItemDeviceTotalIncome?.text =
-                    com.shangyun.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
-                        "$title：$value",
-                        arrayOf(
-                            ForegroundColorSpan(
-                                ResourcesCompat.getColor(
-                                    resources,
-                                    R.color.colorPrimary,
-                                    null
-                                )
-                            ),
-                            AbsoluteSizeSpan(DimensionUtils.sp2px(this@DeviceManagerActivity, 18f)),
-                            StyleSpan(Typeface.BOLD),
-                            TypefaceSpan("money")
-                        ), start, end
-                    )
-                mBinding?.tvItemDeviceTotalIncome?.setOnClickListener {
-                    if (true == mSharedViewModel.hasDeviceProfitPermission.value) {
-                        // TODO 跳转到设备收益
-                    }
-                }
+        mBinding.rvDeviceManagerList.adapter = mAdapter
 
-                // 进入详情
-                mBinding?.root?.setOnClickListener {
-                    if (true == mSharedViewModel.hasDeviceInfoPermission.value) {
-                        // 设备详情
-                        startActivity(
-                            Intent(
-                                this@DeviceManagerActivity,
-                                DeviceDetailActivity::class.java
-                            ).apply {
-                                putExtra(DeviceDetailActivity.GoodsId, item.id)
-                            }
-                        )
-                    }
-                }
-            }
         mBinding.rvDeviceManagerList.requestData =
             object : CommonRefreshRecyclerView.OnRequestDataListener<DeviceEntity>() {
                 override fun requestData(
@@ -353,6 +358,11 @@ class DeviceManagerActivity :
         // 监听刷新
         LiveDataBus.with(BusEvents.DEVICE_LIST_STATUS)?.observe(this) {
             mBinding.rvDeviceManagerList.requestRefresh()
+        }
+
+        // 监听删除
+        LiveDataBus.with(BusEvents.DEVICE_LIST_ITEM_DELETE_STATUS, Int::class.java)?.observe(this) {
+            mAdapter.deleteItem { item -> item.id == it }
         }
     }
 

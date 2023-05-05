@@ -35,8 +35,8 @@ class CommonRecyclerAdapter<T : ViewDataBinding, D>(
         if (isRefresh) {
             this.list.clear()
         }
-        if (null == list){
-            if (isRefresh){
+        if (null == list) {
+            if (isRefresh) {
                 notifyDataSetChanged()
             }
             return
@@ -48,6 +48,17 @@ class CommonRecyclerAdapter<T : ViewDataBinding, D>(
             notifyDataSetChanged()
         } else {
             notifyItemRangeInserted(start, list.size)
+        }
+    }
+
+    /**
+     * 删除指定数据
+     */
+    fun deleteItem(predicate: (D) -> Boolean) {
+        val index = list.indexOfFirst(predicate)
+        if (-1 != index) {
+            list.removeAt(index)
+            notifyItemRemoved(index)
         }
     }
 

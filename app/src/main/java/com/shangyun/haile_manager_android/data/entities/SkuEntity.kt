@@ -186,6 +186,7 @@ data class ExtAttrBean(
 }
 
 data class SkuFuncConfigurationParam(
+//    val id: Int = -1,
     val skuId: Int,
     val name: String,
     val price: Double,
@@ -194,7 +195,6 @@ data class SkuFuncConfigurationParam(
     val extAttr: String,
     val feature: String,
     val soldState: Int,
-    val id: Int = -1,
 ) {
     /**
      * 根据型号区分配置内容

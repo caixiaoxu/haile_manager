@@ -18,6 +18,7 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.business.vm.DeviceDetailModel
+import com.shangyun.haile_manager_android.business.vm.DeviceMultiChangeViewModel
 import com.shangyun.haile_manager_android.data.arguments.DeviceCategory
 import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
 import com.shangyun.haile_manager_android.data.entities.SkuFuncConfigurationParam
@@ -37,6 +38,33 @@ class DeviceDetailActivity :
     private val mDeviceDetailModel by lazy {
         getActivityViewModelProvider(this)[DeviceDetailModel::class.java]
     }
+
+    // 跳转修改界面
+    private val startNext =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                DeviceMultiChangeActivity.ResultCode -> {
+                    result.data?.let { intent ->
+                        intent.getStringExtra(DeviceMultiChangeActivity.ResultData)?.let {
+                            when (intent.getIntExtra(DeviceMultiChangeViewModel.Type, -1)) {
+                                DeviceMultiChangeViewModel.typeChangeModel -> {
+                                    mDeviceDetailModel.deviceDetail.value?.imei = it
+                                    mDeviceDetailModel.imei.value = it
+                                }
+                                DeviceMultiChangeViewModel.typeChangePayCode -> {
+                                    mDeviceDetailModel.deviceDetail.value?.code = it
+                                    mDeviceDetailModel.code.value = it
+                                }
+                                DeviceMultiChangeViewModel.typeChangeName -> {
+                                    mDeviceDetailModel.deviceDetail.value?.name = it
+                                    mDeviceDetailModel.name.value = it
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
     override fun layoutId(): Int = R.layout.activity_device_detail
 
@@ -81,7 +109,7 @@ class DeviceDetailActivity :
         super.initEvent()
 
         val mTB = DimensionUtils.dip2px(this, 12f)
-        mDeviceDetailModel.deviceDetail.observe(this) {detail->
+        mDeviceDetailModel.deviceDetail.observe(this) { detail ->
             mBinding.llDeviceDetailFuncPrice.removeAllViews()
             detail?.items?.forEachIndexed { index, item ->
                 val itemBinding = LayoutInflater.from(this@DeviceDetailActivity)
@@ -132,8 +160,9 @@ class DeviceDetailActivity :
         mDeviceDetailModel.jump.observe(this) {
             when (it) {
                 0 -> finish()
+                // 修改功能价格
                 1 -> {
-                    mDeviceDetailModel.deviceDetail.value?.let {detail->
+                    mDeviceDetailModel.deviceDetail.value?.let { detail ->
                         startActivity(
                             Intent(
                                 this@DeviceDetailActivity,
@@ -155,17 +184,86 @@ class DeviceDetailActivity :
                                     DeviceCategory.CommunicationType,
                                     detail.communicationType
                                 )
-                                if (detail.items.isNotEmpty()){
+                                if (detail.items.isNotEmpty()) {
                                     putExtra(
                                         DeviceFunctionConfigurationActivity.OldFuncConfiguration,
-                                        GsonUtils.any2Json(detail.items.map {item-> item.changeConfigurationParam() })
+                                        GsonUtils.any2Json(detail.items.map { item -> item.changeConfigurationParam() })
                                     )
                                 }
                             }
                         )
                     }
                 }
-
+                // 启动
+                2 -> mDeviceDetailModel.deviceDetail.value?.let { detail ->
+                    startActivity(
+                        Intent(
+                            this@DeviceDetailActivity,
+                            DeviceStartActivity::class.java
+                        ).apply {
+                            putExtra(DeviceStartActivity.Imei, detail.imei)
+                            putExtra(DeviceCategory.CategoryCode, detail.categoryCode)
+                            putExtra(DeviceStartActivity.Items, GsonUtils.any2Json(detail.items))
+                        })
+                }
+                // 更换模块
+                3 -> startNext.launch(
+                    Intent(
+                        this@DeviceDetailActivity,
+                        DeviceMultiChangeActivity::class.java
+                    ).apply {
+                        putExtra(
+                            DeviceMultiChangeActivity.GoodId,
+                            mDeviceDetailModel.goodsId
+                        )
+                        putExtra(
+                            DeviceMultiChangeViewModel.Type,
+                            DeviceMultiChangeViewModel.typeChangeModel
+                        )
+                    }
+                )
+                // 更换付款码
+                4 -> startNext.launch(
+                    Intent(
+                        this@DeviceDetailActivity,
+                        DeviceMultiChangeActivity::class.java
+                    ).apply {
+                        putExtra(
+                            DeviceMultiChangeActivity.GoodId,
+                            mDeviceDetailModel.goodsId
+                        )
+                        putExtra(
+                            DeviceMultiChangeViewModel.Type,
+                            DeviceMultiChangeViewModel.typeChangePayCode
+                        )
+                    }
+                )
+                // 更换名称
+                5 -> startNext.launch(
+                    Intent(
+                        this@DeviceDetailActivity,
+                        DeviceMultiChangeActivity::class.java
+                    ).apply {
+                        putExtra(
+                            DeviceMultiChangeActivity.GoodId,
+                            mDeviceDetailModel.goodsId
+                        )
+                        putExtra(
+                            DeviceMultiChangeViewModel.Type,
+                            DeviceMultiChangeViewModel.typeChangeName
+                        )
+                    }
+                )
+                // 生成付款码
+                6 -> mDeviceDetailModel.deviceDetail.value?.let { detail ->
+                    startActivity(
+                        Intent(
+                            this@DeviceDetailActivity,
+                            DevicePayCodeActivity::class.java
+                        ).apply {
+                            putExtra(DevicePayCodeActivity.Code, detail.code)
+                        })
+                }
             }
         }
 

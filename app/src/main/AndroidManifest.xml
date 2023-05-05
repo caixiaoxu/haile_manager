@@ -23,6 +23,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.device.DevicePayCodeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.device.DeviceMultiChangeActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.device.DeviceStartActivity"
             android:exported="false" />
         <activity

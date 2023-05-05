@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.SoftKeyboardUtils
 import com.shangyun.haile_manager_android.business.apiService.DeviceService
 import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.data.arguments.DeviceCategory
@@ -73,7 +74,7 @@ class DeviceFunctionConfigurationViewModel : BaseViewModel() {
     }
 
     fun save(view: View) {
-
+        SoftKeyboardUtils.hideShowKeyboard(view)
         // 参数判断
         configurationList.value?.let { list ->
             list.forEachIndexed { index, config ->

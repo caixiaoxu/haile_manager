@@ -67,7 +67,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:text="@{vm.deviceDetail.name}"
+                        android:text="@{vm.name}"
                         app:layout_constraintEnd_toStartOf="@id/switch_device_detail_open"
                         app:layout_constraintStart_toEndOf="@id/iv_device_detail_main"
                         app:layout_constraintTop_toTopOf="parent"
@@ -286,14 +286,14 @@
 
                         <include
                             layout="@layout/item_device_detail_base_info"
-                            app:content="@{vm.deviceDetail.code}"
+                            app:content="@{vm.code}"
                             app:show="@{vm.deviceDetail.hasPayCode}"
                             app:showCopy="@{false}"
                             app:title="@{vm.deviceDetail.getPayCodeTitle}" />
 
                         <include
                             layout="@layout/item_device_detail_base_info"
-                            app:content="@{vm.deviceDetail.imei+vm.deviceDetail.imei}"
+                            app:content="@{vm.imei}"
                             app:show="@{vm.deviceDetail.hasImeiCode}"
                             app:showCopy="@{true}"
                             app:title="@{vm.deviceDetail.getImeiTitle}" />

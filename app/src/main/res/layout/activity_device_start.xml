@@ -5,13 +5,16 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.shangyun.haile_manager_android.business.vm.DeviceStartViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="@color/page_bg"
+        android:orientation="vertical"
         tools:context=".ui.activity.device.DeviceStartActivity">
 
         <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
@@ -19,17 +22,67 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
             app:bgColor="@color/white"
-            app:title="@string/device_start"/>
+            app:title="@string/device_start" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_sffffff_r8"
+            android:layout_marginHorizontal="12dp"
             android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="12dp">
+            android:background="@drawable/shape_sffffff_r8"
+            android:orientation="vertical"
+            android:padding="12dp">
 
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_14_333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/device_start" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_device_start_model"
+                style="@style/Font_16_333333"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:drawableEnd="@drawable/icon_arrow_right"
+                android:paddingVertical="20dp"
+                android:hint="@string/wash_model_hint"
+                android:textColorHint="@color/common_txt_hint_color"
+                android:text="@{vm.selectItem.title}"
+                tools:text="中度烘干"/>
+
+            <View style="@style/DividingStyle" />
+
+            <HorizontalScrollView
+                android:id="@+id/scroll_device_start_time_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:visibility="gone">
+
+                <RadioGroup
+                    android:id="@+id/rg_device_start_time_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_12_333333"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/device_start_hint" />
         </LinearLayout>
 
+        <com.shangyun.haile_manager_android.ui.view.CommonButton
+            android:id="@+id/btn_device_create_submit"
+            style="@style/CommonMatchBtnStyle1"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="24dp"
+            android:enabled="@{vm.canSubmit}"
+            android:onClick="@{vm::submit}"
+            android:text="@string/submit" />
     </LinearLayout>
 </layout>

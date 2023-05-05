@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Rect
 import android.util.DisplayMetrics
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 
@@ -34,20 +35,37 @@ object SoftKeyboardUtils {
      */
     fun showKeyboard(editText: EditText) {
         //调用系统输入法
-        editText.postDelayed({
-            val inputManager: InputMethodManager =
-                editText.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputManager.showSoftInput(editText, 0)
-        }, 60)
+        showKeyboard(editText)
     }
 
     /**
      * 显示软键盘
      */
-    fun hideShowKeyboard(editText: EditText) {
-        val manager = editText.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        manager.hideSoftInputFromWindow(editText.windowToken, 0)
+    fun showKeyboard(view: View) {
+        //调用系统输入法
+        view.postDelayed({
+            val inputManager: InputMethodManager =
+                view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputManager.showSoftInput(view, 0)
+        }, 60)
     }
+
+    /**
+     * 隐藏软键盘
+     */
+    fun hideShowKeyboard(editText: EditText) {
+        hideShowKeyboard(editText)
+    }
+
+    /**
+     * 隐藏软键盘
+     */
+    fun hideShowKeyboard(view: View) {
+        val manager =
+            view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        manager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
 
     /**
      * 判断软键盘是否显示方法
@@ -75,6 +93,8 @@ object SoftKeyboardUtils {
         //获取当前屏幕的真实高度
         activity.windowManager.defaultDisplay.getRealMetrics(metrics)
         val realHeight = metrics.heightPixels
-        return if (realHeight > usableHeight) { realHeight - usableHeight } else 0
+        return if (realHeight > usableHeight) {
+            realHeight - usableHeight
+        } else 0
     }
 }

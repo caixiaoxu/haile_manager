@@ -40,7 +40,7 @@ object DeviceCategory {
     /**
      * 是否是烘干机
      */
-    fun isDryer(categoryCode: String?) = DeviceCategory.Dryer == categoryCode
+    fun isDryer(categoryCode: String?) = Dryer == categoryCode
 
     /**
      * 是否是脉冲设备

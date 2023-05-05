@@ -14,6 +14,8 @@ import com.shangyun.haile_manager_android.data.arguments.ItemShowParam
 import com.shangyun.haile_manager_android.data.entities.DeviceAdvancedSettingEntity
 import com.shangyun.haile_manager_android.data.entities.DeviceDetailEntity
 import com.shangyun.haile_manager_android.data.model.ApiRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 /**
@@ -36,6 +38,18 @@ class DeviceDetailModel : BaseViewModel() {
     }
 
     val isOpen: MutableLiveData<Boolean> by lazy {
+        MutableLiveData()
+    }
+
+    val name:MutableLiveData<String> by lazy {
+        MutableLiveData()
+    }
+
+    val code:MutableLiveData<String> by lazy {
+        MutableLiveData()
+    }
+
+    val imei:MutableLiveData<String> by lazy {
         MutableLiveData()
     }
 
@@ -85,6 +99,7 @@ class DeviceDetailModel : BaseViewModel() {
         },
         ItemShowParam(StringUtils.getString(R.string.start), R.mipmap.icon_device_start, hasStart) {
             //启动事件
+            jump.postValue(2)
         },
         ItemShowParam(
             StringUtils.getString(R.string.self_clean),
@@ -100,6 +115,7 @@ class DeviceDetailModel : BaseViewModel() {
             MutableLiveData(true)
         ) {
             // 更换模块事件
+            jump.postValue(3)
         },
         ItemShowParam(
             StringUtils.getString(R.string.change_pay_code),
@@ -107,6 +123,7 @@ class DeviceDetailModel : BaseViewModel() {
             hasPayCode
         ) {
             //付款码更换事件
+            jump.postValue(4)
         },
         ItemShowParam(
             StringUtils.getString(R.string.create_pay_code),
@@ -114,6 +131,7 @@ class DeviceDetailModel : BaseViewModel() {
             hasPayCode
         ) {
             //生成付款码事件
+            jump.postValue(6)
         },
         ItemShowParam(
             StringUtils.getString(R.string.update_func_price),
@@ -129,6 +147,7 @@ class DeviceDetailModel : BaseViewModel() {
             hasUpdate
         ) {
             //修改设备名称事件
+            jump.postValue(5)
         },
         ItemShowParam(
             StringUtils.getString(R.string.device_transfer),
@@ -156,6 +175,9 @@ class DeviceDetailModel : BaseViewModel() {
             detail?.let {
                 deviceDetail.postValue(detail)
                 isOpen.postValue(1 == detail.soldState)
+                name.postValue(detail.name)
+                code.postValue(detail.code)
+                imei.postValue(detail.code)
             }
 
             val list = ApiRepository.dealApiResult(mDeviceRepo.deviceAdvancedValues(goodsId))
@@ -233,26 +255,35 @@ class DeviceDetailModel : BaseViewModel() {
 
         launch({
             when (type) {
-                0 -> ApiRepository.dealApiResult(
-                    mDeviceRepo.deviceDelete(
-                        ApiRepository.createRequestBody(
-                            hashMapOf(
-                                "goodsId" to goodsId,
+                0 -> {
+                    ApiRepository.dealApiResult(
+                        mDeviceRepo.deviceReset(
+                            ApiRepository.createRequestBody(
+                                hashMapOf(
+                                    "goodsId" to goodsId,
+                                )
                             )
                         )
                     )
-                )
-                1-> ApiRepository.dealApiResult(
-                    mDeviceRepo.deviceClean(
-                        ApiRepository.createRequestBody(
-                            hashMapOf(
-                                "goodsId" to goodsId,
+                    withContext(Dispatchers.Main) {
+                        SToast.showToast(msg = "复位成功")
+                    }
+                }
+                1 -> {
+                    ApiRepository.dealApiResult(
+                        mDeviceRepo.deviceClean(
+                            ApiRepository.createRequestBody(
+                                hashMapOf(
+                                    "goodsId" to goodsId,
+                                )
                             )
                         )
                     )
-                )
+                    withContext(Dispatchers.Main) {
+                        SToast.showToast(msg = "开始桶自洁")
+                    }
+                }
             }
-            jump.postValue(0)
         }, {
             it.message?.let { it1 -> SToast.showToast(msg = it1) }
             Timber.d("请求失败或异常$it")

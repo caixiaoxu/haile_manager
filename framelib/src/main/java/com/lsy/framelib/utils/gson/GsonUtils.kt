@@ -31,7 +31,7 @@ object GsonUtils {
     /**
      * 转json
      */
-    fun any2Json(any: Any): String = gson.toJson(any)
+    fun any2Json(any: Any?): String = gson.toJson(any)
 
     /**
      * json转对象

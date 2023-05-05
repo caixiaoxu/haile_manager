@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.business.apiService.DeviceService
 import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.data.arguments.DeviceCategory
@@ -148,6 +149,14 @@ class DeviceCreateAndUpdateViewModel : BaseViewModel() {
      */
     fun submit(view: View) {
         launch({
+            createDeviceFunConfigure.value?.let {
+                if (DeviceCategory.isDryer(deviceCategoryCode)){
+                    createAndUpdateEntity.value?.extAttr = GsonUtils.any2Json(it)
+                } else {
+                    createAndUpdateEntity.value?.items = it
+                }
+            }
+
             ApiRepository.dealApiResult(
                 mRepo.deviceCreate(
                     ApiRepository.createRequestBody(

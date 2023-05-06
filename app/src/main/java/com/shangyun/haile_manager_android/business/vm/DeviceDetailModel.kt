@@ -165,24 +165,28 @@ class DeviceDetailModel : BaseViewModel() {
         },
     )
 
-    fun requestData() {
+    fun requestData(type: Int = 0) {
         if (-1 == goodsId) {
             return
         }
 
         launch({
-            val detail = ApiRepository.dealApiResult(mDeviceRepo.deviceDetail(goodsId))
-            detail?.let {
-                deviceDetail.postValue(detail)
-                isOpen.postValue(1 == detail.soldState)
-                name.postValue(detail.name)
-                code.postValue(detail.code)
-                imei.postValue(detail.code)
+            if (0 == type || 1 == type){
+                val detail = ApiRepository.dealApiResult(mDeviceRepo.deviceDetail(goodsId))
+                detail?.let {
+                    deviceDetail.postValue(detail)
+                    isOpen.postValue(1 == detail.soldState)
+                    name.postValue(detail.name)
+                    code.postValue(detail.code)
+                    imei.postValue(detail.code)
+                }
             }
 
-            val list = ApiRepository.dealApiResult(mDeviceRepo.deviceAdvancedValues(goodsId))
-            list?.let {
-                deviceAdvancedValues.postValue(it)
+            if (0 == type || 2 == type){
+                val list = ApiRepository.dealApiResult(mDeviceRepo.deviceAdvancedValues(goodsId))
+                list?.let {
+                    deviceAdvancedValues.postValue(it)
+                }
             }
         }, {
             it.message?.let { it1 -> SToast.showToast(msg = it1) }
@@ -199,8 +203,13 @@ class DeviceDetailModel : BaseViewModel() {
             return
         }
 
+        val soldState = if (isCheck) 1 else 2
+        // 避免重复提交
+        if (deviceDetail.value?.soldState == soldState){
+            return
+        }
+
         launch({
-            val soldState = if (isCheck) 1 else 2
             ApiRepository.dealApiResult(
                 mDeviceRepo.deviceUpdate(
                     ApiRepository.createRequestBody(

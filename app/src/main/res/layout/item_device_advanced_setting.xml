@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="item"
+            type="com.shangyun.haile_manager_android.data.entities.DeviceAdvancedEntity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:showIn="@layout/activity_device_advanced_setting">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@{item.name}"
+            tools:text="标准洗涤时间设定"
+            style="@style/Font_16_333333" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_device_advanced_setting_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@={item.input}"
+            android:focusable='@{"text".equals(item.type)}'
+            android:focusableInTouchMode='@{"text".equals(item.type)}'
+            android:background="@color/transparent"
+            android:hint='@{"text".equals(item.type)?@string/please_input:@string/please_select}'
+            style="@style/Font_16_333333_cccccc" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="@{item.desc}"
+            tools:text="标准主洗时间设定，数值从0-30，单位分，默认18"
+            style="@style/Font_12_999999" />
+
+        <View style="@style/DividingStyle" />
+
+    </LinearLayout>
+</layout>

@@ -20,13 +20,10 @@ import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.business.vm.DeviceDetailModel
 import com.shangyun.haile_manager_android.business.vm.DeviceMultiChangeViewModel
 import com.shangyun.haile_manager_android.data.arguments.DeviceCategory
-import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
-import com.shangyun.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.shangyun.haile_manager_android.databinding.ActivityDeviceDetailBinding
 import com.shangyun.haile_manager_android.databinding.ItemDeviceDetailAppointmentBinding
 import com.shangyun.haile_manager_android.databinding.ItemDeviceDetailFuncPriceBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
-import com.shangyun.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 
 class DeviceDetailActivity :
     BaseBusinessActivity<ActivityDeviceDetailBinding, DeviceDetailModel>() {
@@ -88,7 +85,24 @@ class DeviceDetailActivity :
                     )
                     textSize = 14f
                     setOnClickListener {
-                        // 高级设置
+                        mDeviceDetailModel.deviceAdvancedValues.value?.let { values ->
+                            // 高级设置
+                            startActivity(
+                                Intent(
+                                    this@DeviceDetailActivity,
+                                    DeviceAdvancedActivity::class.java
+                                ).apply {
+                                    putExtra(
+                                        DeviceAdvancedActivity.GoodId,
+                                        mDeviceDetailModel.goodsId
+                                    )
+                                    putExtra(
+                                        DeviceAdvancedActivity.Advanced,
+                                        GsonUtils.any2Json(values)
+                                    )
+                                }
+                            )
+                        }
                     }
                 },
                 LinearLayout.LayoutParams(
@@ -269,7 +283,7 @@ class DeviceDetailActivity :
 
         // 监听刷新
         LiveDataBus.with(BusEvents.DEVICE_DETAILS_STATUS)?.observe(this) {
-            mDeviceDetailModel.requestData()
+            mDeviceDetailModel.requestData(1)
         }
     }
 

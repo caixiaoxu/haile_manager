@@ -78,6 +78,7 @@
     <string name="search_device_hint">请输入设备型号/名称</string>
     <string name="device_detail">设备详情</string>
     <string name="advanced_setup">高级设置</string>
+    <string name="advanced_params_setup">高级参数设置</string>
     <string name="func_operate">功能操作</string>
     <string name="restart">复位</string>
     <string name="start">启动</string>

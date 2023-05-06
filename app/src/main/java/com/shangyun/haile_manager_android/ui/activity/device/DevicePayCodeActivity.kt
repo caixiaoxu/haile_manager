@@ -4,6 +4,7 @@ import android.Manifest
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import com.google.zxing.BarcodeFormat
@@ -39,14 +40,11 @@ class DevicePayCodeActivity : BaseBindingActivity<ActivityDevicePayCodeBinding>(
 
     private var bitmap: Bitmap? = null
 
+    override fun backBtn(): View = mBinding.barDevicePayCodeTitle.getBackBtn()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.statusBarColor = Color.WHITE
-
-        mBinding.barDevicePayCodeTitle.getBackBtn().setOnClickListener {
-            onBackListener()
-        }
 
         intent.getStringExtra(Code)?.let { code ->
             val wh = DimensionUtils.dip2px(this, 166f)

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.shangyun.haile_manager_android.business.vm.DeviceAdvancedSettingViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context=".ui.activity.device.DeviceAdvancedSettingActivity">
+
+        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_device_advanced_setting_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            app:bgColor="@color/white"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            style="@style/Font_12_999999"
+            android:text="参数信息"/>
+
+        <View style="@style/DividingStyle" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_device_advanced_setting"
+            android:layout_width="match_parent"
+            android:paddingHorizontal="16dp"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <View style="@style/DividingStyle"/>
+
+        <com.shangyun.haile_manager_android.ui.view.CommonButton
+            android:id="@+id/btn_device_advanced_submit"
+            style="@style/CommonMatchBtnStyle1"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="42dp"
+            android:onClick="@{vm::submit}"
+            android:text="@string/submit" />
+
+    </LinearLayout>
+</layout>

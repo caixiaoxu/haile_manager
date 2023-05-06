@@ -50,12 +50,14 @@ class DevicePayCodeActivity : BaseBindingActivity<ActivityDevicePayCodeBinding>(
 
         intent.getStringExtra(Code)?.let { code ->
             val wh = DimensionUtils.dip2px(this, 166f)
+            // 生成二维码
             BitmapUtils.createQRCodeBitmap(
                 code, wh, wh, "UTF-8", "H", "1",
                 Color.BLACK, Color.WHITE
             )?.let { bitmap ->
                 this.bitmap = bitmap
                 mBinding.ivDevicePayCode.setImageBitmap(bitmap)
+                //点击保存
                 mBinding.btnDevicePayCodeSave.setOnClickListener {
                     requestPermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 }
@@ -63,6 +65,9 @@ class DevicePayCodeActivity : BaseBindingActivity<ActivityDevicePayCodeBinding>(
         }
     }
 
+    /**
+     * 保存
+     */
     private fun save() {
         bitmap?.let {
             if (BitmapUtils.saveBitmapToGallery(this, "payCode.jpg", it)

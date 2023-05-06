@@ -261,7 +261,7 @@ class DeviceDetailActivity :
                             this@DeviceDetailActivity,
                             DevicePayCodeActivity::class.java
                         ).apply {
-                            putExtra(DevicePayCodeActivity.Code, detail.code)
+                            putExtra(DevicePayCodeActivity.Code, detail.scanUrl)
                         })
                 }
             }

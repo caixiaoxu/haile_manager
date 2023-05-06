@@ -1,12 +1,19 @@
 package com.shangyun.haile_manager_android.utils
 
+import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.WriterException
 import com.google.zxing.qrcode.QRCodeWriter
 import java.io.File
+import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
@@ -93,7 +100,7 @@ object BitmapUtils {
     /**
      * 保存图片到本地
      */
-    fun saveBitmap(mContext: Context, name: String, bm: Bitmap): Boolean {
+    fun saveBitmapToLocal(mContext: Context, name: String, bm: Bitmap): File? {
         //指定我们想要存储文件的地址
         val saveFile = File(mContext.externalCacheDir?.absolutePath + "/images/", name)
         //判断指定文件夹的路径是否存在
@@ -102,7 +109,6 @@ object BitmapUtils {
                 parentFile.mkdirs()
             }
         }
-
         //如果指定文件夹创建成功，那么我们则需要进行图片存储操作
         try {
             val saveImgOut = FileOutputStream(saveFile)
@@ -111,9 +117,67 @@ object BitmapUtils {
             //存储完成后需要清除相关的进程
             saveImgOut.flush()
             saveImgOut.close()
-            return true
+            return saveFile
         } catch (ex: IOException) {
             ex.printStackTrace()
+        }
+        return null
+    }
+
+    /**
+     * 保存图片到本地
+     */
+    fun saveBitmapToGallery(mContext: Context, name: String, bm: Bitmap): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // 插入参数
+            val contentValues = ContentValues().apply {
+                put(MediaStore.MediaColumns.DISPLAY_NAME, System.currentTimeMillis().toString())
+                put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+                put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+                put(MediaStore.MediaColumns.IS_PENDING, 1)
+            }
+            // 插入操作
+            mContext.contentResolver.also { resolver ->
+                // 生成uri
+                val imageUri =
+                    resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+                imageUri?.let { uri ->
+                    // 写入
+                    resolver.openOutputStream(uri)?.use {
+                        bm.compress(Bitmap.CompressFormat.JPEG, 80, it)
+                        // 清空、关闭
+                        contentValues.clear()
+                        contentValues.put(MediaStore.Video.Media.IS_PENDING, 0)
+                        // 更新
+                        resolver.update(imageUri, contentValues, null, null)
+                        return true
+                    }
+                }
+            }
+        } else {
+            val file = saveBitmapToLocal(mContext, name, bm)
+            file?.let {
+                // 其次把文件插入到系统图库
+                try {
+                    MediaStore.Images.Media.insertImage(
+                        mContext.contentResolver,
+                        file.absolutePath,
+                        name,
+                        "海乐管家付款码"
+                    )
+                } catch (e: FileNotFoundException) {
+                    e.printStackTrace()
+                }
+                // 最后通知图库更新
+                mContext.sendBroadcast(
+                    Intent(
+                        Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                        Uri.parse("file://" + file.path)
+                    )
+                )
+                file.delete()
+                return true
+            }
         }
         return false
     }

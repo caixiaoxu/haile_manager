@@ -1,7 +1,11 @@
 package com.shangyun.haile_manager_android.ui.activity.device
 
+import android.Manifest
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.Dimension
 import com.google.zxing.MultiFormatWriter
@@ -21,8 +25,24 @@ class DevicePayCodeActivity : BaseBindingActivity<ActivityDevicePayCodeBinding>(
         const val Code = "code"
     }
 
+    // 权限
+    private val requestPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
+            if (result) {
+                // 授权权限成功
+                save()
+            } else {
+                // 授权失败
+                SToast.showToast(this, "需要授权才可保存")
+            }
+        }
+
+    private var bitmap: Bitmap? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.statusBarColor = Color.WHITE
 
         mBinding.barDevicePayCodeTitle.getBackBtn().setOnClickListener {
             onBackListener()
@@ -34,14 +54,22 @@ class DevicePayCodeActivity : BaseBindingActivity<ActivityDevicePayCodeBinding>(
                 code, wh, wh, "UTF-8", "H", "1",
                 Color.BLACK, Color.WHITE
             )?.let { bitmap ->
+                this.bitmap = bitmap
                 mBinding.ivDevicePayCode.setImageBitmap(bitmap)
                 mBinding.btnDevicePayCodeSave.setOnClickListener {
-                    if (BitmapUtils.saveBitmap(this@DevicePayCodeActivity, "payCode", bitmap)) {
-                        SToast.showToast(this@DevicePayCodeActivity, "保存成功")
-                    } else {
-                        SToast.showToast(this@DevicePayCodeActivity, "保存失败")
-                    }
+                    requestPermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 }
+            }
+        }
+    }
+
+    private fun save() {
+        bitmap?.let {
+            if (BitmapUtils.saveBitmapToGallery(this, "payCode.jpg", it)
+            ) {
+                SToast.showToast(this, "保存成功")
+            } else {
+                SToast.showToast(this, "保存失败")
             }
         }
     }

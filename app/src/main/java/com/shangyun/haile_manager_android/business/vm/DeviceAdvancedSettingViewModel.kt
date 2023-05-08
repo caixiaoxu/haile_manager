@@ -44,15 +44,15 @@ class DeviceAdvancedSettingViewModel : BaseViewModel() {
         launch({
             ApiRepository.dealApiResult(
                 mDeviceRepo.deviceAdvancedSetting(
-                    ApiRepository.createRequestBody(
-                        hashMapOf(
-                            "goodsId" to goodId,
-                            "settingStr" to GsonUtils.any2Json(arrayListOf(
+                    hashMapOf(
+                        "goodsId" to goodId,
+                        "settingStr" to GsonUtils.any2Json(
+                            arrayListOf(
                                 hashMapOf(
                                     "functionId" to functionId,
                                     "values" to attrList.value!!.map { if (it.inputValue.isNullOrEmpty()) it.input else it.inputValue },
                                 )
-                            ))
+                            )
                         )
                     )
                 )

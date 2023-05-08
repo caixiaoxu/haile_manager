@@ -1,5 +1,6 @@
 package com.shangyun.haile_manager_android.ui.activity.device
 
+import android.graphics.Color
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shangyun.haile_manager_android.BR
@@ -12,7 +13,6 @@ import com.shangyun.haile_manager_android.databinding.ItemDeviceAdvancedSettingB
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.shangyun.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
-import com.shangyun.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
 
 class DeviceAdvancedSettingActivity :
     BaseBusinessActivity<ActivityDeviceAdvancedSettingBinding, DeviceAdvancedSettingViewModel>() {
@@ -80,6 +80,7 @@ class DeviceAdvancedSettingActivity :
     }
 
     override fun initView() {
+        window.statusBarColor = Color.WHITE
         mBinding.barDeviceAdvancedSettingTitle.getTitle().text= intent.getStringExtra(FunctionName)
         mBinding.rvDeviceAdvancedSetting.layoutManager = LinearLayoutManager(this)
         mBinding.rvDeviceAdvancedSetting.adapter = mAdapter

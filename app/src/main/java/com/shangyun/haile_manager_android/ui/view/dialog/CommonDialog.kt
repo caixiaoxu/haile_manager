@@ -138,8 +138,8 @@ class CommonDialog private constructor(private val builder: Builder) : AppCompat
          */
         fun setNegativeButton(txt: String, clickListener: OnClickListener) {
             negativeTxt = txt
-            negativeClickListener = clickListener;
-            isNegativeShow = true;
+            negativeClickListener = clickListener
+            isNegativeShow = true
         }
 
         /**
@@ -147,8 +147,8 @@ class CommonDialog private constructor(private val builder: Builder) : AppCompat
          */
         fun setPositiveButton(txt: String, clickListener: OnClickListener) {
             positiveTxt = txt
-            positiveClickListener = clickListener;
-            isPositiveShow = true;
+            positiveClickListener = clickListener
+            isPositiveShow = true
         }
 
         /**

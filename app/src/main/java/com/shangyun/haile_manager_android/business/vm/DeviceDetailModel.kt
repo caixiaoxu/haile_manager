@@ -231,7 +231,7 @@ class DeviceDetailModel : BaseViewModel() {
     /**
      * 设备删除
      */
-    fun deviceDelete(view: View) {
+    fun deviceDelete() {
         if (-1 == goodsId) {
             return
         }

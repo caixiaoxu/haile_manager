@@ -17,10 +17,9 @@ class OrderManagerActivity : BaseBusinessActivity<ActivityOrderManagerBinding, O
     override fun getVM(): OrderManagerViewModel =mOrderManagerViewModel
 
     override fun initView() {
-        TODO("Not yet implemented")
+
     }
 
     override fun initData() {
-        TODO("Not yet implemented")
     }
 }

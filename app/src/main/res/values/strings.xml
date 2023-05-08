@@ -111,6 +111,7 @@
     <string name="update_imei_desc">模块编码会以二维码的形式贴在模块上，找到后扫描可获取模块的IMEI编码信息。</string>
     <string name="update_pay_code_desc">付款码会以二维码的形式张贴在设备显示面板附近，用户扫描付款码进行下单洗衣等操作。</string>
     <string name="update_name_desc">设备名称与线下洗衣设备张贴的物料编号最好保持一致，出现问题方便运维人员快速找到设备。</string>
+    <string name="device_delete_hint">是否确定要删除该设备么？</string>
 
     <string name="shop_manager">门店管理</string>
     <string name="add_shop">添加店铺</string>
@@ -146,6 +147,7 @@
     <string name="appointment_setting">预约设置</string>
     <string name="copy_phone">复制手机号</string>
     <string name="search_shop_hint">请输入店铺名称</string>
+    <string name="shop_delete_hint">是否确定要删除该店铺么？</string>
 
     <string name="order_manager">订单管理</string>
     <string name="staff_manager">人员管理</string>

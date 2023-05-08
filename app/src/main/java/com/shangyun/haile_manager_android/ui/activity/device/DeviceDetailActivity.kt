@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.ScreenUtils
+import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.event.BusEvents
@@ -24,6 +25,7 @@ import com.shangyun.haile_manager_android.databinding.ActivityDeviceDetailBindin
 import com.shangyun.haile_manager_android.databinding.ItemDeviceDetailAppointmentBinding
 import com.shangyun.haile_manager_android.databinding.ItemDeviceDetailFuncPriceBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.shangyun.haile_manager_android.ui.view.dialog.CommonDialog
 
 class DeviceDetailActivity :
     BaseBusinessActivity<ActivityDeviceDetailBinding, DeviceDetailModel>() {
@@ -322,6 +324,16 @@ class DeviceDetailActivity :
                     it, ViewGroup.LayoutParams(itemW, ViewGroup.LayoutParams.WRAP_CONTENT)
                 )
             }
+        }
+
+        mBinding.btnDeviceDetailDelete.setOnClickListener {
+            CommonDialog.Builder(StringUtils.getString(R.string.device_delete_hint)).apply {
+                negativeTxt = StringUtils.getString(R.string.cancel)
+                setPositiveButton(StringUtils.getString(R.string.delete)){
+                    mDeviceDetailModel.deviceDelete()
+                }
+            }.build()
+                .show(supportFragmentManager)
         }
     }
 

@@ -18,6 +18,7 @@ import com.shangyun.haile_manager_android.data.entities.AppointSetting
 import com.shangyun.haile_manager_android.databinding.ActivityShopDetailBinding
 import com.shangyun.haile_manager_android.databinding.ItemShopDetailAppointmentBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.shangyun.haile_manager_android.ui.view.dialog.CommonDialog
 
 class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopDetailViewModel>() {
 
@@ -87,7 +88,13 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
 
         // 删除
         mBinding.btnShopDetailDelete.setOnClickListener {
-            mShopDetailViewModel.requestShopDelete()
+            CommonDialog.Builder(StringUtils.getString(R.string.shop_delete_hint)).apply {
+                negativeTxt = StringUtils.getString(R.string.cancel)
+                setPositiveButton(StringUtils.getString(R.string.delete)){
+                    mShopDetailViewModel.requestShopDelete()
+                }
+            }.build()
+                .show(supportFragmentManager)
         }
     }
 

@@ -1,5 +1,7 @@
 package com.shangyun.haile_manager_android.data.entities
 
+import com.shangyun.haile_manager_android.data.rule.ISearchSelectEntity
+
 /**
  * Title :
  * Author: Lsy
@@ -39,7 +41,17 @@ data class OrderListEntity(
     val shopName: String,
     val skuList: List<Sku>,
     val state: Int
-)
+) : ISearchSelectEntity {
+    override fun getSearchId(): Int = id
+
+    override fun getTitle(): String = buyerPhone
+
+    override fun getContent(): Array<String> = arrayOf(
+        shopName,
+        "$deviceName ${if (skuList.isNullOrEmpty()) "" else skuList.first().skuName}",
+        orderNo
+    )
+}
 
 data class Promotion(
     val discountPrice: Int,

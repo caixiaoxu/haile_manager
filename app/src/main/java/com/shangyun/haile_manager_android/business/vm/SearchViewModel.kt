@@ -8,10 +8,12 @@ import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.apiService.DeviceService
+import com.shangyun.haile_manager_android.business.apiService.OrderService
 import com.shangyun.haile_manager_android.business.apiService.ShopService
 import com.shangyun.haile_manager_android.data.arguments.SearchType
 import com.shangyun.haile_manager_android.data.model.ApiRepository
 import com.shangyun.haile_manager_android.data.rule.ISearchSelectEntity
+import com.shangyun.haile_manager_android.utils.DateTimeUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -29,7 +31,7 @@ import timber.log.Timber
 class SearchViewModel : BaseViewModel() {
     private val mDeviceRepo = ApiRepository.apiClient(DeviceService::class.java)
     private val mShopRepo = ApiRepository.apiClient(ShopService::class.java)
-
+    private val mOrderRepo = ApiRepository.apiClient(OrderService::class.java)
 
     // 搜索类型
     @SearchType.ISearchType
@@ -135,5 +137,21 @@ class SearchViewModel : BaseViewModel() {
         pageSize: Int,
         result: ((responseList: ResponseList<out ISearchSelectEntity>?) -> Unit)?
     ) {
+
+        val params: HashMap<String, Any> = hashMapOf(
+            "page" to page,
+            "pageSize" to pageSize,
+            "searchType" to 2,
+            "searchStr" to (searchKey.value ?: "")
+        )
+
+        val listWrapper = ApiRepository.dealApiResult(
+            mOrderRepo.requestOrderList(params)
+        )
+        listWrapper?.let {
+            withContext(Dispatchers.Main) {
+                result?.invoke(it)
+            }
+        }
     }
 }

@@ -110,7 +110,11 @@ class SearchActivity :
                         pageSize: Int,
                         callBack: (responseList: ResponseList<out ISearchSelectEntity>?) -> Unit
                     ) {
-                        if (true == mSharedViewModel.hasShopListPermission.value) {
+                        if ((SearchType.Device == mSearchViewModel.searchType
+                                    && true == mSharedViewModel.hasDeviceListPermission.value)
+                            || (SearchType.Order == mSearchViewModel.searchType
+                                    && true == mSharedViewModel.hasOrderListPermission.value)
+                        ) {
                             mSearchViewModel.searchList(page, pageSize, result2 = callBack)
                         }
                     }

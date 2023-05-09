@@ -33,14 +33,6 @@ object SoftKeyboardUtils {
     /**
      * 显示软键盘
      */
-    fun showKeyboard(editText: EditText) {
-        //调用系统输入法
-        showKeyboard(editText)
-    }
-
-    /**
-     * 显示软键盘
-     */
     fun showKeyboard(view: View) {
         //调用系统输入法
         view.postDelayed({
@@ -48,13 +40,6 @@ object SoftKeyboardUtils {
                 view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.showSoftInput(view, 0)
         }, 60)
-    }
-
-    /**
-     * 隐藏软键盘
-     */
-    fun hideShowKeyboard(editText: EditText) {
-        hideShowKeyboard(editText)
     }
 
     /**

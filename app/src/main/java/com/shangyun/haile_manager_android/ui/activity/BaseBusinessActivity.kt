@@ -26,7 +26,11 @@ abstract class BaseBusinessActivity<T : ViewDataBinding, VM : BaseViewModel> :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initIntent()
-        initEvent()
+        try {
+            initEvent()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         initView()
         initData()
     }

@@ -41,11 +41,11 @@ class OrderManagerViewModel : BaseViewModel() {
 
     // 时间区间
     val startTime: MutableLiveData<Date> by lazy {
-        MutableLiveData()
+        MutableLiveData(DateTimeUtils.curMonthFirst)
     }
 
     val endTime: MutableLiveData<Date> by lazy {
-        MutableLiveData()
+        MutableLiveData(Date())
     }
 
     // 是否可提交
@@ -107,6 +107,13 @@ class OrderManagerViewModel : BaseViewModel() {
             // 店铺
             selectDepartment.value?.let {
                 params["shopId"] = it.id
+            }
+            // 时间
+            startTime.value?.let {
+                params["startTime"] = DateTimeUtils.formatDateTime("yyyy-MM-dd", it) + " 00:00:00"
+            }
+            endTime.value?.let {
+                params["endTime"] = DateTimeUtils.formatDateTime("yyyy-MM-dd", it) + " 23:59:59"
             }
 
             val listWrapper = ApiRepository.dealApiResult(

@@ -94,7 +94,7 @@ class OrderManagerActivity :
         }
     }
 
-    private val dateDailog by lazy {
+    private val dateDialog by lazy {
         DateSelectorDialog.Builder().apply {
             selectModel = 1
             maxDate = Calendar.getInstance().apply { time = Date() }
@@ -105,6 +105,8 @@ class OrderManagerActivity :
                     //更换时间
                     mOrderManagerViewModel.startTime.value = date1
                     mOrderManagerViewModel.endTime.value = date2
+
+                    mBinding.rvOrderManagerList.requestRefresh()
                 }
             }
         }.build()
@@ -178,10 +180,10 @@ class OrderManagerActivity :
         }
         mBinding.tvOrderCategoryTime.setOnClickListener {
 
-            dateDailog.show(
+            dateDialog.show(
                 supportFragmentManager,
-                mOrderManagerViewModel.startTime.value ?: DateTimeUtils.curMonthFirst,
-                mOrderManagerViewModel.endTime.value ?: Date()
+                mOrderManagerViewModel.startTime.value,
+                mOrderManagerViewModel.endTime.value
             )
         }
 

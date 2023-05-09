@@ -62,6 +62,27 @@ object DateTimeUtils {
     }
 
     /**
+     * 是否是同一月
+     */
+    fun isSameMonth(date1: Date, date2: Date): Boolean {
+        val cal1 = Calendar.getInstance().apply { time = date1 }
+        val cal2 = Calendar.getInstance().apply { time = date2 }
+        return (cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
+                && cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH))
+    }
+
+    /**
+     * 是否是同一日
+     */
+    fun isSameDay(date1: Date, date2: Date): Boolean {
+        val cal1 = Calendar.getInstance().apply { time = date1 }
+        val cal2 = Calendar.getInstance().apply { time = date2 }
+        return (cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
+                && cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH)
+                && cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH))
+    }
+
+    /**
      * 前一月
      */
     @JvmStatic
@@ -126,9 +147,9 @@ object DateTimeUtils {
     /**
      * 获取月份列表
      */
-    fun getMonthSection(): List<String> =
+    fun getMonthSection(maxMonth: Int? = null): List<String> =
         ArrayList<String>().apply {
-            for (i in 1 until 13) {
+            for (i in 1..(maxMonth ?: 12)) {
                 add("${i}月")
             }
         }
@@ -138,7 +159,7 @@ object DateTimeUtils {
      */
     fun getHourSection(): List<String> =
         ArrayList<String>().apply {
-            for (i in 0 .. 23) {
+            for (i in 0..23) {
                 add("${i}时")
             }
         }
@@ -148,7 +169,7 @@ object DateTimeUtils {
      */
     fun getMinuteSection(): List<String> =
         ArrayList<String>().apply {
-            for (i in 0 .. 59) {
+            for (i in 0..59) {
                 add("${i}分")
             }
         }
@@ -158,7 +179,7 @@ object DateTimeUtils {
      */
     fun getSecondSection(): List<String> =
         ArrayList<String>().apply {
-            for (i in 0 .. 59) {
+            for (i in 0..59) {
                 add("${i}分")
             }
         }

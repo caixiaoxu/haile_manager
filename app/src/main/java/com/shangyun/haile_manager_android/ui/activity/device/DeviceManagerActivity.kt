@@ -80,7 +80,6 @@ class DeviceManagerActivity :
             R.layout.item_device_list,
             BR.item
         ) { mBinding, _, item ->
-            mBinding?.item = item
 
             val title = StringUtils.getString(R.string.total_income)
             val value =
@@ -137,37 +136,13 @@ class DeviceManagerActivity :
      * 设置标题右侧按钮
      */
     private fun initRightBtn() {
-        mBinding.barDeviceTitle.getRightArea()
-            .addView(
-                Button(this).apply {
-                    setText(R.string.add_device)
-                    setTextColor(Color.WHITE)
-                    textSize = 14f
-                    setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        R.mipmap.icon_add, 0, 0, 0
-                    )
-                    compoundDrawablePadding = DimensionUtils.dip2px(this@DeviceManagerActivity, 4f)
-                    val pH = DimensionUtils.dip2px(this@DeviceManagerActivity, 12f)
-                    val pV = DimensionUtils.dip2px(this@DeviceManagerActivity, 4f)
-                    setPadding(pH, pV, pH, pV)
-                    gravity = Gravity.CENTER
-                    setBackgroundResource(R.drawable.shape_sf0a258_r22)
-                    setOnClickListener {
-                        startActivity(
-                            Intent(
-                                this@DeviceManagerActivity,
-                                DeviceCreateActivity::class.java
-                            )
-                        )
-                    }
-                },
-                LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    DimensionUtils.dip2px(this@DeviceManagerActivity, 28f)
-                ).apply {
-                    setMargins(0, 0, DimensionUtils.dip2px(this@DeviceManagerActivity, 16f), 0)
-                }
+        mBinding.barDeviceTitle.getRightBtn().run {
+            setText(R.string.add_device)
+            setCompoundDrawablesRelativeWithIntrinsicBounds(
+                R.mipmap.icon_add, 0, 0, 0
             )
+            compoundDrawablePadding = DimensionUtils.dip2px(this@DeviceManagerActivity, 4f)
+        }
     }
 
     override fun initView() {

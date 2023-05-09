@@ -19,6 +19,5 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
     }
 
     override fun initData() {
-        TODO("Not yet implemented")
     }
 }

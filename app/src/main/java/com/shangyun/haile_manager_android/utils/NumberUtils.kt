@@ -18,6 +18,7 @@ object NumberUtils {
     /**
      * 保留两位小数
      */
+    @JvmStatic
     fun keepTwoDecimals(num: Double): String =
         BigDecimal(num).run { setScale(2, RoundingMode.DOWN).toString() }
 }

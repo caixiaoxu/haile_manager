@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.databinding.IncludeTitleActionBarBinding
@@ -43,6 +44,15 @@ class CommonTitleActionBar @JvmOverloads constructor(
             mBinding.root.setBackgroundResource(bgResId)
         }
         mBinding.tvTitleActionTitle.text = array.getString(R.styleable.CommonTitleActionBar_title)
+        val rightModel = array.getInt(R.styleable.CommonTitleActionBar_rightModel,-1)
+        if (-1 == rightModel){
+            mBinding.llTitleActionRightArea.visibility = View.GONE
+        }  else {
+            mBinding.llTitleActionRightArea.visibility = View.VISIBLE
+            if (0 == rightModel){
+                mBinding.btnTitleActionRight.visibility = View.VISIBLE
+            }
+        }
         array.recycle()
 
     }
@@ -61,6 +71,11 @@ class CommonTitleActionBar @JvmOverloads constructor(
      * 获取右侧区域
      */
     fun getRightArea() = mBinding.llTitleActionRightArea
+
+    /**
+     * 获取右侧按钮
+     */
+    fun getRightBtn() = mBinding.btnTitleActionRight
 
     /**
      * 设置标题

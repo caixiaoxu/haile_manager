@@ -5,6 +5,10 @@
         <attr name="bgColor" format="color" />
         <attr name="android:background" />
         <attr name="title" />
+        <attr name="rightModel" format="enum">
+            <enum name="text" value="0"/>
+            <enum name="area" value="1"/>
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="CircleImageView">

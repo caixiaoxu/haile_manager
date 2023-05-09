@@ -89,6 +89,12 @@ class SharedViewModel : ViewModel() {
 
     val hasOrderPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasOrderPermission() }
+    val hasOrderListPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasOrderListPermission() }
+    val hasOrderInfoPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasOrderInfoPermission() }
+
+
     val hasPersonPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasPersonPermission() }
     val hasMarketingPermission: LiveData<Boolean> =

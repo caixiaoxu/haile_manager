@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.setPadding
 import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.gson.GsonUtils
@@ -27,7 +28,7 @@ class SearchSelectRadioActivity :
         const val SearchSelectType = "searchSelectType"
         const val CategoryId = "categoryId"
         const val ShopResultCode = 0x90001
-        const val DeviceModelResultCode = 90002
+        const val DeviceModelResultCode = 0x90002
         const val ResultData = "resultData"
     }
 
@@ -45,50 +46,41 @@ class SearchSelectRadioActivity :
      * 设置标题右侧按钮
      */
     private fun initRightBtn() {
-        mBinding.barDepartmentSelectTitle.getRightArea()
-            .addView(
-                TextView(this).apply {
-                    setText(R.string.finish)
-                    setTextColor(
-                        ContextCompat.getColor(
-                            this@SearchSelectRadioActivity,
-                            R.color.colorPrimary
-                        )
-                    )
-                    textSize = 14f
-                    gravity = Gravity.CENTER
-                    val plr = DimensionUtils.dip2px(this@SearchSelectRadioActivity, 16f)
-                    setPadding(plr, 0, plr, 0)
-                    setOnClickListener {
-                        mSearchSelectRadioViewModel.selectList.value?.let { list ->
-                            val selected = list.find { select -> select.getCheck()?.value ?: false }
-                            selected?.let { s ->
-                                setResult(
-                                    when (mSearchSelectRadioViewModel.searchSelectType.value) {
-                                        SearchSelectRadioViewModel.SearchSelectTypeShop -> ShopResultCode
-                                        SearchSelectRadioViewModel.SearchSelectTypeDeviceModel -> DeviceModelResultCode
-                                        else -> RESULT_OK
-                                    },
-                                    Intent().apply {
-                                        putExtra(
-                                            ResultData, GsonUtils.any2Json(
-                                                SearchSelectParam(
-                                                    s.getSelectId(),
-                                                    s.getSelectName()
-                                                )
-                                            )
-                                        )
-                                    })
-                            }
-                            finish()
-                        }
-                    }
-                },
-                LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT
+        mBinding.barDepartmentSelectTitle.getRightBtn().run {
+            setText(R.string.finish)
+            setTextColor(
+                ContextCompat.getColor(
+                    this@SearchSelectRadioActivity,
+                    R.color.colorPrimary
                 )
             )
+            background = null
+            setPadding(0)
+            setOnClickListener {
+                mSearchSelectRadioViewModel.selectList.value?.let { list ->
+                    val selected = list.find { select -> select.getCheck()?.value ?: false }
+                    selected?.let { s ->
+                        setResult(
+                            when (mSearchSelectRadioViewModel.searchSelectType.value) {
+                                SearchSelectRadioViewModel.SearchSelectTypeShop -> ShopResultCode
+                                SearchSelectRadioViewModel.SearchSelectTypeDeviceModel -> DeviceModelResultCode
+                                else -> RESULT_OK
+                            },
+                            Intent().apply {
+                                putExtra(
+                                    ResultData, GsonUtils.any2Json(
+                                        SearchSelectParam(
+                                            s.getSelectId(),
+                                            s.getSelectName()
+                                        )
+                                    )
+                                )
+                            })
+                    }
+                    finish()
+                }
+            }
+        }
     }
 
     override fun initIntent() {

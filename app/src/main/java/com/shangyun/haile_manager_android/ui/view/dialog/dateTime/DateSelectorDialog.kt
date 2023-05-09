@@ -39,7 +39,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
     private var selectType: Int = 0
 
     // 记录日期
-    private val startCal = Calendar.getInstance().apply { time = Date() }
+    private var startCal = Calendar.getInstance().apply { time = Date() }
     private var endCal: Calendar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,6 +86,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
                     SToast.showToast(msg = "结束日期不能早于开始日期")
                     return@setOnClickListener
                 }
+                changeTimeSelectView(0)
             }
             builder.onDateSelectedListener?.onDateSelect(
                 builder.selectModel,
@@ -104,19 +105,11 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
             initTimeValView()
             refreshStartTimeVal()
             mBinding.tvDateTimeStart.setOnClickListener {
-                if (0 != selectType) {
-                    selectType = 0
-                    initTimeValView()
-                    refreshAllWheelData()
-                }
+                changeTimeSelectView(0)
             }
             refreshEndTimeVal()
             mBinding.tvDateTimeEnd.setOnClickListener {
-                if (1 != selectType) {
-                    selectType = 1
-                    initTimeValView()
-                    refreshAllWheelData()
-                }
+                changeTimeSelectView(1)
             }
         }
 
@@ -127,7 +120,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
             (0 == builder.showModel || 1 == builder.showModel)
         ) { index ->
             getCurSelectCalender().set(Calendar.YEAR, builder.minDate.get(Calendar.YEAR) + index)
-
+            refreshMonthData()
             if (0 != builder.selectModel) {
                 refreshTimeVal()
             }
@@ -166,7 +159,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
         // 分
         initWheelView(
             mBinding.wvDateTimeMinute,
-            (3 == builder.showModel || 4 == builder.showModel|| 5 == builder.showModel)
+            (3 == builder.showModel || 4 == builder.showModel || 5 == builder.showModel)
         ) { index ->
             getCurSelectCalender().set(Calendar.MINUTE, index)
             if (0 != builder.selectModel) {
@@ -186,6 +179,17 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
 
         // 加载所有滚轮数据
         refreshAllWheelData()
+    }
+
+    /**
+     * 切换时间选择界面
+     */
+    private fun changeTimeSelectView(type: Int) {
+        if (type != selectType) {
+            selectType = type
+            initTimeValView()
+            refreshAllWheelData()
+        }
     }
 
     /**
@@ -319,17 +323,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
             )
         }
         // 月
-        if ((0 == builder.showModel || 1 == builder.showModel || 2 == builder.showModel)) {
-            refreshWheelData(
-                mBinding.wvDateTimeMonth,
-                getCurSelectCalender().get(Calendar.MONTH),
-                DateTimeUtils.getMonthSection()
-            )
-        }
-        // 日
-        if ((0 == builder.showModel || 2 == builder.showModel)) {
-            refreshDayData()
-        }
+        refreshMonthData()
         // 时
         if ((3 == builder.showModel || 4 == builder.showModel)) {
             refreshWheelData(
@@ -357,6 +351,34 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
     }
 
     /**
+     * 刷新月份数据
+     */
+    private fun refreshMonthData() {
+        if ((0 == builder.showModel || 1 == builder.showModel || 2 == builder.showModel)) {
+            refreshWheelData(
+                mBinding.wvDateTimeMonth,
+                getCurSelectCalender().get(Calendar.MONTH),
+                DateTimeUtils.getMonthSection(
+                    if (getCurSelectCalender().get(Calendar.YEAR) == builder.maxDate.get(Calendar.YEAR)) {
+                        if (getCurSelectCalender().get(Calendar.MONTH) > builder.maxDate.get(
+                                Calendar.MONTH
+                            )
+                        ) {
+                            getCurSelectCalender().set(
+                                Calendar.MONTH,
+                                builder.maxDate.get(Calendar.MONTH)
+                            )
+                        }
+                        builder.maxDate.get(Calendar.MONTH) + 1
+                    } else null
+                )
+            )
+            // 日
+            refreshDayData()
+        }
+    }
+
+    /**
      * 刷新天份数据
      */
     private fun refreshDayData() {
@@ -367,7 +389,26 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
                     getCurSelectCalender().get(Calendar.DAY_OF_MONTH),
                     getCurSelectCalender().getActualMaximum(Calendar.DAY_OF_MONTH)
                 ) - 1,
-                DateTimeUtils.getDaySection(getCurSelectCalender().getActualMaximum(Calendar.DAY_OF_MONTH)),
+                DateTimeUtils.getDaySection(
+                    if (getCurSelectCalender().get(Calendar.YEAR) == builder.maxDate.get(Calendar.YEAR)
+                        && getCurSelectCalender().get(Calendar.MONTH) == builder.maxDate.get(
+                            Calendar.MONTH
+                        )
+                    ) {
+                        // 如果大于最大日数，修改日期
+                        if (getCurSelectCalender().get(Calendar.DAY_OF_MONTH) > builder.maxDate.get(
+                                Calendar.DAY_OF_MONTH
+                            )
+                        ) {
+                            getCurSelectCalender().set(
+                                Calendar.DAY_OF_MONTH,
+                                builder.maxDate.get(Calendar.DAY_OF_MONTH)
+                            )
+                        }
+                        builder.maxDate.get(Calendar.DAY_OF_MONTH)
+                    } else
+                        getCurSelectCalender().getActualMaximum(Calendar.DAY_OF_MONTH)
+                ),
             )
         }
     }
@@ -384,7 +425,19 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
     /**
      * 默认显示
      */
-    fun show(manager: FragmentManager) {
+    fun show(manager: FragmentManager, startTime: Date? = null, endTime: Date? = null) {
+        startTime?.let {
+            startCal = Calendar.getInstance().apply {
+                time = it
+            }
+        }
+
+        endTime?.let {
+            endCal = Calendar.getInstance().apply {
+                time = it
+            }
+        }
+
         //不可取消
         isCancelable = builder.isCancelable
         show(manager, DATE_TIME_TAG)

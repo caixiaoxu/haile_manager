@@ -91,6 +91,17 @@ class OrderManagerActivity :
                     )
                 )
             }
+            mItemBinding?.root?.setOnClickListener {
+                if (true == mSharedViewModel.hasOrderInfoPermission.value) {
+                    startActivity(
+                        Intent(
+                            this@OrderManagerActivity,
+                            OrderDetailActivity::class.java
+                        ).apply {
+                            putExtra(OrderDetailActivity.OrderId, item.id)
+                        })
+                }
+            }
         }
     }
 
@@ -128,7 +139,7 @@ class OrderManagerActivity :
                 adapter = object : CommonNavigatorAdapter() {
                     override fun getCount(): Int = list.size
 
-                    override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
+                    override fun getTitleView(context: Context?, index: Int): IPagerTitleView {
                         return SimplePagerTitleView(context).apply {
                             normalColor = Color.parseColor("#666666")
                             selectedColor = Color.WHITE
@@ -143,7 +154,7 @@ class OrderManagerActivity :
                         }
                     }
 
-                    override fun getIndicator(context: Context?): IPagerIndicator? {
+                    override fun getIndicator(context: Context?): IPagerIndicator {
                         return WrapPagerIndicator(context).apply {
                             verticalPadding = DimensionUtils.dip2px(this@OrderManagerActivity, 4f)
                             fillColor = ContextCompat.getColor(

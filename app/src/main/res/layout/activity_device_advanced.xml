@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingHorizontal="12dp"
-            app:divider="@drawable/divder_size8"
+            app:divider="@drawable/divide_size8"
             app:showDividers="middle|beginning"/>
     </ScrollView>
 </LinearLayout>

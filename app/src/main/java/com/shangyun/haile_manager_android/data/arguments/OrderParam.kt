@@ -26,4 +26,12 @@ object OrderParam {
         2099 to "已退款",
 
         )
+
+    /**
+     * 是否是退款
+     */
+    @JvmStatic
+    fun isRefund(state: Int) =
+        (2000 == state || 2050 == state || 2099 == state)
+
 }

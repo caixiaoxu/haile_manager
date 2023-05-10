@@ -2,12 +2,9 @@ package com.shangyun.haile_manager_android.business.apiService
 
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
+import com.shangyun.haile_manager_android.data.entities.OrderDetailEntity
 import com.shangyun.haile_manager_android.data.entities.OrderListEntity
-import retrofit2.http.FieldMap
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.QueryMap
+import retrofit2.http.*
 
 /**
  * Title :
@@ -22,8 +19,14 @@ import retrofit2.http.QueryMap
 interface OrderService {
 
     /**
-     * 各类型消息数量接口
+     * 订单列表接口
      */
     @GET("/order/list")
     suspend fun requestOrderList(@QueryMap params: HashMap<String, @JvmSuppressWildcards Any>): ResponseWrapper<ResponseList<OrderListEntity>>
+
+    /**
+     * 订单详情接口
+     */
+    @GET("/order/details")
+    suspend fun requestOrderDetail(@Query("orderId") orderId: Int): ResponseWrapper<OrderDetailEntity>
 }

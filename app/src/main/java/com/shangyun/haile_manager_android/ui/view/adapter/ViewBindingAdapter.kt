@@ -1,10 +1,14 @@
 package com.shangyun.haile_manager_android.ui.view.adapter
 
+import android.graphics.drawable.Drawable
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout.LayoutParams
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.MarginLayoutParamsCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
@@ -129,6 +133,20 @@ object ViewBindingAdapter {
         }
         type?.let {
             this.type = it
+        }
+    }
+
+    @BindingAdapter("divider")
+    @JvmStatic
+    fun LinearLayoutCompat.divider(drawable: Drawable) {
+        dividerDrawable = drawable
+    }
+
+    @BindingAdapter("marginStart")
+    @JvmStatic
+    fun AppCompatTextView.marginStart(mStart: Float) {
+        if (layoutParams is ViewGroup.MarginLayoutParams) {
+            (layoutParams as ViewGroup.MarginLayoutParams).setMargins(mStart.toInt(), 0, 0, 0)
         }
     }
 }

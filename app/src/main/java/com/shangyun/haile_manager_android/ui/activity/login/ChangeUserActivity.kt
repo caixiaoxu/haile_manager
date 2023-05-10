@@ -45,7 +45,7 @@ class ChangeUserActivity :
 
         ResourcesCompat.getDrawable(
             resources,
-            R.drawable.divder_size8,
+            R.drawable.divide_size8,
             null
         )?.let { drawable ->
             mBinding.rvAccountList.addItemDecoration(

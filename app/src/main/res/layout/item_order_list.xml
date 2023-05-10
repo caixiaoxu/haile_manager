@@ -77,7 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:divider="@drawable/divder_size4"
+            app:divider="@drawable/divide_size4"
             app:layout_constraintTop_toBottomOf="@id/tv_order_list_shop"
             app:showDividers="beginning|middle" />
 

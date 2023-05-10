@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.shangyun.haile_manager_android.R" />
+
+        <import type="com.shangyun.haile_manager_android.data.arguments.OrderParam" />
+
+        <variable
+            name="vm"
+            type="com.shangyun.haile_manager_android.business.vm.OrderDetailViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/page_bg"
+        android:orientation="vertical"
+        tools:context=".ui.activity.order.OrderDetailActivity">
+
+        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            app:title="@string/order_detail" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:divider="@drawable/divide_size8"
+                app:showDividers="middle">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="84dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        app:imageRes="@{OrderParam.isRefund(vm.orderDetail.state)?R.mipmap.icon_order_detail_refund_main:R.mipmap.icon_order_detail_main}"
+                        tools:src="@mipmap/icon_order_detail_main" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_333333_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="@{OrderParam.orderStatusList.get(vm.orderDetail.state)}"
+                        tools:text="已支付" />
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_order_detail_buyer_phone"
+                        style="@style/Font_14_333333_bold"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="16dp"
+                        android:text="@{vm.orderDetail.buyerPhone}"
+                        app:layout_constraintEnd_toStartOf="@id/tv_order_detail_buyer_phone_copy"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="RtlSymmetry"
+                        tools:text="18888888888" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_order_detail_buyer_phone_copy"
+                        style="@style/Font_14_f0a258"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:gravity="center_vertical"
+                        android:onClickListener="@{(v)->vm.copyToClipBroad(v,vm.orderDetail.buyerPhone)}"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="16dp"
+                        android:text="@string/copy_phone"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_buyer_phone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_order_detail_buyer_phone" />
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="17dp"
+                        android:background="@color/dividing_line_color"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_buyer_phone_copy"
+                        app:layout_constraintStart_toStartOf="@id/tv_order_detail_buyer_phone_copy"
+                        app:layout_constraintTop_toTopOf="@id/tv_order_detail_buyer_phone_copy" />
+
+                    <View
+                        style="@style/DividingStyle"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_buyer_phone"
+                        tools:ignore="MissingConstraints" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_order_detail_order_no"
+                        style="@style/Font_14_333333_bold"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="16dp"
+                        android:text="@{vm.orderDetail.orderNo}"
+                        app:layout_constraintEnd_toStartOf="@id/tv_order_detail_buyer_phone_copy"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_order_detail_buyer_phone"
+                        tools:ignore="RtlSymmetry"
+                        tools:text="NOWNR124823840293849" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_order_detail_order_no_copy"
+                        style="@style/Font_14_f0a258"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:gravity="center_vertical"
+                        android:onClickListener="@{(v)->vm.copyToClipBroad(v,vm.orderDetail.orderNo)}"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="16dp"
+                        android:text="@string/copy_order_no"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_order_no"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_order_detail_order_no" />
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="17dp"
+                        android:background="@color/dividing_line_color"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_order_no_copy"
+                        app:layout_constraintStart_toStartOf="@id/tv_order_detail_order_no_copy"
+                        app:layout_constraintTop_toTopOf="@id/tv_order_detail_order_no_copy" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:divider="@drawable/divide_size4"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:showDividers="middle">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_14_333333"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{vm.orderDetail.shopName}"
+                        tools:text="所属店铺字段信息" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_14_333333"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{vm.orderDetail.deviceType}"
+                        tools:text="设备类型字段信息" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_14_333333"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{vm.orderDetail.deviceName}"
+                        tools:text="设备名称" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:divider="@drawable/divide_size8"
+                    app:showDividers="middle">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/ll_order_detail_sku_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        app:divider="@drawable/divide_size8"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:showDividers="middle" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/ll_order_detail_coupon_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        app:divider="@drawable/divide_size8"
+                        app:layout_constraintTop_toBottomOf="@id/ll_order_detail_sku_list"
+                        app:showDividers="middle" />
+
+                    <include
+                        layout="@layout/item_order_detail_item"
+                        app:mStart="@{@dimen/dimen_8}"
+                        app:title="@{@string/total_amount}"
+                        app:value='@{vm.orderDetail.originPrice+""}' />
+
+                    <include
+                        layout="@layout/item_order_detail_item"
+                        app:mStart="@{@dimen/dimen_8}"
+                        app:title="@{@string/need_pay}"
+                        app:value='@{vm.orderDetail.realPrice+""}' />
+
+                    <include
+                        layout="@layout/item_order_detail_item"
+                        app:mStart="@{@dimen/dimen_8}"
+                        app:title="@{@string/have_paid}"
+                        app:value='@{vm.orderDetail.payPrice+""}' />
+
+                    <include
+                        layout="@layout/item_order_detail_item"
+                        app:mStart="@{@dimen/dimen_8}"
+                        app:title="@{@string/real_income}"
+                        app:value='@{vm.orderDetail.realPrice+""}' />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </ScrollView>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="94dp"
+            android:background="@color/white"
+            android:gravity="end"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="12dp"
+            app:divider="@drawable/divide_size8"
+            app:showDividers="middle">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/CommonStrokeTxtBtnStyle"
+                android:text="@string/refund" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/CommonStrokeTxtBtnStyle"
+                android:text="@string/compensate" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/CommonStrokeTxtBtnStyle"
+                android:text="@string/start" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/CommonStrokeTxtBtnStyle"
+                android:text="@string/restart" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </LinearLayout>
+</layout>

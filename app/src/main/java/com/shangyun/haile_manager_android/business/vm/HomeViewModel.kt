@@ -94,6 +94,12 @@ class HomeViewModel : BaseViewModel() {
                 DiscountsManagerActivity::class.java,
                 UserPermissionUtils.hasMarketingPermission()
             ),
+            FunItem(
+                StringUtils.getString(R.string.haixin_manager),
+                R.mipmap.icon_haixin_manager,
+                DiscountsManagerActivity::class.java,
+                UserPermissionUtils.hasMarketingPermission()
+            ),
         )
     )
 

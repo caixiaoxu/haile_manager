@@ -23,7 +23,6 @@ import com.shangyun.haile_manager_android.databinding.ItemDeviceModelItemBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.view.GridSpaceItemDecoration
 import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
-import java.lang.String
 import kotlin.Int
 import kotlin.apply
 import kotlin.getValue
@@ -106,7 +105,7 @@ class DeviceModelActivity :
         mBinding.rvDeviceModelList.layoutManager = LinearLayoutManager(this)
         ResourcesCompat.getDrawable(
             resources,
-            R.drawable.divder_size8,
+            R.drawable.divide_size8,
             null
         )?.let { drawable ->
             mBinding.rvDeviceModelList.addItemDecoration(

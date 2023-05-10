@@ -14,6 +14,7 @@ import com.shangyun.haile_manager_android.databinding.ActivitySearchBinding
 import com.shangyun.haile_manager_android.databinding.ItemSearchSelectBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.activity.device.DeviceDetailActivity
+import com.shangyun.haile_manager_android.ui.activity.order.OrderDetailActivity
 import com.shangyun.haile_manager_android.ui.activity.shop.ShopDetailActivity
 import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.shangyun.haile_manager_android.ui.view.refresh.CommonLoadMoreRecyclerView
@@ -34,23 +35,35 @@ class SearchActivity :
             mBinding?.root?.setOnClickListener {
 
                 when (mSearchViewModel.searchType) {
-                    SearchType.Device -> startActivity(
-                        Intent(
-                            this@SearchActivity,
-                            DeviceDetailActivity::class.java
-                        ).apply {
-                            putExtra(DeviceDetailActivity.GoodsId, item.getSearchId())
-                        }
-                    )
-                    SearchType.Shop -> startActivity(
-                        Intent(
-                            this@SearchActivity,
-                            ShopDetailActivity::class.java
-                        ).apply {
-                            putExtra(ShopDetailActivity.ShopId, item.getSearchId())
-                        }
-                    )
-                    SearchType.Order -> {}
+                    SearchType.Device -> if (true == mSharedViewModel.hasDeviceInfoPermission.value){
+                        startActivity(
+                            Intent(
+                                this@SearchActivity,
+                                DeviceDetailActivity::class.java
+                            ).apply {
+                                putExtra(DeviceDetailActivity.GoodsId, item.getSearchId())
+                            }
+                        )
+                    }
+                    SearchType.Shop -> if (true == mSharedViewModel.hasShopInfoPermission.value){
+                        startActivity(
+                            Intent(
+                                this@SearchActivity,
+                                ShopDetailActivity::class.java
+                            ).apply {
+                                putExtra(ShopDetailActivity.ShopId, item.getSearchId())
+                            }
+                        )
+                    }
+                    SearchType.Order -> if (true == mSharedViewModel.hasOrderInfoPermission.value) {
+                        startActivity(
+                            Intent(
+                                this@SearchActivity,
+                                OrderDetailActivity::class.java
+                            ).apply {
+                                putExtra(OrderDetailActivity.OrderId, item.getSearchId())
+                            })
+                    }
                 }
                 finish()
             }

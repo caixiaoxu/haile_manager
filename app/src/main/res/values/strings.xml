@@ -155,10 +155,18 @@
     <string name="order_time">下单时间</string>
     <string name="real_income">实收：</string>
     <string name="order_specs">"%1$s %2$d分钟 ￥%3$s"</string>
+    <string name="order_detail">订单详情</string>
+    <string name="compensate">补偿</string>
+    <string name="refund">退款</string>
+    <string name="copy_order_no">复制订单号</string>
+    <string name="total_amount">总金额：</string>
+    <string name="need_pay">需支付：</string>
+    <string name="have_paid">已支付：</string>
 
     <string name="staff_manager">人员管理</string>
     <string name="home_marketing_title">营销中心</string>
     <string name="discount_manager">折扣优惠</string>
+    <string name="haixin_manager">海星管理</string>
     <string name="home_capital_title">资金管理</string>
     <string name="sub_account_manager">分账管理</string>
     <string name="home_msg_title">最近消息</string>

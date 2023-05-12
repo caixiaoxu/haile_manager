@@ -106,15 +106,13 @@ object ViewBindingAdapter {
     @BindingAdapter("itemContent")
     @JvmStatic
     fun MultiTypeItemView.setItemContent(content: String?) {
-        getContentView().text = content ?: ""
-        if (getContentView() is EditText) {
-            (getContentView() as EditText).setSelection(getContentView().text.length)
-        }
+        contentView.setText(content ?: "")
+        contentView.setSelection(contentView.text?.length ?:0)
     }
 
     @InverseBindingAdapter(attribute = "itemContent", event = "itemContentAttrChanged")
     @JvmStatic
-    fun MultiTypeItemView.getItemContent(): String = getContentView().text.toString()
+    fun MultiTypeItemView.getItemContent(): String = contentView.text.toString()
 
     @BindingAdapter("itemContentAttrChanged")
     @JvmStatic

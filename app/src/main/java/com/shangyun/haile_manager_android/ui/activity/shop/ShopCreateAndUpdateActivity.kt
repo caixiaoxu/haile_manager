@@ -146,15 +146,15 @@ class ShopCreateAndUpdateActivity :
                 showModel = 4
                 onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
-                        Timber.i("选择的日期${DateTimeUtils.formatDateTime("yyyy-MM", date1)}")
+                        Timber.i("选择的日期${DateTimeUtils.formatDateTime(date1, "yyyy-MM")}")
                         //更换时间
                         mShopCreateAndUpdateViewModel.changeWorkTime(
                             "${
                                 DateTimeUtils.formatDateTime(
-                                    "HH:mm",
-                                    date1
+                                    date1,
+                                    "HH:mm"
                                 )
-                            }-${DateTimeUtils.formatDateTime("HH:mm", date2)}"
+                            }-${DateTimeUtils.formatDateTime(date2, "HH:mm")}"
                         )
                     }
                 }

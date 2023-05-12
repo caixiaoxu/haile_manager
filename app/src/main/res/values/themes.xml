@@ -101,14 +101,8 @@
     <style name="MultiTypeItemStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingTop">16dp</item>
-        <item name="android:paddingBottom">16dp</item>
-        <item name="android:layout_marginStart">16dp</item>
-        <item name="android:layout_marginEnd">8sp</item>
-    </style>
-
-    <style name="MultiTypeItemViewStyle" parent="MultiTypeItemStyle">
-        <item name="android:background">@drawable/shape_bottom_stroke_dividing_efefef_mr8</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:padding">16dp</item>
     </style>
 
     <style name="CommonBottomSheetStyle">

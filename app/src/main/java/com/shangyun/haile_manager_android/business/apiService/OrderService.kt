@@ -4,6 +4,7 @@ import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.shangyun.haile_manager_android.data.entities.OrderDetailEntity
 import com.shangyun.haile_manager_android.data.entities.OrderListEntity
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 /**
@@ -29,4 +30,22 @@ interface OrderService {
      */
     @GET("/order/details")
     suspend fun requestOrderDetail(@Query("orderId") orderId: Int): ResponseWrapper<OrderDetailEntity>
+
+    /**
+     * 订单详情接口
+     */
+    @POST("/order/refund")
+    suspend fun requestOrderRefund(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 订单详情接口
+     */
+    @POST("/device/startByOrder")
+    suspend fun requestOrderStart(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 订单复位接口
+     */
+    @POST("/device/resetByOrder")
+    suspend fun requestOrderRestart(@Body body: RequestBody): ResponseWrapper<Any>
 }

@@ -97,35 +97,29 @@ object DateTimeUtils {
      * 格式化
      */
     @JvmStatic
-    fun formatDateTime(date: Date?): String {
-        return formatDateTime("yyyy-MM-dd HH:mm:ss", date)
+    fun formatDateTime(date: Date?, format: String? = null): String {
+        return if (null == date) "" else DateFormat.format(format ?: "yyyy-MM-dd HH:mm:ss", date)
+            .toString()
     }
 
     /**
      * 格式化
      */
     @JvmStatic
-    fun formatDateTime(format: String?, date: Date?): String {
-        return if (null == date) "" else DateFormat.format(format, date).toString()
+    fun formatDateTimeForStr(
+        dateStr: String?,
+        format: String? = null,
+        originFormat: String? = null,
+    ): String {
+        return formatDateTime(formatDateFromString(dateStr, originFormat), format)
     }
 
     /**
      * 反格式化
      */
     @JvmStatic
-    fun formatDateFromString(dateStr: String?): Date? {
-        return if (null == dateStr) null else formatDateFromString(
-            "yyyy-MM-dd HH:mm:ss",
-            dateStr
-        )
-    }
-
-    /**
-     * 反格式化
-     */
-    @JvmStatic
-    fun formatDateFromString(format: String?, dateStr: String?): Date? {
-        val sdf = SimpleDateFormat(format, Locale.CHINA)
+    fun formatDateFromString(dateStr: String?, format: String? = null): Date? {
+        val sdf = SimpleDateFormat(format ?: "yyyy-MM-dd HH:mm:ss", Locale.CHINA)
         try {
             return sdf.parse(dateStr)
         } catch (e: ParseException) {
@@ -240,34 +234,34 @@ object DateTimeUtils {
                 if (ct < -86400) { //86400 * 30
                     val day = ct / -86400
                     if (day == 1) {
-                        return "后天 " + formatDateTime("HH:mm", date)
+                        return "后天 " + formatDateTime(date, "HH:mm")
                     }
                     return if (date.year == Date().year) {
-                        formatDateTime("MM-dd HH:mm", date)
+                        formatDateTime(date, "MM-dd HH:mm")
                     } else {
-                        formatDateTime("yyyy-MM-dd HH:mm", date)
+                        formatDateTime(date, "yyyy-MM-dd HH:mm")
                     }
                 }
                 if (!isSameDate(Date(), date)
                 ) { //判断跨天
-                    return "明天 " + formatDateTime("HH:mm", date)
+                    return "明天 " + formatDateTime(date, "HH:mm")
                 }
                 if (-86400 < ct && ct < -3600) {
                     return String.format(
                         "%d小时后 %s",
                         ct / -3600,
-                        formatDateTime("HH:mm", date)
+                        formatDateTime(date, "HH:mm")
                     )
                 }
                 if (-3600 < ct && ct < -61) {
                     return String.format(
                         "%d分钟后 %s",
                         max(ct / -60, 3),
-                        formatDateTime("HH:mm", date)
+                        formatDateTime(date, "HH:mm")
                     )
                 }
                 if (-61 < ct && ct < 0) {
-                    return String.format("即将到点 %s", formatDateTime("HH:mm", date))
+                    return String.format("即将到点 %s", formatDateTime(date, "HH:mm"))
                 }
             }
         }
@@ -279,12 +273,12 @@ object DateTimeUtils {
                 return String.format("%d分钟前", max(ct / 60, 3))
             }
             if (ct in 3600..86399) { //当天超过一小时显示
-                return formatDateTime("HH:mm", date)
+                return formatDateTime(date, "HH:mm")
             }
         } else {
             //不是当天时进入
             if (ct < 86400) {
-                return "昨天 " + formatDateTime("HH:mm", date)
+                return "昨天 " + formatDateTime(date, "HH:mm")
             }
             if (ct in 86400..259199) { //86400 * 3 (三天)
                 var day = ct / 86400
@@ -293,16 +287,16 @@ object DateTimeUtils {
                     day += 1
                 }
                 return if (day == 1) {
-                    "昨天 " + formatDateTime("HH:mm", date)
+                    "昨天 " + formatDateTime(date, "HH:mm")
                 } else {
-                    formatDateTime("MM-dd HH:mm", date)
+                    formatDateTime(date, "MM-dd HH:mm")
                 }
             }
         }
         return if (date.year == Date().year) {
-            formatDateTime("MM-dd HH:mm", date)
+            formatDateTime(date, "MM-dd HH:mm")
         } else {
-            formatDateTime("yyyy-MM-dd HH:mm", date)
+            formatDateTime(date, "yyyy-MM-dd HH:mm")
         }
     }
 }

@@ -40,16 +40,16 @@ class CommonTitleActionBar @JvmOverloads constructor(
             R.styleable.CommonTitleActionBar_android_background,
             -1
         )
-        if (-1 != bgResId){
+        if (-1 != bgResId) {
             mBinding.root.setBackgroundResource(bgResId)
         }
         mBinding.tvTitleActionTitle.text = array.getString(R.styleable.CommonTitleActionBar_title)
-        val rightModel = array.getInt(R.styleable.CommonTitleActionBar_rightModel,-1)
-        if (-1 == rightModel){
+        val rightModel = array.getInt(R.styleable.CommonTitleActionBar_rightModel, -1)
+        if (-1 == rightModel) {
             mBinding.llTitleActionRightArea.visibility = View.GONE
-        }  else {
+        } else {
             mBinding.llTitleActionRightArea.visibility = View.VISIBLE
-            if (0 == rightModel){
+            if (0 == rightModel) {
                 mBinding.btnTitleActionRight.visibility = View.VISIBLE
             }
         }
@@ -75,7 +75,11 @@ class CommonTitleActionBar @JvmOverloads constructor(
     /**
      * 获取右侧按钮
      */
-    fun getRightBtn() = mBinding.btnTitleActionRight
+    fun getRightBtn(hasBg: Boolean = false) = mBinding.btnTitleActionRight.apply {
+        if (hasBg) {
+            setBackgroundResource(R.drawable.shape_sf0a258_r22)
+        }
+    }
 
     /**
      * 设置标题

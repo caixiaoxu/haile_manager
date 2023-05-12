@@ -21,17 +21,17 @@
             <enum name="info" value="0" />
             <enum name="input" value="1" />
         </attr>
+        <attr name="canUpdate" format="boolean"/>
         <attr name="title" />
+        <attr name="titleW" format="dimension" />
         <attr name="titleDrawableEnd" format="reference" />
         <attr name="titleDrawablePadding" format="dimension" />
-        <attr name="hint" format="string" />
-        <attr name="android:background" />
-        <attr name="showArrow" format="boolean" />
+        <attr name="android:hint" />
         <attr name="android:inputType" />
         <attr name="android:maxLength" />
         <attr name="android:maxLines" />
-        <attr name="android:drawableEnd" />
-        <attr name="android:drawablePadding" />
+        <attr name="showArrow" format="boolean" />
+        <attr name="tailDrawable" format="reference"/>
         <attr name="unitHint" format="string" />
     </declare-styleable>
 

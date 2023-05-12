@@ -36,6 +36,6 @@
             android:layout_height="wrap_content"
             app:marginStart="@{mStart}"
             style="@style/Font_14_333333"
-            tools:text="￥3" />
+            tools:text="¥3" />
     </LinearLayout>
 </layout>

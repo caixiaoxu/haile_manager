@@ -259,7 +259,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
      */
     private fun refreshStartTimeVal() {
         mBinding.tvDateTimeStart.text =
-            DateTimeUtils.formatDateTime(getFormatStr(), startCal.time)
+            DateTimeUtils.formatDateTime(startCal.time, getFormatStr())
     }
 
     /**
@@ -267,7 +267,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
      */
     private fun refreshEndTimeVal() {
         mBinding.tvDateTimeEnd.text = endCal?.time?.let {
-            DateTimeUtils.formatDateTime(getFormatStr(), it)
+            DateTimeUtils.formatDateTime(it, getFormatStr())
         } ?: "结束时间"
     }
 

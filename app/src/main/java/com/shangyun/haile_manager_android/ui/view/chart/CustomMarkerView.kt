@@ -47,9 +47,9 @@ class CustomMarkerView(context: Context?, layoutResource: Int) :
         curBean = listBean!![e.x.toInt() - 1]
         var data = ""
         try {
-            data = DateTimeUtils.formatDateTime(
+            data = DateTimeUtils.formatDateTimeForStr(
+                curBean?.date,
                 "MM-dd",
-                DateTimeUtils.formatDateFromString(curBean?.date)
             )
         } catch (parseException: ParseException) {
             parseException.printStackTrace()

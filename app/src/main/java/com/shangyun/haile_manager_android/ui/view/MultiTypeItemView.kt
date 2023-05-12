@@ -4,11 +4,12 @@ import android.content.Context
 import android.text.InputFilter.LengthFilter
 import android.util.AttributeSet
 import android.view.Gravity
-import android.widget.EditText
-import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.setPadding
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.InverseBindingListener
 import com.lsy.framelib.utils.DimensionUtils
@@ -26,16 +27,16 @@ import com.shangyun.haile_manager_android.R
  */
 class MultiTypeItemView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
-) : LinearLayout(context, attrs) {
+) : LinearLayoutCompat(context, attrs) {
 
     // 类型
     private val type: Int
 
-    private val titleView: TextView by lazy {
+    // 标题界面
+    val mTitleView: TextView by lazy {
         TextView(context).apply {
             textSize = 16f
-            setTextColor(ResourcesCompat.getColor(resources, R.color.common_txt_color, null))
-            setPadding(0, 0, DimensionUtils.dip2px(context, 8f), 0)
+            gravity = Gravity.CENTER
         }
     }
 
@@ -50,50 +51,32 @@ class MultiTypeItemView @JvmOverloads constructor(
             field = value
             onItemContentChange?.onChange()
         }
-
-    private val contentInfoView: TextView by lazy {
-        TextView(context).apply {
+    val contentView: AppCompatEditText by lazy {
+        AppCompatEditText(context).apply {
             textSize = 16f
-            setTextColor(ResourcesCompat.getColor(resources, R.color.common_txt_color, null))
-            setHintTextColor(
-                ResourcesCompat.getColor(
-                    resources,
-                    R.color.common_txt_hint_color,
-                    null
-                )
-            )
-            gravity = Gravity.CENTER_VERTICAL
-            setPadding(0, 0, DimensionUtils.dip2px(context, 8f), 0)
-        }
-    }
-    private val contentInputView: EditText by lazy {
-        EditText(context).apply {
-            textSize = 16f
-            setTextColor(ResourcesCompat.getColor(resources, R.color.common_txt_color, null))
-            setHintTextColor(
-                ResourcesCompat.getColor(
-                    resources,
-                    R.color.common_txt_hint_color,
-                    null
-                )
-            )
             background = null
-            gravity = Gravity.CENTER_VERTICAL
-            setPadding(0, 0, DimensionUtils.dip2px(context, 8f), 0)
-
+            setPadding(0)
+            setHintTextColor(
+                ResourcesCompat.getColor(
+                    resources,
+                    R.color.common_txt_hint_color,
+                    null
+                )
+            )
+            Gravity.CENTER_VERTICAL
             addTextChangedListener { content = it.toString() }
         }
     }
 
     // 单位界面界面
-    private val unitView: TextView by lazy {
+    val mTailView: TextView by lazy {
         TextView(context).apply {
             textSize = 16f
             setTextColor(ResourcesCompat.getColor(resources, R.color.common_txt_hint_color, null))
-            setPadding(DimensionUtils.dip2px(context, 8f), 0, 0, 0)
         }
     }
 
+    // 选择事件
     var onSelectedEvent: (() -> Unit)? = null
 
     // 内容变化监听
@@ -101,109 +84,80 @@ class MultiTypeItemView @JvmOverloads constructor(
 
     init {
         val array = context.obtainStyledAttributes(attrs, R.styleable.MultiTypeItemView)
+        val canUpdate = array.getBoolean(R.styleable.MultiTypeItemView_canUpdate, true)
         val title = array.getString(R.styleable.MultiTypeItemView_title)
-        val background = array.getResourceId(R.styleable.MultiTypeItemView_android_background, -1)
+        val titleW = array.getDimensionPixelSize(
+            R.styleable.MultiTypeItemView_titleW,
+            DimensionUtils.dip2px(context, 104f)
+        )
         val titleDrawableEnd =
             array.getResourceId(R.styleable.MultiTypeItemView_titleDrawableEnd, -1)
         val titleDrawablePadding =
             array.getDimensionPixelSize(R.styleable.MultiTypeItemView_titleDrawablePadding, -1)
+
         type = array.getInt(R.styleable.MultiTypeItemView_type, 0)
-        val hint = array.getString(R.styleable.MultiTypeItemView_hint)
-        val inputType = array.getInt(R.styleable.MultiTypeItemView_android_inputType, 0)
+        val inputType = array.getInt(R.styleable.MultiTypeItemView_android_inputType, -1)
+        val hint = array.getString(R.styleable.MultiTypeItemView_android_hint)
         val maxLength = array.getInt(R.styleable.MultiTypeItemView_android_maxLength, 0)
         val maxLines = array.getInt(R.styleable.MultiTypeItemView_android_maxLines, 0)
-        val drawableEnd = array.getResourceId(R.styleable.MultiTypeItemView_android_drawableEnd, -1)
-        val drawablePadding =
-            array.getDimensionPixelSize(R.styleable.MultiTypeItemView_android_drawablePadding, -1)
-        val showArrow = array.getBoolean(R.styleable.MultiTypeItemView_showArrow, true)
+
+        val showArrow = array.getBoolean(R.styleable.MultiTypeItemView_showArrow, false)
+        val tailDrawable =
+            array.getResourceId(R.styleable.MultiTypeItemView_tailDrawable, -1)
         val unitHint = array.getString(R.styleable.MultiTypeItemView_unitHint)
         array.recycle()
 
-        // 背景
-        if (-1 != background)
-            setBackgroundResource(background)
+        // 添加标题
+        addTitle(title, titleW, titleDrawableEnd, titleDrawablePadding, canUpdate)
 
-        // 添加布局
-        // 标题
-        titleView.text = title
-        if (-1 != titleDrawableEnd) {
-            titleView.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                0, 0, titleDrawableEnd, 0
-            )
-            if (-1 != titleDrawablePadding) {
-                titleView.compoundDrawablePadding = titleDrawablePadding
-            }
-        }
-        addTitle()
-        // 内容
-        // 提示语
-        when (type) {
-            // 显示/选择
-            0 -> {
-                getContentView().hint = hint ?: resources.getString(R.string.please_select)
-                getContentView().setOnClickListener {
-                    onSelectedEvent?.invoke()
-                }
-            }
-            // 输入
-            1 -> {
-                getContentView().hint = hint ?: resources.getString(R.string.please_input)
-                if (inputType > 0) {
-                    getContentView().inputType = inputType
-                }
-                if (maxLength > 0) {
-                    getContentView().filters = arrayOf(LengthFilter(maxLength))
-                }
-                if (maxLines > 0) {
-                    getContentView().maxLines = maxLines
-                }
-            }
-        }
-        // 显示右箭头
-        if (0 == type) {
-            if (showArrow) {
-                contentInfoView.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                    0, 0, R.drawable.icon_arrow_right, 0
-                )
-                if (-1 != drawablePadding) {
-                    titleView.compoundDrawablePadding = drawablePadding
-                }
-            }
-            if (-1 != drawableEnd) {
-                contentInfoView.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                    0, 0, drawableEnd, 0
-                )
-                if (-1 != drawablePadding) {
-                    titleView.compoundDrawablePadding = drawablePadding
-                }
-            }
-        }
-        addContent()
-        if (!unitHint.isNullOrEmpty()){
-            unitView.text = unitHint
-            addUnit()
-        }
+        //添加内容
+        addContent(inputType, hint, maxLength, maxLines, canUpdate)
+
+        //添加尾部
+        addTail(showArrow, tailDrawable, unitHint)
     }
 
     /**
-     * 添加标题控件
+     * 添加标题布局
      */
-    private fun addTitle() {
-        val frameLayout = FrameLayout(context)
-        frameLayout.addView(
-            titleView,
-            FrameLayout.LayoutParams(
-                LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT
-            ).apply {
-                gravity = Gravity.CENTER_VERTICAL
-            }
-        )
-
+    private fun addTitle(
+        title: String?,
+        titleW: Int,
+        titleDrawableEnd: Int,
+        titleDrawablePadding: Int,
+        canUpdate: Boolean
+    ) {
         addView(
-            frameLayout,
+            LinearLayout(context).apply {
+                gravity = Gravity.CENTER_VERTICAL
+                addView(
+                    mTitleView.apply {
+                        text = title
+                        setTextColor(
+                            ResourcesCompat.getColor(
+                                resources,
+                                if (canUpdate) R.color.common_txt_color else R.color.common_txt_hint_color,
+                                null
+                            )
+                        )
+                        // 右图标
+                        if (-1 != titleDrawableEnd) {
+                            mTitleView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                                0, 0, titleDrawableEnd, 0
+                            )
+                            if (-1 != titleDrawablePadding) {
+                                mTitleView.compoundDrawablePadding = titleDrawablePadding
+                            }
+                        }
+                    },
+                    LayoutParams(
+                        LayoutParams.WRAP_CONTENT,
+                        LayoutParams.WRAP_CONTENT
+                    )
+                )
+            },
             LayoutParams(
-                DimensionUtils.dip2px(context, 104f),
+                titleW,
                 LayoutParams.WRAP_CONTENT
             )
         )
@@ -212,9 +166,44 @@ class MultiTypeItemView @JvmOverloads constructor(
     /**
      * 添加内容控件
      */
-    private fun addContent() {
+    private fun addContent(
+        inputType: Int,
+        hint: String?,
+        maxLength: Int,
+        maxLines: Int,
+        canUpdate: Boolean
+    ) {
         addView(
-            getContentView(),
+            contentView.also {
+                it.hint = hint
+                    ?: if (1 == type) resources.getString(R.string.please_input) else resources.getString(
+                        R.string.please_select
+                    )
+                it.setTextColor(
+                    ResourcesCompat.getColor(
+                        resources,
+                        if (canUpdate) R.color.common_txt_color else R.color.common_txt_hint_color,
+                        null
+                    )
+                )
+                if (-1 != inputType) {
+                    it.inputType = inputType
+                }
+                if (maxLength > 0) {
+                    it.filters = arrayOf(LengthFilter(maxLength))
+                }
+
+                if (maxLines > 0) {
+                    it.maxLines = maxLines
+                }
+                if (1 != type) {
+                    it.isFocusable = false
+                    it.isFocusableInTouchMode = false
+                    it.setOnClickListener {
+                        onSelectedEvent?.invoke()
+                    }
+                }
+            },
             LayoutParams(
                 0,
                 LayoutParams.WRAP_CONTENT
@@ -225,24 +214,30 @@ class MultiTypeItemView @JvmOverloads constructor(
     }
 
     /**
-     * 添加单位控件
+     * 添加尾部
      */
-    private fun addUnit() {
+    private fun addTail(showArrow: Boolean, tailDrawable: Int, unitHint: String?) {
+        if (!showArrow && -1 == tailDrawable && unitHint.isNullOrEmpty()) {
+            return
+        }
         addView(
-            unitView,
+            mTailView.apply {
+                gravity = Gravity.CENTER_VERTICAL
+                if (!unitHint.isNullOrEmpty()) {
+                    text = unitHint
+                } else {
+                    setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        0,
+                        0,
+                        if (-1 == tailDrawable) R.drawable.icon_arrow_right else tailDrawable,
+                        0
+                    )
+                }
+            },
             LayoutParams(
                 LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT
             )
         )
-    }
-
-    /**
-     * 获取内容布局
-     */
-    fun getContentView() = when (type) {
-        0 -> contentInfoView
-        1 -> contentInputView
-        else -> contentInfoView
     }
 }

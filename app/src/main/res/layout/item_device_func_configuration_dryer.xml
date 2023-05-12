@@ -10,9 +10,12 @@
             type="com.shangyun.haile_manager_android.data.entities.SkuEntity" />
     </data>
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:divider="@color/dividing_line_color_efefef"
+        app:dividerPadding="16dp"
+        app:showDividers="middle"
         android:orientation="vertical">
 
         <LinearLayout
@@ -41,20 +44,12 @@
 
         </LinearLayout>
 
-        <View
-            style="@style/DividingStyle"
-            android:layout_marginHorizontal="16dp" />
-
         <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/mtiv_device_fun_configuration_name"
             style="@style/MultiTypeItemStyle"
             app:itemContent="@={item.name}"
             app:title="@string/model_name"
             app:type="input" />
-
-        <View
-            style="@style/DividingStyle"
-            android:layout_marginHorizontal="16dp" />
 
         <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/mtiv_device_fun_configuration_desc"
@@ -65,10 +60,6 @@
             app:titleDrawablePadding="4dp"
             app:type="input" />
 
-        <View
-            style="@style/DividingStyle"
-            android:layout_marginHorizontal="16dp" />
-
         <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/mtiv_device_fun_configuration_dryer_time"
             style="@style/MultiTypeItemStyle"
@@ -77,15 +68,11 @@
             app:title="@string/dryer_time"
             app:type="info" />
 
-        <View
-            style="@style/DividingStyle"
-            android:layout_marginHorizontal="16dp" />
-
         <LinearLayout
             android:id="@+id/ll_device_fun_configuration_dryer_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"/>
 
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

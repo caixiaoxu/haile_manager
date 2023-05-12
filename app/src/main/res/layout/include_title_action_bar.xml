@@ -69,8 +69,7 @@
             android:visibility="gone"
             android:textSize="14sp"
             android:textColor="@color/white"
-            tools:text="添加店铺"
-            android:background="@drawable/shape_sf0a258_r22"/>
+            tools:text="添加店铺" />
 
     </LinearLayout>
 </merge>

@@ -33,5 +33,4 @@ object OrderParam {
     @JvmStatic
     fun isRefund(state: Int) =
         (2000 == state || 2050 == state || 2099 == state)
-
 }

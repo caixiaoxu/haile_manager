@@ -24,18 +24,22 @@
             android:id="@+id/bar_device_create_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
-            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
             app:title="@string/add_device" />
+
+        <View style="@style/DividingStyle" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_device_info_title"
             style="@style/Font_12_999999"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
             android:gravity="center_vertical"
-            android:paddingStart="16dp"
+            android:paddingHorizontal="16dp"
             android:text="@string/device_info" />
+
+        <View
+            style="@style/DividingStyle"
+            android:layout_marginHorizontal="16dp" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -50,54 +54,81 @@
 
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_device_create_pay_code"
-                    style="@style/MultiTypeItemViewStyle"
-                    android:drawableEnd="@mipmap/icon_device_scan"
-                    app:hint="@string/scan_hint"
+                    style="@style/MultiTypeItemStyle"
+                    android:hint="@string/scan_hint"
                     app:itemContent="@{vm.payCode}"
+                    app:tailDrawable="@mipmap/icon_device_scan"
                     app:title="@string/pay_code"
                     app:titleDrawableEnd="@mipmap/icon_item_required"
                     app:titleDrawablePadding="4dp"
                     app:type="info" />
 
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp" />
+
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_device_create_imei"
-                    style="@style/MultiTypeItemViewStyle"
-                    android:drawableEnd="@mipmap/icon_device_scan"
-                    app:hint="@string/scan_hint"
+                    style="@style/MultiTypeItemStyle"
+                    android:hint="@string/scan_hint"
                     app:itemContent="@{vm.imeiCode}"
+                    app:tailDrawable="@mipmap/icon_device_scan"
                     app:title="@string/imei"
                     app:titleDrawableEnd="@mipmap/icon_item_required"
                     app:titleDrawablePadding="4dp"
                     app:type="info" />
 
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp" />
+
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_device_create_model"
-                    style="@style/MultiTypeItemViewStyle"
+                    style="@style/MultiTypeItemStyle"
                     app:itemContent="@{vm.createDeviceModelName}"
+                    app:showArrow="true"
                     app:title="@string/device_model"
                     app:type="info" />
 
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp" />
+
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_device_create_name"
-                    style="@style/MultiTypeItemViewStyle"
+                    style="@style/MultiTypeItemStyle"
                     app:itemContent="@={vm.deviceName}"
                     app:title="@string/device_name"
                     app:type="input" />
 
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp" />
+
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_device_create_department"
-                    style="@style/MultiTypeItemViewStyle"
+                    style="@style/MultiTypeItemStyle"
                     app:itemContent="@{vm.createDeviceShop.name}"
+                    app:showArrow="true"
                     app:title="@string/department"
                     app:type="info" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp" />
 
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_device_create_fun_configure"
                     style="@style/MultiTypeItemStyle"
                     android:visibility='@{vm.isSelectedModel?View.VISIBLE:View.GONE}'
                     app:itemContent="@{(null == vm.createDeviceFunConfigure || 0 == vm.createDeviceFunConfigure.size())?@string/no_configure:@string/configured}"
+                    app:showArrow="true"
                     app:title="@string/fun_configure"
                     app:type="info" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp" />
 
                 <LinearLayout
                     android:id="@+id/ll_device_create_select_fun_configuration"
@@ -118,7 +149,7 @@
 
         </androidx.core.widget.NestedScrollView>
 
-        <include layout="@layout/include_dividing1" />
+        <View style="@style/DividingStyle" />
 
         <com.shangyun.haile_manager_android.ui.view.CommonButton
             android:id="@+id/btn_device_create_submit"

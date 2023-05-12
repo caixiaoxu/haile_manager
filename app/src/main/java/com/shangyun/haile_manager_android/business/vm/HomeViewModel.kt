@@ -40,7 +40,7 @@ class HomeViewModel : BaseViewModel() {
     //选择的时间
     val selectedDate: MutableLiveData<Date> = MutableLiveData(Date())
     val selectedDateVal: LiveData<String> = selectedDate.map {
-        DateTimeUtils.formatDateTime("yyyy年MM月", it)
+        DateTimeUtils.formatDateTime(it,"yyyy年MM月")
     }
 
     // 总收入

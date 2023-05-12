@@ -10,12 +10,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
+import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.business.vm.OrderManagerViewModel
 import com.shangyun.haile_manager_android.business.vm.SearchSelectRadioViewModel
 import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
@@ -111,8 +113,8 @@ class OrderManagerActivity :
             maxDate = Calendar.getInstance().apply { time = Date() }
             onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
                 override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
-                    Timber.i("----选择的开始日期${DateTimeUtils.formatDateTime("yyyy-MM-dd", date1)}")
-                    Timber.i("----选择的结束日期${DateTimeUtils.formatDateTime("yyyy-MM-dd", date2)}")
+                    Timber.i("----选择的开始日期${DateTimeUtils.formatDateTime(date1, "yyyy-MM-dd")}")
+                    Timber.i("----选择的结束日期${DateTimeUtils.formatDateTime(date2, "yyyy-MM-dd")}")
                     //更换时间
                     mOrderManagerViewModel.startTime.value = date1
                     mOrderManagerViewModel.endTime.value = date2
@@ -178,6 +180,15 @@ class OrderManagerActivity :
         mOrderManagerViewModel.selectDepartment.observe(this) {
             mBinding.tvOrderCategoryDepartment.text = it.name
             mBinding.rvOrderManagerList.requestRefresh()
+        }
+
+        // 列表刷新
+        LiveDataBus.with(BusEvents.ORDER_LIST_STATUS, Int::class.java)?.observe(this) {
+            if (mOrderManagerViewModel.curOrderStatus.value.isNullOrEmpty()) {
+                mBinding.rvOrderManagerList.requestRefresh()
+            } else {
+                mAdapter.deleteItem { item -> item.id == it }
+            }
         }
     }
 

@@ -136,12 +136,20 @@ class DeviceManagerActivity :
      * 设置标题右侧按钮
      */
     private fun initRightBtn() {
-        mBinding.barDeviceTitle.getRightBtn().run {
+        mBinding.barDeviceTitle.getRightBtn(true).run {
             setText(R.string.add_device)
             setCompoundDrawablesRelativeWithIntrinsicBounds(
                 R.mipmap.icon_add, 0, 0, 0
             )
             compoundDrawablePadding = DimensionUtils.dip2px(this@DeviceManagerActivity, 4f)
+            setOnClickListener {
+                startActivity(
+                    Intent(
+                        this@DeviceManagerActivity,
+                        DeviceCreateActivity::class.java
+                    )
+                )
+            }
         }
     }
 

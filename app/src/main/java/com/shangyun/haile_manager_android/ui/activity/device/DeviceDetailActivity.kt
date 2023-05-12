@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.setPadding
 import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
@@ -75,45 +75,35 @@ class DeviceDetailActivity :
      * 设置标题右侧按钮
      */
     private fun initRightBtn() {
-        mBinding.barDeviceDetailTitle.getRightArea()
-            .addView(
-                TextView(this).apply {
-                    setText(R.string.advanced_setup)
-                    setTextColor(
-                        ContextCompat.getColor(
+        mBinding.barDeviceDetailTitle.getRightBtn().run {
+            setText(R.string.advanced_setup)
+            setTextColor(
+                ContextCompat.getColor(
+                    this@DeviceDetailActivity,
+                    R.color.colorPrimary
+                )
+            )
+            setOnClickListener {
+                mDeviceDetailModel.deviceAdvancedValues.value?.let { values ->
+                    // 高级设置
+                    startActivity(
+                        Intent(
                             this@DeviceDetailActivity,
-                            R.color.colorPrimary
-                        )
-                    )
-                    textSize = 14f
-                    setOnClickListener {
-                        mDeviceDetailModel.deviceAdvancedValues.value?.let { values ->
-                            // 高级设置
-                            startActivity(
-                                Intent(
-                                    this@DeviceDetailActivity,
-                                    DeviceAdvancedActivity::class.java
-                                ).apply {
-                                    putExtra(
-                                        DeviceAdvancedActivity.GoodId,
-                                        mDeviceDetailModel.goodsId
-                                    )
-                                    putExtra(
-                                        DeviceAdvancedActivity.Advanced,
-                                        GsonUtils.any2Json(values)
-                                    )
-                                }
+                            DeviceAdvancedActivity::class.java
+                        ).apply {
+                            putExtra(
+                                DeviceAdvancedActivity.GoodId,
+                                mDeviceDetailModel.goodsId
+                            )
+                            putExtra(
+                                DeviceAdvancedActivity.Advanced,
+                                GsonUtils.any2Json(values)
                             )
                         }
-                    }
-                },
-                LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                ).apply {
-                    setMargins(0, 0, DimensionUtils.dip2px(this@DeviceDetailActivity, 16f), 0)
+                    )
                 }
-            )
+            }
+        }
     }
 
     override fun initIntent() {

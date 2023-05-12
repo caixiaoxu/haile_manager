@@ -1,5 +1,11 @@
 package com.shangyun.haile_manager_android.data.entities
 
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import com.google.gson.annotations.SerializedName
+import com.shangyun.haile_manager_android.BR
+import com.shangyun.haile_manager_android.utils.DateTimeUtils
+
 /**
  * Title :
  * Author: Lsy
@@ -14,16 +20,19 @@ data class OrderDetailEntity(
     val buyerId: Int,
     val buyerName: String,
     val buyerPhone: String,
-    val canCompensate: Boolean,
-    val canRefund: Boolean,
+    @SerializedName("canCompensate")
+    var _canCompensate: Boolean,
+    @SerializedName("canRefund")
+    var _canRefund: Boolean,
     val canReset: Boolean,
     val canStart: Boolean,
-    val createTime: String,
+    @SerializedName("createTime")
+    val _createTime: String,
     val deviceName: String,
     val deviceSubType: String,
     val deviceType: String,
     val discountPrice: Double,
-    val goodsCategoryIds: List<Any>,
+    val goodsCategoryIds: ArrayList<Int>,
     val id: Int,
     val orderCategory: Int,
     val orderNo: String,
@@ -35,18 +44,41 @@ data class OrderDetailEntity(
     val payMethodType: Int,
     val payNo: String,
     val payPrice: Double,
-    val payTime: String,
+    @SerializedName("payTime")
+    val _payTime: String,
     val promotionList: List<Promotion>,
     val realPrice: Double,
     val refundBy: String,
     val refundDesc: String,
     val refundNo: String,
     val refundPrice: Double,
-    val refundTime: String,
+    @SerializedName("refundTime")
+    val _refundTime: String,
     val shopId: Int,
     val shopName: String,
     val skuList: List<Sku>,
     val state: Int
-){
+) : BaseObservable() {
+    val createTime: String
+        get() = DateTimeUtils.formatDateTimeForStr(_createTime, "yyyy-MM-dd HH:mm")
+    val refundTime: String
+        get() = DateTimeUtils.formatDateTimeForStr(_refundTime, "yyyy-MM-dd HH:mm")
+    val payTime: String
+        get() = DateTimeUtils.formatDateTimeForStr(_payTime, "yyyy-MM-dd HH:mm")
 
+    @get:Bindable
+    var canRefund: Boolean
+        get() = _canRefund
+        set(value) {
+            _canRefund = value
+            notifyPropertyChanged(BR.canRefund)
+        }
+
+    @get:Bindable
+    var canCompensate: Boolean
+        get() = _canCompensate
+        set(value) {
+            _canCompensate = value
+            notifyPropertyChanged(BR.canCompensate)
+        }
 }

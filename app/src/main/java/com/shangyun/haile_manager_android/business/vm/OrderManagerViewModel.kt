@@ -63,16 +63,16 @@ class OrderManagerViewModel : BaseViewModel() {
         if (null != startTime.value && null != endTime.value) {
             if (DateTimeUtils.isSameDay(startTime.value!!, endTime.value!!)) {
                 DateTimeUtils.formatDateTime(
-                    "yyyy-MM-dd",
-                    startTime.value
+                    startTime.value,
+                    "yyyy-MM-dd"
                 )
             } else {
                 "${
                     DateTimeUtils.formatDateTime(
-                        "yyyy-MM-dd",
-                        startTime.value
+                        startTime.value,
+                        "yyyy-MM-dd"
                     )
-                } 至 ${DateTimeUtils.formatDateTime("yyyy-MM-dd", endTime.value)}"
+                } 至 ${DateTimeUtils.formatDateTime(endTime.value, "yyyy-MM-dd")}"
             }
         } else StringUtils.getString(R.string.order_time)
 
@@ -110,10 +110,10 @@ class OrderManagerViewModel : BaseViewModel() {
             }
             // 时间
             startTime.value?.let {
-                params["startTime"] = DateTimeUtils.formatDateTime("yyyy-MM-dd", it) + " 00:00:00"
+                params["startTime"] = DateTimeUtils.formatDateTime(it,"yyyy-MM-dd") + " 00:00:00"
             }
             endTime.value?.let {
-                params["endTime"] = DateTimeUtils.formatDateTime("yyyy-MM-dd", it) + " 23:59:59"
+                params["endTime"] = DateTimeUtils.formatDateTime(it,"yyyy-MM-dd") + " 23:59:59"
             }
 
             val listWrapper = ApiRepository.dealApiResult(

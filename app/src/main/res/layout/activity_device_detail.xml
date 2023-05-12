@@ -27,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
             app:bgColor="@color/white"
+            app:rightModel="text"
             app:layout_constraintTop_toTopOf="parent"
             app:title="@string/device_detail" />
 

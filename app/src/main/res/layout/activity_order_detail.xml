@@ -5,9 +5,15 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <import type="com.shangyun.haile_manager_android.R" />
 
         <import type="com.shangyun.haile_manager_android.data.arguments.OrderParam" />
+
+        <variable
+            name="shared"
+            type="com.shangyun.haile_manager_android.business.vm.SharedViewModel" />
 
         <variable
             name="vm"
@@ -37,6 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:paddingBottom="58dp"
                 app:divider="@drawable/divide_size8"
                 app:showDividers="middle">
 
@@ -198,7 +205,6 @@
                         android:orientation="vertical"
                         android:visibility="gone"
                         app:divider="@drawable/divide_size8"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:showDividers="middle" />
 
                     <androidx.appcompat.widget.LinearLayoutCompat
@@ -209,7 +215,6 @@
                         android:orientation="vertical"
                         android:visibility="gone"
                         app:divider="@drawable/divide_size8"
-                        app:layout_constraintTop_toBottomOf="@id/ll_order_detail_sku_list"
                         app:showDividers="middle" />
 
                     <include
@@ -237,34 +242,129 @@
                         app:value='@{vm.orderDetail.realPrice+""}' />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    android:visibility="@{OrderParam.isRefund(vm.orderDetail.state)?View.VISIBLE:View.GONE}"
+                    app:divider="@drawable/divide_size8"
+                    app:showDividers="middle">
+
+                    <include
+                        layout="@layout/item_order_detail_item"
+                        app:mStart="@{@dimen/dimen_2}"
+                        app:title="@{@string/reason_for_refund}"
+                        app:value='@{vm.orderDetail.refundDesc}' />
+
+                    <include
+                        layout="@layout/item_order_detail_item"
+                        app:mStart="@{@dimen/dimen_2}"
+                        app:title="@{@string/refund_amount}"
+                        app:value='@{vm.orderDetail.refundPrice+""}' />
+
+                    <include
+                        layout="@layout/item_order_detail_item"
+                        android:visibility="gone"
+                        app:mStart="@{@dimen/dimen_2}"
+                        app:title="@{@string/refund_haixin}"
+                        app:value='@{""}' />
+
+                    <include
+                        layout="@layout/item_order_detail_item"
+                        app:mStart="@{@dimen/dimen_2}"
+                        app:title="@{@string/refund_time}"
+                        app:value='@{vm.orderDetail.refundTime}' />
+
+                    <include
+                        layout="@layout/item_order_detail_item"
+                        app:mStart="@{@dimen/dimen_2}"
+                        app:title="@{@string/operator}"
+                        app:value='@{vm.orderDetail.refundBy}' />
+
+                    <include
+                        layout="@layout/item_order_detail_item"
+                        app:mStart="@{@dimen/dimen_2}"
+                        app:title="@{@string/refund_order_no}"
+                        app:value='@{vm.orderDetail.orderNo}' />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:divider="@drawable/divide_size8"
+                    app:showDividers="middle">
+
+                    <include
+                        layout="@layout/item_order_detail_item"
+                        app:mStart="@{@dimen/dimen_2}"
+                        app:title="@{@string/order_time_title}"
+                        app:value='@{vm.orderDetail.createTime}' />
+
+                    <include
+                        layout="@layout/item_order_detail_item"
+                        app:mStart="@{@dimen/dimen_2}"
+                        app:title="@{@string/model_of_payment}"
+                        app:value='@{vm.orderDetail.payMethod}' />
+
+                    <include
+                        layout="@layout/item_order_detail_item"
+                        app:mStart="@{@dimen/dimen_2}"
+                        app:title="@{@string/no_of_payment}"
+                        app:value='@{vm.orderDetail.payNo}' />
+
+                    <include
+                        layout="@layout/item_order_detail_item"
+                        app:mStart="@{@dimen/dimen_2}"
+                        app:title="@{@string/time_of_payment}"
+                        app:value='@{vm.orderDetail.payTime}' />
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
+
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="94dp"
-            android:background="@color/white"
+            android:background="@drawable/shape_top_stroke_dividing"
             android:gravity="end"
             android:paddingHorizontal="16dp"
             android:paddingTop="12dp"
+            android:visibility="@{((vm.orderDetail.canRefund &amp;&amp; shared.hasOrderRefundPermission) || (vm.orderDetail.canCompensate &amp;&amp; shared.hasOrderCompensatePermission) || (vm.orderDetail.canStart &amp;&amp; shared.hasOrderStartPermission) || (vm.orderDetail.canReset &amp;&amp; shared.hasOrderResetPermission))?View.VISIBLE:View.GONE}"
             app:divider="@drawable/divide_size8"
             app:showDividers="middle">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_order_detail_refund"
                 style="@style/CommonStrokeTxtBtnStyle"
-                android:text="@string/refund" />
+                android:text="@string/refund"
+                android:visibility="@{(vm.orderDetail.canRefund &amp;&amp; shared.hasOrderRefundPermission)?View.VISIBLE:View.GONE}" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_order_detail_compensate"
                 style="@style/CommonStrokeTxtBtnStyle"
-                android:text="@string/compensate" />
+                android:text="@string/compensate"
+                android:visibility="@{(vm.orderDetail.canCompensate &amp;&amp; shared.hasOrderCompensatePermission)?View.VISIBLE:View.GONE}" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_order_detail_start"
                 style="@style/CommonStrokeTxtBtnStyle"
-                android:text="@string/start" />
+                android:text="@string/start"
+                android:visibility="@{(vm.orderDetail.canStart &amp;&amp; shared.hasOrderStartPermission)?View.VISIBLE:View.GONE}" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_order_detail_restart"
                 style="@style/CommonStrokeTxtBtnStyle"
-                android:text="@string/restart" />
+                android:text="@string/restart"
+                android:visibility="@{(vm.orderDetail.canReset &amp;&amp; shared.hasOrderResetPermission)?View.VISIBLE:View.GONE}" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </LinearLayout>

@@ -48,37 +48,21 @@ class ShopManagerActivity :
      * 设置标题右侧按钮
      */
     private fun initRightBtn() {
-        mBinding.shopTitleBar.getRightArea()
-            .addView(
-                Button(this).apply {
-                    setText(R.string.add_shop)
-                    setTextColor(Color.WHITE)
-                    textSize = 14f
-                    setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        R.mipmap.icon_add, 0, 0, 0
-                    )
-                    compoundDrawablePadding = DimensionUtils.dip2px(this@ShopManagerActivity, 4f)
-                    val pH = DimensionUtils.dip2px(this@ShopManagerActivity, 12f)
-                    val pV = DimensionUtils.dip2px(this@ShopManagerActivity, 4f)
-                    setPadding(pH, pV, pH, pV)
-                    gravity = Gravity.CENTER
-                    setBackgroundResource(R.drawable.shape_sf0a258_r22)
-                    setOnClickListener {
-                        startActivity(
-                            Intent(
-                                this@ShopManagerActivity,
-                                ShopCreateAndUpdateActivity::class.java
-                            )
-                        )
-                    }
-                },
-                LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    DimensionUtils.dip2px(this@ShopManagerActivity, 28f)
-                ).apply {
-                    setMargins(0, 0, DimensionUtils.dip2px(this@ShopManagerActivity, 16f), 0)
-                }
+        mBinding.shopTitleBar.getRightBtn(true).run {
+            setText(R.string.add_shop)
+            setCompoundDrawablesRelativeWithIntrinsicBounds(
+                R.mipmap.icon_add, 0, 0, 0
             )
+            compoundDrawablePadding = DimensionUtils.dip2px(this@ShopManagerActivity, 4f)
+            setOnClickListener {
+                startActivity(
+                    Intent(
+                        this@ShopManagerActivity,
+                        ShopCreateAndUpdateActivity::class.java
+                    )
+                )
+            }
+        }
     }
 
     override fun initView() {

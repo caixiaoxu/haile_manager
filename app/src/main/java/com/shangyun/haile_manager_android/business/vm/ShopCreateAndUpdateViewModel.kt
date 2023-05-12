@@ -293,6 +293,7 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                         shopDetailEntity.area,
                     )
                 )
+                createAndUpdateEntity.value?.area = shopDetailEntity.address
             } else {
                 //省市区
                 changeArea(
@@ -310,12 +311,11 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                     shopDetailEntity.lng,
                     shopDetailEntity.address
                 )
-
-                // 营业时间
-                changeWorkTime(shopDetailEntity.workTime)
-                // 业务类型
-                changeBusinessType(shopDetailEntity.businessName)
             }
+            // 营业时间
+            changeWorkTime(shopDetailEntity.workTime)
+            // 业务类型
+            changeBusinessType(shopDetailEntity.businessName)
         }
     }
 }

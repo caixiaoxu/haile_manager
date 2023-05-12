@@ -80,7 +80,7 @@ class HomeFragment : BaseBusinessFragment<FragmentHomeBinding, HomeViewModel>() 
                 showModel = 1
                 onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
-                        Timber.i("选择的日期${DateTimeUtils.formatDateTime("yyyy-MM", date1)}")
+                        Timber.i("选择的日期${DateTimeUtils.formatDateTime(date1,"yyyy-MM")}")
                         mHomeViewModel.selectedDate.value = date1
                     }
                 }

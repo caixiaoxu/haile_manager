@@ -10,9 +10,12 @@
             type="com.shangyun.haile_manager_android.data.entities.SkuEntity" />
     </data>
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:showDividers="middle"
+        app:divider="@color/dividing_line_color_efefef"
+        app:dividerPadding="16dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -41,20 +44,12 @@
 
         </LinearLayout>
 
-        <View
-            style="@style/DividingStyle"
-            android:layout_marginHorizontal="16dp" />
-
         <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/mtiv_device_fun_configuration_name"
             style="@style/MultiTypeItemStyle"
             app:itemContent="@={item.name}"
             app:title="@string/model_name"
             app:type="input" />
-
-        <View
-            style="@style/DividingStyle"
-            android:layout_marginHorizontal="16dp" />
 
         <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/mtiv_device_fun_configuration_wash_time"
@@ -65,10 +60,6 @@
             app:type="input"
             app:unitHint="@string/unit_minute_hint" />
 
-        <View
-            style="@style/DividingStyle"
-            android:layout_marginHorizontal="16dp" />
-
         <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/mtiv_device_fun_configuration_wash_money"
             style="@style/MultiTypeItemStyle"
@@ -77,10 +68,6 @@
             app:title="@string/wash_money"
             app:type="input"
             app:unitHint="@string/unit_yuan_hint" />
-
-        <View
-            style="@style/DividingStyle"
-            android:layout_marginHorizontal="16dp" />
 
         <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/mtiv_device_fun_configuration_pulse_count"
@@ -91,10 +78,6 @@
             app:type="input"
             app:unitHint="@string/unit_ge_hint" />
 
-        <View
-            style="@style/DividingStyle"
-            android:layout_marginHorizontal="16dp" />
-
         <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/mtiv_device_fun_configuration_desc"
             style="@style/MultiTypeItemStyle"
@@ -104,5 +87,5 @@
             app:titleDrawablePadding="4dp"
             app:type="input" />
 
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

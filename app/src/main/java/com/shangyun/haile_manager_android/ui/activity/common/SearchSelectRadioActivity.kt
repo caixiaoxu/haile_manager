@@ -54,8 +54,6 @@ class SearchSelectRadioActivity :
                     R.color.colorPrimary
                 )
             )
-            background = null
-            setPadding(0)
             setOnClickListener {
                 mSearchSelectRadioViewModel.selectList.value?.let { list ->
                     val selected = list.find { select -> select.getCheck()?.value ?: false }

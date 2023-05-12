@@ -377,7 +377,7 @@ object UserPermissionUtils {
      */
     @JvmStatic
     fun hasOrderCompensatePermission(): Boolean {
-        return null != userPermissionsMap["league:order:compensate"]
+        return null != userPermissionsMap["league:order:compensation"]
     }
 
     /** ------------------------订单管理权限------------------------  */

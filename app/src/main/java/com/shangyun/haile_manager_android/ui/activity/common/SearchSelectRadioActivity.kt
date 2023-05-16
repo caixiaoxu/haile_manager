@@ -26,6 +26,7 @@ class SearchSelectRadioActivity :
 
     companion object {
         const val SearchSelectType = "searchSelectType"
+        const val SelectTitle = "selectTitle"
         const val CategoryId = "categoryId"
         const val ShopResultCode = 0x90001
         const val DeviceModelResultCode = 0x90002
@@ -60,7 +61,7 @@ class SearchSelectRadioActivity :
                     selected?.let { s ->
                         setResult(
                             when (mSearchSelectRadioViewModel.searchSelectType.value) {
-                                SearchSelectRadioViewModel.SearchSelectTypeShop -> ShopResultCode
+                                SearchSelectRadioViewModel.SearchSelectTypeShop, SearchSelectRadioViewModel.SearchSelectTypeTakeChargeShop -> ShopResultCode
                                 SearchSelectRadioViewModel.SearchSelectTypeDeviceModel -> DeviceModelResultCode
                                 else -> RESULT_OK
                             },
@@ -94,7 +95,6 @@ class SearchSelectRadioActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
-
         initRightBtn()
     }
 

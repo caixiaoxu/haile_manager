@@ -12,7 +12,7 @@ import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel.Comp
 import com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SEARCH_TYPE
 import com.shangyun.haile_manager_android.business.vm.ShopCreateAndUpdateViewModel
 import com.shangyun.haile_manager_android.data.entities.SchoolSelectEntity
-import com.shangyun.haile_manager_android.data.entities.ShopBusinessTypeEntity
+import com.shangyun.haile_manager_android.data.entities.ShopBusinessTypeEntityI
 import com.shangyun.haile_manager_android.data.entities.ShopTypeEntity
 import com.shangyun.haile_manager_android.databinding.ActivityShopCreateAndUpdateBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -175,8 +175,8 @@ class ShopCreateAndUpdateActivity :
                 val multiDialog =
                     MultiSelectBottomSheetDialog.Builder("选择业务类型", list).apply {
                         onValueSureListener = object :
-                            MultiSelectBottomSheetDialog.OnValueSureListener<ShopBusinessTypeEntity> {
-                            override fun onValue(datas: List<ShopBusinessTypeEntity>) {
+                            MultiSelectBottomSheetDialog.OnValueSureListener<ShopBusinessTypeEntityI> {
+                            override fun onValue(datas: List<ShopBusinessTypeEntityI>) {
                                 mShopCreateAndUpdateViewModel.changeBusinessType(datas)
                             }
                         }

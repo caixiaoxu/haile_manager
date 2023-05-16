@@ -103,8 +103,21 @@ class SharedViewModel : ViewModel() {
     val hasOrderCompensatePermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasOrderCompensatePermission() }
     /** ---------------------订单权限------------------------- **/
+    /** ---------------------人员权限------------------------- **/
     val hasPersonPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasPersonPermission() }
+    val hasPersonAddPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasPersonAddPermission() }
+    val hasPersonListPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasPersonListPermission() }
+    val hasPersonInfoPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasPersonInfoPermission() }
+    val hasPersonUpdatePermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasPersonUpdatePermission() }
+    val hasPersonDeletePermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasPersonDeletePermission() }
+
+    /** ---------------------人员权限------------------------- **/
     val hasMarketingPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasMarketingPermission() }
     val hasDistributionPermission: LiveData<Boolean> =

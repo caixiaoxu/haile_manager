@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.lsy.framelib.utils.DimensionUtils
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.databinding.IncludeTitleActionBarBinding
 
@@ -76,8 +77,13 @@ class CommonTitleActionBar @JvmOverloads constructor(
      * 获取右侧按钮
      */
     fun getRightBtn(hasBg: Boolean = false) = mBinding.btnTitleActionRight.apply {
+        val pV = DimensionUtils.dip2px(context, 4f)
         if (hasBg) {
             setBackgroundResource(R.drawable.shape_sf0a258_r22)
+            val pH = DimensionUtils.dip2px(context, 12f)
+            setPadding(pH, pV, pH, pV)
+        } else {
+            setPadding(0, pV, 0, pV)
         }
     }
 

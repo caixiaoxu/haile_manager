@@ -42,6 +42,8 @@ class OrderDetailActivity :
 
     override fun getVM(): OrderDetailViewModel = mOrderDetailViewModel
 
+    override fun backBtn(): View = mBinding.barOrderDetailTitle.getBackBtn()
+
     override fun initIntent() {
         super.initIntent()
         mOrderDetailViewModel.orderId = intent.getIntExtra(OrderId, -1)

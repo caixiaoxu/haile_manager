@@ -3,6 +3,7 @@ package com.shangyun.haile_manager_android.ui.activity.order
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -128,6 +129,8 @@ class OrderManagerActivity :
     override fun layoutId(): Int = R.layout.activity_order_manager
 
     override fun getVM(): OrderManagerViewModel = mOrderManagerViewModel
+
+    override fun backBtn(): View = mBinding.barOrderManagerTitle.getBackBtn()
 
     override fun initEvent() {
         super.initEvent()

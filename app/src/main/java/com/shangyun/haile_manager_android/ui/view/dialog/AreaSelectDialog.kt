@@ -70,7 +70,7 @@ class AreaSelectDialog private constructor(private val builder: Builder) :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.DateTimeStyle)
+        setStyle(STYLE_NORMAL, R.style.CommonBottomSheetDialogStyle)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

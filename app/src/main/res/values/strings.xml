@@ -191,6 +191,20 @@
     <string name="full_discount_coupon_default">满0可用</string>
 
     <string name="staff_manager">人员管理</string>
+    <string name="add_staff">添加人员</string>
+    <string name="create_staff">新增人员</string>
+    <string name="staff_info">人员信息</string>
+    <string name="name">姓名</string>
+    <string name="phone">手机号</string>
+    <string name="role">角色</string>
+    <string name="role_type">角色类型</string>
+    <string name="take_charge_shop">负责门店</string>
+    <string name="permission">权限</string>
+    <string name="permission_config">权限配置</string>
+    <string name="permission_info">权限信息</string>
+    <string name="select_all">全选</string>
+    <string name="no_select_all">全不选</string>
+
     <string name="home_marketing_title">营销中心</string>
     <string name="discount_manager">折扣优惠</string>
     <string name="haixin_manager">海星管理</string>

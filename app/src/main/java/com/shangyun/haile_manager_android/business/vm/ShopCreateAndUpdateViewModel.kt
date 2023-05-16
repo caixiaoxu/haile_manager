@@ -35,7 +35,7 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
     val shopTypeList: MutableLiveData<List<ShopTypeEntity>> = MutableLiveData()
 
     // 门店业务列表
-    val shopBusinessTypeList: MutableLiveData<List<ShopBusinessTypeEntity>> = MutableLiveData()
+    val shopBusinessTypeList: MutableLiveData<List<ShopBusinessTypeEntityI>> = MutableLiveData()
 
     // 门店类型
     val shopTypeValue: MutableLiveData<ShopTypeEntity> = MutableLiveData()
@@ -164,7 +164,7 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
     /**
      * 切换业务类型
      */
-    fun changeBusinessType(datas: List<ShopBusinessTypeEntity>) {
+    fun changeBusinessType(datas: List<ShopBusinessTypeEntityI>) {
         val sb = StringBuilder()
         val sbId = StringBuilder()
         datas.forEach { type ->

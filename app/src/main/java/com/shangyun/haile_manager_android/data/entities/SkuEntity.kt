@@ -3,7 +3,7 @@ package com.shangyun.haile_manager_android.data.entities
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.R
-import com.shangyun.haile_manager_android.data.rule.MultiSelectBottomItemEntity
+import com.shangyun.haile_manager_android.data.rule.IMultiSelectBottomItemEntity
 
 /**
  * Title :
@@ -146,7 +146,7 @@ data class ExtAttrBean(
     val minutes: Int,
     var price: Double,
     var pulse: Int,
-) : MultiSelectBottomItemEntity {
+) : IMultiSelectBottomItemEntity {
 
     @Transient
     override var isCheck: Boolean = false

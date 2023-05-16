@@ -44,9 +44,7 @@ class MainActivity : BaseBusinessActivity<ActivityMainBinding, MainViewModel>() 
         }
 
         // 如果权限数据为空，重新请求
-        if (null == SPRepository.userPermissions) {
-            mSharedViewModel.requestUserPermissionsAsync()
-        }
+        mSharedViewModel.requestUserPermissionsAsync()
 
         mMainViewModel.checkId.observe(this) {
             when (it) {

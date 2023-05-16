@@ -30,6 +30,7 @@ class SearchSelectRadioViewModel : BaseViewModel() {
     companion object {
         const val SearchSelectTypeShop = 0
         const val SearchSelectTypeDeviceModel = 1
+        const val SearchSelectTypeTakeChargeShop = 2
     }
 
     // 搜索类型
@@ -39,23 +40,24 @@ class SearchSelectRadioViewModel : BaseViewModel() {
         when (it) {
             SearchSelectTypeShop -> StringUtils.getString(R.string.department)
             SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model))
-            else->""
+            SearchSelectTypeTakeChargeShop -> StringUtils.getString(R.string.take_charge_shop)
+            else -> ""
         }
     }
 
     val searchSelectHint: LiveData<String> = searchSelectType.map {
         when (it) {
-            SearchSelectTypeShop -> StringUtils.getString(R.string.shop_search_hint)
+            SearchSelectTypeShop, SearchSelectTypeTakeChargeShop -> StringUtils.getString(R.string.shop_search_hint)
             SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model_search_hint))
-            else->""
+            else -> ""
         }
     }
 
     val searchSelectListHint: LiveData<String> = searchSelectType.map {
         when (it) {
-            SearchSelectTypeShop -> StringUtils.getString(R.string.shop_info)
+            SearchSelectTypeShop,SearchSelectTypeTakeChargeShop -> StringUtils.getString(R.string.shop_info)
             SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model))
-            else->""
+            else -> ""
         }
     }
 
@@ -81,7 +83,7 @@ class SearchSelectRadioViewModel : BaseViewModel() {
         launch({
             val list: MutableList<out SearchSelectRadioEntity>? =
                 when (searchSelectType.value) {
-                    SearchSelectTypeShop -> ApiRepository.dealApiResult(
+                    SearchSelectTypeShop,SearchSelectTypeTakeChargeShop -> ApiRepository.dealApiResult(
                         mShopRepo.shopSelectList(
                             ApiRepository.createRequestBody(
                                 hashMapOf(

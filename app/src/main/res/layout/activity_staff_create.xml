@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.shangyun.haile_manager_android.business.vm.StaffCreateViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".ui.activity.staff.StaffCreateActivity">
+
+        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_staff_create_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/create_staff" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toTopOf="@id/btn_shop_create_submit"
+            app:layout_constraintTop_toBottomOf="@id/bar_staff_create_title">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:divider="@color/dividing_line_color_efefef"
+                app:dividerPadding="16dp"
+                app:showDividers="middle">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Font_12_999999"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:text="@string/staff_info" />
+
+                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_staff_create_name"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@={vm.name}"
+                    app:showArrow="true"
+                    app:title="@string/name"
+                    app:type="input" />
+
+                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_staff_create_phone"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@={vm.phone}"
+                    app:showArrow="true"
+                    app:title="@string/phone"
+                    app:type="input" />
+
+                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_staff_create_role"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.role.role}"
+                    app:showArrow="true"
+                    app:title="@string/role"
+                    app:type="info" />
+
+                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_staff_create_take_charge_shop"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.takeChargeShopStr}"
+                    app:showArrow="true"
+                    app:title="@string/take_charge_shop"
+                    app:type="info" />
+
+                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_staff_create_permission"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.permissionStr}"
+                    app:showArrow="true"
+                    app:title="@string/permission"
+                    app:type="info" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </ScrollView>
+
+        <com.shangyun.haile_manager_android.ui.view.CommonButton
+            android:id="@+id/btn_shop_create_submit"
+            style="@style/CommonMatchBtnStyle1"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginBottom="42dp"
+            android:onClick="@{vm::submit}"
+            android:text="@string/save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="MissingConstraints" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

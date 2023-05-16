@@ -36,7 +36,7 @@ data class ShopDetailEntity(
     val workTime: String,// 营业时间
     val serviceTelephone: String,// 客服电话
     val shopBusiness: String, // 店铺业务
-    val businessName: List<ShopBusinessTypeEntity>,// 店铺业务名称
+    val businessName: List<ShopBusinessTypeEntityI>,// 店铺业务名称
     val attribute: Int,// 店铺属性1联营店,0非联营
     val appointSettingList: List<AppointSetting>,//预约开关
 ) {

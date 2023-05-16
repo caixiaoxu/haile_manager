@@ -1,6 +1,7 @@
 package com.shangyun.haile_manager_android.ui.activity.order
 
 import android.graphics.Color
+import android.view.View
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.OrderCompensateViewModel
 import com.shangyun.haile_manager_android.databinding.ActivityOrderCompensateBinding
@@ -27,6 +28,8 @@ class OrderCompensateActivity :
     override fun layoutId(): Int = R.layout.activity_order_compensate
 
     override fun getVM(): OrderCompensateViewModel = mOrderCompensateViewModel
+
+    override fun backBtn(): View = mBinding.barOrderCompensateTitle.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()

@@ -12,7 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
 import com.shangyun.haile_manager_android.R
-import com.shangyun.haile_manager_android.data.rule.MultiSelectBottomItemEntity
+import com.shangyun.haile_manager_android.data.rule.IMultiSelectBottomItemEntity
 import com.shangyun.haile_manager_android.databinding.DialogMultiSelectBottomSheetBinding
 import com.shangyun.haile_manager_android.databinding.ItemMultiSelectSheetDialogBinding
 
@@ -27,14 +27,14 @@ import com.shangyun.haile_manager_android.databinding.ItemMultiSelectSheetDialog
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class MultiSelectBottomSheetDialog<D : MultiSelectBottomItemEntity> private constructor(private val builder: Builder<D>) :
+class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private constructor(private val builder: Builder<D>) :
     BottomSheetDialogFragment() {
     private val MULTI_SELECT_BOTTOM_SHEET_TAG = "multi_select_sheet_tag"
     private lateinit var mBinding: DialogMultiSelectBottomSheetBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.DateTimeStyle)
+        setStyle(STYLE_NORMAL, R.style.CommonBottomSheetDialogStyle)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -120,7 +120,7 @@ class MultiSelectBottomSheetDialog<D : MultiSelectBottomItemEntity> private cons
         show(manager, MULTI_SELECT_BOTTOM_SHEET_TAG)
     }
 
-    internal class Builder<D : MultiSelectBottomItemEntity>(
+    internal class Builder<D : IMultiSelectBottomItemEntity>(
         val title: String,
         val list: List<D>,
     ) {
@@ -137,7 +137,7 @@ class MultiSelectBottomSheetDialog<D : MultiSelectBottomItemEntity> private cons
         fun build(): MultiSelectBottomSheetDialog<D> = MultiSelectBottomSheetDialog(this)
     }
 
-    interface OnValueSureListener<D : MultiSelectBottomItemEntity> {
+    interface OnValueSureListener<D : IMultiSelectBottomItemEntity> {
         fun onValue(datas: List<D>)
     }
 }

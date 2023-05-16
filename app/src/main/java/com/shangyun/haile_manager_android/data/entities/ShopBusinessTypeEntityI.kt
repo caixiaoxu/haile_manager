@@ -1,6 +1,6 @@
 package com.shangyun.haile_manager_android.data.entities
 
-import com.shangyun.haile_manager_android.data.rule.MultiSelectBottomItemEntity
+import com.shangyun.haile_manager_android.data.rule.IMultiSelectBottomItemEntity
 
 /**
  * Title :
@@ -12,8 +12,8 @@ import com.shangyun.haile_manager_android.data.rule.MultiSelectBottomItemEntity
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-data class ShopBusinessTypeEntity(val type: Int, val businessName: String) :
-    MultiSelectBottomItemEntity {
+data class ShopBusinessTypeEntityI(val type: Int, val businessName: String) :
+    IMultiSelectBottomItemEntity {
     override var isCheck: Boolean = false
     override fun getTitle(): String = businessName
 }

@@ -1,5 +1,7 @@
 package com.shangyun.haile_manager_android.data.entities
 
+import com.shangyun.haile_manager_android.data.rule.IMultiSelectBottomItemEntity
+
 /**
  * Title : 用户权限
  * Author: Lsy
@@ -22,4 +24,19 @@ data class UserPermissionEntity(
     val icon: String,
     val shareType: Int,
     val childList: List<UserPermissionEntity>
-)
+) : IMultiSelectBottomItemEntity {
+
+    override fun hashCode(): Int {
+        return super.hashCode()
+    }
+
+    override var isCheck: Boolean = false
+
+    override fun getTitle(): String = name
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other is UserPermissionEntity && other.menuId == menuId) return true
+        return super.equals(other)
+    }
+}

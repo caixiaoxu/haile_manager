@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.shangyun.haile_manager_android.business.vm.StaffPermissionViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/page_bg"
+        android:orientation="vertical"
+        tools:context=".ui.activity.staff.StaffPermissionActivity">
+
+        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_staff_permission_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            app:bgColor="@color/white"
+            app:rightModel="text"
+            app:title="@string/permission_config" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/white">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_12_999999"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/permission_info"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_staff_permission_all"
+                style="@style/Font_14_f0a258"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:onClick="@{vm::selectAll}"
+                android:paddingHorizontal="16dp"
+                android:text="@{vm.isAll?@string/no_select_all:@string/select_all}"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View style="@style/DividingStyle" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_staff_permission_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingHorizontal="16dp" />
+
+    </LinearLayout>
+</layout>

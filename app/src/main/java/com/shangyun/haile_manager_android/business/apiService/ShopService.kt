@@ -49,7 +49,7 @@ interface ShopService {
      * 店铺业务类型
      */
     @GET("/shop/shopBusinessType")
-    suspend fun shopBusinessType(): ResponseWrapper<List<ShopBusinessTypeEntity>>
+    suspend fun shopBusinessType(): ResponseWrapper<List<ShopBusinessTypeEntityI>>
 
     /**
      * 学校列表

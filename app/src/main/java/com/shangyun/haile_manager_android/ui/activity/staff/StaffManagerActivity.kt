@@ -6,11 +6,13 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
+import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.business.vm.SearchSelectRadioViewModel
 import com.shangyun.haile_manager_android.business.vm.StaffManagerViewModel
 import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
@@ -50,8 +52,15 @@ class StaffManagerActivity :
         mSharedViewModel.hasPersonAddPermission.observe(this) {
             if (it) initRightBtn()
         }
-        mSharedViewModel.hasPersonListPermission.observe(this) {}
+        mSharedViewModel.hasPersonListPermission.observe(this) {
+            if (it) mBinding.rvStaffManagerList.requestRefresh()
+        }
         mSharedViewModel.hasPersonInfoPermission.observe(this) {}
+
+        // 新增成功
+        LiveDataBus.with(BusEvents.STAFF_LIST_STATUS)?.observe(this) {
+            mBinding.rvStaffManagerList.requestRefresh()
+        }
     }
 
     /**
@@ -59,7 +68,7 @@ class StaffManagerActivity :
      */
     private fun initRightBtn() {
         mBinding.barStaffManagerTitle.getRightBtn(true).run {
-            setText(R.string.add_shop)
+            setText(R.string.add_staff)
             setCompoundDrawablesRelativeWithIntrinsicBounds(
                 R.mipmap.icon_add, 0, 0, 0
             )
@@ -105,6 +114,5 @@ class StaffManagerActivity :
     }
 
     override fun initData() {
-        mBinding.rvStaffManagerList.requestRefresh()
     }
 }

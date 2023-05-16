@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.shangyun.haile_manager_android.business.vm.StaffCreateViewModel" />
@@ -31,18 +33,16 @@
             app:layout_constraintBottom_toTopOf="@id/btn_shop_create_submit"
             app:layout_constraintTop_toBottomOf="@id/bar_staff_create_title">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:divider="@color/dividing_line_color_efefef"
-                app:dividerPadding="16dp"
-                app:showDividers="middle">
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Font_12_999999"
                     android:layout_width="match_parent"
                     android:layout_height="46dp"
+                    android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
                     android:gravity="center_vertical"
                     android:paddingHorizontal="16dp"
                     android:text="@string/staff_info" />
@@ -50,6 +50,7 @@
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_staff_create_name"
                     style="@style/MultiTypeItemStyle"
+                    android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
                     app:itemContent="@={vm.name}"
                     app:showArrow="true"
                     app:title="@string/name"
@@ -58,6 +59,10 @@
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_staff_create_phone"
                     style="@style/MultiTypeItemStyle"
+                    android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
+                    android:inputType="phone"
+                    android:maxLength="11"
+                    android:maxLines="1"
                     app:itemContent="@={vm.phone}"
                     app:showArrow="true"
                     app:title="@string/phone"
@@ -66,6 +71,7 @@
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_staff_create_role"
                     style="@style/MultiTypeItemStyle"
+                    android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
                     app:itemContent="@{vm.role.role}"
                     app:showArrow="true"
                     app:title="@string/role"
@@ -74,6 +80,8 @@
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_staff_create_take_charge_shop"
                     style="@style/MultiTypeItemStyle"
+                    android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
+                    android:visibility="@{vm.needShopAndPermission?View.VISIBLE:View.GONE}"
                     app:itemContent="@{vm.takeChargeShopStr}"
                     app:showArrow="true"
                     app:title="@string/take_charge_shop"
@@ -82,12 +90,14 @@
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_staff_create_permission"
                     style="@style/MultiTypeItemStyle"
+                    android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
+                    android:visibility="@{vm.needShopAndPermission?View.VISIBLE:View.GONE}"
                     app:itemContent="@{vm.permissionStr}"
                     app:showArrow="true"
                     app:title="@string/permission"
                     app:type="info" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </LinearLayout>
         </ScrollView>
 
         <com.shangyun.haile_manager_android.ui.view.CommonButton
@@ -95,6 +105,7 @@
             style="@style/CommonMatchBtnStyle1"
             android:layout_marginHorizontal="14dp"
             android:layout_marginBottom="42dp"
+            android:enabled="@{vm.canSubmit}"
             android:onClick="@{vm::submit}"
             android:text="@string/save"
             app:layout_constraintBottom_toBottomOf="parent"

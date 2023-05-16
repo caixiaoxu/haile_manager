@@ -12,8 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="76dp"
-        android:paddingHorizontal="16dp">
+        android:layout_height="76dp">
 
         <com.shangyun.haile_manager_android.ui.view.CircleImageView
             android:id="@+id/iv_staff_manager_head"

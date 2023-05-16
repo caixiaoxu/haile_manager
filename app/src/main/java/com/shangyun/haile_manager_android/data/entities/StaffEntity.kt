@@ -32,11 +32,11 @@ data class StaffEntity(
         get() = if (_tagName.isNullOrEmpty()) StringUtils.getString(R.string.admin) else _tagName
 
 
-    override fun getMultiType(): Int = if (tagName.isNullOrEmpty()) 0 else 1
+    override fun getMultiType(): Int = if (_tagName.isNullOrEmpty()) 0 else 1
 
     override fun getMultiTypeBgRes(): IntArray = intArrayOf(
-        R.drawable.shape_strokef0a258_solid26f0a258_r9,
-        R.drawable.shape_stroke999999_solid26999999_r9,
+        R.drawable.shape_s26f0a258_r4,
+        R.drawable.shape_sf7f7f7_r4,
     )
 
     override fun getMultiTypeTxtColors(): IntArray =intArrayOf(

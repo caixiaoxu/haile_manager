@@ -65,6 +65,13 @@ class StaffPermissionActivity :
         }
     }
 
+    override fun initIntent() {
+        super.initIntent()
+
+        mStaffPermissionViewModel.selectList =
+            intent.getIntegerArrayListExtra(PermissionIds) ?: arrayListOf()
+    }
+
     override fun initEvent() {
         super.initEvent()
         mSharedViewModel.hasUserPermission.observe(this) {
@@ -74,6 +81,7 @@ class StaffPermissionActivity :
         mStaffPermissionViewModel.permissionList.observe(this) {
             if (!it.isNullOrEmpty()) {
                 mAdapter.refreshList(it, true)
+                mStaffPermissionViewModel.checkSelectAll()
             }
         }
     }

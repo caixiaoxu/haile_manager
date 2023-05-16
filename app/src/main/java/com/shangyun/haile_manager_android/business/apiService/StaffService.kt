@@ -32,4 +32,6 @@ interface StaffService {
     @GET("/merchant/userRoleList")
     suspend fun requestRoleList(): ResponseWrapper<List<String>>
 
+    @POST("/merchant/createMember")
+    suspend fun createStaff(@Body body: RequestBody): ResponseWrapper<Any>
 }

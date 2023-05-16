@@ -37,9 +37,10 @@ class StaffCreateActivity :
                         }
                     }
                 }
-                StaffPermissionActivity.PermissionResultCode->{
-                    it.data?.let { intent->
-                        mStaffCreateViewModel.permission.value = intent.getIntegerArrayListExtra(StaffPermissionActivity.PermissionIds)
+                StaffPermissionActivity.PermissionResultCode -> {
+                    it.data?.let { intent ->
+                        mStaffCreateViewModel.permission.value =
+                            intent.getIntegerArrayListExtra(StaffPermissionActivity.PermissionIds)
                     }
                 }
             }
@@ -57,16 +58,21 @@ class StaffCreateActivity :
         super.initEvent()
         mStaffCreateViewModel.roleList.observe(this) {
             if (!it.isNullOrEmpty()) {
-                bottomSheetDialog = CommonBottomSheetDialog.Builder(StringUtils.getString(R.string.role_type), it)
-                    .apply {
-                        onValueSureListener =
-                            object : CommonBottomSheetDialog.OnValueSureListener<StaffRoleEntity> {
-                                override fun onValue(data: StaffRoleEntity) {
-                                    mStaffCreateViewModel.role.value = data
+                bottomSheetDialog =
+                    CommonBottomSheetDialog.Builder(StringUtils.getString(R.string.role_type), it)
+                        .apply {
+                            onValueSureListener =
+                                object :
+                                    CommonBottomSheetDialog.OnValueSureListener<StaffRoleEntity> {
+                                    override fun onValue(data: StaffRoleEntity) {
+                                        mStaffCreateViewModel.role.value = data
+                                    }
                                 }
-                            }
-                    }.build()
+                        }.build()
             }
+        }
+        mStaffCreateViewModel.jump.observe(this){
+            finish()
         }
     }
 
@@ -94,7 +100,12 @@ class StaffCreateActivity :
                 Intent(
                     this@StaffCreateActivity,
                     StaffPermissionActivity::class.java
-                )
+                ).apply {
+                    putExtra(
+                        StaffPermissionActivity.PermissionIds,
+                        mStaffCreateViewModel.permission.value ?: intArrayOf()
+                    )
+                }
             )
         }
     }

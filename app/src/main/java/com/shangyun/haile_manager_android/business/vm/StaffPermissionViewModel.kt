@@ -10,7 +10,6 @@ import com.shangyun.haile_manager_android.data.entities.UserPermissionEntity
 import com.shangyun.haile_manager_android.data.model.SPRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /**
  * Title :
@@ -27,7 +26,7 @@ class StaffPermissionViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
-    val selectList: List<Int> = arrayListOf()
+    var selectList: List<Int> = arrayListOf()
 
     val isAll: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -44,9 +43,9 @@ class StaffPermissionViewModel : BaseViewModel() {
                     if (0 == it.parentId) {
                         parent.add(it)
                     } else {
-                        it.isCheck = selectList.contains(it.menuId)
-                        val list = child[it.parentId]
-                        if (list.isNullOrEmpty()) {
+                        it.isCheck =
+                            if (selectList.isEmpty()) false else selectList.contains(it.menuId)
+                        if (child[it.parentId].isNullOrEmpty()) {
                             child[it.parentId] = mutableListOf()
                         }
                         child[it.parentId]!!.add(it)

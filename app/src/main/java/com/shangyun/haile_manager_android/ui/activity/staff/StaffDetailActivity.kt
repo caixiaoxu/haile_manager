@@ -1,5 +1,6 @@
 package com.shangyun.haile_manager_android.ui.activity.staff
 
+import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -8,14 +9,18 @@ import android.widget.LinearLayout
 import androidx.constraintlayout.helper.widget.Flow
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
 import com.shangyun.haile_manager_android.R
+import com.shangyun.haile_manager_android.business.event.BusEvents
+import com.shangyun.haile_manager_android.business.vm.SearchSelectRadioViewModel
 import com.shangyun.haile_manager_android.business.vm.StaffDetailViewModel
 import com.shangyun.haile_manager_android.data.entities.Shop
 import com.shangyun.haile_manager_android.databinding.ActivityStaffDetailBinding
 import com.shangyun.haile_manager_android.databinding.ItemStaffDetailFlowBinding
 import com.shangyun.haile_manager_android.databinding.ItemStaffDetailPermissionBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.shangyun.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 
 class StaffDetailActivity :
     BaseBusinessActivity<ActivityStaffDetailBinding, StaffDetailViewModel>() {
@@ -98,9 +103,14 @@ class StaffDetailActivity :
             }
         }
 
+        LiveDataBus.with(BusEvents.STAFF_DETAILS_STATUS)?.observe(this) {
+            mStaffDetailViewModel.requestStaffDetailData()
+        }
+
         mStaffDetailViewModel.jump.observe(this) {
             finish()
         }
+
     }
 
     /**
@@ -136,6 +146,40 @@ class StaffDetailActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+
+        mBinding.tvStaffDetailUpdateShop.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@StaffDetailActivity,
+                    SearchSelectRadioActivity::class.java
+                ).apply {
+                    putExtra(
+                        SearchSelectRadioActivity.SearchSelectType,
+                        SearchSelectRadioViewModel.SearchSelectTypeTakeChargeShop
+                    )
+                    putExtra(
+                        SearchSelectRadioActivity.StaffId,
+                        mStaffDetailViewModel.staffId
+                    )
+                }
+            )
+        }
+
+        mBinding.tvStaffDetailUpdatePermission.setOnClickListener {
+            startActivity(Intent(
+                this@StaffDetailActivity,
+                StaffPermissionActivity::class.java
+            ).apply {
+                putExtra(
+                    StaffPermissionActivity.StaffId,
+                    mStaffDetailViewModel.staffId
+                )
+                putExtra(
+                    StaffPermissionActivity.PermissionIds,
+                    mStaffDetailViewModel.getPermissionIds()
+                )
+            })
+        }
     }
 
     override fun initData() {

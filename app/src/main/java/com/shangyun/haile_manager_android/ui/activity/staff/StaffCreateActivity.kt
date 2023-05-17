@@ -30,7 +30,7 @@ class StaffCreateActivity :
                 SearchSelectRadioActivity.ShopResultCode -> {
                     it.data?.let { intent ->
                         intent.getStringExtra(SearchSelectRadioActivity.ResultData)?.let { json ->
-                            GsonUtils.json2Class(json, SearchSelectParam::class.java)
+                            GsonUtils.json2List(json, SearchSelectParam::class.java)
                                 ?.let { selected ->
                                     mStaffCreateViewModel.takeChargeShop.value = selected
                                 }
@@ -71,7 +71,7 @@ class StaffCreateActivity :
                         }.build()
             }
         }
-        mStaffCreateViewModel.jump.observe(this){
+        mStaffCreateViewModel.jump.observe(this) {
             finish()
         }
     }

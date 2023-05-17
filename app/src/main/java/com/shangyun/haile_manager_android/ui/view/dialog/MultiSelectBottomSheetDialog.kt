@@ -74,7 +74,7 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
         mBinding.tvMultiSelectDialogSure.setOnClickListener {
             // 提取选中数据
             val selectList = builder.list.filter { entity -> entity.isCheck }
-            if (selectList.isEmpty()) {
+            if (!builder.isCanSelectEmpty && selectList.isEmpty()) {
                 SToast.showToast(context, "您还没有选择选项")
                 return@setOnClickListener
             }
@@ -101,7 +101,7 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
                         data.isCheck = isChecked
                     }
                 }, ViewGroup.LayoutParams(
-                    DimensionUtils.dip2px(requireContext(), 68f),
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
                     DimensionUtils.dip2px(requireContext(), 36f)
                 )
             )
@@ -124,6 +124,7 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
         val title: String,
         val list: List<D>,
     ) {
+        var isCanSelectEmpty = false
 
         // 不可取消
         var isCancelable = true

@@ -55,14 +55,16 @@ class OrderManagerActivity :
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             it.data?.let { intent ->
                 intent.getStringExtra(SearchSelectRadioActivity.ResultData)?.let { json ->
-                    GsonUtils.json2Class(json, SearchSelectParam::class.java)
-                        ?.let { selected ->
+
+                    GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
+                        if (selected.isNotEmpty()) {
                             when (it.resultCode) {
                                 SearchSelectRadioActivity.ShopResultCode -> {
-                                    mOrderManagerViewModel.selectDepartment.value = selected
+                                    mOrderManagerViewModel.selectDepartment.value = selected[0]
                                 }
                             }
                         }
+                    }
                 }
             }
         }

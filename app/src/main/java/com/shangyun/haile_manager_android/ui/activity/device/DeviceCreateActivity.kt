@@ -67,8 +67,10 @@ class DeviceCreateActivity :
             when (result.resultCode) {
                 SearchSelectRadioActivity.ShopResultCode -> {
                     result.data?.getStringExtra(SearchSelectRadioActivity.ResultData)?.let { json ->
-                        GsonUtils.json2Class(json, SearchSelectParam::class.java)?.let { selected ->
-                            mDeviceCreateViewModel.createDeviceShop.value = selected
+                        GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
+                            if (selected.isNotEmpty()) {
+                                mDeviceCreateViewModel.createDeviceShop.value = selected[0]
+                            }
                         }
                     }
                 }

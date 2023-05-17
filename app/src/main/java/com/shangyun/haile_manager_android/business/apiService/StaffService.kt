@@ -51,4 +51,16 @@ interface StaffService {
      */
     @POST("/merchant/logout")
     suspend fun deleteStaff(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 修改人员权限
+     */
+    @POST("/merchant/updateMemberMenu")
+    suspend fun updateStaffPermission(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 修改人员负责的门店
+     */
+    @POST("/merchant/userManageOrganization")
+    suspend fun updateStaffTakeChargeShop(@Body body: RequestBody): ResponseWrapper<Any>
 }

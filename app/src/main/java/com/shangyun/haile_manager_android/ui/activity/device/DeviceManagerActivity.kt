@@ -60,17 +60,19 @@ class DeviceManagerActivity :
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             it.data?.let { intent ->
                 intent.getStringExtra(SearchSelectRadioActivity.ResultData)?.let { json ->
-                    GsonUtils.json2Class(json, SearchSelectParam::class.java)
-                        ?.let { selected ->
+
+                    GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
+                        if (selected.isNotEmpty()) {
                             when (it.resultCode) {
                                 SearchSelectRadioActivity.ShopResultCode -> {
-                                    mDeviceManagerViewModel.selectDepartment.value = selected
+                                    mDeviceManagerViewModel.selectDepartment.value = selected[0]
                                 }
                                 SearchSelectRadioActivity.DeviceModelResultCode -> {
-                                    mDeviceManagerViewModel.selectDeviceModel.value = selected
+                                    mDeviceManagerViewModel.selectDeviceModel.value = selected[0]
                                 }
                             }
                         }
+                    }
                 }
             }
         }

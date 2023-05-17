@@ -46,11 +46,11 @@ class StaffCreateViewModel : BaseViewModel() {
         !(null == it || StaffParam.isSpecialRole(it.role))
     }
 
-    val takeChargeShop: MutableLiveData<SearchSelectParam> by lazy {
+    val takeChargeShop: MutableLiveData<List<SearchSelectParam>> by lazy {
         MutableLiveData()
     }
     val takeChargeShopStr: LiveData<String> = takeChargeShop.map {
-        StringUtils.getString(if (null == it) R.string.no_configure else R.string.configured)
+        StringUtils.getString(if (it.isNullOrEmpty()) R.string.no_configure else R.string.configured)
     }
 
     val permission: MutableLiveData<ArrayList<Int>> by lazy {
@@ -106,8 +106,8 @@ class StaffCreateViewModel : BaseViewModel() {
             "tagName" to role.value!!.role,
         )
 
-        takeChargeShop.value?.let {
-            params["shopIdList"] = arrayOf(it.id)
+        takeChargeShop.value?.let { list ->
+            params["shopIdList"] = list.map { shop -> shop.id }
         }
 
         permission.value?.let {

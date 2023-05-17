@@ -1,17 +1,24 @@
 package com.shangyun.haile_manager_android.business.vm
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.apiService.DeviceService
 import com.shangyun.haile_manager_android.business.apiService.ShopService
+import com.shangyun.haile_manager_android.business.apiService.StaffService
+import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.data.model.ApiRepository
 import com.shangyun.haile_manager_android.data.rule.SearchSelectRadioEntity
-import timber.log.Timber
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Title :
@@ -26,6 +33,7 @@ import timber.log.Timber
 class SearchSelectRadioViewModel : BaseViewModel() {
     private val mShopRepo = ApiRepository.apiClient(ShopService::class.java)
     private val mDeviceRepo = ApiRepository.apiClient(DeviceService::class.java)
+    private val mStaffRepo = ApiRepository.apiClient(StaffService::class.java)
 
     companion object {
         const val SearchSelectTypeShop = 0
@@ -55,16 +63,22 @@ class SearchSelectRadioViewModel : BaseViewModel() {
 
     val searchSelectListHint: LiveData<String> = searchSelectType.map {
         when (it) {
-            SearchSelectTypeShop,SearchSelectTypeTakeChargeShop -> StringUtils.getString(R.string.shop_info)
+            SearchSelectTypeShop, SearchSelectTypeTakeChargeShop -> StringUtils.getString(R.string.shop_info)
             SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model))
             else -> ""
         }
     }
 
+    var staffId: Int = -1
+
     // 设备类型id
     var categoryId: Int = -1
 
     val searchKey: MutableLiveData<String> by lazy {
+        MutableLiveData()
+    }
+
+    val isAllSelect: MutableLiveData<Boolean> by lazy {
         MutableLiveData()
     }
 
@@ -81,9 +95,9 @@ class SearchSelectRadioViewModel : BaseViewModel() {
      */
     fun requestSearch() {
         launch({
-            val list: MutableList<out SearchSelectRadioEntity>? =
+            val list: MutableList<out SearchSelectRadioEntity> =
                 when (searchSelectType.value) {
-                    SearchSelectTypeShop,SearchSelectTypeTakeChargeShop -> ApiRepository.dealApiResult(
+                    SearchSelectTypeShop, SearchSelectTypeTakeChargeShop -> ApiRepository.dealApiResult(
                         mShopRepo.shopSelectList(
                             ApiRepository.createRequestBody(
                                 hashMapOf(
@@ -109,8 +123,40 @@ class SearchSelectRadioViewModel : BaseViewModel() {
                         }
                     }
                     else -> null
-                }
+                } ?: mutableListOf()
             selectList.postValue(list)
+        })
+    }
+
+    fun checkSelectAll() {
+        viewModelScope.launch(Dispatchers.IO) {
+            selectList.value?.let { list ->
+                isAllSelect.postValue(list.all { true == it.getCheck()?.value })
+            }
+        }
+    }
+
+    fun updateStaffShop(context: Context, selected: List<SearchSelectRadioEntity>) {
+        if (-1 == staffId) {
+            return
+        }
+
+        launch({
+            ApiRepository.dealApiResult(
+                mStaffRepo.updateStaffTakeChargeShop(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "userId" to staffId,
+                            "subOrganizationIdList" to selected.map { it.getSelectId() },
+                        )
+                    )
+                )
+            )
+            withContext(Dispatchers.Main) {
+                SToast.showToast(context, R.string.update_success)
+            }
+            LiveDataBus.post(BusEvents.STAFF_DETAILS_STATUS, true)
+            jump.postValue(0)
         })
     }
 }

@@ -187,6 +187,7 @@
                 android:id="@+id/tv_staff_detail_update_permission"
                 style="@style/CommonStrokeTxtBtnStyle"
                 android:text="@string/update_permission"
+
                 android:visibility="@{(!StaffParam.isSpecialRole(vm.staffDetail.tagName) &amp;&amp; shared.hasPersonUpdatePermission)?View.VISIBLE:View.GONE}" />
 
             <androidx.appcompat.widget.AppCompatTextView

@@ -7,25 +7,16 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
-import com.shangyun.haile_manager_android.business.vm.SearchSelectRadioViewModel
 import com.shangyun.haile_manager_android.business.vm.StaffPermissionViewModel
-import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
 import com.shangyun.haile_manager_android.data.arguments.StaffPermissionParams
-import com.shangyun.haile_manager_android.data.entities.ChangeUserEntity
 import com.shangyun.haile_manager_android.data.entities.UserPermissionEntity
-import com.shangyun.haile_manager_android.data.model.SPRepository
 import com.shangyun.haile_manager_android.databinding.ActivityStaffPermissionBinding
-import com.shangyun.haile_manager_android.databinding.ItemChangeAccountBinding
 import com.shangyun.haile_manager_android.databinding.ItemStaffPermissionBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
-import com.shangyun.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
-import com.shangyun.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.shangyun.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
-import com.shangyun.haile_manager_android.utils.UserPermissionUtils
 
 class StaffPermissionActivity :
     BaseBusinessActivity<ActivityStaffPermissionBinding, StaffPermissionViewModel>() {
@@ -36,6 +27,7 @@ class StaffPermissionActivity :
 
     companion object {
         const val PermissionResultCode = 0x90100
+        const val StaffId = "staffId"
         const val PermissionIds = "permissionIds"
     }
 
@@ -52,6 +44,7 @@ class StaffPermissionActivity :
             mBinding?.root?.setOnClickListener {
                 MultiSelectBottomSheetDialog.Builder(data.parent.name, data.child ?: arrayListOf())
                     .apply {
+                        isCanSelectEmpty = true
                         onValueSureListener = object :
                             MultiSelectBottomSheetDialog.OnValueSureListener<UserPermissionEntity> {
                             override fun onValue(datas: List<UserPermissionEntity>) {
@@ -68,8 +61,9 @@ class StaffPermissionActivity :
     override fun initIntent() {
         super.initIntent()
 
+        mStaffPermissionViewModel.staffId = intent.getIntExtra(StaffId, -1)
         mStaffPermissionViewModel.selectList =
-            intent.getIntegerArrayListExtra(PermissionIds) ?: arrayListOf()
+            intent.getIntArrayExtra(PermissionIds) ?: intArrayOf()
     }
 
     override fun initEvent() {
@@ -83,6 +77,9 @@ class StaffPermissionActivity :
                 mAdapter.refreshList(it, true)
                 mStaffPermissionViewModel.checkSelectAll()
             }
+        }
+        mStaffPermissionViewModel.jump.observe(this) {
+            finish()
         }
     }
 
@@ -104,10 +101,14 @@ class StaffPermissionActivity :
                 )
             )
             setOnClickListener {
-                setResult(PermissionResultCode, Intent().apply {
-                    putExtra(PermissionIds, mStaffPermissionViewModel.getSelectPermissionIds())
-                })
-                finish()
+                if (-1 == mStaffPermissionViewModel.staffId) {
+                    setResult(PermissionResultCode, Intent().apply {
+                        putExtra(PermissionIds, mStaffPermissionViewModel.getSelectPermissionIds())
+                    })
+                    finish()
+                } else {
+                    mStaffPermissionViewModel.updateStaffPermission(this@StaffPermissionActivity)
+                }
             }
         }
 

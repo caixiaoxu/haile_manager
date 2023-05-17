@@ -1,15 +1,24 @@
 package com.shangyun.haile_manager_android.business.vm
 
+import android.content.Context
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.lsy.framelib.utils.SToast
 import com.shangyun.haile_manager_android.BR
+import com.shangyun.haile_manager_android.R
+import com.shangyun.haile_manager_android.business.apiService.StaffService
+import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.data.arguments.StaffPermissionParams
 import com.shangyun.haile_manager_android.data.entities.UserPermissionEntity
+import com.shangyun.haile_manager_android.data.model.ApiRepository
 import com.shangyun.haile_manager_android.data.model.SPRepository
+import com.shangyun.haile_manager_android.ui.activity.staff.StaffPermissionActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Title :
@@ -22,11 +31,15 @@ import kotlinx.coroutines.launch
  * 作者姓名 修改时间 版本号 描述
  */
 class StaffPermissionViewModel : BaseViewModel() {
+    private val mStaffRepo = ApiRepository.apiClient(StaffService::class.java)
+
     val permissionList: MutableLiveData<MutableList<StaffPermissionParams>> by lazy {
         MutableLiveData()
     }
 
-    var selectList: List<Int> = arrayListOf()
+    var staffId: Int = -1
+
+    var selectList: IntArray = intArrayOf()
 
     val isAll: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -101,5 +114,32 @@ class StaffPermissionViewModel : BaseViewModel() {
                 })
             }
         }
+    }
+
+    /**
+     * 修改员工权限
+     */
+    fun updateStaffPermission(context: Context) {
+        if (-1 == staffId) {
+            return
+        }
+
+        launch({
+            ApiRepository.dealApiResult(
+                mStaffRepo.updateStaffPermission(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "userId" to staffId,
+                            "menuIdList" to getSelectPermissionIds(),
+                        )
+                    )
+                )
+            )
+            withContext(Dispatchers.Main) {
+                SToast.showToast(context, R.string.update_success)
+            }
+            LiveDataBus.post(BusEvents.STAFF_DETAILS_STATUS, true)
+            jump.postValue(0)
+        })
     }
 }

@@ -85,13 +85,6 @@ class UpdatePasswordViewModel : BaseViewModel() {
                     )
                 Timber.d("修改密码接口请求成功$loginData")
                 ActivityManagerUtils.clearLoginInfoGoLogin()
-            },
-            {
-                it.message?.let { it1 -> SToast.showToast(msg = it1) }
-                Timber.d("请求失败或异常$it")
-            },
-            {
-                Timber.d("请求结束")
             })
     }
 }

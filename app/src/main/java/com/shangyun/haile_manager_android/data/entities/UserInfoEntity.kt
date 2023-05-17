@@ -14,7 +14,6 @@ package com.shangyun.haile_manager_android.data.entities
     val organization: Organization,
     val userInfo: UserInfo
 )
-
 data class UserInfo(
     val headImage: String,
     val name: String,

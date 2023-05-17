@@ -199,12 +199,16 @@
     <string name="role">角色</string>
     <string name="role_type">角色类型</string>
     <string name="take_charge_shop">负责门店</string>
+    <string name="take_charge_shop1">负责的门店</string>
     <string name="permission">权限</string>
     <string name="permission_config">权限配置</string>
     <string name="permission_info">权限信息</string>
     <string name="select_all">全选</string>
     <string name="no_select_all">全不选</string>
     <string name="add_success">增加成功</string>
+    <string name="update_take_charge_shop">修改负责门店</string>
+    <string name="update_permission">编辑权限</string>
+    <string name="delete_staff">删除人员</string>
 
     <string name="home_marketing_title">营销中心</string>
     <string name="discount_manager">折扣优惠</string>

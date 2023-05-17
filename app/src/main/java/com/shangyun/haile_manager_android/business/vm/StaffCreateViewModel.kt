@@ -13,6 +13,7 @@ import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.apiService.StaffService
 import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
+import com.shangyun.haile_manager_android.data.arguments.StaffParam
 import com.shangyun.haile_manager_android.data.entities.StaffRoleEntity
 import com.shangyun.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
@@ -32,8 +33,6 @@ import timber.log.Timber
 class StaffCreateViewModel : BaseViewModel() {
     private val mStaffRepo = ApiRepository.apiClient(StaffService::class.java)
 
-    private val specialRole = "合伙人"
-
     val name: MutableLiveData<String> by lazy {
         MutableLiveData()
     }
@@ -44,7 +43,7 @@ class StaffCreateViewModel : BaseViewModel() {
         MutableLiveData()
     }
     val needShopAndPermission: LiveData<Boolean> = role.map {
-        !(null == it || it.role == specialRole)
+        !(null == it || StaffParam.isSpecialRole(it.role))
     }
 
     val takeChargeShop: MutableLiveData<SearchSelectParam> by lazy {
@@ -90,23 +89,18 @@ class StaffCreateViewModel : BaseViewModel() {
      */
     private fun checkSubmit(): Boolean =
         !name.value.isNullOrEmpty() && !phone.value.isNullOrEmpty() && null != role.value
-                && (role.value!!.role == specialRole || (null != takeChargeShop.value && !roleList.value.isNullOrEmpty()))
+                && (StaffParam.isSpecialRole(role.value!!.role) || (null != takeChargeShop.value && !roleList.value.isNullOrEmpty()))
 
     fun requestRoleList() {
         launch({
             ApiRepository.dealApiResult(mStaffRepo.requestRoleList())?.let { list ->
                 roleList.postValue(list.map { StaffRoleEntity(it) })
             }
-        }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
-            Timber.d("请求失败或异常$it")
-        }, {
-            Timber.d("请求结束")
         })
     }
 
     fun submit(view: View) {
-        val params = hashMapOf<String,Any>(
+        val params = hashMapOf<String, Any>(
             "name" to name.value!!,
             "account" to phone.value!!,
             "tagName" to role.value!!.role,
@@ -126,16 +120,11 @@ class StaffCreateViewModel : BaseViewModel() {
                     ApiRepository.createRequestBody(params)
                 )
             )
-            withContext(Dispatchers.Main){
-                SToast.showToast(view.context,R.string.add_success)
+            withContext(Dispatchers.Main) {
+                SToast.showToast(view.context, R.string.add_success)
             }
             LiveDataBus.post(BusEvents.STAFF_LIST_STATUS, true)
             jump.postValue(0)
-        }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
-            Timber.d("请求失败或异常$it")
-        }, {
-            Timber.d("请求结束")
         })
     }
 }

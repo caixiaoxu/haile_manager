@@ -22,7 +22,6 @@ import timber.log.Timber
  */
 class StaffManagerViewModel : BaseViewModel() {
     private val mStaffRepo = ApiRepository.apiClient(StaffService::class.java)
-
     fun requestStaffList(
         page: Int,
         pageSize: Int,
@@ -45,11 +44,11 @@ class StaffManagerViewModel : BaseViewModel() {
                 }
             }
         }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
             Timber.d("请求失败或异常$it")
             withContext(Dispatchers.Main) {
+                it.message?.let { it1 -> SToast.showToast(msg = it1) }
                 result.invoke(null)
             }
-        }, { Timber.d("请求结束") }, 1 == page)
+        }, null, 1 == page)
     }
 }

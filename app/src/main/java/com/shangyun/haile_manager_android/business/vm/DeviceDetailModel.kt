@@ -188,10 +188,7 @@ class DeviceDetailModel : BaseViewModel() {
                     deviceAdvancedValues.postValue(it)
                 }
             }
-        }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
-            Timber.d("请求失败或异常$it")
-        }, { Timber.d("请求结束") })
+        })
     }
 
 
@@ -222,10 +219,7 @@ class DeviceDetailModel : BaseViewModel() {
             )
             deviceDetail.value?.soldState = soldState
             isOpen.postValue(isCheck)
-        }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
-            Timber.d("请求失败或异常$it")
-        }, { Timber.d("请求结束") })
+        })
     }
 
     /**
@@ -248,10 +242,7 @@ class DeviceDetailModel : BaseViewModel() {
             )
             LiveDataBus.post(BusEvents.DEVICE_LIST_ITEM_DELETE_STATUS, goodsId)
             jump.postValue(0)
-        }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
-            Timber.d("请求失败或异常$it")
-        }, { Timber.d("请求结束") })
+        })
     }
 
     /**
@@ -293,10 +284,6 @@ class DeviceDetailModel : BaseViewModel() {
                     }
                 }
             }
-        }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
-            Timber.d("请求失败或异常$it")
-        }, { Timber.d("请求结束") })
+        })
     }
-
 }

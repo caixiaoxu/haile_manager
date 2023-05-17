@@ -81,13 +81,7 @@ class DeviceManagerViewModel : BaseViewModel() {
                     1 -> requestDeviceCategory()
                     4 -> requestDeviceStatusTotals()
                 }
-            },
-            {
-                it.message?.let { it1 -> SToast.showToast(msg = it1) }
-                Timber.d("请求失败或异常$it")
-            },
-            { Timber.d("请求结束") }
-        )
+            })
     }
 
     /**
@@ -163,11 +157,11 @@ class DeviceManagerViewModel : BaseViewModel() {
                 }
             }
         }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
             Timber.d("请求失败或异常$it")
             withContext(Dispatchers.Main) {
+                it.message?.let { it1 -> SToast.showToast(msg = it1) }
                 result.invoke(null)
             }
-        }, { Timber.d("请求结束") }, 1 == page)
+        }, null, 1 == page)
     }
 }

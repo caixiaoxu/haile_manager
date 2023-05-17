@@ -82,13 +82,6 @@ class LoginForPasswordViewModel : BaseViewModel() {
                 sharedView.loginForPassword(phone.value!!, password.value!!)
                 LiveDataBus.post(BusEvents.LOGIN_STATUS, true)
                 jump.postValue(1)
-            },
-            {
-                it.message?.let { it1 -> SToast.showToast(msg = it1) }
-                Timber.d("请求失败或异常$it")
-            },
-            {
-                Timber.d("请求结束")
             })
     }
 }

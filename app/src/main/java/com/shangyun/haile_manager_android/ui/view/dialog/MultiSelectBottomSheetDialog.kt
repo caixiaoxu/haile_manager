@@ -105,10 +105,10 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
                     DimensionUtils.dip2px(requireContext(), 36f)
                 )
             )
-            // 设置id
-            val idList = IntArray(builder.list.size) { it + 1 }
-            mBinding.flowMultiSelectList.referencedIds = idList
         }
+        // 设置id
+        val idList = IntArray(builder.list.size) { it + 1 }
+        mBinding.flowMultiSelectList.referencedIds = idList
     }
 
     /**

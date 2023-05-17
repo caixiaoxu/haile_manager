@@ -105,9 +105,6 @@ class DeviceMultiChangeViewModel : BaseViewModel() {
                 SToast.showToast(view.context, R.string.update_success)
             }
             jump.postValue(0)
-        }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
-            Timber.d("请求失败或异常$it")
-        }, { Timber.d("请求结束") })
+        })
     }
 }

@@ -59,7 +59,7 @@
             style="@style/Font_14_999999"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="4dp"
             android:text="@{item.account}"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -127,13 +127,6 @@ class HomeViewModel : BaseViewModel() {
                 requestUnReadCount()
                 // 消息列表
                 requestMessageList()
-            },
-            {
-                it.message?.let { it1 -> SToast.showToast(msg = it1) }
-                Timber.d("请求失败或异常$it")
-            },
-            {
-                Timber.d("请求结束")
             })
     }
 
@@ -190,15 +183,7 @@ class HomeViewModel : BaseViewModel() {
                 incomeList?.let { list ->
                     homeIncomeList.postValue(list)
                 }
-            },
-            {
-                it.message?.let { it1 -> SToast.showToast(msg = it1) }
-                Timber.d("请求失败或异常$it")
-            },
-            {
-                Timber.d("请求结束")
-            }, false
-        )
+            })
 
     }
 

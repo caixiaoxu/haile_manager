@@ -85,7 +85,7 @@ object ViewBindingAdapter {
      */
     @BindingAdapter("imgUrl")
     @JvmStatic
-    fun loadImageUrl(view: ImageView, url: String) {
+    fun loadImageUrl(view: ImageView, url: String?) {
         GlideUtils.loadImage(view, url)
     }
 

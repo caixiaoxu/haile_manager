@@ -111,11 +111,6 @@ class SearchSelectRadioViewModel : BaseViewModel() {
                     else -> null
                 }
             selectList.postValue(list)
-        }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
-            Timber.d("请求失败或异常$it")
-        }, {
-            Timber.d("请求结束")
         })
     }
 }

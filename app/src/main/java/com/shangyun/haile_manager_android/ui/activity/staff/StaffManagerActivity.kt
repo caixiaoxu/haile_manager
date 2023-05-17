@@ -41,8 +41,16 @@ class StaffManagerActivity :
     private val mAdapter by lazy {
         CommonRecyclerAdapter<ItemStaffManagerBinding, StaffEntity>(
             R.layout.item_staff_manager, BR.item
-        ) { mItemBinding, pos, item ->
-
+        ) { mItemBinding, _, item ->
+            mItemBinding?.root?.setOnClickListener {
+                startActivity(
+                    Intent(
+                        this@StaffManagerActivity,
+                        StaffDetailActivity::class.java
+                    ).apply {
+                        putExtra(StaffDetailActivity.StaffId, item.id)
+                    })
+            }
         }
     }
 
@@ -60,6 +68,10 @@ class StaffManagerActivity :
         // 新增成功
         LiveDataBus.with(BusEvents.STAFF_LIST_STATUS)?.observe(this) {
             mBinding.rvStaffManagerList.requestRefresh()
+        }
+        // 删除成功
+        LiveDataBus.with(BusEvents.STAFF_LIST_ITEM_DELETE_STATUS)?.observe(this) {
+            mAdapter.deleteItem { item -> item.id == it }
         }
     }
 

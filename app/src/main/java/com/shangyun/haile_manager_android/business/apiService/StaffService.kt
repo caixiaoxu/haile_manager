@@ -2,11 +2,13 @@ package com.shangyun.haile_manager_android.business.apiService
 
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
+import com.shangyun.haile_manager_android.data.entities.StaffDetailEntity
 import com.shangyun.haile_manager_android.data.entities.StaffEntity
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 /**
  * Title :
@@ -32,6 +34,21 @@ interface StaffService {
     @GET("/merchant/userRoleList")
     suspend fun requestRoleList(): ResponseWrapper<List<String>>
 
+    /**
+     * 新增人员
+     */
     @POST("/merchant/createMember")
     suspend fun createStaff(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 人员详情
+     */
+    @GET("/merchant/memberDetail")
+    suspend fun requestStaffDetail(@Query("userId") userId: Int): ResponseWrapper<StaffDetailEntity>
+
+    /**
+     * 人员删除
+     */
+    @POST("/merchant/logout")
+    suspend fun deleteStaff(@Body body: RequestBody): ResponseWrapper<Any>
 }

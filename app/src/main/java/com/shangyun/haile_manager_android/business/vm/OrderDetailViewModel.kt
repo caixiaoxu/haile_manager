@@ -49,10 +49,7 @@ class OrderDetailViewModel : BaseViewModel() {
             )?.let {
                 orderDetail.postValue(it)
             }
-        }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
-            Timber.d("请求失败或异常$it")
-        }, { Timber.d("请求结束") })
+        })
     }
 
     /**
@@ -81,10 +78,7 @@ class OrderDetailViewModel : BaseViewModel() {
                 1 -> orderStart(context)
                 2 -> orderRestart(context)
             }
-        }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
-            Timber.d("请求失败或异常$it")
-        }, { Timber.d("请求结束") })
+        })
     }
 
     /**

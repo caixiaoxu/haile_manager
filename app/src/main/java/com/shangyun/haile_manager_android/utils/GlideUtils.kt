@@ -22,7 +22,7 @@ object GlideUtils {
     @JvmStatic
     fun loadImage(
         imageView: ImageView,
-        url: String,
+        url: String?,
         default: Int = R.mipmap.icon_default_head,
         err: Int = R.mipmap.icon_default_head
     ) {

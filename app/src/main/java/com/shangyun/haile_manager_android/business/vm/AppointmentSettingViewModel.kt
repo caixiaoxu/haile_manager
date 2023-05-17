@@ -10,6 +10,8 @@ import com.shangyun.haile_manager_android.business.apiService.ShopService
 import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.data.entities.AppointmentSettingEntity
 import com.shangyun.haile_manager_android.data.model.ApiRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 /**
@@ -41,11 +43,6 @@ class AppointmentSettingViewModel : BaseViewModel() {
             list?.let {
                 appointmentSettingList.postValue(it)
             }
-        }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
-            Timber.d("请求失败或异常$it")
-        }, {
-            Timber.d("请求结束")
         })
     }
 
@@ -53,7 +50,7 @@ class AppointmentSettingViewModel : BaseViewModel() {
      * 保存
      */
     fun save(view: View) {
-        if (appointmentSettingList.value.isNullOrEmpty()){
+        if (appointmentSettingList.value.isNullOrEmpty()) {
             return
         }
 
@@ -69,7 +66,9 @@ class AppointmentSettingViewModel : BaseViewModel() {
                 )
             )
         }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
+            withContext(Dispatchers.Main){
+                it.message?.let { it1 -> SToast.showToast(msg = it1) }
+            }
             Timber.d("请求失败或异常$it")
         }, {
             Timber.d("请求结束")

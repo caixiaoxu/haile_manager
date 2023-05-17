@@ -66,13 +66,6 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
             {
                 shopTypeList.postValue(ApiRepository.dealApiResult(mRepo.shopTypeList()))
                 shopBusinessTypeList.postValue(ApiRepository.dealApiResult(mRepo.shopBusinessType()))
-            },
-            {
-                it.message?.let { it1 -> SToast.showToast(msg = it1) }
-                Timber.d("请求失败或异常$it")
-            },
-            {
-                Timber.d("请求结束")
             })
     }
 
@@ -248,11 +241,6 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                 jump.postValue(0)
                 LiveDataBus.post(BusEvents.SHOP_LIST_STATUS, true)
                 LiveDataBus.post(BusEvents.SHOP_DETAILS_STATUS, true)
-            }, {
-                it.message?.let { it1 -> SToast.showToast(msg = it1) }
-                Timber.d("请求失败或异常$it")
-            }, {
-                Timber.d("请求结束")
             })
         } ?: SToast.showToast(msg = "数据丢失了，请重新输入")
     }

@@ -12,6 +12,8 @@ import com.shangyun.haile_manager_android.data.arguments.DeviceCreateParam
 import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
 import com.shangyun.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.shangyun.haile_manager_android.data.model.ApiRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 /**
@@ -132,11 +134,11 @@ class DeviceCreateViewModel : BaseViewModel() {
                 )
             }
         }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
+            withContext(Dispatchers.Main){
+                it.message?.let { it1 -> SToast.showToast(msg = it1) }
+            }
             Timber.d("请求失败或异常$it")
             jump.postValue(2)
-        }, {
-            Timber.d("请求结束")
         })
     }
 
@@ -158,11 +160,6 @@ class DeviceCreateViewModel : BaseViewModel() {
             )
             LiveDataBus.post(BusEvents.DEVICE_LIST_STATUS, true)
             jump.postValue(0)
-        }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
-            Timber.d("请求失败或异常$it")
-        }, {
-            Timber.d("请求结束")
         })
     }
 }

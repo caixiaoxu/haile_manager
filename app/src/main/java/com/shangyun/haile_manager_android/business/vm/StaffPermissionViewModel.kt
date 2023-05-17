@@ -67,8 +67,11 @@ class StaffPermissionViewModel : BaseViewModel() {
         val ids = ArrayList<Int>()
         permissionList.value?.let { list ->
             list.forEach {
-                it.child?.forEach { entity ->
-                    if (entity.isCheck) ids.add(entity.menuId)
+                val idList =
+                    it.child?.filter { child -> child.isCheck }?.map { child -> child.menuId }
+                if (!idList.isNullOrEmpty()) {
+                    ids.add(it.parent.menuId)
+                    ids.addAll(idList)
                 }
             }
         }

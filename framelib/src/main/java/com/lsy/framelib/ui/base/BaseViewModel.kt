@@ -4,9 +4,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lsy.framelib.business.UnPeekLiveData
+import com.lsy.framelib.utils.SToast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 /**
  * Title : BaseViewModel
@@ -29,8 +31,8 @@ open class BaseViewModel : ViewModel() {
      */
     fun launch(
         block: suspend () -> Unit,           // 异步操作
-        error: suspend (Throwable) -> Unit,  // 操作异常
-        complete: suspend () -> Unit,        // 操作完成
+        error: (suspend (Throwable) -> Unit)? = null,  // 操作异常
+        complete: (suspend () -> Unit)? = null,        // 操作完成
         showLoading: Boolean = true          // 是否显示加载弹窗
     ) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -40,12 +42,13 @@ open class BaseViewModel : ViewModel() {
             try {
                 block()
             } catch (e: Exception) {
-                withContext(Dispatchers.Main){
-                    error(e)
+                error?.invoke(e) ?: withContext(Dispatchers.Main) {
+                    e.message?.let { it1 -> SToast.showToast(msg = it1) }
+                    Timber.d("请求失败或异常$e")
                 }
             } finally {
-                withContext(Dispatchers.Main){
-                    complete()
+                complete?.invoke() ?: withContext(Dispatchers.Main) {
+                    Timber.d("请求结束")
                 }
             }
             //隐藏加载弹窗

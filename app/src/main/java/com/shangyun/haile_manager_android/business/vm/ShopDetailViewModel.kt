@@ -44,11 +44,6 @@ class ShopDetailViewModel : BaseViewModel() {
             details?.let {
                 shopDetail.postValue(it)
             }
-        }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
-            Timber.d("请求失败或异常$it")
-        }, {
-            Timber.d("请求结束")
         })
     }
 
@@ -66,11 +61,6 @@ class ShopDetailViewModel : BaseViewModel() {
             )
             LiveDataBus.post(BusEvents.SHOP_LIST_STATUS, true)
             jump.postValue(0)
-        }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
-            Timber.d("请求失败或异常$it")
-        }, {
-            Timber.d("请求结束")
         })
     }
 }

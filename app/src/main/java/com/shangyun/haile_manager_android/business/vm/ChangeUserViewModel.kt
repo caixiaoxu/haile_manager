@@ -8,6 +8,8 @@ import com.shangyun.haile_manager_android.data.entities.ChangeUserEntity
 import com.shangyun.haile_manager_android.data.entities.ONE
 import com.shangyun.haile_manager_android.data.entities.PASSWORD
 import com.shangyun.haile_manager_android.data.model.SPRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 /**
@@ -42,10 +44,11 @@ class ChangeUserViewModel : BaseViewModel() {
             }
             jump.postValue(1)
         }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
+            withContext(Dispatchers.Main){
+                it.message?.let { it1 -> SToast.showToast(msg = it1) }
+            }
             Timber.d("请求失败或异常$it")
             jump.postValue(2)
-        }, {
         })
     }
 }

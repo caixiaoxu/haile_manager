@@ -121,13 +121,6 @@ class ResetPasswordViewModel : BaseViewModel() {
                     )
                 Timber.d("登录接口请求成功$loginData")
                 jump.postValue(0)
-            },
-            {
-                it.message?.let { it1 -> SToast.showToast(msg = it1) }
-                Timber.d("请求失败或异常$it")
-            },
-            {
-                Timber.d("请求结束")
             })
     }
 
@@ -155,11 +148,6 @@ class ResetPasswordViewModel : BaseViewModel() {
             viewModelScope.launch(Dispatchers.Main) {
                 countDownTimer(view as Button)
             }
-        }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
-            Timber.d("请求失败或异常$it")
-        }, {
-            Timber.d("请求结束")
         })
     }
 

@@ -22,4 +22,5 @@ object BusEvents {
     const val ORDER_LIST_STATUS = "order_list_change"
     const val STAFF_LIST_STATUS = "staff_list_change"
     const val STAFF_DETAILS_STATUS = "staff_detail_change"
+    const val STAFF_LIST_ITEM_DELETE_STATUS = "staff_list_item_delete"
 }

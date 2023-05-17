@@ -67,10 +67,7 @@ class DeviceFunctionConfigurationViewModel : BaseViewModel() {
                 }
                 configurationList.postValue(it)
             }
-        }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
-            Timber.d("请求失败或异常$it")
-        }, { Timber.d("请求结束") })
+        })
     }
 
     fun save(view: View) {
@@ -154,10 +151,7 @@ class DeviceFunctionConfigurationViewModel : BaseViewModel() {
                 )
                 LiveDataBus.post(BusEvents.DEVICE_DETAILS_STATUS, true)
                 jump.postValue(0)
-            }, {
-                it.message?.let { it1 -> SToast.showToast(msg = it1) }
-                Timber.d("请求失败或异常$it")
-            }, { Timber.d("请求结束") })
+            })
         }
     }
 }

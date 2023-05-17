@@ -69,12 +69,7 @@ class SearchViewModel : BaseViewModel() {
                 SearchType.Shop -> searchShopList(page, pageSize, result1)
                 SearchType.Order -> searchOrderList(page, pageSize, result2)
             }
-        }, {
-            it.message?.let { it1 -> SToast.showToast(msg = it1) }
-            Timber.d("请求失败或异常$it")
-        }, {
-            Timber.d("请求结束")
-        }, false)
+        }, null, null, false)
     }
 
     /**

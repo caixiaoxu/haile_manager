@@ -331,7 +331,6 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
 
-
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="94dp"

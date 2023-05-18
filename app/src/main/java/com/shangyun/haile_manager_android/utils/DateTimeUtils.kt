@@ -62,6 +62,15 @@ object DateTimeUtils {
     }
 
     /**
+     * 是否是同一年
+     */
+    fun isSameYear(date1: Date, date2: Date): Boolean {
+        val cal1 = Calendar.getInstance().apply { time = date1 }
+        val cal2 = Calendar.getInstance().apply { time = date2 }
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
+    }
+
+    /**
      * 是否是同一月
      */
     fun isSameMonth(date1: Date, date2: Date): Boolean {
@@ -141,9 +150,9 @@ object DateTimeUtils {
     /**
      * 获取月份列表
      */
-    fun getMonthSection(maxMonth: Int? = null): List<String> =
+    fun getMonthSection(minMonth: Int? = null, maxMonth: Int? = null): List<String> =
         ArrayList<String>().apply {
-            for (i in 1..(maxMonth ?: 12)) {
+            for (i in (minMonth ?: 1)..(maxMonth ?: 12)) {
                 add("${i}月")
             }
         }
@@ -181,9 +190,9 @@ object DateTimeUtils {
     /**
      * 获取天份列表
      */
-    fun getDaySection(maxDay: Int): List<String> =
+    fun getDaySection(minDay: Int? = null, maxDay: Int): List<String> =
         ArrayList<String>().apply {
-            for (i in 1 until (maxDay + 1)) {
+            for (i in (minDay ?: 1) until (maxDay + 1)) {
                 add("${i}日")
             }
         }

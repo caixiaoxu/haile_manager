@@ -212,6 +212,14 @@
 
     <string name="home_marketing_title">营销中心</string>
     <string name="discount_manager">折扣优惠</string>
+    <string name="discount_time_title">特惠时间：%s</string>
+    <string name="add_config">添加配置</string>
+    <string name="new_config">新增配置</string>
+    <string name="config_info">配置信息</string>
+    <string name="active_day">活动日</string>
+    <string name="active_time_frame">活动时段</string>
+    <string name="discount_value_title">折扣优惠（折）</string>
+
     <string name="haixin_manager">海星管理</string>
     <string name="home_capital_title">资金管理</string>
     <string name="sub_account_manager">分账管理</string>
@@ -243,6 +251,9 @@
 
     <string name="logout">退出登录</string>
     <string name="refresh_list">刷新列表</string>
+
+    <string name="start_time">开始时间</string>
+    <string name="end_time">结束时间</string>
 
     <string name="unit_yuan">元</string>
     <string name="unit_tai">台</string>

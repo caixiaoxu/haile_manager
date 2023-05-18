@@ -39,7 +39,10 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
     private var selectType: Int = 0
 
     // 记录日期
-    private var startCal = Calendar.getInstance().apply { time = Date() }
+    private var startCal = Calendar.getInstance().also { cal ->
+        cal.time = Date()
+        if (cal.before(builder.minDate)) cal.time = builder.minDate.time
+    }
     private var endCal: Calendar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -130,7 +133,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
             mBinding.wvDateTimeMonth,
             (0 == builder.showModel || 1 == builder.showModel || 2 == builder.showModel)
         ) { index ->
-            getCurSelectCalender().set(Calendar.MONTH, index)
+            getCurSelectCalender().set(Calendar.MONTH, index + monthInterval)
             refreshDayData()
             if (0 != builder.selectModel) {
                 refreshTimeVal()
@@ -141,7 +144,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
             mBinding.wvDateTimeDay,
             (0 == builder.showModel || 2 == builder.showModel)
         ) { index ->
-            getCurSelectCalender().set(Calendar.DAY_OF_MONTH, 1 + index)
+            getCurSelectCalender().set(Calendar.DAY_OF_MONTH, 1 + index + dayInterval)
             if (0 != builder.selectModel) {
                 refreshTimeVal()
             }
@@ -357,9 +360,23 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
         if ((0 == builder.showModel || 1 == builder.showModel || 2 == builder.showModel)) {
             refreshWheelData(
                 mBinding.wvDateTimeMonth,
-                getCurSelectCalender().get(Calendar.MONTH),
+                getCurSelectCalender().get(Calendar.MONTH) - monthInterval,
                 DateTimeUtils.getMonthSection(
-                    if (getCurSelectCalender().get(Calendar.YEAR) == builder.maxDate.get(Calendar.YEAR)) {
+                    if (DateTimeUtils.isSameYear(getCurSelectCalender().time, builder.minDate.time)
+                    ) {
+                        if (getCurSelectCalender().get(Calendar.MONTH) < builder.minDate.get(
+                                Calendar.MONTH
+                            )
+                        ) {
+                            getCurSelectCalender().set(
+                                Calendar.MONTH,
+                                builder.minDate.get(Calendar.MONTH)
+                            )
+                        }
+                        builder.minDate.get(Calendar.MONTH) + 1
+                    } else null,
+                    if (DateTimeUtils.isSameYear(getCurSelectCalender().time, builder.maxDate.time)
+                    ) {
                         if (getCurSelectCalender().get(Calendar.MONTH) > builder.maxDate.get(
                                 Calendar.MONTH
                             )
@@ -378,6 +395,14 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
         }
     }
 
+    // 与最小时间的月份差
+    private val monthInterval: Int
+        get() = if (DateTimeUtils.isSameYear(
+                getCurSelectCalender().time,
+                builder.minDate.time
+            )
+        ) builder.minDate.get(Calendar.MONTH) else 0
+
     /**
      * 刷新天份数据
      */
@@ -388,12 +413,23 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
                 min(
                     getCurSelectCalender().get(Calendar.DAY_OF_MONTH),
                     getCurSelectCalender().getActualMaximum(Calendar.DAY_OF_MONTH)
-                ) - 1,
+                ) - dayInterval - 1,
                 DateTimeUtils.getDaySection(
-                    if (getCurSelectCalender().get(Calendar.YEAR) == builder.maxDate.get(Calendar.YEAR)
-                        && getCurSelectCalender().get(Calendar.MONTH) == builder.maxDate.get(
-                            Calendar.MONTH
-                        )
+                    if (DateTimeUtils.isSameMonth(getCurSelectCalender().time, builder.minDate.time)
+                    ) {
+                        // 如果大于最大日数，修改日期
+                        if (getCurSelectCalender().get(Calendar.DAY_OF_MONTH) < builder.minDate.get(
+                                Calendar.DAY_OF_MONTH
+                            )
+                        ) {
+                            getCurSelectCalender().set(
+                                Calendar.DAY_OF_MONTH,
+                                builder.minDate.get(Calendar.DAY_OF_MONTH)
+                            )
+                        }
+                        builder.minDate.get(Calendar.DAY_OF_MONTH)
+                    } else null,
+                    if (DateTimeUtils.isSameMonth(getCurSelectCalender().time, builder.maxDate.time)
                     ) {
                         // 如果大于最大日数，修改日期
                         if (getCurSelectCalender().get(Calendar.DAY_OF_MONTH) > builder.maxDate.get(
@@ -412,6 +448,14 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
             )
         }
     }
+
+    // 与最小时间的日份差
+    private val dayInterval: Int
+        get() = if (DateTimeUtils.isSameMonth(
+                getCurSelectCalender().time,
+                builder.minDate.time
+            )
+        ) builder.minDate.get(Calendar.DAY_OF_MONTH) else 0
 
     /**
      * 刷新滚轮数据

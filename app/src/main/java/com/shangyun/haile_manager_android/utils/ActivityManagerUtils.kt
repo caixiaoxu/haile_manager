@@ -1,8 +1,15 @@
 package com.shangyun.haile_manager_android.utils
 
 import android.content.Intent
+import androidx.activity.ComponentActivity
+import androidx.activity.result.contract.ActivityResultContracts
 import com.lsy.framelib.data.constants.Constants
+import com.lsy.framelib.utils.gson.GsonUtils
+import com.shangyun.haile_manager_android.data.arguments.DeviceCategory
+import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
 import com.shangyun.haile_manager_android.data.model.SPRepository
+import com.shangyun.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.shangyun.haile_manager_android.ui.activity.device.DeviceModelActivity
 import com.shangyun.haile_manager_android.ui.activity.login.LoginActivity
 
 /**
@@ -18,9 +25,20 @@ import com.shangyun.haile_manager_android.ui.activity.login.LoginActivity
 object ActivityManagerUtils {
 
     /**
+     * 获取activity回调发射器
+     */
+    fun getActivityResultLauncher(
+        activity: ComponentActivity,
+        callback: (rCode: Int, rData: Intent?) -> Unit
+    ) = activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        callback(it.resultCode, it.data)
+    }
+
+
+    /**
      * 清空登录信息，跳转到登录界面
      */
-    fun clearLoginInfoGoLogin(){
+    fun clearLoginInfoGoLogin() {
         // 清空登录信息
         SPRepository.cleaLoginUserInfo()
         // 跳转登录界面

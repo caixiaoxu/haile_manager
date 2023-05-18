@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="item"
+            type="com.shangyun.haile_manager_android.data.entities.DiscountsEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="12dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_discounts_time"
+            style="@style/Font_14_333333"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:text="@{@string/discount_time_title(item.getDiscountTime())}"
+            app:layout_constraintEnd_toStartOf="@id/tv_discounts_status"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="特惠时间 2002.01.01-2003.10.01" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_discounts_status"
+            style="@style/Font_14_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/icon_arrow_right"
+            android:drawablePadding="8dp"
+            android:paddingVertical="12dp"
+            android:text="@{item.getDiscountStatusVal()}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_discounts_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_discounts_time"
+            tools:text="生效中" />
+
+        <View
+            style="@style/DividingStyle"
+            app:layout_constraintBottom_toBottomOf="@id/tv_discounts_time"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_discounts_shop"
+            style="@style/Font_16_333333_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_discounts_time"
+            tools:text="店铺名称，店铺名称" />
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/tv_discounts_tags"
+            style="@style/Font_16_333333_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:flow_horizontalBias="0"
+            app:flow_horizontalGap="4dp"
+            app:flow_horizontalStyle="packed"
+            app:flow_verticalGap="4dp"
+            app:flow_wrapMode="chain"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_discounts_shop" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_discounts_value"
+            style="@style/Font_16_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/tv_discounts_tags"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_discounts_shop"
+            tools:text="9折" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

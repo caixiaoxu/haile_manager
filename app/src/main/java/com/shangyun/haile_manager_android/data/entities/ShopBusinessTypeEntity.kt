@@ -12,7 +12,7 @@ import com.shangyun.haile_manager_android.data.rule.IMultiSelectBottomItemEntity
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-data class ShopBusinessTypeEntityI(val type: Int, val businessName: String) :
+data class ShopBusinessTypeEntity(val type: Int, val businessName: String) :
     IMultiSelectBottomItemEntity {
     override var isCheck: Boolean = false
     override fun getTitle(): String = businessName

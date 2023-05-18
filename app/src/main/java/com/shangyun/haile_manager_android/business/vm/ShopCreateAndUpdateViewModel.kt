@@ -12,7 +12,6 @@ import com.shangyun.haile_manager_android.data.arguments.ShopCreateParam
 import com.shangyun.haile_manager_android.data.entities.*
 import com.shangyun.haile_manager_android.data.model.ApiRepository
 import com.shangyun.haile_manager_android.utils.StringUtils
-import timber.log.Timber
 
 /**
  * Title :
@@ -35,7 +34,7 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
     val shopTypeList: MutableLiveData<List<ShopTypeEntity>> = MutableLiveData()
 
     // 门店业务列表
-    val shopBusinessTypeList: MutableLiveData<List<ShopBusinessTypeEntityI>> = MutableLiveData()
+    val shopBusinessTypeList: MutableLiveData<List<ShopBusinessTypeEntity>> = MutableLiveData()
 
     // 门店类型
     val shopTypeValue: MutableLiveData<ShopTypeEntity> = MutableLiveData()
@@ -157,7 +156,7 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
     /**
      * 切换业务类型
      */
-    fun changeBusinessType(datas: List<ShopBusinessTypeEntityI>) {
+    fun changeBusinessType(datas: List<ShopBusinessTypeEntity>) {
         val sb = StringBuilder()
         val sbId = StringBuilder()
         datas.forEach { type ->

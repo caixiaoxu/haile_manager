@@ -5,12 +5,10 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
-import com.shangyun.haile_manager_android.business.apiService.DiscountService
-import com.shangyun.haile_manager_android.business.apiService.OrderService
+import com.shangyun.haile_manager_android.business.apiService.DiscountsService
 import com.shangyun.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 /**
  * Title :
@@ -23,7 +21,7 @@ import timber.log.Timber
  * 作者姓名 修改时间 版本号 描述
  */
 class OrderCompensateViewModel : BaseViewModel() {
-    private val mDiscountRepo = ApiRepository.apiClient(DiscountService::class.java)
+    private val mDiscountRepo = ApiRepository.apiClient(DiscountsService::class.java)
     var couponAmount: Double = 0.00
     var couponShopId: Int = -1
     var couponShopName: String? = ""

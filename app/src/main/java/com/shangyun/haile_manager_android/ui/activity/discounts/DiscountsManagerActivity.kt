@@ -2,7 +2,6 @@ package com.shangyun.haile_manager_android.ui.activity.discounts
 
 import android.content.Intent
 import android.graphics.Color
-import android.text.SpannableString
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
@@ -42,7 +41,6 @@ class DiscountsManagerActivity :
 
     private val mAdapter: CommonRecyclerAdapter<ItemDiscountsManagerBinding, DiscountsEntity> by lazy {
         CommonRecyclerAdapter(R.layout.item_discounts_manager, BR.item) { mItemBinding, _, item ->
-
             mItemBinding?.clDiscountsParent?.let { parent ->
                 if (parent.childCount > 6) {
                     parent.removeViews(6, parent.childCount - 6)
@@ -88,25 +86,28 @@ class DiscountsManagerActivity :
                 )
 
             mItemBinding?.root?.setOnClickListener {
-                startActivity(
-                    Intent(
-                        this@DiscountsManagerActivity,
-                        DiscountsDetailActivity::class.java
-                    ).apply {
-                        putExtra(DiscountsDetailActivity.DiscountsId, item.id)
-                        putExtra(DiscountsDetailActivity.Expired, item.expired)
-                    }
-                )
+                if (mSharedViewModel.hasMarketingInfoPermission.value == true){
+                    startActivity(
+                        Intent(
+                            this@DiscountsManagerActivity,
+                            DiscountsDetailActivity::class.java
+                        ).apply {
+                            putExtra(DiscountsDetailActivity.DiscountsId, item.id)
+                            putExtra(DiscountsDetailActivity.Expired, item.expired)
+                        }
+                    )
+                }
             }
         }
     }
 
     override fun initEvent() {
         super.initEvent()
-        mSharedViewModel.hasDistributionListPermission.observe(this) {
+        mSharedViewModel.hasMarketingListPermission.observe(this) {
             if (it) mBinding.rvDiscountsList.requestRefresh()
         }
-        mSharedViewModel.hasDistributionAddPermission.observe(this) {
+        mSharedViewModel.hasMarketingInfoPermission.observe(this){}
+        mSharedViewModel.hasMarketingAddPermission.observe(this) {
             if (it) initRightBtn()
         }
 
@@ -141,7 +142,7 @@ class DiscountsManagerActivity :
                     pageSize: Int,
                     callBack: (responseList: ResponseList<out DiscountsEntity>?) -> Unit
                 ) {
-                    if (true == mSharedViewModel.hasDistributionListPermission.value) {
+                    if (true == mSharedViewModel.hasMarketingListPermission.value) {
                         mDiscountsManagerViewModel.requestDeviceList(page, pageSize, callBack)
                     }
                 }

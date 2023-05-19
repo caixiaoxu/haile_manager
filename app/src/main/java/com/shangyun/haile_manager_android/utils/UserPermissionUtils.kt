@@ -473,7 +473,7 @@ object UserPermissionUtils {
     }
 
     /**
-     * 是否含有优惠管理列表权限
+     * 是否含有优惠管理详情权限
      *
      *
      * @return

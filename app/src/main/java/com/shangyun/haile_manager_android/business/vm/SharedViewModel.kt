@@ -118,6 +118,20 @@ class SharedViewModel : ViewModel() {
         hasUserPermission.map { UserPermissionUtils.hasPersonDeletePermission() }
     /** ---------------------人员权限------------------------- **/
     /** ---------------------折扣权限------------------------- **/
+    val hasMarketingPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasMarketingPermission() }
+    val hasMarketingListPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasMarketingListPermission() }
+    val hasMarketingInfoPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasMarketingInfoPermission() }
+    val hasMarketingAddPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasMarketingAddPermission() }
+    val hasMarketingUpdatePermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasMarketingUpdatePermission() }
+    val hasMarketingDeletePermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasMarketingDeletePermission() }
+    /** ---------------------折扣权限------------------------- **/
+    /** ---------------------分账权限------------------------- **/
     val hasDistributionPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasDistributionPermission() }
     val hasDistributionListPermission: LiveData<Boolean> =
@@ -128,10 +142,7 @@ class SharedViewModel : ViewModel() {
         hasUserPermission.map { UserPermissionUtils.hasDistributionDeletePermission() }
     val hasDistributionUpdatePermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasDistributionUpdatePermission() }
-    /** ---------------------折扣权限------------------------- **/
-    val hasMarketingPermission: LiveData<Boolean> =
-        hasUserPermission.map { UserPermissionUtils.hasMarketingPermission() }
-
+    /** ---------------------分账权限------------------------- **/
     /** ---------------------用户权限------------------------- **/
 
     /**

@@ -190,7 +190,7 @@
             android:gravity="end"
             android:paddingHorizontal="16dp"
             android:paddingTop="12dp"
-            android:visibility="@{(shared.hasDistributionDeletePermission || shared.hasDistributionUpdatePermission) ?View.VISIBLE:View.GONE}"
+            android:visibility="@{(shared.hasMarketingDeletePermission || shared.hasMarketingUpdatePermission) ?View.VISIBLE:View.GONE}"
             app:divider="@drawable/divide_size8"
             app:showDividers="middle">
 
@@ -198,13 +198,13 @@
                 android:id="@+id/tv_discounts_detail_edit"
                 style="@style/CommonStrokeTxtBtnStyle"
                 android:text="@string/edit"
-                android:visibility="@{shared.hasDistributionUpdatePermission?View.VISIBLE:View.GONE}" />
+                android:visibility="@{shared.hasMarketingUpdatePermission?View.VISIBLE:View.GONE}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/CommonStrokeTxtBtnStyle"
                 android:onClick="@{vm::deleteConfig}"
                 android:text="@string/delete"
-                android:visibility="@{shared.hasDistributionDeletePermission?View.VISIBLE:View.GONE}" />
+                android:visibility="@{shared.hasMarketingDeletePermission?View.VISIBLE:View.GONE}" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>

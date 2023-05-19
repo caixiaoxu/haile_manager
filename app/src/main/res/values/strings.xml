@@ -227,6 +227,8 @@
     <string name="haixin_manager">海星管理</string>
     <string name="home_capital_title">资金管理</string>
     <string name="sub_account_manager">分账管理</string>
+    <string name="sub_account_shop">分账门店</string>
+
     <string name="home_msg_title">最近消息</string>
     <string name="home_msg_num">条新消息</string>
     <string name="search_order_hint">请输入订单编号或手机号</string>

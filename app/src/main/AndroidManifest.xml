@@ -23,6 +23,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.subAccount.SubAccountDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.subAccount.SubAccountCreateActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.discounts.DiscountsDetailActivity"
             android:exported="false" />
         <activity

@@ -1,6 +1,8 @@
 package com.shangyun.haile_manager_android.data.entities
 
+import com.shangyun.haile_manager_android.data.arguments.ActiveDayParam
 import com.shangyun.haile_manager_android.data.arguments.DiscountsParam
+import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
 import com.shangyun.haile_manager_android.utils.DateTimeUtils
 
 /**
@@ -16,23 +18,29 @@ import com.shangyun.haile_manager_android.utils.DateTimeUtils
 data class DiscountsEntity(
     val bizType: Int,
     val bizTypeName: String,
-    val categoryList: List<Any>,
-    val discount: Int,
+    val categoryList: List<SearchSelectParam>,
+    val discount: Double,
     val discountEnd: String,
     val discountStart: String,
     val discountVO: String,
     val expired: Int,
-    val id: String,
-    val shop: List<Any>,
+    val id: Int,
+    val shop: List<SearchSelectParam>,
     val status: Int,
     val timeSpan: String,
     val timeStatus: Int,
-    val weekDayList: List<Any>,
+    val weekDayList: List<Int>,
     val weekDayMode: Int
 ) {
     fun getDiscountTime(): String = "" +
-            "${DateTimeUtils.formatDateTimeForStr("yyyy.MM.dd", discountStart)}" +
-            "-${DateTimeUtils.formatDateTimeForStr("yyyy.MM.dd", discountEnd)}"
+            "${
+                DateTimeUtils.formatDateTimeForStr(
+                    discountStart,
+                    "yyyy.MM.dd"
+                )
+            }-${DateTimeUtils.formatDateTimeForStr(discountEnd, "yyyy.MM.dd")}"
 
-    fun getDiscountStatusVal():String = DiscountsParam.getStatusVal(status)
+    fun getDiscountStatusVal(): String = DiscountsParam.getStatusVal(status, expired)
+
+    fun getShopStr(): String = shop.joinToString("，") { it.name }
 }

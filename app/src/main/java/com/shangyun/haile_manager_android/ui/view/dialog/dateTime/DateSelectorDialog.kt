@@ -42,6 +42,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
     private var startCal = Calendar.getInstance().also { cal ->
         cal.time = Date()
         if (cal.before(builder.minDate)) cal.time = builder.minDate.time
+        if (cal.after(builder.maxDate)) cal.time = builder.maxDate.time
     }
     private var endCal: Calendar? = null
 
@@ -280,7 +281,9 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
     private fun getCurSelectCalender(): Calendar {
         return if (0 == selectType) startCal else {
             if (null == endCal) {
-                endCal = Calendar.getInstance()
+                endCal = Calendar.getInstance().apply {
+                    time = startCal.time
+                }
             }
             endCal!!
         }
@@ -455,7 +458,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
                 getCurSelectCalender().time,
                 builder.minDate.time
             )
-        ) builder.minDate.get(Calendar.DAY_OF_MONTH) else 0
+        ) builder.minDate.get(Calendar.DAY_OF_MONTH) -1 else 0
 
     /**
      * 刷新滚轮数据

@@ -103,11 +103,22 @@ object ViewBindingAdapter {
     /**
      * 自定义itemContent
      */
+    @BindingAdapter("title")
+    @JvmStatic
+    fun MultiTypeItemView.setItemTitle(title: String?) {
+        mTitleView.text = title ?: ""
+    }
+
+    /**
+     * 自定义itemContent
+     */
     @BindingAdapter("itemContent")
     @JvmStatic
     fun MultiTypeItemView.setItemContent(content: String?) {
-        contentView.setText(content ?: "")
-        contentView.setSelection(contentView.text?.length ?:0)
+        content?.let {
+            contentView.setText(content)
+            contentView.setSelection(contentView.text?.length ?:0)
+        }
     }
 
     @InverseBindingAdapter(attribute = "itemContent", event = "itemContentAttrChanged")

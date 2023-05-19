@@ -14,7 +14,7 @@ import com.shangyun.haile_manager_android.data.rule.IMultiSelectBottomItemEntity
  * 作者姓名 修改时间 版本号 描述
  */
 data class DiscountsDeviceTypeEntity(
-    val code: String,
+//    val code: String,
     val id: Int,
     val name: String
 ) : IMultiSelectBottomItemEntity {

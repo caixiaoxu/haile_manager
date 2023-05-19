@@ -22,6 +22,7 @@
     <string name="scan_add">扫码添加</string>
     <string name="update_success">修改成功</string>
     <string name="save_to_local">保存到本地</string>
+    <string name="status">状态</string>
 
     <string name="login_name">登录</string>
     <string name="login_account_password">账号密码登录</string>
@@ -216,9 +217,12 @@
     <string name="add_config">添加配置</string>
     <string name="new_config">新增配置</string>
     <string name="config_info">配置信息</string>
+    <string name="active_day_model">活动模式</string>
     <string name="active_day">活动日</string>
     <string name="active_time_frame">活动时段</string>
     <string name="discount_value_title">折扣优惠（折）</string>
+    <string name="discount_detail">特惠详情</string>
+    <string name="discount_base_info">特惠基础信息</string>
 
     <string name="haixin_manager">海星管理</string>
     <string name="home_capital_title">资金管理</string>
@@ -257,6 +261,8 @@
 
     <string name="unit_yuan">元</string>
     <string name="unit_tai">台</string>
+    <string name="unit_folds">折</string>
+    <string name="num_folds">%1$s折</string>
     <string name="unit_minute_hint">（分）</string>
     <string name="unit_yuan_hint">（元）</string>
     <string name="unit_ge_hint">（个）</string>

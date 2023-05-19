@@ -4,15 +4,208 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.shangyun.haile_manager_android.data.arguments.DiscountsParam"/>
+
+        <variable
+            name="shared"
+            type="com.shangyun.haile_manager_android.business.vm.SharedViewModel" />
+
         <variable
             name="vm"
             type="com.shangyun.haile_manager_android.business.vm.DiscountsDetailViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/page_bg"
+        android:orientation="vertical"
+        app:divider="@drawable/divide_size8"
+        app:showDividers="middle"
         tools:context=".ui.activity.discounts.DiscountsDetailActivity">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_discount_detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            app:bgColor="@color/white"
+            app:title="@string/discount_detail" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:divider="@drawable/divide_size8"
+                app:showDividers="middle">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    app:divider="@drawable/divder_efefef_size_half"
+                    app:dividerPadding="12dp"
+                    app:showDividers="middle">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_14_333333_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="16dp"
+                        android:text="@string/coupon_shop" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_14_333333"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="16dp"
+                        android:text="@{vm.discountsDetail.shopStr}" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    app:divider="@drawable/divder_efefef_size_half"
+                    app:dividerPadding="12dp"
+                    app:showDividers="middle">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_14_333333_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="16dp"
+                        android:text="@string/discount_base_info" />
+
+                    <include
+                        layout="@layout/item_device_detail_base_info"
+                        app:content='@{vm.discountsDetail.bizTypeName}'
+                        app:show="@{vm.discountsDetail.hasBizType}"
+                        app:showCopy="@{false}"
+                        app:title="@{@string/business_type}" />
+
+                    <include
+                        layout="@layout/item_device_detail_base_info"
+                        app:content='@{vm.discountsDetail.categoryStr}'
+                        app:show="@{vm.discountsDetail.hasCategory}"
+                        app:showCopy="@{false}"
+                        app:title="@{@string/device_category}" />
+
+                    <include
+                        layout="@layout/item_device_detail_base_info"
+                        app:content='@{vm.discountsDetail.startDateStr}'
+                        app:show="@{vm.discountsDetail.hasStartDate}"
+                        app:showCopy="@{false}"
+                        app:title="@{@string/start_time}" />
+
+                    <include
+                        layout="@layout/item_device_detail_base_info"
+                        app:content='@{vm.discountsDetail.endDateStr}'
+                        app:show="@{vm.discountsDetail.hasEndDate}"
+                        app:showCopy="@{false}"
+                        app:title="@{@string/end_time}" />
+
+                    <include
+                        layout="@layout/item_device_detail_base_info"
+                        app:content='@{vm.discountsDetail.weekDayModeStr}'
+                        app:show="@{vm.discountsDetail.hasWeekDayMode}"
+                        app:showCopy="@{false}"
+                        app:title="@{2 == vm.discountsDetail.weekDayMode?@string/active_day_model:@string/active_day}" />
+
+                    <include
+                        layout="@layout/item_device_detail_base_info"
+                        app:content='@{vm.discountsDetail.weekDayStr}'
+                        app:show="@{2 == vm.discountsDetail.weekDayMode &amp;&amp; vm.discountsDetail.hasWeekDay}"
+                        app:showCopy="@{false}"
+                        app:title="@{@string/active_day}" />
+
+                    <include
+                        layout="@layout/item_device_detail_base_info"
+                        app:content='@{vm.discountsDetail.timeSpan}'
+                        app:show="@{vm.discountsDetail.hasTimeSpan}"
+                        app:showCopy="@{false}"
+                        app:title="@{@string/active_time_frame}" />
+
+                    <include
+                        layout="@layout/item_device_detail_base_info"
+                        app:content='@{vm.discountsDetail.discountVO}'
+                        app:show="@{vm.discountsDetail.hasDiscount}"
+                        app:showCopy="@{false}"
+                        app:title="@{@string/discount_value_title}" />
+
+                    <include
+                        layout="@layout/item_device_detail_base_info"
+                        app:content='@{DiscountsParam.getStatusVal(vm.discountsDetail.status,vm.expired)}'
+                        app:show="@{true}"
+                        app:showCopy="@{false}"
+                        app:title="@{@string/status}" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                app:divider="@drawable/divder_efefef_size_half"
+                app:dividerPadding="12dp"
+                app:showDividers="middle">
+
+                <include
+                    layout="@layout/item_device_detail_base_info"
+                    app:content='@{vm.discountsDetail.createUserName}'
+                    app:show="@{true}"
+                    app:showCopy="@{false}"
+                    app:title="@{@string/creator}" />
+
+                <include
+                    layout="@layout/item_device_detail_base_info"
+                    app:content='@{vm.discountsDetail.createTime}'
+                    app:show="@{true}"
+                    app:showCopy="@{false}"
+                    app:title="@{@string/create_time}" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </ScrollView>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="94dp"
+            android:background="@drawable/shape_top_stroke_dividing"
+            android:gravity="end"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="12dp"
+            android:visibility="@{(shared.hasDistributionDeletePermission || shared.hasDistributionUpdatePermission) ?View.VISIBLE:View.GONE}"
+            app:divider="@drawable/divide_size8"
+            app:showDividers="middle">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_discounts_detail_edit"
+                style="@style/CommonStrokeTxtBtnStyle"
+                android:text="@string/edit"
+                android:visibility="@{shared.hasDistributionUpdatePermission?View.VISIBLE:View.GONE}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/CommonStrokeTxtBtnStyle"
+                android:onClick="@{vm::deleteConfig}"
+                android:text="@string/delete"
+                android:visibility="@{shared.hasDistributionDeletePermission?View.VISIBLE:View.GONE}" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

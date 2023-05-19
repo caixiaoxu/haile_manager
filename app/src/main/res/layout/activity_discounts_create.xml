@@ -96,9 +96,19 @@
                     app:type="info" />
 
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_discounts_create_active_day_model"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.selectActiveModel.name}"
+                    app:showArrow="true"
+                    app:title="@{2 == vm.selectActiveModel.id?@string/active_day_model:@string/active_day}"
+                    app:titleW="124dp"
+                    app:type="info" />
+
+                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_active_day"
                     style="@style/MultiTypeItemStyle"
-                    app:itemContent="@{vm.createDiscountsShopNames}"
+                    android:visibility="@{2 == vm.selectActiveModel.id?View.VISIBLE:View.GONE}"
+                    app:itemContent="@{vm.selectActiveDayVal}"
                     app:showArrow="true"
                     app:title="@string/active_day"
                     app:titleW="124dp"
@@ -107,7 +117,7 @@
                 <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_active_time_frame"
                     style="@style/MultiTypeItemStyle"
-                    app:itemContent="@{vm.createDiscountsShopNames}"
+                    app:itemContent="@{vm.activeTimeFrame}"
                     app:showArrow="true"
                     app:title="@string/active_time_frame"
                     app:titleW="124dp"
@@ -118,7 +128,7 @@
                     style="@style/MultiTypeItemStyle"
                     android:inputType="numberDecimal"
                     android:maxLines="1"
-                    app:itemContent="@{vm.createDiscountsShopNames}"
+                    app:itemContent="@={vm.discounts}"
                     app:title="@string/discount_value_title"
                     app:titleW="124dp"
                     app:type="input" />

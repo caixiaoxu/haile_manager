@@ -10,6 +10,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_discounts_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -53,12 +54,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:text="@{item.getShopStr()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_discounts_time"
             tools:text="店铺名称，店铺名称" />
 
         <androidx.constraintlayout.helper.widget.Flow
-            android:id="@+id/tv_discounts_tags"
+            android:id="@+id/flow_discounts_tags"
             style="@style/Font_16_333333_bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -76,7 +78,7 @@
             style="@style/Font_16_333333"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/tv_discounts_tags"
+            app:layout_constraintBottom_toBottomOf="@id/flow_discounts_tags"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_discounts_shop"
             tools:text="9折" />

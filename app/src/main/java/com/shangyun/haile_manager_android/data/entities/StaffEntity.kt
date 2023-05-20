@@ -1,9 +1,13 @@
 package com.shangyun.haile_manager_android.data.entities
 
 import androidx.core.content.ContextCompat
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.annotations.SerializedName
 import com.lsy.framelib.data.constants.Constants
 import com.lsy.framelib.utils.StringUtils
+import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.data.rule.IMultiTypeEntity
 
@@ -25,7 +29,7 @@ data class StaffEntity(
     val realName: String,
     @SerializedName("tagName")
     val _tagName: String
-): IMultiTypeEntity{
+): IMultiTypeEntity {
 
     val tagName:String
         get() = if (_tagName.isNullOrEmpty()) StringUtils.getString(R.string.admin) else _tagName
@@ -49,4 +53,5 @@ data class StaffEntity(
         ),
     )
 
+    var isCheck: Boolean = false
 }

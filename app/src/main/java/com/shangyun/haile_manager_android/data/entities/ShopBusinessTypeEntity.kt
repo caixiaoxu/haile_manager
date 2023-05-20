@@ -16,4 +16,15 @@ data class ShopBusinessTypeEntity(val type: Int, val businessName: String) :
     IMultiSelectBottomItemEntity {
     override var isCheck: Boolean = false
     override fun getTitle(): String = businessName
+
+    override fun hashCode(): Int {
+        return super.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other === this) return true
+        if (other is ShopBusinessTypeEntity && other.type == type) return true
+
+        return super.equals(other)
+    }
 }

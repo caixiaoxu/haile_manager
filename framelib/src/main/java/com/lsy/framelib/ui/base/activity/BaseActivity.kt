@@ -5,8 +5,16 @@ import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
+import com.lsy.framelib.ui.weight.loading.LoadDialogMgr
 import com.lsy.framelib.utils.AppManager
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StatusBarUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 /**
  * Title : Activity基类
@@ -75,6 +83,43 @@ abstract class BaseActivity : AppCompatActivity() {
             if (this.resources.configuration.orientation != it) {
                 requestedOrientation = it
             }
+        }
+    }
+
+    /**
+     * ViewModel异常处理方法
+     */
+    fun launch(
+        block: suspend () -> Unit,           // 异步操作
+        error: (suspend (Throwable) -> Unit)? = null,  // 操作异常
+        complete: (suspend () -> Unit)? = null,        // 操作完成
+        showLoading: Boolean = true          // 是否显示加载弹窗
+    ) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            //显示加载弹窗
+            if (showLoading) {
+                withContext(Dispatchers.Main) {
+                    LoadDialogMgr.showLoadingDialog(this@BaseActivity)
+                }
+            }
+
+            try {
+                block()
+            } catch (e: Exception) {
+                error?.invoke(e) ?: withContext(Dispatchers.Main) {
+                    e.message?.let { it1 -> SToast.showToast(msg = it1) }
+                    Timber.d("请求失败或异常$e")
+                }
+            } finally {
+                complete?.invoke() ?: withContext(Dispatchers.Main) {
+                    Timber.d("请求结束")
+                }
+            }
+            //隐藏加载弹窗
+            if (showLoading)
+                withContext(Dispatchers.Main) {
+                    LoadDialogMgr.hideLoadingDialog(this@BaseActivity)
+                }
         }
     }
 

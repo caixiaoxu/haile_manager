@@ -4,26 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.SubAccountDetailViewModel" />
+
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/page_bg"
-        app:divider="@drawable/divide_size8"
-        app:showDividers="middle"
-        tools:context=".ui.activity.subAccount.SubAccountDetailActivity">
+        android:orientation="vertical"
+        tools:context=".ui.activity.subAccount.SubAccountSelectActivity">
 
         <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
-            android:id="@+id/bar_sub_account_detail_title"
+            android:id="@+id/bar_sub_account_account_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
-            app:bgColor="@color/white"
-            app:title="@string/sub_account_detail"/>
+            app:rightModel="text"
+            app:title="@string/sub_account_account" />
 
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        <com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+            android:id="@+id/rv_sub_account_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </layout>

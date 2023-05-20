@@ -1,6 +1,7 @@
 package com.shangyun.haile_manager_android.data.entities
 
 import com.shangyun.haile_manager_android.data.rule.ICommonBottomItemEntity
+import com.shangyun.haile_manager_android.data.rule.IMultiSelectBottomItemEntity
 
 /**
  * Title :
@@ -29,8 +30,20 @@ data class CategoryEntity(
     val children: List<CategoryChildren>,
     val brands: List<CategoryBrand>,
     val specs: List<CategorySpec>
-) : ICommonBottomItemEntity {
+) : ICommonBottomItemEntity, IMultiSelectBottomItemEntity {
+    override var isCheck: Boolean = false
+
     override fun getTitle(): String = name
+
+    override fun hashCode(): Int {
+        return super.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other === this) return true
+        if (other is CategoryEntity && other.id == id) return true
+        return super.equals(other)
+    }
 }
 
 data class CategoryChildren(

@@ -24,7 +24,7 @@ class CommonRecyclerAdapter<T : ViewDataBinding, D>(
     private val onItemBind: ((mItemBinding: T?, pos: Int, item: D) -> Unit)?,
 ) : RecyclerView.Adapter<MyViewHolder<T, D>>() {
 
-    private val list: MutableList<D> = mutableListOf()
+    val list: MutableList<D> = mutableListOf()
 
     /**
      * 刷新数据

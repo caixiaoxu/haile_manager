@@ -15,6 +15,7 @@ import com.shangyun.haile_manager_android.data.entities.CategoryEntity
 import com.shangyun.haile_manager_android.data.entities.ShopBusinessTypeEntity
 import com.shangyun.haile_manager_android.data.entities.StaffEntity
 import com.shangyun.haile_manager_android.data.model.ApiRepository
+import com.shangyun.haile_manager_android.utils.DateTimeUtils
 import java.util.*
 
 /**
@@ -69,6 +70,9 @@ class SubAccountCreateViewModel : BaseViewModel() {
     val effectiveDate: MutableLiveData<Date> by lazy {
         MutableLiveData()
     }
+    val effectiveDateVal: LiveData<String> = effectiveDate.map {
+        if (null == it) "" else DateTimeUtils.formatDateTime(it, "yyyy-MM-dd")
+    }
 
     // 是否可提交
     val canSubmit: MediatorLiveData<Boolean> = MediatorLiveData(false).apply {
@@ -95,7 +99,20 @@ class SubAccountCreateViewModel : BaseViewModel() {
     /**
      * 检测是否可提交
      */
-    private fun checkSubmit(): Boolean = false
+    private fun checkSubmit(): Boolean =
+        (null != subAccount.value && !businessType.value.isNullOrEmpty()
+                && !deviceCategory.value.isNullOrEmpty() && !subAccountShops.value.isNullOrEmpty()
+                && null != effectiveDate.value && try {
+            if (subAccountRatio.value.isNullOrEmpty())
+                false
+            else {
+                subAccountRatio.value?.toDouble()
+                true
+            }
+        } catch (e: NumberFormatException) {
+            e.printStackTrace()
+            false
+        })
 
     fun requestData() {
         launch({

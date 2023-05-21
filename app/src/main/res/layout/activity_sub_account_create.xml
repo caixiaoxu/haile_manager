@@ -98,7 +98,7 @@
                     android:id="@+id/item_sub_account_create_active_date"
                     style="@style/MultiTypeItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
-                    app:itemContent="@{vm.subAccountRatio}"
+                    app:itemContent="@{vm.effectiveDateVal}"
                     app:showArrow="true"
                     app:title="@string/active_date"
                     app:titleW="114dp"

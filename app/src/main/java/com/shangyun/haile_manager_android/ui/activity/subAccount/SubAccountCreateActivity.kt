@@ -17,7 +17,9 @@ import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.shangyun.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.shangyun.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
+import com.shangyun.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.shangyun.haile_manager_android.utils.ActivityManagerUtils
+import java.util.*
 
 class SubAccountCreateActivity :
     BaseBusinessActivity<ActivitySubAccountCreateBinding, SubAccountCreateViewModel>() {
@@ -91,6 +93,7 @@ class SubAccountCreateActivity :
             }
         }
 
+        // 设备类型
         mBinding.itemSubAccountCreateDeviceCategory.onSelectedEvent = {
             mSubAccountCreateViewModel.categoryList.value?.let { list ->
                 val select = mSubAccountCreateViewModel.deviceCategory.value
@@ -111,6 +114,7 @@ class SubAccountCreateActivity :
             }
         }
 
+        //分账门店
         mBinding.itemSubAccountCreateShop.onSelectedEvent = {
             startShopSelectNext.launch(
                 Intent(
@@ -123,6 +127,18 @@ class SubAccountCreateActivity :
                     )
                 }
             )
+        }
+
+        // 生效日
+        mBinding.itemSubAccountCreateActiveDate.onSelectedEvent = {
+            DateSelectorDialog.Builder().apply {
+                minDate = Calendar.getInstance().apply { time = Date() }
+                onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
+                    override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
+                        mSubAccountCreateViewModel.effectiveDate.value = date1
+                    }
+                }
+            }.build().show(supportFragmentManager, mSubAccountCreateViewModel.effectiveDate.value)
         }
     }
 

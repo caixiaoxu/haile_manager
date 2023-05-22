@@ -62,6 +62,7 @@ class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(p
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         // 关闭
         mBinding.tvCommonDialogClose.setOnClickListener {
             dismiss()
@@ -71,6 +72,9 @@ class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(p
         }
 
         mBinding.tvCommonDialogTitle.text = builder.title
+
+        mBinding.clCommonDialogTitle.visibility =
+            if (builder.title.isEmpty()) View.GONE else View.VISIBLE
 
         // 确定
         mBinding.tvCommonDialogSure.setOnClickListener {
@@ -86,27 +90,50 @@ class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(p
         //选项
         mBinding.llDialogCommonList.removeAllViews()
         builder.list.forEachIndexed { index, data ->
-            val itemBinding = ItemCommonBottomSheetDialogBinding.bind(
+            ItemCommonBottomSheetDialogBinding.bind(
                 layoutInflater.inflate(
                     R.layout.item_common_bottom_sheet_dialog,
                     null
                 )
-            )
-            itemBinding.root.id = index
+            ).let { itemBinding ->
+                itemBinding.root.id = index
 
-            mBinding.llDialogCommonList.addView(
-                itemBinding.root.apply {
-                    text = data.getTitle()
-                    setOnCheckedChangeListener { _, isChecked ->
-                        if (isChecked)
-                            curEntity = data
-                    }
-                },
-                ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    DimensionUtils.dip2px(requireContext(), 54f)
+                if (index > 0) {
+                    mBinding.llDialogCommonList.addView(
+                        View(context).apply {
+                            setBackgroundResource(R.drawable.divder_efefef_size_half)
+                        },
+                        ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            DimensionUtils.dip2px(requireContext(), 0.5f)
+                        )
+                    )
+                }
+
+                mBinding.llDialogCommonList.addView(
+                    itemBinding.root.apply {
+                        text = data.getTitle()
+
+                        if (builder.title.isEmpty()) {
+                            setBackgroundColor(Color.TRANSPARENT)
+                        }
+
+                        setOnCheckedChangeListener { _, isChecked ->
+                            if (isChecked) {
+                                curEntity = data
+                                if (builder.title.isEmpty()) {
+                                    dismiss()
+                                    builder.onValueSureListener?.onValue(curEntity!!)
+                                }
+                            }
+                        }
+                    },
+                    ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        DimensionUtils.dip2px(requireContext(), 54f)
+                    )
                 )
-            )
+            }
         }
     }
 

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="com.shangyun.haile_manager_android.business.vm.SubAccountDetailViewModel" />
@@ -13,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/page_bg"
+        android:orientation="vertical"
         app:divider="@drawable/divide_size8"
         app:showDividers="middle"
         tools:context=".ui.activity.subAccount.SubAccountDetailActivity">
@@ -22,8 +24,36 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
             app:bgColor="@color/white"
-            app:title="@string/sub_account_detail"/>
+            app:title="@string/sub_account_detail" />
 
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            app:divider="@drawable/divder_efefef_size_half"
+            app:dividerPadding="12dp"
+            app:showDividers="middle">
 
+            <include
+                layout="@layout/item_device_detail_base_info"
+                app:content='@{vm.subAccountDetail.name}'
+                app:show="@{true}"
+                app:showCopy="@{false}"
+                app:title="@{@string/sub_account_person}" />
+
+            <include
+                layout="@layout/item_device_detail_base_info"
+                app:content='@{vm.subAccountDetail.account}'
+                app:show="@{true}"
+                app:showCopy="@{false}"
+                app:title="@{@string/sub_account_account}" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_sub_account_shop_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

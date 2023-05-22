@@ -5,9 +5,11 @@ import android.graphics.Color
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
 import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
+import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.business.vm.SubAccountManagerViewModel
 import com.shangyun.haile_manager_android.data.entities.SubAccountEntity
 import com.shangyun.haile_manager_android.databinding.ActivitySubAccountManagerBinding
@@ -34,7 +36,9 @@ class SubAccountManagerActivity :
                     Intent(
                         this@SubAccountManagerActivity,
                         SubAccountDetailActivity::class.java
-                    )
+                    ).apply {
+                        putExtra(SubAccountDetailActivity.UserId, item.id)
+                    }
                 )
             }
         }
@@ -60,13 +64,17 @@ class SubAccountManagerActivity :
                 mAdapter.refreshList(it, true)
             }
         }
+
+        LiveDataBus.with(BusEvents.SUB_ACCOUNT_LIST_STATUS)?.observe(this) {
+            mSubAccountManagerViewModel.requestData()
+        }
     }
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
 
         mBinding.rvSubAccountList.layoutManager =
-            GridLayoutManager(this, 2, RecyclerView.HORIZONTAL, false)
+            GridLayoutManager(this, 2, RecyclerView.VERTICAL, false)
         val space = DimensionUtils.dip2px(this, 12f)
         mBinding.rvSubAccountList.addItemDecoration(GridSameSpaceItemDecoration(space, space))
         mBinding.rvSubAccountList.adapter = mAdapter

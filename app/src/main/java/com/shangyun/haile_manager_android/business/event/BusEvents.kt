@@ -26,4 +26,6 @@ object BusEvents {
     const val DISCOUNTS_LIST_STATUS = "discount_list_change"
     const val DISCOUNTS_DETAIL_STATUS = "discount_detail_change"
     const val DISCOUNTS_LIST_ITEM_DELETE_STATUS = "discounts_list_item_delete"
+    const val SUB_ACCOUNT_LIST_STATUS = "sub_account_list_change"
+    const val SUB_ACCOUNT_DETAIL_STATUS = "sub_account_detail_change"
 }

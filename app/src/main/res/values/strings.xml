@@ -8,6 +8,7 @@
     <string name="please_select">请选择</string>
     <string name="cancel">取消</string>
     <string name="delete">删除</string>
+    <string name="delete_success">删除成功</string>
     <string name="edit">编辑</string>
     <string name="out_of_service">已停用</string>
     <string name="in_use">启用中</string>
@@ -23,6 +24,7 @@
     <string name="update_success">修改成功</string>
     <string name="save_to_local">保存到本地</string>
     <string name="status">状态</string>
+    <string name="operate">操作</string>
 
     <string name="login_name">登录</string>
     <string name="login_account_password">账号密码登录</string>
@@ -133,6 +135,7 @@
     <string name="business_hours">营业时间</string>
     <string name="business_phone">客服电话</string>
     <string name="business_type">业务类型</string>
+    <string name="business_type_title">选择业务类型</string>
     <string name="school">学校</string>
     <string name="input_school_hint">请输入学校名称</string>
     <string name="input_location_hint">请输入您的详细地址</string>
@@ -233,6 +236,8 @@
     <string name="sub_account_ratio">分账比例（%）</string>
     <string name="active_date">生效日</string>
     <string name="sub_account_detail">分账详情</string>
+    <string name="sub_account_person">分账人员</string>
+    <string name="item_sub_account_shop_title">分账门店：%1$s（%2$s）</string>
 
     <string name="home_msg_title">最近消息</string>
     <string name="home_msg_num">条新消息</string>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="v1"
+            type="java.lang.String" />
+        <variable
+            name="v2"
+            type="java.lang.String" />
+        <variable
+            name="v3"
+            type="java.lang.String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_sub_account_detail_shop_category_v1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{v1}"
+            tools:text="洗衣机"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_sub_account_detail_shop_category_v2"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_sub_account_detail_shop_category_v2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{v2}"
+            android:gravity="center"
+            tools:text="60%"
+            app:layout_constraintEnd_toStartOf="@id/tv_sub_account_detail_shop_category_v3"
+            app:layout_constraintStart_toEndOf="@id/tv_sub_account_detail_shop_category_v1"
+            app:layout_constraintTop_toTopOf="@id/tv_sub_account_detail_shop_category_v1"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_sub_account_detail_shop_category_v3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{v3}"
+            tools:text="2022/11/01"
+            app:layout_constraintEnd_toStartOf="@id/ib_sub_account_detail_shop_category_v4"
+            app:layout_constraintStart_toEndOf="@id/tv_sub_account_detail_shop_category_v2"
+            app:layout_constraintTop_toTopOf="@id/tv_sub_account_detail_shop_category_v1"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_sub_account_detail_shop_category_v4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:src="@mipmap/icon_operate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_sub_account_detail_shop_category_v3"
+            app:layout_constraintTop_toTopOf="@id/tv_sub_account_detail_shop_category_v1"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

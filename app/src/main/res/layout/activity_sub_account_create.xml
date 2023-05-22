@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.shangyun.haile_manager_android.business.vm.SubAccountCreateViewModel" />
@@ -49,6 +51,7 @@
                     android:id="@+id/item_sub_account_create_account"
                     style="@style/MultiTypeItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
+                    android:visibility="@{-1 != vm.userId?View.GONE:View.VISIBLE}"
                     app:itemContent="@{vm.subAccount.realName}"
                     app:showArrow="true"
                     app:title="@string/sub_account_account"
@@ -59,7 +62,8 @@
                     android:id="@+id/item_sub_account_create_business_type"
                     style="@style/MultiTypeItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
-                    app:itemContent="@{vm.businessTypeVal}"
+                    android:visibility="@{-1 != vm.userId?View.GONE:View.VISIBLE}"
+                    app:itemContent="@{vm.businessType.title}"
                     app:showArrow="true"
                     app:title="@string/business_type"
                     app:titleW="114dp"
@@ -69,6 +73,7 @@
                     android:id="@+id/item_sub_account_create_device_category"
                     style="@style/MultiTypeItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
+                    android:visibility="@{(null == vm.businessType || -1 != vm.userId)?View.GONE:View.VISIBLE}"
                     app:itemContent="@{vm.deviceCategoryVal}"
                     app:showArrow="true"
                     app:title="@string/device_category"
@@ -79,6 +84,7 @@
                     android:id="@+id/item_sub_account_create_shop"
                     style="@style/MultiTypeItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
+                    android:visibility="@{-1 != vm.userId?View.GONE:View.VISIBLE}"
                     app:itemContent="@{vm.subAccountShopsVal}"
                     app:showArrow="true"
                     app:title="@string/sub_account_shop"
@@ -89,6 +95,9 @@
                     android:id="@+id/item_sub_account_create_radio"
                     style="@style/MultiTypeItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
+                    android:inputType="numberDecimal"
+                    android:maxLength="3"
+                    android:maxLines="1"
                     app:itemContent="@={vm.subAccountRatio}"
                     app:title="@string/sub_account_ratio"
                     app:titleW="114dp"

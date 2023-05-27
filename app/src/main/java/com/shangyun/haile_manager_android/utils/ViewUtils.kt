@@ -8,11 +8,16 @@ import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.view.Gravity
 import android.view.View
 import android.view.View.OnClickListener
+import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.shangyun.haile_manager_android.R
 
 /**
@@ -114,5 +119,28 @@ object ViewUtils {
                 return@InputFilter source
             }
         )
+    }
+
+    /**
+     * 刷新列表的子View
+     */
+    fun <T> refreshLinearLayoutChild(
+        linearLayout: LinearLayout,
+        arr: Array<T>,
+        layoutParams: ViewGroup.LayoutParams? = null,
+        createChildView: (item: T) -> View,
+    ) {
+        if (linearLayout.childCount > 0) {
+            linearLayout.removeAllViews()
+        }
+        arr.forEach {
+            linearLayout.addView(
+                createChildView(it),
+                layoutParams ?: ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+            )
+        }
     }
 }

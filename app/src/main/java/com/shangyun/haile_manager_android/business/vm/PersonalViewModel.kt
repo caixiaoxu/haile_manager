@@ -1,5 +1,6 @@
 package com.shangyun.haile_manager_android.business.vm
 
+import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.shangyun.haile_manager_android.R
@@ -32,7 +33,16 @@ class PersonalViewModel : BaseViewModel() {
             BalanceActivity::class.java
         ),
         null,
-        PersonalItem(R.mipmap.icon_personal_income, R.string.income, null, null, IncomeActivity::class.java),
+        PersonalItem(
+            R.mipmap.icon_personal_income,
+            R.string.income,
+            null,
+            null,
+            IncomeActivity::class.java,
+            Bundle().apply {
+                putInt(IncomeActivity.ProfitType, 3)
+            }
+        ),
         null,
         PersonalItem(
             R.mipmap.icon_personal_bank_card,
@@ -64,6 +74,7 @@ class PersonalViewModel : BaseViewModel() {
         val title: Int,
         val tag: MutableLiveData<String>?,
         val value: MutableLiveData<String>?,
-        val clz: Class<*>
+        val clz: Class<*>,
+        val bundle: Bundle? = null
     )
 }

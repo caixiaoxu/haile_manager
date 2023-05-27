@@ -2,6 +2,7 @@ package com.shangyun.haile_manager_android.ui.view
 
 import android.graphics.Rect
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 
@@ -36,7 +37,7 @@ class GridSpaceItemDecoration(private val spaceH: Int, private val spaceV: Int) 
         }
         outRect.top = spaceV
         // 第一行置空
-        if (parent.getChildLayoutPosition(view) < 3) {
+        if (parent.getChildLayoutPosition(view) < (parent.layoutManager as GridLayoutManager).spanCount) {
             outRect.top = 0
         }
     }

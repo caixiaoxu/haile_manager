@@ -103,6 +103,18 @@ object DateTimeUtils {
     }
 
     /**
+     * 格式化开始日期参数
+     */
+    fun formatDateTimeStartParam(date: Date?): String =
+        "${formatDateTime(date, "yyyy-MM-dd")} 00:00:00"
+
+    /**
+     * 格式化结束日期参数
+     */
+    fun formatDateTimeEndParam(date: Date?): String =
+        "${formatDateTime(date, "yyyy-MM-dd")} 23:59:59"
+
+    /**
      * 格式化
      */
     @JvmStatic

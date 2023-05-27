@@ -205,4 +205,27 @@ object StringUtils {
         )
         SToast.showToast(msg = "复制成功")
     }
+
+    /**
+     * 格式化数字字符，正数+，负数-
+     * @param numStr
+     * @return
+     */
+    fun formatNumberStrOfStr(numStr: String): String? {
+        return try {
+            formatNumberStr(numStr.toDouble())
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    /**
+     * 格式化数字字符，正数+，负数-
+     * @param numStr
+     * @return
+     */
+    fun formatNumberStr(amount: Double): String? {
+        return (if (amount > 0) "+" else "") + amount
+    }
 }

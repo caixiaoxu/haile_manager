@@ -251,6 +251,8 @@
     <string name="wallet">钱包余额</string>
     <string name="balance">余额明细</string>
     <string name="income">收入明细</string>
+    <string name="order_no">订单编号</string>
+
     <string name="bank_card">银行卡</string>
     <string name="real_name">实名认证</string>
 
@@ -285,4 +287,13 @@
     <string name="unit_device_configuration_hint3">%1$s元/%2$s分钟</string>
     <string name="unit_device_configuration_hint4">%1$s元/%2$s分钟/%3$s个脉冲</string>
 
+    <string-array name="week_arr">
+        <item>周日</item>
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+    </string-array>
 </resources>

@@ -68,7 +68,11 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
                 mPersonalItemBinding.lifecycleOwner = this
                 mPersonalItemBinding.item = item
                 mPersonalItemBinding.root.setOnClickListener {
-                    startActivity(Intent(requireContext(), item.clz))
+                    startActivity(Intent(requireContext(), item.clz).apply {
+                        item.bundle?.let {bundle->
+                            putExtras(bundle)
+                        }
+                    })
                 }
 
                 if (group.childCount > 0) {

@@ -5,6 +5,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.lsy.framelib.utils.DimensionUtils
@@ -30,12 +31,22 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
         const val ProfitSearchId = "profitSearchId"
     }
 
-    private val mAdapter by lazy {
-        CommonRecyclerAdapter<ItemIncomeCalendarBinding, ICalendarEntity>(
+    private val mAdapter: CommonRecyclerAdapter<ItemIncomeCalendarBinding, ICalendarEntity> by lazy {
+        CommonRecyclerAdapter(
             R.layout.item_income_calendar,
             BR.item
-        ) { mItemBinding, pos, item ->
-
+        ) { mItemBinding, _, item ->
+            mItemBinding?.root?.setOnClickListener {
+                mIncomeViewModel.selectDay.value = item.getDate()
+            }
+            mIncomeViewModel.selectDay.observe(this) { day ->
+                mItemBinding?.root?.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this@IncomeActivity,
+                        if (item.isSelect(day)) R.color.color_green else R.color.white
+                    )
+                )
+            }
         }
     }
 
@@ -49,6 +60,17 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
         super.initIntent()
         mIncomeViewModel.profitType = intent.getIntExtra(ProfitType, 3)
         mIncomeViewModel.profitSearchId = intent.getIntExtra(ProfitSearchId, -1)
+    }
+
+    override fun initEvent() {
+        super.initEvent()
+        mIncomeViewModel.selectMonth.observe(this) {
+            mIncomeViewModel.requestTotalForDay()
+            mIncomeViewModel.requestIncomeByDate()
+        }
+        mIncomeViewModel.calendarIncome.observe(this) {
+            mAdapter.refreshList(it, true)
+        }
     }
 
     override fun initView() {
@@ -77,8 +99,8 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
         mBinding.rvIncomeCalendar.layoutManager = GridLayoutManager(this, arr.size)
         mBinding.rvIncomeCalendar.addItemDecoration(
             GridSpaceItemDecoration(
-                DimensionUtils.dip2px(this@IncomeActivity, 0.5f),
-                DimensionUtils.dip2px(this@IncomeActivity, 0.5f)
+                DimensionUtils.dip2px(this@IncomeActivity, 1f),
+                DimensionUtils.dip2px(this@IncomeActivity, 1f),
             )
         )
         mBinding.rvIncomeCalendar.adapter = mAdapter

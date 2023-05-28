@@ -3,6 +3,7 @@ package com.shangyun.haile_manager_android.data.arguments
 import androidx.core.content.ContextCompat
 import com.lsy.framelib.data.constants.Constants
 import com.shangyun.haile_manager_android.R
+import com.shangyun.haile_manager_android.data.entities.IncomeCalendarEntity
 import com.shangyun.haile_manager_android.data.rule.ICalendarEntity
 import com.shangyun.haile_manager_android.utils.DateTimeUtils
 import java.util.Calendar
@@ -18,14 +19,16 @@ import java.util.Date
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-data class CalendarEntity(
-    override val dayNum: String,
-    override val type: Int
-) : ICalendarEntity {
-    var curDate: Date? = null
-        get() = Date()
-    override val value: String
-        get() = ""
+data class CalendarEntity(override var type: Int, val day: String? = null) : ICalendarEntity {
+    override var value: String = if (-1 == type) "" else "--"
+
+    fun initIncome(incomeEntity: IncomeCalendarEntity?) {
+        incomeEntity?.let {
+            type = if (incomeEntity.amount >= 0) 1 else 2
+            value = "${incomeEntity.amount}"
+        }
+    }
+
     override val color: IntArray
         get() = intArrayOf(
             ContextCompat.getColor(
@@ -41,4 +44,18 @@ data class CalendarEntity(
                 R.color.color_green
             ),
         )
+
+    override fun getDate(): Date? =DateTimeUtils.formatDateFromString(day)
+    override fun isSelect(date:Date): Boolean = day == DateTimeUtils.formatDateTimeStartParam(date)
+
+    override fun getDayNum(): String? =
+        day?.let {
+            "${
+                Calendar.getInstance().apply {
+                    DateTimeUtils.formatDateFromString(day)?.let {
+                        time = it
+                    }
+                }.get(Calendar.DAY_OF_MONTH)
+            }"
+        }
 }

@@ -28,6 +28,7 @@ import com.shangyun.haile_manager_android.databinding.ActivityShopManagerBinding
 import com.shangyun.haile_manager_android.databinding.ItemShopListBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.activity.common.SearchActivity
+import com.shangyun.haile_manager_android.ui.activity.personal.IncomeActivity
 import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.shangyun.haile_manager_android.utils.NumberUtils
@@ -120,7 +121,11 @@ class ShopManagerActivity :
                 )
             mBinding?.tvItemShopTotalIncome?.setOnClickListener {
                 if (true == mSharedViewModel.hasShopProfitPermission.value) {
-                    // TODO 跳转到店铺收益
+                    //  跳转到店铺收益
+                    startActivity(Intent(this@ShopManagerActivity, IncomeActivity::class.java).apply {
+                        putExtra(IncomeActivity.ProfitType, 1)
+                        putExtra(IncomeActivity.ProfitSearchId, item.id)
+                    })
                 }
             }
 

@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.View
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.DiscountsCreateViewModel
 import com.shangyun.haile_manager_android.business.vm.SearchSelectRadioViewModel
@@ -26,14 +27,13 @@ import com.shangyun.haile_manager_android.utils.ViewUtils
 import java.util.*
 
 class DiscountsCreateActivity :
-    BaseBusinessActivity<ActivityDiscountsCreateBinding, DiscountsCreateViewModel>() {
+    BaseBusinessActivity<ActivityDiscountsCreateBinding, DiscountsCreateViewModel>(
+        DiscountsCreateViewModel::class.java,
+        BR.vm
+    ) {
 
-    private val mDiscountsCreateViewModel by lazy {
-        getActivityViewModelProvider(this)[DiscountsCreateViewModel::class.java]
-    }
-
-    companion object{
-        const val OldData="oldData"
+    companion object {
+        const val OldData = "oldData"
     }
 
     // 选择店铺界面
@@ -42,9 +42,9 @@ class DiscountsCreateActivity :
             rData?.getStringExtra(SearchSelectRadioActivity.ResultData)?.let { json ->
                 GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
                     if (selected.isNotEmpty()) {
-                        mDiscountsCreateViewModel.createDiscountsShop.value = selected
-                        mDiscountsCreateViewModel.deviceCategoryList.value = null
-                        mDiscountsCreateViewModel.selectDeviceCategory.value = null
+                        mViewModel.createDiscountsShop.value = selected
+                        mViewModel.deviceCategoryList.value = null
+                        mViewModel.selectDeviceCategory.value = null
                     }
                 }
             }
@@ -52,16 +52,14 @@ class DiscountsCreateActivity :
 
     override fun layoutId(): Int = R.layout.activity_discounts_create
 
-    override fun getVM(): DiscountsCreateViewModel = mDiscountsCreateViewModel
-
     override fun backBtn(): View = mBinding.barDiscountsCreateTitle.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()
 
         intent.getStringExtra(OldData)?.let {
-            GsonUtils.json2Class(it,DiscountsDetailEntity::class.java)?.let {e->
-                mDiscountsCreateViewModel.initOldData(e)
+            GsonUtils.json2Class(it, DiscountsDetailEntity::class.java)?.let { e ->
+                mViewModel.initOldData(e)
             }
         }
     }
@@ -69,12 +67,12 @@ class DiscountsCreateActivity :
     override fun initEvent() {
         super.initEvent()
 
-        mDiscountsCreateViewModel.deviceCategoryList.observe(this) {
+        mViewModel.deviceCategoryList.observe(this) {
             if (null != it) {
                 showDeviceCategoryDialog(it)
             }
         }
-        mDiscountsCreateViewModel.jump.observe(this) {
+        mViewModel.jump.observe(this) {
             finish()
         }
     }
@@ -103,9 +101,9 @@ class DiscountsCreateActivity :
 
         // 设备类型
         mBinding.itemDiscountsCreateDeviceCategory.onSelectedEvent = {
-            mDiscountsCreateViewModel.deviceCategoryList.value?.let {
+            mViewModel.deviceCategoryList.value?.let {
                 showDeviceCategoryDialog(it)
-            } ?: mDiscountsCreateViewModel.requestData(1)
+            } ?: mViewModel.requestData(1)
         }
 
         // 开始时间
@@ -114,10 +112,10 @@ class DiscountsCreateActivity :
                 minDate = Calendar.getInstance().apply { time = Date() }
                 onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
-                        mDiscountsCreateViewModel.startDateTime.value = date1
+                        mViewModel.startDateTime.value = date1
                     }
                 }
-            }.build().show(supportFragmentManager, mDiscountsCreateViewModel.startDateTime.value)
+            }.build().show(supportFragmentManager, mViewModel.startDateTime.value)
 
         }
 
@@ -126,13 +124,13 @@ class DiscountsCreateActivity :
             DateSelectorDialog.Builder().apply {
                 minDate =
                     Calendar.getInstance()
-                        .apply { time = mDiscountsCreateViewModel.startDateTime.value ?: Date() }
+                        .apply { time = mViewModel.startDateTime.value ?: Date() }
                 onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
-                        mDiscountsCreateViewModel.endDateTime.value = date1
+                        mViewModel.endDateTime.value = date1
                     }
                 }
-            }.build().show(supportFragmentManager, mDiscountsCreateViewModel.endDateTime.value)
+            }.build().show(supportFragmentManager, mViewModel.endDateTime.value)
         }
 
         // 生效模式
@@ -150,10 +148,10 @@ class DiscountsCreateActivity :
                 showModel = 4
                 onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
-                        mDiscountsCreateViewModel.activeStartTime.value = date1
+                        mViewModel.activeStartTime.value = date1
                         date2?.let {
-                            mDiscountsCreateViewModel.activeEndTime.value = it
-                            mDiscountsCreateViewModel.activeTimeFrame.value = String.format(
+                            mViewModel.activeEndTime.value = it
+                            mViewModel.activeTimeFrame.value = String.format(
                                 "%s-%s",
                                 DateTimeUtils.formatDateTime(date1, "HH:mm"),
                                 DateTimeUtils.formatDateTime(it, "HH:mm")
@@ -163,8 +161,8 @@ class DiscountsCreateActivity :
                 }
             }.build().show(
                 supportFragmentManager,
-                mDiscountsCreateViewModel.activeStartTime.value,
-                mDiscountsCreateViewModel.activeEndTime.value
+                mViewModel.activeStartTime.value,
+                mViewModel.activeEndTime.value
             )
         }
 
@@ -176,16 +174,16 @@ class DiscountsCreateActivity :
      * 显示业务弹窗
      */
     private fun showBusinessTypeDialog() {
-        mDiscountsCreateViewModel.shopBusinessTypeList.value?.let { list ->
+        mViewModel.shopBusinessTypeList.value?.let { list ->
             CommonBottomSheetDialog.Builder(StringUtils.getString(R.string.business_type), list)
                 .apply {
                     onValueSureListener = object :
                         CommonBottomSheetDialog.OnValueSureListener<DiscountsBusinessTypeEntity> {
 
                         override fun onValue(data: DiscountsBusinessTypeEntity) {
-                            mDiscountsCreateViewModel.selectBusinessType.value = data
-                            mDiscountsCreateViewModel.deviceCategoryList.value = null
-                            mDiscountsCreateViewModel.selectDeviceCategory.value = null
+                            mViewModel.selectBusinessType.value = data
+                            mViewModel.deviceCategoryList.value = null
+                            mViewModel.selectDeviceCategory.value = null
                         }
                     }
                 }.build().show(supportFragmentManager)
@@ -196,7 +194,7 @@ class DiscountsCreateActivity :
      * 显示设备类型弹窗
      */
     private fun showDeviceCategoryDialog(deviceTypes: List<DiscountsDeviceTypeEntity>) {
-        val select = mDiscountsCreateViewModel.selectDeviceCategory.value
+        val select = mViewModel.selectDeviceCategory.value
         select?.let {
             deviceTypes.forEach { type ->
                 type.isCheck = select.contains(type)
@@ -210,7 +208,7 @@ class DiscountsCreateActivity :
             onValueSureListener = object :
                 MultiSelectBottomSheetDialog.OnValueSureListener<DiscountsDeviceTypeEntity> {
                 override fun onValue(datas: List<DiscountsDeviceTypeEntity>) {
-                    mDiscountsCreateViewModel.selectDeviceCategory.value = datas
+                    mViewModel.selectDeviceCategory.value = datas
                 }
             }
         }.build().show(supportFragmentManager)
@@ -229,8 +227,8 @@ class DiscountsCreateActivity :
                     object : CommonBottomSheetDialog.OnValueSureListener<ActiveDayParam> {
 
                         override fun onValue(data: ActiveDayParam) {
-                            mDiscountsCreateViewModel.selectActiveModel.value = data
-                            mDiscountsCreateViewModel.selectActiveDays.value = null
+                            mViewModel.selectActiveModel.value = data
+                            mViewModel.selectActiveDays.value = null
                         }
                     }
             }.build().show(supportFragmentManager)
@@ -246,7 +244,7 @@ class DiscountsCreateActivity :
         )
         list?.let {
 
-            val select = mDiscountsCreateViewModel.selectActiveDays.value
+            val select = mViewModel.selectActiveDays.value
             select?.let {
                 list.forEach { type ->
                     type.isCheck = select.contains(type)
@@ -260,7 +258,7 @@ class DiscountsCreateActivity :
                 onValueSureListener = object :
                     MultiSelectBottomSheetDialog.OnValueSureListener<ActiveDayParam> {
                     override fun onValue(datas: List<ActiveDayParam>) {
-                        mDiscountsCreateViewModel.selectActiveDays.value = datas
+                        mViewModel.selectActiveDays.value = datas
                     }
                 }
             }.build().show(supportFragmentManager)
@@ -268,8 +266,6 @@ class DiscountsCreateActivity :
     }
 
     override fun initData() {
-        mBinding.vm = mDiscountsCreateViewModel
-
-        mDiscountsCreateViewModel.requestData(0)
+        mViewModel.requestData(0)
     }
 }

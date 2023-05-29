@@ -21,10 +21,10 @@ import com.shangyun.haile_manager_android.ui.view.refresh.CommonLoadMoreRecycler
 import com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 
 class SearchActivity :
-    BaseBusinessActivity<ActivitySearchBinding, SearchViewModel>() {
-    private val mSearchViewModel by lazy {
-        getActivityViewModelProvider(this)[SearchViewModel::class.java]
-    }
+    BaseBusinessActivity<ActivitySearchBinding, SearchViewModel>(
+        SearchViewModel::class.java,
+        BR.vm
+    ) {
 
     private val mAdapter: CommonRecyclerAdapter<ItemSearchSelectBinding, ISearchSelectEntity> by lazy {
         CommonRecyclerAdapter(
@@ -34,8 +34,8 @@ class SearchActivity :
             mBinding?.item = item
             mBinding?.root?.setOnClickListener {
 
-                when (mSearchViewModel.searchType) {
-                    SearchType.Device -> if (true == mSharedViewModel.hasDeviceInfoPermission.value){
+                when (mViewModel.searchType) {
+                    SearchType.Device -> if (true == mSharedViewModel.hasDeviceInfoPermission.value) {
                         startActivity(
                             Intent(
                                 this@SearchActivity,
@@ -45,7 +45,7 @@ class SearchActivity :
                             }
                         )
                     }
-                    SearchType.Shop -> if (true == mSharedViewModel.hasShopInfoPermission.value){
+                    SearchType.Shop -> if (true == mSharedViewModel.hasShopInfoPermission.value) {
                         startActivity(
                             Intent(
                                 this@SearchActivity,
@@ -72,12 +72,10 @@ class SearchActivity :
 
     override fun layoutId(): Int = R.layout.activity_search
 
-    override fun getVM(): SearchViewModel = mSearchViewModel
-
     override fun initIntent() {
         intent.getIntExtra(SearchType.SearchType, -1).also {
             if (-1 != it)
-                mSearchViewModel.searchType = it
+                mViewModel.searchType = it
         }
     }
 
@@ -87,7 +85,7 @@ class SearchActivity :
         }
         mBinding.tvSearchSearch.setOnClickListener {
             SoftKeyboardUtils.hideShowKeyboard(mBinding.etSearchKey)
-            if (SearchType.Shop == mSearchViewModel.searchType) {
+            if (SearchType.Shop == mViewModel.searchType) {
                 mBinding.rvSearchList1.requestLoadMore(true)
             } else {
                 mBinding.rvSearchList2.requestRefresh(false)
@@ -95,7 +93,7 @@ class SearchActivity :
         }
 
         // 店铺搜索和（设备、订单）搜索响应数据格式不一
-        if (SearchType.Shop == mSearchViewModel.searchType) {
+        if (SearchType.Shop == mViewModel.searchType) {
             mBinding.rvSearchList1.visibility = View.VISIBLE
             mBinding.rvSearchList1.layoutManager = LinearLayoutManager(this)
             mBinding.rvSearchList1.adapter = mAdapter
@@ -107,7 +105,7 @@ class SearchActivity :
                         callBack: (responseList: MutableList<out ISearchSelectEntity>?) -> Unit
                     ) {
                         if (true == mSharedViewModel.hasShopListPermission.value) {
-                            mSearchViewModel.searchList(page, pageSize, result1 = callBack)
+                            mViewModel.searchList(page, pageSize, result1 = callBack)
                         }
                     }
                 }
@@ -123,12 +121,12 @@ class SearchActivity :
                         pageSize: Int,
                         callBack: (responseList: ResponseList<out ISearchSelectEntity>?) -> Unit
                     ) {
-                        if ((SearchType.Device == mSearchViewModel.searchType
+                        if ((SearchType.Device == mViewModel.searchType
                                     && true == mSharedViewModel.hasDeviceListPermission.value)
-                            || (SearchType.Order == mSearchViewModel.searchType
+                            || (SearchType.Order == mViewModel.searchType
                                     && true == mSharedViewModel.hasOrderListPermission.value)
                         ) {
-                            mSearchViewModel.searchList(page, pageSize, result2 = callBack)
+                            mViewModel.searchList(page, pageSize, result2 = callBack)
                         }
                     }
                 }
@@ -136,6 +134,5 @@ class SearchActivity :
     }
 
     override fun initData() {
-        mBinding.vm = mSearchViewModel
     }
 }

@@ -28,7 +28,10 @@ import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.shangyun.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
 
 class DeviceFunctionConfigurationActivity :
-    BaseBusinessActivity<ActivityDeviceFunctionConfigurationBinding, DeviceFunctionConfigurationViewModel>() {
+    BaseBusinessActivity<ActivityDeviceFunctionConfigurationBinding, DeviceFunctionConfigurationViewModel>(
+        DeviceFunctionConfigurationViewModel::class.java,
+        BR.vm
+    ) {
     companion object {
         const val GoodId = "goodId"
         const val SpuId = "spuId"
@@ -37,13 +40,8 @@ class DeviceFunctionConfigurationActivity :
         const val ResultData = "ResultData"
     }
 
-    private val mDeviceFunctionConfigurationViewModel by lazy {
-        getActivityViewModelProvider(this)[DeviceFunctionConfigurationViewModel::class.java]
-    }
-
-
     private val mAdapter by lazy {
-        if (DeviceCategory.isDryer(mDeviceFunctionConfigurationViewModel.categoryCode)) {
+        if (DeviceCategory.isDryer(mViewModel.categoryCode)) {
             val itemDryerHeight =
                 DimensionUtils.dip2px(this@DeviceFunctionConfigurationActivity, 54f)
 
@@ -68,10 +66,10 @@ class DeviceFunctionConfigurationActivity :
                             )
                         dryerTimeBinding?.item = ext
                         dryerTimeBinding?.etDryerPulse?.visibility =
-                            if (DeviceCategory.isPulseDevice(mDeviceFunctionConfigurationViewModel.communicationType))
+                            if (DeviceCategory.isPulseDevice(mViewModel.communicationType))
                                 View.VISIBLE else View.GONE
                         dryerTimeBinding?.tvDryerPulseHint?.visibility =
-                            if (DeviceCategory.isPulseDevice(mDeviceFunctionConfigurationViewModel.communicationType))
+                            if (DeviceCategory.isPulseDevice(mViewModel.communicationType))
                                 View.VISIBLE else View.GONE
                         mBinding?.llDeviceFunConfigurationDryerTime?.addView(
                             dryerTimeView.rootView,
@@ -102,7 +100,7 @@ class DeviceFunctionConfigurationActivity :
                     )
 
                 mBinding?.mtivDeviceFunConfigurationPulseCount?.visibility =
-                    if (DeviceCategory.isPulseDevice(mDeviceFunctionConfigurationViewModel.communicationType))
+                    if (DeviceCategory.isPulseDevice(mViewModel.communicationType))
                         View.VISIBLE else View.GONE
             }
         }
@@ -110,20 +108,17 @@ class DeviceFunctionConfigurationActivity :
 
     override fun layoutId(): Int = R.layout.activity_device_function_configuration
 
-    override fun getVM(): DeviceFunctionConfigurationViewModel =
-        mDeviceFunctionConfigurationViewModel
-
     override fun backBtn(): View = mBinding.barDeviceFuncConfigurationTitle.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()
-        mDeviceFunctionConfigurationViewModel.goodsId = intent.getIntExtra(GoodId, -1)
-        mDeviceFunctionConfigurationViewModel.spuId = intent.getIntExtra(SpuId, -1)
-        mDeviceFunctionConfigurationViewModel.categoryCode =
+        mViewModel.goodsId = intent.getIntExtra(GoodId, -1)
+        mViewModel.spuId = intent.getIntExtra(SpuId, -1)
+        mViewModel.categoryCode =
             intent.getStringExtra(DeviceCategory.CategoryCode)
-        mDeviceFunctionConfigurationViewModel.communicationType =
+        mViewModel.communicationType =
             intent.getIntExtra(DeviceCategory.CommunicationType, -1)
-        mDeviceFunctionConfigurationViewModel.oldConfigurationList = GsonUtils.json2List(
+        mViewModel.oldConfigurationList = GsonUtils.json2List(
             intent.getStringExtra(OldFuncConfiguration),
             SkuFuncConfigurationParam::class.java
         )
@@ -145,7 +140,7 @@ class DeviceFunctionConfigurationActivity :
         mBinding.rvDeviceFunConfigurationList.adapter = mAdapter
 
         //刷新数据
-        mDeviceFunctionConfigurationViewModel.configurationList.observe(this) { it ->
+        mViewModel.configurationList.observe(this) { it ->
             mAdapter.refreshList(it, true)
         }
     }
@@ -153,14 +148,14 @@ class DeviceFunctionConfigurationActivity :
     override fun initEvent() {
         super.initEvent()
 
-        mDeviceFunctionConfigurationViewModel.resultData.observe(this) {
+        mViewModel.resultData.observe(this) {
             setResult(ResultCode, Intent().apply {
                 putExtra(ResultData, GsonUtils.any2Json(it))
             })
             finish()
         }
 
-        mDeviceFunctionConfigurationViewModel.jump.observe(this) {
+        mViewModel.jump.observe(this) {
             when (it) {
                 0 -> finish()
             }
@@ -168,9 +163,7 @@ class DeviceFunctionConfigurationActivity :
     }
 
     override fun initData() {
-        mBinding.vm = mDeviceFunctionConfigurationViewModel
-
-        mDeviceFunctionConfigurationViewModel.requestData()
+        mViewModel.requestData()
     }
 
     /**

@@ -17,27 +17,24 @@ import com.shangyun.haile_manager_android.ui.activity.MainActivity
 import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 
 class ChangeUserActivity :
-    BaseBusinessActivity<ActivityChangeUserBinding, ChangeUserViewModel>() {
-
-    private val mChangeUserViewModel by lazy {
-        getActivityViewModelProvider(this)[ChangeUserViewModel::class.java]
-    }
+    BaseBusinessActivity<ActivityChangeUserBinding, ChangeUserViewModel>(
+        ChangeUserViewModel::class.java,
+        BR.vm
+    ) {
 
     private val mAdapter by lazy {
         CommonRecyclerAdapter<ItemChangeAccountBinding, ChangeUserEntity>(
             R.layout.item_change_account, BR.user,
-        ) { mBinding,_, data ->
+        ) { mBinding, _, data ->
             mBinding?.root?.setOnClickListener {
                 if (!data.isCurUser()) {
-                    mChangeUserViewModel.changeUser(data, mSharedViewModel)
+                    mViewModel.changeUser(data, mSharedViewModel)
                 }
             }
         }
     }
 
     override fun layoutId(): Int = R.layout.activity_change_user
-
-    override fun getVM(): ChangeUserViewModel = mChangeUserViewModel
 
     override fun backBtn(): View = mBinding.barActionTitle.getBackBtn()
 
@@ -61,17 +58,17 @@ class ChangeUserActivity :
 
     override fun initEvent() {
         super.initEvent()
-        mChangeUserViewModel.userList.observe(this) {
+        mViewModel.userList.observe(this) {
             mAdapter.refreshList(it)
         }
 
-        mChangeUserViewModel.jump.observe(this) {
+        mViewModel.jump.observe(this) {
             AppManager.finishAllActivity()
             when (it) {
                 1 -> {
                     startActivity(Intent(this@ChangeUserActivity, MainActivity::class.java))
                 }
-                2-> {
+                2 -> {
                     startActivity(Intent(this@ChangeUserActivity, LoginActivity::class.java))
                 }
             }

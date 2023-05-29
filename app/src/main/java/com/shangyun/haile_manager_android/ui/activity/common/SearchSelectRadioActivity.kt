@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.SearchSelectRadioViewModel
 import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
@@ -22,7 +23,10 @@ import com.shangyun.haile_manager_android.databinding.ItemDepartmentSelectBindin
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 
 class SearchSelectRadioActivity :
-    BaseBusinessActivity<ActivitySearchSelectRadioBinding, SearchSelectRadioViewModel>() {
+    BaseBusinessActivity<ActivitySearchSelectRadioBinding, SearchSelectRadioViewModel>(
+        SearchSelectRadioViewModel::class.java,
+        BR.vm
+    ) {
 
     companion object {
         const val SearchSelectType = "searchSelectType"
@@ -33,13 +37,7 @@ class SearchSelectRadioActivity :
         const val ResultData = "resultData"
     }
 
-    private val mSearchSelectRadioViewModel by lazy {
-        getActivityViewModelProvider(this)[SearchSelectRadioViewModel::class.java]
-    }
-
     override fun layoutId(): Int = R.layout.activity_search_select_radio
-
-    override fun getVM(): SearchSelectRadioViewModel = mSearchSelectRadioViewModel
 
     override fun backBtn(): View = mBinding.barDepartmentSelectTitle.getBackBtn()
 
@@ -56,19 +54,19 @@ class SearchSelectRadioActivity :
                 )
             )
             setOnClickListener {
-                mSearchSelectRadioViewModel.selectList.value?.let { list ->
+                mViewModel.selectList.value?.let { list ->
                     val selected = list.filter { select -> select.getCheck()?.value ?: false }
 
-                    if (SearchSelectRadioViewModel.SearchSelectTypeTakeChargeShop == mSearchSelectRadioViewModel.searchSelectType.value
-                        && -1 != mSearchSelectRadioViewModel.staffId
+                    if (SearchSelectRadioViewModel.SearchSelectTypeTakeChargeShop == mViewModel.searchSelectType.value
+                        && -1 != mViewModel.staffId
                     ) {
-                        mSearchSelectRadioViewModel.updateStaffShop(
+                        mViewModel.updateStaffShop(
                             this@SearchSelectRadioActivity,
                             selected
                         )
                     } else {
                         setResult(
-                            when (mSearchSelectRadioViewModel.searchSelectType.value) {
+                            when (mViewModel.searchSelectType.value) {
                                 SearchSelectRadioViewModel.SearchSelectTypeShop, SearchSelectRadioViewModel.SearchSelectTypeTakeChargeShop -> ShopResultCode
                                 SearchSelectRadioViewModel.SearchSelectTypeDeviceModel -> DeviceModelResultCode
                                 else -> RESULT_OK
@@ -96,13 +94,13 @@ class SearchSelectRadioActivity :
         super.initIntent()
 
         // 类别
-        mSearchSelectRadioViewModel.searchSelectType.value =
+        mViewModel.searchSelectType.value =
             intent.getIntExtra(SearchSelectType, -1)
 
-        mSearchSelectRadioViewModel.categoryId =
+        mViewModel.categoryId =
             intent.getIntExtra(CategoryId, -1)
 
-        mSearchSelectRadioViewModel.staffId =
+        mViewModel.staffId =
             intent.getIntExtra(StaffId, -1)
     }
 
@@ -111,14 +109,14 @@ class SearchSelectRadioActivity :
         initRightBtn()
 
         mBinding.tvDepartmentSelectListAll.setOnClickListener {
-            (mSearchSelectRadioViewModel.isAllSelect.value?.let { !it }
+            (mViewModel.isAllSelect.value?.let { !it }
                 ?: false).also { isAll ->
                 if (mBinding.svDepartmentSelectList.getChildAt(0) is LinearLayout) {
                     (mBinding.svDepartmentSelectList.getChildAt(0) as LinearLayout).children.forEach { cb ->
                         (cb as AppCompatCheckBox).isChecked = isAll
                     }
                 }
-                mSearchSelectRadioViewModel.isAllSelect.value = isAll
+                mViewModel.isAllSelect.value = isAll
             }
         }
     }
@@ -127,14 +125,14 @@ class SearchSelectRadioActivity :
         super.initEvent()
 
         mBinding.etDepartmentSelectSearch.onTextChange = {
-            mSearchSelectRadioViewModel.requestSearch()
+            mViewModel.requestSearch()
         }
 
-        mSearchSelectRadioViewModel.selectList.observe(this) {
-            mSearchSelectRadioViewModel.checkSelectAll()
+        mViewModel.selectList.observe(this) {
+            mViewModel.checkSelectAll()
             initSelectList(it)
         }
-        mSearchSelectRadioViewModel.jump.observe(this){
+        mViewModel.jump.observe(this) {
             finish()
         }
     }
@@ -144,7 +142,7 @@ class SearchSelectRadioActivity :
      */
     private fun initSelectList(list: MutableList<out SearchSelectRadioEntity>?) {
         val inflate = LayoutInflater.from(this)
-        if (SearchSelectRadioViewModel.SearchSelectTypeTakeChargeShop == mSearchSelectRadioViewModel.searchSelectType.value) {
+        if (SearchSelectRadioViewModel.SearchSelectTypeTakeChargeShop == mViewModel.searchSelectType.value) {
             if (mBinding.svDepartmentSelectList.getChildAt(0) !is LinearLayout) {
                 mBinding.svDepartmentSelectList.removeAllViews()
             } else {
@@ -178,7 +176,7 @@ class SearchSelectRadioActivity :
 
                         (binding.root as AppCompatCheckBox).setOnCheckedChangeListener { _, isCheck ->
                             item.getCheck()?.value = isCheck
-                            mSearchSelectRadioViewModel.checkSelectAll()
+                            mViewModel.checkSelectAll()
                         }
                         (mBinding.svDepartmentSelectList.getChildAt(0) as LinearLayout).addView(
                             binding.root,
@@ -233,8 +231,6 @@ class SearchSelectRadioActivity :
     }
 
     override fun initData() {
-        mBinding.vm = mSearchSelectRadioViewModel
-
-        mSearchSelectRadioViewModel.requestSearch()
+        mViewModel.requestSearch()
     }
 }

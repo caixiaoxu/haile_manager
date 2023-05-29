@@ -3,13 +3,12 @@ package com.shangyun.haile_manager_android.ui.activity.device
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.RadioButton
 import androidx.appcompat.widget.AppCompatRadioButton
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.DeviceStartViewModel
 import com.shangyun.haile_manager_android.data.arguments.DeviceCategory
@@ -21,11 +20,10 @@ import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 
 class DeviceStartActivity :
-    BaseBusinessActivity<ActivityDeviceStartBinding, DeviceStartViewModel>() {
-
-    private val mDeviceStartViewModel by lazy {
-        getActivityViewModelProvider(this)[DeviceStartViewModel::class.java]
-    }
+    BaseBusinessActivity<ActivityDeviceStartBinding, DeviceStartViewModel>(
+        DeviceStartViewModel::class.java,
+        BR.vm
+    ) {
 
     companion object {
         const val Imei = "imei"
@@ -34,19 +32,17 @@ class DeviceStartActivity :
 
     override fun layoutId(): Int = R.layout.activity_device_start
 
-    override fun getVM(): DeviceStartViewModel = mDeviceStartViewModel
-
-    override fun backBtn(): View? = mBinding.barDeviceStartTitle.getBackBtn()
+    override fun backBtn(): View = mBinding.barDeviceStartTitle.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()
 
-        mDeviceStartViewModel.imei = intent.getStringExtra(Imei)
-        mDeviceStartViewModel.categoryCode = intent.getStringExtra(DeviceCategory.CategoryCode)
+        mViewModel.imei = intent.getStringExtra(Imei)
+        mViewModel.categoryCode = intent.getStringExtra(DeviceCategory.CategoryCode)
         intent.getStringExtra(Items)?.let {
             GsonUtils.json2List(it, Item::class.java)?.let { list ->
-                mDeviceStartViewModel.items = list.map { item ->
-                    if (DeviceCategory.isDryer(mDeviceStartViewModel.categoryCode)) {
+                mViewModel.items = list.map { item ->
+                    if (DeviceCategory.isDryer(mViewModel.categoryCode)) {
                         val times =
                             GsonUtils.json2List(item.extAttr, ExtAttrBean::class.java)?.map { ext ->
                                 ext.minutes
@@ -71,9 +67,9 @@ class DeviceStartActivity :
 
     override fun initEvent() {
         super.initEvent()
-        mDeviceStartViewModel.selectItem.observe(this) {
+        mViewModel.selectItem.observe(this) {
             it?.let { item ->
-                if (DeviceCategory.isDryer(mDeviceStartViewModel.categoryCode)) {
+                if (DeviceCategory.isDryer(mViewModel.categoryCode)) {
                     mBinding.rgDeviceStartTimeList.removeAllViews()
                     val timeW = DimensionUtils.dip2px(dipValue = 70f)
                     val timeH = DimensionUtils.dip2px(dipValue = 28f)
@@ -87,7 +83,7 @@ class DeviceStartActivity :
                                         text = "${time}分钟"
                                         setOnCheckedChangeListener { _, isChecked ->
                                             if (isChecked) {
-                                                mDeviceStartViewModel.selectTime.value = time
+                                                mViewModel.selectTime.value = time
                                             }
                                         }
                                     }
@@ -108,14 +104,14 @@ class DeviceStartActivity :
         mBinding.tvDeviceStartModel.setOnClickListener {
             CommonBottomSheetDialog.Builder(
                 StringUtils.getString(R.string.wash_model),
-                mDeviceStartViewModel.items
+                mViewModel.items
             ).apply {
                 onValueSureListener =
                     object : CommonBottomSheetDialog.OnValueSureListener<DeviceConfigSelectParams> {
                         override fun onValue(data: DeviceConfigSelectParams) {
-                            mDeviceStartViewModel.selectItem.value = data
-                            if (!DeviceCategory.isDryer(mDeviceStartViewModel.categoryCode)){
-                                mDeviceStartViewModel.selectTime.value = data.times[0]
+                            mViewModel.selectItem.value = data
+                            if (!DeviceCategory.isDryer(mViewModel.categoryCode)) {
+                                mViewModel.selectTime.value = data.times[0]
                             }
                         }
                     }
@@ -124,6 +120,5 @@ class DeviceStartActivity :
     }
 
     override fun initData() {
-        mBinding.vm = mDeviceStartViewModel
     }
 }

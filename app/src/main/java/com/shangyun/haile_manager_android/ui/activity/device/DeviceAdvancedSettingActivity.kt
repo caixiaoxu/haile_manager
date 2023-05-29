@@ -15,11 +15,10 @@ import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.shangyun.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 
 class DeviceAdvancedSettingActivity :
-    BaseBusinessActivity<ActivityDeviceAdvancedSettingBinding, DeviceAdvancedSettingViewModel>() {
-
-    private val mDeviceAdvancedSettingViewModel by lazy {
-        getActivityViewModelProvider(this)[DeviceAdvancedSettingViewModel::class.java]
-    }
+    BaseBusinessActivity<ActivityDeviceAdvancedSettingBinding, DeviceAdvancedSettingViewModel>(
+        DeviceAdvancedSettingViewModel::class.java,
+        BR.vm
+    ) {
 
     companion object {
         const val GoodId = "goodId"
@@ -56,37 +55,34 @@ class DeviceAdvancedSettingActivity :
 
     override fun layoutId(): Int = R.layout.activity_device_advanced_setting
 
-    override fun getVM(): DeviceAdvancedSettingViewModel = mDeviceAdvancedSettingViewModel
-
     override fun backBtn(): View = mBinding.barDeviceAdvancedSettingTitle.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()
-        mDeviceAdvancedSettingViewModel.goodId = intent.getIntExtra(GoodId, -1)
-        mDeviceAdvancedSettingViewModel.functionId = intent.getIntExtra(FunctionId, -1)
-        mDeviceAdvancedSettingViewModel.attrs.value = intent.getStringExtra(Attrs)
+        mViewModel.goodId = intent.getIntExtra(GoodId, -1)
+        mViewModel.functionId = intent.getIntExtra(FunctionId, -1)
+        mViewModel.attrs.value = intent.getStringExtra(Attrs)
     }
 
     override fun initEvent() {
         super.initEvent()
-        mDeviceAdvancedSettingViewModel.attrList.observe(this) {
+        mViewModel.attrList.observe(this) {
             it?.let { list ->
                 mAdapter.refreshList(list, true)
             }
         }
-        mDeviceAdvancedSettingViewModel.jump.observe(this){
+        mViewModel.jump.observe(this) {
             finish()
         }
     }
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
-        mBinding.barDeviceAdvancedSettingTitle.getTitle().text= intent.getStringExtra(FunctionName)
+        mBinding.barDeviceAdvancedSettingTitle.getTitle().text = intent.getStringExtra(FunctionName)
         mBinding.rvDeviceAdvancedSetting.layoutManager = LinearLayoutManager(this)
         mBinding.rvDeviceAdvancedSetting.adapter = mAdapter
     }
 
     override fun initData() {
-        mBinding.vm = mDeviceAdvancedSettingViewModel
     }
 }

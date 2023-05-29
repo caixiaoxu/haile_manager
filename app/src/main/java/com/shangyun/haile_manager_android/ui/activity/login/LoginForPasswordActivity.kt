@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.View
 import com.lsy.framelib.utils.AppManager
 import com.lsy.framelib.utils.SToast
+import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.BuildConfig
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.LoginForPasswordViewModel
@@ -14,20 +15,17 @@ import com.shangyun.haile_manager_android.ui.activity.MainActivity
 import com.shangyun.haile_manager_android.utils.ViewUtils
 
 class LoginForPasswordActivity :
-    BaseBusinessActivity<ActivityLoginForPasswordBinding, LoginForPasswordViewModel>() {
-    private val mLoginForPasswordViewModel by lazy {
-        getActivityViewModelProvider(this)[LoginForPasswordViewModel::class.java]
-    }
+    BaseBusinessActivity<ActivityLoginForPasswordBinding, LoginForPasswordViewModel>(
+        LoginForPasswordViewModel::class.java,
+        BR.vm
+    ) {
 
     override fun activityTag(): String = ActivityTag.TAG_LOGIN
     override fun layoutId(): Int = R.layout.activity_login_for_password
 
-    override fun getVM(): LoginForPasswordViewModel = mLoginForPasswordViewModel
-
     override fun backBtn(): View = mBinding.loginTitleBar.getBackBtn()
 
     override fun initView() {
-        mBinding.vm = mLoginForPasswordViewModel
         mBinding.shared = mSharedViewModel
 
         // 协议内容
@@ -51,7 +49,7 @@ class LoginForPasswordActivity :
         super.initEvent()
 
         // 监听是否可点击提交按钮
-        mLoginForPasswordViewModel.canSubmit.observe(this) {
+        mViewModel.canSubmit.observe(this) {
             mBinding.btnLoginSure.isEnabled = it
         }
     }
@@ -59,11 +57,11 @@ class LoginForPasswordActivity :
     override fun initData() {
         if (BuildConfig.DEBUG) {
             // 模拟数据
-//            mLoginForPasswordViewModel.phone.value = "17028000053"
-//            mLoginForPasswordViewModel.password.value = "Dp8Lv5"
-            mLoginForPasswordViewModel.phone.value = "13067949521"
-            mLoginForPasswordViewModel.password.value = "Aa123456"
-            mLoginForPasswordViewModel.isAgree.value = true
+//            mViewModel.phone.value = "17028000053"
+//            mViewModel.password.value = "Dp8Lv5"
+            mViewModel.phone.value = "13067949521"
+            mViewModel.password.value = "Aa123456"
+            mViewModel.isAgree.value = true
         }
     }
 

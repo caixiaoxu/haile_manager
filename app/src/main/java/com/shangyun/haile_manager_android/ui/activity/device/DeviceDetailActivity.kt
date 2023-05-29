@@ -9,13 +9,13 @@ import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
-import androidx.core.view.setPadding
 import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.ScreenUtils
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.business.vm.DeviceDetailModel
@@ -28,14 +28,13 @@ import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.view.dialog.CommonDialog
 
 class DeviceDetailActivity :
-    BaseBusinessActivity<ActivityDeviceDetailBinding, DeviceDetailModel>() {
+    BaseBusinessActivity<ActivityDeviceDetailBinding, DeviceDetailModel>(
+        DeviceDetailModel::class.java,
+        BR.vm
+    ) {
 
     companion object {
         const val GoodsId = "goodsId"
-    }
-
-    private val mDeviceDetailModel by lazy {
-        getActivityViewModelProvider(this)[DeviceDetailModel::class.java]
     }
 
     // 跳转修改界面
@@ -47,16 +46,16 @@ class DeviceDetailActivity :
                         intent.getStringExtra(DeviceMultiChangeActivity.ResultData)?.let {
                             when (intent.getIntExtra(DeviceMultiChangeViewModel.Type, -1)) {
                                 DeviceMultiChangeViewModel.typeChangeModel -> {
-                                    mDeviceDetailModel.deviceDetail.value?.imei = it
-                                    mDeviceDetailModel.imei.value = it
+                                    mViewModel.deviceDetail.value?.imei = it
+                                    mViewModel.imei.value = it
                                 }
                                 DeviceMultiChangeViewModel.typeChangePayCode -> {
-                                    mDeviceDetailModel.deviceDetail.value?.code = it
-                                    mDeviceDetailModel.code.value = it
+                                    mViewModel.deviceDetail.value?.code = it
+                                    mViewModel.code.value = it
                                 }
                                 DeviceMultiChangeViewModel.typeChangeName -> {
-                                    mDeviceDetailModel.deviceDetail.value?.name = it
-                                    mDeviceDetailModel.name.value = it
+                                    mViewModel.deviceDetail.value?.name = it
+                                    mViewModel.name.value = it
                                 }
                             }
                         }
@@ -66,8 +65,6 @@ class DeviceDetailActivity :
         }
 
     override fun layoutId(): Int = R.layout.activity_device_detail
-
-    override fun getVM(): DeviceDetailModel = mDeviceDetailModel
 
     override fun backBtn(): View = mBinding.barDeviceDetailTitle.getBackBtn()
 
@@ -84,7 +81,7 @@ class DeviceDetailActivity :
                 )
             )
             setOnClickListener {
-                mDeviceDetailModel.deviceAdvancedValues.value?.let { values ->
+                mViewModel.deviceAdvancedValues.value?.let { values ->
                     // 高级设置
                     startActivity(
                         Intent(
@@ -93,7 +90,7 @@ class DeviceDetailActivity :
                         ).apply {
                             putExtra(
                                 DeviceAdvancedActivity.GoodId,
-                                mDeviceDetailModel.goodsId
+                                mViewModel.goodsId
                             )
                             putExtra(
                                 DeviceAdvancedActivity.Advanced,
@@ -108,14 +105,14 @@ class DeviceDetailActivity :
 
     override fun initIntent() {
         super.initIntent()
-        mDeviceDetailModel.goodsId = intent.getIntExtra(GoodsId, -1)
+        mViewModel.goodsId = intent.getIntExtra(GoodsId, -1)
     }
 
     override fun initEvent() {
         super.initEvent()
 
         val mTB = DimensionUtils.dip2px(this, 12f)
-        mDeviceDetailModel.deviceDetail.observe(this) { detail ->
+        mViewModel.deviceDetail.observe(this) { detail ->
             mBinding.llDeviceDetailFuncPrice.removeAllViews()
             detail?.items?.forEachIndexed { index, item ->
                 val itemBinding = LayoutInflater.from(this@DeviceDetailActivity)
@@ -157,18 +154,18 @@ class DeviceDetailActivity :
         }
 
         // 是否有高级参数设置
-        mDeviceDetailModel.deviceAdvancedValues.observe(this) {
+        mViewModel.deviceAdvancedValues.observe(this) {
             if (!it.isNullOrEmpty()) {
                 initRightBtn()
             }
         }
 
-        mDeviceDetailModel.jump.observe(this) {
+        mViewModel.jump.observe(this) {
             when (it) {
                 0 -> finish()
                 // 修改功能价格
                 1 -> {
-                    mDeviceDetailModel.deviceDetail.value?.let { detail ->
+                    mViewModel.deviceDetail.value?.let { detail ->
                         startActivity(
                             Intent(
                                 this@DeviceDetailActivity,
@@ -176,7 +173,7 @@ class DeviceDetailActivity :
                             ).apply {
                                 putExtra(
                                     DeviceFunctionConfigurationActivity.GoodId,
-                                    mDeviceDetailModel.goodsId
+                                    mViewModel.goodsId
                                 )
                                 putExtra(
                                     DeviceFunctionConfigurationActivity.SpuId,
@@ -201,7 +198,7 @@ class DeviceDetailActivity :
                     }
                 }
                 // 启动
-                2 -> mDeviceDetailModel.deviceDetail.value?.let { detail ->
+                2 -> mViewModel.deviceDetail.value?.let { detail ->
                     startActivity(
                         Intent(
                             this@DeviceDetailActivity,
@@ -220,7 +217,7 @@ class DeviceDetailActivity :
                     ).apply {
                         putExtra(
                             DeviceMultiChangeActivity.GoodId,
-                            mDeviceDetailModel.goodsId
+                            mViewModel.goodsId
                         )
                         putExtra(
                             DeviceMultiChangeViewModel.Type,
@@ -236,7 +233,7 @@ class DeviceDetailActivity :
                     ).apply {
                         putExtra(
                             DeviceMultiChangeActivity.GoodId,
-                            mDeviceDetailModel.goodsId
+                            mViewModel.goodsId
                         )
                         putExtra(
                             DeviceMultiChangeViewModel.Type,
@@ -252,7 +249,7 @@ class DeviceDetailActivity :
                     ).apply {
                         putExtra(
                             DeviceMultiChangeActivity.GoodId,
-                            mDeviceDetailModel.goodsId
+                            mViewModel.goodsId
                         )
                         putExtra(
                             DeviceMultiChangeViewModel.Type,
@@ -261,7 +258,7 @@ class DeviceDetailActivity :
                     }
                 )
                 // 生成付款码
-                6 -> mDeviceDetailModel.deviceDetail.value?.let { detail ->
+                6 -> mViewModel.deviceDetail.value?.let { detail ->
                     startActivity(
                         Intent(
                             this@DeviceDetailActivity,
@@ -275,7 +272,7 @@ class DeviceDetailActivity :
 
         // 监听刷新
         LiveDataBus.with(BusEvents.DEVICE_DETAILS_STATUS)?.observe(this) {
-            mDeviceDetailModel.requestData(1)
+            mViewModel.requestData(1)
         }
     }
 
@@ -286,7 +283,7 @@ class DeviceDetailActivity :
         val itemW = ScreenUtils.screenWidth / mBinding.glDeviceDetailFunc.columnCount
         val pLR = DimensionUtils.dip2px(this, 8f)
         val pTB = DimensionUtils.dip2px(this, 16f)
-        mDeviceDetailModel.getDeviceDetailFunOperate(
+        mViewModel.getDeviceDetailFunOperate(
             mSharedViewModel.hasDeviceResetPermission,
             mSharedViewModel.hasDeviceStartPermission,
             mSharedViewModel.hasDeviceCleanPermission,
@@ -319,8 +316,8 @@ class DeviceDetailActivity :
         mBinding.btnDeviceDetailDelete.setOnClickListener {
             CommonDialog.Builder(StringUtils.getString(R.string.device_delete_hint)).apply {
                 negativeTxt = StringUtils.getString(R.string.cancel)
-                setPositiveButton(StringUtils.getString(R.string.delete)){
-                    mDeviceDetailModel.deviceDelete()
+                setPositiveButton(StringUtils.getString(R.string.delete)) {
+                    mViewModel.deviceDelete()
                 }
             }.build()
                 .show(supportFragmentManager)
@@ -328,9 +325,8 @@ class DeviceDetailActivity :
     }
 
     override fun initData() {
-        mBinding.vm = mDeviceDetailModel
         mBinding.shared = mSharedViewModel
 
-        mDeviceDetailModel.requestData()
+        mViewModel.requestData()
     }
 }

@@ -12,6 +12,7 @@ import com.journeyapps.barcodescanner.ScanOptions
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.DeviceCreateViewModel
 import com.shangyun.haile_manager_android.business.vm.SearchSelectRadioViewModel
@@ -27,18 +28,17 @@ import com.shangyun.haile_manager_android.utils.StringUtils
 
 
 class DeviceCreateActivity :
-    BaseBusinessActivity<ActivityDeviceCreateBinding, DeviceCreateViewModel>() {
-
-    private val mDeviceCreateViewModel by lazy {
-        getActivityViewModelProvider(this)[DeviceCreateViewModel::class.java]
-    }
+    BaseBusinessActivity<ActivityDeviceCreateBinding, DeviceCreateViewModel>(
+        DeviceCreateViewModel::class.java,
+        BR.vm
+    ) {
 
     // 付款码相机启动器
     private val payCodeLauncher = registerForActivityResult(ScanContract()) { result ->
         result.contents?.let {
             val payCode = StringUtils.getPayCode(it)
             payCode?.let { code ->
-                mDeviceCreateViewModel.payCode.value = code
+                mViewModel.payCode.value = code
             } ?: SToast.showToast(this, R.string.pay_code_error)
         }
     }
@@ -46,7 +46,7 @@ class DeviceCreateActivity :
     // IMEI相机启动器
     private val imeiLauncher = registerForActivityResult(ScanContract()) { result ->
         result.contents?.let {
-            mDeviceCreateViewModel.imeiCode.value = it
+            mViewModel.imeiCode.value = it
         } ?: SToast.showToast(this, R.string.imei_code_error)
     }
 
@@ -69,14 +69,14 @@ class DeviceCreateActivity :
                     result.data?.getStringExtra(SearchSelectRadioActivity.ResultData)?.let { json ->
                         GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
                             if (selected.isNotEmpty()) {
-                                mDeviceCreateViewModel.createDeviceShop.value = selected[0]
+                                mViewModel.createDeviceShop.value = selected[0]
                             }
                         }
                     }
                 }
                 DeviceModelActivity.ResultCode -> {
                     result.data?.let { intent ->
-                        mDeviceCreateViewModel.changeDeviceModel(
+                        mViewModel.changeDeviceModel(
                             intent.getIntExtra(DeviceModelActivity.ResultDataId, -1),
                             intent.getStringExtra(DeviceModelActivity.ResultDataName),
                             intent.getIntExtra(DeviceCategory.CategoryId, -1),
@@ -92,7 +92,7 @@ class DeviceCreateActivity :
                                 DeviceFunctionConfigurationActivity.ResultData
                             ), SkuFuncConfigurationParam::class.java
                         )?.let {
-                            mDeviceCreateViewModel.createDeviceFunConfigure.value = it
+                            mViewModel.createDeviceFunConfigure.value = it
                         }
                     }
                 }
@@ -100,8 +100,6 @@ class DeviceCreateActivity :
         }
 
     override fun layoutId(): Int = R.layout.activity_device_create
-
-    override fun getVM(): DeviceCreateViewModel = mDeviceCreateViewModel
 
     override fun backBtn(): View = mBinding.barDeviceCreateTitle.getBackBtn()
 
@@ -151,17 +149,17 @@ class DeviceCreateActivity :
                 ).apply {
                     putExtra(
                         DeviceFunctionConfigurationActivity.SpuId,
-                        mDeviceCreateViewModel.createAndUpdateEntity.value?.spuId
+                        mViewModel.createAndUpdateEntity.value?.spuId
                     )
                     putExtra(
                         DeviceCategory.CategoryCode,
-                        mDeviceCreateViewModel.deviceCategoryCode
+                        mViewModel.deviceCategoryCode
                     )
                     putExtra(
                         DeviceCategory.CommunicationType,
-                        mDeviceCreateViewModel.deviceCommunicationType
+                        mViewModel.deviceCommunicationType
                     )
-                    mDeviceCreateViewModel.createDeviceFunConfigure.value?.let { configs ->
+                    mViewModel.createDeviceFunConfigure.value?.let { configs ->
                         putExtra(
                             DeviceFunctionConfigurationActivity.OldFuncConfiguration,
                             GsonUtils.any2Json(configs)
@@ -175,27 +173,27 @@ class DeviceCreateActivity :
     override fun initEvent() {
         super.initEvent()
         // 付款码
-        mDeviceCreateViewModel.payCode.observe(this) {
-            mDeviceCreateViewModel.createAndUpdateEntity.value?.code = it
+        mViewModel.payCode.observe(this) {
+            mViewModel.createAndUpdateEntity.value?.code = it
         }
         // IMEI
-        mDeviceCreateViewModel.imeiCode.observe(this) {
-            mDeviceCreateViewModel.createAndUpdateEntity.value?.imei = it
-            mDeviceCreateViewModel.requestModelOfImei(it)
+        mViewModel.imeiCode.observe(this) {
+            mViewModel.createAndUpdateEntity.value?.imei = it
+            mViewModel.requestModelOfImei(it)
         }
 
         //设备名称
-        mDeviceCreateViewModel.deviceName.observe(this) {
-            mDeviceCreateViewModel.createAndUpdateEntity.value?.name = it
+        mViewModel.deviceName.observe(this) {
+            mViewModel.createAndUpdateEntity.value?.name = it
         }
 
         // 门店
-        mDeviceCreateViewModel.createDeviceShop.observe(this) {
-            mDeviceCreateViewModel.createAndUpdateEntity.value?.shopId = it.id
+        mViewModel.createDeviceShop.observe(this) {
+            mViewModel.createAndUpdateEntity.value?.shopId = it.id
         }
 
         // 功能配置
-        mDeviceCreateViewModel.createDeviceFunConfigure.observe(this) {
+        mViewModel.createDeviceFunConfigure.observe(this) {
             it?.let { list ->
                 mBinding.llDeviceCreateSelectFunConfiguration.removeAllViews()
                 val mtb = DimensionUtils.dip2px(this@DeviceCreateActivity, 12f)
@@ -214,7 +212,7 @@ class DeviceCreateActivity :
                     mFuncConfigBinding?.let {
                         mFuncConfigBinding.item = config
                         mFuncConfigBinding.isDryer =
-                            DeviceCategory.isDryer(mDeviceCreateViewModel.deviceCategoryCode)
+                            DeviceCategory.isDryer(mViewModel.deviceCategoryCode)
                         mBinding.llDeviceCreateSelectFunConfiguration.addView(
                             mFuncConfigBinding.root,
                             LinearLayout.LayoutParams(
@@ -230,12 +228,11 @@ class DeviceCreateActivity :
         }
 
         // 跳转
-        mDeviceCreateViewModel.jump.observe(this) {
+        mViewModel.jump.observe(this) {
             finish()
         }
     }
 
     override fun initData() {
-        mBinding.vm = mDeviceCreateViewModel
     }
 }

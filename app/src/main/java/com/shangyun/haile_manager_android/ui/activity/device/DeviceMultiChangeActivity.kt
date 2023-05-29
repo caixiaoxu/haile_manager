@@ -6,6 +6,7 @@ import android.view.View
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 import com.lsy.framelib.utils.SToast
+import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.DeviceMultiChangeViewModel
 import com.shangyun.haile_manager_android.databinding.ActivityDeviceMultiChangeBinding
@@ -14,7 +15,10 @@ import com.shangyun.haile_manager_android.ui.activity.common.CustomCaptureActivi
 import com.shangyun.haile_manager_android.utils.StringUtils
 
 class DeviceMultiChangeActivity :
-    BaseBusinessActivity<ActivityDeviceMultiChangeBinding, DeviceMultiChangeViewModel>() {
+    BaseBusinessActivity<ActivityDeviceMultiChangeBinding, DeviceMultiChangeViewModel>(
+        DeviceMultiChangeViewModel::class.java,
+        BR.vm
+    ) {
 
     companion object {
         const val GoodId = "goodId"
@@ -22,24 +26,20 @@ class DeviceMultiChangeActivity :
         const val ResultData = "ResultData"
     }
 
-    private val mDeviceMultiChangeViewModel by lazy {
-        getActivityViewModelProvider(this)[DeviceMultiChangeViewModel::class.java]
-    }
-
     // 相机启动器
     private val codeLauncher = registerForActivityResult(ScanContract()) { result ->
-        when(mDeviceMultiChangeViewModel.type.value){
-            DeviceMultiChangeViewModel.typeChangePayCode->{
+        when (mViewModel.type.value) {
+            DeviceMultiChangeViewModel.typeChangePayCode -> {
                 result.contents?.let {
                     val payCode = StringUtils.getPayCode(it)
                     payCode?.let { code ->
-                        mDeviceMultiChangeViewModel.content.value = code
+                        mViewModel.content.value = code
                     } ?: SToast.showToast(this, R.string.pay_code_error)
                 }
             }
-            DeviceMultiChangeViewModel.typeChangeModel->{
+            DeviceMultiChangeViewModel.typeChangeModel -> {
                 result.contents?.let {
-                    mDeviceMultiChangeViewModel.content.value = it
+                    mViewModel.content.value = it
                 } ?: SToast.showToast(this, R.string.imei_code_error)
             }
         }
@@ -57,24 +57,22 @@ class DeviceMultiChangeActivity :
 
     override fun layoutId(): Int = R.layout.activity_device_multi_change
 
-    override fun getVM(): DeviceMultiChangeViewModel = mDeviceMultiChangeViewModel
-
     override fun backBtn(): View = mBinding.barDeviceMultiChangeTitle.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()
-        mDeviceMultiChangeViewModel.goodId = intent.getIntExtra(GoodId, -1)
-        mDeviceMultiChangeViewModel.type.value =
+        mViewModel.goodId = intent.getIntExtra(GoodId, -1)
+        mViewModel.type.value =
             intent.getIntExtra(DeviceMultiChangeViewModel.Type, 0)
     }
 
     override fun initEvent() {
         super.initEvent()
 
-        mDeviceMultiChangeViewModel.jump.observe(this) {
+        mViewModel.jump.observe(this) {
             setResult(ResultCode, Intent().apply {
-                putExtra(DeviceMultiChangeViewModel.Type, mDeviceMultiChangeViewModel.type.value)
-                putExtra(ResultData, mDeviceMultiChangeViewModel.content.value)
+                putExtra(DeviceMultiChangeViewModel.Type, mViewModel.type.value)
+                putExtra(ResultData, mViewModel.content.value)
             })
             finish()
         }
@@ -83,7 +81,7 @@ class DeviceMultiChangeActivity :
     override fun initView() {
         window.statusBarColor = Color.WHITE
         mBinding.barDeviceMultiChangeTitle.getTitle().text =
-            mDeviceMultiChangeViewModel.titles[mDeviceMultiChangeViewModel.type.value!!]
+            mViewModel.titles[mViewModel.type.value!!]
 
         mBinding.btnDeviceMultiChangeScan.setOnClickListener {
             codeLauncher.launch(scanOptions)
@@ -91,6 +89,5 @@ class DeviceMultiChangeActivity :
     }
 
     override fun initData() {
-        mBinding.vm = mDeviceMultiChangeViewModel
     }
 }

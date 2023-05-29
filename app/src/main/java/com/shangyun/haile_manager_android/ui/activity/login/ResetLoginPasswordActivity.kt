@@ -2,6 +2,7 @@ package com.shangyun.haile_manager_android.ui.activity.login
 
 import android.view.View
 import com.lsy.framelib.utils.SToast
+import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.BuildConfig
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.ResetPasswordViewModel
@@ -10,20 +11,16 @@ import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.utils.ViewUtils
 
 class ResetLoginPasswordActivity :
-    BaseBusinessActivity<ActivityResetPasswordBinding, ResetPasswordViewModel>() {
+    BaseBusinessActivity<ActivityResetPasswordBinding, ResetPasswordViewModel>(
+        ResetPasswordViewModel::class.java,
+        BR.vm
+    ) {
 
-    private val mResetPasswordViewModel by lazy {
-        getActivityViewModelProvider(this)[ResetPasswordViewModel::class.java]
-    }
-
-    override fun getVM(): ResetPasswordViewModel = mResetPasswordViewModel
-
-    override fun layoutId(): Int =R.layout.activity_reset_password
+    override fun layoutId(): Int = R.layout.activity_reset_password
 
     override fun backBtn(): View = mBinding.loginTitleBar.getBackBtn()
 
     override fun initView() {
-        mBinding.vm = mResetPasswordViewModel
 
         // 协议内容
         ViewUtils.initAgreementToTextView(mBinding.tvLoginAgreement) {
@@ -34,7 +31,7 @@ class ResetLoginPasswordActivity :
 
     override fun initEvent() {
         super.initEvent()
-        mResetPasswordViewModel.canSubmit.observe(this) {
+        mViewModel.canSubmit.observe(this) {
             mBinding.btnLoginSure.isEnabled = it
         }
     }
@@ -42,7 +39,7 @@ class ResetLoginPasswordActivity :
     override fun initData() {
 
         if (BuildConfig.DEBUG) {
-            mResetPasswordViewModel.phone.value = "13067949521"
+            mViewModel.phone.value = "13067949521"
         }
     }
 

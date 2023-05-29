@@ -27,6 +27,7 @@
     <color name="hint_color">#FF3B30</color>
     <color name="color_pink">#FC7F6F</color>
     <color name="color_green">#30C19A</color>
+    <color name="second_color_green">#2630C19A</color>
     <color name="color_gray">#CCCCCC</color>
 
 </resources>

@@ -24,10 +24,10 @@ import com.shangyun.haile_manager_android.ui.activity.shop.ShopCreateAndUpdateAc
 import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 
 class SearchSelectActivity :
-    BaseBusinessActivity<ActivitySearchSelectBinding, SearchSelectViewModel>() {
-    private val mSearchSelectViewModel by lazy {
-        getActivityViewModelProvider(this)[SearchSelectViewModel::class.java]
-    }
+    BaseBusinessActivity<ActivitySearchSelectBinding, SearchSelectViewModel>(
+        SearchSelectViewModel::class.java,
+        BR.vm
+    ) {
 
     private val mAdapter: CommonRecyclerAdapter<ItemSearchSelectBinding, ISearchSelectEntity> by lazy {
         CommonRecyclerAdapter(
@@ -35,11 +35,14 @@ class SearchSelectActivity :
             BR.item
         ) { mBinding, _, d ->
             mBinding?.root?.setOnClickListener {
-                if (SCHOOL == mSearchSelectViewModel.searchType.value) {
+                if (SCHOOL == mViewModel.searchType.value) {
                     setResult(ShopCreateAndUpdateActivity.SchoolResultCode, Intent().apply {
-                        putExtra(ShopCreateAndUpdateActivity.SchoolResultData, GsonUtils.any2Json(d))
+                        putExtra(
+                            ShopCreateAndUpdateActivity.SchoolResultData,
+                            GsonUtils.any2Json(d)
+                        )
                     })
-                } else if (LOCATION == mSearchSelectViewModel.searchType.value) {
+                } else if (LOCATION == mViewModel.searchType.value) {
                     setResult(RESULT_OK, Intent().apply {
                         putExtra(
                             ShopCreateAndUpdateActivity.LocationResultData,
@@ -55,7 +58,7 @@ class SearchSelectActivity :
     private val mHandler: Handler by lazy {
         Handler(Looper.getMainLooper()) {
             if (0 == it.what) {
-                mSearchSelectViewModel.search(this@SearchSelectActivity)
+                mViewModel.search(this@SearchSelectActivity)
             }
             false
         }
@@ -63,16 +66,14 @@ class SearchSelectActivity :
 
     override fun layoutId(): Int = R.layout.activity_search_select
 
-    override fun getVM(): SearchSelectViewModel = mSearchSelectViewModel
-
     override fun backBtn(): View = mBinding.searchSelectTitleBar.getBackBtn()
 
     override fun initIntent() {
         intent.getIntExtra(SEARCH_TYPE, -1).run {
-            mSearchSelectViewModel.searchType.postValue(this)
+            mViewModel.searchType.postValue(this)
         }
         intent.getStringExtra(SearchSelectViewModel.CityCode)?.run {
-            mSearchSelectViewModel.cityCode = this
+            mViewModel.cityCode = this
         }
     }
 
@@ -99,12 +100,11 @@ class SearchSelectActivity :
     override fun initEvent() {
         super.initEvent()
 
-        mSearchSelectViewModel.searchList.observe(this) {
+        mViewModel.searchList.observe(this) {
             mAdapter.refreshList(it, true)
         }
     }
 
     override fun initData() {
-        mBinding.vm = mSearchSelectViewModel
     }
 }

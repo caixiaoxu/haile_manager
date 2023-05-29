@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:gravity="center"
-                    android:text="@{@string/total_income + @string/unit_yuan_hint}"
+                    android:text="@{vm.deviceName + @string/total_income + @string/unit_yuan_hint}"
                     tools:text="总收入（元）" />
 
                 <LinearLayout
@@ -104,8 +104,8 @@
                     android:id="@+id/rv_income_calendar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="1dp"
-                    android:background="@color/dividing_line_color_efefef" />
+                    android:background="@color/dividing_line_color_efefef"
+                    android:padding="1dp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -133,6 +133,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/money"
+                        android:text="@{vm.totalIncomeForDay}"
                         tools:text="+2000.00" />
                 </LinearLayout>
 
@@ -158,7 +159,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <com.shangyun.haile_manager_android.ui.view.refresh.CommonLoadMoreRecyclerView
+                <com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
                     android:id="@+id/rv_income_list_for_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

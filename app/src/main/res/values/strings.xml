@@ -252,6 +252,7 @@
     <string name="balance">余额明细</string>
     <string name="income">收入明细</string>
     <string name="order_no">订单编号</string>
+    <string name="total_income_for_day">%1$s总收入：</string>
 
     <string name="bank_card">银行卡</string>
     <string name="real_name">实名认证</string>

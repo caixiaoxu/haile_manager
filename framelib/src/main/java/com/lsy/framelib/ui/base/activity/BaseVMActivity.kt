@@ -8,7 +8,6 @@ import com.lsy.framelib.intfs.ILoadingDialog
 import com.lsy.framelib.ui.base.BaseApp
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.ui.weight.loading.LoadDialogMgr
-import timber.log.Timber
 
 /**
  * Title : Activity基类(构建ViewModel)
@@ -20,18 +19,23 @@ import timber.log.Timber
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-abstract class BaseVMActivity<T : ViewDataBinding,VM : BaseViewModel> : BaseBindingActivity<T>(), ILoadingDialog {
+abstract class BaseVMActivity<T : ViewDataBinding, VM : BaseViewModel>(clz: Class<VM>) :
+    BaseBindingActivity<T>(), ILoadingDialog {
+
+    protected val mViewModel by lazy {
+        getActivityViewModelProvider(this)[clz]
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // 界面跳转
-        getVM().jump.observe(this) {
+        mViewModel.jump.observe(this) {
             jump(it)
         }
 
         // 请求等待条
-        getVM().loadingStatus.observe(this) {
+        mViewModel.loadingStatus.observe(this) {
             if (it) {
                 showLoading()
             } else {
@@ -39,11 +43,6 @@ abstract class BaseVMActivity<T : ViewDataBinding,VM : BaseViewModel> : BaseBind
             }
         }
     }
-
-    /**
-     * 获取子类的ViewModel
-     */
-    abstract fun getVM(): VM
 
     /**
      * 用于处理跳转

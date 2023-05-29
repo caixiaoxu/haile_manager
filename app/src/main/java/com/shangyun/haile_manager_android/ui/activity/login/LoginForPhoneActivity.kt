@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.View
 import com.lsy.framelib.utils.AppManager
 import com.lsy.framelib.utils.SToast
+import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.BuildConfig
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.LoginForPhoneViewModel
@@ -13,18 +14,15 @@ import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.activity.MainActivity
 import com.shangyun.haile_manager_android.utils.ViewUtils
 
-class LoginForPhoneActivity : BaseBusinessActivity<ActivityLoginForPhoneBinding, LoginForPhoneViewModel>() {
+class LoginForPhoneActivity : BaseBusinessActivity<ActivityLoginForPhoneBinding, LoginForPhoneViewModel>(
+    LoginForPhoneViewModel::class.java,
+    BR.vm) {
 
-    private val mLoginForPhoneViewModel by lazy {
-        getActivityViewModelProvider(this)[LoginForPhoneViewModel::class.java]
-    }
     override fun activityTag(): String = ActivityTag.TAG_LOGIN
     override fun layoutId(): Int =R.layout.activity_login_for_phone
-    override fun getVM(): LoginForPhoneViewModel =mLoginForPhoneViewModel
     override fun backBtn(): View = mBinding.loginTitleBar.getBackBtn()
 
     override fun initView() {
-        mBinding.vm = mLoginForPhoneViewModel
         mBinding.shared = mSharedViewModel
 
         // 协议内容
@@ -37,7 +35,7 @@ class LoginForPhoneActivity : BaseBusinessActivity<ActivityLoginForPhoneBinding,
     override fun initEvent() {
         super.initEvent()
 
-        mLoginForPhoneViewModel.canSubmit.observe(this) {
+        mViewModel.canSubmit.observe(this) {
             mBinding.btnLoginSure.isEnabled = it
         }
     }
@@ -45,8 +43,8 @@ class LoginForPhoneActivity : BaseBusinessActivity<ActivityLoginForPhoneBinding,
     override fun initData() {
         if (BuildConfig.DEBUG){
             // 模拟数据
-            mLoginForPhoneViewModel.phone.value = "13067949521"
-            mLoginForPhoneViewModel.isAgree.value = true
+            mViewModel.phone.value = "13067949521"
+            mViewModel.isAgree.value = true
         }
     }
 

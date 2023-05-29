@@ -8,10 +8,7 @@ import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.text.style.TypefaceSpan
-import android.view.Gravity
 import android.view.View
-import android.widget.Button
-import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -36,6 +33,7 @@ import com.shangyun.haile_manager_android.databinding.ItemDeviceListBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.activity.common.SearchActivity
 import com.shangyun.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.shangyun.haile_manager_android.ui.activity.personal.IncomeActivity
 import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.shangyun.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
@@ -49,11 +47,10 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.Simple
 
 
 class DeviceManagerActivity :
-    BaseBusinessActivity<ActivityDeviceManagerBinding, DeviceManagerViewModel>() {
-
-    private val mDeviceManagerViewModel by lazy {
-        getActivityViewModelProvider(this)[DeviceManagerViewModel::class.java]
-    }
+    BaseBusinessActivity<ActivityDeviceManagerBinding, DeviceManagerViewModel>(
+        DeviceManagerViewModel::class.java,
+        BR.vm
+    ) {
 
     // 搜索选择界面
     private val startSearchSelect =
@@ -65,10 +62,10 @@ class DeviceManagerActivity :
                         if (selected.isNotEmpty()) {
                             when (it.resultCode) {
                                 SearchSelectRadioActivity.ShopResultCode -> {
-                                    mDeviceManagerViewModel.selectDepartment.value = selected[0]
+                                    mViewModel.selectDepartment.value = selected[0]
                                 }
                                 SearchSelectRadioActivity.DeviceModelResultCode -> {
-                                    mDeviceManagerViewModel.selectDeviceModel.value = selected[0]
+                                    mViewModel.selectDeviceModel.value = selected[0]
                                 }
                             }
                         }
@@ -107,7 +104,16 @@ class DeviceManagerActivity :
                 )
             mBinding?.tvItemDeviceTotalIncome?.setOnClickListener {
                 if (true == mSharedViewModel.hasDeviceProfitPermission.value) {
-                    // TODO 跳转到设备收益
+                    // 跳转到设备收益
+                    startActivity(
+                        Intent(
+                            this@DeviceManagerActivity,
+                            IncomeActivity::class.java
+                        ).apply {
+                            putExtra(IncomeActivity.ProfitType, 2)
+                            putExtra(IncomeActivity.ProfitSearchId, item.id)
+                            putExtra(IncomeActivity.DeviceName, item.name)
+                        })
                 }
             }
 
@@ -129,8 +135,6 @@ class DeviceManagerActivity :
     }
 
     override fun layoutId(): Int = R.layout.activity_device_manager
-
-    override fun getVM(): DeviceManagerViewModel = mDeviceManagerViewModel
 
     override fun backBtn(): View = mBinding.barDeviceTitle.getBackBtn()
 
@@ -181,9 +185,9 @@ class DeviceManagerActivity :
 
         // 设备类型
         mBinding.tvDeviceCategoryCategory.setOnClickListener {
-            mDeviceManagerViewModel.categoryList.value?.let {
+            mViewModel.categoryList.value?.let {
                 showDeviceCategoryDialog(it)
-            } ?: mDeviceManagerViewModel.requestData(1)
+            } ?: mViewModel.requestData(1)
         }
 
         // 设备模型
@@ -199,7 +203,7 @@ class DeviceManagerActivity :
                     )
                     putExtra(
                         SearchSelectRadioActivity.CategoryId,
-                        mDeviceManagerViewModel.selectDeviceCategory.value?.id ?: -1
+                        mViewModel.selectDeviceCategory.value?.id ?: -1
                     )
                 }
             )
@@ -219,7 +223,7 @@ class DeviceManagerActivity :
                     onValueSureListener =
                         object : CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
                             override fun onValue(data: SearchSelectParam) {
-                                mDeviceManagerViewModel.selectNetworkStatus.value = data
+                                mViewModel.selectNetworkStatus.value = data
                             }
                         }
                 }
@@ -253,7 +257,7 @@ class DeviceManagerActivity :
                     callBack: (responseList: ResponseList<out DeviceEntity>?) -> Unit
                 ) {
                     if (true == mSharedViewModel.hasDeviceListPermission.value) {
-                        mDeviceManagerViewModel.requestDeviceList(page, pageSize, callBack)
+                        mViewModel.requestDeviceList(page, pageSize, callBack)
                     }
                 }
             }
@@ -270,20 +274,20 @@ class DeviceManagerActivity :
         }
 
         // 刷新状态
-        mDeviceManagerViewModel.deviceStatus.observe(this) { list ->
+        mViewModel.deviceStatus.observe(this) { list ->
             mBinding.indicatorDeviceStatus.navigator = CommonNavigator(this).apply {
 
                 adapter = object : CommonNavigatorAdapter() {
                     override fun getCount(): Int = list.size
 
-                    override fun getTitleView(context: Context?, index: Int): IPagerTitleView? {
+                    override fun getTitleView(context: Context?, index: Int): IPagerTitleView {
                         return SimplePagerTitleView(context).apply {
                             normalColor = Color.parseColor("#666666")
                             selectedColor = Color.WHITE
                             list[index].run {
                                 text = title + if (0 < num) num else ""
                                 setOnClickListener {
-                                    mDeviceManagerViewModel.curWorkStatus.value = value
+                                    mViewModel.curWorkStatus.value = value
                                     onPageSelected(index)
                                     notifyDataSetChanged()
                                 }
@@ -291,7 +295,7 @@ class DeviceManagerActivity :
                         }
                     }
 
-                    override fun getIndicator(context: Context?): IPagerIndicator? {
+                    override fun getIndicator(context: Context?): IPagerIndicator {
                         return WrapPagerIndicator(context).apply {
                             verticalPadding = DimensionUtils.dip2px(this@DeviceManagerActivity, 4f)
                             fillColor = ContextCompat.getColor(
@@ -307,36 +311,36 @@ class DeviceManagerActivity :
         }
 
         // 设备类型
-        mDeviceManagerViewModel.categoryList.observe(this) {
+        mViewModel.categoryList.observe(this) {
             showDeviceCategoryDialog(it)
         }
 
         // 选择店铺
-        mDeviceManagerViewModel.selectDepartment.observe(this) {
+        mViewModel.selectDepartment.observe(this) {
             mBinding.tvDeviceCategoryDepartment.text = it.name
             mBinding.rvDeviceManagerList.requestRefresh()
         }
 
         // 选择设备类型
-        mDeviceManagerViewModel.selectDeviceCategory.observe(this) {
+        mViewModel.selectDeviceCategory.observe(this) {
             mBinding.tvDeviceCategoryCategory.text = it.name
             mBinding.rvDeviceManagerList.requestRefresh()
         }
 
         // 选择设备模型
-        mDeviceManagerViewModel.selectDeviceModel.observe(this) {
+        mViewModel.selectDeviceModel.observe(this) {
             mBinding.tvDeviceCategoryModel.text = it.name
             mBinding.rvDeviceManagerList.requestRefresh()
         }
 
         // 选择设备模型
-        mDeviceManagerViewModel.selectNetworkStatus.observe(this) {
+        mViewModel.selectNetworkStatus.observe(this) {
             mBinding.tvDeviceCategoryNetworkStatus.text = it.name
             mBinding.rvDeviceManagerList.requestRefresh()
         }
 
         // 切换工作状态
-        mDeviceManagerViewModel.curWorkStatus.observe(this) {
+        mViewModel.curWorkStatus.observe(this) {
             mBinding.rvDeviceManagerList.requestRefresh()
         }
 
@@ -361,7 +365,7 @@ class DeviceManagerActivity :
                     onValueSureListener =
                         object : CommonBottomSheetDialog.OnValueSureListener<CategoryEntity> {
                             override fun onValue(data: CategoryEntity) {
-                                mDeviceManagerViewModel.selectDeviceCategory.value = data
+                                mViewModel.selectDeviceCategory.value = data
                             }
                         }
                 }
@@ -370,8 +374,6 @@ class DeviceManagerActivity :
     }
 
     override fun initData() {
-        mBinding.vm = mDeviceManagerViewModel
-
-        mDeviceManagerViewModel.requestData(4)
+        mViewModel.requestData(4)
     }
 }

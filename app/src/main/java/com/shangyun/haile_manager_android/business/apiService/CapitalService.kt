@@ -1,8 +1,10 @@
 package com.shangyun.haile_manager_android.business.apiService
 
+import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.shangyun.haile_manager_android.data.entities.HomeIncomeEntity
 import com.shangyun.haile_manager_android.data.entities.IncomeCalendarEntity
+import com.shangyun.haile_manager_android.data.entities.IncomeListByDayEntity
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -36,6 +38,12 @@ interface CapitalService {
      */
     @POST("/profit/incomeByDate")
     suspend fun incomeByDate(@Body body: RequestBody): ResponseWrapper<List<IncomeCalendarEntity>>
+
+    /**
+     * 收益明细列表接口
+     */
+    @POST("/profit/profitOrderList")
+    suspend fun incomeListByDay(@Body body: RequestBody): ResponseWrapper<ResponseList<IncomeListByDayEntity>>
 
     /**
      * 首页收益趋势接口

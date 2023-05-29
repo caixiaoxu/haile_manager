@@ -27,15 +27,12 @@ import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 
 class DiscountsManagerActivity :
-    BaseBusinessActivity<ActivityDiscountsManagerBinding, DiscountsManagerViewModel>() {
-
-    private val mDiscountsManagerViewModel by lazy {
-        getActivityViewModelProvider(this)[DiscountsManagerViewModel::class.java]
-    }
+    BaseBusinessActivity<ActivityDiscountsManagerBinding, DiscountsManagerViewModel>(
+        DiscountsManagerViewModel::class.java,
+        BR.vm
+    ) {
 
     override fun layoutId(): Int = R.layout.activity_discounts_manager
-
-    override fun getVM(): DiscountsManagerViewModel = mDiscountsManagerViewModel
 
     override fun backBtn(): View = mBinding.barDiscountsTitle.getBackBtn()
 
@@ -86,7 +83,7 @@ class DiscountsManagerActivity :
                 )
 
             mItemBinding?.root?.setOnClickListener {
-                if (mSharedViewModel.hasMarketingInfoPermission.value == true){
+                if (mSharedViewModel.hasMarketingInfoPermission.value == true) {
                     startActivity(
                         Intent(
                             this@DiscountsManagerActivity,
@@ -106,7 +103,7 @@ class DiscountsManagerActivity :
         mSharedViewModel.hasMarketingListPermission.observe(this) {
             if (it) mBinding.rvDiscountsList.requestRefresh()
         }
-        mSharedViewModel.hasMarketingInfoPermission.observe(this){}
+        mSharedViewModel.hasMarketingInfoPermission.observe(this) {}
         mSharedViewModel.hasMarketingAddPermission.observe(this) {
             if (it) initRightBtn()
         }
@@ -143,7 +140,7 @@ class DiscountsManagerActivity :
                     callBack: (responseList: ResponseList<out DiscountsEntity>?) -> Unit
                 ) {
                     if (true == mSharedViewModel.hasMarketingListPermission.value) {
-                        mDiscountsManagerViewModel.requestDeviceList(page, pageSize, callBack)
+                        mViewModel.requestDeviceList(page, pageSize, callBack)
                     }
                 }
             }

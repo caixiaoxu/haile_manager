@@ -23,11 +23,6 @@ import com.shangyun.haile_manager_android.databinding.ItemDeviceModelItemBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.view.GridSpaceItemDecoration
 import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
-import kotlin.Int
-import kotlin.apply
-import kotlin.getValue
-import kotlin.lazy
-import kotlin.let
 
 /**
  * Title :
@@ -40,16 +35,15 @@ import kotlin.let
  * 作者姓名 修改时间 版本号 描述
  */
 class DeviceModelActivity :
-    BaseBusinessActivity<ActivityDeviceModelBinding, DeviceModelViewModel>() {
+    BaseBusinessActivity<ActivityDeviceModelBinding, DeviceModelViewModel>(
+        DeviceModelViewModel::class.java,
+        BR.vm
+    ) {
 
     companion object {
         const val ResultCode = 0x90002
         const val ResultDataName = "resultDataName"
         const val ResultDataId = "resultDataId"
-    }
-
-    private val mDeviceModelViewModel by lazy {
-        getActivityViewModelProvider(this)[DeviceModelViewModel::class.java]
     }
 
     private val mAdapter: CommonRecyclerAdapter<ItemDeviceModelBinding, DeviceModelParam> by lazy {
@@ -74,11 +68,11 @@ class DeviceModelActivity :
                                 putExtra(ResultDataId, spu.id)
                                 putExtra(
                                     DeviceCategory.CategoryId,
-                                    mDeviceModelViewModel.selectCategory.value?.id
+                                    mViewModel.selectCategory.value?.id
                                 )
                                 putExtra(
                                     DeviceCategory.CategoryCode,
-                                    mDeviceModelViewModel.selectCategory.value?.code
+                                    mViewModel.selectCategory.value?.code
                                 )
                                 putExtra(DeviceCategory.CommunicationType, spu.communicationType)
                             })
@@ -94,8 +88,6 @@ class DeviceModelActivity :
     }
 
     override fun layoutId(): Int = R.layout.activity_device_model
-
-    override fun getVM(): DeviceModelViewModel = mDeviceModelViewModel
 
     override fun backBtn(): View = mBinding.barDeviceModelTitle.getBackBtn()
 
@@ -120,7 +112,7 @@ class DeviceModelActivity :
         super.initEvent()
 
         //分类列表
-        mDeviceModelViewModel.categoryList.observe(this) { list ->
+        mViewModel.categoryList.observe(this) { list ->
             mBinding.rgDeviceModelCategory.removeAllViews()
             list?.let {
                 it.forEachIndexed { index, entity ->
@@ -133,7 +125,7 @@ class DeviceModelActivity :
                     }
                     itemBinding.rbDeviceCategory.text = entity.name
                     itemBinding.root.setOnClickListener {
-                        mDeviceModelViewModel.selectCategory.value = entity
+                        mViewModel.selectCategory.value = entity
                     }
                     mBinding.rgDeviceModelCategory.addView(
                         itemBinding.root,
@@ -146,16 +138,16 @@ class DeviceModelActivity :
             }
         }
 
-        mDeviceModelViewModel.selectCategory.observe(this) {
-            mDeviceModelViewModel.requestData(1, it.id)
+        mViewModel.selectCategory.observe(this) {
+            mViewModel.requestData(1, it.id)
         }
 
-        mDeviceModelViewModel.deviceModel.observe(this) {
+        mViewModel.deviceModel.observe(this) {
             mAdapter.refreshList(it, isRefresh = true)
         }
     }
 
     override fun initData() {
-        mDeviceModelViewModel.requestData()
+        mViewModel.requestData()
     }
 }

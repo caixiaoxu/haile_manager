@@ -12,7 +12,16 @@ class IncomeDetailActivity :
         BR.vm
     ) {
 
+    companion object {
+        const val IncomeId = "incomeId"
+    }
+
     override fun layoutId(): Int = R.layout.activity_income_detail
+
+    override fun initIntent() {
+        super.initIntent()
+        mViewModel.incomeId = intent.getIntExtra(IncomeId, -1)
+    }
 
     override fun initView() {
     }

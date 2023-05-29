@@ -1,5 +1,6 @@
 package com.shangyun.haile_manager_android.ui.activity.personal
 
+import android.content.Intent
 import android.graphics.Color
 import android.view.Gravity
 import android.view.View
@@ -28,7 +29,10 @@ import com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerV
 import com.shangyun.haile_manager_android.utils.DateTimeUtils
 import com.shangyun.haile_manager_android.utils.ViewUtils
 
-class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewModel>(IncomeViewModel::class.java,BR.vm) {
+class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewModel>(
+    IncomeViewModel::class.java,
+    BR.vm
+) {
 
     companion object {
         const val ProfitType = "profitType"
@@ -70,7 +74,9 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
             BR.item
         ) { mItemBinding, _, item ->
             mItemBinding?.root?.setOnClickListener {
-
+                startActivity(Intent(this@IncomeActivity, IncomeDetailActivity::class.java).apply {
+                    putExtra(IncomeDetailActivity.IncomeId, item.id)
+                })
             }
         }
     }

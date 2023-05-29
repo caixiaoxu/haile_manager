@@ -12,5 +12,6 @@ import com.lsy.framelib.ui.base.BaseViewModel
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class IncomeDetailViewModel: BaseViewModel() {
+class IncomeDetailViewModel : BaseViewModel() {
+    var incomeId: Int = -1
 }

@@ -19,11 +19,7 @@ import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.shangyun.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
 
 class StaffPermissionActivity :
-    BaseBusinessActivity<ActivityStaffPermissionBinding, StaffPermissionViewModel>() {
-
-    private val mStaffPermissionViewModel by lazy {
-        getActivityViewModelProvider(this)[StaffPermissionViewModel::class.java]
-    }
+    BaseBusinessActivity<ActivityStaffPermissionBinding, StaffPermissionViewModel>(StaffPermissionViewModel::class.java,BR.vm) {
 
     companion object {
         const val PermissionResultCode = 0x90100
@@ -32,8 +28,6 @@ class StaffPermissionActivity :
     }
 
     override fun layoutId(): Int = R.layout.activity_staff_permission
-
-    override fun getVM(): StaffPermissionViewModel = mStaffPermissionViewModel
 
     override fun backBtn(): View = mBinding.barStaffPermissionTitle.getBackBtn()
 
@@ -48,7 +42,7 @@ class StaffPermissionActivity :
                         onValueSureListener = object :
                             MultiSelectBottomSheetDialog.OnValueSureListener<UserPermissionEntity> {
                             override fun onValue(datas: List<UserPermissionEntity>) {
-                                mStaffPermissionViewModel.checkSelectAll();
+                                mViewModel.checkSelectAll();
                                 data.notifyPropertyChanged(BR.selectNum)
                             }
                         }
@@ -61,24 +55,24 @@ class StaffPermissionActivity :
     override fun initIntent() {
         super.initIntent()
 
-        mStaffPermissionViewModel.staffId = intent.getIntExtra(StaffId, -1)
-        mStaffPermissionViewModel.selectList =
+        mViewModel.staffId = intent.getIntExtra(StaffId, -1)
+        mViewModel.selectList =
             intent.getIntArrayExtra(PermissionIds) ?: intArrayOf()
     }
 
     override fun initEvent() {
         super.initEvent()
         mSharedViewModel.hasUserPermission.observe(this) {
-            mStaffPermissionViewModel.dealPermissionList()
+            mViewModel.dealPermissionList()
         }
 
-        mStaffPermissionViewModel.permissionList.observe(this) {
+        mViewModel.permissionList.observe(this) {
             if (!it.isNullOrEmpty()) {
                 mAdapter.refreshList(it, true)
-                mStaffPermissionViewModel.checkSelectAll()
+                mViewModel.checkSelectAll()
             }
         }
-        mStaffPermissionViewModel.jump.observe(this) {
+        mViewModel.jump.observe(this) {
             finish()
         }
     }
@@ -101,13 +95,13 @@ class StaffPermissionActivity :
                 )
             )
             setOnClickListener {
-                if (-1 == mStaffPermissionViewModel.staffId) {
+                if (-1 == mViewModel.staffId) {
                     setResult(PermissionResultCode, Intent().apply {
-                        putExtra(PermissionIds, mStaffPermissionViewModel.getSelectPermissionIds())
+                        putExtra(PermissionIds, mViewModel.getSelectPermissionIds())
                     })
                     finish()
                 } else {
-                    mStaffPermissionViewModel.updateStaffPermission(this@StaffPermissionActivity)
+                    mViewModel.updateStaffPermission(this@StaffPermissionActivity)
                 }
             }
         }
@@ -128,6 +122,5 @@ class StaffPermissionActivity :
     }
 
     override fun initData() {
-        mBinding.vm = mStaffPermissionViewModel
     }
 }

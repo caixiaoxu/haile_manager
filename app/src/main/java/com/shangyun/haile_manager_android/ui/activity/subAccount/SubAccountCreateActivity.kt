@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.View
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.SearchSelectRadioViewModel
 import com.shangyun.haile_manager_android.business.vm.SubAccountCreateViewModel
@@ -23,11 +24,7 @@ import com.shangyun.haile_manager_android.utils.DateTimeUtils
 import java.util.*
 
 class SubAccountCreateActivity :
-    BaseBusinessActivity<ActivitySubAccountCreateBinding, SubAccountCreateViewModel>() {
-
-    private val mSubAccountCreateViewModel by lazy {
-        getActivityViewModelProvider(this)[SubAccountCreateViewModel::class.java]
-    }
+    BaseBusinessActivity<ActivitySubAccountCreateBinding, SubAccountCreateViewModel>(SubAccountCreateViewModel::class.java,BR.vm) {
 
     companion object {
         const val UserId = "userId"
@@ -42,7 +39,7 @@ class SubAccountCreateActivity :
         ActivityManagerUtils.getActivityResultLauncher(this) { _, rData ->
             rData?.getStringExtra(SubAccountSelectActivity.SubAccountData)?.let {
                 GsonUtils.json2Class(it, StaffEntity::class.java)?.let { e ->
-                    mSubAccountCreateViewModel.subAccount.value = e
+                    mViewModel.subAccount.value = e
                 }
             }
         }
@@ -53,7 +50,7 @@ class SubAccountCreateActivity :
             rData?.getStringExtra(SearchSelectRadioActivity.ResultData)?.let { json ->
                 GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
                     if (selected.isNotEmpty()) {
-                        mSubAccountCreateViewModel.subAccountShops.value = selected
+                        mViewModel.subAccountShops.value = selected
                     }
                 }
             }
@@ -61,22 +58,20 @@ class SubAccountCreateActivity :
 
     override fun layoutId(): Int = R.layout.activity_sub_account_create
 
-    override fun getVM(): SubAccountCreateViewModel = mSubAccountCreateViewModel
-
     override fun backBtn(): View = mBinding.barSubAccountCreateTitle.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()
 
         intent.getIntExtra(UserId, -1).let {
-            mSubAccountCreateViewModel.userId = it
+            mViewModel.userId = it
             if (-1 != it) {
-                mSubAccountCreateViewModel.categoryIds =
+                mViewModel.categoryIds =
                     intent.getIntArrayExtra(CategoryIds) ?: intArrayOf()
-                mSubAccountCreateViewModel.shopIds =
+                mViewModel.shopIds =
                     intent.getIntArrayExtra(ShopIds) ?: intArrayOf()
-                mSubAccountCreateViewModel.subAccountRatio.value = intent.getStringExtra(Ratio)
-                mSubAccountCreateViewModel.effectiveDate.value =
+                mViewModel.subAccountRatio.value = intent.getStringExtra(Ratio)
+                mViewModel.effectiveDate.value =
                     DateTimeUtils.formatDateFromString(intent.getStringExtra(EffectiveDate))
             }
         }
@@ -85,11 +80,11 @@ class SubAccountCreateActivity :
     override fun initEvent() {
         super.initEvent()
 
-        mSubAccountCreateViewModel.jump.observe(this) {
+        mViewModel.jump.observe(this) {
             finish()
         }
 
-        mSubAccountCreateViewModel.categoryList.observe(this) {
+        mViewModel.categoryList.observe(this) {
             if (it.isNullOrEmpty()) showDeviceCategoryDailog(it)
         }
     }
@@ -103,7 +98,7 @@ class SubAccountCreateActivity :
                     this@SubAccountCreateActivity,
                     SubAccountSelectActivity::class.java
                 ).apply {
-                    mSubAccountCreateViewModel.subAccount.value?.let {
+                    mViewModel.subAccount.value?.let {
                         putExtra(SubAccountSelectActivity.SubAccountData, GsonUtils.any2Json(it))
                     }
                 }
@@ -112,7 +107,7 @@ class SubAccountCreateActivity :
 
         // 业务类型
         mBinding.itemSubAccountCreateBusinessType.onSelectedEvent = {
-            mSubAccountCreateViewModel.businessTypeList.value?.let { list ->
+            mViewModel.businessTypeList.value?.let { list ->
                 CommonBottomSheetDialog.Builder(
                     StringUtils.getString(R.string.business_type_title),
                     list
@@ -120,9 +115,9 @@ class SubAccountCreateActivity :
                     onValueSureListener = object :
                         CommonBottomSheetDialog.OnValueSureListener<ShopBusinessTypeEntity> {
                         override fun onValue(data: ShopBusinessTypeEntity) {
-                            mSubAccountCreateViewModel.businessType.value = data
-                            mSubAccountCreateViewModel.categoryList.value = null
-                            mSubAccountCreateViewModel.deviceCategory.value = null
+                            mViewModel.businessType.value = data
+                            mViewModel.categoryList.value = null
+                            mViewModel.deviceCategory.value = null
                         }
                     }
                 }.build().show(supportFragmentManager)
@@ -131,9 +126,9 @@ class SubAccountCreateActivity :
 
         // 设备类型
         mBinding.itemSubAccountCreateDeviceCategory.onSelectedEvent = {
-            mSubAccountCreateViewModel.categoryList.value?.let { list ->
+            mViewModel.categoryList.value?.let { list ->
                 showDeviceCategoryDailog(list)
-            } ?: mSubAccountCreateViewModel.requestDeviceCategoryList()
+            } ?: mViewModel.requestDeviceCategoryList()
 
         }
 
@@ -158,15 +153,15 @@ class SubAccountCreateActivity :
                 minDate = Calendar.getInstance().apply { time = Date() }
                 onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
-                        mSubAccountCreateViewModel.effectiveDate.value = date1
+                        mViewModel.effectiveDate.value = date1
                     }
                 }
-            }.build().show(supportFragmentManager, mSubAccountCreateViewModel.effectiveDate.value)
+            }.build().show(supportFragmentManager, mViewModel.effectiveDate.value)
         }
     }
 
     private fun showDeviceCategoryDailog(list: List<CategoryEntity>) {
-        val select = mSubAccountCreateViewModel.deviceCategory.value
+        val select = mViewModel.deviceCategory.value
         select?.let {
             list.forEach { type ->
                 type.isCheck = select.contains(type)
@@ -177,14 +172,13 @@ class SubAccountCreateActivity :
             onValueSureListener = object :
                 MultiSelectBottomSheetDialog.OnValueSureListener<CategoryEntity> {
                 override fun onValue(datas: List<CategoryEntity>) {
-                    mSubAccountCreateViewModel.deviceCategory.value = datas
+                    mViewModel.deviceCategory.value = datas
                 }
             }
         }.build().show(supportFragmentManager)
     }
 
     override fun initData() {
-        mBinding.vm = mSubAccountCreateViewModel
-        mSubAccountCreateViewModel.requestData()
+        mViewModel.requestData()
     }
 }

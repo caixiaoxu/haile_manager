@@ -7,10 +7,7 @@ import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.text.style.TypefaceSpan
-import android.view.Gravity
 import android.view.View
-import android.widget.Button
-import android.widget.LinearLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,14 +31,9 @@ import com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerV
 import com.shangyun.haile_manager_android.utils.NumberUtils
 
 class ShopManagerActivity :
-    BaseBusinessActivity<ActivityShopManagerBinding, ShopManagerViewModel>() {
-    private val mShopManagerViewModel by lazy {
-        getActivityViewModelProvider(this)[ShopManagerViewModel::class.java]
-    }
+    BaseBusinessActivity<ActivityShopManagerBinding, ShopManagerViewModel>(ShopManagerViewModel::class.java,BR.vm) {
 
     override fun layoutId(): Int = R.layout.activity_shop_manager
-
-    override fun getVM(): ShopManagerViewModel = mShopManagerViewModel
 
     override fun backBtn(): View = mBinding.shopTitleBar.getBackBtn()
 
@@ -163,7 +155,7 @@ class ShopManagerActivity :
                     callBack: (responseList: ResponseList<out ShopEntity>?) -> Unit
                 ) {
                     if (true == mSharedViewModel.hasShopListPermission.value) {
-                        mShopManagerViewModel.requestShopList(page, pageSize, callBack)
+                        mViewModel.requestShopList(page, pageSize, callBack)
                     }
                 }
             }
@@ -189,6 +181,5 @@ class ShopManagerActivity :
     }
 
     override fun initData() {
-        mBinding.vm = mShopManagerViewModel
     }
 }

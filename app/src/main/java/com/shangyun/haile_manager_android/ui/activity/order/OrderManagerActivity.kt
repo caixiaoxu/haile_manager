@@ -44,11 +44,7 @@ import timber.log.Timber
 import java.util.*
 
 class OrderManagerActivity :
-    BaseBusinessActivity<ActivityOrderManagerBinding, OrderManagerViewModel>() {
-
-    private val mOrderManagerViewModel by lazy {
-        getActivityViewModelProvider(this)[OrderManagerViewModel::class.java]
-    }
+    BaseBusinessActivity<ActivityOrderManagerBinding, OrderManagerViewModel>(OrderManagerViewModel::class.java,BR.vm) {
 
     // 搜索选择界面
     private val startSearchSelect =
@@ -60,7 +56,7 @@ class OrderManagerActivity :
                         if (selected.isNotEmpty()) {
                             when (it.resultCode) {
                                 SearchSelectRadioActivity.ShopResultCode -> {
-                                    mOrderManagerViewModel.selectDepartment.value = selected[0]
+                                    mViewModel.selectDepartment.value = selected[0]
                                 }
                             }
                         }
@@ -119,8 +115,8 @@ class OrderManagerActivity :
                     Timber.i("----选择的开始日期${DateTimeUtils.formatDateTime(date1, "yyyy-MM-dd")}")
                     Timber.i("----选择的结束日期${DateTimeUtils.formatDateTime(date2, "yyyy-MM-dd")}")
                     //更换时间
-                    mOrderManagerViewModel.startTime.value = date1
-                    mOrderManagerViewModel.endTime.value = date2
+                    mViewModel.startTime.value = date1
+                    mViewModel.endTime.value = date2
 
                     mBinding.rvOrderManagerList.requestRefresh()
                 }
@@ -130,8 +126,6 @@ class OrderManagerActivity :
 
     override fun layoutId(): Int = R.layout.activity_order_manager
 
-    override fun getVM(): OrderManagerViewModel = mOrderManagerViewModel
-
     override fun backBtn(): View = mBinding.barOrderManagerTitle.getBackBtn()
 
     override fun initEvent() {
@@ -140,7 +134,7 @@ class OrderManagerActivity :
         mSharedViewModel.hasOrderInfoPermission.observe(this) {}
 
         // 刷新状态
-        mOrderManagerViewModel.orderStatus.observe(this) { list ->
+        mViewModel.orderStatus.observe(this) { list ->
             mBinding.indicatorOrderStatus.navigator = CommonNavigator(this).apply {
 
                 adapter = object : CommonNavigatorAdapter() {
@@ -153,7 +147,7 @@ class OrderManagerActivity :
                             list[index].run {
                                 text = title
                                 setOnClickListener {
-                                    mOrderManagerViewModel.curOrderStatus.value = value
+                                    mViewModel.curOrderStatus.value = value
                                     onPageSelected(index)
                                     notifyDataSetChanged()
                                 }
@@ -177,19 +171,19 @@ class OrderManagerActivity :
         }
 
         // 切换工作状态
-        mOrderManagerViewModel.curOrderStatus.observe(this) {
+        mViewModel.curOrderStatus.observe(this) {
             mBinding.rvOrderManagerList.requestRefresh()
         }
 
         // 选择店铺
-        mOrderManagerViewModel.selectDepartment.observe(this) {
+        mViewModel.selectDepartment.observe(this) {
             mBinding.tvOrderCategoryDepartment.text = it.name
             mBinding.rvOrderManagerList.requestRefresh()
         }
 
         // 列表刷新
         LiveDataBus.with(BusEvents.ORDER_LIST_STATUS, Int::class.java)?.observe(this) {
-            if (mOrderManagerViewModel.curOrderStatus.value.isNullOrEmpty()) {
+            if (mViewModel.curOrderStatus.value.isNullOrEmpty()) {
                 mBinding.rvOrderManagerList.requestRefresh()
             } else {
                 mAdapter.deleteItem { item -> item.id == it }
@@ -209,8 +203,8 @@ class OrderManagerActivity :
 
             dateDialog.show(
                 supportFragmentManager,
-                mOrderManagerViewModel.startTime.value,
-                mOrderManagerViewModel.endTime.value
+                mViewModel.startTime.value,
+                mViewModel.endTime.value
             )
         }
 
@@ -256,13 +250,12 @@ class OrderManagerActivity :
                     callBack: (responseList: ResponseList<out OrderListEntity>?) -> Unit
                 ) {
                     if (true == mSharedViewModel.hasOrderListPermission.value) {
-                        mOrderManagerViewModel.requestOrderList(page, pageSize, callBack)
+                        mViewModel.requestOrderList(page, pageSize, callBack)
                     }
                 }
             }
     }
 
     override fun initData() {
-        mBinding.vm = mOrderManagerViewModel
     }
 }

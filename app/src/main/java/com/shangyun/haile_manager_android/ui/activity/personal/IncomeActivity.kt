@@ -28,11 +28,7 @@ import com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerV
 import com.shangyun.haile_manager_android.utils.DateTimeUtils
 import com.shangyun.haile_manager_android.utils.ViewUtils
 
-class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewModel>() {
-
-    private val mIncomeViewModel by lazy {
-        getActivityViewModelProvider(this)[IncomeViewModel::class.java]
-    }
+class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewModel>(IncomeViewModel::class.java,BR.vm) {
 
     companion object {
         const val ProfitType = "profitType"
@@ -47,9 +43,9 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
         ) { mItemBinding, _, item ->
             mItemBinding?.root?.setOnClickListener {
                 if (-1 == item.type) return@setOnClickListener
-                mIncomeViewModel.selectDay.value = item.getDate()
+                mViewModel.selectDay.value = item.getDate()
             }
-            mIncomeViewModel.selectDay.observe(this) { day ->
+            mViewModel.selectDay.observe(this) { day ->
                 mItemBinding?.root?.setBackgroundColor(
                     ContextCompat.getColor(
                         this@IncomeActivity,
@@ -81,32 +77,30 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
 
     override fun layoutId(): Int = R.layout.activity_income
 
-    override fun getVM(): IncomeViewModel = mIncomeViewModel
-
     override fun backBtn(): View = mBinding.barIncomeTitle.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()
-        mIncomeViewModel.profitType = intent.getIntExtra(ProfitType, 3)
-        mIncomeViewModel.profitSearchId = intent.getIntExtra(ProfitSearchId, -1)
-        mIncomeViewModel.deviceName = intent.getStringExtra(DeviceName) ?: ""
+        mViewModel.profitType = intent.getIntExtra(ProfitType, 3)
+        mViewModel.profitSearchId = intent.getIntExtra(ProfitSearchId, -1)
+        mViewModel.deviceName = intent.getStringExtra(DeviceName) ?: ""
     }
 
     override fun initEvent() {
         super.initEvent()
-        mIncomeViewModel.selectDay.observe(this) {
+        mViewModel.selectDay.observe(this) {
             mBinding.tvIncomeDateTitle.text = StringUtils.getString(
                 R.string.total_income_for_day,
                 DateTimeUtils.formatDateTime(it, "yyyy年MM月dd日")
             )
-            mIncomeViewModel.requestTotalAmount(false)
+            mViewModel.requestTotalAmount(false)
             mBinding.rvIncomeListForDate.requestRefresh()
         }
-        mIncomeViewModel.selectMonth.observe(this) {
-            mIncomeViewModel.requestTotalAmount(true)
-            mIncomeViewModel.requestIncomeByDate()
+        mViewModel.selectMonth.observe(this) {
+            mViewModel.requestTotalAmount(true)
+            mViewModel.requestIncomeByDate()
         }
-        mIncomeViewModel.calendarIncome.observe(this) {
+        mViewModel.calendarIncome.observe(this) {
             mIncomeAdapter.refreshList(it, true)
         }
     }
@@ -162,12 +156,11 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
                     pageSize: Int,
                     callBack: (responseList: ResponseList<out IncomeListByDayEntity>?) -> Unit
                 ) {
-                    mIncomeViewModel.requestIncomeListForDay(page, pageSize, callBack)
+                    mViewModel.requestIncomeListForDay(page, pageSize, callBack)
                 }
             }
     }
 
     override fun initData() {
-        mBinding.vm = mIncomeViewModel
     }
 }

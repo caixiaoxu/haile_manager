@@ -32,14 +32,13 @@ import timber.log.Timber
 
 
 class LocationSelectActivity :
-    BaseBusinessActivity<ActivityLocationSelectBinding, LocationSelectViewModel>(), LocationSource {
+    BaseBusinessActivity<ActivityLocationSelectBinding, LocationSelectViewModel>(
+        LocationSelectViewModel::class.java,
+        BR.vm
+    ), LocationSource {
 
     companion object {
         const val CityCode = "cityCode"
-    }
-
-    private val mLocationSelectViewModel by lazy {
-        getActivityViewModelProvider(this)[LocationSelectViewModel::class.java]
     }
 
     private val permissions = arrayOf(
@@ -100,7 +99,7 @@ class LocationSelectActivity :
                         range?.center = curLatLng
                     }
                     // 搜索周边
-                    mLocationSelectViewModel.searchNearby(
+                    mViewModel.searchNearby(
                         this@LocationSelectActivity,
                         "",
                         it.latitude,
@@ -201,15 +200,13 @@ class LocationSelectActivity :
 
     override fun layoutId(): Int = R.layout.activity_location_select
 
-    override fun getVM(): LocationSelectViewModel = mLocationSelectViewModel
-
     override fun backBtn(): View = mBinding.locationSelectTitleBar.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()
 
         intent.getStringExtra(CityCode)?.run {
-            mLocationSelectViewModel.cityCode = this
+            mViewModel.cityCode = this
         }
     }
 
@@ -223,7 +220,7 @@ class LocationSelectActivity :
                     SearchSelectActivity::class.java
                 ).apply {
                     putExtra(SearchSelectViewModel.SEARCH_TYPE, SearchSelectViewModel.LOCATION)
-                    putExtra(SearchSelectViewModel.CityCode, mLocationSelectViewModel.cityCode)
+                    putExtra(SearchSelectViewModel.CityCode, mViewModel.cityCode)
                 })
         }
 
@@ -259,13 +256,12 @@ class LocationSelectActivity :
     override fun initEvent() {
         super.initEvent()
 
-        mLocationSelectViewModel.poiItemList.observe(this) {
+        mViewModel.poiItemList.observe(this) {
             mAdapter.refreshList(it, true)
         }
     }
 
     override fun initData() {
-        mBinding.vm = mLocationSelectViewModel
     }
 
     override fun activate(listener: LocationSource.OnLocationChangedListener?) {

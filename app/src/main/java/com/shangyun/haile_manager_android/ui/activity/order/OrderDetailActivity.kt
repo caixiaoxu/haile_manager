@@ -9,22 +9,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.StringUtils
-import com.lsy.framelib.utils.gson.GsonUtils
+import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.OrderDetailViewModel
-import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
 import com.shangyun.haile_manager_android.databinding.ActivityOrderDetailBinding
 import com.shangyun.haile_manager_android.databinding.ItemOrderDetailItemBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
-import com.shangyun.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.shangyun.haile_manager_android.ui.view.dialog.CommonDialog
 
 class OrderDetailActivity :
-    BaseBusinessActivity<ActivityOrderDetailBinding, OrderDetailViewModel>() {
-
-    private val mOrderDetailViewModel by lazy {
-        getActivityViewModelProvider(this)[OrderDetailViewModel::class.java]
-    }
+    BaseBusinessActivity<ActivityOrderDetailBinding, OrderDetailViewModel>(OrderDetailViewModel::class.java,BR.vm) {
 
     companion object {
         const val OrderId = "orderId"
@@ -34,25 +28,24 @@ class OrderDetailActivity :
     private val startCompensateSelect =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
-                mOrderDetailViewModel.orderDetail.value?.canCompensate = false
+                mViewModel.orderDetail.value?.canCompensate = false
             }
         }
 
     override fun layoutId(): Int = R.layout.activity_order_detail
 
-    override fun getVM(): OrderDetailViewModel = mOrderDetailViewModel
 
     override fun backBtn(): View = mBinding.barOrderDetailTitle.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()
-        mOrderDetailViewModel.orderId = intent.getIntExtra(OrderId, -1)
+        mViewModel.orderId = intent.getIntExtra(OrderId, -1)
     }
 
     override fun initEvent() {
         super.initEvent()
 
-        mOrderDetailViewModel.orderDetail.observe(this) {
+        mViewModel.orderDetail.observe(this) {
             it?.let { orderDetail ->
                 mBinding.llOrderDetailSkuList.removeAllViews()
                 mBinding.llOrderDetailSkuList.visibility =
@@ -115,14 +108,14 @@ class OrderDetailActivity :
             CommonDialog.Builder(StringUtils.getString(R.string.refund_hint)).apply {
                 negativeTxt = StringUtils.getString(R.string.cancel)
                 setPositiveButton(StringUtils.getString(R.string.sure)) {
-                    mOrderDetailViewModel.orderOperate(this@OrderDetailActivity, 0)
+                    mViewModel.orderOperate(this@OrderDetailActivity, 0)
                 }
             }.build()
                 .show(supportFragmentManager)
         }
         // 补偿
         mBinding.tvOrderDetailCompensate.setOnClickListener {
-            mOrderDetailViewModel.orderDetail.value?.let { detial ->
+            mViewModel.orderDetail.value?.let { detial ->
                 startCompensateSelect.launch(
                     Intent(
                         this@OrderDetailActivity,
@@ -144,14 +137,14 @@ class OrderDetailActivity :
         }
         // 启动
         mBinding.tvOrderDetailStart.setOnClickListener {
-            mOrderDetailViewModel.orderOperate(
+            mViewModel.orderOperate(
                 this@OrderDetailActivity,
                 1
             )
         }
         // 复位
         mBinding.tvOrderDetailRestart.setOnClickListener {
-            mOrderDetailViewModel.orderOperate(
+            mViewModel.orderOperate(
                 this@OrderDetailActivity,
                 2
             )
@@ -159,9 +152,8 @@ class OrderDetailActivity :
     }
 
     override fun initData() {
-        mBinding.vm = mOrderDetailViewModel
         mBinding.shared = mSharedViewModel
 
-        mOrderDetailViewModel.requestOrderDetail()
+        mViewModel.requestOrderDetail()
     }
 }

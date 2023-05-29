@@ -6,6 +6,7 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.SearchSelectRadioViewModel
 import com.shangyun.haile_manager_android.business.vm.StaffCreateViewModel
@@ -17,11 +18,7 @@ import com.shangyun.haile_manager_android.ui.activity.common.SearchSelectRadioAc
 import com.shangyun.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 
 class StaffCreateActivity :
-    BaseBusinessActivity<ActivityStaffCreateBinding, StaffCreateViewModel>() {
-
-    private val mStaffCreateViewModel by lazy {
-        getActivityViewModelProvider(this)[StaffCreateViewModel::class.java]
-    }
+    BaseBusinessActivity<ActivityStaffCreateBinding, StaffCreateViewModel>(StaffCreateViewModel::class.java,BR.vm) {
 
     // 店铺选择界面
     private val startSearchSelect =
@@ -32,14 +29,14 @@ class StaffCreateActivity :
                         intent.getStringExtra(SearchSelectRadioActivity.ResultData)?.let { json ->
                             GsonUtils.json2List(json, SearchSelectParam::class.java)
                                 ?.let { selected ->
-                                    mStaffCreateViewModel.takeChargeShop.value = selected
+                                    mViewModel.takeChargeShop.value = selected
                                 }
                         }
                     }
                 }
                 StaffPermissionActivity.PermissionResultCode -> {
                     it.data?.let { intent ->
-                        mStaffCreateViewModel.permission.value =
+                        mViewModel.permission.value =
                             intent.getIntegerArrayListExtra(StaffPermissionActivity.PermissionIds)
                     }
                 }
@@ -48,15 +45,13 @@ class StaffCreateActivity :
 
     override fun layoutId(): Int = R.layout.activity_staff_create
 
-    override fun getVM(): StaffCreateViewModel = mStaffCreateViewModel
-
     override fun backBtn(): View = mBinding.barStaffCreateTitle.getBackBtn()
 
     private var bottomSheetDialog: CommonBottomSheetDialog<StaffRoleEntity>? = null
 
     override fun initEvent() {
         super.initEvent()
-        mStaffCreateViewModel.roleList.observe(this) {
+        mViewModel.roleList.observe(this) {
             if (!it.isNullOrEmpty()) {
                 bottomSheetDialog =
                     CommonBottomSheetDialog.Builder(StringUtils.getString(R.string.role_type), it)
@@ -65,13 +60,13 @@ class StaffCreateActivity :
                                 object :
                                     CommonBottomSheetDialog.OnValueSureListener<StaffRoleEntity> {
                                     override fun onValue(data: StaffRoleEntity) {
-                                        mStaffCreateViewModel.role.value = data
+                                        mViewModel.role.value = data
                                     }
                                 }
                         }.build()
             }
         }
-        mStaffCreateViewModel.jump.observe(this) {
+        mViewModel.jump.observe(this) {
             finish()
         }
     }
@@ -103,7 +98,7 @@ class StaffCreateActivity :
                 ).apply {
                     putExtra(
                         StaffPermissionActivity.PermissionIds,
-                        mStaffCreateViewModel.permission.value ?: intArrayOf()
+                        mViewModel.permission.value ?: intArrayOf()
                     )
                 }
             )
@@ -111,8 +106,6 @@ class StaffCreateActivity :
     }
 
     override fun initData() {
-        mBinding.vm = mStaffCreateViewModel
-
-        mStaffCreateViewModel.requestRoleList()
+        mViewModel.requestRoleList()
     }
 }

@@ -13,26 +13,20 @@ import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 
 class ShopAppointmentSettingActivity :
-    BaseBusinessActivity<ActivityShopAppointmentSettingBinding, AppointmentSettingViewModel>() {
+    BaseBusinessActivity<ActivityShopAppointmentSettingBinding, AppointmentSettingViewModel>(AppointmentSettingViewModel::class.java,BR.vm) {
 
     companion object{
         const val ShopId = "shopId"
-    }
-
-    private val mAppointmentSettingViewModel by lazy {
-        getActivityViewModelProvider(this)[AppointmentSettingViewModel::class.java]
     }
 
     override fun layoutId(): Int = R.layout.activity_shop_appointment_setting
 
     override fun backBtn(): View = mBinding.barShopAppointmentTitle.getBackBtn()
 
-    override fun getVM(): AppointmentSettingViewModel = mAppointmentSettingViewModel
-
     override fun initIntent() {
         super.initIntent()
 
-        mAppointmentSettingViewModel.shopId = intent.getIntExtra(ShopId,-1)
+        mViewModel.shopId = intent.getIntExtra(ShopId,-1)
     }
 
     override fun initView() {
@@ -51,8 +45,6 @@ class ShopAppointmentSettingActivity :
     }
 
     override fun initData() {
-        mBinding.vm = mAppointmentSettingViewModel
-
-        mAppointmentSettingViewModel.requestData()
+        mViewModel.requestData()
     }
 }

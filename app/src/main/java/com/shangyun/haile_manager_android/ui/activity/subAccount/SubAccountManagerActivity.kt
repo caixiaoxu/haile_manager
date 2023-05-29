@@ -19,11 +19,7 @@ import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.shangyun.haile_manager_android.ui.view.adapter.GridSameSpaceItemDecoration
 
 class SubAccountManagerActivity :
-    BaseBusinessActivity<ActivitySubAccountManagerBinding, SubAccountManagerViewModel>() {
-
-    private val mSubAccountManagerViewModel by lazy {
-        getActivityViewModelProvider(this)[SubAccountManagerViewModel::class.java]
-    }
+    BaseBusinessActivity<ActivitySubAccountManagerBinding, SubAccountManagerViewModel>(SubAccountManagerViewModel::class.java,BR.vm) {
 
     private val mAdapter: CommonRecyclerAdapter<ItemSubAccountManagerBinding, SubAccountEntity> by lazy {
         CommonRecyclerAdapter(
@@ -46,27 +42,25 @@ class SubAccountManagerActivity :
 
     override fun layoutId(): Int = R.layout.activity_sub_account_manager
 
-    override fun getVM(): SubAccountManagerViewModel = mSubAccountManagerViewModel
-
     override fun backBtn(): View = mBinding.barSubAccountManagerTitle.getBackBtn()
 
     override fun initEvent() {
         super.initEvent()
         mSharedViewModel.hasDistributionListPermission.observe(this) {
-            if (it) mSubAccountManagerViewModel.requestData()
+            if (it) mViewModel.requestData()
         }
         mSharedViewModel.hasDistributionAddPermission.observe(this) {
             if (it) initRightBtn()
         }
 
-        mSubAccountManagerViewModel.subAccountList.observe(this) {
+        mViewModel.subAccountList.observe(this) {
             if (!it.isNullOrEmpty()) {
                 mAdapter.refreshList(it, true)
             }
         }
 
         LiveDataBus.with(BusEvents.SUB_ACCOUNT_LIST_STATUS)?.observe(this) {
-            mSubAccountManagerViewModel.requestData()
+            mViewModel.requestData()
         }
     }
 
@@ -103,6 +97,5 @@ class SubAccountManagerActivity :
     }
 
     override fun initData() {
-        mBinding.vm = mSubAccountManagerViewModel
     }
 }

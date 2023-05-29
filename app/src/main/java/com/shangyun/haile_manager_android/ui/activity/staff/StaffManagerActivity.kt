@@ -21,14 +21,9 @@ import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 
 class StaffManagerActivity :
-    BaseBusinessActivity<ActivityStaffManagerBinding, StaffManagerViewModel>() {
-    private val mStaffManagerViewModel by lazy {
-        getActivityViewModelProvider(this)[StaffManagerViewModel::class.java]
-    }
+    BaseBusinessActivity<ActivityStaffManagerBinding, StaffManagerViewModel>(StaffManagerViewModel::class.java) {
 
     override fun layoutId(): Int = R.layout.activity_staff_manager
-
-    override fun getVM(): StaffManagerViewModel = mStaffManagerViewModel
 
     override fun backBtn(): View = mBinding.barStaffManagerTitle.getBackBtn()
 
@@ -113,7 +108,7 @@ class StaffManagerActivity :
                     callBack: (responseList: ResponseList<out StaffEntity>?) -> Unit
                 ) {
                     if (true == mSharedViewModel.hasPersonListPermission.value) {
-                        mStaffManagerViewModel.requestStaffList(page, pageSize, callBack)
+                        mViewModel.requestStaffList(page, pageSize, callBack)
                     }
                 }
             }

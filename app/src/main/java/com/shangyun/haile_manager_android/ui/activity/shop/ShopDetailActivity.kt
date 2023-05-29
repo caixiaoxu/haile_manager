@@ -11,6 +11,7 @@ import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.business.vm.ShopDetailViewModel
@@ -20,25 +21,19 @@ import com.shangyun.haile_manager_android.databinding.ItemShopDetailAppointmentB
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.view.dialog.CommonDialog
 
-class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopDetailViewModel>() {
+class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopDetailViewModel>(ShopDetailViewModel::class.java,BR.vm) {
 
     companion object {
         const val ShopId = "ShopId"
     }
 
-    private val mShopDetailViewModel by lazy {
-        getActivityViewModelProvider(this)[ShopDetailViewModel::class.java]
-    }
-
     override fun layoutId(): Int = R.layout.activity_shop_detail
-
-    override fun getVM(): ShopDetailViewModel = mShopDetailViewModel
 
     override fun backBtn(): View = mBinding.barShopDetailTitle.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()
-        mShopDetailViewModel.shopId = intent.getIntExtra(ShopId, -1)
+        mViewModel.shopId = intent.getIntExtra(ShopId, -1)
     }
 
     override fun initView() {
@@ -53,7 +48,7 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
                 setPrimaryClip(
                     ClipData.newPlainText(
                         "",
-                        mShopDetailViewModel.shopDetail.value?.serviceTelephone ?: ""
+                        mViewModel.shopDetail.value?.serviceTelephone ?: ""
                     )
                 )
             }
@@ -67,7 +62,7 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
                     this@ShopDetailActivity,
                     ShopAppointmentSettingActivity::class.java
                 ).apply {
-                    putExtra(ShopAppointmentSettingActivity.ShopId, mShopDetailViewModel.shopId)
+                    putExtra(ShopAppointmentSettingActivity.ShopId, mViewModel.shopId)
                 }
             )
         }
@@ -81,7 +76,7 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
                 ).apply {
                     putExtra(
                         ShopCreateAndUpdateActivity.ShopDetail,
-                        GsonUtils.any2Json(mShopDetailViewModel.shopDetail.value!!)
+                        GsonUtils.any2Json(mViewModel.shopDetail.value!!)
                     )
                 })
         }
@@ -91,7 +86,7 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
             CommonDialog.Builder(StringUtils.getString(R.string.shop_delete_hint)).apply {
                 negativeTxt = StringUtils.getString(R.string.cancel)
                 setPositiveButton(StringUtils.getString(R.string.delete)){
-                    mShopDetailViewModel.requestShopDelete()
+                    mViewModel.requestShopDelete()
                 }
             }.build()
                 .show(supportFragmentManager)
@@ -113,7 +108,7 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
         }
 
         // 刷新预约布局
-        mShopDetailViewModel.shopDetail.observe(this) {
+        mViewModel.shopDetail.observe(this) {
             mBinding.bgShopDetailAppointmentInfo.visibility =
                 if (it.appointSettingList.isNullOrEmpty()) View.GONE else View.VISIBLE
             mBinding.llShopDetailAppointmentInfo.buildChild<ItemShopDetailAppointmentBinding, AppointSetting>(
@@ -135,18 +130,16 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
 
         // 修改成功后
         LiveDataBus.with(BusEvents.SHOP_DETAILS_STATUS)?.observe(this) {
-            mShopDetailViewModel.requestShopDetail()
+            mViewModel.requestShopDetail()
         }
 
-        mShopDetailViewModel.jump.observe(this) {
+        mViewModel.jump.observe(this) {
             finish()
         }
 
     }
 
     override fun initData() {
-        mBinding.vm = mShopDetailViewModel
-
-        mShopDetailViewModel.requestShopDetail()
+        mViewModel.requestShopDetail()
     }
 }

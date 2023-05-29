@@ -28,6 +28,7 @@ import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.ScreenUtils
 import com.lsy.framelib.utils.StatusBarUtils
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.HomeViewModel
 import com.shangyun.haile_manager_android.data.entities.HomeIncomeEntity
@@ -53,20 +54,13 @@ import java.util.*
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class HomeFragment : BaseBusinessFragment<FragmentHomeBinding, HomeViewModel>() {
-
-    private val mHomeViewModel by lazy {
-        getFragmentViewModelProvider(this)[HomeViewModel::class.java]
-    }
+class HomeFragment : BaseBusinessFragment<FragmentHomeBinding, HomeViewModel>(HomeViewModel::class.java,BR.vm) {
 
     private val lastHighlight: Highlight? = null
 
     override fun layoutId(): Int = R.layout.fragment_home
 
-    override fun getVM(): HomeViewModel = mHomeViewModel
-
     override fun initView() {
-        mBinding.vm = mHomeViewModel
         mBinding.shared = mSharedViewModel
         //设置顶部距离
         val layoutParams = mBinding.bgHomeTitle.layoutParams as ConstraintLayout.LayoutParams
@@ -81,7 +75,7 @@ class HomeFragment : BaseBusinessFragment<FragmentHomeBinding, HomeViewModel>() 
                 onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
                         Timber.i("选择的日期${DateTimeUtils.formatDateTime(date1,"yyyy-MM")}")
-                        mHomeViewModel.selectedDate.value = date1
+                        mViewModel.selectedDate.value = date1
                     }
                 }
             }.build()
@@ -222,7 +216,7 @@ class HomeFragment : BaseBusinessFragment<FragmentHomeBinding, HomeViewModel>() 
         super.initEvent()
 
         // 消息列表 
-        mHomeViewModel.lastMsgList.observe(this) { list ->
+        mViewModel.lastMsgList.observe(this) { list ->
             list?.let {
 
                 mBinding.llLastMsgList.removeAllViews()
@@ -255,62 +249,62 @@ class HomeFragment : BaseBusinessFragment<FragmentHomeBinding, HomeViewModel>() 
         }
 
         // 收益趋势
-        mHomeViewModel.homeIncomeList.observe(this) {
+        mViewModel.homeIncomeList.observe(this) {
             refreshChartData(it)
         }
 
         // 选择时间
-        mHomeViewModel.selectedDate.observe(this) {
-            mHomeViewModel.requestHomeIncome()
+        mViewModel.selectedDate.observe(this) {
+            mViewModel.requestHomeIncome()
         }
 
         // 功能管理
-        mHomeViewModel.funcList.observe(this) { list ->
+        mViewModel.funcList.observe(this) { list ->
             refreshFuncArea(list, mBinding.llFuncArea, mBinding.glFuncArea)
         }
         // 营销中心
-        mHomeViewModel.marketingList.observe(this) { list ->
+        mViewModel.marketingList.observe(this) { list ->
             refreshFuncArea(list, mBinding.llMarketingArea, mBinding.glMarketingArea)
         }
         // 资金管理
-        mHomeViewModel.capitalList.observe(this) { list ->
+        mViewModel.capitalList.observe(this) { list ->
             refreshFuncArea(list, mBinding.llCapitalArea, mBinding.glCapitalArea)
         }
 
         // 设备权限
         mSharedViewModel.hasDevicePermission.observe(this) {
-            mHomeViewModel.funcList.value?.let { list ->
-                mHomeViewModel.funcList.value = list.apply { this[0].isShow = it }
+            mViewModel.funcList.value?.let { list ->
+                mViewModel.funcList.value = list.apply { this[0].isShow = it }
             }
         }
         // 门店权限
         mSharedViewModel.hasShopPermission.observe(this) {
-            mHomeViewModel.funcList.value?.let { list ->
-                mHomeViewModel.funcList.value = list.apply { this[1].isShow = it }
+            mViewModel.funcList.value?.let { list ->
+                mViewModel.funcList.value = list.apply { this[1].isShow = it }
             }
         }
         // 订单权限
         mSharedViewModel.hasOrderPermission.observe(this) {
-            mHomeViewModel.funcList.value?.let { list ->
-                mHomeViewModel.funcList.value = list.apply { this[2].isShow = it }
+            mViewModel.funcList.value?.let { list ->
+                mViewModel.funcList.value = list.apply { this[2].isShow = it }
             }
         }
         // 人员权限
         mSharedViewModel.hasPersonPermission.observe(this) {
-            mHomeViewModel.funcList.value?.let { list ->
-                mHomeViewModel.funcList.value = list.apply { this[3].isShow = it }
+            mViewModel.funcList.value?.let { list ->
+                mViewModel.funcList.value = list.apply { this[3].isShow = it }
             }
         }
         // 优惠权限
         mSharedViewModel.hasMarketingPermission.observe(this) {
-            mHomeViewModel.marketingList.value?.let { list ->
-                mHomeViewModel.marketingList.value = list.apply { this[0].isShow = it }
+            mViewModel.marketingList.value?.let { list ->
+                mViewModel.marketingList.value = list.apply { this[0].isShow = it }
             }
         }
         // 分账权限
         mSharedViewModel.hasDistributionPermission.observe(this) {
-            mHomeViewModel.capitalList.value?.let { list ->
-                mHomeViewModel.capitalList.value = list.apply { this[0].isShow = it }
+            mViewModel.capitalList.value?.let { list ->
+                mViewModel.capitalList.value = list.apply { this[0].isShow = it }
             }
         }
     }
@@ -415,6 +409,6 @@ class HomeFragment : BaseBusinessFragment<FragmentHomeBinding, HomeViewModel>() 
     }
 
     override fun initData() {
-        mHomeViewModel.requestHomeData()
+        mViewModel.requestHomeData()
     }
 }

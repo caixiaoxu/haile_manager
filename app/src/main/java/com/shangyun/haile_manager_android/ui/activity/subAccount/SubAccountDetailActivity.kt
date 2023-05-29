@@ -27,11 +27,7 @@ import com.shangyun.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.shangyun.haile_manager_android.utils.DateTimeUtils
 
 class SubAccountDetailActivity :
-    BaseBusinessActivity<ActivitySubAccountDetailBinding, SubAccountDetailViewModel>() {
-
-    private val mSubAccountDetailViewModel by lazy {
-        getActivityViewModelProvider(this)[SubAccountDetailViewModel::class.java]
-    }
+    BaseBusinessActivity<ActivitySubAccountDetailBinding, SubAccountDetailViewModel>(SubAccountDetailViewModel::class.java,BR.vm) {
 
     companion object {
         const val UserId = "userId"
@@ -74,27 +70,25 @@ class SubAccountDetailActivity :
 
     override fun layoutId(): Int = R.layout.activity_sub_account_detail
 
-    override fun getVM(): SubAccountDetailViewModel = mSubAccountDetailViewModel
-
     override fun backBtn(): View = mBinding.barSubAccountDetailTitle.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()
-        mSubAccountDetailViewModel.userId = intent.getIntExtra(UserId, -1)
+        mViewModel.userId = intent.getIntExtra(UserId, -1)
     }
 
     override fun initEvent() {
         super.initEvent()
 
-        mSubAccountDetailViewModel.jump.observe(this) {
+        mViewModel.jump.observe(this) {
             finish()
         }
 
         LiveDataBus.with(BusEvents.SUB_ACCOUNT_DETAIL_STATUS)?.observe(this) {
-            mSubAccountDetailViewModel.requestData()
+            mViewModel.requestData()
         }
 
-        mSubAccountDetailViewModel.subAccountDetail.observe(this) {
+        mViewModel.subAccountDetail.observe(this) {
             it?.shops?.let { list ->
                 mAdapter.refreshList(list.toMutableList(), true)
             }
@@ -129,7 +123,7 @@ class SubAccountDetailActivity :
                 CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
                 override fun onValue(data: SearchSelectParam) {
                     if (1 == data.id) {
-                        mSubAccountDetailViewModel.subAccountDetail.value?.let { detail ->
+                        mViewModel.subAccountDetail.value?.let { detail ->
                             startActivity(
                                 Intent(
                                     this@SubAccountDetailActivity,
@@ -153,7 +147,7 @@ class SubAccountDetailActivity :
                             )
                         }
                     } else {
-                        mSubAccountDetailViewModel.deleteSubAccount(this@SubAccountDetailActivity,category.settingId)
+                        mViewModel.deleteSubAccount(this@SubAccountDetailActivity,category.settingId)
                     }
                 }
             }
@@ -162,7 +156,6 @@ class SubAccountDetailActivity :
     }
 
     override fun initData() {
-        mBinding.vm = mSubAccountDetailViewModel
-        mSubAccountDetailViewModel.requestData()
+        mViewModel.requestData()
     }
 }

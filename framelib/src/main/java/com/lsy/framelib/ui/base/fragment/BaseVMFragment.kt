@@ -21,19 +21,23 @@ import com.lsy.framelib.ui.weight.loading.LoadDialogMgr
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-abstract class BaseVMFragment<T : ViewDataBinding,VM : BaseViewModel> :  BaseBindingFragment<T>(),
+abstract class BaseVMFragment<T : ViewDataBinding,VM : BaseViewModel>(clz: Class<VM>) :  BaseBindingFragment<T>(),
     ILoadingDialog {
+
+    protected val mViewModel by lazy {
+        getFragmentViewModelProvider(this)[clz]
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         // 界面跳转
-        getVM().jump.observe(viewLifecycleOwner) {
+        mViewModel.jump.observe(viewLifecycleOwner) {
             jump(it)
         }
 
         // 请求等待条
-        getVM().loadingStatus.observe(viewLifecycleOwner) {
+        mViewModel.loadingStatus.observe(viewLifecycleOwner) {
             if (it) {
                 showLoading()
             } else {
@@ -41,12 +45,6 @@ abstract class BaseVMFragment<T : ViewDataBinding,VM : BaseViewModel> :  BaseBin
             }
         }
     }
-
-
-    /**
-     * 获取子类的ViewModel
-     */
-    abstract fun getVM(): VM
 
     /**
      * 用于处理跳转

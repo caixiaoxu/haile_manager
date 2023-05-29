@@ -4,11 +4,11 @@ import android.content.Intent
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.StatusBarUtils
+import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.PersonalViewModel
 import com.shangyun.haile_manager_android.databinding.FragmentPersonalBinding
@@ -24,18 +24,11 @@ import com.shangyun.haile_manager_android.databinding.IncludePersonalItemBinding
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalViewModel>() {
-
-    private val mPersonalViewModel by lazy {
-        getFragmentViewModelProvider(this)[PersonalViewModel::class.java]
-    }
+class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalViewModel>(PersonalViewModel::class.java,BR.vm) {
 
     override fun layoutId(): Int = R.layout.fragment_personal
 
-    override fun getVM(): PersonalViewModel = mPersonalViewModel
-
     override fun initView() {
-        mBinding.vm = mPersonalViewModel
         mBinding.shared = mSharedViewModel
 
         //设置顶部距离
@@ -48,7 +41,7 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
 
         // items
         var group: LinearLayout? = null
-        for (item in mPersonalViewModel.personalItems) {
+        for (item in mViewModel.personalItems) {
             if (null == item) {
                 //null，把之前的加入布局，并创建新的group
                 if (null != group) {

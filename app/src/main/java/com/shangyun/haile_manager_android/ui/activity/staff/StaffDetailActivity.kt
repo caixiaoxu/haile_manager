@@ -11,11 +11,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
+import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.business.vm.SearchSelectRadioViewModel
 import com.shangyun.haile_manager_android.business.vm.StaffDetailViewModel
-import com.shangyun.haile_manager_android.data.entities.Shop
 import com.shangyun.haile_manager_android.databinding.ActivityStaffDetailBinding
 import com.shangyun.haile_manager_android.databinding.ItemStaffDetailFlowBinding
 import com.shangyun.haile_manager_android.databinding.ItemStaffDetailPermissionBinding
@@ -23,11 +23,7 @@ import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.shangyun.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 
 class StaffDetailActivity :
-    BaseBusinessActivity<ActivityStaffDetailBinding, StaffDetailViewModel>() {
-
-    private val mStaffDetailViewModel by lazy {
-        getActivityViewModelProvider(this)[StaffDetailViewModel::class.java]
-    }
+    BaseBusinessActivity<ActivityStaffDetailBinding, StaffDetailViewModel>(StaffDetailViewModel::class.java,BR.vm) {
 
     companion object {
         const val StaffId = "staffId"
@@ -35,19 +31,17 @@ class StaffDetailActivity :
 
     override fun layoutId(): Int = R.layout.activity_staff_detail
 
-    override fun getVM(): StaffDetailViewModel = mStaffDetailViewModel
-
     override fun backBtn(): View = mBinding.barStaffDetailManagerTitle.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()
-        mStaffDetailViewModel.staffId = intent.getIntExtra(StaffId, -1)
+        mViewModel.staffId = intent.getIntExtra(StaffId, -1)
     }
 
     override fun initEvent() {
         super.initEvent()
 
-        mStaffDetailViewModel.staffDetail.observe(this) {
+        mViewModel.staffDetail.observe(this) {
             it?.let { detail ->
                 val inflater = LayoutInflater.from(this@StaffDetailActivity)
                 // 负责的门店
@@ -104,10 +98,10 @@ class StaffDetailActivity :
         }
 
         LiveDataBus.with(BusEvents.STAFF_DETAILS_STATUS)?.observe(this) {
-            mStaffDetailViewModel.requestStaffDetailData()
+            mViewModel.requestStaffDetailData()
         }
 
-        mStaffDetailViewModel.jump.observe(this) {
+        mViewModel.jump.observe(this) {
             finish()
         }
 
@@ -159,7 +153,7 @@ class StaffDetailActivity :
                     )
                     putExtra(
                         SearchSelectRadioActivity.StaffId,
-                        mStaffDetailViewModel.staffId
+                        mViewModel.staffId
                     )
                 }
             )
@@ -172,11 +166,11 @@ class StaffDetailActivity :
             ).apply {
                 putExtra(
                     StaffPermissionActivity.StaffId,
-                    mStaffDetailViewModel.staffId
+                    mViewModel.staffId
                 )
                 putExtra(
                     StaffPermissionActivity.PermissionIds,
-                    mStaffDetailViewModel.getPermissionIds()
+                    mViewModel.getPermissionIds()
                 )
             })
         }
@@ -184,8 +178,6 @@ class StaffDetailActivity :
 
     override fun initData() {
         mBinding.shared = mSharedViewModel
-        mBinding.vm = mStaffDetailViewModel
-
-        mStaffDetailViewModel.requestStaffDetailData()
+        mViewModel.requestStaffDetailData()
     }
 }

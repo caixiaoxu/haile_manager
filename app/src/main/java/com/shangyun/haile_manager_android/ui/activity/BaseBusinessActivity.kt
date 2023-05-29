@@ -18,7 +18,7 @@ import com.shangyun.haile_manager_android.business.vm.SharedViewModel
  */
 abstract class BaseBusinessActivity<T : ViewDataBinding, VM : BaseViewModel>(
     clz: Class<VM>,
-    private val vId: Int
+    private val vId: Int? = null
 ) :
     BaseVMActivity<T, VM>(clz) {
 
@@ -36,7 +36,9 @@ abstract class BaseBusinessActivity<T : ViewDataBinding, VM : BaseViewModel>(
             e.printStackTrace()
         }
         initView()
-        mBinding.setVariable(vId, mViewModel)
+        vId?.let {
+            mBinding.setVariable(it, mViewModel)
+        }
         initData()
     }
 

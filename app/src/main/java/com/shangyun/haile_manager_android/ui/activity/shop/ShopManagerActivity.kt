@@ -150,6 +150,7 @@ class ShopManagerActivity :
         mBinding.rvShopList.requestData =
             object : CommonRefreshRecyclerView.OnRequestDataListener<ShopEntity>() {
                 override fun requestData(
+                    isRefresh: Boolean,
                     page: Int,
                     pageSize: Int,
                     callBack: (responseList: ResponseList<out ShopEntity>?) -> Unit

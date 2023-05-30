@@ -252,6 +252,7 @@ class DeviceManagerActivity :
         mBinding.rvDeviceManagerList.requestData =
             object : CommonRefreshRecyclerView.OnRequestDataListener<DeviceEntity>() {
                 override fun requestData(
+                    isRefresh: Boolean,
                     page: Int,
                     pageSize: Int,
                     callBack: (responseList: ResponseList<out DeviceEntity>?) -> Unit

@@ -158,6 +158,7 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
         mBinding.rvIncomeListForDate.requestData =
             object : CommonRefreshRecyclerView.OnRequestDataListener<IncomeListByDayEntity>() {
                 override fun requestData(
+                    isRefresh: Boolean,
                     page: Int,
                     pageSize: Int,
                     callBack: (responseList: ResponseList<out IncomeListByDayEntity>?) -> Unit

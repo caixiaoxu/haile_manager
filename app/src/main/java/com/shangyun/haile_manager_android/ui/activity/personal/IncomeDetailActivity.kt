@@ -15,6 +15,7 @@ class IncomeDetailActivity :
     ) {
 
     companion object {
+        const val DetailType = "etailType"
         const val IncomeId = "incomeId"
         const val OrderNo = "orderNo"
     }
@@ -25,13 +26,14 @@ class IncomeDetailActivity :
 
     override fun initIntent() {
         super.initIntent()
+        mViewModel.detailType = intent.getIntExtra(DetailType, 0)
         mViewModel.incomeId = intent.getIntExtra(IncomeId, -1)
         mViewModel.orderNo = intent.getStringExtra(OrderNo)
     }
 
     override fun initEvent() {
         super.initEvent()
-        mViewModel.rechargeDetail.observe(this) {
+        mViewModel.incomeDetail.observe(this) {
             it?.let {
                 mBinding.detail = it
                 mBinding.llIncomeDetailInfos.buildChild<ItemIncomeDetailInfoBinding, IncomeDetailInfo>(

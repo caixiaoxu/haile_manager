@@ -277,7 +277,7 @@
                     <include
                         layout="@layout/item_order_detail_item"
                         app:mStart="@{@dimen/dimen_2}"
-                        app:title="@{@string/refund_time}"
+                        app:title='@{@string/refund_time + "："}'
                         app:value='@{vm.orderDetail.refundTime}' />
 
                     <include

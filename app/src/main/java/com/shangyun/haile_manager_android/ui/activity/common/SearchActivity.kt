@@ -117,6 +117,7 @@ class SearchActivity :
             mBinding.rvSearchList2.requestData =
                 object : CommonRefreshRecyclerView.OnRequestDataListener<ISearchSelectEntity>() {
                     override fun requestData(
+                        isRefresh: Boolean,
                         page: Int,
                         pageSize: Int,
                         callBack: (responseList: ResponseList<out ISearchSelectEntity>?) -> Unit

@@ -69,6 +69,7 @@ class EarningsDetailActivity :
                             this@EarningsDetailActivity,
                             IncomeDetailActivity::class.java
                         ).apply {
+                            putExtra(IncomeDetailActivity.DetailType, 1)
                             putExtra(IncomeDetailActivity.OrderNo, detail.orderNo)
                         }
                     } else {

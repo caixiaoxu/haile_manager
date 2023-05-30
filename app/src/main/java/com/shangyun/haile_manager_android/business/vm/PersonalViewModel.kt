@@ -27,7 +27,7 @@ class PersonalViewModel : BaseViewModel() {
         ),
         PersonalItem(
             R.mipmap.icon_personal_balance,
-            R.string.balance,
+            R.string.balance_detail,
             null,
             null,
             BalanceActivity::class.java

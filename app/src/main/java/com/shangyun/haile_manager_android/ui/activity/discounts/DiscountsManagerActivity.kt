@@ -135,6 +135,7 @@ class DiscountsManagerActivity :
         mBinding.rvDiscountsList.requestData =
             object : CommonRefreshRecyclerView.OnRequestDataListener<DiscountsEntity>() {
                 override fun requestData(
+                    isRefresh: Boolean,
                     page: Int,
                     pageSize: Int,
                     callBack: (responseList: ResponseList<out DiscountsEntity>?) -> Unit

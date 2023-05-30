@@ -4,7 +4,6 @@ import com.lsy.framelib.network.ApiService
 import com.lsy.framelib.network.DefaultOkHttpClient
 import com.lsy.framelib.network.interceptors.BasicParamsInterceptor
 import com.lsy.framelib.network.interceptors.OkHttpBodyLogInterceptor
-import com.lsy.framelib.network.interceptors.OkHttpHeadLogInterceptor
 import com.lsy.framelib.network.interceptors.ResponseInterceptor
 import com.lsy.framelib.ui.base.BaseApp
 import com.shangyun.haile_manager_android.data.model.SPRepository
@@ -37,7 +36,6 @@ class BusinessApp : BaseApp() {
                 DefaultOkHttpClient()
                     .setInterceptors(
                         arrayOf(
-                            OkHttpHeadLogInterceptor().getInterceptor(),
                             OkHttpBodyLogInterceptor().getInterceptor(),
                             BasicParamsInterceptor({ dealHttpHeader() },
                                 { dealHttpParams(it) }).getInterceptor(),

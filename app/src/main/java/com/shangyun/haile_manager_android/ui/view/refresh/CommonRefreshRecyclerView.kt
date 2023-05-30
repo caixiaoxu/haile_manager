@@ -93,7 +93,7 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
      */
     private fun requestData(isRefresh: Boolean) {
         if (isRefresh) page = 1
-        requestData?.requestData(page, pageSize) {
+        requestData?.requestData(isRefresh, page, pageSize) {
             if (isRefresh) {
                 onRefresh(it)
             } else
@@ -157,7 +157,9 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
         }
 
         // 自定义处理
-        if (true == if (isRefresh) requestData?.onRefresh(it) else requestData?.onLoadMore(it)) {
+        if (true == requestData?.onCommonDeal(it, isRefresh)
+            || true == if (isRefresh) requestData?.onRefresh(it) else requestData?.onLoadMore(it)
+        ) {
             return
         }
         // 刷新数据
@@ -180,23 +182,32 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
          * @param callBack 请求回调
          */
         abstract fun requestData(
+            isRefresh: Boolean,
             page: Int,
             pageSize: Int,
             callBack: (responseList: ResponseList<out D>?) -> Unit
         )
 
         /**
+         * 公共处理事件
+         * @param responseList 返回的列表数据
+         * @return 是否拦截后续操作
+         */
+        open fun onCommonDeal(responseList: ResponseList<out D>, isRefresh: Boolean): Boolean =
+            false
+
+        /**
          * 刷新数据
          * @param responseList 返回的列表数据
          * @return 是否拦截后续操作
          */
-        fun onRefresh(responseList: ResponseList<out D>): Boolean = false
+        open fun onRefresh(responseList: ResponseList<out D>): Boolean = false
 
         /**
          * 加载数据
          * @param responseList 返回的列表数据
          * @return 是否拦截后续操作
          */
-        fun onLoadMore(responseList: ResponseList<out D>): Boolean = false
+        open fun onLoadMore(responseList: ResponseList<out D>): Boolean = false
     }
 }

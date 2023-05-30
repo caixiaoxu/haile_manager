@@ -3,9 +3,8 @@ package com.shangyun.haile_manager_android.business.vm
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.shangyun.haile_manager_android.business.apiService.CapitalService
-import com.shangyun.haile_manager_android.data.entities.IncomeDetailEntity
-import com.shangyun.haile_manager_android.data.entities.RechargeDetailEntity
 import com.shangyun.haile_manager_android.data.model.ApiRepository
+import com.shangyun.haile_manager_android.data.rule.IIncomeDetailEntity
 
 /**
  * Title :
@@ -19,14 +18,34 @@ import com.shangyun.haile_manager_android.data.model.ApiRepository
  */
 class IncomeDetailViewModel : BaseViewModel() {
     private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
+    var detailType:Int = 0 // 0收入、1海星
     var incomeId: Int = -1
     var orderNo: String? = null
 
-    val rechargeDetail: MutableLiveData<RechargeDetailEntity> by lazy {
+    val incomeDetail: MutableLiveData<IIncomeDetailEntity> by lazy {
         MutableLiveData()
     }
 
     fun requestData() {
+        if (1 == detailType){
+            requestReChargeDetailData()
+        } else {
+            requestIncomeDetailData()
+        }
+    }
+
+    fun requestIncomeDetailData(){
+        if (-1 == incomeId) return
+        launch({
+            ApiRepository.dealApiResult(
+                mCapitalRepo.balanceDetail(incomeId)
+            )?.let {
+                incomeDetail.postValue(it)
+            }
+        })
+    }
+
+    fun requestReChargeDetailData(){
         if (orderNo.isNullOrEmpty()) return
         launch({
             ApiRepository.dealApiResult(
@@ -35,7 +54,7 @@ class IncomeDetailViewModel : BaseViewModel() {
                     if (-1 == incomeId) null else incomeId
                 )
             )?.let {
-                rechargeDetail.postValue(it)
+                incomeDetail.postValue(it)
             }
         })
     }

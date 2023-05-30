@@ -175,7 +175,7 @@
     <string name="reason_for_refund">退款原因：</string>
     <string name="refund_amount">退款金额：</string>
     <string name="refund_haixin">退款海星：</string>
-    <string name="refund_time">退款时间：</string>
+    <string name="refund_time">退款时间</string>
     <string name="operator">操作人员：</string>
     <string name="refund_order_no">退款单号：</string>
     <string name="refund_hint">发起退款后订单金额会按原路径返回到用户付款账户，确定要发起退款么？</string>
@@ -249,7 +249,8 @@
     <string name="main_tab_personal">我的</string>
     <string name="admin">管理员</string>
     <string name="wallet">钱包余额</string>
-    <string name="balance">余额明细</string>
+    <string name="balance">余额</string>
+    <string name="balance_detail">余额明细</string>
     <string name="income">收入明细</string>
     <string name="order_no">订单编号</string>
     <string name="total_income_for_day">%1$s总收入：</string>
@@ -261,6 +262,13 @@
     <string name="pay_account">支付账号</string>
     <string name="reach_starfish">充值海星</string>
     <string name="reward_starfish">赠送海星</string>
+    <string name="cash_out_no">提现单号</string>
+    <string name="service_charge">手续费</string>
+    <string name="cash_out_amount">提现金额</string>
+    <string name="cash_out_time">提现时间</string>
+    <string name="cash_out_bank">提现银行</string>
+    <string name="user_account">用户账号</string>
+    <string name="user_balance">用户余额</string>
 
     <string name="bank_card">银行卡</string>
     <string name="real_name">实名认证</string>

@@ -4,6 +4,7 @@ import com.lsy.framelib.data.constants.Constants
 import com.lsy.framelib.network.intfs.IInterceptor
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
+import timber.log.Timber
 
 /**
  * Title : 请求注入参数
@@ -38,7 +39,8 @@ class BasicParamsInterceptor(
 
                 dealHeaders?.let {
                     it().entries.forEach { entry ->
-                        addHeader(entry.key, entry.value);
+                        Timber.i("Http-Headers=====${entry.key}:${entry.value}")
+                        addHeader(entry.key, entry.value)
                     }
                 }
             }.build()

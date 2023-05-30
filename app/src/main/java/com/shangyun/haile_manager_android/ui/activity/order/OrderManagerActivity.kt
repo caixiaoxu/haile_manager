@@ -245,6 +245,7 @@ class OrderManagerActivity :
         mBinding.rvOrderManagerList.requestData =
             object : CommonRefreshRecyclerView.OnRequestDataListener<OrderListEntity>() {
                 override fun requestData(
+                    isRefresh: Boolean,
                     page: Int,
                     pageSize: Int,
                     callBack: (responseList: ResponseList<out OrderListEntity>?) -> Unit

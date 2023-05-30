@@ -222,10 +222,10 @@ object StringUtils {
 
     /**
      * 格式化数字字符，正数+，负数-
-     * @param numStr
+     * @param amount
      * @return
      */
-    fun formatNumberStr(amount: Double): String? {
-        return (if (amount > 0) "+" else "") + amount
+    fun formatNumberStr(amount: Double): String {
+        return (if (amount > 0) "+" else "") + String.format("%.2f", amount)
     }
 }

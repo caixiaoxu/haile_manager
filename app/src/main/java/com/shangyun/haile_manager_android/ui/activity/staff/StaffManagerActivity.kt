@@ -103,6 +103,7 @@ class StaffManagerActivity :
         mBinding.rvStaffManagerList.requestData =
             object : CommonRefreshRecyclerView.OnRequestDataListener<StaffEntity>() {
                 override fun requestData(
+                    isRefresh: Boolean,
                     page: Int,
                     pageSize: Int,
                     callBack: (responseList: ResponseList<out StaffEntity>?) -> Unit

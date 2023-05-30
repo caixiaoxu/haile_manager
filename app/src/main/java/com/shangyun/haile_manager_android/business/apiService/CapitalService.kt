@@ -66,5 +66,23 @@ interface CapitalService {
     @POST("/homePage/homeIncome")
     suspend fun homeInCome(@Body body: RequestBody): ResponseWrapper<List<HomeIncomeEntity>>
 
+    /**
+     * 余额明细列表接口
+     */
+    @GET("/wallet/balance/list")
+    suspend fun balanceList(
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int,
+        @Query("startTime") startTime: String,
+        @Query("endTime") endTime: String,
+    ): ResponseWrapper<ResponseList<BalanceEntity>>
+
+    /**
+     * 余额明细详情接口
+     */
+    @GET("/wallet/balance/detail")
+    suspend fun balanceDetail(
+        @Query("id") id: Int,
+    ): ResponseWrapper<BalanceDetailEntity>
 
 }

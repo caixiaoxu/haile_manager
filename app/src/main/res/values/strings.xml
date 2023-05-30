@@ -248,6 +248,10 @@
 
     <string name="main_tab_personal">我的</string>
     <string name="admin">管理员</string>
+    <string name="personal_info">个人信息</string>
+    <string name="update_head">修改头像</string>
+    <string name="change_role">切换角色</string>
+
     <string name="wallet">钱包余额</string>
     <string name="balance">余额</string>
     <string name="balance_detail">余额明细</string>

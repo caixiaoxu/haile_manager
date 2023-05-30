@@ -13,6 +13,7 @@ import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.PersonalViewModel
 import com.shangyun.haile_manager_android.databinding.FragmentPersonalBinding
 import com.shangyun.haile_manager_android.databinding.IncludePersonalItemBinding
+import com.shangyun.haile_manager_android.ui.activity.personal.PersonalInfoActivity
 
 /**
  * Title :
@@ -24,7 +25,10 @@ import com.shangyun.haile_manager_android.databinding.IncludePersonalItemBinding
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalViewModel>(PersonalViewModel::class.java,BR.vm) {
+class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalViewModel>(
+    PersonalViewModel::class.java,
+    BR.vm
+) {
 
     override fun layoutId(): Int = R.layout.fragment_personal
 
@@ -38,6 +42,10 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
             DimensionUtils.dip2px(dipValue = 12f),
             0
         )
+
+        mBinding.clPersonalInfo.setOnClickListener {
+            startActivity(Intent(context, PersonalInfoActivity::class.java))
+        }
 
         // items
         var group: LinearLayout? = null
@@ -62,7 +70,7 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
                 mPersonalItemBinding.item = item
                 mPersonalItemBinding.root.setOnClickListener {
                     startActivity(Intent(requireContext(), item.clz).apply {
-                        item.bundle?.let {bundle->
+                        item.bundle?.let { bundle ->
                             putExtras(bundle)
                         }
                     })

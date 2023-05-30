@@ -5,11 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
 import com.lsy.framelib.data.constants.Constants
-import com.lsy.framelib.network.ApiService
-import com.lsy.framelib.network.DefaultOkHttpClient
-import com.lsy.framelib.network.interceptors.BasicParamsInterceptor
-import com.lsy.framelib.network.interceptors.OkHttpLogInterceptor
-import com.lsy.framelib.network.interceptors.ResponseInterceptor
 
 /**
  * Title : Application基类

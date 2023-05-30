@@ -16,13 +16,13 @@ import timber.log.Timber
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class OkHttpLogInterceptor : IInterceptor {
+class OkHttpHeadLogInterceptor : IInterceptor {
     override fun getInterceptor(): Interceptor {
-        val mHttpLogInter = HttpLoggingInterceptor { message ->
-            Timber.i("HttpLogging=====$message")
+        val mHttpHeadLogInter = HttpLoggingInterceptor { message ->
+            Timber.i("HttpHeadLogInter=====$message")
         }
-        mHttpLogInter.level = HttpLoggingInterceptor.Level.BODY
-        return mHttpLogInter
+        mHttpHeadLogInter.level = HttpLoggingInterceptor.Level.HEADERS
+        return mHttpHeadLogInter
     }
 
 }

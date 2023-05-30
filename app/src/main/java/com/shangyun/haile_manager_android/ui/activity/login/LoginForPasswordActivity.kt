@@ -59,6 +59,8 @@ class LoginForPasswordActivity :
             // 模拟数据
 //            mViewModel.phone.value = "17028000053"
 //            mViewModel.password.value = "Dp8Lv5"
+//            mViewModel.phone.value = "13032912840"
+//            mViewModel.password.value = "123456Aa"
             mViewModel.phone.value = "13067949521"
             mViewModel.password.value = "Aa123456"
             mViewModel.isAgree.value = true

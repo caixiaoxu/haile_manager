@@ -313,19 +313,19 @@
                     <include
                         layout="@layout/item_order_detail_item"
                         app:mStart="@{@dimen/dimen_2}"
-                        app:title="@{@string/model_of_payment}"
+                        app:title='@{@string/model_of_payment + "："}'
                         app:value='@{vm.orderDetail.payMethod}' />
 
                     <include
                         layout="@layout/item_order_detail_item"
                         app:mStart="@{@dimen/dimen_2}"
-                        app:title="@{@string/no_of_payment}"
+                        app:title='@{@string/no_of_payment +"："}'
                         app:value='@{vm.orderDetail.payNo}' />
 
                     <include
                         layout="@layout/item_order_detail_item"
                         app:mStart="@{@dimen/dimen_2}"
-                        app:title="@{@string/time_of_payment}"
+                        app:title='@{@string/time_of_payment +"："}'
                         app:value='@{vm.orderDetail.payTime}' />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>

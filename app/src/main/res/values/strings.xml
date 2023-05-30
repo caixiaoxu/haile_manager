@@ -169,9 +169,9 @@
     <string name="need_pay">需支付：</string>
     <string name="have_paid">已支付：</string>
     <string name="order_time_title">下单时间：</string>
-    <string name="model_of_payment">支付方式：</string>
-    <string name="no_of_payment">支付单号：</string>
-    <string name="time_of_payment">支付时间：</string>
+    <string name="model_of_payment">支付方式</string>
+    <string name="no_of_payment">支付单号</string>
+    <string name="time_of_payment">支付时间</string>
     <string name="reason_for_refund">退款原因：</string>
     <string name="refund_amount">退款金额：</string>
     <string name="refund_haixin">退款海星：</string>
@@ -253,7 +253,14 @@
     <string name="income">收入明细</string>
     <string name="order_no">订单编号</string>
     <string name="total_income_for_day">%1$s总收入：</string>
-    <string name="income_detail">收益详情</string>
+    <string name="earnings_detail">收益详情</string>
+    <string name="check_order_detail">查看订单详情</string>
+    <string name="pay_time">支付时间</string>
+    <string name="settlement_time">结算时间</string>
+    <string name="income_detail">收入详情</string>
+    <string name="pay_account">支付账号</string>
+    <string name="reach_starfish">充值海星</string>
+    <string name="reward_starfish">赠送海星</string>
 
     <string name="bank_card">银行卡</string>
     <string name="real_name">实名认证</string>
@@ -288,6 +295,8 @@
     <string name="unit_device_configuration_hint2">%1$.2f元/%2$d分钟/%3$d个脉冲</string>
     <string name="unit_device_configuration_hint3">%1$s元/%2$s分钟</string>
     <string name="unit_device_configuration_hint4">%1$s元/%2$s分钟/%3$s个脉冲</string>
+
+    <string name="permission_err_order_info">该账号没有查看订单详情的权限</string>
 
     <string-array name="week_arr">
         <item>周一</item>

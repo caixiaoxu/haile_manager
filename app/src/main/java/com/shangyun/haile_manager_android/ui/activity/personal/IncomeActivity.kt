@@ -74,8 +74,8 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
             BR.item
         ) { mItemBinding, _, item ->
             mItemBinding?.root?.setOnClickListener {
-                startActivity(Intent(this@IncomeActivity, IncomeDetailActivity::class.java).apply {
-                    putExtra(IncomeDetailActivity.IncomeId, item.id)
+                startActivity(Intent(this@IncomeActivity, EarningsDetailActivity::class.java).apply {
+                    putExtra(EarningsDetailActivity.IncomeId, item.id)
                 })
             }
         }

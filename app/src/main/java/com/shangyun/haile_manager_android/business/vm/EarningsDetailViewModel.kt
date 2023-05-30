@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.shangyun.haile_manager_android.business.apiService.CapitalService
 import com.shangyun.haile_manager_android.data.entities.IncomeDetailEntity
-import com.shangyun.haile_manager_android.data.entities.RechargeDetailEntity
 import com.shangyun.haile_manager_android.data.model.ApiRepository
 
 /**
@@ -17,25 +16,19 @@ import com.shangyun.haile_manager_android.data.model.ApiRepository
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class IncomeDetailViewModel : BaseViewModel() {
+class EarningsDetailViewModel : BaseViewModel() {
     private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
     var incomeId: Int = -1
-    var orderNo: String? = null
 
-    val rechargeDetail: MutableLiveData<RechargeDetailEntity> by lazy {
+    val incomeDetail: MutableLiveData<IncomeDetailEntity> by lazy {
         MutableLiveData()
     }
 
     fun requestData() {
-        if (orderNo.isNullOrEmpty()) return
+        if (-1 == incomeId) return
         launch({
-            ApiRepository.dealApiResult(
-                mCapitalRepo.rechargeDetail(
-                    orderNo!!,
-                    if (-1 == incomeId) null else incomeId
-                )
-            )?.let {
-                rechargeDetail.postValue(it)
+            ApiRepository.dealApiResult(mCapitalRepo.incomeDetail(incomeId))?.let {
+                incomeDetail.postValue(it)
             }
         })
     }

@@ -6,10 +6,12 @@ import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.StatusBarUtils
 import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
+import com.shangyun.haile_manager_android.business.event.BusEvents
 import com.shangyun.haile_manager_android.business.vm.PersonalViewModel
 import com.shangyun.haile_manager_android.databinding.FragmentPersonalBinding
 import com.shangyun.haile_manager_android.databinding.IncludePersonalItemBinding

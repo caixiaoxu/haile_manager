@@ -111,4 +111,6 @@ dependencies {
     implementation ThirdLibs.indicator
 
     implementation ThirdLibs.zxing_embedded
+
+    implementation ThirdLibs.picture_selector
 }

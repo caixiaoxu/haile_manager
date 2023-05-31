@@ -45,16 +45,25 @@ object ThirdLibs {
     const val smartRefresh_ClassHeader = "io.github.scwang90:refresh-header-classics:2.0.5" //经典刷新头
 
     //高德地图
-    const val amap2d =  "com.amap.api:map2d:latest.integration"
-    const val amapLocation =  "com.amap.api:location:latest.integration"
-    const val amapSearch =  "com.amap.api:search:latest.integration"
+    const val amap2d = "com.amap.api:map2d:latest.integration"
+    const val amapLocation = "com.amap.api:location:latest.integration"
+    const val amapSearch = "com.amap.api:search:latest.integration"
 
     //指示器
-    const val indicator =  "com.github.hackware1993:MagicIndicator:1.7.0"
+    const val indicator = "com.github.hackware1993:MagicIndicator:1.7.0"
 
     //扫码 zxing 需独立出扫码功能
 //    const val zxing =  "com.google.zxing:core:3.5.1"
-    const val zxing_embedded =  "com.journeyapps:zxing-android-embedded:4.3.0"
+    const val zxing_embedded = "com.journeyapps:zxing-android-embedded:4.3.0"
+
+    // 图片选择库
+    const val picture_selector = "io.github.lucksiege:pictureselector:v3.11.1"
+
+    // 图片压缩
+    const val picture_compress = "io.github.lucksiege:compress:v3.11.1"
+
+    // 图片裁剪
+    const val picture_ucrop = "io.github.lucksiege:ucrop:v3.11.1"
 }
 
 object TestLibs {

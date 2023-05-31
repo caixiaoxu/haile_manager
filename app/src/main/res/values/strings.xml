@@ -25,6 +25,8 @@
     <string name="save_to_local">保存到本地</string>
     <string name="status">状态</string>
     <string name="operate">操作</string>
+    <string name="for_take">拍照</string>
+    <string name="for_album">相册</string>
 
     <string name="login_name">登录</string>
     <string name="login_account_password">账号密码登录</string>
@@ -271,8 +273,11 @@
     <string name="cash_out_amount">提现金额</string>
     <string name="cash_out_time">提现时间</string>
     <string name="cash_out_bank">提现银行</string>
-    <string name="user_account">用户账号</string>
-    <string name="user_balance">用户余额</string>
+    <string name="business_name">业务名称</string>
+    <string name="remark">备注</string>
+    <string name="time">时间</string>
+    <string name="sub_account_time">分账时间</string>
+    <string name="sub_account_order_no">分账单号</string>
 
     <string name="bank_card">银行卡</string>
     <string name="real_name">实名认证</string>
@@ -309,6 +314,7 @@
     <string name="unit_device_configuration_hint4">%1$s元/%2$s分钟/%3$s个脉冲</string>
 
     <string name="permission_err_order_info">该账号没有查看订单详情的权限</string>
+    <string name="update_empty_hint">请输入内容</string>
 
     <string-array name="week_arr">
         <item>周一</item>

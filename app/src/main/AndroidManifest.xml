@@ -11,6 +11,14 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Android 13版本适配，细化存储权限-->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+
     <application
         android:name=".BusinessApp"
         android:allowBackup="true"
@@ -22,6 +30,9 @@
         android:theme="@style/Theme.Business_Android"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.activity.common.UpdateValueActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.activity.personal.PersonalInfoActivity"
             android:exported="false" />
@@ -178,7 +189,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
+        </activity>
+
+        <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
         <service android:name="com.amap.api.location.APSService" />
 
         <meta-data
@@ -186,4 +199,13 @@
             android:value="5f90ead1c370be414645533daa7ae38a" />
     </application>
 
+    <!-- picture_selector，Android 11 使用相机需要添加-->
+    <queries package="${applicationId}">
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+        <intent>
+            <action android:name="android.media.action.ACTION_VIDEO_CAPTURE" />
+        </intent>
+    </queries>
 </manifest>

@@ -4,13 +4,14 @@ import android.os.Handler
 import android.os.Looper
 import com.lsy.framelib.network.ApiService
 import com.lsy.framelib.network.exception.CommonCustomException
-import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.shangyun.haile_manager_android.BuildConfig
 import com.shangyun.haile_manager_android.utils.ActivityManagerUtils
 import okhttp3.MediaType
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import java.io.File
 
 /**
  * Title : Repository层，获取数据来源
@@ -46,6 +47,13 @@ object ApiRepository {
      */
     fun createRequestBody(paramsJson: String): RequestBody =
         RequestBody.create(MediaType.parse("application/json"), paramsJson)
+
+    fun createFileUploadBody(filePath:String):MultipartBody.Part {
+        val file = File(filePath)
+        val requestFile: RequestBody =
+            RequestBody.create(MultipartBody.FORM, file)
+        return MultipartBody.Part.createFormData("file", file.name, requestFile)
+    }
 
     /**
      * 处理网络请求结果

@@ -2,14 +2,9 @@ package com.shangyun.haile_manager_android.utils
 
 import androidx.appcompat.app.AppCompatActivity
 import com.lsy.framelib.utils.StringUtils
-import com.luck.picture.lib.basic.PictureSelector
-import com.luck.picture.lib.config.SelectMimeType
-import com.luck.picture.lib.entity.LocalMedia
-import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
 import com.shangyun.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
-import com.shangyun.haile_manager_android.utils.engine.GlideEngine
 
 /**
  * Title :
@@ -37,30 +32,9 @@ object DialogUtils {
                 CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
                 override fun onValue(data: SearchSelectParam) {
                     if (1 == data.id) {
-                        // 拍照
-                        PictureSelector.create(activity)
-                            .openCamera(SelectMimeType.ofImage())
-                            .forResult(object : OnResultCallbackListener<LocalMedia> {
-                                override fun onResult(result: ArrayList<LocalMedia>?) {
-                                }
-
-                                override fun onCancel() {
-                                }
-                            })
+                        PictureSelectUtils.takePicture(activity)
                     } else {
-                        // 相册
-                        PictureSelector.create(activity)
-                            .openGallery(SelectMimeType.ofImage())
-                            .setImageEngine(GlideEngine)
-                            .forResult(object : OnResultCallbackListener<LocalMedia?> {
-                                override fun onResult(result: ArrayList<LocalMedia?>) {
-
-                                }
-
-                                override fun onCancel() {
-
-                                }
-                            })
+                        PictureSelectUtils.pictureForAlbum(activity)
                     }
                 }
             }

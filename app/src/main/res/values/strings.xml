@@ -315,6 +315,7 @@
 
     <string name="permission_err_order_info">该账号没有查看订单详情的权限</string>
     <string name="update_empty_hint">请输入内容</string>
+    <string name="month_empty_date">当月暂无数据</string>
 
     <string-array name="week_arr">
         <item>周一</item>

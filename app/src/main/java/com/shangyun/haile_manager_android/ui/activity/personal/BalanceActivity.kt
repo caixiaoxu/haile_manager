@@ -9,6 +9,7 @@ import com.shangyun.haile_manager_android.BR
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.business.vm.BalanceViewModel
 import com.shangyun.haile_manager_android.data.entities.BalanceEntity
+import com.shangyun.haile_manager_android.data.entities.BalanceListEntity
 import com.shangyun.haile_manager_android.databinding.ActivityBalanceBinding
 import com.shangyun.haile_manager_android.databinding.ItemBalanceBinding
 import com.shangyun.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -24,28 +25,42 @@ class BalanceActivity : BaseBusinessActivity<ActivityBalanceBinding, BalanceView
     override fun layoutId(): Int = R.layout.activity_balance
     override fun backBtn(): View = mBinding.barBalanceTitle.getBackBtn()
 
-    private val mAdapter: CommonRecyclerAdapter<ItemBalanceBinding, BalanceEntity> by lazy {
-        CommonRecyclerAdapter(
-            R.layout.item_balance, BR.item
-        ) { mItemBinding, pos, item ->
-            if (0 == pos || !DateTimeUtils.isSameMonth(
-                    DateTimeUtils.formatDateFromString(item.cashOutTime),
-                    DateTimeUtils.formatDateFromString(mAdapter.list[pos - 1].cashOutTime)
-                )
-            ) {
-                mItemBinding?.tvBalanceMonth?.text =
-                    DateTimeUtils.formatDateTimeForStr(item.cashOutTime, "yyyy年MM月")
-                mItemBinding?.tvBalanceMonth?.visibility = View.VISIBLE
-            } else {
-                mItemBinding?.tvBalanceMonth?.visibility = View.GONE
-            }
+    private val mAdapter: CommonRecyclerAdapter<ItemBalanceBinding, BalanceListEntity> by lazy {
+        object : CommonRecyclerAdapter<ItemBalanceBinding, BalanceListEntity>(
+            R.layout.item_balance, BR.item,
+            { mItemBinding, pos, item ->
+                if (0 == pos || !DateTimeUtils.isSameMonth(
+                        item.month,
+                        mAdapter.list[pos - 1].month
+                    )
+                ) {
+                    mItemBinding?.tvBalanceMonth?.text =
+                        DateTimeUtils.formatDateTime(item.month, "yyyy年MM月")
+                    mItemBinding?.tvBalanceMonth?.visibility = View.VISIBLE
+                } else {
+                    mItemBinding?.tvBalanceMonth?.visibility = View.GONE
+                }
 
-            mItemBinding?.viewItemBalanceParent?.setOnClickListener {
-                startActivity(Intent(this@BalanceActivity, IncomeDetailActivity::class.java).apply {
-                    putExtra(IncomeDetailActivity.IncomeId, item.id)
-                })
-            }
-
+                val balance = item.balanceEntity
+                if (null != balance) {
+                    mItemBinding?.groupItemBalance?.visibility = View.VISIBLE
+                    mItemBinding?.tvItemBalanceEmpty?.visibility = View.GONE
+                    mItemBinding?.viewItemBalanceParent?.setOnClickListener {
+                        startActivity(
+                            Intent(
+                                this@BalanceActivity,
+                                IncomeDetailActivity::class.java
+                            ).apply {
+                                putExtra(IncomeDetailActivity.IncomeId, balance.id)
+                            })
+                    }
+                } else {
+                    mItemBinding?.groupItemBalance?.visibility = View.GONE
+                    mItemBinding?.tvItemBalanceEmpty?.visibility = View.VISIBLE
+                }
+            },
+        ) {
+            override fun bindingData(item: BalanceListEntity): Any? = item.balanceEntity
         }
     }
 
@@ -71,6 +86,16 @@ class BalanceActivity : BaseBusinessActivity<ActivityBalanceBinding, BalanceView
                 responseList: ResponseList<out BalanceEntity>,
                 isRefresh: Boolean
             ): Boolean {
+                val list = if (responseList.items.isEmpty()) {
+                    mutableListOf(
+                        BalanceListEntity(mViewModel.searchDate, null)
+                    )
+                } else {
+                    responseList.items.map {
+                        BalanceListEntity(DateTimeUtils.formatDateFromString(it.cashOutTime), it)
+                    }.toMutableList()
+                }
+
                 if (responseList.items.size < responseList.pageSize) {
                     mBinding.rvBalanceList.page = 1
                     mViewModel.searchDate = Calendar.getInstance().apply {
@@ -78,8 +103,9 @@ class BalanceActivity : BaseBusinessActivity<ActivityBalanceBinding, BalanceView
                         add(Calendar.MONTH, -1)
                     }.time
                 }
+
                 // 刷新数据
-                mAdapter.refreshList(responseList.items, isRefresh)
+                mAdapter.refreshList(list, isRefresh)
                 return true
             }
         }

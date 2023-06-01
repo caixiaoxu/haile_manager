@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.lsy.framelib.network.response.ResponseList
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.databinding.CustomRefreshRecyclerViewBinding
-import com.shangyun.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
+import com.shangyun.haile_manager_android.ui.view.adapter.BaseRecyclerAdapter
 
 /**
  * Title :
@@ -35,7 +35,7 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
         }
 
     // 适配器
-    var adapter: CommonRecyclerAdapter<*, D>? = null
+    var adapter: BaseRecyclerAdapter<D>? = null
         set(value) {
             mBinding.rvRefreshList.adapter = value
             field = value

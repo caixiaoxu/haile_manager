@@ -92,6 +92,25 @@
             app:layout_constraintTop_toBottomOf="@id/tv_item_balance_amount"
             tools:text="余额2240.00" />
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_item_balance"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:constraint_referenced_ids="iv_item_balance_main,tv_item_balance_title,tv_item_balance_time,tv_item_balance_amount,tv_item_balance_balance" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_item_balance_empty"
+            style="@style/Font_16_333333"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="@id/view_item_balance_parent"
+            app:layout_constraintBottom_toBottomOf="@id/view_item_balance_parent"
+            app:layout_constraintStart_toStartOf="@id/view_item_balance_parent"
+            app:layout_constraintEnd_toEndOf="@id/view_item_balance_parent"
+            android:gravity="center"
+            android:text="@string/month_empty_date"
+            android:visibility="gone" />
+
         <View
             style="@style/DividingStyle"
             app:layout_constraintBottom_toBottomOf="@id/view_item_balance_parent"

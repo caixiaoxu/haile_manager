@@ -52,7 +52,7 @@ data class BalanceDetailEntity(
         addItemInfo(settlementTime, R.string.time, this)
         if (revenueNo.isNotEmpty() && revenueTime.isNotEmpty()) {
             addItemInfo(revenueNo, R.string.sub_account_order_no, this, true)
-            addItemInfo(revenueTime, R.string.sub_account_time, this, true)
+            addItemInfo(revenueTime, R.string.sub_account_time, this)
         } else if (cashOutNo.isNotEmpty()) {
             addItemInfo(cashOutNo, R.string.cash_out_no, this, true)
             addItemInfo(cashOutPrice, R.string.cash_out_amount, this)

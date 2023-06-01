@@ -2,6 +2,7 @@ package com.shangyun.haile_manager_android.data.entities
 
 import com.shangyun.haile_manager_android.utils.DateTimeUtils
 import com.shangyun.haile_manager_android.utils.StringUtils
+import java.util.*
 
 /**
  * Title :
@@ -30,3 +31,5 @@ data class BalanceEntity(
 
     fun amountStr(): String = StringUtils.formatNumberStrOfStr(capital) ?: ""
 }
+
+data class BalanceListEntity(val month: Date?, val balanceEntity: BalanceEntity?)

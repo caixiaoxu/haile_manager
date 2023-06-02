@@ -2,6 +2,7 @@ package com.shangyun.haile_manager_android.utils
 
 import androidx.appcompat.app.AppCompatActivity
 import com.lsy.framelib.utils.StringUtils
+import com.luck.picture.lib.entity.LocalMedia
 import com.shangyun.haile_manager_android.R
 import com.shangyun.haile_manager_android.data.arguments.SearchSelectParam
 import com.shangyun.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
@@ -21,7 +22,11 @@ object DialogUtils {
     /**
      * 显示图片选择弹窗
      */
-    fun showImgSelectorDialog(activity: AppCompatActivity) {
+    fun showImgSelectorDialog(
+        activity: AppCompatActivity,
+        maxNum: Int,
+        callback: (isSuccess: Boolean, result: ArrayList<LocalMedia>?) -> Unit
+    ) {
         CommonBottomSheetDialog.Builder(
             "", arrayListOf(
                 SearchSelectParam(1, StringUtils.getString(R.string.for_take)),
@@ -32,9 +37,9 @@ object DialogUtils {
                 CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
                 override fun onValue(data: SearchSelectParam) {
                     if (1 == data.id) {
-                        PictureSelectUtils.takePicture(activity)
+                        PictureSelectUtils.takePicture(activity, callback)
                     } else {
-                        PictureSelectUtils.pictureForAlbum(activity)
+                        PictureSelectUtils.pictureForAlbum(activity, maxNum, callback)
                     }
                 }
             }

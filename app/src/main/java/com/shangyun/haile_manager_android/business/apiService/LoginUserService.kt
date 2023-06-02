@@ -4,6 +4,7 @@ import com.lsy.framelib.network.response.ResponseWrapper
 import com.shangyun.haile_manager_android.data.entities.LoginEntity
 import com.shangyun.haile_manager_android.data.entities.UserInfoEntity
 import com.shangyun.haile_manager_android.data.entities.UserPermissionEntity
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
 
@@ -72,4 +73,8 @@ interface LoginUserService {
      */
     @POST("/user/updateUserInfo")
     suspend fun updateUserInfo(@Body body: RequestBody): ResponseWrapper<Any>
+
+    @Multipart
+    @POST("/common/upload")
+    suspend fun updateLoadFile(@Part file: MultipartBody.Part): ResponseWrapper<String>
 }

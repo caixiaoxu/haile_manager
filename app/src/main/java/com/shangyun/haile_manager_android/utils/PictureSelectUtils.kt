@@ -37,13 +37,20 @@ import java.io.File
  * 作者姓名 修改时间 版本号 描述
  */
 object PictureSelectUtils {
-
-    fun takePicture(context: Context) {
+    /**
+     * 拍照
+     * @param context
+     * @param callback 回调
+     */
+    fun takePicture(
+        context: Context,
+        callback: (isSuccess: Boolean, result: ArrayList<LocalMedia>?) -> Unit
+    ) {
         // 拍照
         PictureSelector.create(context)
-            .openCamera(SelectMimeType.ofImage())
-            .setCompressEngine(ImageCompressFileEngine())
-            .setCropEngine(ImageCropFileCropEngine())
+            .openCamera(SelectMimeType.ofImage())//拍照类型
+            .setCompressEngine(ImageCompressFileEngine())//压缩
+            .setCropEngine(ImageCropFileCropEngine())//裁剪
             .forResult(object : OnResultCallbackListener<LocalMedia> {
                 override fun onResult(result: ArrayList<LocalMedia>) {
                     result.forEachIndexed { index, localMedia ->
@@ -53,22 +60,28 @@ object PictureSelectUtils {
                         Timber.i("拍照图片${index}compressPath输出:${localMedia.compressPath}")
                         Timber.i("拍照图片${index}realPath输出:${localMedia.realPath}")
                     }
+                    callback(true, result)
                 }
 
                 override fun onCancel() {
                     Timber.i("拍照图片输出失败")
+                    callback(false, null)
                 }
             })
     }
 
-    fun pictureForAlbum(context: Context, maxNum: Int = 1) {
+    fun pictureForAlbum(
+        context: Context,
+        maxNum: Int,
+        callback: (isSuccess: Boolean, result: ArrayList<LocalMedia>?) -> Unit
+    ) {
         // 相册
         PictureSelector.create(context)
-            .openGallery(SelectMimeType.ofImage())
-            .setImageEngine(GlideEngine)
-            .setMaxSelectNum(maxNum)
-            .setCompressEngine(ImageCompressFileEngine())
-            .setCropEngine(ImageCropFileCropEngine())
+            .openGallery(SelectMimeType.ofImage())//相册筛选类型
+            .setImageEngine(GlideEngine)//加载图片引擎
+            .setMaxSelectNum(maxNum)//最大选择数
+            .setCompressEngine(ImageCompressFileEngine())//压缩
+            .setCropEngine(ImageCropFileCropEngine())//裁剪
             .forResult(object : OnResultCallbackListener<LocalMedia> {
                 override fun onResult(result: ArrayList<LocalMedia>) {
                     result.forEachIndexed { index, localMedia ->
@@ -78,14 +91,19 @@ object PictureSelectUtils {
                         Timber.i("选择图片${index}compressPath输出:${localMedia.compressPath}")
                         Timber.i("选择图片${index}realPath输出:${localMedia.realPath}")
                     }
+                    callback(true, result)
                 }
 
                 override fun onCancel() {
                     Timber.i("选择图片输出失败")
+                    callback(false, null)
                 }
             })
     }
 
+    /**
+     * 图片压缩引擎
+     */
     class ImageCompressFileEngine : CompressFileEngine {
         override fun onStartCompress(
             context: Context,
@@ -113,6 +131,9 @@ object PictureSelectUtils {
         }
     }
 
+    /**
+     * 图片裁剪引擎
+     */
     class ImageCropFileCropEngine : CropFileEngine {
         override fun onStartCrop(
             fragment: Fragment,

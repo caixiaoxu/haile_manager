@@ -22,6 +22,7 @@
     <string name="cant_appointment">不可预约</string>
     <string name="scan_add">扫码添加</string>
     <string name="update_success">修改成功</string>
+    <string name="update_failure">修改失败</string>
     <string name="save_to_local">保存到本地</string>
     <string name="status">状态</string>
     <string name="operate">操作</string>

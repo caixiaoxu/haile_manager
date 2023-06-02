@@ -48,11 +48,11 @@ object ApiRepository {
     fun createRequestBody(paramsJson: String): RequestBody =
         RequestBody.create(MediaType.parse("application/json"), paramsJson)
 
-    fun createFileUploadBody(filePath:String):MultipartBody.Part {
+    fun createFileUploadBody(filePath: String, paramName: String = "file"): MultipartBody.Part {
         val file = File(filePath)
         val requestFile: RequestBody =
             RequestBody.create(MultipartBody.FORM, file)
-        return MultipartBody.Part.createFormData("file", file.name, requestFile)
+        return MultipartBody.Part.createFormData(paramName, file.name, requestFile)
     }
 
     /**

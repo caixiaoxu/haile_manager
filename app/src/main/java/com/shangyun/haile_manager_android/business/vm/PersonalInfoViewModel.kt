@@ -3,6 +3,10 @@ package com.shangyun.haile_manager_android.business.vm
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.shangyun.haile_manager_android.business.apiService.LoginUserService
 import com.shangyun.haile_manager_android.data.model.ApiRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import okhttp3.Dispatcher
+import timber.log.Timber
 
 /**
  * Title :
@@ -16,4 +20,27 @@ import com.shangyun.haile_manager_android.data.model.ApiRepository
  */
 class PersonalInfoViewModel : BaseViewModel() {
     private val mUserService = ApiRepository.apiClient(LoginUserService::class.java)
+
+    fun uploadHeadIcon(path: String, callback: (isSuccess: Boolean) -> Unit) {
+        launch({
+            ApiRepository.dealApiResult(
+                mUserService.updateLoadFile(
+                    ApiRepository.createFileUploadBody(path)
+                )
+            )?.let {
+                Timber.i("图片上传成功：$it")
+                ApiRepository.dealApiResult(
+                    mUserService.updateUserInfo(
+                        ApiRepository.createRequestBody(hashMapOf("headImage" to it))
+                    )
+                )
+                withContext(Dispatchers.Main) {
+                    callback(true)
+                }
+            }
+        }, {
+            Timber.e("图片上传失败$it")
+            callback(false)
+        })
+    }
 }

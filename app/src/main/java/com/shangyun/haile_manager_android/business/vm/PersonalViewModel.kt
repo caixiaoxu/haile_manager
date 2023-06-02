@@ -44,13 +44,13 @@ class PersonalViewModel : BaseViewModel() {
             }
         ),
         null,
-        PersonalItem(
-            R.mipmap.icon_personal_bank_card,
-            R.string.bank_card,
-            null,
-            null,
-            BankCardActivity::class.java
-        ),
+//        PersonalItem(
+//            R.mipmap.icon_personal_bank_card,
+//            R.string.bank_card,
+//            null,
+//            null,
+//            BankCardActivity::class.java
+//        ),
         PersonalItem(
             R.mipmap.icon_personal_real_name,
             R.string.real_name,

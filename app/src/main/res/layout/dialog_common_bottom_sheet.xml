@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/shape_sffffff_rt12"
-    android:paddingBottom="34dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="34dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_common_dialog_title"
         android:layout_width="match_parent"
-        android:background="@drawable/shape_bottom_stroke_dividing_efefef"
         android:layout_height="52dp">
 
         <androidx.appcompat.widget.AppCompatImageButton
@@ -44,16 +44,19 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <View style="@style/DividingStyle"/>
+
     <com.shangyun.haile_manager_android.ui.view.MaxHeightScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
         app:maxHeight="540dp">
+
         <RadioGroup
             android:id="@+id/ll_dialog_common_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
     </com.shangyun.haile_manager_android.ui.view.MaxHeightScrollView>
 
     <View

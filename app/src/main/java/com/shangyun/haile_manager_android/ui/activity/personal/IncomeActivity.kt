@@ -38,6 +38,7 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
         const val ProfitType = "profitType"
         const val ProfitSearchId = "profitSearchId"
         const val DeviceName = "deviceName"
+        const val SelectDay = "selectDay"
     }
 
     private val mIncomeAdapter: CommonRecyclerAdapter<ItemIncomeCalendarBinding, ICalendarEntity> by lazy {
@@ -90,6 +91,10 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
         mViewModel.profitType = intent.getIntExtra(ProfitType, 3)
         mViewModel.profitSearchId = intent.getIntExtra(ProfitSearchId, -1)
         mViewModel.deviceName = intent.getStringExtra(DeviceName) ?: ""
+
+        DateTimeUtils.formatDateFromString(intent.getStringExtra(SelectDay))?.let {
+            mViewModel.selectDay.postValue(it)
+        }
     }
 
     override fun initEvent() {

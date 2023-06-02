@@ -254,6 +254,7 @@
     <string name="personal_info">个人信息</string>
     <string name="update_head">修改头像</string>
     <string name="change_role">切换角色</string>
+    <string name="select_role_title">请选择角色</string>
 
     <string name="wallet">钱包余额</string>
     <string name="balance">余额</string>
@@ -317,6 +318,7 @@
     <string name="permission_err_order_info">该账号没有查看订单详情的权限</string>
     <string name="update_empty_hint">请输入内容</string>
     <string name="month_empty_date">当月暂无数据</string>
+    <string name="role_list_empty">当前帐户没有其他角色</string>
 
     <string-array name="week_arr">
         <item>周一</item>

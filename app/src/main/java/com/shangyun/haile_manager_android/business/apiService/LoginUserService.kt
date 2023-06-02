@@ -2,6 +2,7 @@ package com.shangyun.haile_manager_android.business.apiService
 
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.shangyun.haile_manager_android.data.entities.LoginEntity
+import com.shangyun.haile_manager_android.data.entities.RoleEntity
 import com.shangyun.haile_manager_android.data.entities.UserInfoEntity
 import com.shangyun.haile_manager_android.data.entities.UserPermissionEntity
 import okhttp3.MultipartBody
@@ -77,4 +78,16 @@ interface LoginUserService {
     @Multipart
     @POST("/common/upload")
     suspend fun updateLoadFile(@Part file: MultipartBody.Part): ResponseWrapper<String>
+
+    /**
+     * 获取用户角色接口
+     */
+    @POST("/login/getLoginUserList")
+    suspend fun requestRoleInfo(@Body body: RequestBody): ResponseWrapper<List<RoleEntity>>
+
+    /**
+     * 切换用户角色接口
+     */
+    @POST("/login/swapUserLogin")
+    suspend fun swapUserLogin(@Body body: RequestBody): ResponseWrapper<LoginEntity>
 }

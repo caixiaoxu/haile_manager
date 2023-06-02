@@ -36,6 +36,7 @@ import com.shangyun.haile_manager_android.data.entities.MessageContentEntity
 import com.shangyun.haile_manager_android.databinding.FragmentHomeBinding
 import com.shangyun.haile_manager_android.databinding.IncludeHomeFuncItemBinding
 import com.shangyun.haile_manager_android.databinding.IncludeHomeLastMsgItemBinding
+import com.shangyun.haile_manager_android.ui.activity.personal.IncomeActivity
 import com.shangyun.haile_manager_android.ui.view.chart.BarChartRenderer
 import com.shangyun.haile_manager_android.ui.view.chart.CustomMarkerView
 import com.shangyun.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
@@ -54,7 +55,8 @@ import java.util.*
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class HomeFragment : BaseBusinessFragment<FragmentHomeBinding, HomeViewModel>(HomeViewModel::class.java,BR.vm) {
+class HomeFragment :
+    BaseBusinessFragment<FragmentHomeBinding, HomeViewModel>(HomeViewModel::class.java, BR.vm) {
 
     private val lastHighlight: Highlight? = null
 
@@ -74,7 +76,7 @@ class HomeFragment : BaseBusinessFragment<FragmentHomeBinding, HomeViewModel>(Ho
                 showModel = 1
                 onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
-                        Timber.i("选择的日期${DateTimeUtils.formatDateTime(date1,"yyyy-MM")}")
+                        Timber.i("选择的日期${DateTimeUtils.formatDateTime(date1, "yyyy-MM")}")
                         mViewModel.selectedDate.value = date1
                     }
                 }
@@ -186,12 +188,18 @@ class HomeFragment : BaseBusinessFragment<FragmentHomeBinding, HomeViewModel>(Ho
                         rect.offset((highlighted[0].drawX + offset.x).toInt(), 0)
                         val contains = rect.contains(x, y)
                         if (contains && e.action == MotionEvent.ACTION_UP) {
-                            // TODO 跳转到收详情
-//                            val curBean: HomeInComeBean.DataBean = marker.getCurBean()
-//                            val intent = Intent(context, RevenueDetailsActivity::class.java)
-//                            intent.putExtra(RevenueDetailsActivity.FROM_TYPE, 0)
-//                            intent.putExtra("selectDate", curBean.getDate())
-//                            context!!.startActivity(intent)
+                            // 跳转到收详情
+
+                            marker.curBean?.let {
+                                startActivity(
+                                    Intent(
+                                        requireContext(),
+                                        IncomeActivity::class.java
+                                    ).apply {
+                                        putExtra(IncomeActivity.ProfitType, 3)
+                                        putExtra(IncomeActivity.SelectDay, it.date)
+                                    })
+                            }
                             return
                         }
                     }

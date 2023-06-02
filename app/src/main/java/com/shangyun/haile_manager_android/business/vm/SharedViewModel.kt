@@ -199,28 +199,22 @@ class SharedViewModel : ViewModel() {
             SPRepository.loginInfo = it
             loginInfo.postValue(it)
         } ?: throw CommonCustomException(-1, "返回数据为空")
-
-        requestUserInfo()
-
-        // 当请求到登录信息和用户信息后，缓存到本地，用于切换账号
-        SPRepository.changeUser?.let { list ->
-            //移除之前的缓存
-            val index: Int =
-                list.indexOfFirst { it.loginInfo.userId == SPRepository.loginInfo!!.userId }
-            if (-1 != index) {
-                list.removeAt(index)
-            }
-            list.add(
-                ChangeUserEntity(
-                    loginType,
-                    password,
-                    SPRepository.loginInfo!!,
-                    SPRepository.userInfo!!
-                )
-            )
-            SPRepository.changeUser = list
-        }
+        requestUserInfo(loginType, password)
         requestUserPermissions()
+    }
+
+    /**
+     * 切换角色
+     */
+    fun swapUserInfo() {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                requestUserInfo(-1, null)
+                requestUserPermissions()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     /**
@@ -229,7 +223,7 @@ class SharedViewModel : ViewModel() {
     fun requestUserInfoAsync() {
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                requestUserInfo()
+                requestUserInfo(-1, null)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -239,12 +233,36 @@ class SharedViewModel : ViewModel() {
     /**
      * 请求用户信息
      */
-    private suspend fun requestUserInfo() {
+    private suspend fun requestUserInfo(loginType: Int, password: String?) {
         val userInfoData = ApiRepository.dealApiResult(mRepo.userInfo())
         Timber.d("用户信息请求成功$userInfoData")
         userInfoData?.let {
             SPRepository.userInfo = it
             userInfo.postValue(it)
+
+            // 当请求到登录信息和用户信息后，缓存到本地，用于切换账号
+            SPRepository.changeUser?.let { list ->
+                //移除之前的缓存
+                val index: Int =
+                    list.indexOfFirst {change->
+                        change.loginInfo.userId == SPRepository.loginInfo!!.userId
+                                || change.userInfo.userInfo.phone == SPRepository.userInfo!!.userInfo.phone
+                    }
+                var changeUserEntity: ChangeUserEntity? = null
+                if (-1 != index) {
+                    changeUserEntity = list.removeAt(index)
+                }
+                list.add(
+                    ChangeUserEntity(
+                        if (-1 == loginType) changeUserEntity?.loginType ?: 0 else loginType,
+                        if (password.isNullOrEmpty()) changeUserEntity?.password
+                            ?: "" else password,
+                        SPRepository.loginInfo!!,
+                        SPRepository.userInfo!!
+                    )
+                )
+                SPRepository.changeUser = list
+            }
         } ?: throw CommonCustomException(-1, "返回数据为空")
     }
 

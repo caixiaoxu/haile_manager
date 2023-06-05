@@ -3,7 +3,7 @@
  */
 object AndroidConfig {
     const val compileSdk = 33
-    const val namespace = "com.shangyun.haile_manager_android"
+    const val namespace = "com.yunshang.haile_manager_android"
     val defaultConfig = DefaultConfig()
 
     class DefaultConfig {

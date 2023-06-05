@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.shangyun.haile_manager_android.data.rule.SearchSelectRadioEntity" />
+            type="com.yunshang.haile_manager_android.data.rule.SearchSelectRadioEntity" />
 
     </data>
 

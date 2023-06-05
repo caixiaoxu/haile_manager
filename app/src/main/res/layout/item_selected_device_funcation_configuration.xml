@@ -11,7 +11,7 @@
 
         <variable
             name="item"
-            type="com.shangyun.haile_manager_android.data.entities.SkuFuncConfigurationParam" />
+            type="com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

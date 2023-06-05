@@ -4,13 +4,13 @@
 
     <data>
 
-        <import type="com.shangyun.haile_manager_android.R" />
+        <import type="com.yunshang.haile_manager_android.R" />
 
         <import type="com.lsy.framelib.utils.StringUtils" />
 
         <variable
             name="item"
-            type="com.shangyun.haile_manager_android.data.entities.ExtAttrBean" />
+            type="com.yunshang.haile_manager_android.data.entities.ExtAttrBean" />
     </data>
 
     <LinearLayout

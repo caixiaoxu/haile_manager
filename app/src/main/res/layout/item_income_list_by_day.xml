@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.shangyun.haile_manager_android.data.entities.IncomeListByDayEntity" />
+            type="com.yunshang.haile_manager_android.data.entities.IncomeListByDayEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="1231231231231231" />
 
-        <com.shangyun.haile_manager_android.ui.view.MultiTypeTextView
+        <com.yunshang.haile_manager_android.ui.view.MultiTypeTextView
             android:id="@+id/tv_income_list_type"
             bgResIds="@{item.multiTypeBgRes}"
             txtColors="@{item.multiTypeTxtColors}"

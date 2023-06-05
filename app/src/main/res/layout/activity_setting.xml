@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.SettingViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.SettingViewModel" />
 
     </data>
 
@@ -17,7 +17,7 @@
         android:orientation="vertical"
         tools:context=".ui.activity.SettingActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/login_title_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"

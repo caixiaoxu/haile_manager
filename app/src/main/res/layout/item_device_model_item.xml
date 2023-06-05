@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.shangyun.haile_manager_android.data.entities.Spu" />
+            type="com.yunshang.haile_manager_android.data.entities.Spu" />
     </data>
 
     <LinearLayout

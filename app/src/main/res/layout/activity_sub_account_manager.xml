@@ -6,7 +6,7 @@
     <data>
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.SubAccountManagerViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.SubAccountManagerViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +16,7 @@
         android:background="@color/page_bg"
         tools:context=".ui.activity.subAccount.SubAccountManagerActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_sub_account_manager_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
@@ -52,7 +52,7 @@
             app:layout_constraintStart_toStartOf="@id/view_sub_account_manager_search_bg"
             app:layout_constraintTop_toTopOf="@id/view_sub_account_manager_search_bg" />
 
-        <com.shangyun.haile_manager_android.ui.view.SearchEditText
+        <com.yunshang.haile_manager_android.ui.view.SearchEditText
             android:id="@+id/et_sub_account_manager_keyword"
             style="@style/Font_14_999999"
             android:layout_width="0dp"

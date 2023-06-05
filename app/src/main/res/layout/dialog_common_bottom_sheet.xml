@@ -46,7 +46,7 @@
 
     <View style="@style/DividingStyle"/>
 
-    <com.shangyun.haile_manager_android.ui.view.MaxHeightScrollView
+    <com.yunshang.haile_manager_android.ui.view.MaxHeightScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
@@ -57,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
-    </com.shangyun.haile_manager_android.ui.view.MaxHeightScrollView>
+    </com.yunshang.haile_manager_android.ui.view.MaxHeightScrollView>
 
     <View
         android:layout_width="match_parent"

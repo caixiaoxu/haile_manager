@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".ui.activity.login.LoginActivity">
 
-    <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+    <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
         android:id="@+id/login_title_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_action_bar_h"
@@ -33,14 +33,14 @@
         android:textColor="@color/colorPrimary"
         android:textSize="14sp" />
 
-    <com.shangyun.haile_manager_android.ui.view.CommonButton
+    <com.yunshang.haile_manager_android.ui.view.CommonButton
         android:id="@+id/btn_login_for_password"
         style="@style/CommonMatchBtnStyle1"
         android:layout_marginHorizontal="36dp"
         android:text="@string/login_account_password"
         android:layout_marginTop="44dp" />
 
-    <com.shangyun.haile_manager_android.ui.view.CommonButton
+    <com.yunshang.haile_manager_android.ui.view.CommonButton
         android:id="@+id/btn_login_for_phone"
         style="@style/CommonMatchBtnStyle2"
         android:text="@string/login_phone_login"

@@ -14,7 +14,7 @@
         android:background="@color/page_bg"
         tools:context=".ui.activity.discounts.DiscountsManagerActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_discounts_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
@@ -22,7 +22,7 @@
             app:rightModel="text"
             app:title="@string/discount_manager"/>
 
-        <com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+        <com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
             android:id="@+id/rv_discounts_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

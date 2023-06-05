@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.SearchSelectViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.SearchSelectViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +16,7 @@
         android:background="@color/page_bg"
         tools:context=".ui.activity.common.SearchSelectActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/search_select_title_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"

@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="com.shangyun.haile_manager_android.R" />
+        <import type="com.yunshang.haile_manager_android.R" />
 
         <variable
             name="item"
-            type="com.shangyun.haile_manager_android.data.entities.BalanceEntity" />
+            type="com.yunshang.haile_manager_android.data.entities.BalanceEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

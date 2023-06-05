@@ -7,15 +7,15 @@
 
         <import type="android.view.View" />
 
-        <import type="com.shangyun.haile_manager_android.data.arguments.DiscountsParam"/>
+        <import type="com.yunshang.haile_manager_android.data.arguments.DiscountsParam"/>
 
         <variable
             name="shared"
-            type="com.shangyun.haile_manager_android.business.vm.SharedViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.SharedViewModel" />
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.DiscountsDetailViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.DiscountsDetailViewModel" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -27,7 +27,7 @@
         app:showDividers="middle"
         tools:context=".ui.activity.discounts.DiscountsDetailActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_discount_detail_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"

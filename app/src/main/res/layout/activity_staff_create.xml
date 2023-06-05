@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.StaffCreateViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.StaffCreateViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +18,7 @@
         android:background="@color/white"
         tools:context=".ui.activity.staff.StaffCreateActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_staff_create_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
@@ -47,7 +47,7 @@
                     android:paddingHorizontal="16dp"
                     android:text="@string/staff_info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_staff_create_name"
                     style="@style/MultiTypeItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
@@ -56,7 +56,7 @@
                     app:title="@string/name"
                     app:type="input" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_staff_create_phone"
                     style="@style/MultiTypeItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
@@ -68,7 +68,7 @@
                     app:title="@string/phone"
                     app:type="input" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_staff_create_role"
                     style="@style/MultiTypeItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
@@ -77,7 +77,7 @@
                     app:title="@string/role"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_staff_create_take_charge_shop"
                     style="@style/MultiTypeItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
@@ -87,7 +87,7 @@
                     app:title="@string/take_charge_shop"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_staff_create_permission"
                     style="@style/MultiTypeItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
@@ -100,7 +100,7 @@
             </LinearLayout>
         </ScrollView>
 
-        <com.shangyun.haile_manager_android.ui.view.CommonButton
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
             android:id="@+id/btn_shop_create_submit"
             style="@style/CommonMatchBtnStyle1"
             android:layout_marginHorizontal="14dp"

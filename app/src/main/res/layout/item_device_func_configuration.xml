@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.shangyun.haile_manager_android.data.entities.SkuEntity" />
+            type="com.yunshang.haile_manager_android.data.entities.SkuEntity" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -44,14 +44,14 @@
 
         </LinearLayout>
 
-        <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+        <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/mtiv_device_fun_configuration_name"
             style="@style/MultiTypeItemStyle"
             app:itemContent="@={item.name}"
             app:title="@string/model_name"
             app:type="input" />
 
-        <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+        <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/mtiv_device_fun_configuration_wash_time"
             style="@style/MultiTypeItemStyle"
             app:itemContent="@={item.unitValue}"
@@ -60,7 +60,7 @@
             app:type="input"
             app:unitHint="@string/unit_minute_hint" />
 
-        <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+        <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/mtiv_device_fun_configuration_wash_money"
             style="@style/MultiTypeItemStyle"
             app:itemContent="@={item.priceValue}"
@@ -69,7 +69,7 @@
             app:type="input"
             app:unitHint="@string/unit_yuan_hint" />
 
-        <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+        <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/mtiv_device_fun_configuration_pulse_count"
             style="@style/MultiTypeItemStyle"
             app:itemContent="@={item.pulseValue}"
@@ -78,7 +78,7 @@
             app:type="input"
             app:unitHint="@string/unit_ge_hint" />
 
-        <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+        <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/mtiv_device_fun_configuration_desc"
             style="@style/MultiTypeItemStyle"
             app:itemContent="@={item.feature}"

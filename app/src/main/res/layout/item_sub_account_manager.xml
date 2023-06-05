@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.shangyun.haile_manager_android.data.entities.SubAccountEntity" />
+            type="com.yunshang.haile_manager_android.data.entities.SubAccountEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +16,7 @@
         android:background="@drawable/shape_sffffff_r8"
         android:padding="12dp">
 
-        <com.shangyun.haile_manager_android.ui.view.CircleImageView
+        <com.yunshang.haile_manager_android.ui.view.CircleImageView
             android:id="@+id/iv_sub_account_manager_head"
             imgUrl="@{item.avatar}"
             android:layout_width="44dp"

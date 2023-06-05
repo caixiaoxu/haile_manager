@@ -126,7 +126,7 @@
         android:paddingStart="16dp"
         tools:text="选择区/县" />
 
-    <com.shangyun.haile_manager_android.ui.view.MaxHeightRecyclerView
+    <com.yunshang.haile_manager_android.ui.view.MaxHeightRecyclerView
         android:id="@+id/rv_area_select_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

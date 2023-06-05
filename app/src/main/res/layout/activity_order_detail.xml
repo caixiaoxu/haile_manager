@@ -7,17 +7,17 @@
 
         <import type="android.view.View" />
 
-        <import type="com.shangyun.haile_manager_android.R" />
+        <import type="com.yunshang.haile_manager_android.R" />
 
-        <import type="com.shangyun.haile_manager_android.data.arguments.OrderParam" />
+        <import type="com.yunshang.haile_manager_android.data.arguments.OrderParam" />
 
         <variable
             name="shared"
-            type="com.shangyun.haile_manager_android.business.vm.SharedViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.SharedViewModel" />
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.OrderDetailViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.OrderDetailViewModel" />
     </data>
 
     <LinearLayout
@@ -27,7 +27,7 @@
         android:orientation="vertical"
         tools:context=".ui.activity.order.OrderDetailActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_order_detail_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"

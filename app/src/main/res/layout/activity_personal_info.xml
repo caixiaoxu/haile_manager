@@ -7,7 +7,7 @@
 
         <variable
             name="shared"
-            type="com.shangyun.haile_manager_android.business.vm.SharedViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.SharedViewModel" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -19,7 +19,7 @@
         app:showDividers="middle"
         tools:context=".ui.activity.personal.PersonalInfoActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_personal_info_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
@@ -35,7 +35,7 @@
             android:orientation="horizontal"
             android:paddingHorizontal="16dp">
 
-            <com.shangyun.haile_manager_android.ui.view.CircleImageView
+            <com.yunshang.haile_manager_android.ui.view.CircleImageView
                 android:id="@+id/iv_personal_info_head"
                 android:layout_width="40dp"
                 android:layout_height="40dp"

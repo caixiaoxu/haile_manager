@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.ShopManagerViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.ShopManagerViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.activity.shop.ShopManagerActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/shop_title_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
@@ -84,7 +84,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_shop_manager_search_parent_bg" />
 
-        <com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+        <com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
             android:id="@+id/rv_shop_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"

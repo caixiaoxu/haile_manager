@@ -8,7 +8,7 @@
 
         <variable
             name="item"
-            type="com.shangyun.haile_manager_android.data.rule.ICalendarEntity" />
+            type="com.yunshang.haile_manager_android.data.rule.ICalendarEntity" />
     </data>
 
     <LinearLayout
@@ -27,7 +27,7 @@
             android:visibility="@{-1 == item.type?View.GONE:View.VISIBLE}"
             tools:text="16" />
 
-        <com.shangyun.haile_manager_android.ui.view.AmountTextView
+        <com.yunshang.haile_manager_android.ui.view.AmountTextView
             android:id="@+id/tv_income_calendar_day_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

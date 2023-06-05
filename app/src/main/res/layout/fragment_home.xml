@@ -11,11 +11,11 @@
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.HomeViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.HomeViewModel" />
 
         <variable
             name="shared"
-            type="com.shangyun.haile_manager_android.business.vm.SharedViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.SharedViewModel" />
 
     </data>
 

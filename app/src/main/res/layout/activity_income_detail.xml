@@ -5,13 +5,13 @@
 
     <data>
 
-        <import type="com.shangyun.haile_manager_android.R" />
+        <import type="com.yunshang.haile_manager_android.R" />
 
         <import type="android.view.View" />
 
         <variable
             name="detail"
-            type="com.shangyun.haile_manager_android.data.rule.IIncomeDetailEntity" />
+            type="com.yunshang.haile_manager_android.data.rule.IIncomeDetailEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +20,7 @@
         android:background="@color/page_bg"
         tools:context=".ui.activity.personal.IncomeDetailActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_income_detail_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
@@ -53,7 +53,7 @@
                 android:text="@{detail.tag}"
                 tools:text="提现" />
 
-            <com.shangyun.haile_manager_android.ui.view.CustomChildListLinearLayout
+            <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
                 android:id="@+id/ll_income_detail_infos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

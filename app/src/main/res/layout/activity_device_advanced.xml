@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".ui.activity.device.DeviceAdvancedActivity">
 
-    <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+    <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
         android:id="@+id/bar_device_advanced_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_action_bar_h"

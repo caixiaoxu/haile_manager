@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.DeviceStartViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.DeviceStartViewModel" />
     </data>
 
     <LinearLayout
@@ -17,7 +17,7 @@
         android:orientation="vertical"
         tools:context=".ui.activity.device.DeviceStartActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_device_start_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
@@ -76,7 +76,7 @@
                 android:text="@string/device_start_hint" />
         </LinearLayout>
 
-        <com.shangyun.haile_manager_android.ui.view.CommonButton
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
             android:id="@+id/btn_device_create_submit"
             style="@style/CommonMatchBtnStyle1"
             android:layout_marginHorizontal="14dp"

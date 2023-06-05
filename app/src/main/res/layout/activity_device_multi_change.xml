@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.DeviceMultiChangeViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.DeviceMultiChangeViewModel" />
     </data>
 
     <LinearLayout
@@ -18,7 +18,7 @@
         android:orientation="vertical"
         tools:context=".ui.activity.device.DeviceMultiChangeActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_device_multi_change_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
@@ -60,7 +60,7 @@
                     android:textColorHint="@color/common_txt_hint_color"
                     tools:hint="请输入新的设备名称" />
 
-                <com.shangyun.haile_manager_android.ui.view.CommonButton
+                <com.yunshang.haile_manager_android.ui.view.CommonButton
                     android:id="@+id/btn_device_multi_change_scan"
                     style="@style/Font_14_ffffff"
                     android:layout_width="95dp"
@@ -83,7 +83,7 @@
                 tools:text="设备名称与线下洗衣设备张贴的物料编号最好保持一致，出现问题方便运维人员快速找到设备。" />
         </LinearLayout>
 
-        <com.shangyun.haile_manager_android.ui.view.CommonButton
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
             android:id="@+id/btn_device_multi_change_submit"
             style="@style/CommonMatchBtnStyle1"
             android:layout_marginHorizontal="14dp"

@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.SearchViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -85,7 +85,7 @@
             app:layout_constraintStart_toEndOf="@id/view_search_bg"
             app:layout_constraintTop_toTopOf="@id/view_search_bg" />
 
-        <com.shangyun.haile_manager_android.ui.view.refresh.CommonLoadMoreRecyclerView
+        <com.yunshang.haile_manager_android.ui.view.refresh.CommonLoadMoreRecyclerView
             android:id="@+id/rv_search_list1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/view_search_bg" />
 
-        <com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+        <com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
             android:id="@+id/rv_search_list2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

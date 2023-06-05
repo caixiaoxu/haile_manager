@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.activity.device.DeviceModelActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_device_model_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"

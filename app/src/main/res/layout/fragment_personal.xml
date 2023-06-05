@@ -9,15 +9,15 @@
 
         <import type="android.text.TextUtils" />
 
-        <import type="com.shangyun.haile_manager_android.utils.StringUtils" />
+        <import type="com.yunshang.haile_manager_android.utils.StringUtils" />
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.PersonalViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.PersonalViewModel" />
 
         <variable
             name="shared"
-            type="com.shangyun.haile_manager_android.business.vm.SharedViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.SharedViewModel" />
 
     </data>
 
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="24dp">
 
-            <com.shangyun.haile_manager_android.ui.view.CircleImageView
+            <com.yunshang.haile_manager_android.ui.view.CircleImageView
                 android:id="@+id/iv_personal_icon"
                 android:layout_width="48dp"
                 android:layout_height="48dp"

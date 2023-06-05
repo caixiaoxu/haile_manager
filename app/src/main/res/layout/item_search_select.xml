@@ -9,7 +9,7 @@
 
         <variable
             name="item"
-            type="com.shangyun.haile_manager_android.data.rule.ISearchSelectEntity" />
+            type="com.yunshang.haile_manager_android.data.rule.ISearchSelectEntity" />
 
     </data>
 

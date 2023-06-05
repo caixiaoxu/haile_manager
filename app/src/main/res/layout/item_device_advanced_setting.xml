@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.shangyun.haile_manager_android.data.entities.DeviceAdvancedEntity" />
+            type="com.yunshang.haile_manager_android.data.entities.DeviceAdvancedEntity" />
     </data>
 
     <LinearLayout

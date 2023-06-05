@@ -6,7 +6,7 @@
     <data>
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.DeviceAdvancedSettingViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.DeviceAdvancedSettingViewModel" />
     </data>
 
     <LinearLayout
@@ -16,7 +16,7 @@
         android:orientation="vertical"
         tools:context=".ui.activity.device.DeviceAdvancedSettingActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_device_advanced_setting_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
@@ -45,7 +45,7 @@
 
         <View style="@style/DividingStyle"/>
 
-        <com.shangyun.haile_manager_android.ui.view.CommonButton
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
             android:id="@+id/btn_device_advanced_submit"
             style="@style/CommonMatchBtnStyle1"
             android:layout_marginHorizontal="14dp"

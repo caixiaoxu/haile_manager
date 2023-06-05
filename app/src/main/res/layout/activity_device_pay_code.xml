@@ -14,7 +14,7 @@
         android:background="@color/page_bg"
         tools:context=".ui.activity.device.DevicePayCodeActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_device_pay_code_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
@@ -51,7 +51,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.shangyun.haile_manager_android.ui.view.CommonButton
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
             android:id="@+id/btn_device_pay_code_save"
             style="@style/CommonMatchBtnStyle1"
             android:layout_marginHorizontal="14dp"

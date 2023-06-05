@@ -9,11 +9,11 @@
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.ShopDetailViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.ShopDetailViewModel" />
 
         <variable
             name="shared"
-            type="com.shangyun.haile_manager_android.business.vm.SharedViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.SharedViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +22,7 @@
         android:orientation="vertical"
         tools:context=".ui.activity.shop.ShopDetailActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_shop_detail_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
@@ -169,7 +169,7 @@
                     app:layout_constraintBottom_toBottomOf="@id/ll_shop_detail_appointment_info"
                     app:layout_constraintTop_toBottomOf="@id/tv_shop_detail_appointment_info_title" />
 
-                <com.shangyun.haile_manager_android.ui.view.CustomChildListLinearLayout
+                <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
                     android:id="@+id/ll_shop_detail_appointment_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -9,7 +9,7 @@
 
         <variable
             name="item"
-            type="com.shangyun.haile_manager_android.data.entities.DeviceEntity" />
+            type="com.yunshang.haile_manager_android.data.entities.DeviceEntity" />
 
     </data>
 
@@ -56,7 +56,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_item_device_name"
             tools:text="1号店铺" />
 
-        <com.shangyun.haile_manager_android.ui.view.MultiTypeTextView
+        <com.yunshang.haile_manager_android.ui.view.MultiTypeTextView
             android:id="@+id/tv_item_device_type"
             style="@style/Font_10_f0a258"
             bgResIds="@{item.multiTypeBgRes}"
@@ -73,7 +73,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_item_device_shop"
             tools:text="洗衣机" />
 
-        <com.shangyun.haile_manager_android.ui.view.MultiTypeTextView
+        <com.yunshang.haile_manager_android.ui.view.MultiTypeTextView
             android:id="@+id/tv_item_device_status"
             style="@style/Font_10_f0a258"
             bgResIds="@{item.getStatusBgRes}"

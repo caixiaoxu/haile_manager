@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.AppointmentSettingViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.AppointmentSettingViewModel" />
     </data>
 
     <LinearLayout
@@ -17,7 +17,7 @@
         android:orientation="vertical"
         tools:context=".ui.activity.shop.ShopAppointmentSettingActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_shop_appointment_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
@@ -33,7 +33,7 @@
 
         <include layout="@layout/include_dividing1" />
 
-        <com.shangyun.haile_manager_android.ui.view.CommonButton
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
             style="@style/CommonMatchBtnStyle1"
             android:layout_marginHorizontal="14dp"
             android:layout_marginTop="8dp"

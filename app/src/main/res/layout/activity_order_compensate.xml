@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.OrderCompensateViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.OrderCompensateViewModel" />
     </data>
 
     <LinearLayout
@@ -17,7 +17,7 @@
         android:orientation="vertical"
         tools:context=".ui.activity.order.OrderCompensateActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_order_compensate_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
@@ -48,7 +48,7 @@
                     android:paddingHorizontal="16dp"
                     android:text="@string/coupon_info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_order_compensate_coupon_amount"
                     style="@style/MultiTypeItemStyle"
                     android:paddingHorizontal="16dp"
@@ -60,7 +60,7 @@
                     app:titleW="136dp"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_order_compensate_coupon_type"
                     style="@style/MultiTypeItemStyle"
                     app:canUpdate="false"
@@ -71,7 +71,7 @@
                     app:titleW="136dp"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_order_compensate_coupon_condition"
                     style="@style/MultiTypeItemStyle"
                     app:canUpdate="false"
@@ -82,7 +82,7 @@
                     app:titleW="136dp"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_order_compensate_coupon_shop"
                     style="@style/MultiTypeItemStyle"
                     app:canUpdate="false"
@@ -93,7 +93,7 @@
                     app:titleW="136dp"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_order_compensate_coupon_device_type"
                     style="@style/MultiTypeItemStyle"
                     app:canUpdate="false"
@@ -104,7 +104,7 @@
                     app:titleW="136dp"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_order_compensate_coupon_indate"
                     style="@style/MultiTypeItemStyle"
                     android:inputType="numberDecimal"
@@ -118,7 +118,7 @@
                     app:type="input"
                     app:unitHint="@string/indate_unit" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_order_compensate_coupon_num"
                     style="@style/MultiTypeItemStyle"
                     android:inputType="numberDecimal"
@@ -141,7 +141,7 @@
 
         <include layout="@layout/include_dividing1" />
 
-        <com.shangyun.haile_manager_android.ui.view.CommonButton
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
             android:id="@+id/btn_shop_create_submit"
             style="@style/CommonMatchBtnStyle1"
             android:layout_marginHorizontal="14dp"

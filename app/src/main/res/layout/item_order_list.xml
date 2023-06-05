@@ -5,13 +5,13 @@
 
     <data>
 
-        <import type="com.shangyun.haile_manager_android.data.arguments.OrderParam" />
+        <import type="com.yunshang.haile_manager_android.data.arguments.OrderParam" />
 
-        <import type="com.shangyun.haile_manager_android.utils.NumberUtils"/>
+        <import type="com.yunshang.haile_manager_android.utils.NumberUtils"/>
 
         <variable
             name="item"
-            type="com.shangyun.haile_manager_android.data.entities.OrderListEntity" />
+            type="com.yunshang.haile_manager_android.data.entities.OrderListEntity" />
 
     </data>
 

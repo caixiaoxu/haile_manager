@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.MainViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.MainViewModel" />
 
     </data>
 
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.shangyun.haile_manager_android.ui.activity.MainActivity">
+        tools:context="com.yunshang.haile_manager_android.ui.activity.MainActivity">
 
         <FrameLayout
             android:id="@+id/fl_main_controller"

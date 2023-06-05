@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.ShopCreateAndUpdateViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.ShopCreateAndUpdateViewModel" />
     </data>
 
     <LinearLayout
@@ -19,7 +19,7 @@
         android:orientation="vertical"
         tools:context=".ui.activity.shop.ShopCreateAndUpdateActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/shop_title_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
@@ -48,14 +48,14 @@
                     android:gravity="center_vertical"
                     android:text="@string/shop_info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_name"
                     style="@style/MultiTypeItemStyle"
                     app:itemContent="@={vm.createAndUpdateEntity.name}"
                     app:title="@string/shop_name"
                     app:type="input" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_type"
                     style="@style/MultiTypeItemStyle"
                     app:itemContent="@{vm.shopTypeValue.name}"
@@ -63,7 +63,7 @@
                     app:title="@string/shop_type"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_school_name"
                     style="@style/MultiTypeItemStyle"
                     android:visibility="@{1 == vm.shopTypeValue.type?View.VISIBLE:View.GONE}"
@@ -72,7 +72,7 @@
                     app:title="@string/school_name"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_area"
                     style="@style/MultiTypeItemStyle"
                     app:itemContent="@{vm.areaValue}"
@@ -80,7 +80,7 @@
                     app:title="@string/area"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_mansion"
                     style="@style/MultiTypeItemStyle"
                     android:visibility="@{1 != vm.shopTypeValue.type? View.VISIBLE:View.GONE}"
@@ -89,14 +89,14 @@
                     app:title="@string/mansion"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_location_detail"
                     style="@style/MultiTypeItemStyle"
                     app:itemContent="@={vm.addressValue}"
                     app:title="@string/location_detail"
                     app:type="input" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_location_floor"
                     style="@style/MultiTypeItemStyle"
                     android:visibility="@{1 == vm.shopTypeValue.type?View.VISIBLE:View.GONE}"
@@ -104,7 +104,7 @@
                     app:title="@string/location_floor"
                     app:type="input" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_business_hours"
                     style="@style/MultiTypeItemStyle"
                     app:itemContent="@{vm.workTimeValue}"
@@ -112,7 +112,7 @@
                     app:title="@string/business_hours"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_business_phone"
                     style="@style/MultiTypeItemStyle"
                     android:inputType="phone"
@@ -121,7 +121,7 @@
                     app:title="@string/business_phone"
                     app:type="input" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_business_type"
                     style="@style/MultiTypeItemStyle"
                     app:itemContent="@{vm.businessTypeValue}"
@@ -133,7 +133,7 @@
 
         <View style="@style/DividingStyle" />
 
-        <com.shangyun.haile_manager_android.ui.view.CommonButton
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
             android:id="@+id/btn_shop_create_submit"
             style="@style/CommonMatchBtnStyle1"
             android:layout_marginHorizontal="14dp"

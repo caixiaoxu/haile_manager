@@ -14,13 +14,13 @@
         android:background="@color/white"
         tools:context=".ui.activity.personal.BalanceActivity">
         
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_balance_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
             app:title="@string/balance_detail"/>
         
-        <com.shangyun.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+        <com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
             android:id="@+id/rv_balance_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

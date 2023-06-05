@@ -6,7 +6,7 @@
 
         <variable
             name="funcItem"
-            type="com.shangyun.haile_manager_android.business.vm.HomeViewModel.FunItem" />
+            type="com.yunshang.haile_manager_android.business.vm.HomeViewModel.FunItem" />
 
     </data>
 

@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.DiscountsCreateViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.DiscountsCreateViewModel" />
     </data>
 
     <LinearLayout
@@ -19,7 +19,7 @@
         android:orientation="vertical"
         tools:context=".ui.activity.discounts.DiscountsCreateActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_discounts_create_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
@@ -48,7 +48,7 @@
                     android:paddingHorizontal="16dp"
                     android:text="@string/config_info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_shop"
                     style="@style/MultiTypeItemStyle"
                     app:itemContent="@{vm.createDiscountsShopNames}"
@@ -57,7 +57,7 @@
                     app:titleW="124dp"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_business_type"
                     style="@style/MultiTypeItemStyle"
                     app:itemContent="@{vm.selectBusinessType.name}"
@@ -66,7 +66,7 @@
                     app:titleW="124dp"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_device_category"
                     style="@style/MultiTypeItemStyle"
                     android:visibility="@{(null == vm.createDiscountsShop || 0 == vm.createDiscountsShop.size() || null == vm.selectBusinessType)?View.GONE:View.VISIBLE}"
@@ -76,7 +76,7 @@
                     app:titleW="124dp"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_start_time"
                     style="@style/MultiTypeItemStyle"
                     app:itemContent="@{vm.startDateTimeVal}"
@@ -85,7 +85,7 @@
                     app:titleW="124dp"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_end_time"
                     style="@style/MultiTypeItemStyle"
                     android:visibility="@{null == vm.startDateTime?View.GONE:View.VISIBLE}"
@@ -95,7 +95,7 @@
                     app:titleW="124dp"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_active_day_model"
                     style="@style/MultiTypeItemStyle"
                     app:itemContent="@{vm.selectActiveModel.name}"
@@ -104,7 +104,7 @@
                     app:titleW="124dp"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_active_day"
                     style="@style/MultiTypeItemStyle"
                     android:visibility="@{2 == vm.selectActiveModel.id?View.VISIBLE:View.GONE}"
@@ -114,7 +114,7 @@
                     app:titleW="124dp"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_active_time_frame"
                     style="@style/MultiTypeItemStyle"
                     app:itemContent="@{vm.activeTimeFrame}"
@@ -123,7 +123,7 @@
                     app:titleW="124dp"
                     app:type="info" />
 
-                <com.shangyun.haile_manager_android.ui.view.MultiTypeItemView
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_value"
                     style="@style/MultiTypeItemStyle"
                     android:inputType="numberDecimal"
@@ -142,7 +142,7 @@
 
         <View style="@style/DividingStyle" />
 
-        <com.shangyun.haile_manager_android.ui.view.CommonButton
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
             android:id="@+id/btn_device_create_submit"
             style="@style/CommonMatchBtnStyle1"
             android:layout_marginHorizontal="14dp"

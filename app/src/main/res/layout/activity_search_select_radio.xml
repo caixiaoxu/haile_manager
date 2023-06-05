@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.shangyun.haile_manager_android.business.vm.SearchSelectRadioViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.SearchSelectRadioViewModel" />
 
     </data>
 
@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         tools:context=".ui.activity.common.SearchSelectRadioActivity">
 
-        <com.shangyun.haile_manager_android.ui.view.CommonTitleActionBar
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_department_select_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
@@ -54,7 +54,7 @@
             app:layout_constraintStart_toStartOf="@id/view_device_manager_search_bg"
             app:layout_constraintTop_toTopOf="@id/view_device_manager_search_bg" />
 
-        <com.shangyun.haile_manager_android.ui.view.SearchEditText
+        <com.yunshang.haile_manager_android.ui.view.SearchEditText
             android:id="@+id/et_department_select_search"
             style="@style/Font_14_333333_999999"
             android:layout_width="0dp"

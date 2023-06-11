@@ -31,19 +31,6 @@ class CommonTitleActionBar @JvmOverloads constructor(
         )
 
         val array = context.obtainStyledAttributes(attrs, R.styleable.CommonTitleActionBar)
-        mBinding.root.setBackgroundColor(
-            array.getInt(
-                R.styleable.CommonTitleActionBar_bgColor,
-                Color.TRANSPARENT
-            )
-        )
-        val bgResId = array.getResourceId(
-            R.styleable.CommonTitleActionBar_android_background,
-            -1
-        )
-        if (-1 != bgResId) {
-            mBinding.root.setBackgroundResource(bgResId)
-        }
         mBinding.tvTitleActionTitle.text = array.getString(R.styleable.CommonTitleActionBar_title)
         val rightModel = array.getInt(R.styleable.CommonTitleActionBar_rightModel, -1)
         if (-1 == rightModel) {

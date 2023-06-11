@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.ui.activity
 
 import android.util.SparseArray
 import androidx.fragment.app.Fragment
+import com.lsy.framelib.utils.ActivityUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.MainViewModel
@@ -10,7 +11,8 @@ import com.yunshang.haile_manager_android.databinding.ActivityMainBinding
 import com.yunshang.haile_manager_android.ui.fragment.HomeFragment
 import com.yunshang.haile_manager_android.ui.fragment.PersonalFragment
 
-class MainActivity : BaseBusinessActivity<ActivityMainBinding, MainViewModel>(MainViewModel::class.java,BR.vm) {
+class MainActivity :
+    BaseBusinessActivity<ActivityMainBinding, MainViewModel>(MainViewModel::class.java, BR.vm) {
     val FROM_TYPE = "from_type"
     val FROM_TYPE_LOGIN = 0
     val FROM_TYPE_SPLASH = 1
@@ -26,6 +28,10 @@ class MainActivity : BaseBusinessActivity<ActivityMainBinding, MainViewModel>(Ma
     override fun isFullScreen(): Boolean = true
 
     override fun layoutId(): Int = R.layout.activity_main
+
+    override fun onBackListener() {
+        ActivityUtils.doubleBack(this)
+    }
 
     override fun initView() {
     }
@@ -70,4 +76,5 @@ class MainActivity : BaseBusinessActivity<ActivityMainBinding, MainViewModel>(Ma
 
     override fun initData() {
     }
+
 }

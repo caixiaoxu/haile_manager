@@ -49,7 +49,7 @@
             style="@style/Font_12_f0a258"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/shape_s26f0a258_r4"
             android:paddingLeft="4dp"
             android:paddingTop="2dp"

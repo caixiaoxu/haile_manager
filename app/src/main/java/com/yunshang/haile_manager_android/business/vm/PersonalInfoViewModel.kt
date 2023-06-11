@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.business.vm
 
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.yunshang.haile_manager_android.business.apiService.CommonService
 import com.yunshang.haile_manager_android.business.apiService.LoginUserService
 import com.yunshang.haile_manager_android.data.entities.LoginEntity
 import com.yunshang.haile_manager_android.data.entities.RoleEntity
@@ -22,6 +23,7 @@ import timber.log.Timber
  * 作者姓名 修改时间 版本号 描述
  */
 class PersonalInfoViewModel : BaseViewModel() {
+    private val mCommonService = ApiRepository.apiClient(CommonService::class.java)
     private val mUserService = ApiRepository.apiClient(LoginUserService::class.java)
 
     val roleList: MutableLiveData<List<RoleEntity>> by lazy {
@@ -34,7 +36,7 @@ class PersonalInfoViewModel : BaseViewModel() {
     fun uploadHeadIcon(path: String, callback: (isSuccess: Boolean) -> Unit) {
         launch({
             ApiRepository.dealApiResult(
-                mUserService.updateLoadFile(
+                mCommonService.updateLoadFile(
                     ApiRepository.createFileUploadBody(path)
                 )
             )?.let {

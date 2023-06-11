@@ -3,7 +3,13 @@ package com.yunshang.haile_manager_android.business.vm
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.apiService.CapitalService
+import com.yunshang.haile_manager_android.business.apiService.LoginUserService
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.entities.BalanceTotalEntity
+import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.ui.activity.*
 import com.yunshang.haile_manager_android.ui.activity.personal.*
 
@@ -18,19 +24,14 @@ import com.yunshang.haile_manager_android.ui.activity.personal.*
  * 作者姓名 修改时间 版本号 描述
  */
 class PersonalViewModel : BaseViewModel() {
+    private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
+    private val mUserRepo = ApiRepository.apiClient(LoginUserService::class.java)
 
     val personalItems = arrayOf(
         null,
         PersonalItem(
             R.mipmap.icon_personal_wallet, R.string.wallet, null, MutableLiveData<String>(),
             WalletActivity::class.java
-        ),
-        PersonalItem(
-            R.mipmap.icon_personal_balance,
-            R.string.balance_detail,
-            null,
-            null,
-            BalanceActivity::class.java
         ),
         null,
         PersonalItem(
@@ -54,9 +55,9 @@ class PersonalViewModel : BaseViewModel() {
         PersonalItem(
             R.mipmap.icon_personal_real_name,
             R.string.real_name,
-            MutableLiveData<String>(),
+            MutableLiveData<String>(StringUtils.getStringArray(R.array.auth_status_arr)[1]),
             null,
-            RealNameActivity::class.java
+            RealNameAuthActivity::class.java
         ),
         null,
         PersonalItem(
@@ -75,6 +76,54 @@ class PersonalViewModel : BaseViewModel() {
         val tag: MutableLiveData<String>?,
         val value: MutableLiveData<String>?,
         val clz: Class<*>,
-        val bundle: Bundle? = null
+        var bundle: Bundle? = null
     )
+
+    private var balanceTotal: BalanceTotalEntity? = null
+
+    fun requestData() {
+        launch({
+            requestBalance()
+            requestRealNameAuth()
+        })
+    }
+
+    fun requestBalanceAsync() {
+        launch({
+            requestBalance()
+        })
+    }
+
+    private suspend fun requestBalance() {
+        balanceTotal = ApiRepository.dealApiResult(mCapitalRepo.requestBalance())
+        balanceTotal?.let {
+            personalItems.find { item -> item?.title == R.string.wallet }?.run {
+                value?.postValue(it.totalAmount)
+                bundle = IntentParams.WalletParams.pack(it.totalAmount, false)
+            }
+        }
+    }
+
+    fun requestRealNameAuthAsync() {
+        launch({
+            requestRealNameAuth()
+        })
+    }
+
+
+    private suspend fun requestRealNameAuth() {
+        val authInfo = ApiRepository.dealApiResult(mUserRepo.requestRealNameAuthDetail())
+        authInfo?.let {
+            personalItems.find { item -> item?.title == R.string.real_name }?.run {
+                tag?.postValue(StringUtils.getStringArray(R.array.auth_status_arr)[it.status])
+                bundle = IntentParams.RealNameAuthParams.pack(it)
+            }
+        }
+
+        balanceTotal?.let {
+            personalItems.find { item -> item?.title == R.string.wallet }?.run {
+                bundle = IntentParams.WalletParams.pack(it.totalAmount, 3 == authInfo?.status)
+            }
+        }
+    }
 }

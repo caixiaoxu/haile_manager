@@ -28,6 +28,8 @@
     <string name="operate">操作</string>
     <string name="for_take">拍照</string>
     <string name="for_album">相册</string>
+    <string name="withdraw">提现</string>
+    <string name="type">类型</string>
 
     <string name="login_name">登录</string>
     <string name="login_account_password">账号密码登录</string>
@@ -257,6 +259,7 @@
     <string name="select_role_title">请选择角色</string>
 
     <string name="wallet">钱包余额</string>
+    <string name="my_change">我的零钱</string>
     <string name="balance">余额</string>
     <string name="balance_detail">余额明细</string>
     <string name="income">收入明细</string>
@@ -283,6 +286,17 @@
 
     <string name="bank_card">银行卡</string>
     <string name="real_name">实名认证</string>
+    <string name="auth_info">认证信息</string>
+    <string name="id_card">身份证</string>
+    <string name="id_card_number">身份证号</string>
+    <string name="indate_type">有效期类型</string>
+    <string name="id_card_indate">身份证有效期</string>
+    <string-array name="verifyType_arr">
+        <item>个人</item>
+        <item>个人</item>
+        <item>企业</item>
+        <item>个体工商记</item>
+    </string-array>
 
     <string name="setting">设置</string>
     <string name="change_password">修改密码</string>
@@ -319,6 +333,16 @@
     <string name="update_empty_hint">请输入内容</string>
     <string name="month_empty_date">当月暂无数据</string>
     <string name="role_list_empty">当前帐户没有其他角色</string>
+    <string name="unit_money">￥</string>
+    <string name="err_no_real_name_auth">通过实名认证后才可提现</string>
+
+    <string-array name="auth_status_arr">
+        <item>未认证</item>
+        <item>未认证</item>
+        <item>审核中</item>
+        <item>已认证</item>
+        <item>未通过</item>
+    </string-array>
 
     <string-array name="week_arr">
         <item>周一</item>

@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
             app:title="@string/create_pay_code"
-            app:bgColor="@color/white"/>
+            android:background="@color/white"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

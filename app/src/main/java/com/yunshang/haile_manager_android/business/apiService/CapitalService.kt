@@ -85,4 +85,10 @@ interface CapitalService {
         @Query("id") id: Int,
     ): ResponseWrapper<BalanceDetailEntity>
 
+    /**
+     * 余额接口
+     */
+    @GET("/wallet/balance/info")
+    suspend fun requestBalance(): ResponseWrapper<BalanceTotalEntity>
+
 }

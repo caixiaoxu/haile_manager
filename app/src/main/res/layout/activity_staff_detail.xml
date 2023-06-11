@@ -31,7 +31,7 @@
             android:id="@+id/bar_staff_detail_manager_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
-            app:bgColor="@color/white"
+            android:background="@color/white"
             app:title="@string/staff_manager" />
 
         <ScrollView

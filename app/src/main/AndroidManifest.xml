@@ -10,14 +10,19 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
-
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
-    <!-- Android 13版本适配，细化存储权限-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- Android 13版本适配，细化存储权限 -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" /> <!-- picture_selector，Android 11 使用相机需要添加 -->
+    <queries package="${applicationId}">
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+        <intent>
+            <action android:name="android.media.action.ACTION_VIDEO_CAPTURE" />
+        </intent>
+    </queries>
 
     <application
         android:name=".BusinessApp"
@@ -134,7 +139,7 @@
             android:name=".ui.activity.SettingActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.personal.RealNameActivity"
+            android:name=".ui.activity.personal.RealNameAuthActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.personal.BankCardActivity"
@@ -189,9 +194,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
+        </activity> <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
         <service android:name="com.amap.api.location.APSService" />
 
         <meta-data
@@ -199,13 +202,4 @@
             android:value="5f90ead1c370be414645533daa7ae38a" />
     </application>
 
-    <!-- picture_selector，Android 11 使用相机需要添加-->
-    <queries package="${applicationId}">
-        <intent>
-            <action android:name="android.media.action.IMAGE_CAPTURE" />
-        </intent>
-        <intent>
-            <action android:name="android.media.action.ACTION_VIDEO_CAPTURE" />
-        </intent>
-    </queries>
 </manifest>

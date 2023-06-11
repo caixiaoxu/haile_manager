@@ -123,6 +123,7 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
     }
 
     override fun initData() {
+        mViewModel.requestData()
     }
 
 }

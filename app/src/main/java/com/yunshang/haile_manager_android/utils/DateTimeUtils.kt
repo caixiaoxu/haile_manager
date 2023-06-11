@@ -146,7 +146,7 @@ object DateTimeUtils {
         val sdf = SimpleDateFormat(format ?: "yyyy-MM-dd HH:mm:ss", Locale.CHINA)
         try {
             return sdf.parse(dateStr)
-        } catch (e: ParseException) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
         return null

@@ -1,10 +1,7 @@
 package com.yunshang.haile_manager_android.business.apiService
 
 import com.lsy.framelib.network.response.ResponseWrapper
-import com.yunshang.haile_manager_android.data.entities.LoginEntity
-import com.yunshang.haile_manager_android.data.entities.RoleEntity
-import com.yunshang.haile_manager_android.data.entities.UserInfoEntity
-import com.yunshang.haile_manager_android.data.entities.UserPermissionEntity
+import com.yunshang.haile_manager_android.data.entities.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -75,10 +72,6 @@ interface LoginUserService {
     @POST("/user/updateUserInfo")
     suspend fun updateUserInfo(@Body body: RequestBody): ResponseWrapper<Any>
 
-    @Multipart
-    @POST("/common/upload")
-    suspend fun updateLoadFile(@Part file: MultipartBody.Part): ResponseWrapper<String>
-
     /**
      * 获取用户角色接口
      */
@@ -90,4 +83,10 @@ interface LoginUserService {
      */
     @POST("/login/swapUserLogin")
     suspend fun swapUserLogin(@Body body: RequestBody): ResponseWrapper<LoginEntity>
+
+    /**
+     * 查询实名认证接口
+     */
+    @GET("/user/verifyDetail")
+    suspend fun requestRealNameAuthDetail(): ResponseWrapper<RealNameAuthDetailEntity>
 }

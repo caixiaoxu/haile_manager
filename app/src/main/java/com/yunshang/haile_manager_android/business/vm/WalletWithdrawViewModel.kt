@@ -26,8 +26,8 @@ class WalletWithdrawViewModel : BaseViewModel() {
     val withdrawAccount: MutableLiveData<WithdrawAccountEntity> by lazy {
         MutableLiveData()
     }
-    
-    val withdrawAmount:MutableLiveData<String> by lazy {
+
+    val withdrawAmount: MutableLiveData<String> by lazy {
         MutableLiveData()
     }
 
@@ -43,16 +43,15 @@ class WalletWithdrawViewModel : BaseViewModel() {
         })
     }
 
-    fun sendWithdrawOperateSms(callBack:(isSuccess:Boolean)->Unit){
+    fun sendWithdrawOperateSms(callBack: (isSuccess: Boolean) -> Unit) {
         launch({
             ApiRepository.dealApiResult(
                 mCapitalRepo.sendCashOutOperateSms(
                     ApiRepository.createRequestBody("")
                 )
-            )?.let {
-                withContext(Dispatchers.Main){
-                    callBack(true)
-                }
+            )
+            withContext(Dispatchers.Main) {
+                callBack(true)
             }
         })
     }

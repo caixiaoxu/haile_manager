@@ -2,7 +2,6 @@ package com.yunshang.haile_manager_android.business.apiService
 
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.yunshang.haile_manager_android.data.entities.*
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
 

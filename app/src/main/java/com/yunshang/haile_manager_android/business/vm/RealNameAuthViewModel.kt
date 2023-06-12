@@ -2,7 +2,6 @@ package com.yunshang.haile_manager_android.business.vm
 
 import android.view.View
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.lsy.framelib.async.LiveDataBus
@@ -17,11 +16,9 @@ import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.entities.RealNameAuthDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.data.rule.ICommonBottomItemEntity
-import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.util.Date
 
 /**
  * Title :
@@ -145,10 +142,9 @@ class RealNameAuthViewModel : BaseViewModel() {
                 mUserRepo.verifyRealNameAuth(
                     ApiRepository.createRequestBody(GsonUtils.any2Json(authInfo.value))
                 )
-            )?.let {
-                LiveDataBus.post(BusEvents.REAL_NAME_AUTH_STATUS, true)
-                requestRealNameAuth()
-            }
+            )
+            LiveDataBus.post(BusEvents.REAL_NAME_AUTH_STATUS, true)
+            requestRealNameAuth()
         })
     }
 

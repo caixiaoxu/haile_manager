@@ -100,9 +100,9 @@ data class RealNameAuthDetailEntity(
             date.split(" - ").let { arr ->
                 if (arr.size >= 2) {
                     val startIndate =
-                        DateTimeUtils.formatDateTimeForStr(arr[0], "yyyy/MM/dd", "yyyy-MM-dd")
+                        DateTimeUtils.formatDateTimeForStr(arr[0].trim(), "yyyy/MM/dd", "yyyy-MM-dd")
                     val endIndate =
-                        DateTimeUtils.formatDateTimeForStr(arr[1], "yyyy/MM/dd", "yyyy-MM-dd")
+                        DateTimeUtils.formatDateTimeForStr(arr[1].trim(), "yyyy/MM/dd", "yyyy-MM-dd")
 
                     "$startIndate 至 $endIndate"
                 } else ""

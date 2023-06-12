@@ -17,6 +17,7 @@
     <string name="offline">离线</string>
     <string name="break_down">故障</string>
     <string name="search">搜索</string>
+    <string name="update">修改</string>
     <string name="copy">复制</string>
     <string name="can_appointment">可预约</string>
     <string name="cant_appointment">不可预约</string>
@@ -31,6 +32,7 @@
     <string name="for_album">相册</string>
     <string name="withdraw">提现</string>
     <string name="type">类型</string>
+    <string name="all">全部</string>
 
     <string name="login_name">登录</string>
     <string name="login_account_password">账号密码登录</string>
@@ -260,6 +262,7 @@
     <string name="select_role_title">请选择角色</string>
 
     <string name="wallet">钱包余额</string>
+    <string name="wallet_withdraw">余额提现</string>
     <string name="my_change">我的零钱</string>
     <string name="balance">余额</string>
     <string name="balance_detail">余额明细</string>
@@ -284,6 +287,17 @@
     <string name="time">时间</string>
     <string name="sub_account_time">分账时间</string>
     <string name="sub_account_order_no">分账单号</string>
+    <string name="withdraw_record">提现记录</string>
+    <string name="roll_out_to">转出到</string>
+    <string name="empty_alipay_account_hint">请先绑定支付宝账号</string>
+    <string name="alipay_withdraw_input_hint">可提现金额%1$s元</string>
+    <string name="alipay_withdraw_hint">每日可提现额度为%1$s元</string>
+    <string name="bind_alipay_account">绑定支付宝账号</string>
+    <string name="bind_alipay">绑定支付宝</string>
+    <string name="bind_alipay_sms_hint">请输入短信验证码，以验证身份。</string>
+    <string name="alipay_accout">支付宝账号</string>
+    <string name="alipay_accout_hint">请输入支付宝账号</string>
+    <string name="alipay_name_hint">支付宝认证名称</string>
 
     <string name="bank_card">银行卡</string>
     <string name="real_name">实名认证</string>
@@ -356,7 +370,7 @@
     <string name="update_empty_hint">请输入内容</string>
     <string name="month_empty_date">当月暂无数据</string>
     <string name="role_list_empty">当前帐户没有其他角色</string>
-    <string name="unit_money">￥</string>
+    <string name="unit_money">¥</string>
     <string name="err_no_real_name_auth">通过实名认证后才可提现</string>
     <string name="empty_params">参数为空</string>
 

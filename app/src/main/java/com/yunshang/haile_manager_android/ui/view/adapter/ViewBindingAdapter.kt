@@ -1,11 +1,8 @@
 package com.yunshang.haile_manager_android.ui.view.adapter
 
-import android.graphics.drawable.Drawable
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.view.MarginLayoutParamsCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
@@ -29,7 +26,7 @@ object ViewBindingAdapter {
 
     @BindingAdapter("marginStart")
     @JvmStatic
-    fun AppCompatTextView.marginStart(mS: Float?) {
+    fun TextView.marginStart(mS: Float?) {
         if (layoutParams is ViewGroup.MarginLayoutParams)
             MarginLayoutParamsCompat.setMarginStart(
                 layoutParams as ViewGroup.MarginLayoutParams,
@@ -87,9 +84,9 @@ object ViewBindingAdapter {
      */
     @BindingAdapter("strokeWidth")
     @JvmStatic
-    fun setStrokeWidth(view: CircleImageView, value: Int?) {
+    fun CircleImageView.setStrokeWidth(value: Int?) {
         value?.let {
-            view.setStrokeWidth(DimensionUtils.dip2px(dipValue = it.toFloat()).toFloat())
+            setStrokeWidth(DimensionUtils.dip2px(dipValue = it.toFloat()).toFloat())
         }
     }
 
@@ -143,17 +140,14 @@ object ViewBindingAdapter {
         }
     }
 
-    @BindingAdapter("divider")
+    @BindingAdapter("drawS", "drawT", "drawE", "drawB", requireAll = false)
     @JvmStatic
-    fun LinearLayoutCompat.divider(drawable: Drawable) {
-        dividerDrawable = drawable
-    }
-
-    @BindingAdapter("marginStart")
-    @JvmStatic
-    fun AppCompatTextView.marginStart(mStart: Float) {
-        if (layoutParams is ViewGroup.MarginLayoutParams) {
-            (layoutParams as ViewGroup.MarginLayoutParams).setMargins(mStart.toInt(), 0, 0, 0)
-        }
+    fun TextView.divider(
+        drawS: Int = 0,
+        drawT: Int = 0,
+        drawE: Int = 0,
+        drawB: Int = 0
+    ) {
+        setCompoundDrawablesWithIntrinsicBounds(drawS, drawT, drawE, drawB)
     }
 }

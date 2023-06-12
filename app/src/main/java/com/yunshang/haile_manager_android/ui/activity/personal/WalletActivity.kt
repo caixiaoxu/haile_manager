@@ -32,8 +32,24 @@ class WalletActivity : BaseBindingActivity<ActivityWalletBinding>() {
         mBinding.tvWalletMoney.text = IntentParams.WalletParams.parseTotalBalance(intent) ?: ""
 
         mBinding.btnWalletWithdraw.setOnClickListener {
-            if (!IntentParams.WalletParams.parseRealNameAuthStatus(intent)){
-                SToast.showToast(this@WalletActivity,R.string.err_no_real_name_auth)
+            if (!IntentParams.WalletParams.parseRealNameAuthStatus(intent)) {
+                SToast.showToast(this@WalletActivity, R.string.err_no_real_name_auth)
+                return@setOnClickListener
+            }
+            startActivity(Intent(this@WalletActivity, WalletWithdrawActivity::class.java).apply {
+                putExtras(
+                    IntentParams.WalletWithdrawParams.pack(
+                        IntentParams.WalletParams.parseTotalBalance(
+                            intent
+                        ) ?: ""
+                    )
+                )
+            })
+        }
+
+        mBinding.btnWalletCharge.setOnClickListener {
+            if (!IntentParams.WalletParams.parseRealNameAuthStatus(intent)) {
+                SToast.showToast(this@WalletActivity, R.string.err_no_real_name_auth)
                 return@setOnClickListener
             }
         }

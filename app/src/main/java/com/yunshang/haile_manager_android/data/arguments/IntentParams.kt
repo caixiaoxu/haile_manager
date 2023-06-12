@@ -41,6 +41,22 @@ object IntentParams {
             intent.getBooleanExtra(RealNameAuthStatus, false)
     }
 
+    object WalletWithdrawParams{
+        private const val TotalBalance = "totalBalance"
+
+        /**
+         * 包装参数
+         */
+        fun pack(balance: String): Bundle = Bundle().apply {
+            putString(TotalBalance, balance)
+        }
+
+        /**
+         * 解析TotalBalance
+         */
+        fun parseTotalBalance(intent: Intent): String? = intent.getStringExtra(TotalBalance)
+    }
+
     object RealNameAuthParams {
         private const val AuthInfo = "authInfo"
 
@@ -56,6 +72,6 @@ object IntentParams {
                 AuthInfo
             ), RealNameAuthDetailEntity::class.java
         )
-
     }
+
 }

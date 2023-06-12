@@ -24,6 +24,7 @@
         <attr name="titleW" format="dimension" />
         <attr name="titleDrawableEnd" format="reference" />
         <attr name="titleDrawablePadding" format="dimension" />
+        <attr name="titleContentSpace" format="dimension" />
         <attr name="android:hint" />
         <attr name="android:inputType" />
         <attr name="android:maxLength" />

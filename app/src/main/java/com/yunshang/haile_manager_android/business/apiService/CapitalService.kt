@@ -91,4 +91,16 @@ interface CapitalService {
     @GET("/wallet/balance/info")
     suspend fun requestBalance(): ResponseWrapper<BalanceTotalEntity>
 
+    /**
+     * 查询提现账号接口
+     */
+    @POST("/wallet/cashOutAccount/info")
+    suspend fun requestWithdrawAccount(@Body body: RequestBody): ResponseWrapper<WithdrawAccountEntity>
+
+    /**
+     * 提现账号操作短信发送接口
+     */
+    @POST("/wallet/cashOutAccount/operateSms")
+    suspend fun sendCashOutOperateSms(@Body body: RequestBody): ResponseWrapper<Any>
+
 }

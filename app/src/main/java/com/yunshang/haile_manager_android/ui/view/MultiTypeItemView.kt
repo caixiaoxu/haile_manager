@@ -94,6 +94,8 @@ class MultiTypeItemView @JvmOverloads constructor(
             array.getResourceId(R.styleable.MultiTypeItemView_titleDrawableEnd, -1)
         val titleDrawablePadding =
             array.getDimensionPixelSize(R.styleable.MultiTypeItemView_titleDrawablePadding, -1)
+        val titleContentSpace =
+            array.getDimensionPixelSize(R.styleable.MultiTypeItemView_titleContentSpace, -1)
 
         type = array.getInt(R.styleable.MultiTypeItemView_type, 0)
         val inputType = array.getInt(R.styleable.MultiTypeItemView_android_inputType, -1)
@@ -112,7 +114,7 @@ class MultiTypeItemView @JvmOverloads constructor(
         addTitle(title, titleW, titleDrawableEnd, titleDrawablePadding, canUpdate)
 
         //添加内容
-        addContent(inputType, hint, maxLength, maxLines, canUpdate, enabled)
+        addContent(inputType, hint, maxLength, maxLines, canUpdate, enabled, titleContentSpace)
 
         //添加尾部
         addTail(showArrow, tailDrawable, unitHint)
@@ -173,7 +175,8 @@ class MultiTypeItemView @JvmOverloads constructor(
         maxLength: Int,
         maxLines: Int,
         canUpdate: Boolean,
-        enabled: Boolean
+        enabled: Boolean,
+        titleContentSpace: Int
     ) {
         addView(
             contentView.also {
@@ -211,6 +214,9 @@ class MultiTypeItemView @JvmOverloads constructor(
                 0,
                 LayoutParams.WRAP_CONTENT
             ).apply {
+                if (titleContentSpace > 0) {
+                    marginStart = titleContentSpace
+                }
                 weight = 1f
             }
         )

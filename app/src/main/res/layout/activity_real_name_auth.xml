@@ -93,7 +93,8 @@
                     app:itemContent="@{vm.authInfo.verifyTypeName}"
                     app:showArrow="true"
                     app:title="@string/type"
-                    app:titleW="104dp"
+                    app:titleContentSpace="40dp"
+                    app:titleW="64dp"
                     app:type="info" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -166,7 +167,8 @@
                     android:visibility="@{(null == vm.authInfo.verifyType || 1 == vm.authInfo.verifyType)?View.GONE:View.VISIBLE}"
                     app:itemContent="@={vm.authInfo.companyName}"
                     app:title="@string/company_name"
-                    app:titleW="104dp"
+                    app:titleContentSpace="40dp"
+                    app:titleW="64dp"
                     app:type="input" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
@@ -179,7 +181,8 @@
                     android:visibility="@{(null == vm.authInfo.verifyType || 1 == vm.authInfo.verifyType)?View.GONE:View.VISIBLE}"
                     app:itemContent="@={vm.authInfo.companyUsci}"
                     app:title="@string/company_id"
-                    app:titleW="104dp"
+                    app:titleContentSpace="40dp"
+                    app:titleW="64dp"
                     app:type="input" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
@@ -191,7 +194,8 @@
                     android:visibility="@{(null == vm.authInfo.verifyType || 1 != vm.authInfo.verifyType)?View.GONE:View.VISIBLE}"
                     app:itemContent="@={vm.authInfo.idCardName}"
                     app:title="@string/name"
-                    app:titleW="104dp"
+                    app:titleContentSpace="40dp"
+                    app:titleW="64dp"
                     app:type="input" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
@@ -205,7 +209,8 @@
                     android:visibility="@{(null == vm.authInfo.verifyType || 1 != vm.authInfo.verifyType)?View.GONE:View.VISIBLE}"
                     app:itemContent="@={vm.authInfo.idCardNo}"
                     app:title="@string/id_card_number"
-                    app:titleW="104dp"
+                    app:titleContentSpace="40dp"
+                    app:titleW="64dp"
                     app:type="input" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
@@ -218,7 +223,8 @@
                     app:itemContent="@{vm.authInfo.idCardExpirationTypeName}"
                     app:showArrow="true"
                     app:title="@string/indate_type"
-                    app:titleW="104dp"
+                    app:titleContentSpace="40dp"
+                    app:titleW="64dp"
                     app:type="info" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
@@ -231,7 +237,8 @@
                     app:itemContent="@{vm.authInfo.idCardExpirationDateValue}"
                     app:showArrow="true"
                     app:title="@string/id_card_indate"
-                    app:titleW="104dp"
+                    app:titleContentSpace="40dp"
+                    app:titleW="64dp"
                     app:type="info" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>

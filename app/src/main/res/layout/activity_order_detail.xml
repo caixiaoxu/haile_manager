@@ -58,7 +58,7 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="42dp"
                         android:layout_height="42dp"
-                        app:imageRes="@{OrderParam.isRefund(vm.orderDetail.state)?R.mipmap.icon_order_detail_refund_main:R.mipmap.icon_order_detail_main}"
+                        app:imgRes="@{OrderParam.isRefund(vm.orderDetail.state)?R.mipmap.icon_order_detail_refund_main:R.mipmap.icon_order_detail_main}"
                         tools:src="@mipmap/icon_order_detail_main" />
 
                     <androidx.appcompat.widget.AppCompatTextView

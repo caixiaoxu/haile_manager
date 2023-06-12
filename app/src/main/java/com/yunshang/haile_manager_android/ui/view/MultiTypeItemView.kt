@@ -100,6 +100,7 @@ class MultiTypeItemView @JvmOverloads constructor(
         val hint = array.getString(R.styleable.MultiTypeItemView_android_hint)
         val maxLength = array.getInt(R.styleable.MultiTypeItemView_android_maxLength, 0)
         val maxLines = array.getInt(R.styleable.MultiTypeItemView_android_maxLines, 0)
+        val enabled = array.getBoolean(R.styleable.MultiTypeItemView_android_enabled, true)
 
         val showArrow = array.getBoolean(R.styleable.MultiTypeItemView_showArrow, false)
         val tailDrawable =
@@ -111,7 +112,7 @@ class MultiTypeItemView @JvmOverloads constructor(
         addTitle(title, titleW, titleDrawableEnd, titleDrawablePadding, canUpdate)
 
         //添加内容
-        addContent(inputType, hint, maxLength, maxLines, canUpdate)
+        addContent(inputType, hint, maxLength, maxLines, canUpdate, enabled)
 
         //添加尾部
         addTail(showArrow, tailDrawable, unitHint)
@@ -171,10 +172,12 @@ class MultiTypeItemView @JvmOverloads constructor(
         hint: String?,
         maxLength: Int,
         maxLines: Int,
-        canUpdate: Boolean
+        canUpdate: Boolean,
+        enabled: Boolean
     ) {
         addView(
             contentView.also {
+                isEnabled = enabled
                 it.hint = hint
                     ?: if (1 == type) resources.getString(R.string.please_input) else resources.getString(
                         R.string.please_select

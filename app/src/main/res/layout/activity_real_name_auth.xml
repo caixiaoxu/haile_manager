@@ -30,14 +30,18 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingVertical="16dp"
-                app:divider="@drawable/divder_efefef_size_half">
+                app:divider="@drawable/divder_efefef_size_half"
+                app:dividerPadding="16dp"
+                app:showDividers="middle">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -50,6 +54,7 @@
                         style="@style/Font_18_333333_bold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@{vm.verifyStatusValue}"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="认证失败" />
 
@@ -60,13 +65,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:paddingBottom="19dp"
+                        android:text="@{vm.authInfo.reason}"
                         app:layout_constraintTop_toBottomOf="@id/tv_real_name_auth_result"
                         tools:text="您的身份证照片审核未通过，请重新拍摄" />
 
                     <androidx.constraintlayout.widget.Group
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:visibility="@{null == vm.authInfo?View.GONE:View.VISIBLE}"
+                        android:visibility="@{vm.isSubmit?View.GONE:View.VISIBLE}"
                         app:constraint_referenced_ids="tv_real_name_auth_result,tv_real_name_auth_reason" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -79,9 +85,11 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_real_name_auth_type"
                     style="@style/MultiTypeItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="@{vm.isSubmit}"
                     app:itemContent="@{vm.authInfo.verifyTypeName}"
                     app:showArrow="true"
                     app:title="@string/type"
@@ -91,7 +99,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="16dp">
+                    android:paddingBottom="16dp"
+                    android:visibility="@{(null == vm.authInfo || null == vm.authInfo.verifyType)?View.GONE:View.VISIBLE}">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_id_photo_title"
@@ -108,7 +117,9 @@
                         android:layout_width="314dp"
                         android:layout_height="169dp"
                         android:layout_marginTop="16dp"
+                        android:clickable="@{vm.isSubmit}"
                         android:src="@mipmap/bg_id_card_front"
+                        app:imgUrl="@{vm.authInfo.idCardFont}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_id_photo_title" />
@@ -118,7 +129,9 @@
                         android:layout_width="314dp"
                         android:layout_height="169dp"
                         android:layout_marginTop="12dp"
+                        android:clickable="@{vm.isSubmit}"
                         android:src="@mipmap/bg_id_card_back"
+                        app:imgUrl="@{vm.authInfo.idCardReverse}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/iv_id_card_front" />
@@ -134,8 +147,10 @@
                         android:layout_width="314dp"
                         android:layout_height="169dp"
                         android:layout_marginTop="12dp"
+                        android:clickable="@{vm.isSubmit}"
                         android:src="@mipmap/bg_business_license"
                         android:visibility="@{1 == vm.authInfo.verifyType?View.GONE:View.VISIBLE}"
+                        app:imgUrl="@{vm.authInfo.companyLicense}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/iv_id_card_back" />
@@ -143,11 +158,38 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/tv_real_name_auth_company_name"
+                    style="@style/MultiTypeItemStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="@{vm.isSubmit}"
+                    android:visibility="@{(null == vm.authInfo.verifyType || 1 == vm.authInfo.verifyType)?View.GONE:View.VISIBLE}"
+                    app:itemContent="@={vm.authInfo.companyName}"
+                    app:title="@string/company_name"
+                    app:titleW="104dp"
+                    app:type="input" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/tv_real_name_auth_company_id"
+                    style="@style/MultiTypeItemStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="@{vm.isSubmit}"
+                    android:maxLength="18"
+                    android:visibility="@{(null == vm.authInfo.verifyType || 1 == vm.authInfo.verifyType)?View.GONE:View.VISIBLE}"
+                    app:itemContent="@={vm.authInfo.companyUsci}"
+                    app:title="@string/company_id"
+                    app:titleW="104dp"
+                    app:type="input" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/tv_real_name_auth_name"
                     style="@style/MultiTypeItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:showArrow="true"
+                    android:enabled="@{vm.isSubmit}"
+                    android:visibility="@{(null == vm.authInfo.verifyType || 1 != vm.authInfo.verifyType)?View.GONE:View.VISIBLE}"
+                    app:itemContent="@={vm.authInfo.idCardName}"
                     app:title="@string/name"
                     app:titleW="104dp"
                     app:type="input" />
@@ -157,7 +199,11 @@
                     style="@style/MultiTypeItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:showArrow="true"
+                    android:digits="0123456789Xx"
+                    android:enabled="@{vm.isSubmit}"
+                    android:maxLength="18"
+                    android:visibility="@{(null == vm.authInfo.verifyType || 1 != vm.authInfo.verifyType)?View.GONE:View.VISIBLE}"
+                    app:itemContent="@={vm.authInfo.idCardNo}"
                     app:title="@string/id_card_number"
                     app:titleW="104dp"
                     app:type="input" />
@@ -167,6 +213,9 @@
                     style="@style/MultiTypeItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="@{vm.isSubmit}"
+                    android:visibility="@{(null == vm.authInfo.verifyType || 1 != vm.authInfo.verifyType)?View.GONE:View.VISIBLE}"
+                    app:itemContent="@{vm.authInfo.idCardExpirationTypeName}"
                     app:showArrow="true"
                     app:title="@string/indate_type"
                     app:titleW="104dp"
@@ -177,6 +226,9 @@
                     style="@style/MultiTypeItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="@{vm.isSubmit}"
+                    android:visibility="@{(null == vm.authInfo.verifyType || 1 != vm.authInfo.verifyType || 1 != vm.authInfo.idCardExpirationType)?View.GONE:View.VISIBLE}"
+                    app:itemContent="@{vm.authInfo.idCardExpirationDateValue}"
                     app:showArrow="true"
                     app:title="@string/id_card_indate"
                     app:titleW="104dp"
@@ -184,5 +236,14 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.core.widget.NestedScrollView>
+
+        <com.lsy.framelib.ui.weight.SingleTapButton
+            style="@style/CommonMatchBtnStyle1"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="40dp"
+            android:onClick="@{vm::submit}"
+            android:text="@string/submit_data"
+            android:visibility="@{vm.isSubmit()?View.VISIBLE:View.GONE}" />
     </LinearLayout>
 </layout>

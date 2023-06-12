@@ -85,7 +85,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginTop="16dp"
-            app:imageRes="@{detail.plusOrMinus?R.mipmap.icon_income_main:R.mipmap.icon_expend_main}"
+            app:imgRes="@{detail.plusOrMinus?R.mipmap.icon_income_main:R.mipmap.icon_expend_main}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bar_income_detail_title"

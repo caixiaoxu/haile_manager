@@ -23,6 +23,7 @@
     <string name="scan_add">扫码添加</string>
     <string name="update_success">修改成功</string>
     <string name="update_failure">修改失败</string>
+    <string name="upload_failure">上传失败</string>
     <string name="save_to_local">保存到本地</string>
     <string name="status">状态</string>
     <string name="operate">操作</string>
@@ -288,14 +289,36 @@
     <string name="real_name">实名认证</string>
     <string name="auth_info">认证信息</string>
     <string name="id_card">身份证</string>
+    <string name="company_name">公司名称</string>
+    <string name="company_id">社会信用代码</string>
     <string name="id_card_number">身份证号</string>
     <string name="indate_type">有效期类型</string>
     <string name="id_card_indate">身份证有效期</string>
-    <string-array name="verifyType_arr">
-        <item>个人</item>
+    <string name="update_data">修改资料</string>
+    <string name="submit_data">提交资料</string>
+    <string name="empty_id_card_name">请输入身份证姓名</string>
+    <string name="empty_id_card_no">请输入身份证号码</string>
+    <string name="empty_id_card_front">请上传身份证人像面照片</string>
+    <string name="empty_id_card_back">请上传身份证国徽面照片</string>
+    <string name="empty_company_license">请上传营业执照照片</string>
+    <string name="empty_id_card_indate_type">请选择身份证有效时间类型</string>
+    <string name="empty_id_card_indate">请选择身份证有效时间</string>
+    <string name="empty_company_name">请输入公司名</string>
+    <string name="empty_company_usci">请输入社会信用代码</string>
+    <string-array name="verify_status_arr">
+        <item>未认证</item>
+        <item>审核中</item>
+        <item>认证成功</item>
+        <item>认证失败</item>
+    </string-array>
+    <string-array name="verify_type_arr">
         <item>个人</item>
         <item>企业</item>
         <item>个体工商记</item>
+    </string-array>
+    <string-array name="indate_type_arr">
+        <item>短期有效</item>
+        <item>长期有效</item>
     </string-array>
 
     <string name="setting">设置</string>
@@ -335,14 +358,7 @@
     <string name="role_list_empty">当前帐户没有其他角色</string>
     <string name="unit_money">￥</string>
     <string name="err_no_real_name_auth">通过实名认证后才可提现</string>
-
-    <string-array name="auth_status_arr">
-        <item>未认证</item>
-        <item>未认证</item>
-        <item>审核中</item>
-        <item>已认证</item>
-        <item>未通过</item>
-    </string-array>
+    <string name="empty_params">参数为空</string>
 
     <string-array name="week_arr">
         <item>周一</item>

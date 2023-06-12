@@ -55,7 +55,7 @@ class PersonalViewModel : BaseViewModel() {
         PersonalItem(
             R.mipmap.icon_personal_real_name,
             R.string.real_name,
-            MutableLiveData<String>(StringUtils.getStringArray(R.array.auth_status_arr)[1]),
+            MutableLiveData<String>(StringUtils.getStringArray(R.array.verify_status_arr)[0]),
             null,
             RealNameAuthActivity::class.java
         ),
@@ -109,13 +109,13 @@ class PersonalViewModel : BaseViewModel() {
             requestRealNameAuth()
         })
     }
-
-
     private suspend fun requestRealNameAuth() {
         val authInfo = ApiRepository.dealApiResult(mUserRepo.requestRealNameAuthDetail())
         authInfo?.let {
             personalItems.find { item -> item?.title == R.string.real_name }?.run {
-                tag?.postValue(StringUtils.getStringArray(R.array.auth_status_arr)[it.status])
+                it.status?.let { status ->
+                    tag?.postValue(StringUtils.getStringArray(R.array.verify_status_arr)[status - 1])
+                }
                 bundle = IntentParams.RealNameAuthParams.pack(it)
             }
         }

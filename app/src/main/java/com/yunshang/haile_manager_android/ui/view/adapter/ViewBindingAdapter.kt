@@ -2,13 +2,10 @@ package com.yunshang.haile_manager_android.ui.view.adapter
 
 import android.graphics.drawable.Drawable
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ImageView
-import android.widget.LinearLayout.LayoutParams
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.MarginLayoutParamsCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
@@ -72,21 +69,17 @@ object ViewBindingAdapter {
     }
 
     /**
-     * ImageView 加载本地图片
+     * ImageView 加载本地图片/图络图片
      */
-    @BindingAdapter("imageRes")
+    @BindingAdapter("imgRes", "imgUrl", requireAll = false)
     @JvmStatic
-    fun loadImage(view: ImageView, res: Int) {
-        view.setImageResource(res)
-    }
-
-    /**
-     * ImageView 加载图络图片
-     */
-    @BindingAdapter("imgUrl")
-    @JvmStatic
-    fun loadImageUrl(view: ImageView, url: String?) {
-        GlideUtils.loadImage(view, url)
+    fun ImageView.loadImage(res: Int?, url: String?) {
+        res?.let {
+            setImageResource(res)
+        }
+        url?.let {
+            GlideUtils.loadImage(this, url)
+        }
     }
 
     /**
@@ -103,10 +96,15 @@ object ViewBindingAdapter {
     /**
      * 自定义itemContent
      */
-    @BindingAdapter("title")
+    @BindingAdapter("title", "android:enabled", requireAll = false)
     @JvmStatic
-    fun MultiTypeItemView.setItemTitle(title: String?) {
-        mTitleView.text = title ?: ""
+    fun MultiTypeItemView.setItemAttr(title: String?, enabled: Boolean?) {
+        title?.let {
+            mTitleView.text = title
+        }
+        enabled?.let {
+            contentView.isEnabled = enabled
+        }
     }
 
     /**
@@ -117,7 +115,7 @@ object ViewBindingAdapter {
     fun MultiTypeItemView.setItemContent(content: String?) {
         content?.let {
             contentView.setText(content)
-            contentView.setSelection(contentView.text?.length ?:0)
+            contentView.setSelection(contentView.text?.length ?: 0)
         }
     }
 

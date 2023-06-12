@@ -52,7 +52,9 @@ class PersonalInfoViewModel : BaseViewModel() {
             }
         }, {
             Timber.e("图片上传失败$it")
-            callback(false)
+            withContext(Dispatchers.Main) {
+                callback(false)
+            }
         })
     }
 

@@ -23,7 +23,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_personal_item_icon"
-            imageRes="@{item.icon}"
+            app:imgRes="@{item.icon}"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:scaleType="fitXY"

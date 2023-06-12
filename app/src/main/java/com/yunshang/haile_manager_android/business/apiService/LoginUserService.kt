@@ -89,4 +89,10 @@ interface LoginUserService {
      */
     @GET("/user/verifyDetail")
     suspend fun requestRealNameAuthDetail(): ResponseWrapper<RealNameAuthDetailEntity>
+
+    /**
+     * 实名认证接口
+     */
+    @POST("/user/verify")
+    suspend fun verifyRealNameAuth(@Body body: RequestBody): ResponseWrapper<Any>
 }

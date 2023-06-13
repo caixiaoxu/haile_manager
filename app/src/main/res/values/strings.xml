@@ -372,7 +372,13 @@
 
     <string name="privacy_policy">隐私政策</string>
     <string name="version">版本信息</string>
+    <string name="version_update">版本更新</string>
+    <string name="update_now">立即更新</string>
     <string name="cancel_account">注销账号</string>
+    <string name="cancel_account_hint">注销后您的身份、账户信息、钱包余额、订单信息等都会被清空且无法找回请谨慎操作。</string>
+    <string name="cancel_account_sure">确定注销</string>
+    <string name="cancel_account_cancel">我再想想</string>
+    <string name="new_version">发现新版本</string>
 
     <string name="change_account">切换账号</string>
     <string name="cur_account">当前登录</string>

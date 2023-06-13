@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.data.arguments
 import android.content.Intent
 import android.os.Bundle
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
 import com.yunshang.haile_manager_android.data.entities.RealNameAuthDetailEntity
 
 /**
@@ -91,6 +92,20 @@ object IntentParams {
         }
 
         fun parseAmount(intent: Intent): String? = intent.getStringExtra(AMOUNT)
+    }
+
+    object VersionParams {
+        private const val VERSIONINFO = "versionInfo"
+
+        /**
+         * 包装参数
+         */
+        fun pack(appVersion: AppVersionEntity): Bundle = Bundle().apply {
+            putString(VERSIONINFO, GsonUtils.any2Json(appVersion))
+        }
+
+        fun parseVersionInfo(intent: Intent): AppVersionEntity? =
+            GsonUtils.json2Class(intent.getStringExtra(VERSIONINFO), AppVersionEntity::class.java)
     }
 
 }

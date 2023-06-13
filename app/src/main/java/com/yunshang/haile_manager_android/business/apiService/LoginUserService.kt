@@ -94,4 +94,10 @@ interface LoginUserService {
      */
     @POST("/user/verify")
     suspend fun verifyRealNameAuth(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 用户注销接口
+     */
+    @POST("/user/logout")
+    suspend fun cancelAccount(): ResponseWrapper<Any>
 }

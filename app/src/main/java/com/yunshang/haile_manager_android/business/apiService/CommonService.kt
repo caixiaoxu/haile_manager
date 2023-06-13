@@ -1,10 +1,9 @@
 package com.yunshang.haile_manager_android.business.apiService
 
 import com.lsy.framelib.network.response.ResponseWrapper
+import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
 import com.yunshang.haile_manager_android.data.entities.AreaEntity
-import com.yunshang.haile_manager_android.data.entities.LoginEntity
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.http.*
 
 /**
@@ -28,4 +27,10 @@ interface CommonService {
     @Multipart
     @POST("/common/upload")
     suspend fun updateLoadFile(@Part file: MultipartBody.Part): ResponseWrapper<String>
+
+    @GET("/common/appVersion")
+    suspend fun appVersion(
+        @Query("currentVersion") currentVersion: String,
+        @Query("appType") appType: Int = 1
+    ): ResponseWrapper<AppVersionEntity>
 }

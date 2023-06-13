@@ -64,6 +64,11 @@ object ThirdLibs {
 
     // 图片裁剪
     const val picture_ucrop = "io.github.lucksiege:ucrop:v3.11.1"
+
+    // 支付宝
+    const val alipay = "com.alipay.sdk:alipaysdk-android:15.8.14"
+    // 微信
+    const val wechat = "com.tencent.mm.opensdk:wechat-sdk-android:6.8.24"
 }
 
 object TestLibs {

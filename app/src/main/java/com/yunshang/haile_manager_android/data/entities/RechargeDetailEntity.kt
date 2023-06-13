@@ -31,7 +31,9 @@ data class RechargeDetailEntity(
     val typeDesc: String,
     val userId: Int
 ) : IIncomeDetailEntity {
-    override fun isPlusOrMinus(): Boolean = 100 == type
+
+    override fun mainRes(): Int =
+        if (100 == type) R.mipmap.icon_income_main else R.mipmap.icon_expend_main
 
     override fun getTotalStr(): String = (if (100 == type) amount else -amount).toString()
 

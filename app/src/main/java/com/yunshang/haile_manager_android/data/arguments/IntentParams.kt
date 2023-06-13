@@ -17,22 +17,28 @@ import com.yunshang.haile_manager_android.data.entities.RealNameAuthDetailEntity
  */
 object IntentParams {
 
+    object CommonParams {
+        private const val ID = "id"
+
+        /**
+         * 包装参数
+         */
+        fun pack(id: Int): Bundle = Bundle().apply {
+            putInt(ID, id)
+        }
+
+        fun parseId(intent: Intent): Int = intent.getIntExtra(ID, -1)
+    }
+
     object WalletParams {
-        private const val TotalBalance = "totalBalance"
         private const val RealNameAuthStatus = "realNameAuthStatus"
 
         /**
          * 包装参数
          */
-        fun pack(balance: String, isAuth: Boolean): Bundle = Bundle().apply {
-            putString(TotalBalance, balance)
+        fun pack(isAuth: Boolean): Bundle = Bundle().apply {
             putBoolean(RealNameAuthStatus, isAuth)
         }
-
-        /**
-         * 解析TotalBalance
-         */
-        fun parseTotalBalance(intent: Intent): String? = intent.getStringExtra(TotalBalance)
 
         /**
          * 解析TotalBalance
@@ -41,7 +47,7 @@ object IntentParams {
             intent.getBooleanExtra(RealNameAuthStatus, false)
     }
 
-    object WalletWithdrawParams{
+    object WalletWithdrawParams {
         private const val TotalBalance = "totalBalance"
 
         /**
@@ -72,6 +78,19 @@ object IntentParams {
                 AuthInfo
             ), RealNameAuthDetailEntity::class.java
         )
+    }
+
+    object RechargeSuccessParams {
+        private const val AMOUNT = "amount"
+
+        /**
+         * 包装参数
+         */
+        fun pack(amount: String): Bundle = Bundle().apply {
+            putString(AMOUNT, amount)
+        }
+
+        fun parseAmount(intent: Intent): String? = intent.getStringExtra(AMOUNT)
     }
 
 }

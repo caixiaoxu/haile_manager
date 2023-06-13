@@ -29,4 +29,7 @@ object BusEvents {
     const val SUB_ACCOUNT_LIST_STATUS = "sub_account_list_change"
     const val SUB_ACCOUNT_DETAIL_STATUS = "sub_account_detail_change"
     const val REAL_NAME_AUTH_STATUS = "real_name_auth_status"
+    const val BIND_WITHDRAW_ACCOUNT_STATUS = "bind_withdraw_account_status"
+    const val BALANCE_STATUS = "balance_status"
+    const val WXPAY_STATUS = "wxpay_status"
 }

@@ -6,6 +6,7 @@ import com.yunshang.haile_manager_android.data.rule.IncomeDetailInfo
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.StringUtils
 
+
 /**
  * Title :
  * Author: Lsy
@@ -28,7 +29,8 @@ data class IncomeDetailEntity(
     val payType: String,
     val settlementTime: String
 ) : IIncomeDetailEntity {
-    override fun isPlusOrMinus(): Boolean = amount >= 0
+    override fun mainRes(): Int =
+        if (amount >= 0) R.mipmap.icon_income_main else R.mipmap.icon_expend_main
 
     override fun getTotalStr(): String = StringUtils.formatNumberStr(amount) ?: ""
 

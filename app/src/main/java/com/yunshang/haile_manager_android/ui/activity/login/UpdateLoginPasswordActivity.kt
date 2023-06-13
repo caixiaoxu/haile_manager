@@ -22,13 +22,6 @@ class UpdateLoginPasswordActivity :
         window.statusBarColor = Color.WHITE
     }
 
-    override fun initEvent() {
-        super.initEvent()
-        mViewModel.canSubmit.observe(this) {
-            mBinding.btnUpdateSure.isEnabled = it
-        }
-    }
-
     override fun initData() {
     }
 }

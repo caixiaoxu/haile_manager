@@ -8,10 +8,11 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.business.apiService.LoginUserService
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
-import com.yunshang.haile_manager_android.data.entities.BalanceTotalEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
-import com.yunshang.haile_manager_android.ui.activity.*
-import com.yunshang.haile_manager_android.ui.activity.personal.*
+import com.yunshang.haile_manager_android.ui.activity.SettingActivity
+import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
+import com.yunshang.haile_manager_android.ui.activity.personal.RealNameAuthActivity
+import com.yunshang.haile_manager_android.ui.activity.personal.WalletActivity
 
 /**
  * Title :
@@ -79,8 +80,6 @@ class PersonalViewModel : BaseViewModel() {
         var bundle: Bundle? = null
     )
 
-    private var balanceTotal: BalanceTotalEntity? = null
-
     fun requestData() {
         launch({
             requestBalance()
@@ -95,11 +94,9 @@ class PersonalViewModel : BaseViewModel() {
     }
 
     private suspend fun requestBalance() {
-        balanceTotal = ApiRepository.dealApiResult(mCapitalRepo.requestBalance())
-        balanceTotal?.let {
+        ApiRepository.dealApiResult(mCapitalRepo.requestBalance())?.let {
             personalItems.find { item -> item?.title == R.string.wallet }?.run {
                 value?.postValue(it.totalAmount)
-                bundle = IntentParams.WalletParams.pack(it.totalAmount, false)
             }
         }
     }
@@ -109,20 +106,17 @@ class PersonalViewModel : BaseViewModel() {
             requestRealNameAuth()
         })
     }
+
     private suspend fun requestRealNameAuth() {
-        val authInfo = ApiRepository.dealApiResult(mUserRepo.requestRealNameAuthDetail())
-        authInfo?.let {
+        ApiRepository.dealApiResult(mUserRepo.requestRealNameAuthDetail())?.let {
             personalItems.find { item -> item?.title == R.string.real_name }?.run {
                 it.status?.let { status ->
                     tag?.postValue(StringUtils.getStringArray(R.array.verify_status_arr)[status - 1])
                 }
                 bundle = IntentParams.RealNameAuthParams.pack(it)
             }
-        }
-
-        balanceTotal?.let {
             personalItems.find { item -> item?.title == R.string.wallet }?.run {
-                bundle = IntentParams.WalletParams.pack(it.totalAmount, 3 == authInfo?.status)
+                bundle = IntentParams.WalletParams.pack(3 == it.status)
             }
         }
     }

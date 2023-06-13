@@ -31,6 +31,7 @@
     <string name="for_take">拍照</string>
     <string name="for_album">相册</string>
     <string name="withdraw">提现</string>
+    <string name="withdraw_success">提现成功</string>
     <string name="type">类型</string>
     <string name="all">全部</string>
 
@@ -274,11 +275,13 @@
     <string name="pay_time">支付时间</string>
     <string name="settlement_time">结算时间</string>
     <string name="income_detail">收入详情</string>
+    <string name="withdraw_detail">提现详情</string>
     <string name="pay_account">支付账号</string>
     <string name="reach_starfish">充值海星</string>
     <string name="reward_starfish">赠送海星</string>
     <string name="cash_out_no">提现单号</string>
     <string name="service_charge">手续费</string>
+    <string name="rate">费率</string>
     <string name="cash_out_amount">提现金额</string>
     <string name="cash_out_time">提现时间</string>
     <string name="cash_out_bank">提现银行</string>
@@ -298,6 +301,34 @@
     <string name="alipay_accout">支付宝账号</string>
     <string name="alipay_accout_hint">请输入支付宝账号</string>
     <string name="alipay_name_hint">支付宝认证名称</string>
+    <string name="err_sms_code">请输入正确的验证码</string>
+    <string name="bind_success">绑定成功</string>
+    <string name="verify_time">审核时间</string>
+    <string name="to_account_of_way">到账方式</string>
+    <string name="to_account_account">到账账号</string>
+    <string name="failure_reason">失败原因</string>
+    <string-array name="withdraw_type_arr">
+        <item></item>
+        <item>支付宝</item>
+        <item>微信</item>
+        <item>银行卡</item>
+    </string-array>
+    <string-array name="withdraw_status_arr">
+        <item>待审核</item>
+        <item>提现中</item>
+        <item>提现成功</item>
+        <item>提现失败</item>
+        <item>提现失败</item>
+    </string-array>
+    <string name="recharge">充值</string>
+    <string name="recharge_amount">充值金额</string>
+    <string name="amount_hint">请输入金额</string>
+    <string name="alipay">支付宝</string>
+    <string name="wechat">微信</string>
+    <string name="pay_now">立即支付</string>
+    <string name="result_fellback">结果反馈</string>
+    <string name="pay_success">支付成功</string>
+    <string name="pay_success_hint">恭喜您支付成功，请前往钱包余额查看</string>
 
     <string name="bank_card">银行卡</string>
     <string name="real_name">实名认证</string>
@@ -373,6 +404,8 @@
     <string name="unit_money">¥</string>
     <string name="err_no_real_name_auth">通过实名认证后才可提现</string>
     <string name="empty_params">参数为空</string>
+    <string name="err_request">请求失败</string>
+    <string name="err_pay">支付失败</string>
 
     <string-array name="week_arr">
         <item>周一</item>

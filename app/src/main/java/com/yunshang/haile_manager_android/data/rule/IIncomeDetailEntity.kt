@@ -15,7 +15,7 @@ interface IIncomeDetailEntity {
     /**
      * 正负
      */
-    fun isPlusOrMinus(): Boolean
+    fun mainRes(): Int
 
     /**
      * 总收入

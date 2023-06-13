@@ -111,7 +111,7 @@
             app:layout_constraintStart_toStartOf="@id/view_wallet_withdraw_amount"
             app:layout_constraintTop_toTopOf="@id/et_wallet_withdraw_amount" />
 
-        <androidx.appcompat.widget.AppCompatEditText
+        <com.yunshang.haile_manager_android.ui.view.AmountEditText
             android:id="@+id/et_wallet_withdraw_amount"
             style="@style/Font_16_333333_cccccc"
             android:layout_width="0dp"
@@ -119,14 +119,13 @@
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="20dp"
             android:background="@color/transparent"
-            android:text="@={vm.withdrawAmount}"
-            android:inputType="numberDecimal"
-            android:maxLines="1"
             android:hint="@{@string/alipay_withdraw_input_hint(vm.balanceTotal)}"
             android:paddingVertical="20dp"
+            android:text="@={vm.withdrawAmount}"
             app:layout_constraintEnd_toStartOf="@id/tv_wallet_withdraw_amount_all"
             app:layout_constraintStart_toEndOf="@id/tv_wallet_withdraw_amount_unit"
-            app:layout_constraintTop_toBottomOf="@id/tv_wallet_withdraw_amount_title" />
+            app:layout_constraintTop_toBottomOf="@id/tv_wallet_withdraw_amount_title"
+            app:maxInputLen="8" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_wallet_withdraw_amount_all"
@@ -157,5 +156,16 @@
             app:layout_constraintEnd_toEndOf="@id/view_wallet_withdraw_amount"
             app:layout_constraintStart_toStartOf="@id/view_wallet_withdraw_amount"
             app:layout_constraintTop_toBottomOf="@id/et_wallet_withdraw_amount" />
+
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
+            android:id="@+id/btn_withdraw_submit"
+            style="@style/CommonMatchBtnStyle1"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="24dp"
+            android:enabled="@{vm.canSubmit}"
+            android:onClick="@{vm::submitWithdraw}"
+            android:text="@string/submit"
+            app:layout_constraintTop_toBottomOf="@id/view_wallet_withdraw_amount"
+            tools:ignore="MissingConstraints" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

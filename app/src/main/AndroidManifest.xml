@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" /> <!-- picture_selector，Android 11 使用相机需要添加 -->
+    <uses-permission android:name="android.permission.VIBRATE" />
     <queries package="${applicationId}">
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
@@ -22,6 +23,9 @@
         <intent>
             <action android:name="android.media.action.ACTION_VIDEO_CAPTURE" />
         </intent>
+    </queries>
+    <queries>
+        <package android:name="com.tencent.mm" />
     </queries>
 
     <application
@@ -35,6 +39,18 @@
         android:theme="@style/Theme.Business_Android"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.activity.personal.RechargeSuccessActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.personal.RechargeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.personal.WithdrawDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.personal.WithdrawRecordActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.activity.personal.WithdrawBindAlipayActivity"
             android:exported="false" />
@@ -202,6 +218,19 @@
             </intent-filter>
         </activity> <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
         <service android:name="com.amap.api.location.APSService" />
+
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <meta-data
             android:name="com.amap.api.v2.apikey"

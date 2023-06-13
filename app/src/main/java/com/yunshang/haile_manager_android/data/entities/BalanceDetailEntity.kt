@@ -39,7 +39,9 @@ data class BalanceDetailEntity(
     val title: String,
     val transactionSubType: Int
 ) : IIncomeDetailEntity {
-    override fun isPlusOrMinus(): Boolean = 1 == balanceType
+
+    override fun mainRes(): Int =
+        if (1 == balanceType) R.mipmap.icon_income_main else R.mipmap.icon_expend_main
 
     override fun getTotalStr(): String = StringUtils.formatNumberStrOfStr(capital) ?: ""
 

@@ -112,4 +112,7 @@ dependencies {
     implementation ThirdLibs.picture_selector
     implementation ThirdLibs.picture_compress
     implementation ThirdLibs.picture_ucrop
+
+    implementation ThirdLibs.alipay
+    implementation ThirdLibs.wechat
 }

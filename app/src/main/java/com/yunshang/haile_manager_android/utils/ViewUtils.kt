@@ -19,6 +19,8 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.yunshang.haile_manager_android.R
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 /**
  * Title : 控件的工具类
@@ -88,6 +90,12 @@ object ViewUtils {
                 val back = dest.subSequence(dend, dest.length) // 替换位置后段字符串
                 val target = font.toString() + source + back // 替换成功之后的字符串
                 val backup = dest.subSequence(dstart, dend) // 将要被替换的字符串
+
+                val p: Pattern = Pattern.compile("[\\d|.]+")//限制输入数字和.
+                val m: Matcher = p.matcher(source.toString())
+                if (!m.matches()) {
+                    return@InputFilter ""
+                }
 
                 if (!target.contains(".") && target.length > maxInputLen) {
                     return@InputFilter backup

@@ -103,4 +103,66 @@ interface CapitalService {
     @POST("/wallet/cashOutAccount/operateSms")
     suspend fun sendCashOutOperateSms(@Body body: RequestBody): ResponseWrapper<Any>
 
+    /**
+     * 提现账号操作短信校验接口
+     */
+    @POST("/wallet/cashOutAccount/authCode")
+    suspend fun checkCashOutOperateSms(@Body body: RequestBody): ResponseWrapper<AuthCodeEntity>
+
+    /**
+     * 支付宝提现账号绑定接口
+     */
+    @POST("/wallet/cashOutAccount/create")
+    suspend fun bindWithdrawAlipayAccount(@Body body: RequestBody): ResponseWrapper<AuthCodeEntity>
+
+    /**
+     * 修改支付宝提现账号绑定接口
+     */
+    @POST("/wallet/cashOutAccount/modify")
+    suspend fun updateWithdrawAlipayAccount(@Body body: RequestBody): ResponseWrapper<AuthCodeEntity>
+
+    /**
+     * 提现金额计算接口
+     */
+    @POST("/wallet/cashOut/calculate")
+    suspend fun calculateWithdraw(@Body body: RequestBody): ResponseWrapper<WithdrawCalculateEntity>
+
+    /**
+     * 提现接口
+     */
+    @POST("/wallet/cashOut/withdraw")
+    suspend fun balanceWithdraw(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 提现列表接口
+     */
+    @GET("/wallet/cashOut/list")
+    suspend fun requestWithdrawRecordList(
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int,
+    ): ResponseWrapper<ResponseList<WithdrawRecordEntity>>
+
+    /**
+     * 提现详情接口
+     */
+    @GET("/wallet/cashOut/detail")
+    suspend fun requestWithdrawDetail(@Query("id") id: Int): ResponseWrapper<WithdrawDetailEntity>
+
+    /**
+     * 充值接口
+     */
+    @POST("/charge/balanceCharge")
+    suspend fun balanceRecharge(@Body body: RequestBody): ResponseWrapper<BalanceRechargeEntity>
+
+    /**
+     * 预支付接口
+     */
+    @POST("/pay/prePay")
+    suspend fun prePay(@Body body: RequestBody): ResponseWrapper<PrePayEntity>
+
+    /**
+     * 支付轮训接口
+     */
+    @POST("/pay/sync")
+    suspend fun paySync(@Body body: RequestBody): ResponseWrapper<PaySyncEntity>
 }

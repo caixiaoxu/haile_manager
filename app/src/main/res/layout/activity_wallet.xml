@@ -99,7 +99,7 @@
             android:layout_height="@dimen/common_btn_h"
             android:layout_marginTop="12dp"
             android:background="@drawable/shape_stroke_333333_r22"
-            android:text="@string/withdraw"
+            android:text="@string/recharge"
             app:layout_constraintBottom_toBottomOf="@id/view_wallet_parent"
             app:layout_constraintEnd_toEndOf="@id/btn_wallet_withdraw"
             app:layout_constraintStart_toStartOf="@id/btn_wallet_withdraw"

@@ -1,14 +1,9 @@
 package com.yunshang.haile_manager_android.ui.view
 
 import android.content.Context
-import android.content.res.Resources
-import android.graphics.Typeface
-import android.os.Build
 import android.text.InputType
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.res.ResourcesCompat
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.utils.ViewUtils
 
@@ -27,8 +22,17 @@ class AmountEditText @JvmOverloads constructor(
 ) : AppCompatEditText(context, attrs) {
 
     init {
-        ViewUtils.inputAmountLimit(this)
-        inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL
+        val array = context.obtainStyledAttributes(attrs, R.styleable.AmountEditText)
+        val maxInputLen = array.getColor(R.styleable.AmountEditText_maxInputLen, 4)
+        val maxPointLen = array.getColor(R.styleable.AmountEditText_maxPointLen, 2)
+        array.recycle()
+        ViewUtils.inputAmountLimit(this, maxInputLen, maxPointLen)
+        inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
         maxLines = 1
+    }
+
+    override fun setText(text: CharSequence?, type: BufferType?) {
+        super.setText(text, type)
+        setSelection(text?.length ?: 0)
     }
 }

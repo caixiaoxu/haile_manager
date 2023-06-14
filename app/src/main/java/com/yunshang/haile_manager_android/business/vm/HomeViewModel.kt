@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.lsy.framelib.ui.base.BaseViewModel
-import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
@@ -15,12 +14,12 @@ import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.discounts.DiscountsManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.order.OrderManagerActivity
+import com.yunshang.haile_manager_android.ui.activity.recharge.HaiXinRechargeConfigsActivity
 import com.yunshang.haile_manager_android.ui.activity.shop.ShopManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.staff.StaffManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.subAccount.SubAccountManagerActivity
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
-import timber.log.Timber
 import java.util.*
 
 /**
@@ -40,7 +39,7 @@ class HomeViewModel : BaseViewModel() {
     //选择的时间
     val selectedDate: MutableLiveData<Date> = MutableLiveData(Date())
     val selectedDateVal: LiveData<String> = selectedDate.map {
-        DateTimeUtils.formatDateTime(it,"yyyy年MM月")
+        DateTimeUtils.formatDateTime(it, "yyyy年MM月")
     }
 
     // 总收入
@@ -82,6 +81,12 @@ class HomeViewModel : BaseViewModel() {
                 StaffManagerActivity::class.java,
                 UserPermissionUtils.hasPersonPermission()
             ),
+            FunItem(
+                StringUtils.getString(R.string.work_order_manager),
+                R.mipmap.icon_work_order_manager,
+                StaffManagerActivity::class.java,
+                UserPermissionUtils.hasWorkOrderPermission()
+            ),
         )
     )
 
@@ -97,8 +102,8 @@ class HomeViewModel : BaseViewModel() {
             FunItem(
                 StringUtils.getString(R.string.haixin_manager),
                 R.mipmap.icon_haixin_manager,
-                DiscountsManagerActivity::class.java,
-                UserPermissionUtils.hasMarketingPermission()
+                HaiXinRechargeConfigsActivity::class.java,
+                true
             ),
         )
     )

@@ -222,6 +222,7 @@
     <string name="update_take_charge_shop">修改负责门店</string>
     <string name="update_permission">编辑权限</string>
     <string name="delete_staff">删除人员</string>
+    <string name="work_order_manager">工单管理</string>
 
     <string name="home_marketing_title">营销中心</string>
     <string name="discount_manager">折扣优惠</string>
@@ -237,6 +238,14 @@
     <string name="discount_base_info">特惠基础信息</string>
 
     <string name="haixin_manager">海星管理</string>
+    <string name="recharge_config">充值配置</string>
+    <string name="recharge_total">充值总额</string>
+    <string name="scheme_config">方案配置</string>
+    <string name="recharge_accounts">充值用户</string>
+    <string name="refund_record">退款记录</string>
+    <string name="refund_qrcode">退款二维码</string>
+    <string name="haixin_recharge">海星充值</string>
+
     <string name="home_capital_title">资金管理</string>
     <string name="sub_account_manager">分账管理</string>
     <string name="sub_account_shop">分账门店</string>

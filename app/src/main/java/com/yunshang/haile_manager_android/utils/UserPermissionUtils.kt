@@ -517,6 +517,147 @@ object UserPermissionUtils {
     }
 
     /** ------------------------优惠管理权限------------------------  */
+
+    /** ------------------------工单管理权限------------------------  */
+    /**
+     * 是否含有工单管理删除权限
+     *
+     * @return
+     */
+    fun hasWorkOrderPermission(): Boolean {
+        return null != userPermissionsMap["league:work:order"]
+    }
+    /** ------------------------工单管理权限------------------------ **/
+
+    /** ------------------------充值管理权限------------------------  */
+    /**
+     * 是否含有方案列表权限
+     *
+     * @return
+     */
+    fun hasVipListPermission(): Boolean {
+        return null != userPermissionsMap["league:vip:list"]
+    }
+
+    /**
+     * 是否含有方案添加权限
+     *
+     * @return
+     */
+    fun hasVipAddPermission(): Boolean {
+        return null != userPermissionsMap["league:vip:add"]
+    }
+
+    /**
+     * 是否含有方案修改权限
+     *
+     * @return
+     */
+    fun hasVipUpdatePermission(): Boolean {
+        return null != userPermissionsMap["league:vip:update"]
+    }
+
+    /**
+     * 是否含有方案删除权限
+     *
+     * @return
+     */
+    fun hasVipDeletePermission(): Boolean {
+        return null != userPermissionsMap["league:vip:delete"]
+    }
+
+
+    /**
+     * 是否含有方案详情权限
+     *
+     * @return
+     */
+    fun hasVipDetailPermission(): Boolean {
+        return null != userPermissionsMap["league:vip:detail"]
+    }
+
+    /**
+     * 是否含有海星充值管理详情权限
+     *
+     * @return
+     */
+    fun hasVipRechargePermission(): Boolean {
+        return null != userPermissionsMap["league:vip:recharge"]
+    }
+
+    /**
+     * 是否含有海星充值列表管理详情权限
+     *
+     * @return
+     */
+    fun hasVipRechargeListPermission(): Boolean {
+        return null != userPermissionsMap["league:vip:recharge:list"]
+    }
+
+    /**
+     * 是否含有海星充值用户管理详情权限
+     *
+     * @return
+     */
+    fun hasVipRechargeUserPermission(): Boolean {
+        return null != userPermissionsMap["league:vip:recharge:user"]
+    }
+
+    /**
+     * 是否含有海星充值回收管理详情权限
+     *
+     * @return
+     */
+    fun hasVipRechargeRecyclePermission(): Boolean {
+        return null != userPermissionsMap["league:vip:recycle"]
+    }
+
+    /**
+     * 是否含有退款记录权限
+     *
+     * @return
+     */
+    fun hasVipRefundListPermission(): Boolean {
+        return null != userPermissionsMap["league:vip:refund:list"]
+    }
+
+    /**
+     * 是否含有退款二维码权限
+     *
+     * @return
+     */
+    fun hasVipRefundCodePermission(): Boolean {
+        return null != userPermissionsMap["league:vip:refund:code"]
+    }
+
+    /**
+     * 是否含有退款详情权限
+     *
+     * @return
+     */
+    fun hasVipRefundDetailPermission(): Boolean {
+        return null != userPermissionsMap["league:vip:refund:detail"]
+    }
+
+    /**
+     * 是否含有退款审核权限
+     *
+     * @return
+     */
+    fun hasVipRefundApplyPermission(): Boolean {
+        return null != userPermissionsMap["league:vip:refund:apply"]
+    }
+
+    /**
+     * 是否含有钱包充值权限
+     *
+     * @return
+     */
+    fun hasWalletRechargePermission(): Boolean {
+        return null != userPermissionsMap["league:wallet:recharge"]
+    }
+    /** ------------------------充值管理权限------------------------  */
+
     /** ------------------------分账管理权限------------------------  */
     /**
      * 是否含有分账管理权限

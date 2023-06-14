@@ -76,8 +76,9 @@ class PersonalViewModel : BaseViewModel() {
         val title: Int,
         val tag: MutableLiveData<String>?,
         val value: MutableLiveData<String>?,
-        val clz: Class<*>,
-        var bundle: Bundle? = null
+        val clz: Class<*>? = null,
+        var bundle: Bundle? = null,
+        val isShow: Boolean = true,
     )
 
     fun requestData() {

@@ -8,10 +8,13 @@ import com.lsy.framelib.network.response.ResponseWrapper
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.utils.ActivityManagerUtils
+import com.yunshang.haile_manager_android.utils.FileUtils
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import java.io.File
+
 
 /**
  * Title : Repository层，获取数据来源
@@ -76,4 +79,32 @@ object ApiRepository {
         }
         return response.data
     }
+
+    /**
+     * 处理文件下载
+     */
+    suspend fun dealDownloadResult(
+        responseBody: ResponseBody,
+        fileName: String,
+        callBack: OnDownloadProgressListener? = null
+    ) {
+        FileUtils.saveDownLoadFile(
+            responseBody.byteStream(),
+            responseBody.contentLength(),
+            fileName,
+            callBack
+        )
+    }
+}
+
+interface OnDownloadProgressListener {
+
+    /**
+     * 百分比，完成100
+     */
+    fun onProgress(progress: Int)
+
+    fun onSuccess(file: File)
+
+    fun onFailure(e: Throwable)
 }

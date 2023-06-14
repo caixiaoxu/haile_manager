@@ -1,5 +1,8 @@
 package com.yunshang.haile_manager_android.data.entities
 
+import com.lsy.framelib.utils.StringUtils
+import com.yunshang.haile_manager_android.R
+
 /**
  * Title :
  * Author: Lsy
@@ -21,4 +24,7 @@ data class AppVersionEntity(
     val versionCode: String,
     val versionMin: String,
     val versionName: String
-)
+) {
+    fun getVersionVal(): String = "${StringUtils.getString(R.string.new_version)}${versionName}"
+    fun getUpdateTitle(): String = StringUtils.getString(R.string.update_version_title,versionName)
+}

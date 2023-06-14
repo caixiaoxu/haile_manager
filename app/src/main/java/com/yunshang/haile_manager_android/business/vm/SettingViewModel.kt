@@ -9,7 +9,7 @@ import com.yunshang.haile_manager_android.business.apiService.LoginUserService
 import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.data.model.SPRepository
-import com.yunshang.haile_manager_android.utils.AppInfoUtils
+import com.yunshang.haile_manager_android.utils.AppPackageUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -33,7 +33,7 @@ class SettingViewModel : BaseViewModel() {
 
     fun checkVersion(context: Context) {
         launch({
-            ApiRepository.dealApiResult(mCommonRepo.appVersion(AppInfoUtils.getVersionName(context)))
+            ApiRepository.dealApiResult(mCommonRepo.appVersion(AppPackageUtils.getVersionName(context)))
                 ?.let {
                     appVersionInfo.postValue(it)
                 }

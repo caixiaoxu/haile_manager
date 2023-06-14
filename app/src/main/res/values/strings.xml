@@ -381,6 +381,10 @@
     <string name="current_version">当前版本</string>
     <string name="new_version">发现新版本</string>
     <string name="update_version_title">新版本%1$s主要更新内容</string>
+    <string name="update_content">更新内容</string>
+    <string name="reject">不同意</string>
+    <string name="in_prepare">准备中</string>
+    <string name="click_update">点击升级</string>
 
     <string name="change_account">切换账号</string>
     <string name="cur_account">当前登录</string>
@@ -416,7 +420,7 @@
     <string name="err_pay">支付失败</string>
 
     <string name="empty_permission">需要授权才能继续操作</string>
-    <string name="in_prepare">准备中</string>
+    <string name="err_save_file">文件保存失败</string>
 
     <string-array name="week_arr">
         <item>周一</item>

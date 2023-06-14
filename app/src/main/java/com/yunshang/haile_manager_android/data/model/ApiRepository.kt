@@ -3,16 +3,22 @@ package com.yunshang.haile_manager_android.data.model
 import android.os.Handler
 import android.os.Looper
 import com.lsy.framelib.network.ApiService
+import com.lsy.framelib.network.DefaultOkHttpClient
 import com.lsy.framelib.network.exception.CommonCustomException
+import com.lsy.framelib.network.interceptors.OkHttpBodyLogInterceptor
+import com.lsy.framelib.network.interceptors.ProgressInterceptor
+import com.lsy.framelib.network.interceptors.ResponseInterceptor
 import com.lsy.framelib.network.response.ResponseWrapper
+import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BuildConfig
+import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.apiService.DownloadService
 import com.yunshang.haile_manager_android.utils.ActivityManagerUtils
 import com.yunshang.haile_manager_android.utils.FileUtils
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.ResponseBody
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import okhttp3.*
 import java.io.File
 
 
@@ -33,10 +39,25 @@ object ApiRepository {
      * 获取网络请求Retrofit
      * @param service api Service
      */
-    fun <T> apiClient(service: Class<T>): T {
-        return ApiService.get(BuildConfig.BASE_URL, service)
+    fun <T> apiClient(service: Class<T>, okHttp: OkHttpClient? = null): T {
+        return ApiService.get(BuildConfig.BASE_URL, service, okHttp)
     }
 
+    fun downloadClient(progressInterceptor: (curSize: Long, totalSize: Long, isDone: Boolean) -> Unit): DownloadService {
+        return ApiService.get(
+            BuildConfig.BASE_URL, DownloadService::class.java, DefaultOkHttpClient()
+                .setInterceptors(
+                    arrayOf(
+                        OkHttpBodyLogInterceptor().getInterceptor(),
+                        ResponseInterceptor().getInterceptor()
+                    )
+                ).setNetworkInterceptors(
+                    arrayOf(
+                        ProgressInterceptor(progressInterceptor)
+                    )
+                ).getClient()
+        )
+    }
 
     /**
      * 生成请求body
@@ -80,29 +101,31 @@ object ApiRepository {
         return response.data
     }
 
-    /**
-     * 处理文件下载
-     */
-    suspend fun dealDownloadResult(
-        responseBody: ResponseBody,
-        fileName: String,
-        callBack: OnDownloadProgressListener? = null
-    ) {
-        FileUtils.saveDownLoadFile(
-            responseBody.byteStream(),
-            responseBody.contentLength(),
-            fileName,
-            callBack
-        )
+    suspend fun downloadFile(url: String, fileName: String, callback: OnDownloadProgressListener) {
+        val file = FileUtils.saveDownLoadFile(downloadClient() { curSize, totalSize, isDone ->
+            mHandler.post {
+                callback.onProgress(curSize, totalSize)
+            }
+        }.downLoadFile(url).byteStream(), fileName)
+
+        withContext(Dispatchers.Main) {
+            file?.let {
+                callback.onSuccess(it)
+            } ?: callback.onFailure(
+                CommonCustomException(
+                    -1,
+                    StringUtils.getString(R.string.err_save_file)
+                )
+            )
+        }
     }
 }
 
 interface OnDownloadProgressListener {
-
     /**
      * 百分比，完成100
      */
-    fun onProgress(progress: Int)
+    fun onProgress(curSize: Long, totalSize: Long)
 
     fun onSuccess(file: File)
 

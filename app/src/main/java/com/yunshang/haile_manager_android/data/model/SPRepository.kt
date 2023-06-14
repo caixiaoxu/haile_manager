@@ -30,7 +30,16 @@ object SPRepository {
 
     private const val SP_CHANGE_USER = "sp_change_user"
 
+    private const val SP_CHECK_UPDATE_TIME = "sp_check_update_time"
+
     private val sp: SPUtils by lazy { SPUtils.getInstance(SP_NAME) }
+
+    /**
+     * 判断是否同意了隐私协议
+     */
+    var checkUpdateTime: Long
+        get() = sp.getLong(SP_CHECK_UPDATE_TIME, 0L)
+        set(value) = sp.put(SP_CHECK_UPDATE_TIME, value)
 
     /**
      * 判断是否同意了隐私协议
@@ -106,7 +115,7 @@ object SPRepository {
             field = value
         }
 
-    var changeUser:MutableList<ChangeUserEntity>? = null
+    var changeUser: MutableList<ChangeUserEntity>? = null
         get() {
             return field ?: GsonUtils.json2List(
                 sp.getString(

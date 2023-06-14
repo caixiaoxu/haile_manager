@@ -27,10 +27,11 @@ class VersionActivity : BaseBusinessActivity<ActivityVersionBinding, VersionView
                 showProgress(true)
                 // 授权权限成功
                 mViewModel.downLoadApk(object : OnDownloadProgressListener {
-                    override fun onProgress(progress: Int) {
-                        Timber.i("文件下载中：${progress}%")
-                        mBinding.pbVersionUpdateProgress.progress = progress
-                        mBinding.tvUpdateProgressValue.text = "${progress}%"
+                    override fun onProgress(curSize: Long, totalSize: Long) {
+                        (curSize * 100 / totalSize).toInt().let { precent ->
+                            mBinding.pbVersionUpdateProgress.progress = precent
+                            mBinding.tvUpdateProgressValue.text = "${precent}%"
+                        }
                     }
 
                     override fun onSuccess(file: File) {

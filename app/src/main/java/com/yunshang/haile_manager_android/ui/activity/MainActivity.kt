@@ -1,15 +1,26 @@
 package com.yunshang.haile_manager_android.ui.activity
 
 import android.util.SparseArray
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.lsy.framelib.utils.ActivityUtils
+import com.lsy.framelib.utils.SPUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.MainViewModel
+import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
+import com.yunshang.haile_manager_android.data.model.OnDownloadProgressListener
 import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.databinding.ActivityMainBinding
 import com.yunshang.haile_manager_android.ui.fragment.HomeFragment
 import com.yunshang.haile_manager_android.ui.fragment.PersonalFragment
+import com.yunshang.haile_manager_android.ui.view.dialog.UpdateAppDialog
+import com.yunshang.haile_manager_android.utils.AppPackageUtils
+import com.yunshang.haile_manager_android.utils.DateTimeUtils
+import timber.log.Timber
+import java.io.File
+import java.util.*
+
 
 class MainActivity :
     BaseBusinessActivity<ActivityMainBinding, MainViewModel>(MainViewModel::class.java, BR.vm) {
@@ -75,6 +86,50 @@ class MainActivity :
     }
 
     override fun initData() {
+        checkUpdate()
+    }
+
+    private fun checkUpdate() {
+        mViewModel.checkVersion(this) {
+            if (it.forceUpdate) {
+                // 强制更新
+                showUpdateDialog(it, true)
+                return@checkVersion
+            } else if (it.needUpdate
+//                && !DateTimeUtils.isSameDay(Date(SPRepository.checkUpdateTime), Date())
+            ) {
+                // 非强制更新并有更新,每天一次
+                showUpdateDialog(it, false)
+                SPRepository.checkUpdateTime = System.currentTimeMillis()
+            }
+        }
+    }
+
+    private fun showUpdateDialog(appVersion: AppVersionEntity, isForce: Boolean) {
+        val updateAppDialog = UpdateAppDialog.Builder(appVersion).apply {
+            isCancelable = !isForce
+            positiveClickListener = { callBack ->
+                // 授权权限成功
+                mViewModel.downLoadApk(appVersion, object : OnDownloadProgressListener {
+
+                    override fun onProgress(curSize: Long, totalSize: Long) {
+                        callBack(curSize, totalSize, 0)
+                    }
+
+                    override fun onSuccess(file: File) {
+                        Timber.i("文件下载完成：${file.path}")
+                        callBack(0, 0, 1)
+                        AppPackageUtils.installApk(this@MainActivity, file)
+                    }
+
+                    override fun onFailure(e: Throwable) {
+                        Timber.i("文件下载失败：${e.message}")
+                        callBack(0, 0, -1)
+                    }
+                })
+            }
+        }.build()
+        updateAppDialog.show(supportFragmentManager)
     }
 
 }

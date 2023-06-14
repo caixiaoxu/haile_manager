@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="311dp"
+    android:layout_height="394dp"
+    android:background="@drawable/shape_sffffff_r8">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/tv_update_app_top"
+        android:layout_width="match_parent"
+        android:layout_height="155dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/icon_update_app_top"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_update_app_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="48dp"
+        android:text="@string/new_version"
+        style="@style/Font_24_0000000_bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_update_app_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/shape_strokef0a258_solid26f0a258_r14"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        style="@style/Font_12_f0a258"
+        app:layout_constraintStart_toStartOf="@id/tv_update_app_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_update_app_title"
+        tools:text="1.0.1" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/ll_update_app_content_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/update_content"
+        style="@style/Font_14_999999"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_update_app_top" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="1"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@id/fl_update_app_bottom"
+        app:layout_constraintStart_toStartOf="@id/ll_update_app_content_title"
+        app:layout_constraintTop_toBottomOf="@id/ll_update_app_content_title" >
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_update_app_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fl_update_app_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_update_app_no"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginHorizontal="8dp"
+            android:background="@drawable/shape_stroke_cccccc_r22"
+            android:text="@string/reject"
+            android:textColor="#333300"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/btn_update_app_yes"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_update_app_yes"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginHorizontal="8dp"
+            android:background="@drawable/shape_sf0a258_r22"
+            android:text="@string/click_update"
+            style="@style/Font_16_ffffff_bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/btn_update_app_no"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/pb_update_progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:minHeight="7dp"
+            android:progressDrawable="@drawable/update_progress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_update_progress_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/in_prepare"
+            style="@style/Font_10_999999"
+            app:layout_constraintStart_toStartOf="@id/pb_update_progress"
+            app:layout_constraintTop_toBottomOf="@id/pb_update_progress"
+            tools:text="12Mb/36Mb" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="pb_update_progress,tv_update_progress_value" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

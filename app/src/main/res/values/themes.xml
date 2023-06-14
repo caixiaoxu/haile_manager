@@ -312,6 +312,15 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="Font_16_ffffff">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Font_16_ffffff_bold" parent="Font_16_ffffff">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Font_16_f0a258">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/colorPrimary</item>
@@ -334,6 +343,15 @@
     <style name="Font_24_333333">
         <item name="android:textSize">24sp</item>
         <item name="android:textColor">@color/common_txt_color</item>
+    </style>
+
+    <style name="Font_24_0000000">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="Font_24_0000000_bold" parent="Font_24_0000000">
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Font_26_f0a258">

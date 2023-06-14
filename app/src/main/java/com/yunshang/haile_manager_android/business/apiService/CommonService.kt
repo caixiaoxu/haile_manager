@@ -29,10 +29,6 @@ interface CommonService {
     @POST("/common/upload")
     suspend fun updateLoadFile(@Part file: MultipartBody.Part): ResponseWrapper<String>
 
-    @Streaming
-    @GET
-    suspend fun downLoadFile(@Url fileUrl: String): ResponseBody
-
     @GET("/common/appVersion")
     suspend fun appVersion(
         @Query("currentVersion") currentVersion: String,

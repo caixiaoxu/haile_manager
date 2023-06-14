@@ -4,6 +4,7 @@ import com.lsy.framelib.data.constants.Constants
 import com.yunshang.haile_manager_android.data.model.OnDownloadProgressListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -21,12 +22,10 @@ import java.io.InputStream
 object FileUtils {
     val downloadDir: File = Constants.APP_CONTEXT.getExternalFilesDir("download")!!
 
-    suspend fun saveDownLoadFile(
+    fun saveDownLoadFile(
         inputStream: InputStream,
-        contentLength: Long,
         fileName: String,
-        callBack: OnDownloadProgressListener? = null
-    ) {
+    ): File? {
         if (!downloadDir.exists()) {
             downloadDir.mkdirs()
         }
@@ -35,29 +34,20 @@ object FileUtils {
             downFile.mkdirs()
         }
         try {
-            val buffer = ByteArray(1024)
-            var lastProgress = 0
+            val bufferSize = 1024 * 8
+            val buffer = ByteArray(bufferSize)
             inputStream.use { input ->
                 FileOutputStream(downFile).use { fos ->
                     var length: Int
-                    var sum: Long = 0
-                    while (input.read(buffer).also { length = it } != -1) {
-                        fos.write(buffer, 0, length)
-                        sum += length.toLong()
-                        val progress = (sum * 100 / contentLength).toInt()
-                        if (progress > lastProgress) {
-                            lastProgress = progress
-                            withContext(Dispatchers.Main){
-                                callBack?.onProgress(progress)
-                            }
+                    BufferedInputStream(input, bufferSize).use { bis ->
+                        while (bis.read(buffer, 0, bufferSize).also { length = it } != -1) {
+                            fos.write(buffer, 0, length)
                         }
+                        fos.flush()
                     }
-                    fos.flush()
                 }
             }
-            withContext(Dispatchers.Main){
-                callBack?.onSuccess(downFile)
-            }
+            return downFile
         } catch (e: Exception) {
             try {
                 if (downFile.exists()) {
@@ -66,9 +56,7 @@ object FileUtils {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-            withContext(Dispatchers.Main){
-                callBack?.onFailure(e)
-            }
         }
+        return null
     }
 }

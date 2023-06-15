@@ -27,14 +27,6 @@ class HaiXinSchemeConfigsCreateViewModel : BaseViewModel() {
     val createUpdateParams: MutableLiveData<HaixinSchemeConfigCreateParams> =
         MutableLiveData(HaixinSchemeConfigCreateParams())
 
-    val reachVal:MutableLiveData<String> by lazy {
-        MutableLiveData()
-    }
-
-    val rewradVal:MutableLiveData<String> by lazy {
-        MutableLiveData()
-    }
-
     fun switchSchemeOpen(isCheck: Boolean) {
         createUpdateParams.value?.isAllowRefund = if (isCheck) 1 else 0
     }

@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.data.entities
 
 import android.graphics.Color
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.data.constants.Constants
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
@@ -69,4 +70,8 @@ data class RewardsConfig(
     fun switchSchemeOpen(isCheck: Boolean) {
         status = if (isCheck) 0 else 1
     }
+
+    val reachVal: MutableLiveData<String> = MutableLiveData()
+
+    val rewardVal: MutableLiveData<String> = MutableLiveData()
 }

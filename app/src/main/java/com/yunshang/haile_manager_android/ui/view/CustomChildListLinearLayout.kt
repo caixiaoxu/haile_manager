@@ -3,7 +3,7 @@ package com.yunshang.haile_manager_android.ui.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.LinearLayout
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.yunshang.haile_manager_android.R
@@ -20,7 +20,7 @@ import com.yunshang.haile_manager_android.R
  */
 class CustomChildListLinearLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
-) : LinearLayout(context, attrs) {
+) : LinearLayoutCompat(context, attrs) {
     var layoutId: Int = -1//child布局
     var space: Int = 0// 间距
 
@@ -35,6 +35,8 @@ class CustomChildListLinearLayout @JvmOverloads constructor(
      */
     fun <B : ViewDataBinding, D> buildChild(
         itemList: List<D>?,
+        layoutParams: LayoutParams? = null,
+        start: Int? = null,
         onChildBinding: (index: Int, childBinding: B, data: D) -> Unit
     ) {
         if (-1 == layoutId) {
@@ -46,7 +48,11 @@ class CustomChildListLinearLayout @JvmOverloads constructor(
         }
         visibility = VISIBLE
 
-        removeAllViews()
+        start?.let {
+            if (childCount > start) {
+                removeViews(it, childCount - start)
+            }
+        } ?: removeAllViews()
         itemList.forEachIndexed { index, any ->
             val mBinding = DataBindingUtil.bind<B>(
                 LayoutInflater.from(context).inflate(layoutId, null, false)
@@ -55,10 +61,11 @@ class CustomChildListLinearLayout @JvmOverloads constructor(
                 onChildBinding.invoke(index, it, any)
                 addView(
                     it.root,
-                    LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT).apply {
-                        if (0 < index)
-                            setMargins(0, space, 0, 0)
-                    })
+                    layoutParams ?: LayoutParams(
+                        LayoutParams.MATCH_PARENT,
+                        LayoutParams.WRAP_CONTENT
+                    )
+                )
             }
         }
     }

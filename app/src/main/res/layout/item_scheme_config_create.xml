@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="index"
+            type="java.lang.Integer" />
+
+        <variable
+            name="rate"
+            type="java.lang.Integer" />
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.RewardsConfig" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <androidx.appcompat.widget.AppCompatCheckedTextView
+            android:id="@+id/tv_scheme_create_title"
+            style="@style/Font_16_333333"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginHorizontal="16dp"
+            android:gravity="center_vertical"
+            android:text="@{@string/scheme_config_index(index)}"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="方案1" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_scheme_detail_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:checked="@{0 == item.status}"
+            android:onCheckedChanged="@{(v,isCheck)->item.switchSchemeOpen(isCheck)}"
+            android:thumb="@drawable/selector_default_switch_thumb"
+            app:layout_constraintBottom_toBottomOf="@id/tv_scheme_create_title"
+            app:layout_constraintEnd_toEndOf="@id/tv_scheme_create_title"
+            app:layout_constraintTop_toTopOf="@id/tv_scheme_create_title"
+            app:track="@drawable/selector_default_switch_track" />
+
+        <View
+            android:id="@+id/view_cut_off1"
+            style="@style/DividingStyle"
+            app:layout_constraintBottom_toBottomOf="@id/tv_scheme_create_title"
+            app:layout_constraintEnd_toEndOf="@id/tv_scheme_create_title"
+            app:layout_constraintStart_toStartOf="@id/tv_scheme_create_title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_scheme_amount_title"
+            style="@style/Font_16_333333"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/recharge_amount"
+            app:layout_constraintEnd_toEndOf="@id/tv_scheme_create_title"
+            app:layout_constraintStart_toStartOf="@id/tv_scheme_create_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_scheme_create_title" />
+
+        <com.yunshang.haile_manager_android.ui.view.AmountEditText
+            android:id="@+id/et_scheme_amount"
+            style="@style/Font_16_333333_cccccc"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:background="@color/transparent"
+            android:hint="@string/please_input"
+            app:layout_constraintEnd_toEndOf="@id/tv_scheme_amount_title"
+            app:layout_constraintEnd_toStartOf="@id/tv_scheme_amount_unit"
+            app:layout_constraintStart_toStartOf="@id/tv_scheme_amount_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_scheme_amount_title"
+            tools:text="500" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_scheme_amount_unit"
+            style="@style/Font_16_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/unit_yuan"
+            app:layout_constraintBottom_toBottomOf="@id/et_scheme_amount"
+            app:layout_constraintEnd_toEndOf="@id/tv_scheme_amount_title"
+            app:layout_constraintStart_toEndOf="@id/et_scheme_amount"
+            app:layout_constraintTop_toTopOf="@id/et_scheme_amount" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_scheme_amount_haixin"
+            style="@style/Font_12_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text='@{item.reach + @string/hai_xin}'
+            app:layout_constraintEnd_toEndOf="@id/tv_scheme_amount_unit"
+            app:layout_constraintStart_toStartOf="@id/et_scheme_amount"
+            app:layout_constraintTop_toBottomOf="@id/et_scheme_amount"
+            tools:text="5000海星" />
+
+        <View
+            android:id="@+id/view_cut_off2"
+            style="@style/DividingStyle"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@id/tv_scheme_amount_haixin"
+            app:layout_constraintStart_toStartOf="@id/tv_scheme_amount_haixin"
+            app:layout_constraintTop_toBottomOf="@id/tv_scheme_amount_haixin" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_scheme_give_title"
+            style="@style/Font_16_333333"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/reward_amount"
+            app:layout_constraintEnd_toEndOf="@id/tv_scheme_amount_haixin"
+            app:layout_constraintStart_toStartOf="@id/tv_scheme_amount_haixin"
+            app:layout_constraintTop_toBottomOf="@id/view_cut_off2" />
+
+        <com.yunshang.haile_manager_android.ui.view.AmountEditText
+            android:id="@+id/et_scheme_give"
+            style="@style/Font_16_333333_cccccc"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:background="@color/transparent"
+            android:hint="@string/please_input"
+            app:layout_constraintEnd_toEndOf="@id/tv_scheme_give_title"
+            app:layout_constraintEnd_toStartOf="@id/tv_scheme_give_unit"
+            app:layout_constraintStart_toStartOf="@id/tv_scheme_give_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_scheme_give_title"
+            tools:text="500" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_scheme_give_unit"
+            style="@style/Font_16_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/unit_yuan"
+            app:layout_constraintBottom_toBottomOf="@id/et_scheme_give"
+            app:layout_constraintEnd_toEndOf="@id/tv_scheme_give_title"
+            app:layout_constraintStart_toEndOf="@id/et_scheme_give"
+            app:layout_constraintTop_toTopOf="@id/et_scheme_give" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_scheme_give_haixin"
+            style="@style/Font_12_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text='@{item.reward + @string/hai_xin}'
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_scheme_give_unit"
+            app:layout_constraintStart_toStartOf="@id/et_scheme_give"
+            app:layout_constraintTop_toBottomOf="@id/et_scheme_give"
+            tools:text="5000海星" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_scheme_config"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{0 == item.status?View.VISIBLE:View.GONE}"
+            app:constraint_referenced_ids="view_cut_off1,view_cut_off2,tv_scheme_amount_title,et_scheme_amount,tv_scheme_amount_unit,tv_scheme_amount_haixin,tv_scheme_give_title,et_scheme_give,tv_scheme_give_unit,tv_scheme_give_haixin" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

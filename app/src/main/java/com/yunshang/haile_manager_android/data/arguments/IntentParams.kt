@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
 import com.yunshang.haile_manager_android.data.entities.RealNameAuthDetailEntity
+import com.yunshang.haile_manager_android.data.entities.SchemeConfigsDetailEntity
 
 /**
  * Title :
@@ -30,6 +31,25 @@ object IntentParams {
 
         fun parseId(intent: Intent): Int = intent.getIntExtra(ID, -1)
     }
+
+
+    object ShopParams {
+        private const val ShopId = "shopId"
+        private const val ShopName = "shopName"
+
+        /**
+         * 包装参数
+         */
+        fun pack(shopId: Int, shopName: String): Bundle = Bundle().apply {
+            putInt(ShopId, shopId)
+            putString(ShopName, shopName)
+        }
+
+        fun parseShopId(intent: Intent): Int = intent.getIntExtra(ShopId, -1)
+
+        fun parseShopName(intent: Intent): String? = intent.getStringExtra(ShopName)
+    }
+
 
     object WalletParams {
         private const val RealNameAuthStatus = "realNameAuthStatus"
@@ -107,5 +127,4 @@ object IntentParams {
         fun parseVersionInfo(intent: Intent): AppVersionEntity? =
             GsonUtils.json2Class(intent.getStringExtra(VERSIONINFO), AppVersionEntity::class.java)
     }
-
 }

@@ -1,13 +1,18 @@
 package com.yunshang.haile_manager_android.utils
 
+import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
+import android.widget.Toast
 import com.lsy.framelib.data.constants.Constants
-import com.yunshang.haile_manager_android.data.model.OnDownloadProgressListener
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.io.BufferedInputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
+import com.lsy.framelib.utils.SToast
+import com.yunshang.haile_manager_android.R
+import java.io.*
 
 /**
  * Title :
@@ -58,5 +63,35 @@ object FileUtils {
             }
         }
         return null
+    }
+
+    fun saveImageToGallery(context: Context, bmp: Bitmap) {
+        val values = ContentValues().apply {
+            //设置文件的 MimeType
+            put(MediaStore.Images.Media.MIME_TYPE, "image/png")
+            //指定保存的文件名，
+            put(MediaStore.Images.Media.DISPLAY_NAME, "${System.currentTimeMillis()}.jpg")
+            //指定保存的文件目录,如果不设置这个值，则会被默认保存到对应的媒体类型的文件夹下，
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+            } else {
+                put(
+                    MediaStore.MediaColumns.DATA,
+                    "${Environment.getExternalStorageDirectory().path}${File.separator}${Environment.DIRECTORY_DCIM}${File.separator}${System.currentTimeMillis()}.png"
+                )
+            }
+
+        }
+        //插入文件数据库并获取到文件的Uri
+        val insertUri =
+            context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+
+        insertUri?.let {
+            //通过outputStream将图片文件内容写入Url
+            context.contentResolver.openOutputStream(it).use { outputStream ->
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+            }
+        }
+        SToast.showToast(context, R.string.success_album_hint)
     }
 }

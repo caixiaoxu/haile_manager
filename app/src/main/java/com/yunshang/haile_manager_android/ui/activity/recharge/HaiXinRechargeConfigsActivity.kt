@@ -1,23 +1,43 @@
 package com.yunshang.haile_manager_android.ui.activity.recharge
 
+import android.Manifest
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.view.View
 import android.widget.LinearLayout
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.HaiXinRechargeConfigsViewModel
 import com.yunshang.haile_manager_android.databinding.ActivityHaixinRechargeConfigsBinding
 import com.yunshang.haile_manager_android.databinding.IncludePersonalItemBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.view.dialog.SharedBottomDialog
+import com.yunshang.haile_manager_android.utils.FileUtils
+import com.yunshang.haile_manager_android.utils.QrcodeUtils
+import com.yunshang.haile_manager_android.utils.WeChatHelper
+
 
 class HaiXinRechargeConfigsActivity :
     BaseBusinessActivity<ActivityHaixinRechargeConfigsBinding, HaiXinRechargeConfigsViewModel>(
         HaiXinRechargeConfigsViewModel::class.java, BR.vm
     ) {
+
+    // 权限
+    private val requestPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
+            if (result) {
+                showRefundQrCode()
+            } else {
+                SToast.showToast(this, R.string.empty_permission)
+            }
+        }
+
     override fun layoutId(): Int = R.layout.activity_haixin_recharge_configs
 
     override fun backBtn(): View = mBinding.barHaixinRechargeTitle.getBackBtn()
@@ -36,7 +56,7 @@ class HaiXinRechargeConfigsActivity :
                 group = createItemGroup()
             } else {
                 // 如果不显示，跳转
-                if (!item.isShow){
+                if (!item.isShow) {
                     continue
                 }
                 // 不为空，加载子布局加入group
@@ -51,12 +71,20 @@ class HaiXinRechargeConfigsActivity :
                 mPersonalItemBinding.lifecycleOwner = this
                 mPersonalItemBinding.item = item
                 mPersonalItemBinding.root.setOnClickListener {
-                    item.clz?.let {
-                        startActivity(Intent(this@HaiXinRechargeConfigsActivity, item.clz).apply {
-                            item.bundle?.let { bundle ->
-                                putExtras(bundle)
-                            }
-                        })
+                    if (item.icon == R.mipmap.icon_refund_qrcode_main) {
+                        requestPermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    } else {
+                        item.clz?.let {
+                            startActivity(
+                                Intent(
+                                    this@HaiXinRechargeConfigsActivity,
+                                    item.clz
+                                ).apply {
+                                    item.bundle?.let { bundle ->
+                                        putExtras(bundle)
+                                    }
+                                })
+                        }
                     }
                 }
 
@@ -98,6 +126,40 @@ class HaiXinRechargeConfigsActivity :
         ).apply {
             setMargins(0, 0, 0, DimensionUtils.dip2px(this@HaiXinRechargeConfigsActivity, 8f))
         }
+    }
+
+    private fun showRefundQrCode() {
+        SharedBottomDialog() {
+            if (mViewModel.refundQrCode.isNotEmpty()) {
+                val bitmap: Bitmap = QrcodeUtils.createQRCodeBitmap(
+                    mViewModel.refundQrCode,
+                    300, 300, "UTF-8", "M", "0", Color.parseColor("#000000"),
+                    Color.parseColor("#FFFFFF")
+                )
+                when (it) {
+                    SharedBottomDialog.SHARED_ALBUM ->                         // 保存到相册
+                        try {
+                            FileUtils.saveImageToGallery(
+                                this@HaiXinRechargeConfigsActivity,
+                                bitmap
+                            )
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    SharedBottomDialog.SHARED_WX -> {
+                        if (!WeChatHelper.isWxInstall) {
+                            SToast.showToast(
+                                this@HaiXinRechargeConfigsActivity,
+                                R.string.err_not_install_wechat
+                            )
+                            return@SharedBottomDialog
+                        }
+                        // 分享到微信
+                        WeChatHelper.openWeChatImgShare(bitmap)
+                    }
+                }
+            }
+        }.show(supportFragmentManager, "shared_dialog")
     }
 
     override fun initData() {

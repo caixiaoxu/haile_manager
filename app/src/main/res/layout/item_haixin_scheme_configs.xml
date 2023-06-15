@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.HaixinSchemeConfigEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="16dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_scheme_configs_title"
+            style="@style/Font_16_333333_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{item.configName}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_default="wrap"
+            tools:text="充500送20方案" />
+
+        <com.yunshang.haile_manager_android.ui.view.MultiTypeTextView
+            android:id="@+id/tv_scheme_configs_status"
+            style="@style/Font_10_f0a258"
+            bgResIds="@{item.multiTypeBgRes}"
+            txtColors="@{item.multiTypeTxtColors}"
+            type="@{item.multiType}"
+            android:text="@{item.statusVal}"
+            android:layout_marginStart="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="2dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_scheme_configs_title"
+            app:layout_constraintEnd_toStartOf="@id/iv_scheme_configs_right"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/tv_scheme_configs_title"
+            app:layout_constraintTop_toTopOf="@id/tv_scheme_configs_title"
+            tools:text="已启用" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_scheme_configs_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_arrow_right_with_padding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_scheme_configs_shop"
+            style="@style/Font_14_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{item.shopName}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_scheme_configs_title"
+            tools:text="浙大紫金港校区3区4号店铺" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

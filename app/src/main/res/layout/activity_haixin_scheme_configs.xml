@@ -3,20 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-    </data>
+    <data></data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="@color/page_bg"
+        android:orientation="vertical"
         tools:context=".ui.activity.HaiXinRechargeActivity">
 
         <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_haixin_scheme_configs_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
-            android:background="@drawable/shape_bottom_stroke_dividing"/>
+            app:rightModel="text"
+            app:title="@string/scheme_config"
+            android:background="@drawable/shape_bottom_stroke_dividing" />
+
+        <com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+            android:id="@+id/rv_haixin_scheme_configs_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
     </LinearLayout>
 </layout>

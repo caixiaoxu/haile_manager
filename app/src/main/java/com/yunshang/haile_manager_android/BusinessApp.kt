@@ -8,6 +8,7 @@ import com.lsy.framelib.network.interceptors.ResponseInterceptor
 import com.lsy.framelib.ui.base.BaseApp
 import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.log.CrashReportingTree
+import com.yunshang.haile_manager_android.utils.WeChatHelper
 import timber.log.Timber
 
 
@@ -27,6 +28,7 @@ class BusinessApp : BaseApp() {
         super.onCreate()
         initLog()
         initNetwork()
+        initWechat()
     }
 
     fun initNetwork() {
@@ -67,4 +69,10 @@ class BusinessApp : BaseApp() {
         Timber.plant(if (BuildConfig.DEBUG) Timber.DebugTree() else CrashReportingTree())
     }
 
+    /**
+     * 初始化微信
+     */
+    fun initWechat() {
+        WeChatHelper.init(this)
+    }
 }

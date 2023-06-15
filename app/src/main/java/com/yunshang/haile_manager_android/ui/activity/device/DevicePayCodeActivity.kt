@@ -34,7 +34,7 @@ class DevicePayCodeActivity : BaseBindingActivity<ActivityDevicePayCodeBinding>(
                 save()
             } else {
                 // 授权失败
-                SToast.showToast(this, "需要授权才可保存")
+                SToast.showToast(this, R.string.empty_permission)
             }
         }
 

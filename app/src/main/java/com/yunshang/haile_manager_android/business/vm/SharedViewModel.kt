@@ -131,6 +131,13 @@ class SharedViewModel : ViewModel() {
     val hasMarketingDeletePermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasMarketingDeletePermission() }
     /** ---------------------折扣权限------------------------- **/
+    /** ---------------------充值权限------------------------- **/
+    val hasVipUpdatePermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasVipUpdatePermission() }
+    val hasVipDeletePermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasVipDeletePermission() }
+    /** ---------------------充值权限------------------------- **/
+
     /** ---------------------分账权限------------------------- **/
     val hasDistributionPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasDistributionPermission() }

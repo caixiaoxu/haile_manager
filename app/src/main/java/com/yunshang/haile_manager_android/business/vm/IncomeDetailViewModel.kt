@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.business.vm
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
+import com.yunshang.haile_manager_android.business.apiService.HaiXinService
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.data.rule.IIncomeDetailEntity
 
@@ -18,7 +19,9 @@ import com.yunshang.haile_manager_android.data.rule.IIncomeDetailEntity
  */
 class IncomeDetailViewModel : BaseViewModel() {
     private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
-    var detailType:Int = 0 // 0收入、1海星
+    private val mHaiXinRepo = ApiRepository.apiClient(HaiXinService::class.java)
+
+    var detailType: Int = 0 // 0收入、1海星
     var incomeId: Int = -1
     var orderNo: String? = null
 
@@ -27,14 +30,14 @@ class IncomeDetailViewModel : BaseViewModel() {
     }
 
     fun requestData() {
-        if (1 == detailType){
+        if (1 == detailType) {
             requestReChargeDetailData()
         } else {
             requestIncomeDetailData()
         }
     }
 
-    fun requestIncomeDetailData(){
+    fun requestIncomeDetailData() {
         if (-1 == incomeId) return
         launch({
             ApiRepository.dealApiResult(
@@ -45,12 +48,12 @@ class IncomeDetailViewModel : BaseViewModel() {
         })
     }
 
-    fun requestReChargeDetailData(){
-        if (orderNo.isNullOrEmpty()) return
+    fun requestReChargeDetailData() {
+        if (orderNo.isNullOrEmpty() && -1 == incomeId) return
         launch({
             ApiRepository.dealApiResult(
-                mCapitalRepo.rechargeDetail(
-                    orderNo!!,
+                mHaiXinRepo.rechargeDetail(
+                    orderNo,
                     if (-1 == incomeId) null else incomeId
                 )
             )?.let {

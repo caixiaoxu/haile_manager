@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.yunshang.haile_manager_android.R" />
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.HaixinRechargeEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_haixin_recharge_month"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/page_bg"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2024年1月" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_haixin_recharge_amount_title"
+            style="@style/Font_14_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:paddingBottom="8dp"
+            android:text='@{@string/recharge_amount+"："}'
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_haixin_recharge_month"
+            tools:text="充值金额：" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_haixin_recharge_amount"
+            style="@style/Font_14_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_haixin_recharge_amount_title"
+            app:layout_constraintStart_toEndOf="@id/tv_haixin_recharge_amount_title"
+            app:layout_constraintTop_toTopOf="@id/tv_haixin_recharge_amount_title"
+            tools:text="100元" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_haixin_recharge_haixin_title"
+            style="@style/Font_14_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="12dp"
+            android:text='@{@string/recharge_amount+"："}'
+            app:layout_constraintBottom_toBottomOf="@id/tv_haixin_recharge_amount_title"
+            app:layout_constraintStart_toEndOf="@id/tv_haixin_recharge_amount"
+            app:layout_constraintTop_toTopOf="@id/tv_haixin_recharge_amount_title"
+            tools:text="充值金额：" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_haixin_recharge_haixin"
+            style="@style/Font_14_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_haixin_recharge_amount_title"
+            app:layout_constraintStart_toEndOf="@id/tv_haixin_recharge_haixin_title"
+            app:layout_constraintTop_toTopOf="@id/tv_haixin_recharge_amount_title"
+            tools:text="100个" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_item_month"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:constraint_referenced_ids="tv_haixin_recharge_month,tv_haixin_recharge_amount_title,tv_haixin_recharge_amount,tv_haixin_recharge_haixin_title,tv_haixin_recharge_haixin" />
+
+        <View
+            android:id="@+id/view_item_haixin_recharge_parent"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/tv_haixin_recharge_amount_title" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_item_haixin_recharge_main"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="12dp"
+            android:src="@mipmap/icon_haixin_recharge_list_main"
+            app:layout_constraintBottom_toBottomOf="@id/view_item_haixin_recharge_parent"
+            app:layout_constraintStart_toStartOf="@id/view_item_haixin_recharge_parent"
+            app:layout_constraintTop_toTopOf="@id/view_item_haixin_recharge_parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_item_haixin_recharge_title"
+            style="@style/Font_14_333333"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@{item.account}"
+            app:layout_constraintBottom_toTopOf="@id/tv_item_haixin_recharge_time"
+            app:layout_constraintEnd_toStartOf="@id/tv_item_haixin_recharge_amount"
+            app:layout_constraintStart_toEndOf="@id/iv_item_haixin_recharge_main"
+            app:layout_constraintTop_toTopOf="@id/iv_item_haixin_recharge_main"
+            tools:text="157575757" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_item_haixin_recharge_time"
+            style="@style/Font_12_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{item.timeStr}"
+            app:layout_constraintBottom_toBottomOf="@id/iv_item_haixin_recharge_main"
+            app:layout_constraintStart_toStartOf="@id/tv_item_haixin_recharge_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_haixin_recharge_title"
+            tools:text="1/11 12:10:33" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_item_haixin_recharge_amount"
+            style="@style/Font_16_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/money"
+            android:text="@{item.amountStr}"
+            app:layout_constraintBottom_toTopOf="@id/tv_item_haixin_recharge_balance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_item_haixin_recharge_title"
+            tools:text="+80.00" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_item_haixin_recharge_balance"
+            style="@style/Font_12_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{@string/hai_xin + " " + item.tokenCoinAmount}'
+            app:layout_constraintBottom_toBottomOf="@id/tv_item_haixin_recharge_time"
+            app:layout_constraintEnd_toEndOf="@id/tv_item_haixin_recharge_amount"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_haixin_recharge_amount"
+            tools:text="余额 2240.00" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_item_balance"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:constraint_referenced_ids="iv_item_haixin_recharge_main,tv_item_haixin_recharge_title,tv_item_haixin_recharge_time,tv_item_haixin_recharge_amount,tv_item_haixin_recharge_balance" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_item_haixin_recharge_empty"
+            style="@style/Font_16_333333"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@string/month_empty_date"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/view_item_haixin_recharge_parent"
+            app:layout_constraintEnd_toEndOf="@id/view_item_haixin_recharge_parent"
+            app:layout_constraintStart_toStartOf="@id/view_item_haixin_recharge_parent"
+            app:layout_constraintTop_toTopOf="@id/view_item_haixin_recharge_parent" />
+
+        <View
+            style="@style/DividingStyle"
+            app:layout_constraintBottom_toBottomOf="@id/view_item_haixin_recharge_parent"
+            tools:ignore="MissingConstraints" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

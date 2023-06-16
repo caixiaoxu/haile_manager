@@ -96,7 +96,7 @@ class MainActivity :
                 showUpdateDialog(it, true)
                 return@checkVersion
             } else if (it.needUpdate
-//                && !DateTimeUtils.isSameDay(Date(SPRepository.checkUpdateTime), Date())
+                && !DateTimeUtils.isSameDay(Date(SPRepository.checkUpdateTime), Date())
             ) {
                 // 非强制更新并有更新,每天一次
                 showUpdateDialog(it, false)

@@ -24,7 +24,6 @@ class BalanceViewModel : BaseViewModel() {
     private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
 
     var searchDate: Date = Date()
-
     fun requestBalanceList(
         page: Int,
         pageSize: Int,
@@ -44,6 +43,5 @@ class BalanceViewModel : BaseViewModel() {
                 }
             }
         })
-
     }
 }

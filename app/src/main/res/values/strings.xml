@@ -167,6 +167,7 @@
     <string name="appointment_status">预约状态</string>
     <string name="appointment_setting">预约设置</string>
     <string name="copy_phone">复制手机号</string>
+    <string name="copy_success">已复制到贴粘板</string>
     <string name="search_shop_hint">请输入店铺名称</string>
     <string name="shop_delete_hint">是否确定要删除该店铺么？</string>
 
@@ -267,6 +268,7 @@
     <string name="empty_scheme_name">请输入方案名称</string>
     <string name="empty_scheme_shop">请选择适用门店</string>
     <string name="empty_scheme_list">至少开启一个方案，并输入金额 </string>
+    <string name="recharge_detail">充值明细</string>
 
     <string name="home_capital_title">资金管理</string>
     <string name="sub_account_manager">分账管理</string>
@@ -430,6 +432,7 @@
     <string name="unit_yuan">元</string>
     <string name="unit_tai">台</string>
     <string name="unit_folds">折</string>
+    <string name="unit_ge">个</string>
     <string name="num_folds">%1$s折</string>
     <string name="unit_minute_hint">（分）</string>
     <string name="unit_yuan_hint">（元）</string>

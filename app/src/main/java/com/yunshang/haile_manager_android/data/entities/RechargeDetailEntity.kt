@@ -33,7 +33,7 @@ data class RechargeDetailEntity(
 ) : IIncomeDetailEntity {
 
     override fun mainRes(): Int =
-        if (100 == type) R.mipmap.icon_income_main else R.mipmap.icon_expend_main
+        if (100 == type) R.mipmap.icon_haixin_recharge_list_main else R.mipmap.icon_expend_main
 
     override fun getTotalStr(): String = (if (100 == type) amount else -amount).toString()
 

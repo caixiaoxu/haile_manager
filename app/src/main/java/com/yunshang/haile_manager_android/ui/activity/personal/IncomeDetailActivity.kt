@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.ui.activity.personal
 
+import android.content.ClipboardManager
 import android.view.View
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
@@ -42,6 +43,12 @@ class IncomeDetailActivity :
                     childBinding.title = data.title
                     childBinding.value = data.value
                     childBinding.canCopy = data.canCopy
+
+                    if (data.canCopy) {
+                        childBinding.tvItemIncomeDetailCopy.setOnClickListener {
+                            com.yunshang.haile_manager_android.utils.StringUtils.copyToShear(data.value)
+                        }
+                    }
                 }
             }
         }

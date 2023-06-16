@@ -2,9 +2,7 @@ package com.yunshang.haile_manager_android.business.apiService
 
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
-import com.yunshang.haile_manager_android.data.entities.HaiXinTotalEntity
-import com.yunshang.haile_manager_android.data.entities.HaixinSchemeConfigEntity
-import com.yunshang.haile_manager_android.data.entities.SchemeConfigsDetailEntity
+import com.yunshang.haile_manager_android.data.entities.*
 import okhttp3.RequestBody
 import retrofit2.http.*
 
@@ -79,4 +77,19 @@ interface HaiXinService {
      */
     @POST("/starfish/shopConfig/update")
     suspend fun updateSchemeConfig(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 充值明细接口
+     */
+    @POST("/starfish/getStarFishTradeListVOList")
+    suspend fun requestHaiXinRechargeList(@Body params: RequestBody): ResponseWrapper<ResponseList<HaixinRechargeEntity>>
+
+    /**
+     * 充值详情接口
+     */
+    @GET("/starfish/getStarFishLogVO")
+    suspend fun rechargeDetail(
+        @Query("orderNo") orderNo: String? = null,
+        @Query("id") id: Int? = null
+    ): ResponseWrapper<RechargeDetailEntity>
 }

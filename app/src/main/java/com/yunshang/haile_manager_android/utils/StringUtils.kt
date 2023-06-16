@@ -11,6 +11,7 @@ import android.text.style.AbsoluteSizeSpan
 import com.lsy.framelib.data.constants.Constants
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
+import com.yunshang.haile_manager_android.R
 import java.io.UnsupportedEncodingException
 import java.text.DecimalFormat
 import java.util.regex.Pattern
@@ -203,7 +204,7 @@ object StringUtils {
         (Constants.APP_CONTEXT.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(
             ClipData.newPlainText(null, text)
         )
-        SToast.showToast(msg = "复制成功")
+        SToast.showToast(msgResId = R.string.copy_success)
     }
 
     /**

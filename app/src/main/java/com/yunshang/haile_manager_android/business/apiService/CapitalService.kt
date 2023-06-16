@@ -51,14 +51,6 @@ interface CapitalService {
     @GET("/profit/profitDetail")
     suspend fun incomeDetail(@Query("id") id: Int): ResponseWrapper<IncomeDetailEntity>
 
-    /**
-     * 充值详情接口
-     */
-    @GET("/starfish/getStarFishLogVO")
-    suspend fun rechargeDetail(
-        @Query("orderNo") orderNo: String,
-        @Query("id") id: Int? = null
-    ): ResponseWrapper<RechargeDetailEntity>
 
     /**
      * 首页收益趋势接口

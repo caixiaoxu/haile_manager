@@ -92,4 +92,11 @@ interface HaiXinService {
         @Query("orderNo") orderNo: String? = null,
         @Query("id") id: Int? = null
     ): ResponseWrapper<RechargeDetailEntity>
+
+    /**
+     * 充值用户列表接口
+     */
+    @POST("/starfish/getUserStarFishListVO")
+    suspend fun requestRechargeAccountsList(@Body params: RequestBody): ResponseWrapper<ResponseList<HaixinRechargeAccountEntity>>
+
 }

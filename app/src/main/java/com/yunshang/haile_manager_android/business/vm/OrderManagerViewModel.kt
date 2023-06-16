@@ -48,9 +48,9 @@ class OrderManagerViewModel : BaseViewModel() {
         MutableLiveData(Date())
     }
 
-    // 是否可提交
+    // 时间区间
     val timeStr: MediatorLiveData<String> =
-        MediatorLiveData<String>(StringUtils.getString(R.string.order_time)).apply {
+        MediatorLiveData(StringUtils.getString(R.string.order_time)).apply {
             addSource(startTime) {
                 value = timeFormat()
             }

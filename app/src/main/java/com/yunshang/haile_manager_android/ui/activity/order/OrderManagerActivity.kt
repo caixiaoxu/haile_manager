@@ -203,7 +203,6 @@ class OrderManagerActivity :
             })
         }
         mBinding.tvOrderCategoryTime.setOnClickListener {
-
             dateDialog.show(
                 supportFragmentManager,
                 mViewModel.startTime.value,
@@ -235,7 +234,7 @@ class OrderManagerActivity :
                 this,
                 DividerItemDecoration.VERTICAL
             ).apply {
-                ResourcesCompat.getDrawable(resources, R.drawable.shape_height_8, null)?.let {
+                ResourcesCompat.getDrawable(resources, R.drawable.divide_size8, null)?.let {
                     setDrawable(it)
                 }
             })

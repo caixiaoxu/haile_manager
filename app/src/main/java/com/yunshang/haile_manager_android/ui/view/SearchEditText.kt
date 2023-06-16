@@ -33,6 +33,9 @@ class SearchEditText @JvmOverloads constructor(
         isSingleLine = true
         imeOptions = EditorInfo.IME_ACTION_SEARCH
 
+        isFocusable = true
+        isFocusableInTouchMode = true
+
         addTextChangedListener {
             mHandler.removeMessages(0)
             mHandler.sendEmptyMessageDelayed(0, 600)

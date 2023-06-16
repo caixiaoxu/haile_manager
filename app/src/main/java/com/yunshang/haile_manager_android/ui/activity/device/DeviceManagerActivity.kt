@@ -23,7 +23,7 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.DeviceManagerViewModel
-import com.yunshang.haile_manager_android.business.vm.SearchSelectRadioViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.arguments.SearchType
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
@@ -56,15 +56,15 @@ class DeviceManagerActivity :
     private val startSearchSelect =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             it.data?.let { intent ->
-                intent.getStringExtra(SearchSelectRadioActivity.ResultData)?.let { json ->
+                intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)?.let { json ->
 
                     GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
                         if (selected.isNotEmpty()) {
                             when (it.resultCode) {
-                                SearchSelectRadioActivity.ShopResultCode -> {
+                                IntentParams.SearchSelectTypeParam.ShopResultCode -> {
                                     mViewModel.selectDepartment.value = selected[0]
                                 }
-                                SearchSelectRadioActivity.DeviceModelResultCode -> {
+                                IntentParams.SearchSelectTypeParam.DeviceModelResultCode -> {
                                     mViewModel.selectDeviceModel.value = selected[0]
                                 }
                             }
@@ -175,10 +175,7 @@ class DeviceManagerActivity :
                     this@DeviceManagerActivity,
                     SearchSelectRadioActivity::class.java
                 ).apply {
-                    putExtra(
-                        SearchSelectRadioActivity.SearchSelectType,
-                        SearchSelectRadioViewModel.SearchSelectTypeShop
-                    )
+                    putExtras(IntentParams.SearchSelectTypeParam.pack(IntentParams.SearchSelectTypeParam.SearchSelectTypeShop))
                 }
             )
         }
@@ -197,13 +194,11 @@ class DeviceManagerActivity :
                     this@DeviceManagerActivity,
                     SearchSelectRadioActivity::class.java
                 ).apply {
-                    putExtra(
-                        SearchSelectRadioActivity.SearchSelectType,
-                        SearchSelectRadioViewModel.SearchSelectTypeDeviceModel
-                    )
-                    putExtra(
-                        SearchSelectRadioActivity.CategoryId,
-                        mViewModel.selectDeviceCategory.value?.id ?: -1
+                    putExtras(
+                        IntentParams.SearchSelectTypeParam.pack(
+                            IntentParams.SearchSelectTypeParam.SearchSelectTypeDeviceModel,
+                            mViewModel.selectDeviceCategory.value?.id ?: -1
+                        )
                     )
                 }
             )

@@ -15,8 +15,8 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DeviceCreateViewModel
-import com.yunshang.haile_manager_android.business.vm.SearchSelectRadioViewModel
 import com.yunshang.haile_manager_android.data.arguments.DeviceCategory
+import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceCreateBinding
@@ -65,8 +65,8 @@ class DeviceCreateActivity :
     private val startNext =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
-                SearchSelectRadioActivity.ShopResultCode -> {
-                    result.data?.getStringExtra(SearchSelectRadioActivity.ResultData)?.let { json ->
+                SearchSelectTypeParam.ShopResultCode -> {
+                    result.data?.getStringExtra(SearchSelectTypeParam.ResultData)?.let { json ->
                         GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
                             if (selected.isNotEmpty()) {
                                 mViewModel.createDeviceShop.value = selected[0]
@@ -133,10 +133,7 @@ class DeviceCreateActivity :
                 this@DeviceCreateActivity,
                 SearchSelectRadioActivity::class.java
             ).apply {
-                putExtra(
-                    SearchSelectRadioActivity.SearchSelectType,
-                    SearchSelectRadioViewModel.SearchSelectTypeShop
-                )
+                putExtras(putExtras(SearchSelectTypeParam.pack(SearchSelectTypeParam.SearchSelectTypeShop)))
             })
         }
 

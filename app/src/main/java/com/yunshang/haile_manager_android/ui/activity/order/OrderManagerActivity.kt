@@ -20,7 +20,7 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.OrderManagerViewModel
-import com.yunshang.haile_manager_android.business.vm.SearchSelectRadioViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.arguments.SearchType
 import com.yunshang.haile_manager_android.data.entities.OrderListEntity
@@ -44,18 +44,21 @@ import timber.log.Timber
 import java.util.*
 
 class OrderManagerActivity :
-    BaseBusinessActivity<ActivityOrderManagerBinding, OrderManagerViewModel>(OrderManagerViewModel::class.java,BR.vm) {
+    BaseBusinessActivity<ActivityOrderManagerBinding, OrderManagerViewModel>(
+        OrderManagerViewModel::class.java,
+        BR.vm
+    ) {
 
     // 搜索选择界面
     private val startSearchSelect =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             it.data?.let { intent ->
-                intent.getStringExtra(SearchSelectRadioActivity.ResultData)?.let { json ->
+                intent.getStringExtra(SearchSelectTypeParam.ResultData)?.let { json ->
 
                     GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
                         if (selected.isNotEmpty()) {
                             when (it.resultCode) {
-                                SearchSelectRadioActivity.ShopResultCode -> {
+                                SearchSelectTypeParam.ShopResultCode -> {
                                     mViewModel.selectDepartment.value = selected[0]
                                 }
                             }
@@ -215,10 +218,7 @@ class OrderManagerActivity :
                     this@OrderManagerActivity,
                     SearchSelectRadioActivity::class.java
                 ).apply {
-                    putExtra(
-                        SearchSelectRadioActivity.SearchSelectType,
-                        SearchSelectRadioViewModel.SearchSelectTypeShop
-                    )
+                    putExtras(SearchSelectTypeParam.pack(SearchSelectTypeParam.SearchSelectTypeShop))
                 }
             )
         }

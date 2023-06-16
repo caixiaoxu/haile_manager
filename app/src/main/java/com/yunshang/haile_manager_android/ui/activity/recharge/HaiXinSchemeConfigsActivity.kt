@@ -7,9 +7,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.HaiXinSchemeConfigsViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.HaixinSchemeConfigEntity
@@ -42,6 +44,19 @@ class HaiXinSchemeConfigsActivity :
                     })
             }
         }
+    }
+
+    override fun initEvent() {
+        super.initEvent()
+        // 监听列表变化
+        LiveDataBus.with(BusEvents.HAIXIN_SCHEME_LIST_STATUS)?.observe(this) {
+            mBinding.rvHaixinSchemeConfigsList.requestRefresh()
+        }
+        // 监听删除
+        LiveDataBus.with(BusEvents.HAIXIN_SCHEME_LIST_ITEM_DELETE_STATUS, Int::class.java)
+            ?.observe(this) {
+                adapter.deleteItem { item -> item.id == it }
+            }
     }
 
     override fun initView() {

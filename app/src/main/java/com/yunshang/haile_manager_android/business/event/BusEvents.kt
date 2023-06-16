@@ -32,4 +32,7 @@ object BusEvents {
     const val BIND_WITHDRAW_ACCOUNT_STATUS = "bind_withdraw_account_status"
     const val BALANCE_STATUS = "balance_status"
     const val WXPAY_STATUS = "wxpay_status"
+    const val HAIXIN_SCHEME_LIST_STATUS = "haixin_scheme_list_change"
+    const val HAIXIN_SCHEME_DETAIL_STATUS = "haixin_scheme_detail_change"
+    const val HAIXIN_SCHEME_LIST_ITEM_DELETE_STATUS = "haixin_scheme_list_item_delete"
 }

@@ -40,7 +40,6 @@
             android:id="@+id/switch_scheme_detail_open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:checked="@{0 == item.status}"
             android:onCheckedChanged="@{(v,isCheck)->item.switchSchemeOpen(isCheck)}"
             android:thumb="@drawable/selector_default_switch_thumb"
@@ -57,7 +56,7 @@
             app:layout_constraintStart_toStartOf="@id/tv_scheme_create_title" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_scheme_amount_title"
+            android:id="@+id/tv_scheme_reach_title"
             style="@style/Font_16_333333"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -68,96 +67,96 @@
             app:layout_constraintTop_toBottomOf="@id/tv_scheme_create_title" />
 
         <com.yunshang.haile_manager_android.ui.view.AmountEditText
-            android:id="@+id/et_scheme_amount"
+            android:id="@+id/et_scheme_reach"
             style="@style/Font_16_333333_cccccc"
             android:layout_width="0dp"
             android:layout_height="38dp"
             android:background="@color/transparent"
             android:hint="@string/please_input"
             android:text="@={item.reachVal}"
-            app:layout_constraintEnd_toEndOf="@id/tv_scheme_amount_title"
-            app:layout_constraintEnd_toStartOf="@id/tv_scheme_amount_unit"
-            app:layout_constraintStart_toStartOf="@id/tv_scheme_amount_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_scheme_amount_title"
+            app:layout_constraintEnd_toEndOf="@id/tv_scheme_reach_title"
+            app:layout_constraintEnd_toStartOf="@id/tv_scheme_reach_unit"
+            app:layout_constraintStart_toStartOf="@id/tv_scheme_reach_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_scheme_reach_title"
             tools:text="500" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_scheme_amount_unit"
+            android:id="@+id/tv_scheme_reach_unit"
             style="@style/Font_16_999999"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/unit_yuan"
-            app:layout_constraintBottom_toBottomOf="@id/et_scheme_amount"
-            app:layout_constraintEnd_toEndOf="@id/tv_scheme_amount_title"
-            app:layout_constraintStart_toEndOf="@id/et_scheme_amount"
-            app:layout_constraintTop_toTopOf="@id/et_scheme_amount" />
+            app:layout_constraintBottom_toBottomOf="@id/et_scheme_reach"
+            app:layout_constraintEnd_toEndOf="@id/tv_scheme_reach_title"
+            app:layout_constraintStart_toEndOf="@id/et_scheme_reach"
+            app:layout_constraintTop_toTopOf="@id/et_scheme_reach" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_scheme_amount_haixin"
+            android:id="@+id/tv_scheme_reach_haixin"
             style="@style/Font_12_999999"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text='@{item.reach + @string/hai_xin}'
-            app:layout_constraintEnd_toEndOf="@id/tv_scheme_amount_unit"
-            app:layout_constraintStart_toStartOf="@id/et_scheme_amount"
-            app:layout_constraintTop_toBottomOf="@id/et_scheme_amount"
+            app:layout_constraintEnd_toEndOf="@id/tv_scheme_reach_unit"
+            app:layout_constraintStart_toStartOf="@id/et_scheme_reach"
+            app:layout_constraintTop_toBottomOf="@id/et_scheme_reach"
             tools:text="5000海星" />
 
         <View
             android:id="@+id/view_cut_off2"
             style="@style/DividingStyle"
             android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="@id/tv_scheme_amount_haixin"
-            app:layout_constraintStart_toStartOf="@id/tv_scheme_amount_haixin"
-            app:layout_constraintTop_toBottomOf="@id/tv_scheme_amount_haixin" />
+            app:layout_constraintEnd_toEndOf="@id/tv_scheme_reach_haixin"
+            app:layout_constraintStart_toStartOf="@id/tv_scheme_reach_haixin"
+            app:layout_constraintTop_toBottomOf="@id/tv_scheme_reach_haixin" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_scheme_give_title"
+            android:id="@+id/tv_scheme_reward_title"
             style="@style/Font_16_333333"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/reward_amount"
-            app:layout_constraintEnd_toEndOf="@id/tv_scheme_amount_haixin"
-            app:layout_constraintStart_toStartOf="@id/tv_scheme_amount_haixin"
+            app:layout_constraintEnd_toEndOf="@id/tv_scheme_reach_haixin"
+            app:layout_constraintStart_toStartOf="@id/tv_scheme_reach_haixin"
             app:layout_constraintTop_toBottomOf="@id/view_cut_off2" />
 
         <com.yunshang.haile_manager_android.ui.view.AmountEditText
-            android:id="@+id/et_scheme_give"
+            android:id="@+id/et_scheme_reward"
             style="@style/Font_16_333333_cccccc"
             android:layout_width="0dp"
             android:layout_height="38dp"
             android:background="@color/transparent"
             android:hint="@string/please_input"
             android:text="@={item.rewardVal}"
-            app:layout_constraintEnd_toEndOf="@id/tv_scheme_give_title"
-            app:layout_constraintEnd_toStartOf="@id/tv_scheme_give_unit"
-            app:layout_constraintStart_toStartOf="@id/tv_scheme_give_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_scheme_give_title"
+            app:layout_constraintEnd_toEndOf="@id/tv_scheme_reward_title"
+            app:layout_constraintEnd_toStartOf="@id/tv_scheme_reward_unit"
+            app:layout_constraintStart_toStartOf="@id/tv_scheme_reward_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_scheme_reward_title"
             tools:text="500" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_scheme_give_unit"
+            android:id="@+id/tv_scheme_reward_unit"
             style="@style/Font_16_999999"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/unit_yuan"
-            app:layout_constraintBottom_toBottomOf="@id/et_scheme_give"
-            app:layout_constraintEnd_toEndOf="@id/tv_scheme_give_title"
-            app:layout_constraintStart_toEndOf="@id/et_scheme_give"
-            app:layout_constraintTop_toTopOf="@id/et_scheme_give" />
+            app:layout_constraintBottom_toBottomOf="@id/et_scheme_reward"
+            app:layout_constraintEnd_toEndOf="@id/tv_scheme_reward_title"
+            app:layout_constraintStart_toEndOf="@id/et_scheme_reward"
+            app:layout_constraintTop_toTopOf="@id/et_scheme_reward" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_scheme_give_haixin"
+            android:id="@+id/tv_scheme_reward_haixin"
             style="@style/Font_12_999999"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text='@{item.reward + @string/hai_xin}'
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/tv_scheme_give_unit"
-            app:layout_constraintStart_toStartOf="@id/et_scheme_give"
-            app:layout_constraintTop_toBottomOf="@id/et_scheme_give"
+            app:layout_constraintEnd_toEndOf="@id/tv_scheme_reward_unit"
+            app:layout_constraintStart_toStartOf="@id/et_scheme_reward"
+            app:layout_constraintTop_toBottomOf="@id/et_scheme_reward"
             tools:text="5000海星" />
 
         <androidx.constraintlayout.widget.Group
@@ -165,6 +164,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="@{0 == item.status?View.VISIBLE:View.GONE}"
-            app:constraint_referenced_ids="view_cut_off1,view_cut_off2,tv_scheme_amount_title,et_scheme_amount,tv_scheme_amount_unit,tv_scheme_amount_haixin,tv_scheme_give_title,et_scheme_give,tv_scheme_give_unit,tv_scheme_give_haixin" />
+            app:constraint_referenced_ids="view_cut_off1,view_cut_off2,tv_scheme_reach_title,et_scheme_reach,tv_scheme_reach_unit,tv_scheme_reach_haixin,tv_scheme_reward_title,et_scheme_reward,tv_scheme_reward_unit,tv_scheme_reward_haixin" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

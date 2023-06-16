@@ -18,11 +18,13 @@ data class HaixinSchemeConfigCreateParams(
     var balanceLimit: String? = null,
     var configName: String? = null,
     var discountProportion: Long? = null,
-    var isAllowRefund: Int = 1,
+    var isAllowRefund: Int = 0,
     var isForceUse: Int? = null,
     var operatorId: Int? = null,
     var rewards: List<RewardsConfig> = ArrayList(),
     var updateRewards: List<RewardsConfig> = ArrayList(),
-    var shopId: Int? = null
+    var shopId: Int? = null,
+    @Transient
+    var exchangeRate: Int = 1,
 ) : BaseObservable() {
 }

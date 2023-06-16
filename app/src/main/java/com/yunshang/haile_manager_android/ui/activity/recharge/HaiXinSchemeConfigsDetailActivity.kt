@@ -7,16 +7,19 @@ import android.graphics.Color
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.HaiXinSchemeConfigsDetailViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.RewardsConfig
 import com.yunshang.haile_manager_android.databinding.ActivityHaixinSchemeConfigsDetailBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopDetailAppointmentBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.SharedBottomDialog
 import com.yunshang.haile_manager_android.utils.FileUtils
 import com.yunshang.haile_manager_android.utils.QrcodeUtils
@@ -49,6 +52,15 @@ class HaiXinSchemeConfigsDetailActivity :
 
     override fun initEvent() {
         super.initEvent()
+        mViewModel.jump.observe(this) {
+            finish()
+        }
+
+        // 监听刷新
+        LiveDataBus.with(BusEvents.HAIXIN_SCHEME_DETAIL_STATUS)?.observe(this) {
+            mViewModel.requestSchemeDetailAsync()
+        }
+
         mViewModel.schemeDetail.observe(this) {
             it?.let { schemeDetail ->
 
@@ -73,7 +85,7 @@ class HaiXinSchemeConfigsDetailActivity :
                         }"
                     }
                     childBinding.tvShopDetailsAppointmentValue.text =
-                        StringUtils.getString(if (0 == data.status) R.string.no_configure else R.string.configured)
+                        StringUtils.getString(if (0 == data.status) R.string.configured else R.string.no_configure)
                     childBinding.tvShopDetailsAppointmentValue.setTextColor(
                         ResourcesCompat.getColor(
                             resources,
@@ -88,6 +100,11 @@ class HaiXinSchemeConfigsDetailActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+        mBinding.switchSchemeDetailOpen.setOnSwitchClickListener() {
+            mViewModel.switchSchemeOpen()
+            false
+        }
+
         mBinding.btnSchemeDetailRecharge.setOnClickListener {
             requestPermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
@@ -102,6 +119,15 @@ class HaiXinSchemeConfigsDetailActivity :
                     }
                 }
             )
+        }
+        mBinding.btnSchemeDetailDelete.setOnClickListener {
+            CommonDialog.Builder(StringUtils.getString(R.string.scheme_config_delete_hint)).apply {
+                negativeTxt = StringUtils.getString(R.string.cancel)
+                setPositiveButton(StringUtils.getString(R.string.delete)) {
+                    mViewModel.deleteScheme()
+                }
+            }.build()
+                .show(supportFragmentManager)
         }
     }
 

@@ -67,11 +67,18 @@ data class RewardsConfig(
     val shopTokenCoinId: Int? = null,
     var status: Int? = null
 ) {
+
     fun switchSchemeOpen(isCheck: Boolean) {
         status = if (isCheck) 0 else 1
+        isOpen.postValue(0 == status)
     }
 
+    @Transient
+    val isOpen: MutableLiveData<Boolean> = MutableLiveData()
+
+    @Transient
     val reachVal: MutableLiveData<String> = MutableLiveData()
 
+    @Transient
     val rewardVal: MutableLiveData<String> = MutableLiveData()
 }

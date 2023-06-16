@@ -3,9 +3,11 @@ package com.yunshang.haile_manager_android.data.arguments
 import android.content.Intent
 import android.os.Bundle
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.yunshang.haile_manager_android.business.vm.SearchSelectRadioViewModel
 import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
 import com.yunshang.haile_manager_android.data.entities.RealNameAuthDetailEntity
 import com.yunshang.haile_manager_android.data.entities.SchemeConfigsDetailEntity
+import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 
 /**
  * Title :
@@ -50,6 +52,35 @@ object IntentParams {
         fun parseShopName(intent: Intent): String? = intent.getStringExtra(ShopName)
     }
 
+    object SearchSelectTypeParam {
+        const val SearchSelectType = "searchSelectType"
+        const val StaffId = "staffId"
+        const val CategoryId = "categoryId"
+        const val ShopResultCode = 0x90001
+        const val DeviceModelResultCode = 0x90002
+        const val ResultData = "resultData"
+
+        const val SearchSelectTypeShop = 0
+        const val SearchSelectTypeDeviceModel = 1
+        const val SearchSelectTypeTakeChargeShop = 2
+        const val SearchSelectTypeRechargeShop = 4
+
+        fun pack(
+            searchSelectType: Int? = null,
+            categoryId: Int? = null,
+            staffId: Int? = null
+        ): Bundle = Bundle().apply {
+            searchSelectType?.let {
+                putInt(SearchSelectType, it)
+            }
+            categoryId?.let {
+                putInt(CategoryId, it)
+            }
+            staffId?.let {
+                putInt(StaffId, it)
+            }
+        }
+    }
 
     object WalletParams {
         private const val RealNameAuthStatus = "realNameAuthStatus"

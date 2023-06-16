@@ -89,13 +89,12 @@
                     app:layout_constraintStart_toStartOf="@id/tv_scheme_detail_title"
                     tools:text="已启用" />
 
-                <androidx.appcompat.widget.SwitchCompat
+                <com.yunshang.haile_manager_android.ui.view.ClickSwitchView
                     android:id="@+id/switch_scheme_detail_open"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:checked="@{!vm.schemeDetail.suspendFlag}"
-                    android:onCheckedChanged="@{(v,isCheck)->vm.switchSchemeOpen(isCheck)}"
                     android:thumb="@drawable/selector_default_switch_thumb"
                     android:visibility="@{shared.hasVipUpdatePermission?View.VISIBLE:View.GONE}"
                     app:layout_constraintBottom_toBottomOf="@id/iv_scheme_detail_main"

@@ -9,6 +9,7 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.SearchSelectRadioViewModel
 import com.yunshang.haile_manager_android.business.vm.SubAccountCreateViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.ShopBusinessTypeEntity
@@ -24,7 +25,10 @@ import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import java.util.*
 
 class SubAccountCreateActivity :
-    BaseBusinessActivity<ActivitySubAccountCreateBinding, SubAccountCreateViewModel>(SubAccountCreateViewModel::class.java,BR.vm) {
+    BaseBusinessActivity<ActivitySubAccountCreateBinding, SubAccountCreateViewModel>(
+        SubAccountCreateViewModel::class.java,
+        BR.vm
+    ) {
 
     companion object {
         const val UserId = "userId"
@@ -47,7 +51,7 @@ class SubAccountCreateActivity :
     // 搜索选择界面
     private val startShopSelectNext =
         ActivityManagerUtils.getActivityResultLauncher(this) { _, rData ->
-            rData?.getStringExtra(SearchSelectRadioActivity.ResultData)?.let { json ->
+            rData?.getStringExtra(SearchSelectTypeParam.ResultData)?.let { json ->
                 GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
                     if (selected.isNotEmpty()) {
                         mViewModel.subAccountShops.value = selected
@@ -139,10 +143,7 @@ class SubAccountCreateActivity :
                     this@SubAccountCreateActivity,
                     SearchSelectRadioActivity::class.java
                 ).apply {
-                    putExtra(
-                        SearchSelectRadioActivity.SearchSelectType,
-                        SearchSelectRadioViewModel.SearchSelectTypeTakeChargeShop
-                    )
+                    putExtras(SearchSelectTypeParam.pack(SearchSelectTypeParam.SearchSelectTypeTakeChargeShop))
                 }
             )
         }

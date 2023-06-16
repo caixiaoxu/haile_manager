@@ -15,6 +15,7 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.SearchSelectRadioViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.rule.SearchSelectRadioEntity
 import com.yunshang.haile_manager_android.databinding.ActivitySearchSelectRadioBinding
@@ -27,15 +28,6 @@ class SearchSelectRadioActivity :
         SearchSelectRadioViewModel::class.java,
         BR.vm
     ) {
-
-    companion object {
-        const val SearchSelectType = "searchSelectType"
-        const val StaffId = "staffId"
-        const val CategoryId = "categoryId"
-        const val ShopResultCode = 0x90001
-        const val DeviceModelResultCode = 0x90002
-        const val ResultData = "resultData"
-    }
 
     override fun layoutId(): Int = R.layout.activity_search_select_radio
 
@@ -57,7 +49,7 @@ class SearchSelectRadioActivity :
                 mViewModel.selectList.value?.let { list ->
                     val selected = list.filter { select -> select.getCheck()?.value ?: false }
 
-                    if (SearchSelectRadioViewModel.SearchSelectTypeTakeChargeShop == mViewModel.searchSelectType.value
+                    if (SearchSelectTypeParam.SearchSelectTypeTakeChargeShop == mViewModel.searchSelectType.value
                         && -1 != mViewModel.staffId
                     ) {
                         mViewModel.updateStaffShop(
@@ -67,13 +59,14 @@ class SearchSelectRadioActivity :
                     } else {
                         setResult(
                             when (mViewModel.searchSelectType.value) {
-                                SearchSelectRadioViewModel.SearchSelectTypeShop, SearchSelectRadioViewModel.SearchSelectTypeTakeChargeShop -> ShopResultCode
-                                SearchSelectRadioViewModel.SearchSelectTypeDeviceModel -> DeviceModelResultCode
+                                SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop, SearchSelectTypeParam.SearchSelectTypeRechargeShop -> SearchSelectTypeParam.ShopResultCode
+                                SearchSelectTypeParam.SearchSelectTypeDeviceModel -> SearchSelectTypeParam.DeviceModelResultCode
                                 else -> RESULT_OK
                             },
                             Intent().apply {
                                 putExtra(
-                                    ResultData, GsonUtils.any2Json(
+                                    SearchSelectTypeParam.ResultData,
+                                    GsonUtils.any2Json(
                                         selected.map {
                                             SearchSelectParam(
                                                 it.getSelectId(),
@@ -95,13 +88,13 @@ class SearchSelectRadioActivity :
 
         // 类别
         mViewModel.searchSelectType.value =
-            intent.getIntExtra(SearchSelectType, -1)
+            intent.getIntExtra(SearchSelectTypeParam.SearchSelectType, -1)
 
         mViewModel.categoryId =
-            intent.getIntExtra(CategoryId, -1)
+            intent.getIntExtra(SearchSelectTypeParam.CategoryId, -1)
 
         mViewModel.staffId =
-            intent.getIntExtra(StaffId, -1)
+            intent.getIntExtra(SearchSelectTypeParam.StaffId, -1)
     }
 
     override fun initView() {
@@ -142,7 +135,7 @@ class SearchSelectRadioActivity :
      */
     private fun initSelectList(list: MutableList<out SearchSelectRadioEntity>?) {
         val inflate = LayoutInflater.from(this)
-        if (SearchSelectRadioViewModel.SearchSelectTypeTakeChargeShop == mViewModel.searchSelectType.value) {
+        if (SearchSelectTypeParam.SearchSelectTypeTakeChargeShop == mViewModel.searchSelectType.value) {
             if (mBinding.svDepartmentSelectList.getChildAt(0) !is LinearLayout) {
                 mBinding.svDepartmentSelectList.removeAllViews()
             } else {

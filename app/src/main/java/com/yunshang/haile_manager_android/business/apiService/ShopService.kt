@@ -82,6 +82,12 @@ interface ShopService {
     suspend fun shopSelectList(@Body body: RequestBody): ResponseWrapper<MutableList<ShopSelectEntity>>
 
     /**
+     * 海星方案店铺选择列表
+     */
+    @POST("/shop/shopSelectListForStarFish")
+    suspend fun requestHaiXinSchemeShopSelectList(@Body body: RequestBody): ResponseWrapper<MutableList<ShopSelectEntity>>
+
+    /**
      * 店铺预约设置列表
      */
     @GET("/appoint/getSetting")

@@ -14,6 +14,7 @@ import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.apiService.ShopService
 import com.yunshang.haile_manager_android.business.apiService.StaffService
 import com.yunshang.haile_manager_android.business.event.BusEvents
+import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.data.rule.SearchSelectRadioEntity
 import kotlinx.coroutines.Dispatchers
@@ -35,36 +36,36 @@ class SearchSelectRadioViewModel : BaseViewModel() {
     private val mDeviceRepo = ApiRepository.apiClient(DeviceService::class.java)
     private val mStaffRepo = ApiRepository.apiClient(StaffService::class.java)
 
-    companion object {
-        const val SearchSelectTypeShop = 0
-        const val SearchSelectTypeDeviceModel = 1
-        const val SearchSelectTypeTakeChargeShop = 2
-    }
-
     // 搜索类型
     val searchSelectType: MutableLiveData<Int> = MutableLiveData()
 
     val searchSelectTitle: LiveData<String> = searchSelectType.map {
         when (it) {
-            SearchSelectTypeShop -> StringUtils.getString(R.string.department)
-            SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model))
-            SearchSelectTypeTakeChargeShop -> StringUtils.getString(R.string.take_charge_shop)
+            SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeRechargeShop -> StringUtils.getString(
+                R.string.department
+            )
+            SearchSelectTypeParam.SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model))
+            SearchSelectTypeParam.SearchSelectTypeTakeChargeShop -> StringUtils.getString(R.string.take_charge_shop)
             else -> ""
         }
     }
 
     val searchSelectHint: LiveData<String> = searchSelectType.map {
         when (it) {
-            SearchSelectTypeShop, SearchSelectTypeTakeChargeShop -> StringUtils.getString(R.string.shop_search_hint)
-            SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model_search_hint))
+            SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop, SearchSelectTypeParam.SearchSelectTypeRechargeShop -> StringUtils.getString(
+                R.string.shop_search_hint
+            )
+            SearchSelectTypeParam.SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model_search_hint))
             else -> ""
         }
     }
 
     val searchSelectListHint: LiveData<String> = searchSelectType.map {
         when (it) {
-            SearchSelectTypeShop, SearchSelectTypeTakeChargeShop -> StringUtils.getString(R.string.shop_info)
-            SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model))
+            SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop, SearchSelectTypeParam.SearchSelectTypeRechargeShop -> StringUtils.getString(
+                R.string.shop_info
+            )
+            SearchSelectTypeParam.SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model))
             else -> ""
         }
     }
@@ -97,7 +98,7 @@ class SearchSelectRadioViewModel : BaseViewModel() {
         launch({
             val list: MutableList<out SearchSelectRadioEntity> =
                 when (searchSelectType.value) {
-                    SearchSelectTypeShop, SearchSelectTypeTakeChargeShop -> ApiRepository.dealApiResult(
+                    SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop -> ApiRepository.dealApiResult(
                         mShopRepo.shopSelectList(
                             ApiRepository.createRequestBody(
                                 hashMapOf(
@@ -106,7 +107,7 @@ class SearchSelectRadioViewModel : BaseViewModel() {
                             )
                         )
                     )
-                    SearchSelectTypeDeviceModel -> {
+                    SearchSelectTypeParam.SearchSelectTypeDeviceModel -> {
                         if (originSelectList.isNullOrEmpty()) {
                             if (-1 != categoryId) {
                                 val list =
@@ -122,6 +123,15 @@ class SearchSelectRadioViewModel : BaseViewModel() {
                             } ?: originSelectList!!
                         }
                     }
+                    SearchSelectTypeParam.SearchSelectTypeRechargeShop -> ApiRepository.dealApiResult(
+                        mShopRepo.requestHaiXinSchemeShopSelectList(
+                            ApiRepository.createRequestBody(
+                                hashMapOf(
+                                    "name" to (searchKey.value ?: ""),
+                                )
+                            )
+                        )
+                    )
                     else -> null
                 } ?: mutableListOf()
             selectList.postValue(list)

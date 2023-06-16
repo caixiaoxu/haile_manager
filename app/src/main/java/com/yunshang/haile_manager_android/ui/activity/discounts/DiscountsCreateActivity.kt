@@ -8,9 +8,9 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DiscountsCreateViewModel
-import com.yunshang.haile_manager_android.business.vm.SearchSelectRadioViewModel
 import com.yunshang.haile_manager_android.data.arguments.ActiveDayParam
 import com.yunshang.haile_manager_android.data.arguments.DiscountsParam
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.DiscountsBusinessTypeEntity
 import com.yunshang.haile_manager_android.data.entities.DiscountsDetailEntity
@@ -39,7 +39,7 @@ class DiscountsCreateActivity :
     // 选择店铺界面
     private val startShopNext =
         ActivityManagerUtils.getActivityResultLauncher(this) { _, rData ->
-            rData?.getStringExtra(SearchSelectRadioActivity.ResultData)?.let { json ->
+            rData?.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)?.let { json ->
                 GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
                     if (selected.isNotEmpty()) {
                         mViewModel.createDiscountsShop.value = selected
@@ -87,10 +87,7 @@ class DiscountsCreateActivity :
                     this@DiscountsCreateActivity,
                     SearchSelectRadioActivity::class.java
                 ).apply {
-                    putExtra(
-                        SearchSelectRadioActivity.SearchSelectType,
-                        SearchSelectRadioViewModel.SearchSelectTypeTakeChargeShop
-                    )
+                    putExtras(IntentParams.SearchSelectTypeParam.pack(IntentParams.SearchSelectTypeParam.SearchSelectTypeTakeChargeShop))
                 })
         }
 

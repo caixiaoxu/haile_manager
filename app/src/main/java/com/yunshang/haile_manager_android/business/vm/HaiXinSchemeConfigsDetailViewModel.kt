@@ -1,8 +1,10 @@
 package com.yunshang.haile_manager_android.business.vm
 
 import androidx.lifecycle.MutableLiveData
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.yunshang.haile_manager_android.business.apiService.HaiXinService
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.entities.SchemeConfigsDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 
@@ -41,6 +43,12 @@ class HaiXinSchemeConfigsDetailViewModel : BaseViewModel() {
         })
     }
 
+    fun requestSchemeDetailAsync() {
+        launch({
+            requestSchemeDetail()
+        })
+    }
+
     private suspend fun requestSchemeDetail() {
         ApiRepository.dealApiResult(
             mHaiXinRepo.requestSchemeDetail(
@@ -55,20 +63,36 @@ class HaiXinSchemeConfigsDetailViewModel : BaseViewModel() {
         }
     }
 
-    fun switchSchemeOpen(isCheck: Boolean) {
+    fun switchSchemeOpen() {
         schemeDetail.value?.let {
             val paramsBody = ApiRepository.createRequestBody(
                 hashMapOf("id" to it.id)
             )
             launch({
                 ApiRepository.dealApiResult(
-                    if (isCheck) {
+                    if (it.suspendFlag) {
                         mHaiXinRepo.openSchemeConfigs(paramsBody)
                     } else {
                         mHaiXinRepo.closeSchemeConfigs(paramsBody)
                     }
                 )
                 requestSchemeDetail()
+                LiveDataBus.post(BusEvents.HAIXIN_SCHEME_LIST_STATUS, true)
+            })
+        }
+    }
+
+    fun deleteScheme() {
+        schemeDetail.value?.let {
+            val paramsBody = ApiRepository.createRequestBody(
+                hashMapOf("id" to it.id)
+            )
+            launch({
+                ApiRepository.dealApiResult(
+                    mHaiXinRepo.deleteSchemeConfigs(paramsBody)
+                )
+                LiveDataBus.post(BusEvents.HAIXIN_SCHEME_LIST_ITEM_DELETE_STATUS, it.id)
+                jump.postValue(0)
             })
         }
     }

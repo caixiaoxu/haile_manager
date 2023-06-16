@@ -14,8 +14,8 @@ import com.lsy.framelib.utils.DimensionUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
-import com.yunshang.haile_manager_android.business.vm.SearchSelectRadioViewModel
 import com.yunshang.haile_manager_android.business.vm.StaffDetailViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.databinding.ActivityStaffDetailBinding
 import com.yunshang.haile_manager_android.databinding.ItemStaffDetailFlowBinding
 import com.yunshang.haile_manager_android.databinding.ItemStaffDetailPermissionBinding
@@ -23,7 +23,10 @@ import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 
 class StaffDetailActivity :
-    BaseBusinessActivity<ActivityStaffDetailBinding, StaffDetailViewModel>(StaffDetailViewModel::class.java,BR.vm) {
+    BaseBusinessActivity<ActivityStaffDetailBinding, StaffDetailViewModel>(
+        StaffDetailViewModel::class.java,
+        BR.vm
+    ) {
 
     companion object {
         const val StaffId = "staffId"
@@ -147,13 +150,11 @@ class StaffDetailActivity :
                     this@StaffDetailActivity,
                     SearchSelectRadioActivity::class.java
                 ).apply {
-                    putExtra(
-                        SearchSelectRadioActivity.SearchSelectType,
-                        SearchSelectRadioViewModel.SearchSelectTypeTakeChargeShop
-                    )
-                    putExtra(
-                        SearchSelectRadioActivity.StaffId,
-                        mViewModel.staffId
+                    putExtras(
+                        SearchSelectTypeParam.pack(
+                            SearchSelectTypeParam.SearchSelectTypeTakeChargeShop,
+                            staffId = mViewModel.staffId
+                        )
                     )
                 }
             )

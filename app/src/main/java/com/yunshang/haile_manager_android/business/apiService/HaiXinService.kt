@@ -51,6 +51,12 @@ interface HaiXinService {
     suspend fun closeSchemeConfigs(@Body params: RequestBody): ResponseWrapper<Any>
 
     /**
+     * 删除方案接口
+     */
+    @POST("/starfish/shopConfig/delete")
+    suspend fun deleteSchemeConfigs(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
      * 请求退款二维码接口
      */
     @GET("/starfish/getRefundQrCode")
@@ -62,4 +68,15 @@ interface HaiXinService {
     @GET("/starfish/getRechargeIdQrCode")
     suspend fun requestRechargeQrCode(@Query("shopId") shopId: Int): ResponseWrapper<String>
 
+    /**
+     * 创建充值方案接口
+     */
+    @POST("/starfish/shopConfig/create")
+    suspend fun createSchemeConfig(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 修改充值方案接口
+     */
+    @POST("/starfish/shopConfig/update")
+    suspend fun updateSchemeConfig(@Body params: RequestBody): ResponseWrapper<Any>
 }

@@ -5,12 +5,6 @@
 
     <data>
 
-        <import type="android.view.View" />
-
-        <variable
-            name="shared"
-            type="com.yunshang.haile_manager_android.business.vm.SharedViewModel" />
-
         <variable
             name="item"
             type="com.yunshang.haile_manager_android.data.entities.HaixinRechargeAccountEntity" />
@@ -117,8 +111,7 @@
                 android:paddingVertical="4dp"
                 android:text="@string/recycler"
                 android:textColor="#333333"
-                android:textSize="14sp"
-                android:visibility="@{shared.hasVipRechargeRecyclePermission?View.VISIBLE:View.GONE}" />
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 </layout>

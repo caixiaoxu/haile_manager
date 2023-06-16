@@ -21,6 +21,7 @@ import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 
 class HaiXinRechargeAccountsActivity :
     BaseBusinessActivity<ActivityHaixinRechargeAccountsBinding, HaiXinRechargeAccountsViewModel>(
@@ -47,7 +48,8 @@ class HaiXinRechargeAccountsActivity :
             R.layout.item_haixin_recharge_accounts,
             BR.item
         ) { mItemBinding, _, item ->
-            mItemBinding?.shared = mSharedViewModel
+            mItemBinding?.tvRechargeAccountsRecycle?.visibility =
+                if (UserPermissionUtils.hasVipRechargeRecyclePermission()) View.VISIBLE else View.GONE
             mItemBinding?.tvRechargeAccountsRecycle?.setOnClickListener {
 
             }

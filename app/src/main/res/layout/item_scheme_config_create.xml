@@ -49,11 +49,11 @@
             app:track="@drawable/selector_default_switch_track" />
 
         <View
-            android:id="@+id/view_cut_off1"
-            style="@style/DividingStyle"
-            app:layout_constraintBottom_toBottomOf="@id/tv_scheme_create_title"
-            app:layout_constraintEnd_toEndOf="@id/tv_scheme_create_title"
-            app:layout_constraintStart_toStartOf="@id/tv_scheme_create_title" />
+        android:id="@+id/view_cut_off1"
+        style="@style/DividingStyle"
+        app:layout_constraintBottom_toBottomOf="@id/tv_scheme_create_title"
+        app:layout_constraintEnd_toEndOf="@id/tv_scheme_create_title"
+        app:layout_constraintStart_toStartOf="@id/tv_scheme_create_title" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_scheme_reach_title"

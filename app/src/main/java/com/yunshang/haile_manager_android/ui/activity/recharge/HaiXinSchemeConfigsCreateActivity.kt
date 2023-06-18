@@ -41,9 +41,18 @@ class HaiXinSchemeConfigsCreateActivity :
 
     override fun initIntent() {
         super.initIntent()
-        mViewModel.shopId = IntentParams.ShopParams.parseShopId(intent)
-        mViewModel.createUpdateParams.value?.shopId = IntentParams.ShopParams.parseShopId(intent)
-        mViewModel.shopName.postValue(IntentParams.ShopParams.parseShopName(intent) ?: "")
+        IntentParams.ShopParams.parseShopId(intent).let { shopId ->
+            if (-1 != shopId) {
+                mViewModel.shopId = shopId
+                mViewModel.createUpdateParams.value?.shopId = shopId
+                mViewModel.selectShop.postValue(
+                    SearchSelectParam(
+                        shopId,
+                        IntentParams.ShopParams.parseShopName(intent) ?: ""
+                    )
+                )
+            }
+        }
     }
 
     override fun initEvent() {

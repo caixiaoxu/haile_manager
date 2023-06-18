@@ -34,11 +34,7 @@ class HaiXinSchemeConfigsCreateViewModel : BaseViewModel() {
     val mHaiXinRepo = ApiRepository.apiClient(HaiXinService::class.java)
     var shopId: Int = -1
 
-    val shopName: MutableLiveData<String> by lazy {
-        MutableLiveData()
-    }
-
-    // 选择的设备类型
+    // 选择的店铺类型
     val selectShop: MutableLiveData<SearchSelectParam> by lazy {
         MutableLiveData()
     }

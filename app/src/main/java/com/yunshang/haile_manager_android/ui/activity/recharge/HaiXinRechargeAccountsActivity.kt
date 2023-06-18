@@ -51,9 +51,20 @@ class HaiXinRechargeAccountsActivity :
             mItemBinding?.tvRechargeAccountsRecycle?.visibility =
                 if (UserPermissionUtils.hasVipRechargeRecyclePermission()) View.VISIBLE else View.GONE
             mItemBinding?.tvRechargeAccountsRecycle?.setOnClickListener {
-
+                startActivity(
+                    Intent(
+                        this@HaiXinRechargeAccountsActivity,
+                        HaiXinRechargeRecycleActivity::class.java
+                    )
+                )
             }
             mItemBinding?.root?.setOnClickListener {
+                startActivity(
+                    Intent(
+                        this@HaiXinRechargeAccountsActivity,
+                        HaiXinRechargeAccountDetaiListActivity::class.java
+                    )
+                )
             }
         }
     }

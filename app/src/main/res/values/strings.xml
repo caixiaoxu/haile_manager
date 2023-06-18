@@ -273,6 +273,11 @@
     <string name="recharge_account_num_hint">全部%1$d人</string>
     <string name="detail">明细</string>
     <string name="recycler">回收</string>
+    <string name="user_detail">用户明细</string>
+    <string name="haixin_recycle">海星回收</string>
+    <string name="haixin_recycle_reach_title">回收充值海星</string>
+    <string name="haixin_recycle_reward_title">回收赠送海星</string>
+    <string name="user_phone">用户手机号</string>
 
     <string name="home_capital_title">资金管理</string>
     <string name="sub_account_manager">分账管理</string>

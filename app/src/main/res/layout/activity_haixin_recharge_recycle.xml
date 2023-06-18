@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.HaiXinRechargeRecycleViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/page_bg"
+        android:orientation="vertical"
+        tools:context=".ui.activity.recharge.HaiXinRechargeRecycleActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_recharge_recycle_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            app:title="@string/haixin_recycle" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_recharge_recycle_account"
+                style="@style/Font_12_999999"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="用户账户：18888888888" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_recharge_recycle_shop"
+                style="@style/Font_12_999999"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tv_recharge_recycle_account"
+                android:layout_marginTop="8dp"
+                tools:text="适用店铺：1号店铺" />
+
+        <View
+            style="@style/DividingStyle"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_recharge_recycle_shop"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_recharge_recycle_reach_title"
+            style="@style/Font_16_333333"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/haixin_recycle_reach_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_recharge_recycle_shop" />
+
+        <com.yunshang.haile_manager_android.ui.view.AmountEditText
+            android:id="@+id/et_recharge_recycle_reach"
+            style="@style/Font_16_333333_cccccc"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:background="@color/transparent"
+            android:hint="@string/please_input"
+            android:text="@={vm.reachVal}"
+            app:layout_constraintEnd_toEndOf="@id/tv_recharge_recycle_reach_title"
+            app:layout_constraintEnd_toStartOf="@id/tv_recharge_recycle_reach_unit"
+            app:layout_constraintStart_toStartOf="@id/tv_recharge_recycle_reach_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_recharge_recycle_reach_title"
+            tools:text="500" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_recharge_recycle_reach_unit"
+            style="@style/Font_16_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/unit_ge_hint"
+            app:layout_constraintBottom_toBottomOf="@id/et_recharge_recycle_reach"
+            app:layout_constraintEnd_toEndOf="@id/tv_recharge_recycle_reach_title"
+            app:layout_constraintStart_toEndOf="@id/et_recharge_recycle_reach"
+            app:layout_constraintTop_toTopOf="@id/et_recharge_recycle_reach" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_recharge_recycle_reach_haixin"
+            style="@style/Font_12_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text='@{vm.reachAmountVal + @string/unit_yuan}'
+            app:layout_constraintEnd_toEndOf="@id/tv_recharge_recycle_reach_unit"
+            app:layout_constraintStart_toStartOf="@id/et_recharge_recycle_reach"
+            app:layout_constraintTop_toBottomOf="@id/et_recharge_recycle_reach"
+            tools:text="5000元" />
+
+        <View
+            android:id="@+id/view_cut_off2"
+            style="@style/DividingStyle"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@id/tv_recharge_recycle_reach_haixin"
+            app:layout_constraintStart_toStartOf="@id/tv_recharge_recycle_reach_haixin"
+            app:layout_constraintTop_toBottomOf="@id/tv_recharge_recycle_reach_haixin" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_recharge_recycle_reward_title"
+            style="@style/Font_16_333333"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/haixin_recycle_reward_title"
+            app:layout_constraintEnd_toEndOf="@id/tv_recharge_recycle_reach_haixin"
+            app:layout_constraintStart_toStartOf="@id/tv_recharge_recycle_reach_haixin"
+            app:layout_constraintTop_toBottomOf="@id/view_cut_off2" />
+
+        <com.yunshang.haile_manager_android.ui.view.AmountEditText
+            android:id="@+id/et_recharge_recycle_reward"
+            style="@style/Font_16_333333_cccccc"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:background="@color/transparent"
+            android:hint="@string/please_input"
+            android:text="@={vm.rewardVal}"
+            app:layout_constraintEnd_toEndOf="@id/tv_recharge_recycle_reward_title"
+            app:layout_constraintEnd_toStartOf="@id/tv_recharge_recycle_reward_unit"
+            app:layout_constraintStart_toStartOf="@id/tv_recharge_recycle_reward_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_recharge_recycle_reward_title"
+            tools:text="500" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_recharge_recycle_reward_unit"
+            style="@style/Font_16_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/unit_ge_hint"
+            app:layout_constraintBottom_toBottomOf="@id/et_recharge_recycle_reward"
+            app:layout_constraintEnd_toEndOf="@id/tv_recharge_recycle_reward_title"
+            app:layout_constraintStart_toEndOf="@id/et_recharge_recycle_reward"
+            app:layout_constraintTop_toTopOf="@id/et_recharge_recycle_reward" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_recharge_recycle_reward_haixin"
+            style="@style/Font_12_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text='@{vm.rewardAmountVal + @string/unit_yuan}'
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_recharge_recycle_reward_unit"
+            app:layout_constraintStart_toStartOf="@id/et_recharge_recycle_reward"
+            app:layout_constraintTop_toBottomOf="@id/et_recharge_recycle_reward"
+            tools:text="5000元" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="94dp"
+            android:background="@color/white"
+            android:paddingTop="8dp">
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_recharge_recycle_submit"
+                style="@style/CommonMatchBtnStyle1"
+                android:enabled="@{vm.canSubmit}"
+                android:layout_marginHorizontal="14dp"
+                android:text="@string/submit" />
+        </FrameLayout>
+    </LinearLayout>
+</layout>

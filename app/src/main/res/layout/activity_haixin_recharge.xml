@@ -4,13 +4,133 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.HaiXinRechargeViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/page_bg"
+        android:orientation="vertical"
         tools:context=".ui.activity.recharge.HaiXinRechargeListActivity">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_haixin_recharge_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            app:title="@string/haixin_recharge" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/bar_haixin_recharge_title">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_haixin_recharge_title"
+                    style="@style/Font_16_333333_bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:text="@string/scheme_config_create_title"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_haixin_recharge_title"
+                    tools:ignore="MissingConstraints" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_haixin_recharge_phone"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@={vm.userPhone }"
+                    app:layout_constraintTop_toBottomOf="@id/tv_haixin_recharge_title"
+                    app:title="@string/user_phone"
+                    app:titleW="114dp"
+                    app:type="input"
+                    tools:ignore="MissingConstraints" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp"
+                    app:layout_constraintBottom_toBottomOf="@id/item_haixin_recharge_phone"
+                    tools:ignore="MissingConstraints" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_haixin_recharge_shop"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.selectShop.name}"
+                    app:layout_constraintTop_toBottomOf="@id/item_haixin_recharge_phone"
+                    app:showArrow="true"
+                    app:title="@string/coupon_shop"
+                    app:titleW="114dp"
+                    app:type="info"
+                    tools:ignore="MissingConstraints" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp"
+                    app:layout_constraintBottom_toBottomOf="@id/item_haixin_recharge_shop"
+                    tools:ignore="MissingConstraints" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_haixin_recharge_reward_title"
+                    style="@style/Font_16_333333"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/reward_amount"
+                    android:layout_marginHorizontal="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/item_haixin_recharge_shop" />
+
+                <com.yunshang.haile_manager_android.ui.view.AmountEditText
+                    android:id="@+id/et_haixin_recharge_reward"
+                    style="@style/Font_16_333333_cccccc"
+                    android:layout_width="0dp"
+                    android:layout_height="38dp"
+                    android:background="@color/transparent"
+                    android:hint="@string/please_input"
+                    android:text="@={vm.rewardVal}"
+                    app:layout_constraintEnd_toEndOf="@id/tv_haixin_recharge_reward_title"
+                    app:layout_constraintEnd_toStartOf="@id/tv_haixin_recharge_reward_unit"
+                    app:layout_constraintStart_toStartOf="@id/tv_haixin_recharge_reward_title"
+                    app:layout_constraintTop_toBottomOf="@id/tv_haixin_recharge_reward_title" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_haixin_recharge_reward_unit"
+                    style="@style/Font_16_999999"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unit_yuan"
+                    app:layout_constraintBottom_toBottomOf="@id/et_haixin_recharge_reward"
+                    app:layout_constraintEnd_toEndOf="@id/tv_haixin_recharge_reward_title"
+                    app:layout_constraintStart_toEndOf="@id/et_haixin_recharge_reward"
+                    app:layout_constraintTop_toTopOf="@id/et_haixin_recharge_reward" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_haixin_recharge_reward_haixin"
+                    style="@style/Font_12_999999"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text='@{vm.rewardHaiXinVal + @string/hai_xin}'
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/tv_haixin_recharge_reward_unit"
+                    app:layout_constraintStart_toStartOf="@id/et_haixin_recharge_reward"
+                    app:layout_constraintTop_toBottomOf="@id/et_haixin_recharge_reward"
+                    tools:text="5000海星" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 </layout>

@@ -81,8 +81,7 @@
                     <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                         android:id="@+id/item_scheme_shop"
                         style="@style/MultiTypeItemStyle"
-                        itemContent="@{vm.selectShop.name}"
-                        app:itemContent="@{vm.shopName}"
+                        app:itemContent="@{vm.selectShop.name}"
                         app:layout_constraintTop_toBottomOf="@id/item_scheme_name"
                         app:showArrow="true"
                         app:title="@string/coupon_shop"

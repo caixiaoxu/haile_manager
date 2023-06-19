@@ -34,4 +34,7 @@ interface CommonService {
         @Query("currentVersion") currentVersion: String,
         @Query("appType") appType: Int = 2
     ): ResponseWrapper<AppVersionEntity>
+
+    @GET("/common/businessForH5")
+    suspend fun requestWhiteList(): ResponseWrapper<MutableList<String>>
 }

@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context=".ui.activity.SettingActivity">
+        tools:context=".ui.activity.personal.SettingActivity">
 
         <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/login_title_bar"

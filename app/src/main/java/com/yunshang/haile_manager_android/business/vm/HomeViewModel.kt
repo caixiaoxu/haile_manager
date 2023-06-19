@@ -1,13 +1,16 @@
 package com.yunshang.haile_manager_android.business.vm
 
+import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.StringUtils
+import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.business.apiService.MessageService
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.HomeIncomeEntity
 import com.yunshang.haile_manager_android.data.entities.MessageEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
@@ -20,6 +23,7 @@ import com.yunshang.haile_manager_android.ui.activity.staff.StaffManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.subAccount.SubAccountManagerActivity
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
+import com.yunshang.haile_manager_android.web.WebViewActivity
 import java.util.*
 
 /**
@@ -84,8 +88,12 @@ class HomeViewModel : BaseViewModel() {
             FunItem(
                 StringUtils.getString(R.string.work_order_manager),
                 R.mipmap.icon_work_order_manager,
-                StaffManagerActivity::class.java,
-                UserPermissionUtils.hasWorkOrderPermission()
+                WebViewActivity::class.java,
+                UserPermissionUtils.hasWorkOrderPermission(),
+                IntentParams.WebViewParams.pack(
+                    BuildConfig.H5_WORK_ORDER,
+                    true,
+                )
             ),
         )
     )
@@ -223,6 +231,7 @@ class HomeViewModel : BaseViewModel() {
         val name: String,
         val icon: Int,
         val clz: Class<*>,
-        var isShow: Boolean = true
+        var isShow: Boolean = true,
+        val bundle: Bundle? = null
     )
 }

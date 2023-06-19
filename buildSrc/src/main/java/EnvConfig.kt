@@ -12,6 +12,9 @@ object EnvConfig {
     const val HTTP_BASE_DEBUG = "\"http://192.168.5.120:9083\""
     const val HTTP_BASE_RELEASE = "\"https://yshz-merchant.haier-ioc.com\""
 
-    const val TEST_ACCOUNT= "\"13067949521\""
-    const val TEST_PWD= "\"Ko7Ir9\""
+    const val H5_WORK_OREDER_DEBUG = "\"http://115.238.82.114:1409\""
+    const val H5_WORK_OREDER_RELEASE = "\"https://taskflow.haier-ioc.com\""
+
+    const val TEST_ACCOUNT = "\"13067949521\""
+    const val TEST_PWD = "\"Ko7Ir9\""
 }

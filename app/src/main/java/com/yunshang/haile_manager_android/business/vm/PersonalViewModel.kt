@@ -9,7 +9,7 @@ import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.business.apiService.LoginUserService
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.model.ApiRepository
-import com.yunshang.haile_manager_android.ui.activity.SettingActivity
+import com.yunshang.haile_manager_android.ui.activity.personal.SettingActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.RealNameAuthActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.WalletActivity

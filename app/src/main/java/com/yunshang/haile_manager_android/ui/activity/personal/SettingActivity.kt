@@ -1,4 +1,4 @@
-package com.yunshang.haile_manager_android.ui.activity
+package com.yunshang.haile_manager_android.ui.activity.personal
 
 import android.content.Intent
 import android.graphics.Color
@@ -11,10 +11,10 @@ import com.yunshang.haile_manager_android.business.vm.SettingViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.databinding.ActivitySettingBinding
+import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.login.ChangeUserActivity
 import com.yunshang.haile_manager_android.ui.activity.login.LoginActivity
 import com.yunshang.haile_manager_android.ui.activity.login.UpdateLoginPasswordActivity
-import com.yunshang.haile_manager_android.ui.activity.personal.VersionActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 
 class SettingActivity : BaseBusinessActivity<ActivitySettingBinding, SettingViewModel>(

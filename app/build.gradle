@@ -44,10 +44,12 @@ android {
 //            applicationIdSuffix ".debug"
 //            versionNameSuffix '.debug'
             buildConfigField "String", "BASE_URL", EnvConfig.HTTP_BASE_DEBUG
+            buildConfigField "String", "H5_WORK_ORDER", EnvConfig.H5_WORK_OREDER_DEBUG
             signingConfig signingConfigs.debug
         }
         release {
             buildConfigField "String", "BASE_URL", EnvConfig.HTTP_BASE_RELEASE
+            buildConfigField "String", "H5_WORK_ORDER", EnvConfig.H5_WORK_OREDER_RELEASE
 
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -115,4 +117,9 @@ dependencies {
 
     implementation ThirdLibs.alipay
     implementation ThirdLibs.wechat
+
+    implementation(ThirdLibs.jsBridge) {
+        exclude group: 'com.github.lzyzsd.jsbridge', module: 'jsbridge-debug'
+    }
+
 }

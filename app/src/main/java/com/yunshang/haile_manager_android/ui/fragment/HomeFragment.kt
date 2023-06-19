@@ -362,7 +362,11 @@ class HomeFragment :
             }
             // 点击事件
             mFuncAreaBinding.root.setOnClickListener {
-                startActivity(Intent(requireContext(), item.clz))
+                startActivity(Intent(requireContext(), item.clz).apply {
+                    item.bundle?.let { bundle ->
+                        putExtras(bundle)
+                    }
+                })
             }
             // 数据
             mFuncAreaBinding.funcItem = item

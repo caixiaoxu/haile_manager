@@ -241,6 +241,34 @@ object IntentParams {
         fun parseShopName(intent: Intent): String? = ShopParams.parseShopName(intent)
         fun parseReach(intent: Intent): Int = HaiXinParams.parseReach(intent)
         fun parseReward(intent: Intent): Int = HaiXinParams.parseReward(intent)
+    }
 
+    object WebViewParams {
+        private const val Url = "url"
+        private const val NeedFilter = "needFilter"
+        private const val Title = "title"
+        private const val AutoWebTitle = "autoWebTitle"
+
+        /**
+         * 包装参数
+         */
+        fun pack(
+            url: String,
+            needFilter: Boolean = false,
+            title: String? = null,
+            autoWebTitle: Boolean = true
+        ): Bundle = Bundle().apply {
+            putString(Url, url)
+            putBoolean(NeedFilter, needFilter)
+            title?.let {
+                putString(Title, title)
+            }
+            putBoolean(AutoWebTitle, autoWebTitle)
+        }
+
+        fun parseUrl(intent: Intent): String? = intent.getStringExtra(Url)
+        fun parseNeedFilter(intent: Intent): Boolean = intent.getBooleanExtra(NeedFilter, false)
+        fun parseTitle(intent: Intent): String? = intent.getStringExtra(NeedFilter)
+        fun parseAutoWebTitle(intent: Intent): Boolean = intent.getBooleanExtra(AutoWebTitle, true)
     }
 }

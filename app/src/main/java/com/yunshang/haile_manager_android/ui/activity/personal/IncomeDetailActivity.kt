@@ -16,7 +16,7 @@ class IncomeDetailActivity :
     ) {
 
     companion object {
-        const val DetailType = "etailType"
+        const val DetailType = "detailType"
         const val IncomeId = "incomeId"
         const val OrderNo = "orderNo"
     }

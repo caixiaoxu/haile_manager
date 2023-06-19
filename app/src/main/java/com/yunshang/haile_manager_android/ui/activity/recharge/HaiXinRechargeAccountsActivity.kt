@@ -7,11 +7,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.HaiXinRechargeAccountsViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.HaixinRechargeAccountEntity
@@ -55,7 +58,18 @@ class HaiXinRechargeAccountsActivity :
                     Intent(
                         this@HaiXinRechargeAccountsActivity,
                         HaiXinRechargeRecycleActivity::class.java
-                    )
+                    ).apply {
+                        putExtras(
+                            IntentParams.RechargeRecycleParams.pack(
+                                item.userId,
+                                item.phone,
+                                item.shopId,
+                                item.shopName,
+                                item.principalAmount,
+                                item.presentAmount
+                            )
+                        )
+                    }
                 )
             }
             mItemBinding?.root?.setOnClickListener {
@@ -63,7 +77,15 @@ class HaiXinRechargeAccountsActivity :
                     Intent(
                         this@HaiXinRechargeAccountsActivity,
                         HaiXinRechargeAccountDetaiListActivity::class.java
-                    )
+                    ).apply {
+                        putExtras(
+                            IntentParams.RechargeAccountDetailParams.pack(
+                                item.userId,
+                                item.shopId,
+                                item.shopName
+                            )
+                        )
+                    }
                 )
             }
         }
@@ -79,6 +101,10 @@ class HaiXinRechargeAccountsActivity :
         // 选择店铺
         mViewModel.selectDepartment.observe(this) {
             mBinding.tvRechargeAccountsDepartment.text = it.name
+            mBinding.rvRechargeAccountsList.requestRefresh()
+        }
+
+        LiveDataBus.with(BusEvents.HAIXIN_USER_LIST_STATUS)?.observe(this) {
             mBinding.rvRechargeAccountsList.requestRefresh()
         }
     }

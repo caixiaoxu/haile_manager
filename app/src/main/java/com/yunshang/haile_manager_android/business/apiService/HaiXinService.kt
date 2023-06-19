@@ -99,4 +99,28 @@ interface HaiXinService {
     @POST("/starfish/getUserStarFishListVO")
     suspend fun requestRechargeAccountsList(@Body params: RequestBody): ResponseWrapper<ResponseList<HaixinRechargeAccountEntity>>
 
+    /**
+     * 充值用户详情每月总计接口
+     */
+    @POST("/starfish/getUserStarFishDetailVO")
+    suspend fun requestRechargeAccountDetailTotalOfMonth(@Body params: RequestBody): ResponseWrapper<HaixinRechargeAccountEntity>
+
+    /**
+     * 充值用户详情列表接口
+     */
+    @POST("/starfish/getStarFishLogVOPageByUserIdAndShopId")
+    suspend fun requestRechargeAccountDetailList(@Body params: RequestBody): ResponseWrapper<ResponseList<HaixinRechargeAccountDetailEntity>>
+
+    /**
+     * 充值回收接口
+     */
+    @POST("/starfish/expenditure")
+    suspend fun rechargeRecycle(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 充值接口
+     */
+    @POST("/starfish/addStarFish")
+    suspend fun rechargeHaiXin(@Body params: RequestBody): ResponseWrapper<Any>
+
 }

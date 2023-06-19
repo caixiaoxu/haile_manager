@@ -4,6 +4,8 @@ import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.yunshang.haile_manager_android.business.apiService.HaiXinService
 import com.yunshang.haile_manager_android.data.entities.HaiXinTotalEntity
+import com.yunshang.haile_manager_android.data.entities.HaixinRechargeAccountDetailEntity
+import com.yunshang.haile_manager_android.data.entities.HaixinRechargeAccountEntity
 import com.yunshang.haile_manager_android.data.entities.HaixinRechargeEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
@@ -24,22 +26,30 @@ import java.util.*
 class HaiXinRechargeAccountDetailListViewModel : BaseViewModel() {
     val mHaiXinRepo = ApiRepository.apiClient(HaiXinService::class.java)
 
+    var userId: Int = -1
+    var shopId: Int = -1
+    var shopName: String = ""
+
     var searchDate: Date = Date()
 
-    val totalHaixinOfMap: MutableMap<String, HaiXinTotalEntity> = mutableMapOf()
+    val totalHaixinOfMap: MutableMap<String, HaixinRechargeAccountEntity> = mutableMapOf()
 
     fun requestHaixinRechargeList(
         page: Int,
         pageSize: Int,
-        callBack: (responseList: ResponseList<out HaixinRechargeEntity>?) -> Unit
+        callBack: (responseList: ResponseList<out HaixinRechargeAccountDetailEntity>?) -> Unit
     ) {
+        if (-1 == shopId || -1 == userId) return
+
         launch({
 
             if (1 == page) {
                 ApiRepository.dealApiResult(
-                    mHaiXinRepo.requestHaiXinTotal(
+                    mHaiXinRepo.requestRechargeAccountDetailTotalOfMonth(
                         ApiRepository.createRequestBody(
                             hashMapOf(
+                                "shopId" to shopId,
+                                "userId" to userId,
                                 "startTime" to DateTimeUtils.formatDateTimeStartParam(
                                     DateTimeUtils.getMonthFirst(
                                         searchDate
@@ -59,11 +69,13 @@ class HaiXinRechargeAccountDetailListViewModel : BaseViewModel() {
             }
 
             ApiRepository.dealApiResult(
-                mHaiXinRepo.requestHaiXinRechargeList(
+                mHaiXinRepo.requestRechargeAccountDetailList(
                     ApiRepository.createRequestBody(
                         hashMapOf(
                             "page" to page,
                             "pageSize" to pageSize,
+                            "memberId" to userId,
+                            "shopId" to shopId,
                             "startTime" to DateTimeUtils.formatDateTimeStartParam(
                                 DateTimeUtils.getMonthFirst(
                                     searchDate

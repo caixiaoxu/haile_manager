@@ -3,11 +3,8 @@ package com.yunshang.haile_manager_android.data.arguments
 import android.content.Intent
 import android.os.Bundle
 import com.lsy.framelib.utils.gson.GsonUtils
-import com.yunshang.haile_manager_android.business.vm.SearchSelectRadioViewModel
 import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
 import com.yunshang.haile_manager_android.data.entities.RealNameAuthDetailEntity
-import com.yunshang.haile_manager_android.data.entities.SchemeConfigsDetailEntity
-import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 
 /**
  * Title :
@@ -34,6 +31,32 @@ object IntentParams {
         fun parseId(intent: Intent): Int = intent.getIntExtra(ID, -1)
     }
 
+    object UserParams {
+        private const val UserId = "userId"
+        private const val UserName = "userName"
+        private const val Phone = "phone"
+
+        /**
+         * 包装参数
+         */
+        fun pack(userId: Int? = null, userName: String? = null, phone: String? = null): Bundle =
+            Bundle().apply {
+                userId?.let {
+                    putInt(UserId, userId)
+                }
+                userName?.let {
+                    putString(UserName, userName)
+                }
+                phone?.let {
+                    putString(Phone, phone)
+                }
+            }
+
+        fun parseUserId(intent: Intent): Int = intent.getIntExtra(UserId, -1)
+
+        fun parseUserName(intent: Intent): String? = intent.getStringExtra(UserName)
+        fun parsePhone(intent: Intent): String? = intent.getStringExtra(Phone)
+    }
 
     object ShopParams {
         private const val ShopId = "shopId"
@@ -157,5 +180,67 @@ object IntentParams {
 
         fun parseVersionInfo(intent: Intent): AppVersionEntity? =
             GsonUtils.json2Class(intent.getStringExtra(VERSIONINFO), AppVersionEntity::class.java)
+    }
+
+    object RechargeAccountDetailParams {
+
+        /**
+         * 包装参数
+         */
+        fun pack(userId: Int, shopId: Int, shopName: String): Bundle = Bundle().apply {
+            putAll(UserParams.pack(userId))
+            putAll(ShopParams.pack(shopId, shopName))
+        }
+
+        fun parseUserId(intent: Intent): Int = UserParams.parseUserId(intent)
+        fun parseShopId(intent: Intent): Int = ShopParams.parseShopId(intent)
+        fun parseShopName(intent: Intent): String? = ShopParams.parseShopName(intent)
+    }
+
+    object HaiXinParams {
+        private const val Reach = "reach"
+        private const val Reward = "reward"
+
+        /**
+         * 包装参数
+         */
+        fun pack(reach: Int, reward: Int): Bundle = Bundle().apply {
+            putInt(Reach, reach)
+            putInt(Reward, reward)
+        }
+
+        fun parseReach(intent: Intent): Int = intent.getIntExtra(Reach, 0)
+        fun parseReward(intent: Intent): Int = intent.getIntExtra(Reward, 0)
+
+    }
+
+    object RechargeRecycleParams {
+
+        /**
+         * 包装参数
+         */
+        fun pack(
+            userId: Int,
+            phone: String,
+            shopId: Int,
+            shopName: String,
+            reach: Int,
+            reward: Int
+        ): Bundle =
+            Bundle().apply {
+                putAll(UserParams.pack(userId, phone = phone))
+                putAll(ShopParams.pack(shopId, shopName))
+                putAll(HaiXinParams.pack(reach, reward))
+            }
+
+        fun parseUserId(intent: Intent): Int = UserParams.parseUserId(intent)
+        fun parsePhone(intent: Intent): String? = UserParams.parsePhone(intent)
+
+        fun parseShopId(intent: Intent): Int = ShopParams.parseShopId(intent)
+
+        fun parseShopName(intent: Intent): String? = ShopParams.parseShopName(intent)
+        fun parseReach(intent: Intent): Int = HaiXinParams.parseReach(intent)
+        fun parseReward(intent: Intent): Int = HaiXinParams.parseReward(intent)
+
     }
 }

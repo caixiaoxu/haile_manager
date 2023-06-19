@@ -3,7 +3,6 @@ package com.yunshang.haile_manager_android.ui.view.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
-import com.yunshang.haile_manager_android.data.entities.BalanceListEntity
 
 
 /**

@@ -35,4 +35,5 @@ object BusEvents {
     const val HAIXIN_SCHEME_LIST_STATUS = "haixin_scheme_list_change"
     const val HAIXIN_SCHEME_DETAIL_STATUS = "haixin_scheme_detail_change"
     const val HAIXIN_SCHEME_LIST_ITEM_DELETE_STATUS = "haixin_scheme_list_item_delete"
+    const val HAIXIN_USER_LIST_STATUS = "haixin_user_list_status"
 }

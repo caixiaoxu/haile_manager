@@ -10,7 +10,6 @@ import com.yunshang.haile_manager_android.business.apiService.LoginUserService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.StringUtils
-import timber.log.Timber
 
 /**
  * Title : 密码登录的viewmodel

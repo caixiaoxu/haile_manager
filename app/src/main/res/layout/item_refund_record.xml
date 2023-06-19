@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.RefundRecordEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_refund_record_phone"
+            style="@style/Font_16_333333_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:text="@{item.account}"
+            app:layout_constraintEnd_toStartOf="@id/tv_refund_record_state"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="18814822697" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_refund_record_state"
+            style="@style/Font_14_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:drawableEnd="@drawable/icon_arrow_right"
+            android:drawablePadding="8dp"
+            android:gravity="center"
+            android:text="@{item.stateDesc}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_refund_record_phone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_refund_record_phone"
+            app:layout_constraintTop_toTopOf="@id/tv_refund_record_phone" />
+
+        <View
+            style="@style/DividingStyle"
+            app:layout_constraintBottom_toBottomOf="@id/tv_refund_record_phone"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_refund_record_amount_title"
+            style="@style/Font_14_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:text="@string/refund_amount"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_refund_record_phone" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_refund_record_amount"
+            style="@style/Font_18_f0a258"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:fontFamily="@font/money"
+            android:gravity="center_vertical"
+            android:text="@{item.refundPrice + @string/unit_yuan}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_refund_record_amount_title"
+            app:layout_constraintStart_toEndOf="@id/tv_refund_record_amount_title"
+            app:layout_constraintTop_toTopOf="@id/tv_refund_record_amount_title"
+            tools:text="4.00元" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

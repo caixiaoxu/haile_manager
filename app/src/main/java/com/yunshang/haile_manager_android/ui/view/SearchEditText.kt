@@ -7,6 +7,8 @@ import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.widget.addTextChangedListener
+import com.lsy.framelib.utils.DimensionUtils
+import com.yunshang.haile_manager_android.R
 
 /**
  * Title :
@@ -29,13 +31,19 @@ class SearchEditText @JvmOverloads constructor(
     }
 
     init {
+        val array = context.obtainStyledAttributes(attrs, R.styleable.SearchEditText)
+        val autoSearch = array.getBoolean(R.styleable.SearchEditText_autoSearch, true)
+        array.recycle()
+
         maxLines = 1
         isSingleLine = true
         imeOptions = EditorInfo.IME_ACTION_SEARCH
 
-        addTextChangedListener {
-            mHandler.removeMessages(0)
-            mHandler.sendEmptyMessageDelayed(0, 600)
+        if (autoSearch){
+            addTextChangedListener {
+                mHandler.removeMessages(0)
+                mHandler.sendEmptyMessageDelayed(0, 600)
+            }
         }
 
         setOnEditorActionListener { _, actionId, _ ->

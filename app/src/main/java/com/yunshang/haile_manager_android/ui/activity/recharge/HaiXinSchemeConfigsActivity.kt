@@ -20,6 +20,7 @@ import com.yunshang.haile_manager_android.databinding.ItemHaixinSchemeConfigsBin
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 
 class HaiXinSchemeConfigsActivity :
     BaseBusinessActivity<ActivityHaixinSchemeConfigsBinding, HaiXinSchemeConfigsViewModel>(
@@ -35,6 +36,7 @@ class HaiXinSchemeConfigsActivity :
             R.layout.item_haixin_scheme_configs, BR.item
         ) { mItemBinding, _, item ->
             mItemBinding?.root?.setOnClickListener {
+                if (!UserPermissionUtils.hasVipDetailPermission()) return@setOnClickListener
                 startActivity(
                     Intent(
                         this@HaiXinSchemeConfigsActivity,
@@ -61,21 +63,24 @@ class HaiXinSchemeConfigsActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
-        mBinding.barHaixinSchemeConfigsTitle.getRightBtn().run {
-            setText(R.string.add_scheme)
-            setTextColor(
-                ContextCompat.getColor(
-                    this@HaiXinSchemeConfigsActivity,
-                    R.color.colorPrimary
-                )
-            )
-            setOnClickListener {
-                startActivity(
-                    Intent(
+
+        if (UserPermissionUtils.hasVipAddPermission()){
+            mBinding.barHaixinSchemeConfigsTitle.getRightBtn().run {
+                setText(R.string.add_scheme)
+                setTextColor(
+                    ContextCompat.getColor(
                         this@HaiXinSchemeConfigsActivity,
-                        HaiXinSchemeConfigsCreateActivity::class.java
+                        R.color.colorPrimary
                     )
                 )
+                setOnClickListener {
+                    startActivity(
+                        Intent(
+                            this@HaiXinSchemeConfigsActivity,
+                            HaiXinSchemeConfigsCreateActivity::class.java
+                        )
+                    )
+                }
             }
         }
         mBinding.rvHaixinSchemeConfigsList.layoutManager = LinearLayoutManager(this)

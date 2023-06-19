@@ -123,4 +123,28 @@ interface HaiXinService {
     @POST("/starfish/addStarFish")
     suspend fun rechargeHaiXin(@Body params: RequestBody): ResponseWrapper<Any>
 
+    /**
+     * 退款记录列表接口
+     */
+    @POST("/starfish/getUserTokenCoinRefundRecordAppListVOPage")
+    suspend fun requestRefundRecordList(@Body params: RequestBody): ResponseWrapper<ResponseList<RefundRecordEntity>>
+
+    /**
+     * 退款记录详情接口
+     */
+    @GET("/starfish/getUserTokenCoinRefundRecordDetailVOById")
+    suspend fun requestRefundRecordDetail(@Query("id") id: Int): ResponseWrapper<RefundRecordDetailEntity>
+
+    /**
+     * 拒绝退款接口
+     */
+    @POST("/starfish/refundReject")
+    suspend fun refuseRefund(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 同意退款接口
+     */
+    @POST("/starfish/refundPass")
+    suspend fun agreeRefund(@Body params: RequestBody): ResponseWrapper<Any>
+
 }

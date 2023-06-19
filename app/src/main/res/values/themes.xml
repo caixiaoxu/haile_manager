@@ -227,7 +227,14 @@
     <style name="Font_12_f0a258">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/colorPrimary</item>
+    </style>
 
+    <style name="Font_12_ffffff">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="Font_12_ffffff_bold" parent="Font_12_ffffff">
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Font_12_CCCCCC">
@@ -238,6 +245,10 @@
     <style name="Font_12_999999">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/common_sub_txt_color</item>
+    </style>
+
+    <style name="Font_12_999999_bold" parent="Font_12_999999">
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Font_12_666666">

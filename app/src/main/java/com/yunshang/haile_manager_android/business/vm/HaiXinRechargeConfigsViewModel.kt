@@ -30,7 +30,7 @@ class HaiXinRechargeConfigsViewModel : BaseViewModel() {
             null,
             MutableLiveData<String>(),
             HaiXinRechargeListActivity::class.java,
-            isShow = UserPermissionUtils.hasVipRechargePermission()
+            isShow = UserPermissionUtils.hasVipRechargePermission() && UserPermissionUtils.hasVipRechargeListPermission()
         ),
         PersonalViewModel.PersonalItem(
             R.mipmap.icon_scheme_config_main,

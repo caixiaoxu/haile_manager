@@ -90,7 +90,6 @@ class OrderManagerViewModel : BaseViewModel() {
             IndicatorEntity("支付超时", 0, "401"),
         )
     )
-
     fun requestOrderList(
         page: Int,
         pageSize: Int,

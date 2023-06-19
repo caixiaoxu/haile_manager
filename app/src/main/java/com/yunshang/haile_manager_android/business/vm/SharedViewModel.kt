@@ -138,6 +138,8 @@ class SharedViewModel : ViewModel() {
         hasUserPermission.map { UserPermissionUtils.hasVipDeletePermission() }
     val hasVipRechargeRecyclePermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasVipRechargeRecyclePermission() }
+    val hasVipRefundApplyPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasVipRefundApplyPermission() }
     /** ---------------------充值权限------------------------- **/
 
     /** ---------------------分账权限------------------------- **/

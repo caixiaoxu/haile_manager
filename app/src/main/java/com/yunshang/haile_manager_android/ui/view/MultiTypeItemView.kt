@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.ui.view
 import android.content.Context
 import android.text.InputFilter.LengthFilter
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -84,12 +85,19 @@ class MultiTypeItemView @JvmOverloads constructor(
 
     init {
         val array = context.obtainStyledAttributes(attrs, R.styleable.MultiTypeItemView)
-        val canUpdate = array.getBoolean(R.styleable.MultiTypeItemView_canUpdate, true)
         val title = array.getString(R.styleable.MultiTypeItemView_title)
         val titleW = array.getDimensionPixelSize(
             R.styleable.MultiTypeItemView_titleW,
             DimensionUtils.dip2px(context, 104f)
         )
+        val titleSize =
+            array.getDimensionPixelOffset(R.styleable.MultiTypeItemView_titleSize, 16).toFloat()
+        val titleColor =
+            array.getColor(
+                R.styleable.MultiTypeItemView_titleColor, ResourcesCompat.getColor(
+                    resources, R.color.common_txt_color, null
+                )
+            )
         val titleDrawableEnd =
             array.getResourceId(R.styleable.MultiTypeItemView_titleDrawableEnd, -1)
         val titleDrawablePadding =
@@ -103,6 +111,15 @@ class MultiTypeItemView @JvmOverloads constructor(
         val maxLength = array.getInt(R.styleable.MultiTypeItemView_android_maxLength, 0)
         val maxLines = array.getInt(R.styleable.MultiTypeItemView_android_maxLines, 0)
         val enabled = array.getBoolean(R.styleable.MultiTypeItemView_android_enabled, true)
+        val contentSize =
+            array.getDimensionPixelOffset(R.styleable.MultiTypeItemView_android_textSize, 16)
+                .toFloat()
+        val contentColor =
+            array.getColor(
+                R.styleable.MultiTypeItemView_android_textColor, ResourcesCompat.getColor(
+                    resources, R.color.common_txt_color, null
+                )
+            )
 
         val showArrow = array.getBoolean(R.styleable.MultiTypeItemView_showArrow, false)
         val tailDrawable =
@@ -111,10 +128,19 @@ class MultiTypeItemView @JvmOverloads constructor(
         array.recycle()
 
         // 添加标题
-        addTitle(title, titleW, titleDrawableEnd, titleDrawablePadding, canUpdate)
+        addTitle(title, titleW, titleDrawableEnd, titleDrawablePadding, titleSize, titleColor)
 
         //添加内容
-        addContent(inputType, hint, maxLength, maxLines, canUpdate, enabled, titleContentSpace)
+        addContent(
+            inputType,
+            hint,
+            maxLength,
+            maxLines,
+            contentSize,
+            contentColor,
+            enabled,
+            titleContentSpace
+        )
 
         //添加尾部
         addTail(showArrow, tailDrawable, unitHint)
@@ -128,7 +154,8 @@ class MultiTypeItemView @JvmOverloads constructor(
         titleW: Int,
         titleDrawableEnd: Int,
         titleDrawablePadding: Int,
-        canUpdate: Boolean
+        titleSize: Float,
+        titleColor: Int
     ) {
         addView(
             LinearLayout(context).apply {
@@ -136,13 +163,9 @@ class MultiTypeItemView @JvmOverloads constructor(
                 addView(
                     mTitleView.apply {
                         text = title
-                        setTextColor(
-                            ResourcesCompat.getColor(
-                                resources,
-                                if (canUpdate) R.color.common_txt_color else R.color.common_txt_hint_color,
-                                null
-                            )
-                        )
+                        setTextColor(titleColor)
+                        setTextSize(TypedValue.COMPLEX_UNIT_PX, titleSize)
+                        gravity = Gravity.START
                         // 右图标
                         if (-1 != titleDrawableEnd) {
                             mTitleView.setCompoundDrawablesRelativeWithIntrinsicBounds(
@@ -174,7 +197,8 @@ class MultiTypeItemView @JvmOverloads constructor(
         hint: String?,
         maxLength: Int,
         maxLines: Int,
-        canUpdate: Boolean,
+        contentSize: Float,
+        contentColor: Int,
         enabled: Boolean,
         titleContentSpace: Int
     ) {
@@ -185,13 +209,8 @@ class MultiTypeItemView @JvmOverloads constructor(
                     ?: if (1 == type) resources.getString(R.string.please_input) else resources.getString(
                         R.string.please_select
                     )
-                it.setTextColor(
-                    ResourcesCompat.getColor(
-                        resources,
-                        if (canUpdate) R.color.common_txt_color else R.color.common_txt_hint_color,
-                        null
-                    )
-                )
+                it.setTextColor(contentColor)
+                it.setTextSize(TypedValue.COMPLEX_UNIT_PX, contentSize)
                 if (-1 != inputType) {
                     it.inputType = inputType
                 }

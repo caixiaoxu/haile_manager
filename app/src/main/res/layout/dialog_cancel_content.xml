@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp"
+    android:background="@drawable/shape_sffffff_r8"
+    android:paddingTop="24dp"
+    android:paddingBottom="32dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_cancel_content_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        style="@style/Font_16_333333_bold"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_cancel_content_cause"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:layout_marginTop="24dp"
+        android:maxLength="30"
+        android:padding="8dp"
+        android:gravity="top"
+        style="@style/Font_14_333333_999999"
+        android:hint="请输入取消的原因"
+        android:background="@drawable/shape_stroke_efefef_r8"
+        app:layout_constraintTop_toBottomOf="@id/tv_cancel_content_title" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_cancel_content_cause_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="0/30"
+        style="@style/Font_12_CCCCCC"
+        app:layout_constraintEnd_toEndOf="@id/et_cancel_content_cause"
+        app:layout_constraintBottom_toBottomOf="@id/et_cancel_content_cause"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_cancel_no"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        android:text="@string/cancel"
+        android:gravity="center"
+        style="@style/Font_12_333333"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toStartOf="@id/tv_cancel_yes"
+        app:layout_constraintTop_toBottomOf="@id/et_cancel_content_cause"
+        android:background="@drawable/shape_stroke_cccccc_r22"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_cancel_yes"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintStart_toEndOf="@id/tv_cancel_no"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        android:text="@string/sure"
+        android:gravity="center"
+        style="@style/Font_12_ffffff_bold"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@id/et_cancel_content_cause"
+        android:background="@drawable/shape_sf0a258_r22"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

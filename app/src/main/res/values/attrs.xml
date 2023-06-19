@@ -27,6 +27,8 @@
         <attr name="canUpdate" format="boolean" />
         <attr name="title" />
         <attr name="titleW" format="dimension" />
+        <attr name="titleColor" format="color" />
+        <attr name="titleSize" format="dimension" />
         <attr name="titleDrawableEnd" format="reference" />
         <attr name="titleDrawablePadding" format="dimension" />
         <attr name="titleContentSpace" format="dimension" />
@@ -35,6 +37,8 @@
         <attr name="android:maxLength" />
         <attr name="android:maxLines" />
         <attr name="android:enabled" />
+        <attr name="android:textColor" />
+        <attr name="android:textSize" />
         <attr name="showArrow" format="boolean" />
         <attr name="tailDrawable" format="reference" />
         <attr name="unitHint" format="string" />
@@ -49,5 +53,8 @@
     </declare-styleable>
     <declare-styleable name="CustomChildListLinearLayout">
         <attr name="itemLayout" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="SearchEditText">
+        <attr name="autoSearch" format="boolean" />
     </declare-styleable>
 </resources>

@@ -228,7 +228,6 @@ class OrderManagerActivity :
         }
 
         mBinding.rvOrderManagerList.layoutManager = LinearLayoutManager(this)
-
         mBinding.rvOrderManagerList.addItemDecoration(
             DividerItemDecoration(
                 this,
@@ -238,7 +237,6 @@ class OrderManagerActivity :
                     setDrawable(it)
                 }
             })
-
         mBinding.rvOrderManagerList.adapter = mAdapter
 
         mBinding.rvOrderManagerList.requestData =

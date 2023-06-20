@@ -77,7 +77,7 @@ object StringUtils {
      */
     fun formatMultiStyleStr(
         content: String,
-        spans: Array<ParcelableSpan>,
+        spans: Array<Any>,
         start: Int,
         end: Int
     ): SpannableString = SpannableString(content).apply {

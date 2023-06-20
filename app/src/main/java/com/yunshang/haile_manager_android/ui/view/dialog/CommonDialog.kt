@@ -1,7 +1,9 @@
 package com.yunshang.haile_manager_android.ui.view.dialog
 
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
@@ -60,6 +62,8 @@ class CommonDialog private constructor(private val builder: Builder) : AppCompat
         }
 
         //内容
+        mBinding.tvCommonDialogContent.movementMethod = LinkMovementMethod.getInstance()
+        mBinding.tvCommonDialogContent.highlightColor = Color.TRANSPARENT
         mBinding.tvCommonDialogContent.text = builder.msg
 
         //拒绝按钮
@@ -106,7 +110,7 @@ class CommonDialog private constructor(private val builder: Builder) : AppCompat
         show(manager, DEFAULT_TAG)
     }
 
-    internal class Builder(val msg: String) {
+    internal class Builder(val msg: CharSequence) {
         // 标题
         var title: String? = null
 

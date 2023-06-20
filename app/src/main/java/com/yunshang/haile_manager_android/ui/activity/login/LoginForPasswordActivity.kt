@@ -9,10 +9,12 @@ import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.LoginForPasswordViewModel
 import com.yunshang.haile_manager_android.data.ActivityTag
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.databinding.ActivityLoginForPasswordBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.MainActivity
 import com.yunshang.haile_manager_android.utils.ViewUtils
+import com.yunshang.haile_manager_android.web.WebViewActivity
 
 class LoginForPasswordActivity :
     BaseBusinessActivity<ActivityLoginForPasswordBinding, LoginForPasswordViewModel>(
@@ -30,8 +32,13 @@ class LoginForPasswordActivity :
 
         // 协议内容
         ViewUtils.initAgreementToTextView(mBinding.tvLoginAgreement) {
-            // TODO 跳转隐私协议
-            SToast.showToast(this@LoginForPasswordActivity, "隐私协议")
+            startActivity(Intent(this@LoginForPasswordActivity,WebViewActivity::class.java).apply {
+                putExtras(
+                    IntentParams.WebViewParams.pack(
+                        BuildConfig.PRIVACY_POLICY,
+                    )
+                )
+            })
         }
 
         // 忘记密码

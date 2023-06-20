@@ -9,10 +9,12 @@ import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.LoginForPhoneViewModel
 import com.yunshang.haile_manager_android.data.ActivityTag
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.databinding.ActivityLoginForPhoneBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.MainActivity
 import com.yunshang.haile_manager_android.utils.ViewUtils
+import com.yunshang.haile_manager_android.web.WebViewActivity
 
 class LoginForPhoneActivity : BaseBusinessActivity<ActivityLoginForPhoneBinding, LoginForPhoneViewModel>(
     LoginForPhoneViewModel::class.java,
@@ -27,8 +29,13 @@ class LoginForPhoneActivity : BaseBusinessActivity<ActivityLoginForPhoneBinding,
 
         // 协议内容
         ViewUtils.initAgreementToTextView(mBinding.tvLoginAgreement){
-            // TODO 跳转隐私协议
-            SToast.showToast(this@LoginForPhoneActivity, "隐私协议")
+            startActivity(Intent(this@LoginForPhoneActivity, WebViewActivity::class.java).apply {
+                putExtras(
+                    IntentParams.WebViewParams.pack(
+                        BuildConfig.PRIVACY_POLICY,
+                    )
+                )
+            })
         }
     }
 

@@ -92,6 +92,7 @@ class HomeViewModel : BaseViewModel() {
                 UserPermissionUtils.hasWorkOrderPermission(),
                 IntentParams.WebViewParams.pack(
                     BuildConfig.H5_WORK_ORDER,
+//                    "http://192.168.3.32:5173/",//测试
                     true,
                 )
             ),

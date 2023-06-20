@@ -25,14 +25,19 @@ object DialogUtils {
     fun showImgSelectorDialog(
         activity: AppCompatActivity,
         maxNum: Int,
+        showTake: Boolean = true,
+        showAlbum: Boolean = true,
         callback: (isSuccess: Boolean, result: ArrayList<LocalMedia>?) -> Unit
     ) {
-        CommonBottomSheetDialog.Builder(
-            "", arrayListOf(
-                SearchSelectParam(1, StringUtils.getString(R.string.for_take)),
-                SearchSelectParam(2, StringUtils.getString(R.string.for_album)),
-            )
-        ).apply {
+        val list = arrayListOf<SearchSelectParam>()
+        if (showTake) {
+            list.add(SearchSelectParam(1, StringUtils.getString(R.string.for_take)))
+        }
+        if (showAlbum) {
+            list.add(SearchSelectParam(2, StringUtils.getString(R.string.for_album)))
+        }
+
+        CommonBottomSheetDialog.Builder("", list).apply {
             onValueSureListener = object :
                 CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
                 override fun onValue(data: SearchSelectParam) {

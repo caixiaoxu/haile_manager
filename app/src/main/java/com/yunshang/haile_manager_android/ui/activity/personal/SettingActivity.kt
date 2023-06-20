@@ -6,6 +6,7 @@ import android.view.View
 import com.lsy.framelib.utils.AppManager
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
+import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.SettingViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
@@ -16,6 +17,7 @@ import com.yunshang.haile_manager_android.ui.activity.login.ChangeUserActivity
 import com.yunshang.haile_manager_android.ui.activity.login.LoginActivity
 import com.yunshang.haile_manager_android.ui.activity.login.UpdateLoginPasswordActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
+import com.yunshang.haile_manager_android.web.WebViewActivity
 
 class SettingActivity : BaseBusinessActivity<ActivitySettingBinding, SettingViewModel>(
     SettingViewModel::class.java,
@@ -31,6 +33,16 @@ class SettingActivity : BaseBusinessActivity<ActivitySettingBinding, SettingView
 
         mBinding.tvChangePassword.setOnClickListener {
             startActivity(Intent(this@SettingActivity, UpdateLoginPasswordActivity::class.java))
+        }
+
+        mBinding.tvPrivacyPolicy.setOnClickListener {
+            startActivity(Intent(this@SettingActivity, WebViewActivity::class.java).apply {
+                putExtras(
+                    IntentParams.WebViewParams.pack(
+                        BuildConfig.PRIVACY_POLICY,
+                    )
+                )
+            })
         }
 
         mBinding.tvVersion.setOnClickListener {

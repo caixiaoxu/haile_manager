@@ -15,6 +15,8 @@ object EnvConfig {
     const val H5_WORK_OREDER_DEBUG = "\"http://115.238.82.114:1409\""
     const val H5_WORK_OREDER_RELEASE = "\"https://taskflow.haier-ioc.com\""
 
+    const val PRIVACY_POLICY = "\"https://h5.haier-ioc.com/#/pages/private/appPrivate\""
+
     const val TEST_ACCOUNT = "\"13067949521\""
     const val TEST_PWD = "\"Ko7Ir9\""
 }

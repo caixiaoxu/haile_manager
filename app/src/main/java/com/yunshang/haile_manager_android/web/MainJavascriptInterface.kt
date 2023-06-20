@@ -18,7 +18,7 @@ import timber.log.Timber
  */
 class MainJavascriptInterface(
     callbacks: Map<String?, OnBridgeCallback?>?,
-    val callMethod: (type: Int, json: String) -> Unit
+    val callMethod: (type: Int, json: String, callbackId: String) -> Unit
 ) : BridgeWebView.BaseJavascriptInterface(callbacks) {
     private var jsCallbackId: String? = null
 
@@ -30,32 +30,36 @@ class MainJavascriptInterface(
     @JavascriptInterface
     fun _HR_onPopGlobalWeb(data: String, callbackId: String) {
         Timber.i("js: ${data}, callbackId: $callbackId")
-        callMethod(0, data)
+        callMethod(0, data, callbackId)
     }
 
     @SuppressLint("JavascriptInterface")
     @JavascriptInterface
     fun _HR_onExitApp(data: String, callbackId: String) {
-        callMethod(1, data)
+        callMethod(1, data, callbackId)
     }
 
     @SuppressLint("JavascriptInterface")
     @JavascriptInterface
     fun _HR_getScan(data: String, callbackId: String) {
+        callMethod(2, data, callbackId)
     }
 
     @SuppressLint("JavascriptInterface")
     @JavascriptInterface
     fun _HR_getUserInfo(data: String, callbackId: String) {
+        callMethod(3, data, callbackId)
     }
 
     @SuppressLint("JavascriptInterface")
     @JavascriptInterface
     fun _HR_onUpdateNavTitle(data: String, callbackId: String) {
+        callMethod(4, data, callbackId)
     }
 
     @SuppressLint("JavascriptInterface")
     @JavascriptInterface
     fun _HR_chooseImage(data: String, callbackId: String) {
+        callMethod(5, data, callbackId)
     }
 }

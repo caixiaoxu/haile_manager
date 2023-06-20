@@ -1,14 +1,17 @@
 package com.yunshang.haile_manager_android.ui.activity.login
 
+import android.content.Intent
 import android.view.View
 import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.ResetPasswordViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.databinding.ActivityResetPasswordBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.utils.ViewUtils
+import com.yunshang.haile_manager_android.web.WebViewActivity
 
 class ResetLoginPasswordActivity :
     BaseBusinessActivity<ActivityResetPasswordBinding, ResetPasswordViewModel>(
@@ -24,8 +27,13 @@ class ResetLoginPasswordActivity :
 
         // 协议内容
         ViewUtils.initAgreementToTextView(mBinding.tvLoginAgreement) {
-            // TODO 跳转隐私协议
-            SToast.showToast(this@ResetLoginPasswordActivity, "隐私协议")
+            startActivity(Intent(this@ResetLoginPasswordActivity, WebViewActivity::class.java).apply {
+                putExtras(
+                    IntentParams.WebViewParams.pack(
+                        BuildConfig.PRIVACY_POLICY,
+                    )
+                )
+            })
         }
     }
 

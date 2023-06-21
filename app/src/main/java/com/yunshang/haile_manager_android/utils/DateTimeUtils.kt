@@ -213,6 +213,22 @@ object DateTimeUtils {
         }
 
     /**
+     * 获取周份列表
+     */
+    fun getWeekSection(firstDay: Int, dayNum: Int): List<String> =
+        ArrayList<String>().apply {
+            var i = 0
+            var monthDay: Int
+            var sunday: Int
+            do {
+                monthDay = firstDay + (7 * i)
+                sunday = monthDay + 6
+                add("${monthDay}日-${if (sunday > dayNum) sunday - dayNum else sunday}日")
+                i++
+            } while (sunday < dayNum)
+        }
+
+    /**
      * 是否两个时间是否为同一天
      *
      * @param date1,date2 两个对比时间

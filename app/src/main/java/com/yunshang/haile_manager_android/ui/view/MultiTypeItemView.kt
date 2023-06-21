@@ -91,7 +91,10 @@ class MultiTypeItemView @JvmOverloads constructor(
             DimensionUtils.dip2px(context, 104f)
         )
         val titleSize =
-            array.getDimensionPixelOffset(R.styleable.MultiTypeItemView_titleSize, 16).toFloat()
+            array.getDimensionPixelOffset(
+                R.styleable.MultiTypeItemView_titleSize,
+                DimensionUtils.sp2px(context, 16f)
+            ).toFloat()
         val titleColor =
             array.getColor(
                 R.styleable.MultiTypeItemView_titleColor, ResourcesCompat.getColor(
@@ -112,8 +115,10 @@ class MultiTypeItemView @JvmOverloads constructor(
         val maxLines = array.getInt(R.styleable.MultiTypeItemView_android_maxLines, 0)
         val enabled = array.getBoolean(R.styleable.MultiTypeItemView_android_enabled, true)
         val contentSize =
-            array.getDimensionPixelOffset(R.styleable.MultiTypeItemView_android_textSize, 16)
-                .toFloat()
+            array.getDimensionPixelOffset(
+                R.styleable.MultiTypeItemView_android_textSize,
+                DimensionUtils.sp2px(context, 16f)
+            ).toFloat()
         val contentColor =
             array.getColor(
                 R.styleable.MultiTypeItemView_android_textColor, ResourcesCompat.getColor(

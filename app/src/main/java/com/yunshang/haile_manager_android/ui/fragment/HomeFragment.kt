@@ -36,6 +36,7 @@ import com.yunshang.haile_manager_android.data.entities.MessageContentEntity
 import com.yunshang.haile_manager_android.databinding.FragmentHomeBinding
 import com.yunshang.haile_manager_android.databinding.IncludeHomeFuncItemBinding
 import com.yunshang.haile_manager_android.databinding.IncludeHomeLastMsgItemBinding
+import com.yunshang.haile_manager_android.ui.activity.message.MessageCenterActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
 import com.yunshang.haile_manager_android.ui.view.chart.BarChartRenderer
 import com.yunshang.haile_manager_android.ui.view.chart.CustomMarkerView
@@ -68,6 +69,10 @@ class HomeFragment :
         val layoutParams = mBinding.bgHomeTitle.layoutParams as ConstraintLayout.LayoutParams
         layoutParams.topMargin = StatusBarUtils.getStatusBarHeight()
         mBinding.bgHomeTitle.layoutParams = layoutParams
+
+        mBinding.ibHomeMsg.setOnClickListener {
+            startActivity(Intent(requireContext(), MessageCenterActivity::class.java))
+        }
 
         initBarChart()
 

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.business.vm.MessageCenterViewModel.MessageCenterEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_message_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            app:imgRes="@{item.typeIcon}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@mipmap/icon_message_malfunction" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_message_count"
+            style="@style/font_10_ffffff_bold"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="-4dp"
+            android:layout_marginEnd="-4dp"
+            android:background="@drawable/shape_message_dot"
+            android:gravity="center"
+            android:visibility="@{item.count>0?View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toEndOf="@id/iv_message_icon"
+            app:layout_constraintTop_toTopOf="@id/iv_message_icon"
+            tools:text="8" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_message_title"
+            style="@style/Font_14_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.title}"
+            app:layout_constraintBottom_toTopOf="@id/tv_message_last"
+            app:layout_constraintStart_toStartOf="@id/tv_message_last"
+            app:layout_constraintTop_toTopOf="@id/iv_message_icon"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            tools:text="设备故障" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_message_time"
+            style="@style/Font_12_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.time}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_message_title"
+            app:layout_constraintEnd_toEndOf="@id/tv_message_last"
+            app:layout_constraintTop_toTopOf="@id/tv_message_title"
+            tools:text="设备故障" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_message_last"
+            style="@style/Font_12_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{item.getLastMsg}"
+            app:layout_constraintBottom_toBottomOf="@id/iv_message_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_message_icon"
+            app:layout_constraintTop_toBottomOf="@id/tv_message_title"
+            tools:text="云裳物联店铺3号洗衣机出现故障，故障" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.common.CommonKeyValueEntity" />
+    </data>
+
+    <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+        android:id="@+id/item_message_list_shop_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/common_txt_color"
+        android:textSize="14sp"
+        app:itemContent="@{item.value}"
+        app:title="@{item.title}"
+        app:titleColor="@color/common_sub_txt_color"
+        app:titleSize="14sp"
+        app:titleW="68dp" />
+</layout>

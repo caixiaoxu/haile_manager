@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.ui.activity.message
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.view.View
@@ -9,22 +10,50 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
+import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.MessageCenterViewModel
-import com.yunshang.haile_manager_android.data.entities.DeviceEntity
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.databinding.ActivityMessageCenterBinding
+import com.yunshang.haile_manager_android.databinding.ItemMessageCenterBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
-import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 
 class MessageCenterActivity :
     BaseBusinessActivity<ActivityMessageCenterBinding, MessageCenterViewModel>(
         MessageCenterViewModel::class.java
     ) {
+
+    private val mAdapter by lazy {
+        CommonRecyclerAdapter<ItemMessageCenterBinding, MessageCenterViewModel.MessageCenterEntity>(
+            R.layout.item_message_center,
+            BR.item
+        ) { mItemBinding, _, item ->
+            mItemBinding?.root?.setOnClickListener {
+                if (!item.isNull) {
+                    startActivity(
+                        Intent(
+                            this@MessageCenterActivity,
+                            MessageListActivity::class.java
+                        ).apply {
+                            putExtras(IntentParams.MessageListParams.pack(item.typeId, item.title))
+                        })
+                }
+            }
+        }
+    }
+
     override fun layoutId(): Int = R.layout.activity_message_center
 
     override fun backBtn(): View = mBinding.barMessageCenterTitle.getBackBtn()
+
+    override fun initEvent() {
+        super.initEvent()
+        mViewModel.messageList.observe(this) {
+            mAdapter.refreshList(it, true)
+        }
+    }
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
@@ -55,20 +84,29 @@ class MessageCenterActivity :
                 typeface = Typeface.DEFAULT_BOLD
                 val ph = DimensionUtils.dip2px(this@MessageCenterActivity, 16f)
                 setPadding(ph, 0, ph, 0)
+                setOnClickListener {
+                    startActivity(
+                        Intent(
+                            this@MessageCenterActivity,
+                            MessageSettingActivity::class.java
+                        )
+                    )
+                }
             }, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
 
         }
 
         mBinding.rvMessageList.layoutManager = LinearLayoutManager(this)
-        mBinding.rvMessageList.addItemDecoration(
-            DividerItemDecoration(
-                this,
-                DividerItemDecoration.VERTICAL
-            ).apply {
-                ResourcesCompat.getDrawable(resources, R.drawable.shape_bottom_stroke_dividing_efefef_mlr16, null)?.let {
-                    setDrawable(it)
-                }
-            })
+        ResourcesCompat.getDrawable(
+            resources,
+            R.drawable.divder_efefef_size_half,
+            null
+        )?.let {
+            mBinding.rvMessageList.addItemDecoration(
+                DividerItemDecoration(
+                    this, DividerItemDecoration.VERTICAL
+                ).apply { setDrawable(it) })
+        }
 
         mBinding.rvMessageList.adapter = mAdapter
     }

@@ -38,6 +38,7 @@
             android:layout_marginEnd="-4dp"
             android:background="@drawable/shape_message_dot"
             android:gravity="center"
+            android:text='@{item.count +""}'
             android:visibility="@{item.count>0?View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="@id/iv_message_icon"
             app:layout_constraintTop_toTopOf="@id/iv_message_icon"

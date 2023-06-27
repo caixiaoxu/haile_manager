@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
+import com.yunshang.haile_manager_android.data.entities.MessageSubTypeEntity
 import com.yunshang.haile_manager_android.data.entities.RealNameAuthDetailEntity
 
 /**
@@ -232,6 +233,22 @@ object IntentParams {
 
         fun parseTypeId(intent: Intent): Int = intent.getIntExtra(TypeId, -1)
         fun parseMessageName(intent: Intent): String? = intent.getStringExtra(MessageName)
+    }
+
+    object MessageSettingParams {
+        private const val SubTypeList = "subTypeList"
+
+        /**
+         * 包装参数
+         */
+        fun pack(json: String): Bundle =
+            Bundle().apply { putString(SubTypeList, json) }
+
+        fun parseSubTypeList(intent: Intent): MutableList<MessageSubTypeEntity>? =
+            GsonUtils.json2List(
+                intent.getStringExtra(SubTypeList),
+                MessageSubTypeEntity::class.java
+            )
     }
 
     object RechargeRecycleParams {

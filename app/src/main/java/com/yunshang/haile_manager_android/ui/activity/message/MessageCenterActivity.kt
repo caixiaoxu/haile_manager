@@ -11,6 +11,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.MessageCenterViewModel
@@ -70,6 +71,9 @@ class MessageCenterActivity :
                     )
                 )
                 typeface = Typeface.DEFAULT_BOLD
+                setOnClickListener {
+                    mViewModel.readAllMessage()
+                }
             }, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
 
             addView(AppCompatTextView(this@MessageCenterActivity).apply {
@@ -89,11 +93,18 @@ class MessageCenterActivity :
                         Intent(
                             this@MessageCenterActivity,
                             MessageSettingActivity::class.java
-                        )
+                        ).apply {
+                            putExtras(
+                                IntentParams.MessageSettingParams.pack(
+                                    GsonUtils.any2Json(
+                                        mViewModel.subTypeList
+                                    )
+                                )
+                            )
+                        }
                     )
                 }
             }, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-
         }
 
         mBinding.rvMessageList.layoutManager = LinearLayoutManager(this)

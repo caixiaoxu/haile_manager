@@ -7,7 +7,7 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.MessageService
 import com.yunshang.haile_manager_android.data.entities.MessageContentEntity
-import com.yunshang.haile_manager_android.data.entities.MessageEntity
+import com.yunshang.haile_manager_android.data.entities.MessageSubTypeEntity
 import com.yunshang.haile_manager_android.data.entities.MessageSystemContentEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
@@ -29,6 +29,8 @@ class MessageCenterViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
+    var subTypeList = mutableListOf<MessageSubTypeEntity>()
+
     /**
      * 刷新设备列表
      */
@@ -43,6 +45,7 @@ class MessageCenterViewModel : BaseViewModel() {
                     )
                 )
             )?.let { subTypeList ->
+                this.subTypeList = subTypeList
                 val list = mutableListOf<MessageCenterEntity>()
                 subTypeList.forEach {
                     val msgList = MessageCenterEntity(it.typeId, it.name)
@@ -118,5 +121,22 @@ class MessageCenterViewModel : BaseViewModel() {
         var isNull: Boolean = true
 
         fun getLastMsg() = if (isNull) StringUtils.getString(R.string.message_empty) else last
+    }
+
+    fun readAllMessage() {
+        launch({
+            ApiRepository.dealApiResult(
+                mMessageRepo.readMessageAll(
+                    ApiRepository.createRequestBody(
+                        hashMapOf()
+                    )
+                )
+            )
+            messageList.value?.let { list ->
+                val temp = mutableListOf<MessageCenterEntity>()
+                temp.addAll(list.apply { forEach { it.count = 0 } })
+                messageList.postValue(temp)
+            }
+        })
     }
 }

@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.business.apiService
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.yunshang.haile_manager_android.data.entities.MessageEntity
+import com.yunshang.haile_manager_android.data.entities.MessageSettingEntity
 import com.yunshang.haile_manager_android.data.entities.MessageSubTypeEntity
 import com.yunshang.haile_manager_android.data.entities.MessageTypeCountEntity
 import okhttp3.RequestBody
@@ -38,4 +39,22 @@ interface MessageService {
      */
     @POST("/message/subtype/list")
     suspend fun requestSubTypeList(@Body body: RequestBody): ResponseWrapper<MutableList<MessageSubTypeEntity>>
+
+    /**
+     * 消息设置列表接口
+     */
+    @POST("/message/settings")
+    suspend fun requestMessageSettingList(@Body body: RequestBody): ResponseWrapper<MutableList<MessageSettingEntity>>
+
+    /**
+     * 消息设置接口
+     */
+    @POST("/message/setting")
+    suspend fun requestMessageSetting(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 消息一键已读接口
+     */
+    @POST("/message/readAll")
+    suspend fun readMessageAll(@Body body: RequestBody): ResponseWrapper<Any>
 }

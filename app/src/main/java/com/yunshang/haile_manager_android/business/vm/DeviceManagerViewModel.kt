@@ -57,6 +57,11 @@ class DeviceManagerViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
+    // 选择的设备状态
+    val selectDeviceStatus: MutableLiveData<SearchSelectParam> by lazy {
+        MutableLiveData()
+    }
+
     // 状态的工作状态
     val curWorkStatus: MutableLiveData<String> = MutableLiveData("")
 
@@ -66,7 +71,7 @@ class DeviceManagerViewModel : BaseViewModel() {
             IndicatorEntity("运行", 0, "20"),
             IndicatorEntity("空闲", 0, "10"),
             IndicatorEntity("故障", 0, "30"),
-            IndicatorEntity("停用", 0, "40"),
+//            IndicatorEntity("停用", 0, "40"),
         )
     )
 
@@ -109,7 +114,7 @@ class DeviceManagerViewModel : BaseViewModel() {
             titles[1].num = totals?.getTotal(20) ?: 0
             titles[2].num = totals?.getTotal(10) ?: 0
             titles[3].num = totals?.getTotal(30) ?: 0
-            titles[4].num = totals?.getTotal(40) ?: 0
+//            titles[4].num = totals?.getTotal(40) ?: 0
             deviceStatus.postValue(titles)
         }
     }
@@ -143,6 +148,10 @@ class DeviceManagerViewModel : BaseViewModel() {
             // 网络状态
             selectNetworkStatus.value?.let {
                 params["iotStatus"] = it.id
+            }
+            // 设备状态
+            selectDeviceStatus.value?.let {
+                params["soldState"] = it.id
             }
 
             val listWrapper = ApiRepository.dealApiResult(

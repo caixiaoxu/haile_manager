@@ -45,6 +45,8 @@
     <string name="refuse">拒绝</string>
     <string name="agree">同意</string>
     <string name="i_know">知道了</string>
+    <string name="enable">启用</string>
+    <string name="disEnable">停用</string>
 
     <string name="login_name">登录</string>
     <string name="login_account_password">账号密码登录</string>
@@ -82,6 +84,7 @@
     <string name="device_category">设备类型</string>
     <string name="device_model">设备型号</string>
     <string name="network_status">网络状态</string>
+    <string name="device_status">设备状态</string>
     <string name="add_device">添加设备</string>
     <string name="device_num_hint">全部%1$d台设备</string>
     <string name="device_model_search_hint">搜索设备型号</string>

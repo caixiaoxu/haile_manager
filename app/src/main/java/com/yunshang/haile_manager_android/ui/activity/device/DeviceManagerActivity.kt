@@ -206,7 +206,6 @@ class DeviceManagerActivity :
 
         // 网络状态
         mBinding.tvDeviceCategoryNetworkStatus.setOnClickListener {
-
             val deviceCategoryDialog =
                 CommonBottomSheetDialog.Builder(
                     getString(R.string.network_status), arrayListOf(
@@ -224,6 +223,22 @@ class DeviceManagerActivity :
                 }
                     .build()
             deviceCategoryDialog.show(supportFragmentManager)
+        }
+
+        mBinding.tvDeviceCategoryDeviceStatus.setOnClickListener {
+            CommonBottomSheetDialog.Builder(
+                getString(R.string.device_status), arrayListOf(
+                    SearchSelectParam(1, getString(R.string.enable)),
+                    SearchSelectParam(2, getString(R.string.disEnable)),
+                )
+            ).apply {
+                onValueSureListener =
+                    object : CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
+                        override fun onValue(data: SearchSelectParam) {
+                            mViewModel.selectDeviceStatus.value = data
+                        }
+                    }
+            }.build().show(supportFragmentManager)
         }
 
         // 刷新
@@ -332,6 +347,12 @@ class DeviceManagerActivity :
         // 选择设备模型
         mViewModel.selectNetworkStatus.observe(this) {
             mBinding.tvDeviceCategoryNetworkStatus.text = it.name
+            mBinding.rvDeviceManagerList.requestRefresh()
+        }
+
+        // 选择设备状态
+        mViewModel.selectDeviceStatus.observe(this) {
+            mBinding.tvDeviceCategoryDeviceStatus.text = it.name
             mBinding.rvDeviceManagerList.requestRefresh()
         }
 

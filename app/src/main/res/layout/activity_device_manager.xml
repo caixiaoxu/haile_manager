@@ -99,6 +99,11 @@
                     android:id="@+id/tv_device_category_network_status"
                     style="@style/DeviceManagerCategoryBtnStyle"
                     android:text="@string/network_status" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_device_category_device_status"
+                    style="@style/DeviceManagerCategoryBtnStyle"
+                    android:text="@string/device_status" />
             </LinearLayout>
         </HorizontalScrollView>
 

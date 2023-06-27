@@ -13,10 +13,24 @@ import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 
 class ShopAppointmentSettingActivity :
-    BaseBusinessActivity<ActivityShopAppointmentSettingBinding, AppointmentSettingViewModel>(AppointmentSettingViewModel::class.java,BR.vm) {
+    BaseBusinessActivity<ActivityShopAppointmentSettingBinding, AppointmentSettingViewModel>(
+        AppointmentSettingViewModel::class.java,
+        BR.vm
+    ) {
 
-    companion object{
+    companion object {
         const val ShopId = "shopId"
+    }
+
+    private val mAdapter by lazy {
+        CommonRecyclerAdapter<ItemShopAppointmentSettingBinding, AppointmentSettingEntity>(
+            R.layout.item_shop_appointment_setting,
+            BR.item
+        ) { mBinding, _, item ->
+            mBinding?.switchShopAppointmentOpen?.setOnCheckedChangeListener { _, isChecked ->
+                item.appointSwitch = if (isChecked) 1 else 0
+            }
+        }
     }
 
     override fun layoutId(): Int = R.layout.activity_shop_appointment_setting
@@ -26,22 +40,25 @@ class ShopAppointmentSettingActivity :
     override fun initIntent() {
         super.initIntent()
 
-        mViewModel.shopId = intent.getIntExtra(ShopId,-1)
+        mViewModel.shopId = intent.getIntExtra(ShopId, -1)
+    }
+
+    override fun initEvent() {
+        super.initEvent()
+        mViewModel.appointmentSettingList.observe(this) {
+            mAdapter.refreshList(it, true)
+        }
+        mViewModel.jump.observe(this) {
+            finish()
+        }
     }
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
 
         mBinding.rvShopAppointmentSettingList.layoutManager = LinearLayoutManager(this)
-        mBinding.rvShopAppointmentSettingList.adapter =
-            CommonRecyclerAdapter<ItemShopAppointmentSettingBinding, AppointmentSettingEntity>(
-                R.layout.item_shop_appointment_setting,
-                BR.item
-            ) { mBinding, _, item ->
-                mBinding?.switchShopAppointmentOpen?.setOnCheckedChangeListener { _, isChecked ->
-                    item.appointSwitch = if (isChecked) 1 else 0
-                }
-            }
+        mBinding.rvShopAppointmentSettingList.adapter = mAdapter
+
     }
 
     override fun initData() {

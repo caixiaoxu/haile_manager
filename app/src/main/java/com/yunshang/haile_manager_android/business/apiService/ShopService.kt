@@ -96,6 +96,6 @@ interface ShopService {
     /**
      * 店铺预约设置
      */
-    @GET("/appoint/setting")
+    @POST("/appoint/setting")
     suspend fun setShopAppointment(@Body body: RequestBody): ResponseWrapper<Any>
 }

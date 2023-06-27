@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.Intent
 import android.graphics.Color
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
@@ -21,7 +22,10 @@ import com.yunshang.haile_manager_android.databinding.ItemShopDetailAppointmentB
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 
-class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopDetailViewModel>(ShopDetailViewModel::class.java,BR.vm) {
+class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopDetailViewModel>(
+    ShopDetailViewModel::class.java,
+    BR.vm
+) {
 
     companion object {
         const val ShopId = "ShopId"
@@ -38,6 +42,20 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+
+        mBinding.tvShopDetailAppointmentInfoTitle.setOnClickListener {
+            if (mViewModel.shopDetail.value?.appointSettingList.isNullOrEmpty()) return@setOnClickListener
+            (View.VISIBLE == mBinding.groupShopDetailAppointmentInfo.visibility).let { show ->
+                mBinding.groupShopDetailAppointmentInfo.visibility =
+                    if (show) View.GONE else View.VISIBLE
+                mBinding.tvShopDetailAppointmentInfoStatus.setCompoundDrawablesWithIntrinsicBounds(
+                    0,
+                    0,
+                    if (show) R.drawable.icon_arrow_down_with_padding else R.drawable.icon_arrow_right_with_padding,
+                    0
+                )
+            }
+        }
 
         // 设置间距
         mBinding.llShopDetailAppointmentInfo.space = DimensionUtils.dip2px(this, 12f)
@@ -85,7 +103,7 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
         mBinding.btnShopDetailDelete.setOnClickListener {
             CommonDialog.Builder(StringUtils.getString(R.string.shop_delete_hint)).apply {
                 negativeTxt = StringUtils.getString(R.string.cancel)
-                setPositiveButton(StringUtils.getString(R.string.delete)){
+                setPositiveButton(StringUtils.getString(R.string.delete)) {
                     mViewModel.requestShopDelete()
                 }
             }.build()
@@ -95,9 +113,9 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
 
     override fun initEvent() {
         super.initEvent()
-//        mSharedViewModel.hasShopAppointPermission.observe(this) {
-//            mBinding.btnShopDetailAppointment.visibility = if (it) View.VISIBLE else View.GONE
-//        }
+        mSharedViewModel.hasShopAppointPermission.observe(this) {
+            mBinding.btnShopDetailAppointment.visibility = if (it) View.VISIBLE else View.GONE
+        }
 
         mSharedViewModel.hasShopUpdatePermission.observe(this) {
             mBinding.btnShopDetailEdit.visibility = if (it) View.VISIBLE else View.GONE
@@ -109,10 +127,16 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
 
         // 刷新预约布局
         mViewModel.shopDetail.observe(this) {
-            mBinding.bgShopDetailAppointmentInfo.visibility =
-                if (it.appointSettingList.isNullOrEmpty()) View.GONE else View.VISIBLE
+            val noAllClose = it.appointSettingList.any { setting -> 0 != setting.appointSwitch }
+            mBinding.tvShopDetailAppointmentInfoStatus.setText(if (noAllClose) R.string.open else R.string.close)
+            mBinding.tvShopDetailAppointmentInfoStatus.setTextColor(
+                ContextCompat.getColor(
+                    this@ShopDetailActivity,
+                    if (noAllClose) R.color.colorPrimary else R.color.common_sub_txt_color
+                )
+            )
             mBinding.llShopDetailAppointmentInfo.buildChild<ItemShopDetailAppointmentBinding, AppointSetting>(
-                it.appointSettingList
+                it.appointSettingList,
             ) { _, childBinding, data ->
                 childBinding.tvShopDetailsAppointmentName.text =
                     data.goodsCategoryName + StringUtils.getString(R.string.appointment)
@@ -126,6 +150,7 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
                     )
                 )
             }
+            mBinding.llShopDetailAppointmentInfo.visibility = View.GONE
         }
 
         // 修改成功后

@@ -6,12 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
-import com.yunshang.haile_manager_android.data.arguments.DeviceCategory
 import com.yunshang.haile_manager_android.data.arguments.DeviceConfigSelectParams
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 /**
  * Title :

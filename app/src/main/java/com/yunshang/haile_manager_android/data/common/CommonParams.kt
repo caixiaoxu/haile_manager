@@ -1,4 +1,4 @@
-package com.yunshang.haile_manager_android.data.arguments
+package com.yunshang.haile_manager_android.data.common
 
 import androidx.annotation.IntDef
 import androidx.annotation.StringDef
@@ -33,7 +33,10 @@ object DeviceCategory {
     // 饮水机
     const val Water = "04"
 
-    @StringDef(Washing, Shoes, Dryer, Hair, Water)
+    // 投放器
+    const val Dispenser = "09"
+
+    @StringDef(Washing, Shoes, Dryer, Hair, Water, Dispenser)
     @Retention(AnnotationRetention.SOURCE)
     annotation class IDeviceCategoryType
 
@@ -47,6 +50,12 @@ object DeviceCategory {
      * 10-串口 20-脉冲
      */
     fun isPulseDevice(communicationType: Int?) = 20 == communicationType
+
+    /**
+     * 可显示的设备类型
+     */
+    fun canShowDeviceCategory(categoryCode: String): Boolean =
+        categoryCode in arrayOf(Washing, Shoes, Dryer, Hair)
 }
 
 object SearchType {

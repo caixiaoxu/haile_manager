@@ -52,6 +52,8 @@ data class DeviceDetailEntity(
     val workStatus: Int,
     val deviceErrorCode: String,
     val deviceErrorMsg: String,
+    var appointmentEnabled: Boolean?,
+    val shopAppointmentEnabled: Boolean,
     val scanUrl: String,
 ) {
     fun getReason() = "${deviceErrorMsg}${deviceErrorCode}"

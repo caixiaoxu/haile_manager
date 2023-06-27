@@ -8,7 +8,7 @@ import com.lsy.framelib.utils.SoftKeyboardUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.SearchViewModel
-import com.yunshang.haile_manager_android.data.arguments.SearchType
+import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.rule.ISearchSelectEntity
 import com.yunshang.haile_manager_android.databinding.ActivitySearchBinding
 import com.yunshang.haile_manager_android.databinding.ItemSearchSelectBinding

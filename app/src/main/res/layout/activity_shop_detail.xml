@@ -129,6 +129,13 @@
 
                     <include
                         layout="@layout/item_device_detail_base_info"
+                        app:content="@{vm.shopDetail.getBusinessNameVal}"
+                        app:show="@{vm.shopDetail.hasBusinessName}"
+                        app:showCopy="@{false}"
+                        app:title="@{vm.shopDetail.getBusinessNameTitle}" />
+
+                    <include
+                        layout="@layout/item_device_detail_base_info"
                         app:content="@{vm.shopDetail.workTime}"
                         app:show="@{vm.shopDetail.hasWorkTime}"
                         app:showCopy="@{false}"
@@ -143,7 +150,7 @@
 
                     <include
                         layout="@layout/item_device_detail_base_info"
-                        app:content="@{vm.shopDetail.createName}"
+                        app:content="@{vm.shopDetail.createTime}"
                         app:show="@{vm.shopDetail.hasCreateTime}"
                         app:showCopy="@{false}"
                         app:title="@{vm.shopDetail.getCreateTimeTitle}" />
@@ -155,10 +162,21 @@
                     style="@style/ShopDetailTitleItemStyle"
                     android:layout_width="match_parent"
                     android:layout_marginTop="8dp"
-                    android:drawableEnd="@drawable/icon_arrow_down_with_padding"
                     android:text="@string/appointment_status"
-                    android:visibility="@{null == vm.shopDetail.appointSettingList?View.GONE:View.VISIBLE}"
                     app:layout_constraintTop_toBottomOf="@id/ll_shop_detail_base_info" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_appointment_info_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:drawableEnd="@drawable/icon_arrow_down_with_padding"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_shop_detail_appointment_info_title"
+                    app:layout_constraintEnd_toEndOf="@id/tv_shop_detail_appointment_info_title"
+                    app:layout_constraintTop_toTopOf="@id/tv_shop_detail_appointment_info_title"
+                    tools:text="开启" />
 
                 <View
                     android:id="@+id/bg_shop_detail_appointment_info"
@@ -176,9 +194,25 @@
                     android:layout_margin="12dp"
                     android:background="@drawable/shape_sf7f7f7_r8"
                     android:orientation="vertical"
+                    android:paddingVertical="12dp"
+                    app:divider="@drawable/divide_size12"
                     app:itemLayout="@layout/item_shop_detail_appointment"
                     app:layout_constraintBottom_toBottomOf="@id/bg_shop_detail_appointment_info"
-                    app:layout_constraintTop_toTopOf="@id/bg_shop_detail_appointment_info" />
+                    app:layout_constraintTop_toTopOf="@id/bg_shop_detail_appointment_info"
+                    app:showDividers="middle" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:visibility="@{(null == vm.shopDetail.appointSettingList || 0 == vm.shopDetail.appointSettingList.size())?View.GONE:View.VISIBLE}"
+                    app:constraint_referenced_ids="tv_shop_detail_appointment_info_title,tv_shop_detail_appointment_info_status" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/group_shop_detail_appointment_info"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="bg_shop_detail_appointment_info,ll_shop_detail_appointment_info" />
 
                 <View
                     android:id="@+id/bg_shop_detail_server_phone"

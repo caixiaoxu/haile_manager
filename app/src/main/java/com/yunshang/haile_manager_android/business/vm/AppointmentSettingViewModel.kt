@@ -34,9 +34,7 @@ class AppointmentSettingViewModel : BaseViewModel() {
     }
 
     fun requestData() {
-        if (-1 != shopId) {
-
-        }
+        if (-1 == shopId) return
 
         launch({
             val list = ApiRepository.dealApiResult(mRepo.getShopAppointmentSettingList(shopId))
@@ -60,18 +58,13 @@ class AppointmentSettingViewModel : BaseViewModel() {
                     ApiRepository.createRequestBody(
                         hashMapOf(
                             "shopId" to shopId,
-                            "settingList" to appointmentSettingList,
+                            "settingList" to appointmentSettingList.value!!,
                         )
                     )
                 )
             )
-        }, {
-            withContext(Dispatchers.Main){
-                it.message?.let { it1 -> SToast.showToast(msg = it1) }
-            }
-            Timber.d("请求失败或异常$it")
-        }, {
-            Timber.d("请求结束")
+            LiveDataBus.post(BusEvents.SHOP_DETAILS_STATUS, true)
+            jump.postValue(0)
         })
     }
 }

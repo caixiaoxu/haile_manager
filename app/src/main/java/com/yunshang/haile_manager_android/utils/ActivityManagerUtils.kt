@@ -4,12 +4,7 @@ import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import com.lsy.framelib.data.constants.Constants
-import com.lsy.framelib.utils.gson.GsonUtils
-import com.yunshang.haile_manager_android.data.arguments.DeviceCategory
-import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.model.SPRepository
-import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
-import com.yunshang.haile_manager_android.ui.activity.device.DeviceModelActivity
 import com.yunshang.haile_manager_android.ui.activity.login.LoginActivity
 
 /**

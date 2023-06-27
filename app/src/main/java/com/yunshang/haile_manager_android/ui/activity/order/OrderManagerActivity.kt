@@ -22,7 +22,7 @@ import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.OrderManagerViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
-import com.yunshang.haile_manager_android.data.arguments.SearchType
+import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.OrderListEntity
 import com.yunshang.haile_manager_android.databinding.ActivityOrderManagerBinding
 import com.yunshang.haile_manager_android.databinding.ItemOrderListBinding

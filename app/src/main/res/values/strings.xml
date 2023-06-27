@@ -147,6 +147,8 @@
     <string name="update_pay_code_desc">付款码会以二维码的形式张贴在设备显示面板附近，用户扫描付款码进行下单洗衣等操作。</string>
     <string name="update_name_desc">设备名称与线下洗衣设备张贴的物料编号最好保持一致，出现问题方便运维人员快速找到设备。</string>
     <string name="device_delete_hint">是否确定要删除该设备么？</string>
+    <string name="open_success">开启成功</string>
+    <string name="close_success">关闭成功</string>
 
     <string name="shop_manager">门店管理</string>
     <string name="add_shop">添加店铺</string>

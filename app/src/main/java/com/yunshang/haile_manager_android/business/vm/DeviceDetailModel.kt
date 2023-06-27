@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.business.vm
 
+import android.content.Context
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,7 +17,6 @@ import com.yunshang.haile_manager_android.data.entities.DeviceDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 /**
  * Title :
@@ -41,15 +41,15 @@ class DeviceDetailModel : BaseViewModel() {
         MutableLiveData()
     }
 
-    val name:MutableLiveData<String> by lazy {
+    val name: MutableLiveData<String> by lazy {
         MutableLiveData()
     }
 
-    val code:MutableLiveData<String> by lazy {
+    val code: MutableLiveData<String> by lazy {
         MutableLiveData()
     }
 
-    val imei:MutableLiveData<String> by lazy {
+    val imei: MutableLiveData<String> by lazy {
         MutableLiveData()
     }
 
@@ -149,19 +149,20 @@ class DeviceDetailModel : BaseViewModel() {
             //修改设备名称事件
             jump.postValue(5)
         },
-        ItemShowParam(
-            StringUtils.getString(R.string.device_transfer),
-            R.mipmap.icon_device_device_transfer,
-            MutableLiveData(true)
-        ) {
-            //设备转移事件
-        },
+//        ItemShowParam(
+//            StringUtils.getString(R.string.device_transfer),
+//            R.mipmap.icon_device_device_transfer,
+//            MutableLiveData(true)
+//        ) {
+//            //设备转移事件
+//        },
         ItemShowParam(
             StringUtils.getString(R.string.device_appointment_setting),
             R.mipmap.icon_device_device_appointment_setting,
             hasAppointment
         ) {
             //预约设置事件
+            jump.postValue(7)
         },
     )
 
@@ -171,7 +172,7 @@ class DeviceDetailModel : BaseViewModel() {
         }
 
         launch({
-            if (0 == type || 1 == type){
+            if (0 == type || 1 == type) {
                 val detail = ApiRepository.dealApiResult(mDeviceRepo.deviceDetail(goodsId))
                 detail?.let {
                     deviceDetail.postValue(detail)
@@ -182,7 +183,7 @@ class DeviceDetailModel : BaseViewModel() {
                 }
             }
 
-            if (0 == type || 2 == type){
+            if (0 == type || 2 == type) {
                 val list = ApiRepository.dealApiResult(mDeviceRepo.deviceAdvancedValues(goodsId))
                 list?.let {
                     deviceAdvancedValues.postValue(it)
@@ -202,7 +203,7 @@ class DeviceDetailModel : BaseViewModel() {
 
         val soldState = if (isCheck) 1 else 2
         // 避免重复提交
-        if (deviceDetail.value?.soldState == soldState){
+        if (deviceDetail.value?.soldState == soldState) {
             return
         }
 
@@ -283,6 +284,24 @@ class DeviceDetailModel : BaseViewModel() {
                         SToast.showToast(msg = "开始桶自洁")
                     }
                 }
+            }
+        })
+    }
+
+    fun openOrCloseAppointment(isOpen: Boolean, callBack: () -> Unit) {
+        launch({
+            ApiRepository.dealApiResult(
+                mDeviceRepo.openOrCloseDeviceAppointment(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "goodsId" to goodsId,
+                            "value" to isOpen
+                        )
+                    )
+                )
+            )
+            withContext(Dispatchers.Main) {
+                callBack()
             }
         })
     }

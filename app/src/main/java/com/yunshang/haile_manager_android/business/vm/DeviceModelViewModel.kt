@@ -7,6 +7,7 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.business.apiService.CategoryService
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.data.arguments.DeviceModelParam
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.Spu
 import com.yunshang.haile_manager_android.data.model.ApiRepository
@@ -62,7 +63,11 @@ class DeviceModelViewModel : BaseViewModel() {
             mCategoryRepo.category(1)
         )
         list?.let {
-            categoryList.postValue(it)
+            categoryList.postValue(it.filter { category ->
+                DeviceCategory.canShowDeviceCategory(
+                    category.code
+                )
+            })
         }
         return list?.get(0)
     }

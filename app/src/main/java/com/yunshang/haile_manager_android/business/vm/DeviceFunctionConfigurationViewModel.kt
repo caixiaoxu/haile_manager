@@ -8,11 +8,10 @@ import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.SoftKeyboardUtils
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.event.BusEvents
-import com.yunshang.haile_manager_android.data.arguments.DeviceCategory
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.SkuEntity
 import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.yunshang.haile_manager_android.data.model.ApiRepository
-import timber.log.Timber
 
 /**
  * Title :

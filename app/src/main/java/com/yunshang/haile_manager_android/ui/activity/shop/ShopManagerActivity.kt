@@ -19,7 +19,7 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.ShopManagerViewModel
-import com.yunshang.haile_manager_android.data.arguments.SearchType
+import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.ShopEntity
 import com.yunshang.haile_manager_android.databinding.ActivityShopManagerBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopListBinding
@@ -64,7 +64,7 @@ class ShopManagerActivity :
         // 搜索界面
         mBinding.viewShopManagerSearchBg.setOnClickListener {
             startActivity(Intent(this@ShopManagerActivity, SearchActivity::class.java).apply {
-                putExtra(SearchType.SearchType,SearchType.Shop)
+                putExtra(SearchType.SearchType, SearchType.Shop)
             })
         }
 

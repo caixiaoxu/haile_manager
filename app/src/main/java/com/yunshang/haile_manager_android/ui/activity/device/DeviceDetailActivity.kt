@@ -9,9 +9,11 @@ import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.ScreenUtils
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
@@ -20,9 +22,8 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.DeviceDetailModel
 import com.yunshang.haile_manager_android.business.vm.DeviceMultiChangeViewModel
-import com.yunshang.haile_manager_android.data.arguments.DeviceCategory
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceDetailBinding
-import com.yunshang.haile_manager_android.databinding.ItemDeviceDetailAppointmentBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceDetailFuncPriceBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
@@ -113,6 +114,14 @@ class DeviceDetailActivity :
 
         val mTB = DimensionUtils.dip2px(this, 12f)
         mViewModel.deviceDetail.observe(this) { detail ->
+            if (!detail.shopAppointmentEnabled) {
+                mBinding.glDeviceDetailFunc.children.find {
+                    it.tag == R.mipmap.icon_device_device_appointment_setting
+                }?.let {
+                    mBinding.glDeviceDetailFunc.removeView(it)
+                }
+            }
+
             mBinding.llDeviceDetailFuncPrice.removeAllViews()
             detail?.items?.forEachIndexed { index, item ->
                 val itemBinding = LayoutInflater.from(this@DeviceDetailActivity)
@@ -123,25 +132,6 @@ class DeviceDetailActivity :
                     itemBinding.item = item
                     itemBinding.isDryer = DeviceCategory.isDryer(detail.categoryCode)
                     mBinding.llDeviceDetailFuncPrice.addView(
-                        itemBinding.root, LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT,
-                        ).apply {
-                            setMargins(0, if (0 == index) mTB else 0, 0, mTB)
-                        }
-                    )
-                }
-            }
-
-            mBinding.llDeviceDetailAppointment.removeAllViews()
-            detail?.items?.forEachIndexed { index, item ->
-                val itemBinding = LayoutInflater.from(this@DeviceDetailActivity)
-                    .inflate(R.layout.item_device_detail_appointment, null, false).let { view ->
-                        DataBindingUtil.bind<ItemDeviceDetailAppointmentBinding>(view)
-                    }
-                itemBinding?.let {
-                    itemBinding.item = item
-                    mBinding.llDeviceDetailAppointment.addView(
                         itemBinding.root, LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -267,6 +257,31 @@ class DeviceDetailActivity :
                             putExtra(DevicePayCodeActivity.Code, detail.scanUrl)
                         })
                 }
+                // 显示预约
+                7 -> mViewModel.deviceDetail.value?.let { detail ->
+                    if (20 == detail.communicationType) {
+                        SToast.showToast(this@DeviceDetailActivity, "当前功能不支撑脉冲设备");
+                        return@let
+                    }
+                    if (null == detail.appointmentEnabled) {
+                        SToast.showToast(this@DeviceDetailActivity, "当前功能不可用");
+                        return@let
+                    }
+                    CommonDialog.Builder(
+                        "是否${if (detail.appointmentEnabled!!) "关闭" else "开启"}该设备预约功能"
+                    ).apply {
+                        negativeTxt = "否"
+                        setPositiveButton("是") {
+                            mViewModel.openOrCloseAppointment(!detail.appointmentEnabled!!) {
+                                SToast.showToast(
+                                    this@DeviceDetailActivity,
+                                    if (!detail.appointmentEnabled!!) R.string.open_success else R.string.close_success
+                                )
+                                detail.appointmentEnabled = !detail.appointmentEnabled!!
+                            }
+                        }
+                    }.build().show(supportFragmentManager)
+                }
             }
         }
 
@@ -294,7 +309,8 @@ class DeviceDetailActivity :
             (LayoutInflater.from(this@DeviceDetailActivity)
                 .inflate(R.layout.item_device_detail_func, null, false) as AppCompatTextView).also {
                 it.text = config.title
-                it.setCompoundDrawablesRelativeWithIntrinsicBounds(0, config.icon, 0, 0)
+                it.tag = config.icon
+                it.setCompoundDrawablesWithIntrinsicBounds(0, config.icon, 0, 0)
                 it.setPadding(
                     pLR,
                     if (0 == index % mBinding.glDeviceDetailFunc.columnCount) pTB else 0,

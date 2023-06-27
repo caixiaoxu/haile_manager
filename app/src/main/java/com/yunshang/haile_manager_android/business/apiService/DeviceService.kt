@@ -102,4 +102,10 @@ interface DeviceService {
      */
     @POST("/device/clean")
     suspend fun deviceClean(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 开启或关闭设备预约接口
+     */
+    @POST("/goods/appointment/enable")
+    suspend fun openOrCloseDeviceAppointment(@Body params: RequestBody): ResponseWrapper<Any>
 }

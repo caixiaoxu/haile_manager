@@ -4,19 +4,16 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.ui.base.BaseViewModel
-import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.apiService.OrderService
 import com.yunshang.haile_manager_android.business.apiService.ShopService
-import com.yunshang.haile_manager_android.data.arguments.SearchType
+import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.data.rule.ISearchSelectEntity
-import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 /**
  * Title :

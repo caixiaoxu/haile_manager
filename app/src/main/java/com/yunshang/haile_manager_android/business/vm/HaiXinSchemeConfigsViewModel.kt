@@ -3,10 +3,8 @@ package com.yunshang.haile_manager_android.business.vm
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.yunshang.haile_manager_android.business.apiService.HaiXinService
-import com.yunshang.haile_manager_android.data.arguments.SearchType
 import com.yunshang.haile_manager_android.data.entities.HaixinSchemeConfigEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
-import com.yunshang.haile_manager_android.data.rule.ISearchSelectEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

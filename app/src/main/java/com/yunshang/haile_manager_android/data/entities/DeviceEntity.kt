@@ -4,7 +4,7 @@ import android.graphics.Color
 import androidx.core.content.ContextCompat
 import com.lsy.framelib.data.constants.Constants
 import com.yunshang.haile_manager_android.R
-import com.yunshang.haile_manager_android.data.arguments.DeviceCategory
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.rule.IMultiTypeEntity
 import com.yunshang.haile_manager_android.data.rule.ISearchSelectEntity
 

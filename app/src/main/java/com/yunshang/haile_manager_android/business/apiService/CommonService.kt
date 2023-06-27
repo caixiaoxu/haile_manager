@@ -1,6 +1,7 @@
 package com.yunshang.haile_manager_android.business.apiService
 
 import com.lsy.framelib.network.response.ResponseWrapper
+import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
 import com.yunshang.haile_manager_android.data.entities.AreaEntity
 import okhttp3.MultipartBody
@@ -37,4 +38,7 @@ interface CommonService {
 
     @GET("/common/businessForH5")
     suspend fun requestWhiteList(): ResponseWrapper<MutableList<String>>
+
+    @GET(BuildConfig.SERVICE_CHECK)
+    suspend fun checkService(): Int
 }

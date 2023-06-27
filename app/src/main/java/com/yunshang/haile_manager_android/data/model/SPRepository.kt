@@ -32,6 +32,8 @@ object SPRepository {
 
     private const val SP_CHECK_UPDATE_TIME = "sp_check_update_time"
 
+    private const val SP_CHECK_SERVICE_TIME = "sp_check_service_time"
+
     private val sp: SPUtils by lazy { SPUtils.getInstance(SP_NAME) }
 
     /**
@@ -40,6 +42,13 @@ object SPRepository {
     var checkUpdateTime: Long
         get() = sp.getLong(SP_CHECK_UPDATE_TIME, 0L)
         set(value) = sp.put(SP_CHECK_UPDATE_TIME, value)
+
+    /**
+     * 服务器检测时间
+     */
+    var serviceCheckTime: Long
+        get() = sp.getLong(SP_CHECK_SERVICE_TIME, 0L)
+        set(value) = sp.put(SP_CHECK_SERVICE_TIME, value)
 
     /**
      * 判断是否同意了隐私协议

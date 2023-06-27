@@ -5,12 +5,21 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import com.lsy.framelib.ui.base.activity.BaseActivity
+import com.yunshang.haile_manager_android.business.apiService.CommonService
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.common.Constants
+import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.databinding.ActivitySplashBinding
-import com.yunshang.haile_manager_android.ui.activity.login.LoginActivity
 import com.yunshang.haile_manager_android.ui.activity.MainActivity
+import com.yunshang.haile_manager_android.ui.activity.login.LoginActivity
+import com.yunshang.haile_manager_android.web.WebViewActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class SplashActivity : BaseActivity() {
+    private val mCommonRepo = ApiRepository.apiClient(CommonService::class.java)
+
     private val delayTime = 1000L
 
     private val mSplashBinding: ActivitySplashBinding by lazy {
@@ -27,7 +36,27 @@ class SplashActivity : BaseActivity() {
 
     private fun initView() {
         initStatusBarTxtColor(mSplashBinding.root)
-        checkDelayJump()
+        launch({
+            val response = mCommonRepo.checkService()
+            withContext(Dispatchers.Main) {
+                when (response) {
+                    0 -> checkDelayJump()
+                    1 -> {
+                        Constants.needHintServiceUpdate = true
+                        checkDelayJump()
+                    }
+                    else -> startActivity(
+                        Intent(
+                            this@SplashActivity,
+                            WebViewActivity::class.java
+                        ).apply {
+                            putExtras(
+                                IntentParams.WebViewParams.pack("https://notice.haier-ioc.com/halt.html")
+                            )
+                        })
+                }
+            }
+        })
     }
 
     /**

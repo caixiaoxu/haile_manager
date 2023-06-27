@@ -8,12 +8,14 @@ import com.lsy.framelib.utils.SPUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.MainViewModel
+import com.yunshang.haile_manager_android.data.common.Constants
 import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
 import com.yunshang.haile_manager_android.data.model.OnDownloadProgressListener
 import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.databinding.ActivityMainBinding
 import com.yunshang.haile_manager_android.ui.fragment.HomeFragment
 import com.yunshang.haile_manager_android.ui.fragment.PersonalFragment
+import com.yunshang.haile_manager_android.ui.view.dialog.ServiceCheckDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.UpdateAppDialog
 import com.yunshang.haile_manager_android.utils.AppPackageUtils
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
@@ -86,7 +88,18 @@ class MainActivity :
     }
 
     override fun initData() {
-        checkUpdate()
+        if (Constants.needHintServiceUpdate
+            && ((System.currentTimeMillis() - SPRepository.serviceCheckTime) / (3600 * 1000 * 24)) > 0
+        ) {
+            Constants.needHintServiceUpdate = false
+            SPRepository.serviceCheckTime = System.currentTimeMillis()
+
+            ServiceCheckDialog() {
+                checkUpdate()
+            }.show(supportFragmentManager)
+        } else {
+            checkUpdate()
+        }
     }
 
     private fun checkUpdate() {

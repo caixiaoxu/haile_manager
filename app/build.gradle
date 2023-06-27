@@ -46,12 +46,14 @@ android {
             buildConfigField "String", "BASE_URL", EnvConfig.HTTP_BASE_DEBUG
             buildConfigField "String", "H5_WORK_ORDER", EnvConfig.H5_WORK_OREDER_DEBUG
             buildConfigField "String", "PRIVACY_POLICY", EnvConfig.PRIVACY_POLICY
+            buildConfigField "String", "SERVICE_CHECK", EnvConfig.SERVICE_CHECK_DEBUG
             signingConfig signingConfigs.debug
         }
         release {
             buildConfigField "String", "BASE_URL", EnvConfig.HTTP_BASE_RELEASE
             buildConfigField "String", "H5_WORK_ORDER", EnvConfig.H5_WORK_OREDER_RELEASE
             buildConfigField "String", "PRIVACY_POLICY", EnvConfig.PRIVACY_POLICY
+            buildConfigField "String", "SERVICE_CHECK", EnvConfig.SERVICE_CHECK_RELEASE
 
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

@@ -45,7 +45,7 @@ data class ShopDetailEntity(
     fun getSchoolNameTitle(): String = StringUtils.getString(R.string.school_name)
     fun hasArea(): Boolean = 0 != provinceId && 0 != cityId && 0 != districtId
     fun getAreaTitle(): String = StringUtils.getString(R.string.area)
-    fun getBusinessNameVal():String = businessName.joinToString("、")
+    fun getBusinessNameVal(): String = businessName.joinToString("、") { it.businessName }
 
     fun hasBusinessName(): Boolean = !businessName.isNullOrEmpty()
     fun getBusinessNameTitle(): String = StringUtils.getString(R.string.business_type)

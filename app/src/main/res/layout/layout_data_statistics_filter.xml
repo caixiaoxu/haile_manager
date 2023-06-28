@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="36dp"
+    android:background="@color/white"
+    android:overScrollMode="never"
+    android:paddingHorizontal="16dp"
+    android:scrollbars="none"
+    tools:showIn="@layout/fragment_data_statistics">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_data_statistics_time"
+            style="@style/Font_14_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@mipmap/icon_triangle_down"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            tools:text="2023年5月14号" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_data_statistics_shop"
+            style="@style/Font_14_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:drawableEnd="@mipmap/icon_triangle_down"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:text="@string/no_limit" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_data_statistics_device"
+            style="@style/Font_14_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:drawableEnd="@mipmap/icon_triangle_down"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:text="@string/no_limit" />
+    </LinearLayout>
+</HorizontalScrollView>

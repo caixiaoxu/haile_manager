@@ -44,6 +44,12 @@
                     android:visibility="@{vm.isShowHomeRB}" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/rb_main_tab_statistics"
+                    style="@style/MainTab"
+                    android:drawableTop="@drawable/selector_main_tab_statistics"
+                    android:text="@string/statistics" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
                     android:id="@+id/rb_main_tab_personal"
                     style="@style/MainTab"
                     android:drawableTop="@drawable/selector_main_tab_personal"
@@ -65,7 +71,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
+                app:layout_constraintGuide_percent="0.33" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

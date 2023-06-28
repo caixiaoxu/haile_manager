@@ -67,6 +67,20 @@
     <string name="login_agreement_hint">已阅读并同意《隐私协议》</string>
 
     <string name="main_tab_home">首页</string>
+    <string name="statistics">统计</string>
+    <string name="data_statistics">数据统计</string>
+    <string name="day_data">日数据</string>
+    <string name="week_data">周数据</string>
+    <string name="month_data">月数据</string>
+    <string name="year_data">年数据</string>
+    <string name="no_limit">不限</string>
+
+    <string name="data_order_num">订单量</string>
+    <string name="data_revenue">收益</string>
+    <string name="data_active_user">活跃用户量</string>
+    <string name="data_add_user">新增用户量</string>
+    <string name="data_active_device">活跃设备数</string>
+    <string name="data_device_frequency">设备频次</string>
 
     <string name="message_center">消息中心</string>
     <string name="message_setting">消息设置</string>

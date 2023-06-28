@@ -1,10 +1,8 @@
 package com.yunshang.haile_manager_android.ui.activity
 
 import android.util.SparseArray
-import android.view.View
 import androidx.fragment.app.Fragment
 import com.lsy.framelib.utils.ActivityUtils
-import com.lsy.framelib.utils.SPUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.MainViewModel
@@ -13,6 +11,7 @@ import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
 import com.yunshang.haile_manager_android.data.model.OnDownloadProgressListener
 import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.databinding.ActivityMainBinding
+import com.yunshang.haile_manager_android.ui.fragment.DataStatisticsFragment
 import com.yunshang.haile_manager_android.ui.fragment.HomeFragment
 import com.yunshang.haile_manager_android.ui.fragment.PersonalFragment
 import com.yunshang.haile_manager_android.ui.view.dialog.ServiceCheckDialog
@@ -26,15 +25,13 @@ import java.util.*
 
 class MainActivity :
     BaseBusinessActivity<ActivityMainBinding, MainViewModel>(MainViewModel::class.java, BR.vm) {
-    val FROM_TYPE = "from_type"
-    val FROM_TYPE_LOGIN = 0
-    val FROM_TYPE_SPLASH = 1
 
     // 当前的fragment
     private var curFragment: Fragment? = null
 
-    private val fragments = SparseArray<Fragment>(2).apply {
+    private val fragments = SparseArray<Fragment>(3).apply {
         put(R.id.rb_main_tab_home, HomeFragment())
+        put(R.id.rb_main_tab_statistics, DataStatisticsFragment())
         put(R.id.rb_main_tab_personal, PersonalFragment())
     }
 
@@ -61,10 +58,7 @@ class MainActivity :
         mSharedViewModel.requestUserPermissionsAsync()
 
         mViewModel.checkId.observe(this) {
-            when (it) {
-                R.id.rb_main_tab_home -> showChildFragment(it)
-                R.id.rb_main_tab_personal -> showChildFragment(it)
-            }
+            showChildFragment(it)
         }
     }
 
@@ -144,5 +138,4 @@ class MainActivity :
         }.build()
         updateAppDialog.show(supportFragmentManager)
     }
-
 }

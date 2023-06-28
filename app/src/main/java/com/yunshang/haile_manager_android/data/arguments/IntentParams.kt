@@ -156,6 +156,41 @@ object IntentParams {
         )
     }
 
+    object OrderParams {
+        private const val OrderId = "orderId"
+        private const val OrderNo = "orderNo"
+
+        /**
+         * 包装参数
+         */
+        fun pack(orderId: Int? = null, orderNo: String? = null): Bundle = Bundle().apply {
+            orderId?.let {
+                putInt(OrderId, orderId)
+            }
+            orderNo?.let {
+                putString(OrderNo, orderNo)
+            }
+        }
+
+        fun parseOrderId(intent: Intent): Int = intent.getIntExtra(OrderId, -1)
+        fun parseOrderNo(intent: Intent): String? = intent.getStringExtra(OrderNo)
+    }
+
+    object OrderDetailParams {
+        private const val IsAppoint = "isAppoint"
+
+        /**
+         * 包装参数
+         */
+        fun pack(orderId: Int, isAppoint: Boolean = false): Bundle = Bundle().apply {
+            putAll(OrderParams.pack(orderId))
+            putBoolean(IsAppoint, isAppoint)
+        }
+
+        fun parseOrderId(intent: Intent): Int = OrderParams.parseOrderId(intent)
+        fun parseIsAppoint(intent: Intent): Boolean = intent.getBooleanExtra(IsAppoint, false)
+    }
+
     object RechargeSuccessParams {
         private const val AMOUNT = "amount"
 

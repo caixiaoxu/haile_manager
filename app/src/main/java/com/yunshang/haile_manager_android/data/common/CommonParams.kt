@@ -70,7 +70,10 @@ object SearchType {
     // 搜索订单
     const val Order = 2
 
-    @IntDef(Device, Shop, Order)
+    // 搜索预约订单
+    const val AppointOrder = 3
+
+    @IntDef(Device, Shop, Order, AppointOrder)
     @Retention(AnnotationRetention.SOURCE)
     annotation class ISearchType
 }

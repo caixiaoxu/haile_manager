@@ -2,27 +2,32 @@ package com.yunshang.haile_manager_android.ui.activity.order
 
 import android.content.Intent
 import android.graphics.Color
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.OrderDetailViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.databinding.ActivityOrderDetailBinding
 import com.yunshang.haile_manager_android.databinding.ItemOrderDetailItemBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
+import com.yunshang.haile_manager_android.utils.DateTimeUtils
+
 
 class OrderDetailActivity :
-    BaseBusinessActivity<ActivityOrderDetailBinding, OrderDetailViewModel>(OrderDetailViewModel::class.java,BR.vm) {
-
-    companion object {
-        const val OrderId = "orderId"
-    }
+    BaseBusinessActivity<ActivityOrderDetailBinding, OrderDetailViewModel>(
+        OrderDetailViewModel::class.java,
+        BR.vm
+    ) {
 
     // 补偿界面界面
     private val startCompensateSelect =
@@ -34,12 +39,12 @@ class OrderDetailActivity :
 
     override fun layoutId(): Int = R.layout.activity_order_detail
 
-
     override fun backBtn(): View = mBinding.barOrderDetailTitle.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()
-        mViewModel.orderId = intent.getIntExtra(OrderId, -1)
+        mViewModel.orderId = IntentParams.OrderDetailParams.parseOrderId(intent)
+        mViewModel.isAppoint = IntentParams.OrderDetailParams.parseIsAppoint(intent)
     }
 
     override fun initEvent() {
@@ -47,6 +52,28 @@ class OrderDetailActivity :
 
         mViewModel.orderDetail.observe(this) {
             it?.let { orderDetail ->
+                if (mViewModel.isAppoint) {
+                    DateTimeUtils.formatDateFromString(orderDetail.appointmentInfo?.appointmentUsageTime)
+                        ?.let { date ->
+                            val dateStr = DateTimeUtils.formatDateTime(date, "yyyy/MM/dd（E）HH:mm")
+                            mBinding.tvOrderDetailStatas.text =
+                                com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
+                                    StringUtils.getString(R.string.appoint_dealLine, dateStr),
+                                    arrayOf(
+                                        ForegroundColorSpan(
+                                            ContextCompat.getColor(
+                                                this@OrderDetailActivity,
+                                                R.color.colorPrimary
+                                            )
+                                        ), 3, 3 + dateStr.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+                                    ),
+                                    3, 3 + dateStr.length
+
+                                )
+                            mBinding.tvOrderDetailStatas.visibility = View.VISIBLE
+                        }
+                }
+
                 mBinding.llOrderDetailSkuList.removeAllViews()
                 mBinding.llOrderDetailSkuList.visibility =
                     if (orderDetail.skuList.isNullOrEmpty()) View.GONE else View.VISIBLE
@@ -102,6 +129,13 @@ class OrderDetailActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+
+        mBinding.includeOrderDetailRealPrice.tvOrderDetailTotalAmount.setTextColor(
+            ContextCompat.getColor(
+                this@OrderDetailActivity,
+                R.color.colorPrimary
+            )
+        )
 
         // 退款
         mBinding.tvOrderDetailRefund.setOnClickListener {

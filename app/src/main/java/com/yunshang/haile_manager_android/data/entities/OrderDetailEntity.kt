@@ -57,10 +57,20 @@ data class OrderDetailEntity(
     val shopId: Int,
     val shopName: String,
     val skuList: List<Sku>,
-    val state: Int
+    val state: Int,
+    val appointmentInfo: AppointmentInfo?,
+    val appointmentTime: String,
+    val canCancelReserve: Boolean,
 ) : BaseObservable() {
     val createTime: String
         get() = DateTimeUtils.formatDateTimeForStr(_createTime, "yyyy-MM-dd HH:mm")
+    val appointTime: String
+        get() = appointmentInfo?.let {
+            DateTimeUtils.formatDateTimeForStr(
+                appointmentInfo.appointmentUsageTime,
+                "yyyy-MM-dd HH:mm"
+            )
+        } ?: ""
     val refundTime: String
         get() = DateTimeUtils.formatDateTimeForStr(_refundTime, "yyyy-MM-dd HH:mm")
     val payTime: String
@@ -82,3 +92,10 @@ data class OrderDetailEntity(
             notifyPropertyChanged(BR.canCompensate)
         }
 }
+
+data class AppointmentInfo(
+    val appointmentReason: String,
+    val appointmentState: Int,
+    val appointmentTime: String,
+    val appointmentUsageTime: String
+)

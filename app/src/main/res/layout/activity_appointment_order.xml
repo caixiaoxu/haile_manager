@@ -6,49 +6,48 @@
     <data>
         <variable
             name="vm"
-            type="com.yunshang.haile_manager_android.business.vm.OrderManagerViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.AppointmentOrderViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.activity.order.OrderManagerActivity">
+        tools:context=".ui.activity.order.AppointmentOrderActivity">
 
         <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
-            android:id="@+id/bar_order_manager_title"
+            android:id="@+id/bar_appointment_order_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
             android:background="@drawable/shape_bottom_stroke_dividing_efefef"
             app:layout_constraintTop_toTopOf="parent"
-            app:rightModel="text"
-            app:title="@string/order_manager" />
+            app:title="@string/appointment_order" />
 
         <View
-            android:id="@+id/view_order_manager_search_parent_bg"
+            android:id="@+id/view_appointment_order_search_parent_bg"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/shape_bottom_stroke_dividing_efefef"
-            app:layout_constraintTop_toBottomOf="@id/bar_order_manager_title" />
+            app:layout_constraintTop_toBottomOf="@id/bar_appointment_order_title" />
 
         <View
-            android:id="@+id/view_order_manager_search_bg"
+            android:id="@+id/view_appointment_order_search_bg"
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:layout_marginHorizontal="12dp"
             android:background="@drawable/shape_sf7f7f7_r18"
-            app:layout_constraintBottom_toBottomOf="@id/view_order_manager_search_parent_bg"
-            app:layout_constraintTop_toTopOf="@id/view_order_manager_search_parent_bg" />
+            app:layout_constraintBottom_toBottomOf="@id/view_appointment_order_search_parent_bg"
+            app:layout_constraintTop_toTopOf="@id/view_appointment_order_search_parent_bg" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_order_manager_search"
+            android:id="@+id/iv_appointment_order_search"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_marginStart="12dp"
             android:scaleType="fitXY"
             android:src="@mipmap/icon_search"
-            app:layout_constraintBottom_toBottomOf="@id/view_order_manager_search_bg"
-            app:layout_constraintStart_toStartOf="@id/view_order_manager_search_bg"
-            app:layout_constraintTop_toTopOf="@id/view_order_manager_search_bg" />
+            app:layout_constraintBottom_toBottomOf="@id/view_appointment_order_search_bg"
+            app:layout_constraintStart_toStartOf="@id/view_appointment_order_search_bg"
+            app:layout_constraintTop_toTopOf="@id/view_appointment_order_search_bg" />
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/Font_14_999999"
@@ -56,18 +55,18 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="@string/order_search_hint"
-            app:layout_constraintBottom_toBottomOf="@id/view_order_manager_search_bg"
-            app:layout_constraintStart_toEndOf="@id/iv_order_manager_search"
-            app:layout_constraintTop_toTopOf="@id/view_order_manager_search_bg" />
+            app:layout_constraintBottom_toBottomOf="@id/view_appointment_order_search_bg"
+            app:layout_constraintStart_toEndOf="@id/iv_appointment_order_search"
+            app:layout_constraintTop_toTopOf="@id/view_appointment_order_search_bg" />
 
         <HorizontalScrollView
-            android:id="@+id/bg_order_manager_category"
+            android:id="@+id/bg_appointment_order_category"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:background="@drawable/shape_bottom_stroke_dividing_efefef"
             android:paddingHorizontal="16dp"
             android:scrollbars="none"
-            app:layout_constraintTop_toBottomOf="@id/view_order_manager_search_parent_bg">
+            app:layout_constraintTop_toBottomOf="@id/view_appointment_order_search_parent_bg">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -93,21 +92,21 @@
             android:layout_height="52dp"
             android:background="@drawable/shape_bottom_stroke_dividing_efefef"
             android:paddingHorizontal="16dp"
-            app:layout_constraintTop_toBottomOf="@id/bg_order_manager_category" />
+            app:layout_constraintTop_toBottomOf="@id/bg_appointment_order_category" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_order_manager_list_num"
+            android:id="@+id/tv_appointment_order_list_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
             android:layout_marginStart="16dp"
-            android:text="@{vm.mOrderCountStr}"
+            android:text="@{vm.mAppointmentOrderCountStr}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_order_manager_list_refresh"
+            app:layout_constraintTop_toTopOf="@id/tv_appointment_order_list_refresh"
             tools:text="全部8笔订单" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_order_manager_list_refresh"
+            android:id="@+id/tv_appointment_order_list_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableStart="@mipmap/icon_refresh"
@@ -119,12 +118,13 @@
             app:layout_constraintTop_toBottomOf="@id/indicator_order_status" />
 
         <com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
-            android:id="@+id/rv_order_manager_list"
+            android:id="@+id/rv_appointment_order_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginVertical="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_order_manager_list_refresh" />
+            app:layout_constraintTop_toBottomOf="@id/tv_appointment_order_list_refresh" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -9,6 +9,7 @@ import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.EarningsDetailViewModel
 import com.yunshang.haile_manager_android.business.vm.IncomeDetailViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.rule.IncomeDetailInfo
 import com.yunshang.haile_manager_android.databinding.ActivityIncomeDetailBinding
 import com.yunshang.haile_manager_android.databinding.ItemIncomeDetailInfoBinding
@@ -77,7 +78,7 @@ class EarningsDetailActivity :
                             this@EarningsDetailActivity,
                             OrderDetailActivity::class.java
                         ).apply {
-                            putExtra(OrderDetailActivity.OrderId, detail.orderId)
+                            putExtras(IntentParams.OrderDetailParams.pack(detail.orderId))
                         }
                     })
             }

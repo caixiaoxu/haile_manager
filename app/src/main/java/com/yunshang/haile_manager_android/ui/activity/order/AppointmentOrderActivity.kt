@@ -19,18 +19,18 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
-import com.yunshang.haile_manager_android.business.vm.OrderManagerViewModel
+import com.yunshang.haile_manager_android.business.vm.AppointmentOrderViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
-import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.OrderListEntity
-import com.yunshang.haile_manager_android.databinding.ActivityOrderManagerBinding
-import com.yunshang.haile_manager_android.databinding.ItemOrderListBinding
+import com.yunshang.haile_manager_android.databinding.ActivityAppointmentOrderBinding
+import com.yunshang.haile_manager_android.databinding.ItemAppointmentOrderListBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
+import com.yunshang.haile_manager_android.ui.view.dialog.CancelContentDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
@@ -44,22 +44,21 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.Simple
 import timber.log.Timber
 import java.util.*
 
-class OrderManagerActivity :
-    BaseBusinessActivity<ActivityOrderManagerBinding, OrderManagerViewModel>(
-        OrderManagerViewModel::class.java,
-        BR.vm
+class AppointmentOrderActivity :
+    BaseBusinessActivity<ActivityAppointmentOrderBinding, AppointmentOrderViewModel>(
+        AppointmentOrderViewModel::class.java, BR.vm
     ) {
 
     // 搜索选择界面
     private val startSearchSelect =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             it.data?.let { intent ->
-                intent.getStringExtra(SearchSelectTypeParam.ResultData)?.let { json ->
+                intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)?.let { json ->
 
                     GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
                         if (selected.isNotEmpty()) {
                             when (it.resultCode) {
-                                SearchSelectTypeParam.ShopResultCode -> {
+                                IntentParams.SearchSelectTypeParam.ShopResultCode -> {
                                     mViewModel.selectDepartment.value = selected[0]
                                 }
                             }
@@ -70,17 +69,17 @@ class OrderManagerActivity :
         }
 
     private val mAdapter by lazy {
-        CommonRecyclerAdapter<ItemOrderListBinding, OrderListEntity>(
-            R.layout.item_order_list,
+        CommonRecyclerAdapter<ItemAppointmentOrderListBinding, OrderListEntity>(
+            R.layout.item_appointment_order_list,
             BR.item
         ) { mItemBinding, _, item ->
             mItemBinding?.llOrderListSpecs?.removeAllViews()
             item.skuList.forEach { sku ->
                 mItemBinding?.llOrderListSpecs?.addView(
-                    TextView(this@OrderManagerActivity).apply {
+                    TextView(this@AppointmentOrderActivity).apply {
                         setTextColor(
                             ContextCompat.getColor(
-                                this@OrderManagerActivity,
+                                this@AppointmentOrderActivity,
                                 R.color.colorPrimary
                             )
                         )
@@ -96,16 +95,31 @@ class OrderManagerActivity :
                     )
                 )
             }
+            mItemBinding?.tvOrderListCancel?.setOnClickListener {
+                CancelContentDialog.Builder(
+                    StringUtils.getString(R.string.cancel_order),
+                    StringUtils.getString(R.string.cancel_order_hint)
+                ).apply {
+                    positiveClickListener = {
+                        mViewModel.cancelAppointmentOrder(item.orderNo, it) {
+                            mBinding.rvAppointmentOrderList.requestRefresh()
+                        }
+                    }
+                }.build().show(supportFragmentManager)
+            }
             mItemBinding?.root?.setOnClickListener {
-                if (true == mSharedViewModel.hasOrderInfoPermission.value) {
-                    startActivity(
-                        Intent(
-                            this@OrderManagerActivity,
-                            OrderDetailActivity::class.java
-                        ).apply {
-                            putExtras(IntentParams.OrderDetailParams.pack(item.id))
-                        })
-                }
+                startActivity(
+                    Intent(
+                        this@AppointmentOrderActivity,
+                        OrderDetailActivity::class.java
+                    ).apply {
+                        putExtras(
+                            IntentParams.OrderDetailParams.pack(
+                                item.id,
+                                true
+                            )
+                        )
+                    })
             }
         }
     }
@@ -122,23 +136,22 @@ class OrderManagerActivity :
                     mViewModel.startTime.value = date1
                     mViewModel.endTime.value = date2
 
-                    mBinding.rvOrderManagerList.requestRefresh()
+                    mBinding.rvAppointmentOrderList.requestRefresh()
                 }
             }
         }.build()
     }
 
-    override fun layoutId(): Int = R.layout.activity_order_manager
 
-    override fun backBtn(): View = mBinding.barOrderManagerTitle.getBackBtn()
+    override fun layoutId(): Int = R.layout.activity_appointment_order
+
+    override fun backBtn(): View = mBinding.barAppointmentOrderTitle.getBackBtn()
 
     override fun initEvent() {
         super.initEvent()
-        mSharedViewModel.hasOrderListPermission.observe(this) {}
-        mSharedViewModel.hasOrderInfoPermission.observe(this) {}
 
         // 刷新状态
-        mViewModel.orderStatus.observe(this) { list ->
+        mViewModel.appointOrderStatus.observe(this) { list ->
             mBinding.indicatorOrderStatus.navigator = CommonNavigator(this).apply {
 
                 adapter = object : CommonNavigatorAdapter() {
@@ -151,7 +164,7 @@ class OrderManagerActivity :
                             list[index].run {
                                 text = title
                                 setOnClickListener {
-                                    mViewModel.curOrderStatus.value = value
+                                    mViewModel.curAppointmentOrderStatus.value = value
                                     onPageSelected(index)
                                     notifyDataSetChanged()
                                 }
@@ -161,13 +174,14 @@ class OrderManagerActivity :
 
                     override fun getIndicator(context: Context?): IPagerIndicator {
                         return WrapPagerIndicator(context).apply {
-                            verticalPadding = DimensionUtils.dip2px(this@OrderManagerActivity, 4f)
+                            verticalPadding =
+                                DimensionUtils.dip2px(this@AppointmentOrderActivity, 4f)
                             fillColor = ContextCompat.getColor(
-                                this@OrderManagerActivity,
+                                this@AppointmentOrderActivity,
                                 R.color.colorPrimary
                             )
                             roundRadius =
-                                DimensionUtils.dip2px(this@OrderManagerActivity, 14f).toFloat()
+                                DimensionUtils.dip2px(this@AppointmentOrderActivity, 14f).toFloat()
                         }
                     }
                 }
@@ -175,20 +189,20 @@ class OrderManagerActivity :
         }
 
         // 切换工作状态
-        mViewModel.curOrderStatus.observe(this) {
-            mBinding.rvOrderManagerList.requestRefresh()
+        mViewModel.curAppointmentOrderStatus.observe(this) {
+            mBinding.rvAppointmentOrderList.requestRefresh()
         }
 
         // 选择店铺
         mViewModel.selectDepartment.observe(this) {
             mBinding.tvOrderCategoryDepartment.text = it.name
-            mBinding.rvOrderManagerList.requestRefresh()
+            mBinding.rvAppointmentOrderList.requestRefresh()
         }
 
         // 列表刷新
         LiveDataBus.with(BusEvents.ORDER_LIST_STATUS, Int::class.java)?.observe(this) {
-            if (mViewModel.curOrderStatus.value.isNullOrEmpty()) {
-                mBinding.rvOrderManagerList.requestRefresh()
+            if (mViewModel.curAppointmentOrderStatus.value.isNullOrEmpty()) {
+                mBinding.rvAppointmentOrderList.requestRefresh()
             } else {
                 mAdapter.deleteItem { item -> item.id == it }
             }
@@ -198,22 +212,9 @@ class OrderManagerActivity :
     override fun initView() {
         window.statusBarColor = Color.WHITE
 
-        mBinding.barOrderManagerTitle.getRightBtn().run {
-            setText(R.string.appointment_order)
-            setTextColor(ContextCompat.getColor(this@OrderManagerActivity, R.color.colorPrimary))
-            setOnClickListener {
-                startActivity(
-                    Intent(
-                        this@OrderManagerActivity,
-                        AppointmentOrderActivity::class.java
-                    )
-                )
-            }
-        }
-
-        mBinding.viewOrderManagerSearchBg.setOnClickListener {
-            startActivity(Intent(this@OrderManagerActivity, SearchActivity::class.java).apply {
-                putExtra(SearchType.SearchType, SearchType.Order)
+        mBinding.viewAppointmentOrderSearchBg.setOnClickListener {
+            startActivity(Intent(this@AppointmentOrderActivity, SearchActivity::class.java).apply {
+                putExtra(SearchType.SearchType, SearchType.AppointOrder)
             })
         }
         mBinding.tvOrderCategoryTime.setOnClickListener {
@@ -228,21 +229,21 @@ class OrderManagerActivity :
         mBinding.tvOrderCategoryDepartment.setOnClickListener {
             startSearchSelect.launch(
                 Intent(
-                    this@OrderManagerActivity,
+                    this@AppointmentOrderActivity,
                     SearchSelectRadioActivity::class.java
                 ).apply {
-                    putExtras(SearchSelectTypeParam.pack(SearchSelectTypeParam.SearchSelectTypeShop))
+                    putExtras(IntentParams.SearchSelectTypeParam.pack(IntentParams.SearchSelectTypeParam.SearchSelectTypeShop))
                 }
             )
         }
 
         // 刷新
-        mBinding.tvOrderManagerListRefresh.setOnClickListener {
-            mBinding.rvOrderManagerList.requestRefresh()
+        mBinding.tvAppointmentOrderListRefresh.setOnClickListener {
+            mBinding.rvAppointmentOrderList.requestRefresh()
         }
 
-        mBinding.rvOrderManagerList.layoutManager = LinearLayoutManager(this)
-        mBinding.rvOrderManagerList.addItemDecoration(
+        mBinding.rvAppointmentOrderList.layoutManager = LinearLayoutManager(this)
+        mBinding.rvAppointmentOrderList.addItemDecoration(
             DividerItemDecoration(
                 this,
                 DividerItemDecoration.VERTICAL
@@ -251,9 +252,9 @@ class OrderManagerActivity :
                     setDrawable(it)
                 }
             })
-        mBinding.rvOrderManagerList.adapter = mAdapter
+        mBinding.rvAppointmentOrderList.adapter = mAdapter
 
-        mBinding.rvOrderManagerList.requestData =
+        mBinding.rvAppointmentOrderList.requestData =
             object : CommonRefreshRecyclerView.OnRequestDataListener<OrderListEntity>() {
                 override fun requestData(
                     isRefresh: Boolean,
@@ -261,9 +262,7 @@ class OrderManagerActivity :
                     pageSize: Int,
                     callBack: (responseList: ResponseList<out OrderListEntity>?) -> Unit
                 ) {
-                    if (true == mSharedViewModel.hasOrderListPermission.value) {
-                        mViewModel.requestOrderList(page, pageSize, callBack)
-                    }
+                    mViewModel.requestAppointmentOrderList(page, pageSize, callBack)
                 }
             }
     }

@@ -1,6 +1,5 @@
 package com.yunshang.haile_manager_android.utils
 
-import android.content.Context
 import com.yunshang.haile_manager_android.data.entities.UserPermissionEntity
 import com.yunshang.haile_manager_android.data.model.SPRepository
 

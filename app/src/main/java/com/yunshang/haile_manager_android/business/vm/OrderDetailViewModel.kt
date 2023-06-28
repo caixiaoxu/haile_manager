@@ -34,10 +34,11 @@ class OrderDetailViewModel : BaseViewModel() {
 
     var orderId = -1
 
+    var isAppoint = false
+
     val orderDetail: MutableLiveData<OrderDetailEntity> by lazy {
         MutableLiveData()
     }
-
     fun requestOrderDetail() {
         if (-1 == orderId) {
             return

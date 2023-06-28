@@ -64,7 +64,12 @@ class SearchViewModel : BaseViewModel() {
             when (searchType) {
                 SearchType.Device -> searchDeviceList(page, pageSize, result2)
                 SearchType.Shop -> searchShopList(page, pageSize, result1)
-                SearchType.Order -> searchOrderList(page, pageSize, result2)
+                SearchType.Order, SearchType.AppointOrder -> searchOrderList(
+                    page,
+                    pageSize,
+                    searchType == SearchType.AppointOrder,
+                    result2
+                )
             }
         }, null, null, false)
     }
@@ -127,6 +132,7 @@ class SearchViewModel : BaseViewModel() {
     private suspend fun searchOrderList(
         page: Int,
         pageSize: Int,
+        isAppoint: Boolean,
         result: ((responseList: ResponseList<out ISearchSelectEntity>?) -> Unit)?
     ) {
 
@@ -134,8 +140,12 @@ class SearchViewModel : BaseViewModel() {
             "page" to page,
             "pageSize" to pageSize,
             "searchType" to 2,
-            "searchStr" to (searchKey.value ?: "")
+            "searchStr" to (searchKey.value ?: ""),
         )
+
+        if (isAppoint) {
+            params["orderType"] = 300
+        }
 
         val listWrapper = ApiRepository.dealApiResult(
             mOrderRepo.requestOrderList(params)

@@ -8,6 +8,7 @@ import com.lsy.framelib.utils.SoftKeyboardUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.SearchViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.rule.ISearchSelectEntity
 import com.yunshang.haile_manager_android.databinding.ActivitySearchBinding
@@ -55,13 +56,18 @@ class SearchActivity :
                             }
                         )
                     }
-                    SearchType.Order -> if (true == mSharedViewModel.hasOrderInfoPermission.value) {
+                    SearchType.Order, SearchType.AppointOrder -> if (true == mSharedViewModel.hasOrderInfoPermission.value) {
                         startActivity(
                             Intent(
                                 this@SearchActivity,
                                 OrderDetailActivity::class.java
                             ).apply {
-                                putExtra(OrderDetailActivity.OrderId, item.getSearchId())
+                                putExtras(
+                                    IntentParams.OrderDetailParams.pack(
+                                        item.getSearchId(),
+                                        mViewModel.searchType == SearchType.AppointOrder
+                                    )
+                                )
                             })
                     }
                 }
@@ -126,6 +132,7 @@ class SearchActivity :
                                     && true == mSharedViewModel.hasDeviceListPermission.value)
                             || (SearchType.Order == mViewModel.searchType
                                     && true == mSharedViewModel.hasOrderListPermission.value)
+                            || SearchType.AppointOrder == mViewModel.searchType
                         ) {
                             mViewModel.searchList(page, pageSize, result2 = callBack)
                         }

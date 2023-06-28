@@ -48,4 +48,10 @@ interface OrderService {
      */
     @POST("/device/resetByOrder")
     suspend fun requestOrderRestart(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 取消预约订单接口
+     */
+    @POST("/appoint/cancelOrder")
+    suspend fun cancelAppointmentOrder(@Body body: RequestBody): ResponseWrapper<Any>
 }

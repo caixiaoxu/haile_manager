@@ -48,7 +48,7 @@
                 app:divider="@drawable/divide_size8"
                 app:showDividers="middle">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="84dp"
                     android:background="@color/white"
@@ -56,19 +56,40 @@
                     android:paddingHorizontal="16dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_order_detail_main"
                         android:layout_width="42dp"
                         android:layout_height="42dp"
                         app:imgRes="@{OrderParam.isRefund(vm.orderDetail.state)?R.mipmap.icon_order_detail_refund_main:R.mipmap.icon_order_detail_main}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:src="@mipmap/icon_order_detail_main" />
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_order_detail_statas"
                         style="@style/Font_16_333333_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:text="@{OrderParam.orderStatusList.get(vm.orderDetail.state)}"
+                        android:text="@{vm.isAppoint?OrderParam.getAppointStateName(vm.orderDetail.appointmentInfo.appointmentState):OrderParam.orderStatusList.get(vm.orderDetail.state)}"
+                        app:layout_constraintBottom_toTopOf="@id/tv_order_detail_desc"
+                        app:layout_constraintStart_toEndOf="@id/iv_order_detail_main"
+                        app:layout_constraintTop_toTopOf="@id/iv_order_detail_main"
+                        app:layout_constraintVertical_chainStyle="spread_inside"
                         tools:text="已支付" />
-                </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_order_detail_desc"
+                        style="@style/Font_12_333333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{OrderParam.orderStatusList.get(vm.orderDetail.state)}"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_order_detail_main"
+                        app:layout_constraintStart_toStartOf="@id/tv_order_detail_statas"
+                        app:layout_constraintTop_toBottomOf="@id/tv_order_detail_statas"
+                        tools:text="请在 2020/10/10（周三） 20:00 使用" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -222,25 +243,45 @@
                         layout="@layout/item_order_detail_item"
                         app:mStart="@{@dimen/dimen_8}"
                         app:title="@{@string/total_amount}"
-                        app:value='@{vm.orderDetail.originPrice+""}' />
+                        app:value='@{@string/unit_money+vm.orderDetail.originPrice}' />
 
                     <include
                         layout="@layout/item_order_detail_item"
                         app:mStart="@{@dimen/dimen_8}"
                         app:title="@{@string/need_pay}"
-                        app:value='@{vm.orderDetail.realPrice+""}' />
+                        app:value='@{@string/unit_money+vm.orderDetail.realPrice}' />
 
                     <include
                         layout="@layout/item_order_detail_item"
                         app:mStart="@{@dimen/dimen_8}"
                         app:title="@{@string/have_paid}"
-                        app:value='@{vm.orderDetail.payPrice+""}' />
+                        app:value='@{@string/unit_money+vm.orderDetail.payPrice}' />
 
                     <include
+                        android:id="@+id/include_order_detail_realPrice"
                         layout="@layout/item_order_detail_item"
                         app:mStart="@{@dimen/dimen_8}"
                         app:title="@{@string/real_income}"
-                        app:value='@{vm.orderDetail.realPrice+""}' />
+                        app:value='@{@string/unit_money+vm.orderDetail.realPrice}' />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    android:visibility="@{(vm.isAppoint &amp;&amp; vm.orderDetail.appointmentInfo.appointmentReason.length>0)?View.VISIBLE:View.GONE}"
+                    app:divider="@drawable/divide_size8"
+                    app:showDividers="middle">
+
+                    <include
+                        layout="@layout/item_order_detail_item"
+                        app:mStart="@{@dimen/dimen_2}"
+                        app:title='@{@string/cancel_appoint_reason +"："}'
+                        app:value='@{vm.orderDetail.refundDesc}' />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -265,7 +306,7 @@
                         layout="@layout/item_order_detail_item"
                         app:mStart="@{@dimen/dimen_2}"
                         app:title="@{@string/refund_amount}"
-                        app:value='@{vm.orderDetail.refundPrice+""}' />
+                        app:value='@{@string/unit_money+vm.orderDetail.refundPrice}' />
 
                     <include
                         layout="@layout/item_order_detail_item"
@@ -312,6 +353,13 @@
 
                     <include
                         layout="@layout/item_order_detail_item"
+                        android:visibility="@{vm.isAppoint?View.VISIBLE:View.GONE}"
+                        app:mStart="@{@dimen/dimen_2}"
+                        app:title='@{@string/appoint_time +"："}'
+                        app:value='@{vm.orderDetail.appointTime}' />
+
+                    <include
+                        layout="@layout/item_order_detail_item"
                         app:mStart="@{@dimen/dimen_2}"
                         app:title='@{@string/model_of_payment + "："}'
                         app:value='@{vm.orderDetail.payMethod}' />
@@ -338,9 +386,15 @@
             android:gravity="end"
             android:paddingHorizontal="16dp"
             android:paddingTop="12dp"
-            android:visibility="@{((vm.orderDetail.canRefund &amp;&amp; shared.hasOrderRefundPermission) || (vm.orderDetail.canCompensate &amp;&amp; shared.hasOrderCompensatePermission) || (vm.orderDetail.canStart &amp;&amp; shared.hasOrderStartPermission) || (vm.orderDetail.canReset &amp;&amp; shared.hasOrderResetPermission))?View.VISIBLE:View.GONE}"
+            android:visibility="@{((vm.orderDetail.canRefund &amp;&amp; shared.hasOrderRefundPermission) || (vm.orderDetail.canCompensate &amp;&amp; shared.hasOrderCompensatePermission) || (vm.orderDetail.canStart &amp;&amp; shared.hasOrderStartPermission) || (vm.orderDetail.canReset &amp;&amp; shared.hasOrderResetPermission) || (vm.isAppoint &amp;&amp;  vm.orderDetail.canCancelReserve))?View.VISIBLE:View.GONE}"
             app:divider="@drawable/divide_size8"
             app:showDividers="middle">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_order_detail_cancel"
+                style="@style/CommonStrokeTxtBtnStyle"
+                android:text="@string/cancel"
+                android:visibility="@{(vm.isAppoint &amp;&amp; vm.orderDetail.canCancelReserve)?View.VISIBLE:View.GONE}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_order_detail_refund"

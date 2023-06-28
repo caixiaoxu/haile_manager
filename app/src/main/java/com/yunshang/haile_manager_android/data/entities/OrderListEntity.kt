@@ -40,7 +40,9 @@ data class OrderListEntity(
     val shopId: Int,
     val shopName: String,
     val skuList: List<Sku>,
-    val state: Int
+    val state: Int,
+    val appointmentState: Int,
+    val canCancelReserve: Boolean,
 ) : ISearchSelectEntity {
     override fun getSearchId(): Int = id
 

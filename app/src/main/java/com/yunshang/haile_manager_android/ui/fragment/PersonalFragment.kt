@@ -31,7 +31,6 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
     PersonalViewModel::class.java,
     BR.vm
 ) {
-
     override fun layoutId(): Int = R.layout.fragment_personal
 
     override fun initView() {
@@ -134,6 +133,13 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
 
     override fun initData() {
         mViewModel.requestData()
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden){
+            mViewModel.requestBalanceAsync()
+        }
     }
 
 }

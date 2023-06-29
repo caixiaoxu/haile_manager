@@ -50,8 +50,8 @@ class LoginForPhoneActivity : BaseBusinessActivity<ActivityLoginForPhoneBinding,
     override fun initData() {
         if (BuildConfig.DEBUG){
             // 模拟数据
-            mViewModel.phone.value = "13067949521"
-            mViewModel.isAgree.value = true
+//            mViewModel.phone.value = "13067949521"
+//            mViewModel.isAgree.value = true
         }
     }
 

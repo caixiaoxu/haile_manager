@@ -432,4 +432,11 @@ class HomeFragment :
     override fun initData() {
         mViewModel.requestHomeData()
     }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden){
+            mViewModel.requestHomeData()
+        }
+    }
 }

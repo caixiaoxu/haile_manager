@@ -80,6 +80,7 @@ object IntentParams {
         const val SearchSelectType = "searchSelectType"
         const val StaffId = "staffId"
         const val CategoryId = "categoryId"
+        const val MustSelect = "mustSelect"
         const val ShopResultCode = 0x90001
         const val DeviceModelResultCode = 0x90002
         const val ResultData = "resultData"
@@ -92,7 +93,8 @@ object IntentParams {
         fun pack(
             searchSelectType: Int? = null,
             categoryId: Int? = null,
-            staffId: Int? = null
+            staffId: Int? = null,
+            mustSelect: Boolean = true
         ): Bundle = Bundle().apply {
             searchSelectType?.let {
                 putInt(SearchSelectType, it)
@@ -103,7 +105,13 @@ object IntentParams {
             staffId?.let {
                 putInt(StaffId, it)
             }
+            putBoolean(MustSelect, mustSelect)
         }
+
+        fun parseSearchSelectType(intent: Intent): Int = intent.getIntExtra(SearchSelectType, -1)
+        fun parseCategoryId(intent: Intent): Int = intent.getIntExtra(CategoryId, -1)
+        fun parseStaffId(intent: Intent): Int = intent.getIntExtra(StaffId, -1)
+        fun parseMustSelect(intent: Intent): Boolean = intent.getBooleanExtra(MustSelect, true)
     }
 
     object WalletParams {

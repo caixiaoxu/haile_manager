@@ -194,7 +194,7 @@ class ShopCreateAndUpdateActivity :
                     CommonBottomSheetDialog.Builder("门店类型", list).apply {
                         onValueSureListener =
                             object : CommonBottomSheetDialog.OnValueSureListener<ShopTypeEntity> {
-                                override fun onValue(data: ShopTypeEntity) {
+                                override fun onValue(data: ShopTypeEntity?) {
                                     mViewModel.changeShopType(data)
                                 }
                             }

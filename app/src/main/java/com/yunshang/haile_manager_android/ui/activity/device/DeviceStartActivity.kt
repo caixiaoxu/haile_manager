@@ -11,8 +11,8 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DeviceStartViewModel
-import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.arguments.DeviceConfigSelectParams
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.ExtAttrBean
 import com.yunshang.haile_manager_android.data.entities.Item
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceStartBinding
@@ -108,10 +108,10 @@ class DeviceStartActivity :
             ).apply {
                 onValueSureListener =
                     object : CommonBottomSheetDialog.OnValueSureListener<DeviceConfigSelectParams> {
-                        override fun onValue(data: DeviceConfigSelectParams) {
+                        override fun onValue(data: DeviceConfigSelectParams?) {
                             mViewModel.selectItem.value = data
                             if (!DeviceCategory.isDryer(mViewModel.categoryCode)) {
-                                mViewModel.selectTime.value = data.times[0]
+                                mViewModel.selectTime.value = data?.times?.get(0)
                             }
                         }
                     }

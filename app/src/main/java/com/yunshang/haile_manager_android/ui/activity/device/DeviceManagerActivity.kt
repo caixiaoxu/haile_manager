@@ -59,12 +59,16 @@ class DeviceManagerActivity :
                 intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)?.let { json ->
 
                     GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
-                        if (selected.isNotEmpty()) {
-                            when (it.resultCode) {
-                                IntentParams.SearchSelectTypeParam.ShopResultCode -> {
+                        when (it.resultCode) {
+                            IntentParams.SearchSelectTypeParam.ShopResultCode -> {
+                                if (selected.isNotEmpty()) {
                                     mViewModel.selectDepartment.value = selected[0]
+                                } else {
+                                    mViewModel.selectDepartment.value = null
                                 }
-                                IntentParams.SearchSelectTypeParam.DeviceModelResultCode -> {
+                            }
+                            IntentParams.SearchSelectTypeParam.DeviceModelResultCode -> {
+                                if (selected.isNotEmpty()) {
                                     mViewModel.selectDeviceModel.value = selected[0]
                                 }
                             }
@@ -175,7 +179,12 @@ class DeviceManagerActivity :
                     this@DeviceManagerActivity,
                     SearchSelectRadioActivity::class.java
                 ).apply {
-                    putExtras(IntentParams.SearchSelectTypeParam.pack(IntentParams.SearchSelectTypeParam.SearchSelectTypeShop))
+                    putExtras(
+                        IntentParams.SearchSelectTypeParam.pack(
+                            IntentParams.SearchSelectTypeParam.SearchSelectTypeShop,
+                            mustSelect = false
+                        )
+                    )
                 }
             )
         }
@@ -197,7 +206,8 @@ class DeviceManagerActivity :
                     putExtras(
                         IntentParams.SearchSelectTypeParam.pack(
                             IntentParams.SearchSelectTypeParam.SearchSelectTypeDeviceModel,
-                            mViewModel.selectDeviceCategory.value?.id ?: -1
+                            mViewModel.selectDeviceCategory.value?.id ?: -1,
+                            mustSelect = false
                         )
                     )
                 }
@@ -214,9 +224,10 @@ class DeviceManagerActivity :
                         SearchSelectParam(4, getString(R.string.break_down)),
                     )
                 ).apply {
+                    mustSelect = false
                     onValueSureListener =
                         object : CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
-                            override fun onValue(data: SearchSelectParam) {
+                            override fun onValue(data: SearchSelectParam?) {
                                 mViewModel.selectNetworkStatus.value = data
                             }
                         }
@@ -234,7 +245,7 @@ class DeviceManagerActivity :
             ).apply {
                 onValueSureListener =
                     object : CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
-                        override fun onValue(data: SearchSelectParam) {
+                        override fun onValue(data: SearchSelectParam?) {
                             mViewModel.selectDeviceStatus.value = data
                         }
                     }
@@ -328,31 +339,31 @@ class DeviceManagerActivity :
 
         // 选择店铺
         mViewModel.selectDepartment.observe(this) {
-            mBinding.tvDeviceCategoryDepartment.text = it.name
+            mBinding.tvDeviceCategoryDepartment.text = it?.name ?: ""
             mBinding.rvDeviceManagerList.requestRefresh()
         }
 
         // 选择设备类型
         mViewModel.selectDeviceCategory.observe(this) {
-            mBinding.tvDeviceCategoryCategory.text = it.name
+            mBinding.tvDeviceCategoryCategory.text = it?.name ?: ""
             mBinding.rvDeviceManagerList.requestRefresh()
         }
 
         // 选择设备模型
         mViewModel.selectDeviceModel.observe(this) {
-            mBinding.tvDeviceCategoryModel.text = it.name
+            mBinding.tvDeviceCategoryModel.text = it?.name ?: ""
             mBinding.rvDeviceManagerList.requestRefresh()
         }
 
         // 选择设备模型
         mViewModel.selectNetworkStatus.observe(this) {
-            mBinding.tvDeviceCategoryNetworkStatus.text = it.name
+            mBinding.tvDeviceCategoryNetworkStatus.text = it?.name ?: ""
             mBinding.rvDeviceManagerList.requestRefresh()
         }
 
         // 选择设备状态
         mViewModel.selectDeviceStatus.observe(this) {
-            mBinding.tvDeviceCategoryDeviceStatus.text = it.name
+            mBinding.tvDeviceCategoryDeviceStatus.text = it?.name ?: ""
             mBinding.rvDeviceManagerList.requestRefresh()
         }
 
@@ -379,10 +390,12 @@ class DeviceManagerActivity :
         val deviceCategoryDialog =
             CommonBottomSheetDialog.Builder(getString(R.string.device_category), categoryEntities)
                 .apply {
+                    mustSelect = false
                     onValueSureListener =
                         object : CommonBottomSheetDialog.OnValueSureListener<CategoryEntity> {
-                            override fun onValue(data: CategoryEntity) {
+                            override fun onValue(data: CategoryEntity?) {
                                 mViewModel.selectDeviceCategory.value = data
+                                mViewModel.selectDeviceModel.value = null
                             }
                         }
                 }

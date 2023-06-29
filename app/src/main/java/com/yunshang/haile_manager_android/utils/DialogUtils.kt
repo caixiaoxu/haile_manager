@@ -40,8 +40,8 @@ object DialogUtils {
         CommonBottomSheetDialog.Builder("", list).apply {
             onValueSureListener = object :
                 CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
-                override fun onValue(data: SearchSelectParam) {
-                    if (1 == data.id) {
+                override fun onValue(data: SearchSelectParam?) {
+                    if (1 == data!!.id) {
                         PictureSelectUtils.takePicture(activity, callback)
                     } else {
                         PictureSelectUtils.pictureForAlbum(activity, maxNum, callback)

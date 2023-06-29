@@ -177,7 +177,7 @@ class DiscountsCreateActivity :
                     onValueSureListener = object :
                         CommonBottomSheetDialog.OnValueSureListener<DiscountsBusinessTypeEntity> {
 
-                        override fun onValue(data: DiscountsBusinessTypeEntity) {
+                        override fun onValue(data: DiscountsBusinessTypeEntity?) {
                             mViewModel.selectBusinessType.value = data
                             mViewModel.deviceCategoryList.value = null
                             mViewModel.selectDeviceCategory.value = null
@@ -223,7 +223,7 @@ class DiscountsCreateActivity :
                 onValueSureListener =
                     object : CommonBottomSheetDialog.OnValueSureListener<ActiveDayParam> {
 
-                        override fun onValue(data: ActiveDayParam) {
+                        override fun onValue(data: ActiveDayParam?) {
                             mViewModel.selectActiveModel.value = data
                             mViewModel.selectActiveDays.value = null
                         }

@@ -71,8 +71,8 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
     /**
      * 切换店铺类型
      */
-    fun changeShopType(data: ShopTypeEntity) {
-        if (-1 != data.type && data.type != shopTypeValue.value?.type) {
+    fun changeShopType(data: ShopTypeEntity?) {
+        if (null != data && -1 != data.type && data.type != shopTypeValue.value?.type) {
             shopTypeValue.postValue(data)
             createAndUpdateEntity.value?.let {
                 it.shopType = data.type

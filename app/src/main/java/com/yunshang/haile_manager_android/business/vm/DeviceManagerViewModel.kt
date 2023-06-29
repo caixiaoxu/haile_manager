@@ -9,6 +9,7 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CategoryService
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
@@ -97,7 +98,7 @@ class DeviceManagerViewModel : BaseViewModel() {
             mCategoryRepo.category(1)
         )
         list?.let {
-            categoryList.postValue(it)
+            categoryList.postValue(it.filter { e -> DeviceCategory.canShowDeviceCategory(e.code) })
         }
     }
 

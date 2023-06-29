@@ -75,6 +75,8 @@ class SearchSelectRadioViewModel : BaseViewModel() {
     // 设备类型id
     var categoryId: Int = -1
 
+    var mustSelect = true
+
     val searchKey: MutableLiveData<String> by lazy {
         MutableLiveData()
     }

@@ -11,6 +11,7 @@ import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -57,6 +58,13 @@ class SearchSelectRadioActivity :
                             selected
                         )
                     } else {
+                        if (mViewModel.mustSelect && selected.isEmpty()) {
+                            SToast.showToast(
+                                this@SearchSelectRadioActivity,
+                                if (mViewModel.searchSelectType.value == SearchSelectTypeParam.SearchSelectTypeDeviceModel) R.string.device_model_empty else R.string.department_empty
+                            )
+                            return@setOnClickListener
+                        }
                         setResult(
                             when (mViewModel.searchSelectType.value) {
                                 SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop, SearchSelectTypeParam.SearchSelectTypeRechargeShop -> SearchSelectTypeParam.ShopResultCode
@@ -87,14 +95,11 @@ class SearchSelectRadioActivity :
         super.initIntent()
 
         // 类别
-        mViewModel.searchSelectType.value =
-            intent.getIntExtra(SearchSelectTypeParam.SearchSelectType, -1)
-
-        mViewModel.categoryId =
-            intent.getIntExtra(SearchSelectTypeParam.CategoryId, -1)
-
-        mViewModel.staffId =
-            intent.getIntExtra(SearchSelectTypeParam.StaffId, -1)
+        mViewModel.searchSelectType.value = SearchSelectTypeParam.parseSearchSelectType(intent)
+        mViewModel.categoryId = SearchSelectTypeParam.parseCategoryId(intent)
+        mViewModel.staffId = SearchSelectTypeParam.parseStaffId(intent)
+        mViewModel.staffId = SearchSelectTypeParam.parseStaffId(intent)
+        mViewModel.mustSelect = SearchSelectTypeParam.parseMustSelect(intent)
     }
 
     override fun initView() {

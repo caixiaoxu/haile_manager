@@ -39,9 +39,9 @@ class DeviceAdvancedSettingActivity :
                     ).apply {
                         onValueSureListener = object :
                             CommonBottomSheetDialog.OnValueSureListener<DeviceAdvancedOptionEntity> {
-                            override fun onValue(data: DeviceAdvancedOptionEntity) {
-                                item.input = data.name
-                                item.inputValue = data.value
+                            override fun onValue(data: DeviceAdvancedOptionEntity?) {
+                                item.input = data?.name ?:""
+                                item.inputValue = data?.value ?:""
                                 mAdapter.notifyItemChanged(pos)
                             }
                         }

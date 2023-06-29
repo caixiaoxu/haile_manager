@@ -121,8 +121,8 @@ class SubAccountDetailActivity :
         ).apply {
             onValueSureListener = object :
                 CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
-                override fun onValue(data: SearchSelectParam) {
-                    if (1 == data.id) {
+                override fun onValue(data: SearchSelectParam?) {
+                    if (1 == data?.id) {
                         mViewModel.subAccountDetail.value?.let { detail ->
                             startActivity(
                                 Intent(

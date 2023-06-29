@@ -35,7 +35,8 @@
             android:drawableEnd="@mipmap/icon_triangle_down"
             android:drawablePadding="4dp"
             android:gravity="center"
-            android:text="@string/no_limit" />
+            android:hint="@string/no_limit"
+            android:textColorHint="@color/common_txt_color" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_data_statistics_device"
@@ -46,6 +47,7 @@
             android:drawableEnd="@mipmap/icon_triangle_down"
             android:drawablePadding="4dp"
             android:gravity="center"
-            android:text="@string/no_limit" />
+            android:hint="@string/no_limit"
+            android:textColorHint="@color/common_txt_color" />
     </LinearLayout>
 </HorizontalScrollView>

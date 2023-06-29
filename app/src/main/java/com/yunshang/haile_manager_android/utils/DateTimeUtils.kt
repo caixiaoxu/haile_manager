@@ -1,9 +1,9 @@
 package com.yunshang.haile_manager_android.utils
 
 import android.text.format.DateFormat
-import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.abs
 import kotlin.math.max
 
 /**
@@ -17,6 +17,30 @@ import kotlin.math.max
  * 作者姓名 修改时间 版本号 描述
 </desc></version></time></author> */
 object DateTimeUtils {
+    /**
+     * 当月第一天
+     */
+    @JvmStatic
+    val curYearFirst: Date
+        get() = getCurYearFirst(Date())
+
+    /**
+     * 指定日期当月的第一天
+     */
+    @JvmStatic
+    fun getCurYearFirst(date: Date?): Date {
+        val cal = Calendar.getInstance()
+        if (date != null) {
+            cal.time = date
+        }
+        cal[Calendar.MONTH] = 0
+        cal[Calendar.DAY_OF_MONTH] = 1
+        cal[Calendar.HOUR_OF_DAY] = 0
+        cal[Calendar.MINUTE] = 0
+        cal[Calendar.SECOND] = 0
+        return cal.time
+    }
+
     /**
      * 当月第一天
      */
@@ -64,6 +88,7 @@ object DateTimeUtils {
     /**
      * 是否是同一年
      */
+    @JvmStatic
     fun isSameYear(date1: Date?, date2: Date?): Boolean {
         if (null == date1 || null == date2) return false
         val cal1 = Calendar.getInstance().apply { time = date1 }
@@ -74,6 +99,7 @@ object DateTimeUtils {
     /**
      * 是否是同一月
      */
+    @JvmStatic
     fun isSameMonth(date1: Date?, date2: Date?): Boolean {
         if (null == date1 || null == date2) return false
         val cal1 = Calendar.getInstance().apply { time = date1 }
@@ -85,6 +111,7 @@ object DateTimeUtils {
     /**
      * 是否是同一日
      */
+    @JvmStatic
     fun isSameDay(date1: Date?, date2: Date?): Boolean {
         if (null == date1 || null == date2) return false
         val cal1 = Calendar.getInstance().apply { time = date1 }
@@ -92,6 +119,37 @@ object DateTimeUtils {
         return (cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
                 && cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH)
                 && cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH))
+    }
+
+    /**
+     * 前几天
+     */
+    @JvmStatic
+    fun beforeDay(date: Date?, num: Int = 1): Date {
+        val cal = Calendar.getInstance()
+        cal.time = date
+        cal.add(Calendar.DAY_OF_MONTH, -num)
+        return cal.time
+    }
+
+    @JvmStatic
+    fun beforeWeekFirstDay(date: Date) = Calendar.getInstance().run {
+        time = date
+        add(Calendar.DAY_OF_MONTH, -7)
+        while (get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
+            add(Calendar.DAY_OF_MONTH, -1)
+        }
+        time
+    }
+
+    @JvmStatic
+    fun beforeWeekLastDay(date: Date) = Calendar.getInstance().run {
+        time = date
+        add(Calendar.DAY_OF_MONTH, -7)
+        while (get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+            add(Calendar.DAY_OF_MONTH, 1)
+        }
+        time
     }
 
     /**
@@ -108,14 +166,22 @@ object DateTimeUtils {
     /**
      * 格式化开始日期参数
      */
+    @JvmStatic
     fun formatDateTimeStartParam(date: Date?): String =
         "${formatDateTime(date, "yyyy-MM-dd")} 00:00:00"
+
+    fun formatDateTimeYearStartParam(date: Date?): String =
+        "${formatDateTime(date, "yyyy")}-01-01 00:00:00"
 
     /**
      * 格式化结束日期参数
      */
+    @JvmStatic
     fun formatDateTimeEndParam(date: Date?): String =
         "${formatDateTime(date, "yyyy-MM-dd")} 23:59:59"
+
+    fun formatDateTimeYearEndParam(date: Date?): String =
+        "${formatDateTime(date, "yyyy")}-12-31 23:59:59"
 
     /**
      * 格式化
@@ -215,7 +281,11 @@ object DateTimeUtils {
     /**
      * 获取周份列表
      */
-    fun getWeekSection(firstDay: Int, dayNum: Int): List<String> =
+    fun getWeekSection(
+        firstDay: Int,
+        dayNum: Int,
+        limitFunc: (sunday: Int) -> Boolean
+    ): List<String> =
         ArrayList<String>().apply {
             var i = 0
             var monthDay: Int
@@ -225,7 +295,7 @@ object DateTimeUtils {
                 sunday = monthDay + 6
                 add("${monthDay}日-${if (sunday > dayNum) sunday - dayNum else sunday}日")
                 i++
-            } while (sunday < dayNum)
+            } while (sunday < dayNum && limitFunc(sunday))
         }
 
     /**
@@ -257,6 +327,17 @@ object DateTimeUtils {
         calendar[Calendar.DATE] = calendar[Calendar.DATE] + day
         return calendar.time
     }
+
+    /**
+     * 计算两个日期间的相差天数
+     */
+    fun calTwoDaySpace(date1: Date, date2: Date) =
+        (date1.time - date2.time) / (1000 * 60 * 60 * 24)
+
+    /**
+     * 计算两个日期间的相差天数 绝对值
+     */
+    fun calTwoDaySpaceAbs(date1: Date, date2: Date) = abs(calTwoDaySpace(date1, date2))
 
     /**
      * 获取友好时间

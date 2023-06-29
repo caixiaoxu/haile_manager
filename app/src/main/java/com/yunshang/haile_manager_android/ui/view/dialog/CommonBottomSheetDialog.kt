@@ -78,13 +78,13 @@ class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(p
 
         // 确定
         mBinding.tvCommonDialogSure.setOnClickListener {
-            if (null == curEntity) {
+            if (builder.mustSelect && null == curEntity) {
                 SToast.showToast(context, "您还没有选择选项")
                 return@setOnClickListener
             }
 
             dismiss()
-            builder.onValueSureListener?.onValue(curEntity!!)
+            builder.onValueSureListener?.onValue(curEntity)
         }
 
         //选项
@@ -123,7 +123,7 @@ class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(p
                                 curEntity = data
                                 if (builder.title.isEmpty()) {
                                     dismiss()
-                                    builder.onValueSureListener?.onValue(curEntity!!)
+                                    builder.onValueSureListener?.onValue(curEntity)
                                 }
                             }
                         }
@@ -154,6 +154,9 @@ class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(p
         // 选择监听
         var onValueSureListener: OnValueSureListener<D>? = null
 
+        // 是否可不选
+        var mustSelect = true
+
         /**
          * 构建
          */
@@ -161,6 +164,6 @@ class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(p
     }
 
     interface OnValueSureListener<D : ICommonBottomItemEntity> {
-        fun onValue(data: D)
+        fun onValue(data: D?)
     }
 }

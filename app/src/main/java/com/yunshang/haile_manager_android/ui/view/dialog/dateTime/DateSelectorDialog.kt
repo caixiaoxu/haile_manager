@@ -90,6 +90,13 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
                     SToast.showToast(msg = "结束日期不能早于开始日期")
                     return@setOnClickListener
                 }
+                if (0 == builder.showModel && -1 != builder.limitSpace && DateTimeUtils.calTwoDaySpaceAbs(
+                        startCal.time, endCal!!.time
+                    ) >= builder.limitSpace
+                ) {
+                    SToast.showToast(requireContext(), "日数据查询跨度最大不能超过31天")
+                    return@setOnClickListener
+                }
                 changeTimeSelectView(0)
             }
             builder.onDateSelectedListener?.onDateSelect(
@@ -424,15 +431,20 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
      */
     private fun refreshWeekData() {
         if (7 == builder.showModel) {
-            val firstDay = firstWeekDay
+            val firstDay = firstWeekDayNum
             val index = (getCurSelectCalender().get(Calendar.DAY_OF_MONTH) - firstDay) / 7
             refreshWheelData(
                 mBinding.wvDateTimeWeek,
                 index,
                 DateTimeUtils.getWeekSection(
                     firstDay,
-                    startCal.getActualMaximum(Calendar.DAY_OF_MONTH)
-                ),
+                    startCal.getActualMaximum(Calendar.DAY_OF_MONTH),
+                ) { sunday ->
+                    !(DateTimeUtils.isSameMonth(
+                        firstWeekDay.time,
+                        builder.maxDate.time
+                    ) && sunday > builder.maxDate.get(Calendar.DAY_OF_MONTH))
+                },
             )
             resetWeekVal(index)
         }
@@ -442,7 +454,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
      * 重置周的日期值
      */
     private fun resetWeekVal(index: Int) {
-        val startDay = firstWeekDay + (7 * index)
+        val startDay = firstWeekDayNum + (7 * index)
         getCurSelectCalender().set(Calendar.DAY_OF_MONTH, startDay)
         endCal = Calendar.getInstance().apply {
             time = startCal.time
@@ -451,15 +463,17 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
     }
 
     private val firstWeekDay
-        get() = Calendar.getInstance().run {
+        get() = Calendar.getInstance().apply {
             time = getCurSelectCalender().time
 
             set(Calendar.DATE, 1)
             while (get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
                 add(Calendar.DATE, 1)
             }
-            get(Calendar.DAY_OF_MONTH)
         }
+
+    private val firstWeekDayNum
+        get() = firstWeekDay.get(Calendar.DAY_OF_MONTH)
 
     /**
      * 刷新天份数据
@@ -555,6 +569,9 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
         // 最小或最大时间
         var minDate: Calendar = Calendar.getInstance().apply { set(1920, 1, 1) }
         var maxDate: Calendar = Calendar.getInstance().apply { set(2099, 12, 31) }
+
+        // 区间模式下，选择最大时长
+        var limitSpace = -1
 
         // 不可取消
         var isCancelable = true

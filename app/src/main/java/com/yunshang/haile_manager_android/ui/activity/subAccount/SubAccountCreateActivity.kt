@@ -118,7 +118,7 @@ class SubAccountCreateActivity :
                 ).apply {
                     onValueSureListener = object :
                         CommonBottomSheetDialog.OnValueSureListener<ShopBusinessTypeEntity> {
-                        override fun onValue(data: ShopBusinessTypeEntity) {
+                        override fun onValue(data: ShopBusinessTypeEntity?) {
                             mViewModel.businessType.value = data
                             mViewModel.categoryList.value = null
                             mViewModel.deviceCategory.value = null

@@ -68,8 +68,8 @@ class PersonalInfoActivity :
             ).apply {
                 onValueSureListener =
                     object : CommonBottomSheetDialog.OnValueSureListener<RoleEntity> {
-                        override fun onValue(data: RoleEntity) {
-                            mViewModel.swapUserLogin(data.id) { login ->
+                        override fun onValue(data: RoleEntity?) {
+                            mViewModel.swapUserLogin(data!!.id) { login ->
                                 SPRepository.loginInfo = login
                                 mSharedViewModel.loginInfo.postValue(login)
                                 mSharedViewModel.swapUserInfo()

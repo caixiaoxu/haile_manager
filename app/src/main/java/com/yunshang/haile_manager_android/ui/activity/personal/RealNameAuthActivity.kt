@@ -72,9 +72,9 @@ class RealNameAuthActivity :
             ).apply {
                 onValueSureListener = object :
                     CommonBottomSheetDialog.OnValueSureListener<RealNameAuthViewModel.RealNameAuthVerifyType> {
-                    override fun onValue(data: RealNameAuthViewModel.RealNameAuthVerifyType) {
+                    override fun onValue(data: RealNameAuthViewModel.RealNameAuthVerifyType?) {
                         mViewModel.authInfo.value?.let {
-                            it.verifyType = data.id
+                            it.verifyType = data?.id
                         }
                     }
                 }
@@ -135,9 +135,9 @@ class RealNameAuthActivity :
             ).apply {
                 onValueSureListener = object :
                     CommonBottomSheetDialog.OnValueSureListener<RealNameAuthViewModel.RealNameAuthVerifyType> {
-                    override fun onValue(data: RealNameAuthViewModel.RealNameAuthVerifyType) {
+                    override fun onValue(data: RealNameAuthViewModel.RealNameAuthVerifyType?) {
                         mViewModel.authInfo.value?.let {
-                            it.idCardExpirationType = data.id
+                            it.idCardExpirationType = data?.id
                         }
                     }
                 }

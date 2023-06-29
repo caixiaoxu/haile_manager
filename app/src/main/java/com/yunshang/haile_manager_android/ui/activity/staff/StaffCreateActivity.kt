@@ -62,7 +62,7 @@ class StaffCreateActivity :
                             onValueSureListener =
                                 object :
                                     CommonBottomSheetDialog.OnValueSureListener<StaffRoleEntity> {
-                                    override fun onValue(data: StaffRoleEntity) {
+                                    override fun onValue(data: StaffRoleEntity?) {
                                         mViewModel.role.value = data
                                     }
                                 }

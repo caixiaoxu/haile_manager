@@ -154,6 +154,10 @@ class SharedViewModel : ViewModel() {
     val hasDistributionUpdatePermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasDistributionUpdatePermission() }
     /** ---------------------分账权限------------------------- **/
+    /** ---------------------数据统计权限------------------------- **/
+    val hasDataStatisticsListPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasDataStatisticsListPermission() }
+    /** ---------------------数据统计权限------------------------- **/
     /** ---------------------用户权限------------------------- **/
 
     /**

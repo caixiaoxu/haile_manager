@@ -38,9 +38,8 @@ class HaiXinRechargeAccountsActivity :
                 intent.getStringExtra(SearchSelectTypeParam.ResultData)?.let { json ->
 
                     GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
-                        if (selected.isNotEmpty()) {
-                            mViewModel.selectDepartment.value = selected[0]
-                        }
+                        mViewModel.selectDepartment.value =
+                            if (selected.isNotEmpty()) selected[0] else null
                     }
                 }
             }
@@ -100,7 +99,7 @@ class HaiXinRechargeAccountsActivity :
 
         // 选择店铺
         mViewModel.selectDepartment.observe(this) {
-            mBinding.tvRechargeAccountsDepartment.text = it.name
+            mBinding.tvRechargeAccountsDepartment.text = it?.name ?: ""
             mBinding.rvRechargeAccountsList.requestRefresh()
         }
 
@@ -123,7 +122,12 @@ class HaiXinRechargeAccountsActivity :
                     this@HaiXinRechargeAccountsActivity,
                     SearchSelectRadioActivity::class.java
                 ).apply {
-                    putExtras(SearchSelectTypeParam.pack(SearchSelectTypeParam.SearchSelectTypeShop))
+                    putExtras(
+                        SearchSelectTypeParam.pack(
+                            SearchSelectTypeParam.SearchSelectTypeShop,
+                            mustSelect = false
+                        )
+                    )
                 }
             )
         }

@@ -47,11 +47,10 @@ class HaiXinRefundRecordActivity :
                 intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)?.let { json ->
 
                     GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
-                        if (selected.isNotEmpty()) {
-                            when (it.resultCode) {
-                                IntentParams.SearchSelectTypeParam.ShopResultCode -> {
-                                    mViewModel.selectDepartment.value = selected[0]
-                                }
+                        when (it.resultCode) {
+                            IntentParams.SearchSelectTypeParam.ShopResultCode -> {
+                                mViewModel.selectDepartment.value =
+                                    if (selected.isNotEmpty()) selected[0] else null
                             }
                         }
                     }
@@ -85,7 +84,7 @@ class HaiXinRefundRecordActivity :
 
         // 选择店铺
         mViewModel.selectDepartment.observe(this) {
-            mBinding.tvRefundRecordDepartment.text = it.name
+            mBinding.tvRefundRecordDepartment.text = it?.name ?: ""
             mBinding.rvRefundRecordList.requestRefresh()
         }
 
@@ -149,7 +148,12 @@ class HaiXinRefundRecordActivity :
                     this@HaiXinRefundRecordActivity,
                     SearchSelectRadioActivity::class.java
                 ).apply {
-                    putExtras(IntentParams.SearchSelectTypeParam.pack(IntentParams.SearchSelectTypeParam.SearchSelectTypeShop))
+                    putExtras(
+                        IntentParams.SearchSelectTypeParam.pack(
+                            IntentParams.SearchSelectTypeParam.SearchSelectTypeShop,
+                            mustSelect = false
+                        )
+                    )
                 }
             )
         }

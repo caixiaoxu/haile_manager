@@ -42,6 +42,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.statistics.DataStatisticsDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.order.AppointmentOrderActivity"
             android:exported="false" />
         <activity
@@ -251,7 +254,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.activity.MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.activity.login.LoginForPhoneActivity"
             android:exported="false" />
@@ -260,7 +264,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.activity.login.LoginActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">

@@ -1,6 +1,7 @@
 package com.yunshang.haile_manager_android.ui.activity
 
 import android.util.SparseArray
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.lsy.framelib.utils.ActivityUtils
 import com.yunshang.haile_manager_android.BR
@@ -48,6 +49,10 @@ class MainActivity :
 
     override fun initEvent() {
         super.initEvent()
+        mSharedViewModel.hasDataStatisticsListPermission.observe(this) {
+            mBinding.glMainTabHomeEnd.setGuidelinePercent(if (it) 0.33f else 0.5f)
+            mBinding.rbMainTabStatistics.visibility = if (it) View.VISIBLE else View.GONE
+        }
 
         // 如果用户信息为空，重新请求
         if (null == SPRepository.userInfo) {

@@ -57,11 +57,10 @@ class OrderManagerActivity :
                 intent.getStringExtra(SearchSelectTypeParam.ResultData)?.let { json ->
 
                     GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
-                        if (selected.isNotEmpty()) {
-                            when (it.resultCode) {
-                                SearchSelectTypeParam.ShopResultCode -> {
-                                    mViewModel.selectDepartment.value = selected[0]
-                                }
+                        when (it.resultCode) {
+                            SearchSelectTypeParam.ShopResultCode -> {
+                                mViewModel.selectDepartment.value =
+                                    if (selected.isNotEmpty()) selected[0] else null
                             }
                         }
                     }
@@ -181,7 +180,7 @@ class OrderManagerActivity :
 
         // 选择店铺
         mViewModel.selectDepartment.observe(this) {
-            mBinding.tvOrderCategoryDepartment.text = it.name
+            mBinding.tvOrderCategoryDepartment.text = it?.name ?: ""
             mBinding.rvOrderManagerList.requestRefresh()
         }
 
@@ -231,7 +230,12 @@ class OrderManagerActivity :
                     this@OrderManagerActivity,
                     SearchSelectRadioActivity::class.java
                 ).apply {
-                    putExtras(SearchSelectTypeParam.pack(SearchSelectTypeParam.SearchSelectTypeShop))
+                    putExtras(
+                        SearchSelectTypeParam.pack(
+                            SearchSelectTypeParam.SearchSelectTypeShop,
+                            mustSelect = false
+                        )
+                    )
                 }
             )
         }

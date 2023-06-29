@@ -73,14 +73,16 @@
     <string name="week_data">周数据</string>
     <string name="month_data">月数据</string>
     <string name="year_data">年数据</string>
-    <string name="no_limit">不限</string>
-
     <string name="data_order_num">订单量</string>
     <string name="data_revenue">收益</string>
     <string name="data_active_user">活跃用户量</string>
     <string name="data_add_user">新增用户量</string>
     <string name="data_active_device">活跃设备数</string>
     <string name="data_device_frequency">设备频次</string>
+    <string name="more_statistics">更多统计</string>
+    <string name="data_detail">数据详情</string>
+    <string name="indicator_specification">指标说明</string>
+    <string name="indicator_specification_content">订单量：门店实际订单总数量（含海星订单量）\n\n收益：用户实际支付的金额（含购买海星和平台补贴金额）\n\n活跃用户量：下单的用户数量(不含海星订单)\n\n新增用户量：新注册的用户数量\n\n活跃设备数：产生订单交易的设备数量\n\n设备频次：每台设备平均使用次数"</string>
 
     <string name="message_center">消息中心</string>
     <string name="message_setting">消息设置</string>

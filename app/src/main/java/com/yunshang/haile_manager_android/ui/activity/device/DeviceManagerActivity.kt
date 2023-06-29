@@ -70,6 +70,8 @@ class DeviceManagerActivity :
                             IntentParams.SearchSelectTypeParam.DeviceModelResultCode -> {
                                 if (selected.isNotEmpty()) {
                                     mViewModel.selectDeviceModel.value = selected[0]
+                                } else {
+                                    mViewModel.selectDeviceModel.value = null
                                 }
                             }
                         }
@@ -243,6 +245,7 @@ class DeviceManagerActivity :
                     SearchSelectParam(2, getString(R.string.disEnable)),
                 )
             ).apply {
+                mustSelect = false
                 onValueSureListener =
                     object : CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
                         override fun onValue(data: SearchSelectParam?) {

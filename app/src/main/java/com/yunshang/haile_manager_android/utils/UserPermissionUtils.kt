@@ -724,4 +724,16 @@ object UserPermissionUtils {
         return null != userPermissionsMap["league:funds:distribution:delete"]
     }
     /** ------------------------分账管理权限------------------------  */
+    /** ------------------------数据统计权限------------------------  */
+    /**
+     * 是否含有数据统计权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasDataStatisticsListPermission(): Boolean {
+        return null != userPermissionsMap["league:data:list"]
+    }
+    /** ------------------------数据统计权限------------------------  */
 }

@@ -56,11 +56,10 @@ class AppointmentOrderActivity :
                 intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)?.let { json ->
 
                     GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
-                        if (selected.isNotEmpty()) {
-                            when (it.resultCode) {
-                                IntentParams.SearchSelectTypeParam.ShopResultCode -> {
-                                    mViewModel.selectDepartment.value = selected[0]
-                                }
+                        when (it.resultCode) {
+                            IntentParams.SearchSelectTypeParam.ShopResultCode -> {
+                                mViewModel.selectDepartment.value =
+                                    if (selected.isNotEmpty()) selected[0] else null
                             }
                         }
                     }
@@ -232,7 +231,12 @@ class AppointmentOrderActivity :
                     this@AppointmentOrderActivity,
                     SearchSelectRadioActivity::class.java
                 ).apply {
-                    putExtras(IntentParams.SearchSelectTypeParam.pack(IntentParams.SearchSelectTypeParam.SearchSelectTypeShop))
+                    putExtras(
+                        IntentParams.SearchSelectTypeParam.pack(
+                            IntentParams.SearchSelectTypeParam.SearchSelectTypeShop,
+                            mustSelect = false
+                        )
+                    )
                 }
             )
         }

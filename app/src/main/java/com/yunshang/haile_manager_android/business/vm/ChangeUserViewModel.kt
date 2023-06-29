@@ -39,7 +39,7 @@ class ChangeUserViewModel : BaseViewModel() {
                     hashMapOf(
                         "token" to data.loginInfo.token,
                         "userId" to data.loginInfo.userId,
-                    ), data.loginType
+                    ), data.loginType, isCheckToken = true
                 )
             }
             jump.postValue(1)

@@ -35,7 +35,7 @@
             android:drawableEnd="@mipmap/icon_triangle_down"
             android:drawablePadding="4dp"
             android:gravity="center"
-            android:hint="@string/no_limit"
+            android:hint="@string/department"
             android:textColorHint="@color/common_txt_color" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -47,7 +47,7 @@
             android:drawableEnd="@mipmap/icon_triangle_down"
             android:drawablePadding="4dp"
             android:gravity="center"
-            android:hint="@string/no_limit"
+            android:hint="@string/device_category"
             android:textColorHint="@color/common_txt_color" />
     </LinearLayout>
 </HorizontalScrollView>

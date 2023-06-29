@@ -1,19 +1,33 @@
 package com.yunshang.haile_manager_android.ui.fragment
 
 import android.content.Intent
+import android.graphics.Color
+import android.text.style.ForegroundColorSpan
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.library.baseAdapters.BR
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DataStatisticsViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
+import com.yunshang.haile_manager_android.data.entities.DataStatisticsShopListEntity
 import com.yunshang.haile_manager_android.databinding.FragmentDataStatisticsBinding
+import com.yunshang.haile_manager_android.databinding.ItemDataStatisticsBinding
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.yunshang.haile_manager_android.ui.activity.statistics.DataStatisticsDetailActivity
+import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
+import com.yunshang.haile_manager_android.utils.StringUtils
 import java.util.*
 
 /**
@@ -32,20 +46,73 @@ class DataStatisticsFragment :
         BR.vm
     ) {
 
+    private val mAdapter by lazy {
+        CommonRecyclerAdapter<ItemDataStatisticsBinding, DataStatisticsShopListEntity>(
+            R.layout.item_data_statistics,
+            BR.item
+        ) { mItemBinding, _, item ->
+            mItemBinding?.let {
+                refreshItemView(
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsOrderNum,
+                    item.orderTotalCount,
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsOrderNumTrend,
+                    item.orderTotalCountCompare
+                )
+                refreshItemView(
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsRevenue,
+                    item.orderRevenueAmount,
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsRevenueTrend,
+                    item.orderRevenueAmountCompare
+                )
+                refreshItemView(
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsActiveUser,
+                    item.userActiveCount,
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsActiveUserTrend,
+                    item.userActiveCountCompare
+                )
+                refreshItemView(
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsAddUser,
+                    item.userAddCount,
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsAddUserTrend,
+                    item.userAddCountCompare
+                )
+                refreshItemView(
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsActiveDevice,
+                    item.deviceActiveCount,
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsActiveDeviceTrend,
+                    item.deviceActiveCountCompare
+                )
+                refreshItemView(
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsDeviceFrequency,
+                    item.deviceUseFrequency,
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsDeviceFrequencyTrend,
+                    item.deviceUseFrequencyCompare
+                )
+            }
+            mItemBinding?.root?.setOnClickListener {
+                startActivity(
+                    Intent(
+                        requireContext(),
+                        DataStatisticsDetailActivity::class.java
+                    ).apply {
+                        putExtras(IntentParams.ShopParams.pack(item.shopId, item.shopName))
+                    })
+            }
+        }
+    }
+
     // 搜索选择界面
     private val startSearchSelect =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             it.data?.let { intent ->
                 intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)?.let { json ->
-
                     GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
-                        if (selected.isNotEmpty()) {
-                            when (it.resultCode) {
-                                IntentParams.SearchSelectTypeParam.ShopResultCode -> {
-                                    mViewModel.selectDepartment.value = selected[0]
-                                }
+                        when (it.resultCode) {
+                            IntentParams.SearchSelectTypeParam.ShopResultCode -> {
+                                mViewModel.selectDepartment.value =
+                                    if (selected.isNotEmpty()) selected[0] else null
                             }
-                        } else mViewModel.selectDepartment.value = null
+                        }
                     }
                 }
             }
@@ -59,10 +126,10 @@ class DataStatisticsFragment :
         mViewModel.dateVal.observe(this) {
             mBinding.includeDataStatisticsFilter.tvDataStatisticsTime.text = it
         }
+
         mViewModel.selectDepartment.observe(this) {
-            it?.let {
-                mBinding.includeDataStatisticsFilter.tvDataStatisticsShop.text = it.name
-            }
+            mBinding.includeDataStatisticsFilter.tvDataStatisticsShop.text = it?.name ?: ""
+            requestData(true)
         }
 
         // 设备类型
@@ -72,8 +139,49 @@ class DataStatisticsFragment :
 
         // 选择设备类型
         mViewModel.selectDeviceCategory.observe(this) {
-            it?.let {
-                mBinding.includeDataStatisticsFilter.tvDataStatisticsDevice.text = it.name
+            mBinding.includeDataStatisticsFilter.tvDataStatisticsDevice.text = it?.name ?: ""
+            requestData(true)
+        }
+
+        // 总数据
+        mViewModel.statisticsTotal.observe(this) {
+            it?.let { total ->
+                refreshItemView(
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsOrderNum,
+                    total.orderTotalCount,
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsOrderNumTrend,
+                    total.orderTotalCountCompare, true
+                )
+                refreshItemView(
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsRevenue,
+                    total.orderRevenueAmount,
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsRevenueTrend,
+                    total.orderRevenueAmountCompare, true
+                )
+                refreshItemView(
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsActiveUser,
+                    total.userActiveCount,
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsActiveUserTrend,
+                    total.userActiveCountCompare, true
+                )
+                refreshItemView(
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsAddUser,
+                    total.userAddCount,
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsAddUserTrend,
+                    total.userAddCountCompare, true
+                )
+                refreshItemView(
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsActiveDevice,
+                    total.deviceActiveCount,
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsActiveDeviceTrend,
+                    total.deviceActiveCountCompare, true
+                )
+                refreshItemView(
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsDeviceFrequency,
+                    total.deviceUseFrequency,
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsDeviceFrequencyTrend,
+                    total.deviceUseFrequencyCompare, true
+                )
             }
         }
     }
@@ -103,21 +211,31 @@ class DataStatisticsFragment :
                 limitSpace = 31
                 onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
-                        if (1 == mViewModel.dateType.value || 2 == mViewModel.dateType.value) {
-                            mViewModel.startTime.value = date1
-                            date2?.let {
-                                mViewModel.endTime.value = date2
+                        when (mViewModel.dateType.value) {
+                            1 -> {
+                                mViewModel.startTime.value = date1
+                                date2?.let {
+                                    mViewModel.endTime.value = date2
+                                }
                             }
-                        } else {
-                            mViewModel.singleTime.value = date1
+                            2 -> {
+                                mViewModel.startWeekTime.value = date1
+                                date2?.let {
+                                    mViewModel.endWeekTime.value = date2
+                                }
+                            }
+                            else -> {
+                                mViewModel.singleTime.value = date1
+                            }
                         }
+                        requestData(true)
                     }
                 }
             }.build().show(
                 childFragmentManager,
                 when (mViewModel.dateType.value) {
                     1 -> mViewModel.startTime.value
-                    2 -> mViewModel.endTime.value
+                    2 -> mViewModel.startWeekTime.value
                     else -> mViewModel.singleTime.value
                 },
                 if (1 == mViewModel.dateType.value) mViewModel.endTime.value else null
@@ -147,6 +265,35 @@ class DataStatisticsFragment :
                 showDeviceCategoryDialog(it)
             } ?: mViewModel.requestDeviceCategory()
         }
+
+        mBinding.includeDataStatisticsTotal.root.setBackgroundColor(Color.WHITE)
+        (mBinding.includeDataStatisticsTotal.viewColumn1.layoutParams as ConstraintLayout.LayoutParams).topMargin =
+            DimensionUtils.dip2px(requireContext(), 24f)
+
+        (mBinding.includeDataStatisticsTotal.viewColumn3.layoutParams as ConstraintLayout.LayoutParams).let {
+            it.topMargin = DimensionUtils.dip2px(requireContext(), 18f)
+            it.bottomMargin = DimensionUtils.dip2px(requireContext(), 18f)
+        }
+
+        mBinding.refreshLayout.setOnRefreshListener {
+            requestData(true)
+        }
+
+        mBinding.refreshLayout.setOnLoadMoreListener {
+            requestData()
+        }
+
+        mBinding.rvDataStatisticsList.layoutManager = LinearLayoutManager(requireContext())
+        mBinding.rvDataStatisticsList.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL
+            ).apply {
+                ResourcesCompat.getDrawable(resources, R.drawable.divide_size8, null)?.let {
+                    setDrawable(it)
+                }
+            })
+        mBinding.rvDataStatisticsList.adapter = mAdapter
     }
 
     /**
@@ -168,6 +315,60 @@ class DataStatisticsFragment :
         deviceCategoryDialog.show(childFragmentManager)
     }
 
+    private fun refreshItemView(
+        tv: AppCompatTextView?,
+        value: String,
+        tvTrend: AppCompatTextView?,
+        trend: Double,
+        showTrendIcon: Boolean = false
+    ) {
+        tv?.text = value
+        tvTrend?.text = "环比${StringUtils.formatNumberStr(trend)}%".let {
+            StringUtils.formatMultiStyleStr(
+                it,
+                arrayOf(
+                    ForegroundColorSpan(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (trend > 0.0)
+                                R.color.colorPrimary
+                            else if (trend < 0.0) {
+                                R.color.color_green
+                            } else {
+                                R.color.common_sub_txt_color
+                            }
+                        )
+                    ),
+                ),
+                2, it.length,
+            )
+        }
+        if (showTrendIcon)
+            tvTrend?.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                0,
+                0,
+                if (trend > 0) R.mipmap.icon_revenue_increase else if (trend < 0) R.mipmap.icon_revenue_decline else 0,
+                0
+            )
+    }
+
     override fun initData() {
+        requestData(true)
+    }
+
+    private fun requestData(isRefresh: Boolean = false) {
+        if (isRefresh) {
+            mBinding.refreshLayout.setEnableLoadMore(true)
+        }
+
+        mViewModel.requestData(isRefresh) { shopDataList ->
+            mBinding.refreshLayout.finishRefresh()
+            mBinding.refreshLayout.finishLoadMore()
+            if (shopDataList.isEmpty()) {
+                mBinding.refreshLayout.setEnableLoadMore(false)
+            } else {
+                mAdapter.refreshList(shopDataList, isRefresh)
+            }
+        }
     }
 }

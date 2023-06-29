@@ -8,6 +8,7 @@ import com.yunshang.haile_manager_android.business.apiService.DataStatisticsServ
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
+import com.yunshang.haile_manager_android.data.entities.DataStatisticsShopDetailEntity
 import com.yunshang.haile_manager_android.data.entities.DataStatisticsShopListEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
@@ -25,13 +26,12 @@ import java.util.*
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class DataStatisticsViewModel : BaseViewModel() {
+class DataStatisticsDetailViewModel : BaseViewModel() {
     private val mStatisticsRepo = ApiRepository.apiClient(DataStatisticsService::class.java)
     private val mCategoryRepo = ApiRepository.apiClient(CategoryService::class.java)
 
-    val statisticsTotal: MutableLiveData<DataStatisticsShopListEntity> by lazy {
-        MutableLiveData()
-    }
+    var shopId = -1
+    var shopName = ""
 
     val dateType: MutableLiveData<Int> = MutableLiveData(1)
 
@@ -119,6 +119,11 @@ class DataStatisticsViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
+    // 店铺统计详情
+    val statisticsShopDetail: MutableLiveData<DataStatisticsShopDetailEntity> by lazy {
+        MutableLiveData()
+    }
+
     /**
      * 请求设备类型
      */
@@ -169,51 +174,17 @@ class DataStatisticsViewModel : BaseViewModel() {
             }
         }
 
-    fun requestData(
-        isRefresh: Boolean = false,
-        callBack: (MutableList<DataStatisticsShopListEntity>) -> Unit
-    ) {
+    fun requestShopDetailData() {
         launch({
-            if (isRefresh) requestTotalData()
-            requestShopTotalData(isRefresh, callBack)
-        }, showLoading = isRefresh)
-    }
-
-    private suspend fun requestTotalData() {
-        ApiRepository.dealApiResult(
-            mStatisticsRepo.requestStatisticsTotal(
-                ApiRepository.createRequestBody(commonParams())
-            )
-        )?.let {
-            statisticsTotal.postValue(it)
-        }
-    }
-
-    private var page = 1
-
-    private suspend fun requestShopTotalData(
-        isRefresh: Boolean,
-        callBack: (MutableList<DataStatisticsShopListEntity>) -> Unit
-    ) {
-        if (isRefresh) {
-            page = 1
-        }
-
-        val params = commonParams()
-        params["page"] = page
-        params["pageSize"] = 20
-        ApiRepository.dealApiResult(
-            mStatisticsRepo.requestStatisticsShopTotal(
-                ApiRepository.createRequestBody(params)
-            )
-        )?.let {
-            withContext(Dispatchers.Main) {
-                callBack(it.items)
+            ApiRepository.dealApiResult(
+                mStatisticsRepo.requestStatisticsShopDetail(
+                    ApiRepository.createRequestBody(
+                        commonParams()
+                    )
+                )
+            )?.let {
+                statisticsShopDetail.postValue(it)
             }
-            if (it.items.isNotEmpty()) {
-                page++
-            }
-        }
+        })
     }
-
 }

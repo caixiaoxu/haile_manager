@@ -78,7 +78,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_order_category_department"
                     style="@style/DeviceManagerCategoryBtnStyle"
-                    android:text="@string/department" />
+                    android:hint="@string/department" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_order_category_time"

@@ -195,6 +195,7 @@ class DataStatisticsFragment :
                 R.id.rb_data_statistics_category_month -> mViewModel.dateType.value = 3
                 R.id.rb_data_statistics_category_year -> mViewModel.dateType.value = 4
             }
+            requestData(true)
         }
 
         // 日期选择

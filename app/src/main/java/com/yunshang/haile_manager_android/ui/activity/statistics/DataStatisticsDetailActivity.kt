@@ -81,9 +81,9 @@ class DataStatisticsDetailActivity :
             mBinding.includeDataStatisticsDetailFilter.tvDataStatisticsDevice.text = it?.name ?: ""
             requestData()
         }
-        
-        mViewModel.statisticsShopDetail.observe(this){
-            it?.let {detail->
+
+        mViewModel.statisticsShopDetail.observe(this) {
+            it?.let { detail ->
                 // 订单数据
                 detail.orderStatisticsVO?.let { orderStatistics ->
                     mBinding.includeDataStatisticsDetailOrder.root.visibility = View.VISIBLE
@@ -280,6 +280,7 @@ class DataStatisticsDetailActivity :
                 R.id.rb_data_statistics_category_month -> mViewModel.dateType.value = 3
                 R.id.rb_data_statistics_category_year -> mViewModel.dateType.value = 4
             }
+            requestData()
         }
 
         mBinding.includeDataStatisticsDetailFilter.tvDataStatisticsTime.setOnClickListener {

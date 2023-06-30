@@ -198,7 +198,10 @@
             android:name=".ui.activity.shop.ShopDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.shop.LocationSelectActivity"
+            android:name=".ui.activity.shop.LocationSelectForTMapActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.shop.LocationSelectForAMapActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.common.SearchSelectActivity"
@@ -303,6 +306,10 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="5f90ead1c370be414645533daa7ae38a" />
+
+        <meta-data
+            android:name="TencentMapSDK"
+            android:value="BOOBZ-ISOKZ-TXYX2-TNK3M-J7TVT-SYF4H" />
     </application>
 
 </manifest>

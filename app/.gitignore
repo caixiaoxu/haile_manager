@@ -3,3 +3,5 @@
 /androidTest/*
 /test
 /test/*
+/debug
+/release

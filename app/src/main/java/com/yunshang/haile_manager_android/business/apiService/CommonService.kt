@@ -5,7 +5,6 @@ import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
 import com.yunshang.haile_manager_android.data.entities.AreaEntity
 import okhttp3.MultipartBody
-import okhttp3.ResponseBody
 import retrofit2.http.*
 
 /**

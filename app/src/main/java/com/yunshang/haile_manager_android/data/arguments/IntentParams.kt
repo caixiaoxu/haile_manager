@@ -278,6 +278,26 @@ object IntentParams {
         fun parseMessageName(intent: Intent): String? = intent.getStringExtra(MessageName)
     }
 
+    object LocationSelectParams {
+        private const val City = "city"
+        private const val ShopTypeName = "shopTypeName"
+
+        /**
+         * 包装参数
+         */
+        fun packCity(city: String?,shopTypeName:String?): Bundle = Bundle().apply {
+            city?.let {
+                putString(City, city)
+            }
+            shopTypeName?.let {
+                putString(ShopTypeName, shopTypeName)
+            }
+        }
+
+        fun parseCity(intent: Intent): String? = intent.getStringExtra(City)
+        fun parseShopTypeName(intent: Intent): String? = intent.getStringExtra(ShopTypeName)
+    }
+
     object MessageSettingParams {
         private const val SubTypeList = "subTypeList"
 

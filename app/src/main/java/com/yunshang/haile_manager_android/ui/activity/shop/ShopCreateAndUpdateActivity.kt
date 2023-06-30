@@ -8,10 +8,13 @@ import com.amap.api.services.core.PoiItem
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
+import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SCHOOL
 import com.yunshang.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SEARCH_TYPE
 import com.yunshang.haile_manager_android.business.vm.ShopCreateAndUpdateViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.arguments.PoiResultData
 import com.yunshang.haile_manager_android.data.entities.SchoolSelectEntity
 import com.yunshang.haile_manager_android.data.entities.ShopBusinessTypeEntity
 import com.yunshang.haile_manager_android.data.entities.ShopTypeEntity
@@ -57,12 +60,12 @@ class ShopCreateAndUpdateActivity :
                 }
                 LocationResultCode -> {
                     it.data?.getStringExtra(LocationResultData)?.let { json ->
-                        GsonUtils.json2Class(json, PoiItem::class.java)?.let { poiItem ->
+                        GsonUtils.json2Class(json, PoiResultData::class.java)?.let { poiItem ->
                             mViewModel.changeMansion(
                                 poiItem.title,
-                                poiItem.latLonPoint.latitude,
-                                poiItem.latLonPoint.longitude,
-                                poiItem.provinceName + poiItem.cityName + poiItem.adName + poiItem.snippet
+                                poiItem.location.latitude,
+                                poiItem.location.longitude,
+                                poiItem.address
                             )
                         }
                     }
@@ -114,11 +117,17 @@ class ShopCreateAndUpdateActivity :
         }
         // 地区
         mBinding.mtivShopCreateArea.onSelectedEvent = {
-            mAreaDialog.show(supportFragmentManager)
+            if (null == mViewModel.shopTypeValue.value) {
+                SToast.showToast(this@ShopCreateAndUpdateActivity, "请先选择门店类型")
+            } else {
+                mAreaDialog.show(supportFragmentManager)
+            }
         }
         // 小区/大厦
         mBinding.mtivShopCreateMansion.onSelectedEvent = {
-            if (null == mViewModel.createAndUpdateEntity.value?.cityId
+            if (null == mViewModel.shopTypeValue.value) {
+                SToast.showToast(this@ShopCreateAndUpdateActivity, "请先选择门店类型")
+            } else if (null == mViewModel.createAndUpdateEntity.value?.cityId
                 || -1 == mViewModel.createAndUpdateEntity.value?.cityId
             ) {
                 SToast.showToast(this@ShopCreateAndUpdateActivity, "请先选择所在区域")
@@ -126,15 +135,21 @@ class ShopCreateAndUpdateActivity :
                 startSearchSelect.launch(
                     Intent(
                         this@ShopCreateAndUpdateActivity,
-                        LocationSelectActivity::class.java
+                        if (0 == BuildConfig.MAP_TYPE)
+                            LocationSelectForAMapActivity::class.java
+                        else
+                            LocationSelectForTMapActivity::class.java
                     ).apply {
-                        putExtra(
-                            LocationSelectActivity.CityCode,
-                            mViewModel.createAndUpdateEntity.value?.cityId?.toString()
+                        putExtras(
+                            IntentParams.LocationSelectParams.packCity(
+                                mViewModel.cityName,
+                                mViewModel.shopTypeValue.value?.name
+                            )
                         )
                     }
                 )
             }
+
         }
 
         // 营业时间

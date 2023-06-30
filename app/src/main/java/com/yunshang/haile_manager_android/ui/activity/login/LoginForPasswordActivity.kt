@@ -68,9 +68,9 @@ class LoginForPasswordActivity :
 //            mViewModel.password.value = "Dp8Lv5"
 //            mViewModel.phone.value = "13032912840"
 //            mViewModel.password.value = "123456Aa"
-//            mViewModel.phone.value = "13067949521"
-//            mViewModel.password.value = "Aa123456"
-//            mViewModel.isAgree.value = true
+            mViewModel.phone.value = "13067949521"
+            mViewModel.password.value = "Aa123456"
+            mViewModel.isAgree.value = true
         }
     }
 

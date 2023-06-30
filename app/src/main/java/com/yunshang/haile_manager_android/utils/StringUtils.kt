@@ -66,7 +66,7 @@ object StringUtils {
      * 格式化手机
      */
     @JvmStatic
-    fun formatPhone(phone: String): String = phone.replaceRange(IntRange(3, 7), "****")
+    fun formatPhone(phone: String?): String = phone?.replaceRange(IntRange(3, 7), "****") ?: ""
 
     /**
      * 格式化多样式字符串
@@ -160,7 +160,7 @@ object StringUtils {
     /**
      * 格式化距离
      */
-    fun friendJuli(juli: Int): String {
+    fun friendJuli(juli: Double): String {
         val df = DecimalFormat("0.00")
         return if (juli >= 1000) {
             "${df.format(juli / 1000)}km"

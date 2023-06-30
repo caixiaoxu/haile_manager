@@ -1,5 +1,7 @@
 package com.yunshang.haile_manager_android.data.entities
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * Title : 用户信息
  * Author: Lsy
@@ -11,9 +13,12 @@ package com.yunshang.haile_manager_android.data.entities
  * 作者姓名 修改时间 版本号 描述
  */
  data class UserInfoEntity(
+    @SerializedName("organization")
     val organization: Organization,
+    @SerializedName("userInfo")
     val userInfo: UserInfo
 )
+
 data class UserInfo(
     val headImage: String,
     val name: String,

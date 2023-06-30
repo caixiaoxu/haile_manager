@@ -15,13 +15,14 @@ import com.amap.api.maps2d.AMap
 import com.amap.api.maps2d.CameraUpdateFactory
 import com.amap.api.maps2d.LocationSource
 import com.amap.api.maps2d.model.*
-import com.amap.api.services.core.PoiItem
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.LocationSelectViewModel
 import com.yunshang.haile_manager_android.business.vm.SearchSelectViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.arguments.PoiResultData
 import com.yunshang.haile_manager_android.databinding.ActivityLocationSelectBinding
 import com.yunshang.haile_manager_android.databinding.ItemLocationSelectBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -31,15 +32,11 @@ import com.yunshang.haile_manager_android.utils.StringUtils
 import timber.log.Timber
 
 
-class LocationSelectActivity :
+class LocationSelectForAMapActivity :
     BaseBusinessActivity<ActivityLocationSelectBinding, LocationSelectViewModel>(
         LocationSelectViewModel::class.java,
         BR.vm
     ), LocationSource {
-
-    companion object {
-        const val CityCode = "cityCode"
-    }
 
     private val permissions = arrayOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -90,7 +87,7 @@ class LocationSelectActivity :
                                     )
                                 ).strokeWidth(
                                     DimensionUtils.dip2px(
-                                        this@LocationSelectActivity,
+                                        this@LocationSelectForAMapActivity,
                                         0.5f
                                     ).toFloat()
                                 )
@@ -99,9 +96,8 @@ class LocationSelectActivity :
                         range?.center = curLatLng
                     }
                     // 搜索周边
-                    mViewModel.searchNearby(
-                        this@LocationSelectActivity,
-                        "",
+                    mViewModel.searchNearbyOfAMap(
+                        this@LocationSelectForAMapActivity,
                         it.latitude,
                         it.longitude
                     )
@@ -146,7 +142,7 @@ class LocationSelectActivity :
 
     private lateinit var map: AMap
 
-    private val mAdapter: CommonRecyclerAdapter<ItemLocationSelectBinding, PoiItem> by lazy {
+    private val mAdapter: CommonRecyclerAdapter<ItemLocationSelectBinding, PoiResultData> by lazy {
         CommonRecyclerAdapter(
             R.layout.item_location_select,
             BR.item
@@ -205,8 +201,11 @@ class LocationSelectActivity :
     override fun initIntent() {
         super.initIntent()
 
-        intent.getStringExtra(CityCode)?.run {
-            mViewModel.cityCode = this
+        IntentParams.LocationSelectParams.parseCity(intent)?.let {
+            mViewModel.cityCode = it
+        }
+        IntentParams.LocationSelectParams.parseShopTypeName(intent)?.let {
+            mViewModel.shopTypeName = it
         }
     }
 
@@ -216,7 +215,7 @@ class LocationSelectActivity :
         mBinding.tvSearchContent.setOnClickListener {
             startSearchSelect.launch(
                 Intent(
-                    this@LocationSelectActivity,
+                    this@LocationSelectForAMapActivity,
                     SearchSelectActivity::class.java
                 ).apply {
                     putExtra(SearchSelectViewModel.SEARCH_TYPE, SearchSelectViewModel.LOCATION)
@@ -225,7 +224,7 @@ class LocationSelectActivity :
         }
 
         mBinding.rvLocationSelectList.layoutManager =
-            LinearLayoutManager(this@LocationSelectActivity)
+            LinearLayoutManager(this@LocationSelectForAMapActivity)
         mBinding.rvLocationSelectList.adapter = mAdapter
     }
 
@@ -244,7 +243,7 @@ class LocationSelectActivity :
             isScaleControlsEnabled = false//比例尺
         }
         // 定位按钮事件
-        map.setLocationSource(this@LocationSelectActivity)
+        map.setLocationSource(this@LocationSelectForAMapActivity)
         //镜头
         map.moveCamera(CameraUpdateFactory.zoomTo(17f))
 

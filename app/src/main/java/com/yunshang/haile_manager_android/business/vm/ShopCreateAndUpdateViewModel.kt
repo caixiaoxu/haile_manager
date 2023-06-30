@@ -42,6 +42,9 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
     // 学校名称
     val schoolNameValue: MutableLiveData<String> = MutableLiveData()
 
+    // 小区名
+    var cityName = ""
+
     // 所在区域
     val areaValue: MutableLiveData<String> = MutableLiveData()
 
@@ -118,6 +121,7 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
         createAndUpdateEntity.value?.provinceId = provinceId
         createAndUpdateEntity.value?.cityId = cityId
         createAndUpdateEntity.value?.districtId = districtId
+        this.cityName = cityName ?: ""
         areaValue.value = StringUtils.formatArea(
             provinceName,
             cityName,

@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.amap.api.services.core.PoiItem" />
+            type="com.yunshang.haile_manager_android.data.arguments.PoiResultData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -47,7 +47,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@{item.getProvinceName() + item.getCityName() + item.getAdName() + item.getSnippet()}"
+            android:text="@{item.address}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/tv_item_location_select_poi_name"
             app:layout_constraintStart_toStartOf="@id/tv_item_location_select_poi_name"

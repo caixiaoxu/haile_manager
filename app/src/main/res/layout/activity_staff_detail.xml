@@ -176,20 +176,20 @@
             app:divider="@drawable/divide_size8"
             app:showDividers="middle">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.lsy.framelib.ui.weight.SingleTapTextView
                 android:id="@+id/tv_staff_detail_delete"
                 style="@style/CommonStrokeTxtBtnStyle"
                 android:onClick="@{vm::deleteStaff}"
                 android:text="@string/delete_staff"
                 android:visibility="@{shared.hasPersonDeletePermission?View.VISIBLE:View.GONE}" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.lsy.framelib.ui.weight.SingleTapTextView
                 android:id="@+id/tv_staff_detail_update_permission"
                 style="@style/CommonStrokeTxtBtnStyle"
                 android:text="@string/update_permission"
                 android:visibility="@{(!StaffParam.isSpecialRole(vm.staffDetail.tagName) &amp;&amp; shared.hasPersonUpdatePermission)?View.VISIBLE:View.GONE}" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.lsy.framelib.ui.weight.SingleTapTextView
                 android:id="@+id/tv_staff_detail_update_shop"
                 style="@style/CommonStrokeTxtBtnStyle"
                 android:text="@string/update_take_charge_shop"

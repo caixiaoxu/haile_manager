@@ -9,7 +9,6 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.databinding.ActivityRechargeSuccessBinding
 import com.yunshang.haile_manager_android.utils.StringUtils
-import com.yunshang.haile_manager_android.utils.ViewUtils
 
 class RechargeSuccessActivity : BaseBindingActivity<ActivityRechargeSuccessBinding>() {
     override fun layoutId(): Int = R.layout.activity_recharge_success
@@ -21,7 +20,7 @@ class RechargeSuccessActivity : BaseBindingActivity<ActivityRechargeSuccessBindi
         mBinding.tvRechargeSuccessAmount.text = StringUtils.formatMultiStyleStr(
             "¥ ${IntentParams.RechargeSuccessParams.parseAmount(intent)}",
             arrayOf(
-                AbsoluteSizeSpan(DimensionUtils.sp2px(this@RechargeSuccessActivity, 18f))
+                AbsoluteSizeSpan(DimensionUtils.sp2px(18f, this@RechargeSuccessActivity))
             ), 0, 2
         )
 

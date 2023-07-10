@@ -78,7 +78,7 @@ class DiscountsManagerActivity :
                                 null
                             )
                         ),
-                        AbsoluteSizeSpan(DimensionUtils.sp2px(this@DiscountsManagerActivity, 32f))
+                        AbsoluteSizeSpan(DimensionUtils.sp2px(32f, this@DiscountsManagerActivity))
                     ), 0, valStr.length - 1
                 )
 

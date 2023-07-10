@@ -93,7 +93,7 @@ class MultiTypeItemView @JvmOverloads constructor(
         val titleSize =
             array.getDimensionPixelOffset(
                 R.styleable.MultiTypeItemView_titleSize,
-                DimensionUtils.sp2px(context, 16f)
+                DimensionUtils.sp2px(16f, context)
             ).toFloat()
         val titleColor =
             array.getColor(
@@ -117,7 +117,7 @@ class MultiTypeItemView @JvmOverloads constructor(
         val contentSize =
             array.getDimensionPixelOffset(
                 R.styleable.MultiTypeItemView_android_textSize,
-                DimensionUtils.sp2px(context, 16f)
+                DimensionUtils.sp2px(16f, context)
             ).toFloat()
         val contentColor =
             array.getColor(

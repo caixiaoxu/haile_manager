@@ -31,7 +31,10 @@ import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerV
 import com.yunshang.haile_manager_android.utils.NumberUtils
 
 class ShopManagerActivity :
-    BaseBusinessActivity<ActivityShopManagerBinding, ShopManagerViewModel>(ShopManagerViewModel::class.java,BR.vm) {
+    BaseBusinessActivity<ActivityShopManagerBinding, ShopManagerViewModel>(
+        ShopManagerViewModel::class.java,
+        BR.vm
+    ) {
 
     override fun layoutId(): Int = R.layout.activity_shop_manager
 
@@ -106,7 +109,7 @@ class ShopManagerActivity :
                                 null
                             )
                         ),
-                        AbsoluteSizeSpan(DimensionUtils.sp2px(this@ShopManagerActivity, 18f)),
+                        AbsoluteSizeSpan(DimensionUtils.sp2px(18f, this@ShopManagerActivity)),
                         StyleSpan(Typeface.BOLD),
                         TypefaceSpan("money")
                     ), start, end
@@ -114,10 +117,14 @@ class ShopManagerActivity :
             mBinding?.tvItemShopTotalIncome?.setOnClickListener {
                 if (true == mSharedViewModel.hasShopProfitPermission.value) {
                     //  跳转到店铺收益
-                    startActivity(Intent(this@ShopManagerActivity, IncomeActivity::class.java).apply {
-                        putExtra(IncomeActivity.ProfitType, 1)
-                        putExtra(IncomeActivity.ProfitSearchId, item.id)
-                    })
+                    startActivity(
+                        Intent(
+                            this@ShopManagerActivity,
+                            IncomeActivity::class.java
+                        ).apply {
+                            putExtra(IncomeActivity.ProfitType, 1)
+                            putExtra(IncomeActivity.ProfitSearchId, item.id)
+                        })
                 }
             }
 
@@ -130,7 +137,7 @@ class ShopManagerActivity :
                 com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
                     "$title：$value",
                     arrayOf(
-                        AbsoluteSizeSpan(DimensionUtils.sp2px(this@ShopManagerActivity, 16f)),
+                        AbsoluteSizeSpan(DimensionUtils.sp2px(16f, this@ShopManagerActivity)),
                         StyleSpan(Typeface.BOLD),
                     ), start, end
                 )

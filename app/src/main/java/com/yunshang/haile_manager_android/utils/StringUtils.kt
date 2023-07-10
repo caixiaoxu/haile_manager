@@ -3,7 +3,6 @@ package com.yunshang.haile_manager_android.utils
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.text.ParcelableSpan
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
@@ -54,7 +53,7 @@ object StringUtils {
     fun createPriceStr(context: Context, price: Double): SpannableString =
         SpannableString("¥${NumberUtils.keepTwoDecimals(price)}").apply {
             setSpan(
-                AbsoluteSizeSpan(DimensionUtils.sp2px(context, 24f)),
+                AbsoluteSizeSpan(DimensionUtils.sp2px(24f, context)),
                 0,
                 1,
                 Spanned.SPAN_INCLUSIVE_EXCLUSIVE

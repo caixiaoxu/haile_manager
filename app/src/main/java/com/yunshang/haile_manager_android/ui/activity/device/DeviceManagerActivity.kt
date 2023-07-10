@@ -103,7 +103,7 @@ class DeviceManagerActivity :
                                 null
                             )
                         ),
-                        AbsoluteSizeSpan(DimensionUtils.sp2px(this@DeviceManagerActivity, 18f)),
+                        AbsoluteSizeSpan(DimensionUtils.sp2px(18f, this@DeviceManagerActivity)),
                         StyleSpan(Typeface.BOLD),
                         TypefaceSpan("money")
                     ), start, end

@@ -5,20 +5,15 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
-import com.lsy.framelib.network.exception.CommonCustomException
 import com.lsy.framelib.ui.base.BaseViewModel
-import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CommonService
-import com.yunshang.haile_manager_android.business.apiService.DownloadService
 import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.data.model.OnDownloadProgressListener
-import com.yunshang.haile_manager_android.utils.AppPackageUtils
+import com.lsy.framelib.utils.AppPackageUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
-import java.io.File
 
 /**
  * Title :

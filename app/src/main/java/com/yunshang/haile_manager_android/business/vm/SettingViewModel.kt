@@ -9,7 +9,7 @@ import com.yunshang.haile_manager_android.business.apiService.LoginUserService
 import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.data.model.SPRepository
-import com.yunshang.haile_manager_android.utils.AppPackageUtils
+import com.lsy.framelib.utils.AppPackageUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

@@ -21,7 +21,7 @@ import com.yunshang.haile_manager_android.databinding.ItemShopDetailAppointmentB
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.SharedBottomDialog
-import com.yunshang.haile_manager_android.utils.FileUtils
+import com.lsy.framelib.utils.FileUtils
 import com.yunshang.haile_manager_android.utils.QrcodeUtils
 import com.yunshang.haile_manager_android.utils.WeChatHelper
 

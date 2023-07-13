@@ -15,7 +15,7 @@ import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.DownloadService
 import com.yunshang.haile_manager_android.utils.ActivityManagerUtils
-import com.yunshang.haile_manager_android.utils.FileUtils
+import com.lsy.framelib.utils.FileUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.*
@@ -120,7 +120,6 @@ object ApiRepository {
         }
     }
 }
-
 interface OnDownloadProgressListener {
     /**
      * 百分比，完成100

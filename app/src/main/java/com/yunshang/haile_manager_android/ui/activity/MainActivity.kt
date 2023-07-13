@@ -17,7 +17,7 @@ import com.yunshang.haile_manager_android.ui.fragment.HomeFragment
 import com.yunshang.haile_manager_android.ui.fragment.PersonalFragment
 import com.yunshang.haile_manager_android.ui.view.dialog.ServiceCheckDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.UpdateAppDialog
-import com.yunshang.haile_manager_android.utils.AppPackageUtils
+import com.lsy.framelib.utils.AppPackageUtils
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import timber.log.Timber
 import java.io.File

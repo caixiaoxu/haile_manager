@@ -1,14 +1,17 @@
 package com.yunshang.haile_manager_android.ui.view.dialog
 
+import android.Manifest
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.FragmentManager
 import com.lsy.framelib.utils.AppManager
+import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
 import com.yunshang.haile_manager_android.databinding.DialogUpdateAppBinding
@@ -28,6 +31,17 @@ class UpdateAppDialog private constructor(private val builder: Builder) :
     AppCompatDialogFragment() {
     private val DEFAULT_TAG = "default_tag"
     private lateinit var mBinding: DialogUpdateAppBinding
+
+    // 权限
+    private val requestPermissions =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
+            if (result.values.any { it }) {
+                startUpdate()
+            } else {
+                // 授权失败
+                SToast.showToast(requireContext(), R.string.empty_permission)
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,17 +76,26 @@ class UpdateAppDialog private constructor(private val builder: Builder) :
             mBinding.btnUpdateAppNo.visibility = View.GONE
         }
         mBinding.btnUpdateAppYes.setOnClickListener {
-            showProgress(true)
-            builder.positiveClickListener?.invoke { curSize, totalSize, result ->
-                when (result) {
-                    -1 -> showProgress(false)
-                    1 -> if (builder.appVersion.forceUpdate) {
-                        AppManager.finishAllActivity()
-                    } else {
-                        dismiss()
-                    }
-                    else -> updateProgress(curSize, totalSize)
+            requestPermissions.launch(
+                arrayOf(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.REQUEST_INSTALL_PACKAGES
+                )
+            )
+        }
+    }
+
+    private fun startUpdate() {
+        showProgress(true)
+        builder.positiveClickListener?.invoke { curSize, totalSize, result ->
+            when (result) {
+                -1 -> showProgress(false)
+                1 -> if (builder.appVersion.forceUpdate) {
+                    AppManager.finishAllActivity()
+                } else {
+                    dismiss()
                 }
+                else -> updateProgress(curSize, totalSize)
             }
         }
     }

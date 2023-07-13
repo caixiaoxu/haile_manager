@@ -12,7 +12,7 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.model.OnDownloadProgressListener
 import com.yunshang.haile_manager_android.databinding.ActivityVersionBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
-import com.yunshang.haile_manager_android.utils.AppPackageUtils
+import com.lsy.framelib.utils.AppPackageUtils
 import timber.log.Timber
 import java.io.File
 

@@ -100,6 +100,7 @@ class SearchSelectRadioActivity :
         mViewModel.staffId = SearchSelectTypeParam.parseStaffId(intent)
         mViewModel.staffId = SearchSelectTypeParam.parseStaffId(intent)
         mViewModel.mustSelect = SearchSelectTypeParam.parseMustSelect(intent)
+        mViewModel.selectArr = SearchSelectTypeParam.parseSelectList(intent) ?: intArrayOf()
     }
 
     override fun initView() {

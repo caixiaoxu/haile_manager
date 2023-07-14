@@ -81,6 +81,7 @@ object IntentParams {
         const val StaffId = "staffId"
         const val CategoryId = "categoryId"
         const val MustSelect = "mustSelect"
+        const val SelectList = "selectList"
         const val ShopResultCode = 0x90001
         const val DeviceModelResultCode = 0x90002
         const val ResultData = "resultData"
@@ -94,7 +95,8 @@ object IntentParams {
             searchSelectType: Int? = null,
             categoryId: Int? = null,
             staffId: Int? = null,
-            mustSelect: Boolean = true
+            mustSelect: Boolean = true,
+            selectArr: IntArray = intArrayOf()
         ): Bundle = Bundle().apply {
             searchSelectType?.let {
                 putInt(SearchSelectType, it)
@@ -106,12 +108,14 @@ object IntentParams {
                 putInt(StaffId, it)
             }
             putBoolean(MustSelect, mustSelect)
+            putIntArray(SelectList, selectArr)
         }
 
         fun parseSearchSelectType(intent: Intent): Int = intent.getIntExtra(SearchSelectType, -1)
         fun parseCategoryId(intent: Intent): Int = intent.getIntExtra(CategoryId, -1)
         fun parseStaffId(intent: Intent): Int = intent.getIntExtra(StaffId, -1)
         fun parseMustSelect(intent: Intent): Boolean = intent.getBooleanExtra(MustSelect, true)
+        fun parseSelectList(intent: Intent): IntArray? = intent.getIntArrayExtra(SelectList)
     }
 
     object WalletParams {
@@ -285,7 +289,7 @@ object IntentParams {
         /**
          * 包装参数
          */
-        fun packCity(city: String?,shopTypeName:String?): Bundle = Bundle().apply {
+        fun packCity(city: String?, shopTypeName: String?): Bundle = Bundle().apply {
             city?.let {
                 putString(City, city)
             }

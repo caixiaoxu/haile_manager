@@ -246,6 +246,7 @@ class DeviceManagerActivity :
                 )
             ).apply {
                 mustSelect = false
+                selectData = mViewModel.selectDeviceStatus.value
                 onValueSureListener =
                     object : CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
                         override fun onValue(data: SearchSelectParam?) {

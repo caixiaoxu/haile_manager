@@ -16,5 +16,5 @@
         android:paddingHorizontal="8dp"
         android:paddingVertical="4dp"
         android:text="@{name}"
-        tools:text="一号店铺23423423423" />
+        tools:text="一号门店23423423423" />
 </layout>

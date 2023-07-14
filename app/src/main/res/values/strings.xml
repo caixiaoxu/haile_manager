@@ -170,9 +170,9 @@
     <string name="close_success">关闭成功</string>
 
     <string name="shop_manager">门店管理</string>
-    <string name="add_shop">添加店铺</string>
-    <string name="shop_search_hint">搜索店铺名称</string>
-    <string name="shop_num_hint">全部%1$d家店铺</string>
+    <string name="add_shop">添加门店</string>
+    <string name="shop_search_hint">搜索门店名称</string>
+    <string name="shop_num_hint">全部%1$d家门店</string>
     <string name="total_income">总收入</string>
     <string name="device_num">设备数</string>
     <string name="shop_info">门店信息</string>
@@ -196,7 +196,7 @@
     <string name="select_city">请选择市</string>
     <string name="select_district">请选择区/县</string>
     <string name="shop_detail">门店详情</string>
-    <string name="shop_base_info">店铺基础信息</string>
+    <string name="shop_base_info">门店基础信息</string>
     <string name="creator">创建人</string>
     <string name="create_time">创建时间</string>
     <string name="appointment">预约</string>
@@ -204,8 +204,8 @@
     <string name="appointment_setting">预约设置</string>
     <string name="copy_phone">复制手机号</string>
     <string name="copy_success">已复制到贴粘板</string>
-    <string name="search_shop_hint">请输入店铺名称</string>
-    <string name="shop_delete_hint">是否确定要删除该店铺么？</string>
+    <string name="search_shop_hint">请输入门店名称</string>
+    <string name="shop_delete_hint">是否确定要删除该门店么？</string>
 
     <string name="order_manager">订单管理</string>
     <string name="order_search_hint">搜索手机号或订单编号</string>

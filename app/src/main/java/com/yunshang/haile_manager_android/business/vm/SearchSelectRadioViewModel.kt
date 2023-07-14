@@ -77,6 +77,8 @@ class SearchSelectRadioViewModel : BaseViewModel() {
 
     var mustSelect = true
 
+    var selectArr = intArrayOf()
+
     val searchKey: MutableLiveData<String> by lazy {
         MutableLiveData()
     }
@@ -136,6 +138,9 @@ class SearchSelectRadioViewModel : BaseViewModel() {
                     )
                     else -> null
                 } ?: mutableListOf()
+            list.forEach {
+                it.getCheck()?.postValue(it.getSelectId() in selectArr)
+            }
             selectList.postValue(list)
         })
     }

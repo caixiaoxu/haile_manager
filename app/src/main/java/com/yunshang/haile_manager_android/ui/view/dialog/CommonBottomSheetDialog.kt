@@ -127,6 +127,8 @@ class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(p
                                 }
                             }
                         }
+
+                        isChecked = builder.selectData == data
                     },
                     ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
@@ -156,6 +158,9 @@ class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(p
 
         // 是否可不选
         var mustSelect = true
+
+        // 已选择的数据
+        var selectData: D? = null
 
         /**
          * 构建

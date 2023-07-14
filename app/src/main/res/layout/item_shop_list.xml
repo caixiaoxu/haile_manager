@@ -30,7 +30,7 @@
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="1号店铺" />
+            tools:text="1号门店" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_item_shop_name_right"

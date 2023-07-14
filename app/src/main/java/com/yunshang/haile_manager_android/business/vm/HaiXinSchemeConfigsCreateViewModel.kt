@@ -1,10 +1,7 @@
 package com.yunshang.haile_manager_android.business.vm
 
 import android.view.View
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
@@ -60,7 +57,8 @@ class HaiXinSchemeConfigsCreateViewModel : BaseViewModel() {
             )?.let {
                 createUpdateParams.postValue(HaixinSchemeConfigCreateParams().apply {
                     id = it.id
-                    shopId = if (-1 == it.shopId) createUpdateParams.value?.shopId else it.shopId
+                    shopId =
+                        if (-1 == it.shopId || 0 == it.shopId) createUpdateParams.value?.shopId else it.shopId
                     configName =
                         it.configName.ifEmpty { createUpdateParams.value?.configName }
                     discountProportion = it.discountProportion
@@ -80,7 +78,7 @@ class HaiXinSchemeConfigsCreateViewModel : BaseViewModel() {
                 SToast.showToast(v.context, R.string.empty_scheme_name)
                 return@let
             }
-            if (-1 == it.shopId) {
+            if (-1 == it.shopId || 0 == it.shopId) {
                 SToast.showToast(v.context, R.string.empty_scheme_shop)
                 return@let
             }

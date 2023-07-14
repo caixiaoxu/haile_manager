@@ -31,12 +31,12 @@ data class OrderListEntity(
     val orderSubCategory: Int,
     val orderSubType: Int,
     val orderType: String,
-    val originPrice: Int,
+    val originPrice: Double,
     val payMethod: String,
     val payMethodType: Int,
     val payTime: String,
     val promotionList: List<Promotion>,
-    val realPrice: Int,
+    val realPrice: Double,
     val shopId: Int,
     val shopName: String,
     val skuList: List<Sku>,
@@ -56,7 +56,7 @@ data class OrderListEntity(
 }
 
 data class Promotion(
-    val discountPrice: Int,
+    val discountPrice: Double,
     val itemId: Int,
     val title: String
 )

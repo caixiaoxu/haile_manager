@@ -52,8 +52,8 @@ class SubAccountCreateViewModel : BaseViewModel() {
     }
 
     // 设备类型
-    val categoryList: MutableLiveData<List<CategoryEntity>> = MutableLiveData()
-    val deviceCategory: MutableLiveData<List<CategoryEntity>> by lazy {
+    val categoryList: MutableLiveData<List<CategoryEntity>?> = MutableLiveData()
+    val deviceCategory: MutableLiveData<List<CategoryEntity>?> by lazy {
         MutableLiveData()
     }
     val deviceCategoryVal: LiveData<String> = deviceCategory.map { list ->

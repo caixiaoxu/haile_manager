@@ -18,14 +18,14 @@ import java.util.*
  */
 data class HaixinRechargeAccountDetailEntity(
     val account: String,
-    val afterAmount: Double,
-    val amount: Double,
+    val afterAmount: Int,
+    val amount: Int,
     val businessTime: String,
     val createTime: String,
     val id: Int,
     val orderNo: String,
-    val presentAmount: Double,
-    val principalAmount: Double,
+    val presentAmount: Int,
+    val principalAmount: Int,
     val remark: String,
     val shopId: Int,
     val subType: Int,
@@ -34,17 +34,17 @@ data class HaixinRechargeAccountDetailEntity(
     val userId: Int
 ) {
 
-    fun getMainRes():Int {
-        var mainRes:Int
-        if (100 == type){
+    fun getMainRes(): Int {
+        var mainRes: Int
+        if (100 == type) {
             mainRes = R.mipmap.icon_haixin_recharge_list_main
         } else {
             mainRes = R.mipmap.icon_haixin_expense
         }
 
-        if (104 == subType){
+        if (104 == subType) {
             mainRes = R.mipmap.icon_haixin_refund
-        } else if (202 == subType){
+        } else if (202 == subType) {
             mainRes = R.mipmap.icon_haixin_recycle
         }
         return mainRes
@@ -52,8 +52,7 @@ data class HaixinRechargeAccountDetailEntity(
 
     fun timeStr(): String = DateTimeUtils.formatDateTimeForStr(createTime, "MM/dd HH:mm:ss")
 
-    fun getAmountVal(): String =
-        com.yunshang.haile_manager_android.utils.StringUtils.formatNumberStr(if (100 == type) amount else -amount)
+    fun getAmountVal(): String = if (100 == type) "$amount" else "-$amount"
 
     fun getDesc(): String {
 

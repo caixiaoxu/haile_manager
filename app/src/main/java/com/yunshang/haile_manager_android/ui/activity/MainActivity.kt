@@ -1,9 +1,8 @@
 package com.yunshang.haile_manager_android.ui.activity
 
-import android.util.SparseArray
 import android.view.View
-import androidx.fragment.app.Fragment
 import com.lsy.framelib.utils.ActivityUtils
+import com.lsy.framelib.utils.AppPackageUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.MainViewModel
@@ -12,12 +11,8 @@ import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
 import com.yunshang.haile_manager_android.data.model.OnDownloadProgressListener
 import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.databinding.ActivityMainBinding
-import com.yunshang.haile_manager_android.ui.fragment.DataStatisticsFragment
-import com.yunshang.haile_manager_android.ui.fragment.HomeFragment
-import com.yunshang.haile_manager_android.ui.fragment.PersonalFragment
 import com.yunshang.haile_manager_android.ui.view.dialog.ServiceCheckDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.UpdateAppDialog
-import com.lsy.framelib.utils.AppPackageUtils
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import timber.log.Timber
 import java.io.File
@@ -26,15 +21,6 @@ import java.util.*
 
 class MainActivity :
     BaseBusinessActivity<ActivityMainBinding, MainViewModel>(MainViewModel::class.java, BR.vm) {
-
-    // 当前的fragment
-    private var curFragment: Fragment? = null
-
-    private val fragments = SparseArray<Fragment>(3).apply {
-        put(R.id.rb_main_tab_home, HomeFragment())
-        put(R.id.rb_main_tab_statistics, DataStatisticsFragment())
-        put(R.id.rb_main_tab_personal, PersonalFragment())
-    }
 
     override fun isFullScreen(): Boolean = true
 
@@ -71,18 +57,29 @@ class MainActivity :
      * 显示子布局
      */
     private fun showChildFragment(id: Int) {
-        curFragment?.let {
-            supportFragmentManager.beginTransaction().hide(it).commit()
+
+        // 隐藏之前的界面
+        mViewModel.curFragmentTag?.let {
+            supportFragmentManager.findFragmentByTag(it)?.let { fragment ->
+                supportFragmentManager.beginTransaction().hide(fragment).commit()
+            }
+        } ?: run {
+            supportFragmentManager.fragments.forEach { fragment ->
+                supportFragmentManager.beginTransaction().hide(fragment).commit()
+            }
         }
 
-        fragments[id]?.let {
-            if (it.isAdded) {
-                supportFragmentManager.beginTransaction().show(it).commit()
-            } else {
-                supportFragmentManager.beginTransaction().add(R.id.fl_main_controller, it)
-                    .commit()
-            }
-            curFragment = it
+        mViewModel.fragments[id]?.let {
+            val fragmentName = it.javaClass.name
+            supportFragmentManager.findFragmentByTag(fragmentName)?.let { fragment ->
+                supportFragmentManager.beginTransaction().show(fragment).commit()
+                if (it != fragment) {
+                    mViewModel.fragments[id] = fragment
+                }
+            } ?: supportFragmentManager.beginTransaction()
+                .add(R.id.fl_main_controller, it, fragmentName)
+                .commit()
+            mViewModel.curFragmentTag = fragmentName
         }
     }
 

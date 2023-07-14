@@ -26,7 +26,6 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
     ShopDetailViewModel::class.java,
     BR.vm
 ) {
-
     companion object {
         const val ShopId = "ShopId"
     }

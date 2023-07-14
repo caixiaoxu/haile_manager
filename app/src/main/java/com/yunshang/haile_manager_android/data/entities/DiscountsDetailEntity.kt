@@ -62,7 +62,8 @@ data class DiscountsDetailEntity(
     val hasWeekDayMode: Boolean
         get() = weekDayModeStr.isNotEmpty()
     val weekDayStr: String
-        get() = weekDayList.joinToString(" ") { id ->
+        get() = if (null == weekDayList) ""
+        else weekDayList.joinToString(" ") { id ->
             DiscountsParam.activeDay.find { it.id == id }?.name ?: ""
         }
     val hasWeekDay: Boolean

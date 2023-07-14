@@ -7,7 +7,6 @@ import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
-import com.yunshang.haile_manager_android.business.vm.SearchSelectRadioViewModel
 import com.yunshang.haile_manager_android.business.vm.SubAccountCreateViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
@@ -89,7 +88,7 @@ class SubAccountCreateActivity :
         }
 
         mViewModel.categoryList.observe(this) {
-            if (it.isNullOrEmpty()) showDeviceCategoryDailog(it)
+            if (!it.isNullOrEmpty()) showDeviceCategoryDailog(it)
         }
     }
 
@@ -133,7 +132,6 @@ class SubAccountCreateActivity :
             mViewModel.categoryList.value?.let { list ->
                 showDeviceCategoryDailog(list)
             } ?: mViewModel.requestDeviceCategoryList()
-
         }
 
         //分账门店

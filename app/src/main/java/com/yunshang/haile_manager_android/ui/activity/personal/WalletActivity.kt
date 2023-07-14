@@ -6,7 +6,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.activity.BaseBindingActivity
-import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.business.event.BusEvents
@@ -14,6 +14,7 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.BalanceTotalEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.databinding.ActivityWalletBinding
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -40,7 +41,20 @@ class WalletActivity : BaseBindingActivity<ActivityWalletBinding>() {
 
         mBinding.btnWalletWithdraw.setOnClickListener {
             if (!IntentParams.WalletParams.parseRealNameAuthStatus(intent)) {
-                SToast.showToast(this@WalletActivity, R.string.err_no_real_name_auth)
+                CommonDialog.Builder(StringUtils.getString(R.string.withdraw_err_no_real_name_auth))
+                    .apply {
+                        title = StringUtils.getString(R.string.tip)
+                        negativeTxt = StringUtils.getString(R.string.cancel)
+                        setPositiveButton("去认证") {
+                            startActivity(
+                                Intent(
+                                    this@WalletActivity,
+                                    RealNameAuthActivity::class.java
+                                )
+                            )
+                        }
+                    }.build()
+                    .show(supportFragmentManager)
                 return@setOnClickListener
             }
             startActivity(Intent(this@WalletActivity, WalletWithdrawActivity::class.java).apply {
@@ -51,10 +65,6 @@ class WalletActivity : BaseBindingActivity<ActivityWalletBinding>() {
         }
 
         mBinding.btnWalletCharge.setOnClickListener {
-            if (!IntentParams.WalletParams.parseRealNameAuthStatus(intent)) {
-                SToast.showToast(this@WalletActivity, R.string.err_no_real_name_auth)
-                return@setOnClickListener
-            }
             startActivity(Intent(this@WalletActivity, RechargeActivity::class.java))
         }
 

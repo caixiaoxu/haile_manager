@@ -47,6 +47,7 @@
     <string name="i_know">知道了</string>
     <string name="enable">启用</string>
     <string name="disEnable">停用</string>
+    <string name="tip">提示</string>
 
     <string name="login_name">登录</string>
     <string name="login_account_password">账号密码登录</string>
@@ -510,7 +511,7 @@
     <string name="month_empty_date">当月暂无数据</string>
     <string name="role_list_empty">当前帐户没有其他角色</string>
     <string name="unit_money">¥</string>
-    <string name="err_no_real_name_auth">通过实名认证后才可提现</string>
+    <string name="withdraw_err_no_real_name_auth">当前账户未进行实名认证，暂时不能提现。提现绑定账号必须先实名认证</string>
     <string name="empty_params">参数为空</string>
     <string name="err_request">请求失败</string>
     <string name="err_pay">支付失败</string>

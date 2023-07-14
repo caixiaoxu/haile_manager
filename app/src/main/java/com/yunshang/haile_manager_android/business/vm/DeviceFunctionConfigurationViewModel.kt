@@ -80,10 +80,6 @@ class DeviceFunctionConfigurationViewModel : BaseViewModel() {
                         SToast.showToast(msg = "请先输入功能配置${no}的名称")
                         return
                     }
-                    if (config.feature.isEmpty()) {
-                        SToast.showToast(msg = "请先输入功能配置${no}的描述信息")
-                        return
-                    }
                     if (config.extAttrValue.isNullOrEmpty() || config.extAttr.isEmpty()) {
                         SToast.showToast(msg = "请先选择功能配置${no}的烘干时间")
                         return
@@ -120,11 +116,6 @@ class DeviceFunctionConfigurationViewModel : BaseViewModel() {
                             SToast.showToast(msg = "请先输入功能配置${no}的脉冲数")
                             return
                         }
-                    }
-
-                    if (config.feature.isEmpty()) {
-                        SToast.showToast(msg = "请先输入功能配置${no}的描述信息")
-                        return
                     }
                 }
             }

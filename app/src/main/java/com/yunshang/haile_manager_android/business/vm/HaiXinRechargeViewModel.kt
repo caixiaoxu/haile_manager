@@ -120,7 +120,7 @@ class HaiXinRechargeViewModel : BaseViewModel() {
                 )
             )
             withContext(Dispatchers.Main){
-                SToast.showToast(v.context, R.string.recharge_success)
+                jump.postValue(1)
             }
         })
     }

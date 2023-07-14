@@ -5,15 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 /**
  * Title :
@@ -102,6 +103,8 @@ class DeviceMultiChangeViewModel : BaseViewModel() {
                 )
             )
             withContext(Dispatchers.Main) {
+                LiveDataBus.post(BusEvents.DEVICE_LIST_STATUS, true)
+                LiveDataBus.post(BusEvents.DEVICE_DETAILS_STATUS, true)
                 SToast.showToast(view.context, R.string.update_success)
             }
             jump.postValue(0)

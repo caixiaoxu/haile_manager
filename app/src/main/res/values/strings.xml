@@ -96,6 +96,7 @@
 
     <string name="home_func_title">功能管理</string>
     <string name="device_manager">设备管理</string>
+    <string name="device_search_hint">搜索设备名称</string>
     <string name="department">所属门店</string>
     <string name="department_empty">请先选择门店</string>
     <string name="device_category">设备类型</string>

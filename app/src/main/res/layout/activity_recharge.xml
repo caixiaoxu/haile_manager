@@ -112,7 +112,7 @@
                 android:drawablePadding="12dp"
                 android:gravity="center_vertical"
                 android:paddingHorizontal="16dp"
-                android:text="@string/alipay" />
+                android:text="@string/wechat" />
 
         </RadioGroup>
 

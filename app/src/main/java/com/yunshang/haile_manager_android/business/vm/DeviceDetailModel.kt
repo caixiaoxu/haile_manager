@@ -1,6 +1,5 @@
 package com.yunshang.haile_manager_android.business.vm
 
-import android.content.Context
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -179,7 +178,7 @@ class DeviceDetailModel : BaseViewModel() {
                     isOpen.postValue(1 == detail.soldState)
                     name.postValue(detail.name)
                     code.postValue(detail.code)
-                    imei.postValue(detail.code)
+                    imei.postValue(detail.imei)
                 }
             }
 
@@ -285,6 +284,7 @@ class DeviceDetailModel : BaseViewModel() {
                     }
                 }
             }
+            LiveDataBus.post(BusEvents.DEVICE_LIST_STATUS, true)
         })
     }
 

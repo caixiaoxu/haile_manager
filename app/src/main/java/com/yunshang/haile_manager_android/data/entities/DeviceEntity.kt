@@ -98,9 +98,10 @@ data class DeviceEntity(
 
     /**
      * 获取状态
+     * 10-空闲；20-工作中；30-故障；40-停用
      */
     fun getDeviceStatusValue(): String = when (workStatus) {
-        10 -> "运行中"
+        10 -> "空闲"
         20 -> "工作中"
         30 -> "故障"
         40 -> "停用"

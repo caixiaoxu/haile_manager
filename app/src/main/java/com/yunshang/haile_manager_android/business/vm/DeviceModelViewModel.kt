@@ -88,11 +88,7 @@ class DeviceModelViewModel : BaseViewModel() {
                     // 常用设备
                     for (bean in e.popular) {
                         try {
-                            //型号按 "/" 分割，只显示第一个
-                            val split: List<String> = bean.feature.split("/")
-                            if (split.size > 1) {
-                                bean.shortFeature = split[0]
-                            }
+                            bean.shortFeature = bean.feature
                             commonSpuList.add(bean)
                         } catch (e: Exception) {
                             e.printStackTrace()

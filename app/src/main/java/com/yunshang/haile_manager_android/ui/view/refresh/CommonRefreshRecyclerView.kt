@@ -158,6 +158,18 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
      * @param isRefresh 是否刷新
      */
     private fun refreshDate(it: ResponseList<out D>, isRefresh: Boolean = false) {
+        //判断 当前页 数量不为0，页数加1
+        if (0 < it.items.size) {
+            page++
+        }
+
+        // 自定义处理
+        if (true == requestData?.onCommonDeal(it, isRefresh)
+            || true == if (isRefresh) requestData?.onRefresh(it) else requestData?.onLoadMore(it)
+        ) {
+            return
+        }
+
         // 显示空状态
         if (isRefresh && 0 == it.total) {
             mBinding.rvRefreshList.visibility = View.GONE
@@ -174,17 +186,6 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
             mBinding.tvListStatus.visibility = View.GONE
         }
 
-        //判断 当前页 数量不为0，页数加1
-        if (0 < it.items.size) {
-            page++
-        }
-
-        // 自定义处理
-        if (true == requestData?.onCommonDeal(it, isRefresh)
-            || true == if (isRefresh) requestData?.onRefresh(it) else requestData?.onLoadMore(it)
-        ) {
-            return
-        }
         // 刷新数据
         adapter?.refreshList(it.items, isRefresh)
 

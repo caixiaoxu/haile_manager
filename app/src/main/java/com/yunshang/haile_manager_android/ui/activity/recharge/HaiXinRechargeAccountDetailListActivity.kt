@@ -21,7 +21,7 @@ import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerV
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import java.util.*
 
-class HaiXinRechargeAccountDetaiListActivity :
+class HaiXinRechargeAccountDetailListActivity :
     BaseBusinessActivity<ActivityHaixinRechargeListBinding, HaiXinRechargeAccountDetailListViewModel>(
         HaiXinRechargeAccountDetailListViewModel::class.java
     ) {
@@ -75,7 +75,7 @@ class HaiXinRechargeAccountDetaiListActivity :
                         mItemBinding?.viewItemHaixinRechargeParent?.setOnClickListener {
                             startActivity(
                                 Intent(
-                                    this@HaiXinRechargeAccountDetaiListActivity,
+                                    this@HaiXinRechargeAccountDetailListActivity,
                                     IncomeDetailActivity::class.java
                                 ).apply {
                                     putExtra(IncomeDetailActivity.DetailType, 1)

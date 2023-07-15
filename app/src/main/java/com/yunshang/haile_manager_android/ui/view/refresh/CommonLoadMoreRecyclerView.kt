@@ -119,6 +119,16 @@ class CommonLoadMoreRecyclerView<D> @JvmOverloads constructor(
      * @param it 数据列表
      */
     private fun refreshDate(it: MutableList<out D>, isRefresh: Boolean) {
+        //判断 当前页 数量不为0，页数加1
+        if (0 < it.size) {
+            page++
+        }
+
+        // 自定义处理
+        if (true == requestData?.onLoadMore(it)) {
+            return
+        }
+
         // 显示空状态
         if (isRefresh && 0 == it.size) {
             mBinding.rvRefreshList.visibility = View.GONE
@@ -133,16 +143,6 @@ class CommonLoadMoreRecyclerView<D> @JvmOverloads constructor(
         } else {
             mBinding.rvRefreshList.visibility = View.VISIBLE
             mBinding.tvListStatus.visibility = View.GONE
-        }
-
-        //判断 当前页 数量不为0，页数加1
-        if (0 < it.size) {
-            page++
-        }
-
-        // 自定义处理
-        if (true == requestData?.onLoadMore(it)) {
-            return
         }
 
         // 刷新数据

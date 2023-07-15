@@ -75,7 +75,7 @@ class HaiXinRechargeAccountsActivity :
                 startActivity(
                     Intent(
                         this@HaiXinRechargeAccountsActivity,
-                        HaiXinRechargeAccountDetaiListActivity::class.java
+                        HaiXinRechargeAccountDetailListActivity::class.java
                     ).apply {
                         putExtras(
                             IntentParams.RechargeAccountDetailParams.pack(

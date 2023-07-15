@@ -49,8 +49,14 @@ data class BalanceDetailEntity(
 
     override fun getInfoList(): ArrayList<IncomeDetailInfo> = ArrayList<IncomeDetailInfo>().apply {
         addItemInfo(businessType, R.string.business_name, this)
+        addItemInfo(
+            if (1 == balanceType) com.lsy.framelib.utils.StringUtils.getString(R.string.earning)
+            else com.lsy.framelib.utils.StringUtils.getString(R.string.expend),
+            R.string.income_type,
+            this
+        )
         addItemInfo(categoryName, R.string.business_type, this)
-        addItemInfo(shopName, R.string.shop_manager, this)
+        addItemInfo(shopName, R.string.shop, this)
         addItemInfo(settlementTime, R.string.time, this)
         if (revenueNo.isNotEmpty() && revenueTime.isNotEmpty()) {
             addItemInfo(revenueNo, R.string.sub_account_order_no, this, true)
@@ -60,8 +66,10 @@ data class BalanceDetailEntity(
             addItemInfo(cashOutPrice, R.string.cash_out_amount, this)
             addItemInfo(serviceCharge, R.string.service_charge, this)
             addItemInfo(cashOutTime, R.string.cash_out_time, this)
-            addItemInfo(bank, R.string.cash_out_bank, this)
+            addItemInfo(bank, R.string.cash_out_way, this)
         } else {
+            addItemInfo(account, R.string.user_account_no, this, false)
+            addItemInfo(payTime, R.string.time_of_payment, this, false)
             addItemInfo(orderNo, R.string.order_no, this, true)
         }
         addItemInfo(remark, R.string.remark, this)

@@ -191,6 +191,7 @@
     <string name="location_floor">楼栋/楼层</string>
     <string name="business_hours">营业时间</string>
     <string name="business_phone">客服电话</string>
+    <string name="income_type">收支类型</string>
     <string name="business_type">业务类型</string>
     <string name="business_type_title">选择业务类型</string>
     <string name="school">学校</string>
@@ -367,6 +368,9 @@
     <string name="balance">余额</string>
     <string name="balance_detail">余额明细</string>
     <string name="income">收入明细</string>
+    <string name="earning">收入</string>
+    <string name="expend">支出</string>
+    <string name="shop">门店</string>
     <string name="order_no">订单编号</string>
     <string name="total_income_for_day">%1$s总收入：</string>
     <string name="earnings_detail">收益详情</string>
@@ -378,12 +382,14 @@
     <string name="pay_account">支付账号</string>
     <string name="reach_starfish">充值海星</string>
     <string name="reward_starfish">赠送海星</string>
+    <string name="user_account_no">用户账号</string>
     <string name="cash_out_no">提现单号</string>
     <string name="service_charge">手续费</string>
     <string name="rate">费率</string>
     <string name="cash_out_amount">提现金额</string>
     <string name="cash_out_time">提现时间</string>
     <string name="cash_out_bank">提现银行</string>
+    <string name="cash_out_way">提现方式</string>
     <string name="business_name">业务名称</string>
     <string name="remark">备注</string>
     <string name="time">时间</string>

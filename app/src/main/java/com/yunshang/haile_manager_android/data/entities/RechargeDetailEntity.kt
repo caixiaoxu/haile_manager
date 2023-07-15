@@ -41,12 +41,12 @@ data class RechargeDetailEntity(
 
     override fun getInfoList(): ArrayList<IncomeDetailInfo> = arrayListOf(
         IncomeDetailInfo(
-            com.lsy.framelib.utils.StringUtils.getString(R.string.no_of_payment),
+            com.lsy.framelib.utils.StringUtils.getString(R.string.order_no),
             orderNo,
             true
         ),
         IncomeDetailInfo(
-            com.lsy.framelib.utils.StringUtils.getString(R.string.pay_account),
+            com.lsy.framelib.utils.StringUtils.getString(R.string.user_account_no),
             account
         ),
         IncomeDetailInfo(

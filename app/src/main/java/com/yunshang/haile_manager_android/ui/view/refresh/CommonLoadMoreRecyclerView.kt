@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.ui.view.refresh
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
@@ -55,6 +56,12 @@ class CommonLoadMoreRecyclerView<D> @JvmOverloads constructor(
 
     // 请求数据
     var requestData: OnRequestDataListener<D>? = null
+
+    // 空状态图
+    var listStatusImgResId: Int = R.mipmap.icon_list_content_empty
+
+    // 空状态图
+    var listStatusTxtResId: Int = R.string.empty_content
 
     init {
         mBinding = CustomRefreshRecyclerViewBinding.bind(
@@ -112,6 +119,22 @@ class CommonLoadMoreRecyclerView<D> @JvmOverloads constructor(
      * @param it 数据列表
      */
     private fun refreshDate(it: MutableList<out D>, isRefresh: Boolean) {
+        // 显示空状态
+        if (isRefresh && 0 == it.size) {
+            mBinding.rvRefreshList.visibility = View.GONE
+            mBinding.tvListStatus.visibility = View.VISIBLE
+            mBinding.tvListStatus.setText(listStatusTxtResId)
+            mBinding.tvListStatus.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                listStatusImgResId,
+                0,
+                0
+            )
+        } else {
+            mBinding.rvRefreshList.visibility = View.VISIBLE
+            mBinding.tvListStatus.visibility = View.GONE
+        }
+
         //判断 当前页 数量不为0，页数加1
         if (0 < it.size) {
             page++
@@ -121,6 +144,7 @@ class CommonLoadMoreRecyclerView<D> @JvmOverloads constructor(
         if (true == requestData?.onLoadMore(it)) {
             return
         }
+
         // 刷新数据
         adapter?.refreshList(it, isRefresh)
 

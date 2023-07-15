@@ -42,7 +42,7 @@ data class HaixinRechargeAccountDetailEntity(
             mainRes = R.mipmap.icon_haixin_expense
         }
 
-        if (104 == subType) {
+        if (104 == subType || 203 == subType) {
             mainRes = R.mipmap.icon_haixin_refund
         } else if (202 == subType) {
             mainRes = R.mipmap.icon_haixin_recycle
@@ -61,9 +61,9 @@ data class HaixinRechargeAccountDetailEntity(
             desc += "${StringUtils.getString(R.string.reach_starfish)} $principalAmount"
         }
         if (presentAmount > 0) {
-            desc += if (TextUtils.isEmpty(desc)) "" else " ${StringUtils.getString(R.string.reward_starfish)} $presentAmount"
+            desc += (if (TextUtils.isEmpty(desc)) "" else " ") + "${StringUtils.getString(R.string.reward_starfish)} $presentAmount"
         }
-        return desc;
+        return desc
     }
 
 }

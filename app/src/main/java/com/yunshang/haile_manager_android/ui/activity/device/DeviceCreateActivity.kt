@@ -46,7 +46,9 @@ class DeviceCreateActivity :
     // IMEI相机启动器
     private val imeiLauncher = registerForActivityResult(ScanContract()) { result ->
         result.contents?.let {
-            mViewModel.imeiCode.value = it
+            if (StringUtils.isImeiCode(it))
+                mViewModel.imeiCode.value = it
+            else SToast.showToast(this, R.string.imei_code_error1)
         } ?: SToast.showToast(this, R.string.imei_code_error)
     }
 

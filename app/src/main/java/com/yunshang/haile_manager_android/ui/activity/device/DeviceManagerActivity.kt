@@ -272,8 +272,9 @@ class DeviceManagerActivity :
                 }
             })
 
+        mBinding.rvDeviceManagerList.listStatusImgResId = R.mipmap.icon_list_device_empty
+        mBinding.rvDeviceManagerList.listStatusTxtResId = R.string.empty_device
         mBinding.rvDeviceManagerList.adapter = mAdapter
-
         mBinding.rvDeviceManagerList.requestData =
             object : CommonRefreshRecyclerView.OnRequestDataListener<DeviceEntity>() {
                 override fun requestData(

@@ -169,10 +169,12 @@ object StringUtils {
     }
 
     private val PayCodeH5 = "^(https://h5.haier\\-ioc.com/scan\\?N=\\S*)$"
+    private val RefundCode = "^(https://h5.haier-ioc.com/scan\\?refundId=\\S*)$"
     private val HaiLiCode1 = "^((http|https)://(uhome.haier.net|app.mrhi.cn)" +
             "/download/app/washcall/index.html\\?devid=\\S*)"
     private val HaiLiCode2 =
         "^((http|https)://(barcodewasher.haier.net/washer|bcw.haier.net)/barCode/\\S*)"
+    private val IMEICode = "^\\d{15}\$"
 
     /**
      * 截取付款码
@@ -193,6 +195,30 @@ object StringUtils {
     } catch (e: java.lang.Exception) {
         e.printStackTrace()
         null
+    }
+
+
+    /**
+     * 是否是退款码
+     */
+    fun refundCode(codeStr: String): String? = try {
+        if (codeStr.matches(Regex(RefundCode))) {
+            codeStr.split("\\?refundId=".toRegex()).dropLastWhile { it.isEmpty() }
+                .toTypedArray()[1]
+        } else null
+    } catch (e: java.lang.Exception) {
+        e.printStackTrace()
+        null
+    }
+
+    /**
+     * 是否是付款码
+     */
+    fun isImeiCode(code: String?): Boolean = try {
+        code?.matches(Regex(IMEICode)) ?: false
+    } catch (e: java.lang.Exception) {
+        e.printStackTrace()
+        false
     }
 
     /**

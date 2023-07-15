@@ -266,6 +266,9 @@ class MultiTypeItemView @JvmOverloads constructor(
                         0
                     )
                 }
+                setOnClickListener {
+                    onSelectedEvent?.invoke()
+                }
             },
             LayoutParams(
                 LayoutParams.WRAP_CONTENT,

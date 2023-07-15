@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.data.model
 
 import com.lsy.framelib.utils.SPUtils
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.yunshang.haile_manager_android.data.arguments.SearchParam
 import com.yunshang.haile_manager_android.data.entities.ChangeUserEntity
 import com.yunshang.haile_manager_android.data.entities.LoginEntity
 import com.yunshang.haile_manager_android.data.entities.UserInfoEntity
@@ -33,6 +34,8 @@ object SPRepository {
     private const val SP_CHECK_UPDATE_TIME = "sp_check_update_time"
 
     private const val SP_CHECK_SERVICE_TIME = "sp_check_service_time"
+
+    private const val SP_SEARCH_HISTORY = "sp_search_history"
 
     private val sp: SPUtils by lazy { SPUtils.getInstance(SP_NAME) }
 
@@ -147,4 +150,22 @@ object SPRepository {
     fun cleaLoginUserInfo() {
         loginInfo = null
     }
+
+    /**
+     * 搜索历史
+     */
+    var searchHistory: MutableList<SearchParam>? = null
+        get() = field ?: GsonUtils.json2List(
+            sp.getString(SP_SEARCH_HISTORY),
+            SearchParam::class.java
+        )
+        set(value) {
+            if (null == value) {
+                sp.put(SP_SEARCH_HISTORY, "")
+            } else {
+                sp.put(SP_SEARCH_HISTORY, GsonUtils.any2Json(value))
+            }
+            field = value
+        }
+
 }

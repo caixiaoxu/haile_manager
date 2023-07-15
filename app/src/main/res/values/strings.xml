@@ -48,6 +48,10 @@
     <string name="enable">启用</string>
     <string name="disEnable">停用</string>
     <string name="tip">提示</string>
+    <string name="search_history">搜索历史</string>
+
+    <string name="empty_content">暂无内容信息</string>
+    <string name="empty_device">暂无设备信息</string>
 
     <string name="login_name">登录</string>
     <string name="login_account_password">账号密码登录</string>
@@ -119,6 +123,7 @@
     <string name="configured">已配置</string>
     <string name="pay_code_error">该付款码无效</string>
     <string name="imei_code_error">该IMEI码无效</string>
+    <string name="imei_code_error1">请扫描正确的IMEI</string>
     <string name="device_func_configuration_title">功能配置%1$d</string>
     <string name="model_name">模式名称</string>
     <string name="wash_time">洗涤时间</string>

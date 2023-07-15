@@ -71,7 +71,7 @@ class SearchViewModel : BaseViewModel() {
                     result2
                 )
             }
-        }, null, null, false)
+        }, null, null, 1 == page)
     }
 
     /**
@@ -82,7 +82,6 @@ class SearchViewModel : BaseViewModel() {
         pageSize: Int,
         result: ((responseList: ResponseList<out ISearchSelectEntity>?) -> Unit)?
     ) {
-
         val listWrapper = ApiRepository.dealApiResult(
             mDeviceRepo.deviceList(
                 hashMapOf(

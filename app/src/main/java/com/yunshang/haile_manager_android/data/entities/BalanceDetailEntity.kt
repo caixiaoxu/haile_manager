@@ -58,7 +58,7 @@ data class BalanceDetailEntity(
         )
         addItemInfo(categoryName, R.string.business_type, this)
         addItemInfo(shopName, R.string.shop, this)
-        addItemInfo(settlementTime, R.string.time, this)
+        addItemInfo(settlementTime, R.string.settlement_time, this)
         if (revenueNo.isNotEmpty() && revenueTime.isNotEmpty()) {
             addItemInfo(revenueNo, R.string.sub_account_order_no, this, true)
             addItemInfo(revenueTime, R.string.sub_account_time, this)
@@ -74,14 +74,9 @@ data class BalanceDetailEntity(
             addItemInfo(orderNo, R.string.order_no, this, true)
         }
         addItemInfo(
-            DateTimeUtils.formatDateTimeForStr(settlementTime, "yyyy/MM/dd HH:mm:ss"),
-            R.string.settlement_time,
-            this, false
-        )
-        addItemInfo(
             balance,
             R.string.account_balance,
-            this, false
+            this
         )
         addItemInfo(remark, R.string.remark, this)
     }

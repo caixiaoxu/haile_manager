@@ -110,7 +110,7 @@ class OrderDetailActivity :
                             null,
                             false
                         ).also { itemBinding ->
-                            itemBinding.title = promotion.title
+                            itemBinding.title = "${promotion.title}："
                             itemBinding.value = "-￥${promotion.discountPrice}"
                             itemBinding.mStart = mStart
                             mBinding.llOrderDetailCouponList.addView(

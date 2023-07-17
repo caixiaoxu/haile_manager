@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.data.entities
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.rule.IIncomeDetailEntity
 import com.yunshang.haile_manager_android.data.rule.IncomeDetailInfo
+import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.StringUtils
 
 /**
@@ -72,6 +73,16 @@ data class BalanceDetailEntity(
             addItemInfo(payTime, R.string.time_of_payment, this, false)
             addItemInfo(orderNo, R.string.order_no, this, true)
         }
+        addItemInfo(
+            DateTimeUtils.formatDateTimeForStr(settlementTime, "yyyy/MM/dd HH:mm:ss"),
+            R.string.settlement_time,
+            this, false
+        )
+        addItemInfo(
+            balance,
+            R.string.account_balance,
+            this, false
+        )
         addItemInfo(remark, R.string.remark, this)
     }
 

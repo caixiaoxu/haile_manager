@@ -88,7 +88,7 @@ class SearchViewModel : BaseViewModel() {
                     "page" to page,
                     "pageSize" to pageSize,
                     "workStatus" to "",
-                    "keywords" to (searchKey.value ?: "")
+                    "keywords" to (searchKey.value?.trim() ?: "")
                 )
             )
         )
@@ -113,7 +113,7 @@ class SearchViewModel : BaseViewModel() {
                     hashMapOf(
                         "page" to page,
                         "pageSize" to pageSize,
-                        "name" to (searchKey.value ?: "")
+                        "name" to (searchKey.value?.trim() ?: "")
                     )
                 )
             )
@@ -139,7 +139,7 @@ class SearchViewModel : BaseViewModel() {
             "page" to page,
             "pageSize" to pageSize,
             "searchType" to 2,
-            "searchStr" to (searchKey.value ?: ""),
+            "searchStr" to (searchKey.value?.trim() ?: ""),
         )
 
         if (isAppoint) {

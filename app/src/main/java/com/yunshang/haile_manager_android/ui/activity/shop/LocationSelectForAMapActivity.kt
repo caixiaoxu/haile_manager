@@ -16,6 +16,7 @@ import com.amap.api.maps2d.CameraUpdateFactory
 import com.amap.api.maps2d.LocationSource
 import com.amap.api.maps2d.model.*
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.SystemPermissionHelper
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -38,13 +39,10 @@ class LocationSelectForAMapActivity :
         BR.vm
     ), LocationSource {
 
-    private val permissions = arrayOf(
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.READ_PHONE_STATE,
-    )
+    private val permissions = SystemPermissionHelper.locationPermissions()
+        .plus(SystemPermissionHelper.readWritePermissions()).plus(
+            SystemPermissionHelper.phoneStatePermissions()
+        )
 
     // 蓝点
     private var marker: Marker? = null

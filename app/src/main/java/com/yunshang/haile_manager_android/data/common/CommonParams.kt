@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.data.common
 
 import androidx.annotation.IntDef
 import androidx.annotation.StringDef
+import com.yunshang.haile_manager_android.R
 
 /**
  * Title :
@@ -76,4 +77,22 @@ object SearchType {
     @IntDef(Device, Shop, Order, AppointOrder)
     @Retention(AnnotationRetention.SOURCE)
     annotation class ISearchType
+}
+
+object RechargeType {
+    fun getMainRes(type: Int, subType: Int): Int {
+        var mainRes: Int
+        if (100 == type) {
+            mainRes = R.mipmap.icon_haixin_recharge_list_main
+        } else {
+            mainRes = R.mipmap.icon_haixin_expense
+        }
+
+        if (104 == subType || 203 == subType) {
+            mainRes = R.mipmap.icon_haixin_refund
+        } else if (202 == subType) {
+            mainRes = R.mipmap.icon_haixin_recycle
+        }
+        return mainRes
+    }
 }

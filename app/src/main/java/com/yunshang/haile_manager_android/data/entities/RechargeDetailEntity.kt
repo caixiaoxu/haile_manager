@@ -1,6 +1,7 @@
 package com.yunshang.haile_manager_android.data.entities
 
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.data.common.RechargeType
 import com.yunshang.haile_manager_android.data.rule.IIncomeDetailEntity
 import com.yunshang.haile_manager_android.data.rule.IncomeDetailInfo
 
@@ -32,8 +33,7 @@ data class RechargeDetailEntity(
     val userId: Int
 ) : IIncomeDetailEntity {
 
-    override fun mainRes(): Int =
-        if (100 == type) R.mipmap.icon_haixin_recharge_list_main else R.mipmap.icon_expend_main
+    override fun mainRes(): Int = RechargeType.getMainRes(type, subType)
 
     override fun getTotalStr(): String = (if (100 == type) amount else -amount).toString()
 

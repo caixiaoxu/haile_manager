@@ -7,6 +7,7 @@ import androidx.core.view.MarginLayoutParamsCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
+import com.bumptech.glide.Glide
 import com.lsy.framelib.utils.DimensionUtils
 import com.yunshang.haile_manager_android.ui.view.*
 import com.yunshang.haile_manager_android.utils.GlideUtils
@@ -68,13 +69,16 @@ object ViewBindingAdapter {
     /**
      * ImageView 加载本地图片/图络图片
      */
-    @BindingAdapter("imgRes", "imgUrl", requireAll = false)
+    @BindingAdapter("imgRes", "imgUrl", "imgHeadUrl", requireAll = false)
     @JvmStatic
-    fun ImageView.loadImage(res: Int?, url: String?) {
+    fun ImageView.loadImage(res: Int?, url: String?, imgHeadUrl: String?) {
         res?.let {
             setImageResource(res)
         }
         url?.let {
+            Glide.with(this).load(url).fitCenter().into(this)
+        }
+        imgHeadUrl?.let {
             GlideUtils.loadImage(this, url)
         }
     }

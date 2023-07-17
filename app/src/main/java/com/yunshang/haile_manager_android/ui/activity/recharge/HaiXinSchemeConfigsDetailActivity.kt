@@ -1,6 +1,5 @@
 package com.yunshang.haile_manager_android.ui.activity.recharge
 
-import android.Manifest
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -8,8 +7,10 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
 import com.lsy.framelib.async.LiveDataBus
+import com.lsy.framelib.utils.FileUtils
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
+import com.lsy.framelib.utils.SystemPermissionHelper
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
@@ -21,7 +22,6 @@ import com.yunshang.haile_manager_android.databinding.ItemShopDetailAppointmentB
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.SharedBottomDialog
-import com.lsy.framelib.utils.FileUtils
 import com.yunshang.haile_manager_android.utils.QrcodeUtils
 import com.yunshang.haile_manager_android.utils.WeChatHelper
 
@@ -34,11 +34,12 @@ class HaiXinSchemeConfigsDetailActivity :
     override fun backBtn(): View = mBinding.barSchemeDetailTitle.getBackBtn()
 
     // 权限
-    private val requestPermission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
-            if (result) {
+    private val requestPermissions =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
+            if (result.values.any { it }) {
                 showRechargeQrCode()
             } else {
+                // 授权失败
                 SToast.showToast(this, R.string.empty_permission)
             }
         }
@@ -106,7 +107,7 @@ class HaiXinSchemeConfigsDetailActivity :
         }
 
         mBinding.btnSchemeDetailRecharge.setOnClickListener {
-            requestPermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            requestPermissions.launch(SystemPermissionHelper.readWritePermissions())
         }
         mBinding.btnSchemeDetailEdit.setOnClickListener {
             startActivity(

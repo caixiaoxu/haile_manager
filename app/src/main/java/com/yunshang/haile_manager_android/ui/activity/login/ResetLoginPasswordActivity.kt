@@ -45,10 +45,6 @@ class ResetLoginPasswordActivity :
     }
 
     override fun initData() {
-
-        if (BuildConfig.DEBUG) {
-            mViewModel.phone.value = "13067949521"
-        }
     }
 
     override fun jump(type: Int) {

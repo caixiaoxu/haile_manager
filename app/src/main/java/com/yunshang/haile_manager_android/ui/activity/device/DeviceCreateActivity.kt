@@ -25,6 +25,7 @@ import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.CustomCaptureActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.utils.StringUtils
+import timber.log.Timber
 
 
 class DeviceCreateActivity :
@@ -35,7 +36,8 @@ class DeviceCreateActivity :
 
     // 付款码相机启动器
     private val payCodeLauncher = registerForActivityResult(ScanContract()) { result ->
-        result.contents?.let {
+        result.contents?.trim()?.let {
+            Timber.i("付款码:$it")
             val payCode = StringUtils.getPayCode(it)
             payCode?.let { code ->
                 mViewModel.payCode.value = code
@@ -45,7 +47,8 @@ class DeviceCreateActivity :
 
     // IMEI相机启动器
     private val imeiLauncher = registerForActivityResult(ScanContract()) { result ->
-        result.contents?.let {
+        result.contents?.trim()?.let {
+            Timber.i("IMEI:$it")
             if (StringUtils.isImeiCode(it))
                 mViewModel.imeiCode.value = it
             else SToast.showToast(this, R.string.imei_code_error1)

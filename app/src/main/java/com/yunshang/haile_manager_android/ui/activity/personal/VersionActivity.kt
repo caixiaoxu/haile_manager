@@ -1,10 +1,11 @@
 package com.yunshang.haile_manager_android.ui.activity.personal
 
-import android.Manifest
 import android.graphics.Color
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import com.lsy.framelib.utils.AppPackageUtils
 import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.SystemPermissionHelper
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.VersionViewModel
@@ -12,7 +13,6 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.model.OnDownloadProgressListener
 import com.yunshang.haile_manager_android.databinding.ActivityVersionBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
-import com.lsy.framelib.utils.AppPackageUtils
 import timber.log.Timber
 import java.io.File
 
@@ -66,10 +66,8 @@ class VersionActivity : BaseBusinessActivity<ActivityVersionBinding, VersionView
 
         mBinding.btnVersionUpdate.setOnClickListener {
             requestPermissions.launch(
-                arrayOf(
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.REQUEST_INSTALL_PACKAGES
-                )
+                SystemPermissionHelper.readWritePermissions()
+                    .plus(SystemPermissionHelper.installPackagesPermissions())
             )
         }
     }

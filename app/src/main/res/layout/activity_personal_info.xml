@@ -39,7 +39,7 @@
                 android:id="@+id/iv_personal_info_head"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                app:imgUrl="@{shared.userInfo.userInfo.headImage}" />
+                app:imgHeadUrl="@{shared.userInfo.userInfo.headImage}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/Font_16_333333"

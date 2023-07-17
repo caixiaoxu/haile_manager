@@ -31,12 +31,14 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.HomeViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.HomeIncomeEntity
 import com.yunshang.haile_manager_android.data.entities.MessageContentEntity
 import com.yunshang.haile_manager_android.databinding.FragmentHomeBinding
 import com.yunshang.haile_manager_android.databinding.IncludeHomeFuncItemBinding
 import com.yunshang.haile_manager_android.databinding.IncludeHomeLastMsgItemBinding
 import com.yunshang.haile_manager_android.ui.activity.message.MessageCenterActivity
+import com.yunshang.haile_manager_android.ui.activity.message.MessageListActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
 import com.yunshang.haile_manager_android.ui.view.chart.BarChartRenderer
 import com.yunshang.haile_manager_android.ui.view.chart.CustomMarkerView
@@ -260,6 +262,20 @@ class HomeFragment :
                         DateTimeUtils.formatDateFromString(msg.createTime),
                         false
                     )
+                    mMsgItemBinding.root.setOnClickListener {
+                        startActivity(
+                            Intent(
+                                requireContext(),
+                                MessageListActivity::class.java
+                            ).apply {
+                                putExtras(
+                                    IntentParams.MessageListParams.pack(
+                                        msg.typeId,
+                                        msg.title
+                                    )
+                                )
+                            })
+                    }
                     mBinding.llLastMsgList.addView(mMsgItemBinding.root)
                 }
             }
@@ -435,7 +451,7 @@ class HomeFragment :
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        if (!hidden){
+        if (!hidden) {
             mViewModel.requestHomeData()
         }
     }

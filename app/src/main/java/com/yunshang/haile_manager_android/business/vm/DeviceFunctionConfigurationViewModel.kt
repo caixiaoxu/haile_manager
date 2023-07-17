@@ -6,9 +6,11 @@ import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.SoftKeyboardUtils
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
+import com.yunshang.haile_manager_android.data.entities.ExtAttrBean
 import com.yunshang.haile_manager_android.data.entities.SkuEntity
 import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.yunshang.haile_manager_android.data.model.ApiRepository
@@ -59,9 +61,19 @@ class DeviceFunctionConfigurationViewModel : BaseViewModel() {
         launch({
             val list = ApiRepository.dealApiResult(mDeviceRepo.sku(spuId))
             list?.let {
-                if (!oldConfigurationList.isNullOrEmpty()) {
-                    it.forEach { sku ->
+                it.forEach { sku ->
+                    // 如果有旧数据，合并旧数据，如果没有，配置默认数据
+                    if (!oldConfigurationList.isNullOrEmpty()) {
                         sku.mergeOld(oldConfigurationList!!.find { param -> param.skuId == sku.id })
+                    } else {
+                        if (sku.extAttr.isNotEmpty()) {
+                            sku.extAttrValue =
+                                GsonUtils.json2List(sku.extAttr, ExtAttrBean::class.java)?.apply {
+                                    forEach { ext ->
+                                        ext.isCheck = true
+                                    }
+                                }
+                        }
                     }
                 }
                 configurationList.postValue(it)

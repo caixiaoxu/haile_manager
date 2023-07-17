@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.data.entities
 import android.text.TextUtils
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.data.common.RechargeType
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import java.util.*
 
@@ -34,21 +35,7 @@ data class HaixinRechargeAccountDetailEntity(
     val userId: Int
 ) {
 
-    fun getMainRes(): Int {
-        var mainRes: Int
-        if (100 == type) {
-            mainRes = R.mipmap.icon_haixin_recharge_list_main
-        } else {
-            mainRes = R.mipmap.icon_haixin_expense
-        }
-
-        if (104 == subType || 203 == subType) {
-            mainRes = R.mipmap.icon_haixin_refund
-        } else if (202 == subType) {
-            mainRes = R.mipmap.icon_haixin_recycle
-        }
-        return mainRes
-    }
+    fun getMainRes(): Int = RechargeType.getMainRes(type, subType)
 
     fun timeStr(): String = DateTimeUtils.formatDateTimeForStr(createTime, "MM/dd HH:mm:ss")
 

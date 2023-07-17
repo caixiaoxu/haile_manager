@@ -27,7 +27,10 @@ import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 
 class SubAccountDetailActivity :
-    BaseBusinessActivity<ActivitySubAccountDetailBinding, SubAccountDetailViewModel>(SubAccountDetailViewModel::class.java,BR.vm) {
+    BaseBusinessActivity<ActivitySubAccountDetailBinding, SubAccountDetailViewModel>(
+        SubAccountDetailViewModel::class.java,
+        BR.vm
+    ) {
 
     companion object {
         const val UserId = "userId"
@@ -147,7 +150,11 @@ class SubAccountDetailActivity :
                             )
                         }
                     } else {
-                        mViewModel.deleteSubAccount(this@SubAccountDetailActivity,category.settingId)
+                        LiveDataBus.post(BusEvents.SUB_ACCOUNT_LIST_STATUS, true)
+                        mViewModel.deleteSubAccount(
+                            this@SubAccountDetailActivity,
+                            category.settingId
+                        )
                     }
                 }
             }

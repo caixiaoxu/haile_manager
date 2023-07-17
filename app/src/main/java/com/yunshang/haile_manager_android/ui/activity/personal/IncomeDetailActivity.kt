@@ -1,6 +1,5 @@
 package com.yunshang.haile_manager_android.ui.activity.personal
 
-import android.content.ClipboardManager
 import android.view.View
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R

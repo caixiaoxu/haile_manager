@@ -1,6 +1,5 @@
 package com.yunshang.haile_manager_android.ui.activity.recharge
 
-import android.Manifest
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -10,7 +9,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.FileUtils
 import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.SystemPermissionHelper
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.HaiXinRechargeConfigsViewModel
@@ -18,7 +19,6 @@ import com.yunshang.haile_manager_android.databinding.ActivityHaixinRechargeConf
 import com.yunshang.haile_manager_android.databinding.IncludePersonalItemBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.SharedBottomDialog
-import com.lsy.framelib.utils.FileUtils
 import com.yunshang.haile_manager_android.utils.QrcodeUtils
 import com.yunshang.haile_manager_android.utils.WeChatHelper
 
@@ -29,12 +29,13 @@ class HaiXinRechargeConfigsActivity :
     ) {
 
     // 权限
-    private val requestPermission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
-            if (result) {
+    private val requestPermissions =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
+            if (result.values.any { it }) {
                 showRefundQrCode()
             } else {
-                SToast.showToast(this, R.string.empty_permission)
+                // 授权失败
+                SToast.showToast(this@HaiXinRechargeConfigsActivity, R.string.empty_permission)
             }
         }
 
@@ -72,7 +73,7 @@ class HaiXinRechargeConfigsActivity :
                 mPersonalItemBinding.item = item
                 mPersonalItemBinding.root.setOnClickListener {
                     if (item.icon == R.mipmap.icon_refund_qrcode_main) {
-                        requestPermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        requestPermissions.launch(SystemPermissionHelper.readWritePermissions())
                     } else {
                         item.clz?.let {
                             startActivity(

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.FragmentManager
 import com.lsy.framelib.utils.AppManager
 import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.SystemPermissionHelper
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
 import com.yunshang.haile_manager_android.databinding.DialogUpdateAppBinding
@@ -77,10 +78,8 @@ class UpdateAppDialog private constructor(private val builder: Builder) :
         }
         mBinding.btnUpdateAppYes.setOnClickListener {
             requestPermissions.launch(
-                arrayOf(
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.REQUEST_INSTALL_PACKAGES
-                )
+                SystemPermissionHelper.readWritePermissions()
+                    .plus(SystemPermissionHelper.installPackagesPermissions())
             )
         }
     }

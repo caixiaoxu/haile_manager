@@ -59,8 +59,6 @@
                     app:itemContent="@{vm.payCode}"
                     app:tailDrawable="@mipmap/icon_device_scan"
                     app:title="@string/pay_code"
-                    app:titleDrawableEnd="@mipmap/icon_item_required"
-                    app:titleDrawablePadding="4dp"
                     app:type="info" />
 
                 <View
@@ -74,8 +72,6 @@
                     app:itemContent="@{vm.imeiCode}"
                     app:tailDrawable="@mipmap/icon_device_scan"
                     app:title="@string/imei"
-                    app:titleDrawableEnd="@mipmap/icon_item_required"
-                    app:titleDrawablePadding="4dp"
                     app:type="info" />
 
                 <View

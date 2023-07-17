@@ -101,7 +101,7 @@
 
     <string name="home_func_title">功能管理</string>
     <string name="device_manager">设备管理</string>
-    <string name="device_search_hint">搜索设备名称</string>
+    <string name="device_search_hint">搜索设备名称/模块编码 (IMEI）</string>
     <string name="department">所属门店</string>
     <string name="department_empty">请先选择门店</string>
     <string name="device_category">设备类型</string>
@@ -377,6 +377,7 @@
     <string name="check_order_detail">查看订单详情</string>
     <string name="pay_time">支付时间</string>
     <string name="settlement_time">结算时间</string>
+    <string name="account_balance">账户余额</string>
     <string name="income_detail">收入详情</string>
     <string name="withdraw_detail">提现详情</string>
     <string name="pay_account">支付账号</string>

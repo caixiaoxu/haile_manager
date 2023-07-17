@@ -113,7 +113,7 @@ class SearchActivity :
                         itemBinding.name = searchParam.keyword
                         itemBinding.root.id = index + 1
                         itemBinding.root.setOnClickListener {
-                            mViewModel.searchKey.value = searchParam.keyword
+                            mViewModel.searchKey.value = searchParam.keyword.trim()
                             search()
                         }
                         mBinding.clSearchHistory.addView(itemBinding.root)
@@ -177,7 +177,7 @@ class SearchActivity :
             mBinding.rvSearchList2.requestRefresh(false)
         }
         // 保留历史
-        val keyword = mViewModel.searchKey.value
+        val keyword = mViewModel.searchKey.value?.trim()
         if (!keyword.isNullOrEmpty()) {
             val list = SPRepository.searchHistory ?: mutableListOf()
             list.find { item -> item.type == mViewModel.searchType && item.keyword == keyword }

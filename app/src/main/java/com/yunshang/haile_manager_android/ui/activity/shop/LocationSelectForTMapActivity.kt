@@ -11,6 +11,7 @@ import android.os.Message
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.utils.SystemPermissionHelper
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.tencent.map.geolocation.TencentLocation
 import com.tencent.map.geolocation.TencentLocationListener
@@ -40,13 +41,10 @@ class LocationSelectForTMapActivity :
         BR.vm
     ), LocationSource, TencentLocationListener {
 
-    private val permissions = arrayOf(
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.READ_PHONE_STATE,
-    )
+    private val permissions = SystemPermissionHelper.locationPermissions()
+        .plus(SystemPermissionHelper.readWritePermissions()).plus(
+            SystemPermissionHelper.phoneStatePermissions()
+        )
 
     private val mHandler = Handler(Looper.getMainLooper()) {
         (it.obj as? Location)?.let { location ->

@@ -15,6 +15,7 @@ import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.lsy.framelib.ui.base.activity.BaseBindingActivity
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.SystemPermissionHelper
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.databinding.ActivityDevicePayCodeBinding
 import com.yunshang.haile_manager_android.utils.BitmapUtils
@@ -27,10 +28,9 @@ class DevicePayCodeActivity : BaseBindingActivity<ActivityDevicePayCodeBinding>(
     }
 
     // 权限
-    private val requestPermission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
-            if (result) {
-                // 授权权限成功
+    private val requestPermissions =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
+            if (result.values.any { it }) {
                 save()
             } else {
                 // 授权失败
@@ -57,7 +57,7 @@ class DevicePayCodeActivity : BaseBindingActivity<ActivityDevicePayCodeBinding>(
                 mBinding.ivDevicePayCode.setImageBitmap(bitmap)
                 //点击保存
                 mBinding.btnDevicePayCodeSave.setOnClickListener {
-                    requestPermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    requestPermissions.launch(SystemPermissionHelper.readWritePermissions())
                 }
             }
         }

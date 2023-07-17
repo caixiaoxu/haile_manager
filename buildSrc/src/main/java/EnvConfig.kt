@@ -9,8 +9,9 @@
  * 作者姓名 修改时间 版本号 描述
  */
 object EnvConfig {
-    const val HTTP_BASE_DEBUG = "\"http://192.168.5.20:9083\""
-    const val HTTP_BASE_RELEASE = "\"https://yshz-merchant.haier-ioc.com\""
+    //    const val HTTP_BASE_DEBUG = "\"http://192.168.5.130:9083\""
+    const val HTTP_BASE_RELEASE = "\"https://pre-merchant.haier-ioc.com\""
+    const val HTTP_BASE_DEBUG = "\"http://192.168.5.130:9083\""
 
     const val H5_WORK_OREDER_DEBUG = "\"http://115.238.82.114:1409\""
     const val H5_WORK_OREDER_RELEASE = "\"https://taskflow.haier-ioc.com\""

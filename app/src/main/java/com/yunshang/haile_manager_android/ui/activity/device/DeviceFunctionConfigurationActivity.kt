@@ -41,7 +41,7 @@ class DeviceFunctionConfigurationActivity :
     }
 
     private val mAdapter by lazy {
-        if (DeviceCategory.isDryer(mViewModel.categoryCode)) {
+        if (DeviceCategory.isDryerOrHair(mViewModel.categoryCode)) {
             val itemDryerHeight =
                 DimensionUtils.dip2px(this@DeviceFunctionConfigurationActivity, 54f)
 
@@ -50,6 +50,10 @@ class DeviceFunctionConfigurationActivity :
             ) { mBinding, pos, item ->
                 mBinding?.tvDeviceFunConfigurationIndex?.text =
                     StringUtils.getString(R.string.device_func_configuration_title, pos + 1)
+
+                // 吹风机隐藏描述
+                mBinding?.mtivDeviceFunConfigurationDesc?.visibility =
+                    if (DeviceCategory.isHair(mViewModel.categoryCode)) View.GONE else View.VISIBLE
 
                 mBinding?.llDeviceFunConfigurationDryerTime?.removeAllViews()
                 if (!item.extAttrValue.isNullOrEmpty()) {
@@ -79,7 +83,13 @@ class DeviceFunctionConfigurationActivity :
                         )
                     }
                 }
-
+                mBinding?.mtivDeviceFunConfigurationDryerTime?.mTitleView?.setText(
+                    if (DeviceCategory.isHair(mViewModel.categoryCode)) {
+                        R.string.hair_time
+                    } else {
+                        R.string.dryer_time
+                    }
+                )
                 mBinding?.mtivDeviceFunConfigurationDryerTime?.onSelectedEvent = {
                     if (item.extAttrValue.isNullOrEmpty()) {
                         item.extAttrValue =

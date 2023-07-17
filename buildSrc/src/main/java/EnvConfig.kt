@@ -9,8 +9,13 @@
  * 作者姓名 修改时间 版本号 描述
  */
 object EnvConfig {
-    const val HTTP_BASE_DEBUG = "\"https://pre-merchant.haier-ioc.com\""
-//    const val HTTP_BASE_DEBUG = "\"http://192.168.5.130:9083\""
+    // 测试
+    const val HTTP_BASE_DEBUG = "\"http://192.168.5.130:9083\""
+
+    // 预生产
+    const val HTTP_BASE_PRE = "\"https://pre-merchant.haier-ioc.com\""
+
+    // 生产
     const val HTTP_BASE_RELEASE = "\"https://yshz-merchant.haier-ioc.com\""
 
     const val H5_WORK_OREDER_DEBUG = "\"http://115.238.82.114:1409\""
@@ -20,7 +25,4 @@ object EnvConfig {
     const val SERVICE_CHECK_RELEASE = "\"https://state.haier-ioc.com/mms\""
 
     const val PRIVACY_POLICY = "\"https://h5.haier-ioc.com/#/pages/private/appPrivate\""
-
-    const val TEST_ACCOUNT = "\"13067949521\""
-    const val TEST_PWD = "\"Ko7Ir9\""
 }

@@ -128,6 +128,7 @@
     <string name="model_name">模式名称</string>
     <string name="wash_time">洗涤时间</string>
     <string name="dryer_time">烘干时间</string>
+    <string name="hair_time">吹风时间</string>
     <string name="wash_money">洗涤费用</string>
     <string name="pulse_count">脉冲数</string>
     <string name="desc">描述信息</string>

@@ -214,7 +214,11 @@ class DeviceCreateActivity :
                     mFuncConfigBinding?.let {
                         mFuncConfigBinding.item = config
                         mFuncConfigBinding.isDryer =
-                            DeviceCategory.isDryer(mViewModel.deviceCategoryCode)
+                            DeviceCategory.isDryerOrHair(mViewModel.deviceCategoryCode)
+                        mFuncConfigBinding.deviceCommunicationType =
+                            mViewModel.deviceCommunicationType
+                        mFuncConfigBinding.tvSelectFuncConfigurationFeature.visibility =
+                            if (DeviceCategory.isHair(mViewModel.deviceCategoryCode)) View.GONE else View.VISIBLE
                         mBinding.llDeviceCreateSelectFunConfiguration.addView(
                             mFuncConfigBinding.root,
                             LinearLayout.LayoutParams(

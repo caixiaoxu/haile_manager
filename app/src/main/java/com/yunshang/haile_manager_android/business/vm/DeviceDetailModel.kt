@@ -1,7 +1,6 @@
 package com.yunshang.haile_manager_android.business.vm
 
 import android.view.View
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
@@ -14,6 +13,7 @@ import com.yunshang.haile_manager_android.data.arguments.ItemShowParam
 import com.yunshang.haile_manager_android.data.entities.DeviceAdvancedSettingEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -80,30 +80,27 @@ class DeviceDetailModel : BaseViewModel() {
     /**
      * 获取设备的操作区域配置
      */
-    fun getDeviceDetailFunOperate(
-        hasReStart: LiveData<Boolean>,// 是否有重启权限
-        hasStart: LiveData<Boolean>,// 是否有启动权限
-        hasClean: LiveData<Boolean>,// 是否有桶自洁权限
-        hasPayCode: LiveData<Boolean>,// 是否有付款码权限
-        hasUpdate: LiveData<Boolean>,// 是否有修改权限
-        hasAppointment: LiveData<Boolean> //是否有预约权限
-    ): ArrayList<ItemShowParam> = arrayListOf(
+    val deviceDetailFunOperate: ArrayList<ItemShowParam> = arrayListOf(
         ItemShowParam(
             StringUtils.getString(R.string.restart),
             R.mipmap.icon_device_restart,
-            hasReStart
+            MutableLiveData(UserPermissionUtils.hasDeviceResetPermission())
         ) {
             //复位事件
             deviceOperate(0)
         },
-        ItemShowParam(StringUtils.getString(R.string.start), R.mipmap.icon_device_start, hasStart) {
+        ItemShowParam(
+            StringUtils.getString(R.string.start),
+            R.mipmap.icon_device_start,
+            MutableLiveData(UserPermissionUtils.hasDeviceStartPermission())
+        ) {
             //启动事件
             jump.postValue(2)
         },
         ItemShowParam(
             StringUtils.getString(R.string.self_clean),
             R.mipmap.icon_device_self_clean,
-            hasClean
+            MutableLiveData(UserPermissionUtils.hasDeviceCleanPermission())
         ) {
             //桶自洁事件
             deviceOperate(1)
@@ -119,7 +116,7 @@ class DeviceDetailModel : BaseViewModel() {
         ItemShowParam(
             StringUtils.getString(R.string.change_pay_code),
             R.mipmap.icon_device_change_pay_code,
-            hasPayCode
+            MutableLiveData(UserPermissionUtils.hasDeviceQrcodePermission())
         ) {
             //付款码更换事件
             jump.postValue(4)
@@ -127,7 +124,7 @@ class DeviceDetailModel : BaseViewModel() {
         ItemShowParam(
             StringUtils.getString(R.string.create_pay_code),
             R.mipmap.icon_device_create_pay_code,
-            hasPayCode
+            MutableLiveData(UserPermissionUtils.hasDeviceQrcodePermission())
         ) {
             //生成付款码事件
             jump.postValue(6)
@@ -135,7 +132,7 @@ class DeviceDetailModel : BaseViewModel() {
         ItemShowParam(
             StringUtils.getString(R.string.update_func_price),
             R.mipmap.icon_device_update,
-            hasUpdate
+            MutableLiveData(UserPermissionUtils.hasDeviceUpdatePermission())
         ) {
             //修改功能价格事件
             jump.postValue(1)
@@ -143,7 +140,7 @@ class DeviceDetailModel : BaseViewModel() {
         ItemShowParam(
             StringUtils.getString(R.string.update_device_name),
             R.mipmap.icon_device_update,
-            hasUpdate
+            MutableLiveData(UserPermissionUtils.hasDeviceUpdatePermission())
         ) {
             //修改设备名称事件
             jump.postValue(5)
@@ -158,7 +155,7 @@ class DeviceDetailModel : BaseViewModel() {
         ItemShowParam(
             StringUtils.getString(R.string.device_appointment_setting),
             R.mipmap.icon_device_device_appointment_setting,
-            hasAppointment
+            MutableLiveData(UserPermissionUtils.hasDeviceAppointmentPermission())
         ) {
             //预约设置事件
             jump.postValue(7)

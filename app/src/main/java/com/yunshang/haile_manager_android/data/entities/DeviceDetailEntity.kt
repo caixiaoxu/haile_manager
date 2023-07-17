@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.data.entities
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 
 /**
  * Title :
@@ -115,13 +116,13 @@ data class Item(
     /**
      * 根据型号区分配置内容
      */
-    fun getConfigurationStr(isDryer: Boolean): String =
+    fun getConfigurationStr(communicationType: Int, isDryer: Boolean): String =
         if (isDryer) {
             GsonUtils.json2List(extAttr, ExtAttrBean::class.java)?.joinToString("\n") {
                 getSpec(
                     if (0.0 == it.price) "" else it.price.toString(),
                     if (0 == it.minutes) "" else it.minutes.toString(),
-                    if (0 == it.pulse) "" else it.pulse.toString()
+                    if (0 == it.pulse || !DeviceCategory.isPulseDevice(communicationType)) "" else it.pulse.toString()
                 )
             } ?: ""
         } else {

@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.data.entities
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.rule.IMultiSelectBottomItemEntity
 
 /**
@@ -199,10 +200,14 @@ data class SkuFuncConfigurationParam(
     /**
      * 根据型号区分配置内容
      */
-    fun getConfigurationStr(isDryer: Boolean): String =
+    fun getConfigurationStr(communicationType: Int, isDryer: Boolean): String =
         if (isDryer) {
             GsonUtils.json2List(extAttr, ExtAttrBean::class.java)?.joinToString("\n") {
-                getConfigStr(it.price, it.minutes, it.pulse)
+                getConfigStr(
+                    it.price,
+                    it.minutes,
+                    if (!DeviceCategory.isPulseDevice(communicationType)) 0 else it.pulse
+                )
             } ?: ""
         } else {
             getConfigStr(price, unit, pulse)

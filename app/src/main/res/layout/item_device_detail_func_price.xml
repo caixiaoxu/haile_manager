@@ -10,6 +10,10 @@
             type="java.lang.Boolean" />
 
         <variable
+            name="deviceCommunicationType"
+            type="java.lang.Integer" />
+
+        <variable
             name="item"
             type="com.yunshang.haile_manager_android.data.entities.Item" />
     </data>
@@ -36,7 +40,7 @@
             style="@style/Font_14_333333"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{item.getConfigurationStr(isDryer)}"
+            android:text="@{item.getConfigurationStr(deviceCommunicationType,isDryer)}"
             app:layout_constraintEnd_toStartOf="@id/tv_fun_price_status"
             app:layout_constraintStart_toEndOf="@id/tv_fun_price_title"
             app:layout_constraintTop_toTopOf="parent"
@@ -59,8 +63,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{item.feature}"
-            app:layout_constraintStart_toStartOf="@id/tv_fun_price_spec"
             app:layout_constraintEnd_toEndOf="@id/tv_fun_price_spec"
+            app:layout_constraintStart_toStartOf="@id/tv_fun_price_spec"
             app:layout_constraintTop_toBottomOf="@id/tv_fun_price_spec"
             tools:text="描述信息" />
     </androidx.constraintlayout.widget.ConstraintLayout>

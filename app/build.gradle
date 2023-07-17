@@ -132,5 +132,4 @@ dependencies {
     implementation(ThirdLibs.jsBridge) {
         exclude group: 'com.github.lzyzsd.jsbridge', module: 'jsbridge-debug'
     }
-
 }

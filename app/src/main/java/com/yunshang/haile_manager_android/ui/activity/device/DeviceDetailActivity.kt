@@ -122,6 +122,14 @@ class DeviceDetailActivity :
                 }
             }
 
+            // 吹风机不显示桶自洁
+            if (DeviceCategory.isHair(detail.categoryCode)) {
+                mViewModel.deviceDetailFunOperate.find { item -> item.icon == R.mipmap.icon_device_self_clean }
+                    ?.let { item ->
+                        item.show.value = false
+                    }
+            }
+
             mBinding.llDeviceDetailFuncPrice.removeAllViews()
             detail?.items?.forEachIndexed { index, item ->
                 val itemBinding = LayoutInflater.from(this@DeviceDetailActivity)
@@ -130,7 +138,11 @@ class DeviceDetailActivity :
                     }
                 itemBinding?.let {
                     itemBinding.item = item
-                    itemBinding.isDryer = DeviceCategory.isDryer(detail.categoryCode)
+                    itemBinding.isDryer = DeviceCategory.isDryerOrHair(detail.categoryCode)
+                    itemBinding.deviceCommunicationType =
+                        detail.communicationType
+                    itemBinding.tvFunPriceDesc.visibility =
+                        if (DeviceCategory.isHair(detail.categoryCode)) View.GONE else View.VISIBLE
                     mBinding.llDeviceDetailFuncPrice.addView(
                         itemBinding.root, LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -298,14 +310,7 @@ class DeviceDetailActivity :
         val itemW = ScreenUtils.screenWidth / mBinding.glDeviceDetailFunc.columnCount
         val pLR = DimensionUtils.dip2px(this, 8f)
         val pTB = DimensionUtils.dip2px(this, 16f)
-        mViewModel.getDeviceDetailFunOperate(
-            mSharedViewModel.hasDeviceResetPermission,
-            mSharedViewModel.hasDeviceStartPermission,
-            mSharedViewModel.hasDeviceCleanPermission,
-            mSharedViewModel.hasDeviceQrcodePermission,
-            mSharedViewModel.hasDeviceUpdatePermission,
-            mSharedViewModel.hasDeviceAppointmentPermission,
-        ).forEachIndexed { index, config ->
+        mViewModel.deviceDetailFunOperate.forEachIndexed { index, config ->
             (LayoutInflater.from(this@DeviceDetailActivity)
                 .inflate(R.layout.item_device_detail_func, null, false) as AppCompatTextView).also {
                 it.text = config.title

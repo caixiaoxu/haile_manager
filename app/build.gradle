@@ -43,7 +43,7 @@ android {
         debug {
 //            applicationIdSuffix ".debug"
 //            versionNameSuffix '.debug'
-            buildConfigField "String", "BASE_URL", EnvConfig.HTTP_BASE_PRE
+            buildConfigField "String", "BASE_URL", EnvConfig.HTTP_BASE_DEBUG
             buildConfigField "String", "H5_WORK_ORDER", EnvConfig.H5_WORK_OREDER_DEBUG
             buildConfigField "String", "PRIVACY_POLICY", EnvConfig.PRIVACY_POLICY
             buildConfigField "String", "SERVICE_CHECK", EnvConfig.SERVICE_CHECK_DEBUG

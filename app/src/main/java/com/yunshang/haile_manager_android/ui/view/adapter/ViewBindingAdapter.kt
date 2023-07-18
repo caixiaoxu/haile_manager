@@ -79,7 +79,7 @@ object ViewBindingAdapter {
             Glide.with(this).load(url).fitCenter().into(this)
         }
         imgHeadUrl?.let {
-            GlideUtils.loadImage(this, url)
+            GlideUtils.loadImage(this, imgHeadUrl)
         }
     }
 

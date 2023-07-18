@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="shared"
+            type="com.yunshang.haile_manager_android.business.vm.SharedViewModel" />
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.DeviceDetailModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/page_bg"
+        tools:context=".ui.activity.device.DeviceDetailActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_device_detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:rightModel="text"
+            app:title="@string/device_detail" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginVertical="8dp"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toTopOf="@id/view_device_detail_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bar_device_detail_title"
+            app:layout_constraintVertical_bias="0.0">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="16dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_device_detail_main"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon_device_detail_main"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_detail_name"
+                        style="@style/Font_16_333333_bold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="@{vm.name}"
+                        app:layout_constraintEnd_toStartOf="@id/switch_device_detail_open"
+                        app:layout_constraintStart_toEndOf="@id/iv_device_detail_main"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="海尔智能洗衣机" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_detail_status"
+                        style="@style/Font_10_f0a258"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:background="@{vm.isOpen?@drawable/shape_s26f0a258_r4:@drawable/shape_sf7f7f7_r4}"
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="2dp"
+                        android:text="@{vm.isOpen?@string/in_use:@string/out_of_service}"
+                        android:textColor="@{vm.isOpen?@color/colorPrimary:@color/common_txt_color}"
+                        app:layout_constraintStart_toStartOf="@id/tv_device_detail_name"
+                        app:layout_constraintTop_toBottomOf="@id/tv_device_detail_name"
+                        tools:text="已停用" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_detail_error"
+                        style="@style/font_10_fc7f6f"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:background="@drawable/shape_s26fc7f6f_r4"
+                        android:paddingHorizontal="4dp"
+                        android:paddingVertical="2dp"
+                        android:text="@{vm.deviceDetail.getReason}"
+                        android:visibility="@{(0 == vm.deviceDetail.getReason().length)?View.GONE:View.VISIBLE}"
+                        app:layout_constraintStart_toEndOf="@id/tv_device_detail_status"
+                        app:layout_constraintTop_toTopOf="@id/tv_device_detail_status"
+                        tools:text="排水异常0401" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_device_detail_open"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:checked="@{1 == vm.deviceDetail.soldState}"
+                        android:onCheckedChanged="@{(v,isCheck)->vm.switchDevice(isCheck)}"
+                        android:thumb="@drawable/selector_default_switch_thumb"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:track="@drawable/selector_default_switch_track" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_14_333333_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr12"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="16dp"
+                        android:text="@string/func_operate" />
+
+                    <GridLayout
+                        android:id="@+id/gl_device_detail_func"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:columnCount="4" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_14_333333_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:background="@color/white"
+                        android:drawableEnd="@{vm.showFuncPrice?@drawable/icon_arrow_down_with_padding:@drawable/icon_arrow_right_with_padding}"
+                        android:gravity="center_vertical"
+                        android:onClick="@{vm::changeShowFuncPrice}"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="8dp"
+                        android:text="@string/func_price" />
+
+                    <View
+                        style="@style/DividingStyle"
+                        android:visibility="@{vm.showFuncPrice?View.VISIBLE:View.GONE}" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_device_detail_func_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="12dp"
+                        android:background="@drawable/shape_sf7f7f7_r8"
+                        android:orientation="vertical"
+                        android:visibility="@{vm.showFuncPrice?View.VISIBLE:View.GONE}" />
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_14_333333_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:background="@color/white"
+                        android:drawableEnd="@{vm.showInfo?@drawable/icon_arrow_down_with_padding:@drawable/icon_arrow_right_with_padding}"
+                        android:gravity="center_vertical"
+                        android:onClick="@{vm::changeShowInfo}"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="8dp"
+                        android:text="@string/device_base_info" />
+
+                    <View
+                        style="@style/DividingStyle"
+                        android:visibility="@{vm.showInfo?View.VISIBLE:View.GONE}" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/ll_device_detail_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="@{vm.showInfo?View.VISIBLE:View.GONE}"
+                        app:divider="@drawable/divder_efefef_size_half"
+                        app:dividerPadding="12dp"
+                        app:showDividers="middle">
+
+                        <include
+                            layout="@layout/item_device_detail_base_info"
+                            app:content="@{vm.deviceDetail.name}"
+                            app:show="@{vm.deviceDetail.hasName}"
+                            app:showCopy="@{false}"
+                            app:title="@{vm.deviceDetail.getNameTitle}" />
+
+                        <include
+                            layout="@layout/item_device_detail_base_info"
+                            app:content='@{vm.deviceDetail.qrId +""}'
+                            app:show="@{vm.deviceDetail.hasQrId}"
+                            app:showCopy="@{true}"
+                            app:title="@{vm.deviceDetail.getQrIdTitle}" />
+
+                        <include
+                            layout="@layout/item_device_detail_base_info"
+                            app:content="@{vm.deviceDetail.shopName}"
+                            app:show="@{vm.deviceDetail.hasShop}"
+                            app:showCopy="@{false}"
+                            app:title="@{vm.deviceDetail.getShopTitle}" />
+
+                        <include
+                            layout="@layout/item_device_detail_base_info"
+                            app:content="@{vm.deviceDetail.categoryName}"
+                            app:show="@{vm.deviceDetail.hasCategory}"
+                            app:showCopy="@{false}"
+                            app:title="@{vm.deviceDetail.getCategoryTitle}" />
+
+                        <include
+                            layout="@layout/item_device_detail_base_info"
+                            app:content="@{vm.deviceDetail.spuName}"
+                            app:show="@{vm.deviceDetail.hasModel}"
+                            app:showCopy="@{false}"
+                            app:title="@{vm.deviceDetail.getModelTitle}" />
+
+                        <include
+                            layout="@layout/item_device_detail_base_info"
+                            app:content="@{vm.deviceDetail.getCommunicationTypeStr}"
+                            app:show="@{vm.deviceDetail.hasCommunicationType}"
+                            app:showCopy="@{false}"
+                            app:title="@{vm.deviceDetail.getCommunicationTypeTitle}" />
+
+                        <include
+                            layout="@layout/item_device_detail_base_info"
+                            app:content="@{vm.deviceDetail.company}"
+                            app:show="@{vm.deviceDetail.hasCompany}"
+                            app:showCopy="@{false}"
+                            app:title="@{vm.deviceDetail.getCompanyTitle}" />
+
+                        <include
+                            layout="@layout/item_device_detail_base_info"
+                            app:content="@{vm.code}"
+                            app:show="@{vm.deviceDetail.hasPayCode}"
+                            app:showCopy="@{false}"
+                            app:title="@{vm.deviceDetail.getPayCodeTitle}" />
+
+                        <include
+                            layout="@layout/item_device_detail_base_info"
+                            app:content="@{vm.imei}"
+                            app:show="@{vm.deviceDetail.hasImeiCode}"
+                            app:showCopy="@{true}"
+                            app:title="@{vm.deviceDetail.getImeiTitle}" />
+
+                        <include
+                            layout="@layout/item_device_detail_base_info"
+                            app:content="@{vm.deviceDetail.creatorName}"
+                            app:show="@{vm.deviceDetail.hasCreator}"
+                            app:showCopy="@{false}"
+                            app:title="@{vm.deviceDetail.getCreatorTitle}" />
+
+                        <include
+                            layout="@layout/item_device_detail_base_info"
+                            app:content="@{vm.deviceDetail.createTime}"
+                            app:show="@{vm.deviceDetail.hasCreateTime}"
+                            app:showCopy="@{false}"
+                            app:title="@{vm.deviceDetail.getCreateTimeTitle}" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <View
+            android:id="@+id/view_device_detail_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="99dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btn_device_detail_delete"
+            style="@style/StrokeBtnStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/delete"
+            android:visibility="@{shared.hasDeviceDeletePermission?View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toEndOf="@id/view_device_detail_bottom"
+            app:layout_constraintTop_toTopOf="@id/view_device_detail_bottom" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,556 @@
+<resources>
+    <string name="app_name">海乐管家</string>
+
+    <string name="sure">确定</string>
+    <string name="submit">提交</string>
+    <string name="save">保存</string>
+    <string name="please_input">请输入</string>
+    <string name="please_select">请选择</string>
+    <string name="cancel">取消</string>
+    <string name="delete">删除</string>
+    <string name="delete_success">删除成功</string>
+    <string name="edit">编辑</string>
+    <string name="out_of_service">已停用</string>
+    <string name="enabled">已启用</string>
+    <string name="in_use">启用中</string>
+    <string name="finish">完成</string>
+    <string name="online">在线</string>
+    <string name="offline">离线</string>
+    <string name="break_down">故障</string>
+    <string name="break_down_type">故障类型</string>
+    <string name="break_down_desc">故障描述</string>
+    <string name="search">搜索</string>
+    <string name="update">修改</string>
+    <string name="copy">复制</string>
+    <string name="can_appointment">可预约</string>
+    <string name="cant_appointment">不可预约</string>
+    <string name="scan_add">扫码添加</string>
+    <string name="update_success">修改成功</string>
+    <string name="update_failure">修改失败</string>
+    <string name="upload_failure">上传失败</string>
+    <string name="save_to_local">保存到本地</string>
+    <string name="shared_to">分享至</string>
+    <string name="save_to_album">保存到相册</string>
+    <string name="send_to_wechat">发送到微信</string>
+    <string name="status">状态</string>
+    <string name="operate">操作</string>
+    <string name="for_take">拍照</string>
+    <string name="for_album">相册</string>
+    <string name="withdraw">提现</string>
+    <string name="withdraw_success">提现成功</string>
+    <string name="type">类型</string>
+    <string name="all">全部</string>
+    <string name="open">开启</string>
+    <string name="close">关闭</string>
+    <string name="refuse">拒绝</string>
+    <string name="agree">同意</string>
+    <string name="i_know">知道了</string>
+    <string name="enable">启用</string>
+    <string name="disEnable">停用</string>
+    <string name="tip">提示</string>
+    <string name="search_history">搜索历史</string>
+
+    <string name="empty_content">暂无内容信息</string>
+    <string name="empty_device">暂无设备信息</string>
+
+    <string name="login_name">登录</string>
+    <string name="login_account_password">账号密码登录</string>
+    <string name="login_phone_login">手机号登录</string>
+    <string name="login_app_type">商家端</string>
+    <string name="login_phone_tag">中国（+86）</string>
+    <string name="login_phone_hint">请输入手机号</string>
+    <string name="login_password_hint">请输入密码</string>
+    <string name="login_password_tag">忘记密码？</string>
+    <string name="login_code_hint">请输入验证码</string>
+    <string name="login_code_send">获取验证码</string>
+    <string name="reset_login_password">重置登录密码</string>
+    <string name="login_old_password_hint">请输入旧密码</string>
+    <string name="login_new_password_hint">请输入新密码（6–12位数字或字母）</string>
+    <string name="login_new_password_again_hint">请再次输入新密码</string>
+
+    <string name="agreement_hint">根据国家法律法规的要求，我们更新了《隐私政策》，帮助您了解我们收集、使用、存储和共享个人信息的情况，特别是我们所采集的个人信息类型及用途，同时您还可以了解到您所共享的相关权利和实现途径，以及我们为了保护好您的个人信息安全所采取的相关策略。</string>
+    <string name="login_agreement_hint">已阅读并同意《隐私协议》</string>
+
+    <string name="main_tab_home">首页</string>
+    <string name="statistics">统计</string>
+    <string name="data_statistics">数据统计</string>
+    <string name="day_data">日数据</string>
+    <string name="week_data">周数据</string>
+    <string name="month_data">月数据</string>
+    <string name="year_data">年数据</string>
+    <string name="data_order_num">订单量</string>
+    <string name="data_revenue">收益</string>
+    <string name="data_active_user">活跃用户量</string>
+    <string name="data_add_user">新增用户量</string>
+    <string name="data_active_device">活跃设备数</string>
+    <string name="data_device_frequency">设备频次</string>
+    <string name="more_statistics">更多统计</string>
+    <string name="data_detail">数据详情</string>
+    <string name="indicator_specification">指标说明</string>
+    <string name="indicator_specification_content">订单量：门店实际订单总数量（含海星订单量）\n\n收益：用户实际支付的金额（含购买海星和平台补贴金额）\n\n活跃用户量：下单的用户数量(不含海星订单)\n\n新增用户量：新注册的用户数量\n\n活跃设备数：产生订单交易的设备数量\n\n设备频次：每台设备平均使用次数"</string>
+
+    <string name="message_center">消息中心</string>
+    <string name="message_setting">消息设置</string>
+    <string name="clean_unread">一键已读</string>
+    <string name="message_click_hint">点击查看设备详情，并获取更多操作。</string>
+    <string name="go_update">前往更新</string>
+    <string name="message_empty">暂无消息</string>
+
+    <string name="home_income_title">今日收益</string>
+    <string name="home_trend_title">收益趋势</string>
+
+    <string name="home_func_title">功能管理</string>
+    <string name="device_manager">设备管理</string>
+    <string name="signal">信号</string>
+    <string name="device_category_no">设备类型/编号</string>
+    <string name="device_no">设备编号</string>
+    <string name="device_search_hint">搜索设备名称/模块编码 (IMEI）</string>
+    <string name="department">所属门店</string>
+    <string name="department_empty">请先选择门店</string>
+    <string name="device_category">设备类型</string>
+    <string name="device_model">设备型号</string>
+    <string name="device_model_empty">请先选择设备型号</string>
+    <string name="network_status">网络状态</string>
+    <string name="device_status">设备状态</string>
+    <string name="add_device">添加设备</string>
+    <string name="device_num_hint">全部%1$d台设备</string>
+    <string name="device_model_search_hint">搜索设备型号</string>
+    <string name="device_info">设备信息</string>
+    <string name="pay_code">付款码</string>
+    <string name="imei">IMEI</string>
+    <string name="imei_title">模块编码（IMEI）</string>
+    <string name="device_name">设备名称</string>
+    <string name="fun_configure">功能配置</string>
+    <string name="scan_hint">扫描模块上的二维码</string>
+    <string name="no_configure">未配置</string>
+    <string name="configured">已配置</string>
+    <string name="pay_code_error">该付款码无效</string>
+    <string name="imei_code_error">该IMEI码无效</string>
+    <string name="imei_code_error1">请扫描正确的IMEI</string>
+    <string name="device_func_configuration_title">功能配置%1$d</string>
+    <string name="model_name">模式名称</string>
+    <string name="wash_time">洗涤时间</string>
+    <string name="dryer_time">烘干时间</string>
+    <string name="hair_time">吹风时间</string>
+    <string name="wash_money">洗涤费用</string>
+    <string name="pulse_count">脉冲数</string>
+    <string name="desc">描述信息</string>
+    <string name="money">金额</string>
+    <string name="dryer_time_title">选择烘干时间（可多选）</string>
+    <string name="search_device_hint">请输入设备型号/名称</string>
+    <string name="device_detail">设备详情</string>
+    <string name="advanced_setup">高级设置</string>
+    <string name="advanced_params_setup">高级参数设置</string>
+    <string name="func_operate">功能操作</string>
+    <string name="restart">复位</string>
+    <string name="restart_dialog_title">请选择复位的通道</string>
+    <string name="restart_success">复位成功</string>
+    <string name="start">启动</string>
+    <string name="start_success">启动成功</string>
+    <string name="self_clean">桶自洁</string>
+    <string name="change_model">更换模块</string>
+    <string name="change_pay_code">付款码更换</string>
+    <string name="create_pay_code">生成付款码</string>
+    <string name="update_func_price">修改功能价格</string>
+    <string name="update_device_name">修改设备名称</string>
+    <string name="device_transfer">设备转移</string>
+    <string name="device_appointment_setting">预约设置</string>
+    <string name="func_price">功能价格</string>
+    <string name="func_price_item1">%1$s：%2$s元/%3$s分钟</string>
+    <string name="func_price_item2">%1$s：%2$s元/%3$s分钟/%4$s个脉冲</string>
+    <string name="device_base_info">设备基础信息</string>
+    <string name="communication_type">通信类型</string>
+    <string name="serial_port">串口</string>
+    <string name="pulse">脉冲</string>
+    <string name="company">公司</string>
+    <string name="device_start">设备启动</string>
+    <string name="device_start_hint">设备如果正在运行当中请先复位后再启动设备</string>
+    <string name="wash_model">洗衣模式</string>
+    <string name="model">模式</string>
+    <string name="wash">洗衣</string>
+    <string name="shoes">洗鞋</string>
+    <string name="dryer">烘干</string>
+    <string name="hair">吹风</string>
+    <string name="water">饮水</string>
+    <string name="dispenser">投放</string>
+    <string name="wash_model_hint">请选择洗衣模式</string>
+    <string name="update_imei_title">新模块信息录入</string>
+    <string name="update_pay_code_title">新付款码信息录入</string>
+    <string name="update_name_title">设备名称录入</string>
+    <string name="update_imei_hint">请扫描添加新的模块</string>
+    <string name="update_pay_code_hint">请扫描添加新的付款码</string>
+    <string name="update_name_hint">请输入新的设备名称</string>
+    <string name="update_imei_desc">模块编码会以二维码的形式贴在模块上，找到后扫描可获取模块的IMEI编码信息。</string>
+    <string name="update_pay_code_desc">付款码会以二维码的形式张贴在设备显示面板附近，用户扫描付款码进行下单洗衣等操作。</string>
+    <string name="update_name_desc">设备名称与线下洗衣设备张贴的物料编号最好保持一致，出现问题方便运维人员快速找到设备。</string>
+    <string name="device_delete_hint">是否确定要删除该设备么？</string>
+    <string name="open_success">开启成功</string>
+    <string name="close_success">关闭成功</string>
+
+    <string name="shop_manager">门店管理</string>
+    <string name="add_shop">添加门店</string>
+    <string name="shop_search_hint">搜索门店名称</string>
+    <string name="shop_num_hint">全部%1$d家门店</string>
+    <string name="total_income">总收入</string>
+    <string name="total_earnings">总收益</string>
+    <string name="device_num">设备数</string>
+    <string name="shop_info">门店信息</string>
+    <string name="shop_name">门店名称</string>
+    <string name="shop_type">门店类型</string>
+    <string name="school_name">学校名称</string>
+    <string name="area">所在区域</string>
+    <string name="mansion">小区/大厦</string>
+    <string name="location_detail">详细位置</string>
+    <string name="location_floor">楼栋/楼层</string>
+    <string name="business_hours">营业时间</string>
+    <string name="business_phone">客服电话</string>
+    <string name="income_type">收支类型</string>
+    <string name="business_type">业务类型</string>
+    <string name="business_type_title">选择业务类型</string>
+    <string name="school">学校</string>
+    <string name="input_school_hint">请输入学校名称</string>
+    <string name="input_location_hint">请输入您的详细地址</string>
+    <string name="area_select_title">请选择所在地区</string>
+    <string name="location_select">地址选择</string>
+    <string name="select_province">请选择省</string>
+    <string name="select_city">请选择市</string>
+    <string name="select_district">请选择区/县</string>
+    <string name="shop_detail">门店详情</string>
+    <string name="shop_base_info">门店基础信息</string>
+    <string name="creator">创建人</string>
+    <string name="create_time">创建时间</string>
+    <string name="appointment">预约</string>
+    <string name="appointment_status">预约状态</string>
+    <string name="appointment_setting">预约设置</string>
+    <string name="copy_phone">复制手机号</string>
+    <string name="copy_success">已复制到贴粘板</string>
+    <string name="search_shop_hint">请输入门店名称</string>
+    <string name="shop_delete_hint">是否确定要删除该门店么？</string>
+
+    <string name="order_manager">订单管理</string>
+    <string name="order_search_hint">搜索手机号或订单编号</string>
+    <string name="order_num_hint">全部%1$d笔订单</string>
+    <string name="order_time">下单时间</string>
+    <string name="real_income">实收：</string>
+    <string name="order_specs">"%1$s %2$d分钟 ￥%3$s"</string>
+    <string name="order_detail">订单详情</string>
+    <string name="compensate">补偿</string>
+    <string name="refund">退款</string>
+    <string name="copy_order_no">复制订单号</string>
+    <string name="total_amount">总金额：</string>
+    <string name="need_pay">需支付：</string>
+    <string name="have_paid">已支付：</string>
+    <string name="order_time_title">下单时间：</string>
+    <string name="model_of_payment">支付方式</string>
+    <string name="no_of_payment">支付单号</string>
+    <string name="time_of_payment">支付时间</string>
+    <string name="reason_for_refund">退款原因：</string>
+    <string name="refund_amount">退款金额：</string>
+    <string name="refund_haixin">退款海星：</string>
+    <string name="refund_time">退款时间</string>
+    <string name="operator">操作人员：</string>
+    <string name="refund_order_no">退款单号：</string>
+    <string name="refund_hint">发起退款后订单金额会按原路径返回到用户付款账户，确定要发起退款么？</string>
+    <string name="refund_success">退款成功</string>
+    <string name="compensate_coupon">补偿优惠券</string>
+    <string name="coupon_info">券信息</string>
+    <string name="coupon_amount">券面额</string>
+    <string name="coupon_type">券类型</string>
+    <string name="coupon_condition">满减条件</string>
+    <string name="coupon_shop">适用门店</string>
+    <string name="coupon_device_type">适用设备类型</string>
+    <string name="indate">有效期</string>
+    <string name="indate_unit">天内有效</string>
+    <string name="compensate_num">补偿数量</string>
+    <string name="num_unit">张</string>
+    <string name="full_discount_coupon">满减券</string>
+    <string name="full_discount_coupon_default">满0可用</string>
+    <string name="appointment_order">预约订单</string>
+    <string name="cancel_order">取消订单</string>
+    <string name="cancel_order_hint">请输入取消原因</string>
+    <string name="appoint_time">预约时间</string>
+    <string name="cancel_appoint_reason">取消原因</string>
+    <string name="appoint_dealLine">请在 %1$s 使用</string>
+
+    <string name="staff_manager">人员管理</string>
+    <string name="add_staff">添加人员</string>
+    <string name="create_staff">新增人员</string>
+    <string name="staff_info">人员信息</string>
+    <string name="name">姓名</string>
+    <string name="phone">手机号</string>
+    <string name="role">角色</string>
+    <string name="role_type">角色类型</string>
+    <string name="take_charge_shop">负责门店</string>
+    <string name="take_charge_shop1">负责的门店</string>
+    <string name="permission">权限</string>
+    <string name="permission_config">权限配置</string>
+    <string name="permission_info">权限信息</string>
+    <string name="select_all">全选</string>
+    <string name="no_select_all">全不选</string>
+    <string name="add_success">增加成功</string>
+    <string name="update_take_charge_shop">修改负责门店</string>
+    <string name="update_permission">编辑权限</string>
+    <string name="delete_staff">删除人员</string>
+    <string name="work_order_manager">工单管理</string>
+
+    <string name="home_marketing_title">营销中心</string>
+    <string name="discount_manager">折扣优惠</string>
+    <string name="discount_time_title">特惠时间：%s</string>
+    <string name="add_config">添加配置</string>
+    <string name="new_config">新增配置</string>
+    <string name="config_info">配置信息</string>
+    <string name="active_day_model">活动模式</string>
+    <string name="active_day">活动日</string>
+    <string name="active_time_frame">活动时段</string>
+    <string name="discount_value_title">折扣优惠（折）</string>
+    <string name="discount_detail">特惠详情</string>
+    <string name="discount_base_info">特惠基础信息</string>
+    <string name="allow_refund">允许退款</string>
+
+    <string name="haixin_manager">海星管理</string>
+    <string name="recharge_config">充值配置</string>
+    <string name="recharge_total">充值总额</string>
+    <string name="scheme_config">方案配置</string>
+    <string name="add_scheme">新增方案</string>
+    <string name="update_scheme">修改方案</string>
+    <string name="recharge_accounts">充值用户</string>
+    <string name="refund_record">退款记录</string>
+    <string name="refund_qrcode">退款二维码</string>
+    <string name="recharge_qrcode">充值二维码</string>
+    <string name="haixin_recharge">海星充值</string>
+    <string name="err_not_install_wechat">请先安装微信</string>
+    <string name="success_album_hint">已保存至相册...</string>
+    <string name="scheme_info">方案信息</string>
+    <string name="scheme_config_index">方案%1$d</string>
+    <string name="scheme_config_title">满%1$.2f元赠送%2$.2f元</string>
+    <string name="scheme_config_create_title">海星充值方案配置</string>
+    <string name="scheme_name">方案名称</string>
+    <string name="hai_xin">海星</string>
+    <string name="scheme_config_delete_hint">是否确定要删除该方案么？</string>
+    <string name="empty_scheme_name">请输入方案名称</string>
+    <string name="empty_scheme_shop">请选择适用门店</string>
+    <string name="empty_scheme_list">至少开启一个方案，并输入金额 </string>
+    <string name="recharge_detail">充值明细</string>
+    <string name="recharge_account_search_hint">搜索手机号</string>
+    <string name="recharge_account_num_hint">全部%1$d人</string>
+    <string name="detail">明细</string>
+    <string name="recycler">回收</string>
+    <string name="user_detail">用户明细</string>
+    <string name="haixin_recycle">海星回收</string>
+    <string name="haixin_recycle_reach_title">回收充值海星</string>
+    <string name="haixin_recycle_reward_title">回收赠送海星</string>
+    <string name="user_phone">用户手机号</string>
+    <string name="user_account">用户账户</string>
+    <string name="maximum_recycle">最多回收</string>
+    <string name="recycle_success">回收成功</string>
+    <string name="recharge_success">充值成功</string>
+    <string name="wait_pay">待支付</string>
+    <string name="apply_time">申请时间</string>
+    <string name="refuse_refund">拒绝退款</string>
+    <string name="refuse_refund_input_hint">请输入拒绝的原因</string>
+    <string name="go_recharge">去充值</string>
+
+    <string name="home_capital_title">资金管理</string>
+    <string name="sub_account_manager">分账管理</string>
+    <string name="sub_account_shop">分账门店</string>
+    <string name="sub_account_info">分账信息</string>
+    <string name="sub_account_account">分账账号</string>
+    <string name="sub_account_ratio">分账比例（%）</string>
+    <string name="active_date">生效日</string>
+    <string name="sub_account_detail">分账详情</string>
+    <string name="sub_account_person">分账人员</string>
+    <string name="item_sub_account_shop_title">分账门店：%1$s（%2$s）</string>
+
+    <string name="home_msg_title">最近消息</string>
+    <string name="home_msg_num">条新消息</string>
+    <string name="search_order_hint">请输入订单编号或手机号</string>
+
+    <string name="date_time_title">请选择时间</string>
+    <string name="to">至</string>
+
+    <string name="main_tab_personal">我的</string>
+    <string name="admin">管理员</string>
+    <string name="personal_info">个人信息</string>
+    <string name="update_head">修改头像</string>
+    <string name="change_role">切换角色</string>
+    <string name="select_role_title">请选择角色</string>
+
+    <string name="wallet">钱包余额</string>
+    <string name="wallet_withdraw">余额提现</string>
+    <string name="my_change">我的零钱</string>
+    <string name="balance">余额</string>
+    <string name="balance_detail">余额明细</string>
+    <string name="income">收入明细</string>
+    <string name="earning">收入</string>
+    <string name="expend">支出</string>
+    <string name="shop">门店</string>
+    <string name="order_no">订单编号</string>
+    <string name="total_income_for_day">%1$s总收入：</string>
+    <string name="earnings_detail">收益详情</string>
+    <string name="check_order_detail">查看订单详情</string>
+    <string name="pay_time">支付时间</string>
+    <string name="settlement_time">结算时间</string>
+    <string name="account_balance">账户余额</string>
+    <string name="income_detail">收入详情</string>
+    <string name="withdraw_detail">提现详情</string>
+    <string name="pay_account">支付账号</string>
+    <string name="reach_starfish">充值海星</string>
+    <string name="reward_starfish">赠送海星</string>
+    <string name="user_account_no">用户账号</string>
+    <string name="cash_out_no">提现单号</string>
+    <string name="service_charge">手续费</string>
+    <string name="rate">费率</string>
+    <string name="cash_out_amount">提现金额</string>
+    <string name="cash_out_time">提现时间</string>
+    <string name="cash_out_bank">提现银行</string>
+    <string name="cash_out_way">提现方式</string>
+    <string name="business_name">业务名称</string>
+    <string name="remark">备注</string>
+    <string name="time">时间</string>
+    <string name="sub_account_time">分账时间</string>
+    <string name="sub_account_order_no">分账单号</string>
+    <string name="withdraw_record">提现记录</string>
+    <string name="roll_out_to">转出到</string>
+    <string name="empty_alipay_account_hint">请先绑定支付宝账号</string>
+    <string name="alipay_withdraw_input_hint">可提现金额%1$s元</string>
+    <string name="alipay_withdraw_hint">每日可提现额度为%1$s元</string>
+    <string name="bind_alipay_account">绑定支付宝账号</string>
+    <string name="bind_alipay">绑定支付宝</string>
+    <string name="bind_alipay_sms_hint">请输入短信验证码，以验证身份。</string>
+    <string name="alipay_accout">支付宝账号</string>
+    <string name="alipay_accout_hint">请输入支付宝账号</string>
+    <string name="alipay_name_hint">支付宝认证名称</string>
+    <string name="err_sms_code">请输入正确的验证码</string>
+    <string name="bind_success">绑定成功</string>
+    <string name="verify_time">审核时间</string>
+    <string name="wechat_accout">微信账号</string>
+    <string name="to_account_of_way">到账方式</string>
+    <string name="to_account_account">到账账号</string>
+    <string name="failure_reason">失败原因</string>
+    <string-array name="withdraw_type_arr">
+        <item></item>
+        <item>支付宝</item>
+        <item>微信</item>
+        <item>银行卡</item>
+    </string-array>
+    <string-array name="withdraw_status_arr">
+        <item>待审核</item>
+        <item>提现中</item>
+        <item>提现成功</item>
+        <item>提现失败</item>
+        <item>提现失败</item>
+    </string-array>
+    <string name="recharge">充值</string>
+    <string name="recharge_amount">充值金额</string>
+    <string name="reward_amount">赠送金额</string>
+    <string name="amount_hint">请输入金额</string>
+    <string name="alipay">支付宝</string>
+    <string name="wechat">微信</string>
+    <string name="pay_now">立即支付</string>
+    <string name="result_fellback">结果反馈</string>
+    <string name="pay_success">支付成功</string>
+    <string name="pay_success_hint">恭喜您支付成功，请前往钱包余额查看</string>
+
+    <string name="bank_card">银行卡</string>
+    <string name="real_name">实名认证</string>
+    <string name="auth_info">认证信息</string>
+    <string name="id_card">身份证</string>
+    <string name="company_name">公司名称</string>
+    <string name="company_id">社会信用代码</string>
+    <string name="id_card_number">身份证号</string>
+    <string name="indate_type">有效期类型</string>
+    <string name="id_card_indate">身份证有效期</string>
+    <string name="update_data">修改资料</string>
+    <string name="submit_data">提交资料</string>
+    <string name="empty_id_card_name">请输入身份证姓名</string>
+    <string name="empty_id_card_no">请输入身份证号码</string>
+    <string name="empty_id_card_front">请上传身份证人像面照片</string>
+    <string name="empty_id_card_back">请上传身份证国徽面照片</string>
+    <string name="empty_company_license">请上传营业执照照片</string>
+    <string name="empty_id_card_indate_type">请选择身份证有效时间类型</string>
+    <string name="empty_id_card_indate">请选择身份证有效时间</string>
+    <string name="empty_company_name">请输入公司名</string>
+    <string name="empty_company_usci">请输入社会信用代码</string>
+    <string-array name="verify_status_arr">
+        <item>未认证</item>
+        <item>审核中</item>
+        <item>认证成功</item>
+        <item>认证失败</item>
+    </string-array>
+    <string-array name="verify_type_arr">
+        <item>个人</item>
+        <item>企业</item>
+        <item>个体工商记</item>
+    </string-array>
+    <string-array name="indate_type_arr">
+        <item>短期有效</item>
+        <item>长期有效</item>
+    </string-array>
+
+    <string name="setting">设置</string>
+    <string name="change_password">修改密码</string>
+    <string name="change_login_password">修改登录密码</string>
+
+    <string name="privacy_policy">隐私政策</string>
+    <string name="version">版本信息</string>
+    <string name="version_update">版本更新</string>
+    <string name="update_now">立即更新</string>
+    <string name="cancel_account">注销账号</string>
+    <string name="cancel_account_hint">注销后您的身份、账户信息、钱包余额、订单信息等都会被清空且无法找回请谨慎操作。</string>
+    <string name="cancel_account_sure">确定注销</string>
+    <string name="cancel_account_cancel">我再想想</string>
+    <string name="current_version">当前版本</string>
+    <string name="new_version">发现新版本</string>
+    <string name="update_version_title">新版本%1$s主要更新内容</string>
+    <string name="update_content">更新内容</string>
+    <string name="reject">不同意</string>
+    <string name="in_prepare">准备中</string>
+    <string name="click_update">点击升级</string>
+
+    <string name="change_account">切换账号</string>
+    <string name="cur_account">当前登录</string>
+
+    <string name="logout">退出登录</string>
+    <string name="refresh_list">刷新列表</string>
+
+    <string name="start_time">开始时间</string>
+    <string name="end_time">结束时间</string>
+
+    <string name="unit_yuan">元</string>
+    <string name="unit_tai">台</string>
+    <string name="unit_folds">折</string>
+    <string name="unit_ge">个</string>
+    <string name="num_folds">%1$s折</string>
+    <string name="unit_minute_hint">（分）</string>
+    <string name="unit_yuan_hint">（元）</string>
+    <string name="unit_ge_hint">（个）</string>
+    <string name="unit_pulse_hint">（脉冲）</string>
+    <string name="unit_minute_num">%1$d分钟</string>
+    <string name="unit_device_configuration_hint1">%1$.2f元/%2$d分钟</string>
+    <string name="unit_device_configuration_hint2">%1$.2f元/%2$d分钟/%3$d个脉冲</string>
+    <string name="unit_device_configuration_hint3">%1$s元/%2$s分钟</string>
+    <string name="unit_device_configuration_hint4">%1$s元/%2$s分钟/%3$s个脉冲</string>
+
+    <string name="permission_err_order_info">该账号没有查看订单详情的权限</string>
+    <string name="update_empty_hint">请输入内容</string>
+    <string name="month_empty_date">当月暂无数据</string>
+    <string name="role_list_empty">当前帐户没有其他角色</string>
+    <string name="unit_money">¥</string>
+    <string name="withdraw_err_no_real_name_auth">当前账户未进行实名认证，暂时不能提现。提现绑定账号必须先实名认证</string>
+    <string name="empty_params">参数为空</string>
+    <string name="err_request">请求失败</string>
+    <string name="err_pay">支付失败</string>
+
+    <string name="empty_permission">需要授权才能继续操作</string>
+    <string name="err_save_file">文件保存失败</string>
+
+    <string-array name="week_arr">
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+        <item>周日</item>
+    </string-array>
+</resources>

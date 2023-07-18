@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.SubAccountCreateViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context=".ui.activity.subAccount.SubAccountCreateActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_sub_account_create_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            app:title="@string/add_config" />
+
+        <View style="@style/DividingStyle" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Font_12_999999"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:text="@string/sub_account_info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_sub_account_create_account"
+                    style="@style/MultiTypeItemStyle"
+                    android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
+                    android:visibility="@{-1 != vm.userId?View.GONE:View.VISIBLE}"
+                    app:itemContent="@{vm.subAccount.realName}"
+                    app:showArrow="true"
+                    app:title="@string/sub_account_account"
+                    app:titleW="114dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_sub_account_create_business_type"
+                    style="@style/MultiTypeItemStyle"
+                    android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
+                    android:visibility="@{-1 != vm.userId?View.GONE:View.VISIBLE}"
+                    app:itemContent="@{vm.businessType.title}"
+                    app:showArrow="true"
+                    app:title="@string/business_type"
+                    app:titleW="114dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_sub_account_create_device_category"
+                    style="@style/MultiTypeItemStyle"
+                    android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
+                    android:visibility="@{(null == vm.businessType || -1 != vm.userId)?View.GONE:View.VISIBLE}"
+                    app:itemContent="@{vm.deviceCategoryVal}"
+                    app:showArrow="true"
+                    app:title="@string/device_category"
+                    app:titleW="114dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_sub_account_create_shop"
+                    style="@style/MultiTypeItemStyle"
+                    android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
+                    android:visibility="@{-1 != vm.userId?View.GONE:View.VISIBLE}"
+                    app:itemContent="@{vm.subAccountShopsVal}"
+                    app:showArrow="true"
+                    app:title="@string/sub_account_shop"
+                    app:titleW="114dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_sub_account_create_radio"
+                    style="@style/MultiTypeItemStyle"
+                    android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
+                    android:inputType="numberDecimal"
+                    android:maxLength="3"
+                    android:maxLines="1"
+                    app:itemContent="@={vm.subAccountRatio}"
+                    app:title="@string/sub_account_ratio"
+                    app:titleW="114dp"
+                    app:type="input" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_sub_account_create_active_date"
+                    style="@style/MultiTypeItemStyle"
+                    android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
+                    app:itemContent="@{vm.effectiveDateVal}"
+                    app:showArrow="true"
+                    app:title="@string/active_date"
+                    app:titleW="114dp"
+                    app:type="info" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
+            android:id="@+id/btn_shop_create_submit"
+            style="@style/CommonMatchBtnStyle1"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginBottom="42dp"
+            android:enabled="@{vm.canSubmit}"
+            android:onClick="@{vm::submit}"
+            android:text="@string/save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="MissingConstraints" />
+    </LinearLayout>
+</layout>

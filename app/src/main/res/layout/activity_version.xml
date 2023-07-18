@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.VersionViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:context=".ui.activity.personal.VersionActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_version_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@color/white"
+            app:title="@string/version_update" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="90dp"
+            android:src="@mipmap/icon_version_main" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_16_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@{(vm.appVersion.needUpdate || vm.appVersion.forceUpdate)?vm.appVersion.getVersionVal:vm.curVersion}"
+            tools:text="发现新版本V1.0.0" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_16_333333_bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="88dp"
+            android:paddingHorizontal="22dp"
+            android:text="@{vm.appVersion.getUpdateTitle}"
+            android:visibility="@{(vm.appVersion.needUpdate || vm.appVersion.forceUpdate)?View.VISIBLE:View.GONE}"
+            tools:text="发现新版本V1.0.0" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_14_666666"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:paddingHorizontal="22dp"
+            android:text="@{vm.appVersion.updateLog}"
+            android:visibility="@{(vm.appVersion.needUpdate || vm.appVersion.forceUpdate)?View.VISIBLE:View.GONE}"
+            tools:text="1.修复已知问题。\n2.具体内容信息排列" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="94dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingHorizontal="14dp"
+            android:paddingTop="8dp"
+            android:visibility="@{(vm.appVersion.needUpdate || vm.appVersion.forceUpdate)?View.VISIBLE:View.GONE}">
+
+            <com.lsy.framelib.ui.weight.SingleTapButton
+                android:id="@+id/btn_version_update"
+                style="@style/CommonMatchBtnStyle1"
+                android:layout_width="match_parent"
+                android:text="@string/update_now"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btn_withdraw_dialog_no" />
+
+            <ProgressBar
+                android:id="@+id/pb_version_update_progress"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:minHeight="7dp"
+                android:progressDrawable="@drawable/update_progress"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_update_progress_value"
+                style="@style/Font_10_999999"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                tools:text="12Mb/36Mb" />
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

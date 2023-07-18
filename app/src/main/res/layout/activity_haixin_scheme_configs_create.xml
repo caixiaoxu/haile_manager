@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.HaiXinSchemeConfigsCreateViewModel" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/page_bg"
+        android:orientation="vertical"
+        app:divider="@drawable/divide_size8"
+        app:showDividers="middle"
+        tools:context=".ui.activity.recharge.HaiXinSchemeConfigsCreateActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_scheme_create_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@color/white"
+            app:title="@string/add_scheme" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:divider="@drawable/divide_size8"
+                android:paddingBottom="20dp"
+                app:showDividers="middle">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_scheme_configs_create_title"
+                        style="@style/Font_16_333333_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="16dp"
+                        android:text="@string/scheme_config_create_title"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        style="@style/DividingStyle"
+                        android:layout_marginHorizontal="16dp"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_scheme_configs_create_title"
+                        tools:ignore="MissingConstraints" />
+
+                    <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                        android:id="@+id/item_scheme_name"
+                        style="@style/MultiTypeItemStyle"
+                        app:itemContent="@={vm.createUpdateParams.configName}"
+                        app:layout_constraintTop_toBottomOf="@id/tv_scheme_configs_create_title"
+                        app:title="@string/scheme_name"
+                        app:titleW="114dp"
+                        app:type="input"
+                        tools:ignore="MissingConstraints" />
+
+                    <View
+                        style="@style/DividingStyle"
+                        android:layout_marginHorizontal="16dp"
+                        app:layout_constraintBottom_toBottomOf="@id/item_scheme_name"
+                        tools:ignore="MissingConstraints" />
+
+                    <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                        android:id="@+id/item_scheme_shop"
+                        style="@style/MultiTypeItemStyle"
+                        app:itemContent="@{vm.selectShop.name}"
+                        app:layout_constraintTop_toBottomOf="@id/item_scheme_name"
+                        app:showArrow="true"
+                        app:title="@string/coupon_shop"
+                        app:titleW="114dp"
+                        app:type="info"
+                        tools:ignore="MissingConstraints" />
+
+                    <View
+                        style="@style/DividingStyle"
+                        android:layout_marginHorizontal="16dp"
+                        app:layout_constraintBottom_toBottomOf="@id/item_scheme_shop"
+                        tools:ignore="MissingConstraints" />
+
+                    <androidx.appcompat.widget.AppCompatCheckedTextView
+                        android:id="@+id/tv_scheme_allow_refund"
+                        style="@style/Font_16_333333"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="16dp"
+                        android:text="@string/allow_refund"
+                        app:layout_constraintTop_toBottomOf="@id/item_scheme_shop" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_scheme_detail_open"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:checked="@{1 == vm.createUpdateParams.isAllowRefund}"
+                        android:onCheckedChanged="@{(v,isCheck)->vm.switchSchemeOpen(isCheck)}"
+                        android:thumb="@drawable/selector_default_switch_thumb"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_scheme_allow_refund"
+                        app:layout_constraintEnd_toEndOf="@id/tv_scheme_allow_refund"
+                        app:layout_constraintTop_toTopOf="@id/tv_scheme_allow_refund"
+                        app:track="@drawable/selector_default_switch_track" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+                    android:id="@+id/ll_scheme_create_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:divider="@drawable/divide_size8"
+                    app:itemLayout="@layout/item_scheme_config_create"
+                    app:showDividers="middle" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.core.widget.NestedScrollView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="94dp"
+            android:background="@color/white"
+            android:paddingTop="8dp">
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_scheme_config_submit"
+                style="@style/CommonMatchBtnStyle1"
+                android:layout_marginHorizontal="14dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="42dp"
+                android:onClick="@{vm::schemeConfigSubmit}"
+                android:text="@string/save" />
+        </FrameLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

@@ -1,0 +1,135 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+
+android {
+    namespace AndroidConfig.namespace
+    compileSdk AndroidConfig.compileSdk
+
+    defaultConfig {
+        applicationId AndroidConfig.defaultConfig.applicationId
+        minSdk AndroidConfig.defaultConfig.minSdk
+        targetSdk AndroidConfig.defaultConfig.targetSdk
+        versionCode AndroidConfig.defaultConfig.versionCode
+        versionName AndroidConfig.defaultConfig.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "HaileManager_${AndroidConfig.defaultConfig.versionName}_debug.apk"
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('haile-manager.jks')
+            storePassword 'yunshang123'
+            keyAlias = 'business'
+            keyPassword 'yunshang123'
+        }
+        release {
+            storeFile file('haile-manager.jks')
+            storePassword 'yunshang123'
+            keyAlias = 'business'
+            keyPassword 'yunshang123'
+        }
+    }
+
+    buildTypes {
+        debug {
+//            applicationIdSuffix ".debug"
+//            versionNameSuffix '.debug'
+            buildConfigField "String", "BASE_URL", EnvConfig.HTTP_BASE_DEBUG
+            buildConfigField "String", "H5_WORK_ORDER", EnvConfig.H5_WORK_OREDER_DEBUG
+            buildConfigField "String", "PRIVACY_POLICY", EnvConfig.PRIVACY_POLICY
+            buildConfigField "String", "SERVICE_CHECK", EnvConfig.SERVICE_CHECK_DEBUG
+            buildConfigField "Integer", "MAP_TYPE", "1"// 定义地图，0高德，1腾讯
+
+            zipAlignEnabled true // Zipalign优化
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+        release {
+            buildConfigField "String", "BASE_URL", EnvConfig.HTTP_BASE_RELEASE
+            buildConfigField "String", "H5_WORK_ORDER", EnvConfig.H5_WORK_OREDER_RELEASE
+            buildConfigField "String", "PRIVACY_POLICY", EnvConfig.PRIVACY_POLICY
+            buildConfigField "String", "SERVICE_CHECK", EnvConfig.SERVICE_CHECK_RELEASE
+            buildConfigField "Integer", "MAP_TYPE", "1"// 定义地图，0高德，1腾讯
+
+//            shrinkResources true // 移出无用的res文件
+            zipAlignEnabled true // Zipalign优化
+            minifyEnabled false // 开始混淆（混淆配置有问题，后面处理）
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    viewBinding {
+        enabled = true
+    }
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+
+    implementation ThirdLibs.core_ktx
+    implementation ThirdLibs.appcompat
+    implementation ThirdLibs.material
+    implementation ThirdLibs.constraintlayout
+
+    implementation project(':CoreLibModules:framelib')
+
+    testImplementation TestLibs.junit
+    androidTestImplementation TestLibs.test_ext
+    androidTestImplementation TestLibs.espresso
+
+    implementation ThirdLibs.retrofit2
+    implementation ThirdLibs.ktx_coroutines
+    implementation ThirdLibs.viewmodel_ktx
+
+    implementation ThirdLibs.glide
+    implementation ThirdLibs.gson
+
+    implementation ThirdLibs.timber
+
+    implementation ThirdLibs.mpAndroid
+
+    implementation ThirdLibs.wheelView
+
+    implementation ThirdLibs.smartRefresh
+    implementation ThirdLibs.smartRefresh_ClassHeader
+
+    implementation ThirdLibs.amap2d
+    implementation ThirdLibs.amapLocation
+    implementation ThirdLibs.amapSearch
+
+    implementation ThirdLibs.tMap
+    implementation ThirdLibs.tMapLocation
+
+    implementation ThirdLibs.indicator
+
+    implementation ThirdLibs.zxing_embedded
+
+    implementation ThirdLibs.picture_selector
+    implementation ThirdLibs.picture_compress
+    implementation ThirdLibs.picture_ucrop
+
+    implementation ThirdLibs.alipay
+    implementation ThirdLibs.wechat
+
+    implementation(ThirdLibs.jsBridge) {
+        exclude group: 'com.github.lzyzsd.jsbridge', module: 'jsbridge-debug'
+    }
+}

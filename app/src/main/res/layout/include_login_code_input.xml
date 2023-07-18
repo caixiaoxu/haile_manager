@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="code"
+            type="androidx.lifecycle.MutableLiveData&lt;String>" />
+
+        <variable
+            name="sendCode"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <merge>
+        <LinearLayout
+            style="@style/LoginItem"
+            tools:showIn="@layout/activity_login_for_phone">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                style="@style/Input_14_333333_cccccc"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:inputType="numberDecimal"
+                android:background="@color/transparent"
+                android:hint="@string/login_code_hint"
+                android:text="@={code}" />
+
+            <com.lsy.framelib.ui.weight.SingleTapButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:textAllCaps="false"
+                android:onClick="@{sendCode}"
+                android:text="@string/login_code_send"
+                android:textColor="@color/common_txt_color"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </merge>
+</layout>

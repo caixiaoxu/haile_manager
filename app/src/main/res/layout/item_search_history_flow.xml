@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="name"
+            type="java.lang.String" />
+    </data>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/Font_12_333333"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_sefefef_r14"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="4dp"
+        android:text="@{name}"
+        tools:text="一号门店23423423423" />
+</layout>

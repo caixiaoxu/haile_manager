@@ -1,0 +1,7 @@
+/build
+/androidTest
+/androidTest/*
+/test
+/test/*
+/debug
+/release

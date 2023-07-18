@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="title"
+            type="java.lang.String" />
+        <variable
+            name="value"
+            type="java.lang.String" />
+        <variable
+            name="mStart"
+            type="java.lang.Float" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_order_detail_total_amount_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Font_14_999999"
+            android:text="@{title}"
+            tools:text="总金额：" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_order_detail_total_amount"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@{value}"
+            android:layout_height="wrap_content"
+            app:marginStart="@{mStart}"
+            style="@style/Font_14_333333"
+            tools:text="¥3" />
+    </LinearLayout>
+</layout>

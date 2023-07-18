@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.DataStatisticsShopListEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_sffffff_r8">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_data_statistics_item_title"
+            style="@style/Font_14_333333_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:text="@{item.shopName}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1号店铺" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_data_statistics_item_more"
+            style="@style/Font_12_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/icon_arrow_right"
+            android:drawablePadding="8dp"
+            android:padding="12dp"
+            android:text="@string/more_statistics"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/include_data_statistics_items"
+            layout="@layout/layout_data_statistics_items"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_item_title" />
+
+        <View
+            style="@style/DividingStyle"
+            app:layout_constraintBottom_toBottomOf="@id/tv_data_statistics_item_title"
+            tools:ignore="MissingConstraints" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

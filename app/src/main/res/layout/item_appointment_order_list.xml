@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.yunshang.haile_manager_android.data.arguments.OrderParam" />
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.OrderListEntity" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingHorizontal="16dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_order_list_no_date"
+            style="@style/Font_14_999999"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:gravity="center_vertical"
+            android:text='@{item.buyerPhone + " | " + item.createTime}'
+            app:layout_constraintEnd_toStartOf="@id/tv_order_list_status"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="18814822697 | 2018-06-12 11:08:00" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_order_list_status"
+            style="@style/Font_14_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:drawableEnd="@drawable/icon_arrow_right"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:text="@{OrderParam.getAppointStateName(item.appointmentState)}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_order_list_no_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_order_list_no_date"
+            tools:text="待支付" />
+
+        <View
+            style="@style/DividingStyle"
+            app:layout_constraintBottom_toBottomOf="@id/tv_order_list_no_date"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_order_list_device_name"
+            style="@style/Font_16_333333_bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@{item.deviceName}"
+            app:layout_constraintTop_toBottomOf="@id/tv_order_list_no_date"
+            tools:text="1号洗衣机" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_order_list_shop"
+            style="@style/Font_14_999999"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@{item.shopName}"
+            app:layout_constraintTop_toBottomOf="@id/tv_order_list_device_name"
+            tools:text="浙大紫金港校区3区4号店铺" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ll_order_list_specs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:divider="@drawable/divide_size4"
+            app:layout_constraintTop_toBottomOf="@id/tv_order_list_shop"
+            app:showDividers="beginning|middle" />
+
+        <View
+            android:id="@+id/view_order_list_bottom_space"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            app:layout_constraintTop_toBottomOf="@id/ll_order_list_specs" />
+
+        <View
+            android:id="@+id/view_order_list_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_order_list_bottom_space" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_order_list_cancel"
+            style="@style/CommonStrokeTxtBtnStyle"
+            android:layout_height="33dp"
+            android:text="@string/cancel_order"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/view_order_list_bottom"
+            app:layout_constraintEnd_toEndOf="@id/view_order_list_bottom"
+            app:layout_constraintTop_toTopOf="@id/view_order_list_bottom" />
+
+        <View
+            android:id="@+id/view_order_list_bottom_split"
+            style="@style/DividingStyle"
+            app:layout_constraintTop_toTopOf="@id/view_order_list_bottom"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="@{1 == item.appointmentState?View.VISIBLE:View.GONE}"
+            app:constraint_referenced_ids="view_order_list_bottom,tv_order_list_cancel,view_order_list_bottom_split" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

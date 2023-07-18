@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="phone"
+            type="androidx.lifecycle.MutableLiveData&lt;String>" />
+
+    </data>
+
+    <merge
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout style="@style/LoginItem">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_phone_tag"
+                style="@style/Font_14_333333" />
+
+            <com.yunshang.haile_manager_android.ui.view.PhoneEditText
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:inputType="phone"
+                android:text="@={phone}"
+                style="@style/Input_14_333333_cccccc"
+                android:hint="@string/login_phone_hint"
+                android:background="@color/transparent" />
+
+        </LinearLayout>
+    </merge>
+</layout>

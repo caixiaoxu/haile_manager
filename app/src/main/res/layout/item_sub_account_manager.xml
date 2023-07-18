@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.SubAccountEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_sffffff_r8"
+        android:padding="12dp">
+
+        <com.yunshang.haile_manager_android.ui.view.CircleImageView
+            android:id="@+id/iv_sub_account_manager_head"
+            imgUrl="@{item.avatar}"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_sub_account_manager_name"
+            style="@style/Font_14_333333_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@{item.name}"
+            app:layout_constraintBottom_toTopOf="@id/tv_sub_account_manager_account"
+            app:layout_constraintStart_toEndOf="@id/iv_sub_account_manager_head"
+            app:layout_constraintTop_toTopOf="@id/iv_sub_account_manager_head"
+            tools:text="张三" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_sub_account_manager_account"
+            style="@style/Font_12_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@{item.account}"
+            app:layout_constraintBottom_toBottomOf="@id/iv_sub_account_manager_head"
+            app:layout_constraintStart_toEndOf="@id/iv_sub_account_manager_head"
+            app:layout_constraintTop_toBottomOf="@id/tv_sub_account_manager_name"
+            tools:text="18888888888" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_sub_account_manager_shop_num_title"
+            style="@style/Font_14_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sub_account_shop"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_sub_account_manager_shop_num"
+            app:layout_constraintEnd_toStartOf="@id/tv_sub_account_manager_shop_num"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_sub_account_manager_shop_num"
+            style="@style/Font_14_333333_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:paddingTop="8dp"
+            android:text='@{item.count + ""}'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_sub_account_manager_shop_num_title"
+            app:layout_constraintTop_toBottomOf="@id/iv_sub_account_manager_head"
+            tools:text="3" />
+
+        <View
+            style="@style/DividingStyle"
+            app:layout_constraintTop_toTopOf="@id/tv_sub_account_manager_shop_num"
+            tools:ignore="MissingConstraints" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

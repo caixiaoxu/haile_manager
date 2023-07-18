@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.SearchSelectViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/page_bg"
+        tools:context=".ui.activity.common.SearchSelectActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/search_select_title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@{vm.searchTitles[vm.searchType]}" />
+
+        <View
+            android:id="@+id/view_search_select_parent_bg"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/shape_top_bottom_stroke_dividing"
+            app:layout_constraintTop_toBottomOf="@id/search_select_title_bar" />
+
+        <View
+            android:id="@+id/view_search_select_bg"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="12dp"
+            android:background="@drawable/shape_sf7f7f7_r18"
+            app:layout_constraintBottom_toBottomOf="@id/view_search_select_parent_bg"
+            app:layout_constraintTop_toTopOf="@id/view_search_select_parent_bg" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_shop_manager_search"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="12dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/icon_search"
+            app:layout_constraintBottom_toBottomOf="@id/view_search_select_bg"
+            app:layout_constraintStart_toStartOf="@id/view_search_select_bg"
+            app:layout_constraintTop_toTopOf="@id/view_search_select_bg" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_search_content"
+            style="@style/Font_14_333333_999999"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:background="@color/transparent"
+            android:hint="@{vm.searchHints[vm.searchType]}"
+            android:imeOptions="actionSearch"
+            android:maxLines="1"
+            android:text="@={vm.searchContent}"
+            app:layout_constraintBottom_toBottomOf="@id/view_search_select_bg"
+            app:layout_constraintEnd_toEndOf="@id/view_search_select_bg"
+            app:layout_constraintStart_toEndOf="@id/iv_shop_manager_search"
+            app:layout_constraintTop_toTopOf="@id/view_search_select_bg" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search_select_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/view_search_select_parent_bg" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

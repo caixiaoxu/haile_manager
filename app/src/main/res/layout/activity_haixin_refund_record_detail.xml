@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="shared"
+            type="com.yunshang.haile_manager_android.business.vm.SharedViewModel" />
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.HaiXinRefundRecordDetailViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.recharge.HaiXinRefundRecordDetailActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_refund_record_detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            app:title="@string/refund_record" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:divider="@drawable/divide_size8"
+                app:showDividers="middle">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="84dp"
+                    android:background="#FFFFFF"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_refund_record_detail_main"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:layout_marginStart="16dp"
+                        android:src="@mipmap/icon_refund_detail_main"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_top_up_refund_state"
+                        style="@style/Font_16_333333_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="@{vm.refundRecordDetail.stateDesc}"
+                        app:layout_constraintBottom_toTopOf="@id/tv_top_up_refund_reason"
+                        app:layout_constraintStart_toEndOf="@id/iv_refund_record_detail_main"
+                        app:layout_constraintTop_toTopOf="@id/iv_refund_record_detail_main"
+                        tools:text="已支付" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_top_up_refund_reason"
+                        style="@style/Font_12_999999_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@{vm.refundRecordDetail.remark}"
+                        android:visibility="@{vm.refundRecordDetail.isShowDesc?View.VISIBLE:View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_refund_record_detail_main"
+                        app:layout_constraintStart_toStartOf="@id/tv_top_up_refund_state"
+                        app:layout_constraintTop_toBottomOf="@id/tv_top_up_refund_state"
+                        tools:text="具体失败原因" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+                    android:id="@+id/ll_refund_record_items"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
+                    android:background="@drawable/shape_sffffff_r8"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    app:divider="@drawable/divder_efefef_size_half"
+                    app:itemLayout="@layout/item_refund_record_detail"
+                    app:showDividers="middle" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
+                    android:background="@drawable/shape_sffffff_r8"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    app:divider="@drawable/divide_size8"
+                    app:showDividers="middle">
+
+                    <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                        android:id="@+id/item_refund_account"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        app:itemContent="@{vm.refundRecordDetail.transAccount}"
+                        app:title='@{vm.refundRecordDetail.accountTitle}'
+                        app:titleColor="@color/common_sub_txt_color"
+                        app:titleSize="14sp"
+                        app:titleW="86dp"
+                        tools:title="微信账号：" />
+
+                    <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                        android:id="@+id/item_refund_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        app:itemContent="@{vm.refundRecordDetail.transRealName}"
+                        app:title='@{@string/name+"："}'
+                        app:titleColor="@color/common_sub_txt_color"
+                        app:titleSize="14sp"
+                        app:titleW="86dp"
+                        tools:title="姓名：" />
+
+                    <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                        android:id="@+id/item_refund_user_account"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        app:itemContent="@{vm.refundRecordDetail.account}"
+                        app:title='@{@string/user_account+"："}'
+                        app:titleColor="@color/common_sub_txt_color"
+                        app:titleSize="14sp"
+                        app:titleW="86dp"
+                        tools:title="用户账号：" />
+
+                    <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                        android:id="@+id/item_refund_order_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        app:itemContent="@{vm.refundRecordDetail.refundNo}"
+                        app:title='@{@string/order_no+"："}'
+                        app:titleColor="@color/common_sub_txt_color"
+                        app:titleSize="14sp"
+                        app:titleW="86dp"
+                        tools:title="订单编号：" />
+
+                    <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                        android:id="@+id/item_refund_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        app:itemContent="@{vm.refundRecordDetail.createTime}"
+                        app:title='@{@string/apply_time+"："}'
+                        app:titleColor="@color/common_sub_txt_color"
+                        app:titleSize="14sp"
+                        app:titleW="86dp"
+                        tools:title="申请时间：" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/ll_refund_record_detail_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="93dp"
+            android:background="@color/white"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:paddingTop="12dp"
+            android:paddingBottom="33dp"
+            android:visibility="@{(shared.hasVipRefundApplyPermission &amp;&amp; 0 == vm.refundRecordDetail.state)?View.VISIBLE:View.GONE}">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_refund_refuse"
+                style="@style/Font_14_333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/shape_stroke_979797_r36"
+                android:paddingLeft="16dp"
+                android:paddingTop="8dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="8dp"
+                android:text="@string/refuse" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_refund_agree"
+                style="@style/Font_14_333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/shape_stroke_979797_r36"
+                android:paddingLeft="16dp"
+                android:paddingTop="8dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="8dp"
+                android:text="@string/agree" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

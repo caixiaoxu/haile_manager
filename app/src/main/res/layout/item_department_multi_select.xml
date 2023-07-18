@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.rule.SearchSelectRadioEntity" />
+
+    </data>
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:layout_width="match_parent"
+        android:paddingHorizontal="16dp"
+        android:gravity="center_vertical"
+        android:button="@null"
+        android:text="@{item.selectName}"
+        android:checked="@{item.getCheck}"
+        android:drawableEnd="@drawable/selector_login_agreement"
+        style="@style/Font_16_333333"
+        tools:text="店铺名称"
+        android:layout_height="54dp" />
+</layout>

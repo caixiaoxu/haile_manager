@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.yunshang.haile_manager_android.R" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="detail"
+            type="com.yunshang.haile_manager_android.data.rule.IIncomeDetailEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/page_bg"
+        tools:context=".ui.activity.personal.IncomeDetailActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_income_detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/shape_sffffff_r8"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="@id/iv_income_detail_main">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_32_333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="34dp"
+                android:fontFamily="@font/money"
+                android:text="@{detail.totalStr}"
+                tools:text="-100000.00" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_14_333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@{detail.tag}"
+                tools:text="提现" />
+
+            <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+                android:id="@+id/ll_income_detail_infos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                app:itemLayout="@layout/item_income_detail_info" />
+
+            <FrameLayout
+                android:id="@+id/fl_income_detail_check_order"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:visibility="@{detail.canGoOrderDetail()?View.VISIBLE:View.GONE}">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Font_14_333333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableEnd="@drawable/icon_arrow_right_with_padding"
+                    android:gravity="center"
+                    android:text="@string/check_order_detail" />
+
+                <View style="@style/DividingStyle"/>
+            </FrameLayout>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_income_detail_main"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="16dp"
+            app:imgRes="@{detail.mainRes()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bar_income_detail_title"
+            tools:src="@mipmap/icon_income_main" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatRadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:text="20分钟"
+    android:layout_width="70dp"
+    android:layout_height="28dp"
+    android:background="@drawable/selector_f7f7f7_f0a258_r14"
+    android:button="@null"
+    android:gravity="center"
+    android:textColor="@color/selector_ffffff_333333"
+    android:textSize="14sp" />

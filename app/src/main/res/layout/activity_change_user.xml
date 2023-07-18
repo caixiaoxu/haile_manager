@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        tools:context=".ui.activity.login.ChangeUserActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            app:title="@string/change_account"
+            android:id="@+id/bar_action_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_account_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp" />
+
+    </LinearLayout>
+</layout>

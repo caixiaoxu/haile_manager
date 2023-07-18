@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.statistics.DataStatisticsDetailActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_data_statistics_detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@color/white"
+            app:title="@string/data_detail" />
+
+        <include
+            android:id="@+id/include_data_statistics_detail_date"
+            layout="@layout/layout_data_statistics_category_date" />
+
+        <include
+            android:id="@+id/include_data_statistics_detail_filter"
+            layout="@layout/layout_data_statistics_filter" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:divider="@drawable/divide_size8"
+                app:showDividers="middle">
+
+                <include
+                    android:id="@+id/include_data_statistics_detail_order"
+                    layout="@layout/item_data_statistics_detail"
+                    android:visibility="gone" />
+
+                <include
+                    android:id="@+id/include_data_statistics_detail_device"
+                    layout="@layout/item_data_statistics_detail"
+                    android:visibility="gone" />
+
+                <include
+                    android:id="@+id/include_data_statistics_detail_user"
+                    layout="@layout/item_data_statistics_detail"
+                    android:visibility="gone" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</layout>

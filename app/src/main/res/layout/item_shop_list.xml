@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.ShopEntity" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingStart="16dp"
+        android:paddingEnd="8dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_item_shop_name"
+            style="@style/Font_16_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:gravity="center_vertical"
+            android:text="@{item.name}"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/iv_item_shop_name_right"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1号门店" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_item_shop_name_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_arrow_right_with_padding"
+            app:layout_constraintBottom_toBottomOf="@id/tv_item_shop_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_item_shop_name"
+            app:layout_constraintTop_toTopOf="@id/tv_item_shop_name" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_item_shop_total_income"
+            style="@style/Font_14_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:drawableEnd="@drawable/icon_arrow_right_with_padding"
+            android:gravity="center"
+            app:layout_constraintEnd_toStartOf="@id/tv_item_shop_device_num"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@id/tv_item_shop_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_shop_name"
+            tools:text="总收益：856420.00元" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_item_shop_device_num"
+            style="@style/Font_14_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/icon_arrow_right_with_padding"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@id/tv_item_shop_total_income"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_item_shop_total_income"
+            app:layout_constraintTop_toTopOf="@id/tv_item_shop_total_income"
+            tools:text="设备数：9台" />
+
+        <include
+            layout="@layout/include_dividing"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_item_shop_name" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatTextView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tv_balance_month"
+    android:layout_width="match_parent"
+    android:layout_height="35dp"
+    android:background="@color/page_bg"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="16dp"
+    android:visibility="gone"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:text="2024年1月"
+    tools:showIn="@layout/item_balance" />

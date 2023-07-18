@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.DiscountsCreateViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context=".ui.activity.discounts.DiscountsCreateActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_discounts_create_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            app:title="@string/new_config" />
+
+        <View style="@style/DividingStyle" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:divider="@drawable/divder_efefef_size_half"
+                app:dividerPadding="16dp"
+                app:showDividers="middle">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Font_12_333333"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:text="@string/config_info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_discounts_create_shop"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.createDiscountsShopNames}"
+                    app:showArrow="true"
+                    app:title="@string/department"
+                    app:titleW="124dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_discounts_create_business_type"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.selectBusinessType.name}"
+                    app:showArrow="true"
+                    app:title="@string/business_type"
+                    app:titleW="124dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_discounts_create_device_category"
+                    style="@style/MultiTypeItemStyle"
+                    android:visibility="@{(null == vm.createDiscountsShop || 0 == vm.createDiscountsShop.size() || null == vm.selectBusinessType)?View.GONE:View.VISIBLE}"
+                    app:itemContent="@{vm.selectDeviceCategoryVal}"
+                    app:showArrow="true"
+                    app:title="@string/device_category"
+                    app:titleW="124dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_discounts_create_start_time"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.startDateTimeVal}"
+                    app:showArrow="true"
+                    app:title="@string/start_time"
+                    app:titleW="124dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_discounts_create_end_time"
+                    style="@style/MultiTypeItemStyle"
+                    android:visibility="@{null == vm.startDateTime?View.GONE:View.VISIBLE}"
+                    app:itemContent="@{vm.endDateTimeVal}"
+                    app:showArrow="true"
+                    app:title="@string/end_time"
+                    app:titleW="124dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_discounts_create_active_day_model"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.selectActiveModel.name}"
+                    app:showArrow="true"
+                    app:title="@{2 == vm.selectActiveModel.id?@string/active_day_model:@string/active_day}"
+                    app:titleW="124dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_discounts_create_active_day"
+                    style="@style/MultiTypeItemStyle"
+                    android:visibility="@{2 == vm.selectActiveModel.id?View.VISIBLE:View.GONE}"
+                    app:itemContent="@{vm.selectActiveDayVal}"
+                    app:showArrow="true"
+                    app:title="@string/active_day"
+                    app:titleW="124dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_discounts_create_active_time_frame"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.activeTimeFrame}"
+                    app:showArrow="true"
+                    app:title="@string/active_time_frame"
+                    app:titleW="124dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_discounts_create_value"
+                    style="@style/MultiTypeItemStyle"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    app:itemContent="@={vm.discounts}"
+                    app:title="@string/discount_value_title"
+                    app:titleW="124dp"
+                    app:type="input" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </ScrollView>
+
+        <View style="@style/DividingStyle" />
+
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
+            android:id="@+id/btn_device_create_submit"
+            style="@style/CommonMatchBtnStyle1"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="42dp"
+            android:enabled="@{vm.canSubmit}"
+            android:onClick="@{vm::submit}"
+            android:text="@string/submit" />
+    </LinearLayout>
+</layout>

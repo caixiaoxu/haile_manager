@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="title" format="string" />
+    <declare-styleable name="CommonTitleActionBar">
+        <attr name="title" />
+        <attr name="rightModel" format="enum">
+            <enum name="text" value="0" />
+            <enum name="area" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="strokeWidth" format="dimension" />
+        <attr name="strokeColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="AmountEditText">
+        <attr name="maxInputLen" format="integer" />
+        <attr name="maxPointLen" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="MultiTypeItemView">
+        <attr name="type" format="enum">
+            <enum name="info" value="0" />
+            <enum name="input" value="1" />
+        </attr>
+        <attr name="canUpdate" format="boolean" />
+        <attr name="title" />
+        <attr name="titleW" format="dimension" />
+        <attr name="titleColor" format="color" />
+        <attr name="titleSize" format="dimension" />
+        <attr name="titleDrawableEnd" format="reference" />
+        <attr name="titleDrawablePadding" format="dimension" />
+        <attr name="titleContentSpace" format="dimension" />
+        <attr name="android:hint" />
+        <attr name="android:inputType" />
+        <attr name="android:maxLength" />
+        <attr name="android:maxLines" />
+        <attr name="android:enabled" />
+        <attr name="android:textColor" />
+        <attr name="android:textSize" />
+        <attr name="showArrow" format="boolean" />
+        <attr name="tailDrawable" format="reference" />
+        <attr name="unitHint" format="string" />
+    </declare-styleable>
+
+    <attr name="maxHeight" format="dimension" />
+    <declare-styleable name="MaxHeightScrollView">
+        <attr name="maxHeight" />
+    </declare-styleable>
+    <declare-styleable name="MaxHeightRecyclerView">
+        <attr name="maxHeight" />
+    </declare-styleable>
+    <declare-styleable name="CustomChildListLinearLayout">
+        <attr name="itemLayout" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="SearchEditText">
+        <attr name="autoSearch" format="boolean" />
+    </declare-styleable>
+</resources>

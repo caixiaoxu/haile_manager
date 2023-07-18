@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.ShopCreateAndUpdateViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context=".ui.activity.shop.ShopCreateAndUpdateActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/shop_title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            app:title="@string/shop_manager" />
+
+        <View style="@style/DividingStyle" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:divider="@color/dividing_line_color_efefef"
+                app:showDividers="middle|end"
+                app:dividerPadding="16dp"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Font_12_999999"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:paddingHorizontal="16dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/shop_info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_name"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@={vm.createAndUpdateEntity.name}"
+                    app:title="@string/shop_name"
+                    app:type="input" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_type"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.shopTypeValue.name}"
+                    app:showArrow="true"
+                    app:title="@string/shop_type"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_school_name"
+                    style="@style/MultiTypeItemStyle"
+                    android:visibility="@{1 == vm.shopTypeValue.type?View.VISIBLE:View.GONE}"
+                    app:itemContent="@{vm.schoolNameValue}"
+                    app:showArrow="true"
+                    app:title="@string/school_name"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_area"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.areaValue}"
+                    app:showArrow="true"
+                    app:title="@string/area"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_mansion"
+                    style="@style/MultiTypeItemStyle"
+                    android:visibility="@{1 != vm.shopTypeValue.type? View.VISIBLE:View.GONE}"
+                    app:itemContent="@{vm.mansionValue}"
+                    app:showArrow="true"
+                    app:title="@string/mansion"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_location_detail"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@={vm.addressValue}"
+                    app:title="@string/location_detail"
+                    app:type="input" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_location_floor"
+                    style="@style/MultiTypeItemStyle"
+                    android:visibility="@{1 == vm.shopTypeValue.type?View.VISIBLE:View.GONE}"
+                    app:itemContent="@={vm.createAndUpdateEntity.area}"
+                    app:title="@string/location_floor"
+                    app:type="input" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_business_hours"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.workTimeValue}"
+                    app:showArrow="true"
+                    app:title="@string/business_hours"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_business_phone"
+                    style="@style/MultiTypeItemStyle"
+                    android:inputType="phone"
+                    android:maxLength="11"
+                    app:itemContent="@={vm.createAndUpdateEntity.serviceTelephone}"
+                    app:title="@string/business_phone"
+                    app:type="input" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_shop_create_business_type"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.businessTypeValue}"
+                    app:showArrow="true"
+                    app:title="@string/business_type"
+                    app:type="info" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </ScrollView>
+
+        <View style="@style/DividingStyle" />
+
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
+            android:id="@+id/btn_shop_create_submit"
+            style="@style/CommonMatchBtnStyle1"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="42dp"
+            android:onClick="@{vm::submit}"
+            android:text="@string/submit" />
+
+    </LinearLayout>
+</layout>

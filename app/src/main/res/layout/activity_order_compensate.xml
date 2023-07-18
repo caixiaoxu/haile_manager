@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.OrderCompensateViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context=".ui.activity.order.OrderCompensateActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_order_compensate_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            app:title="@string/compensate_coupon" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:divider="@color/dividing_line_color_efefef"
+                app:dividerPadding="16dp"
+                app:showDividers="middle">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Font_12_999999"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:text="@string/coupon_info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_order_compensate_coupon_amount"
+                    style="@style/MultiTypeItemStyle"
+                    android:paddingHorizontal="16dp"
+                    app:canUpdate="false"
+                    app:divider="@drawable/divide_size8"
+                    app:itemContent='@{vm.couponAmount+""}'
+                    app:showDividers="middle"
+                    app:title="@string/coupon_amount"
+                    app:titleW="136dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_order_compensate_coupon_type"
+                    style="@style/MultiTypeItemStyle"
+                    app:canUpdate="false"
+                    app:divider="@drawable/divide_size8"
+                    app:itemContent='@{@string/full_discount_coupon}'
+                    app:showDividers="middle"
+                    app:title="@string/coupon_type"
+                    app:titleW="136dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_order_compensate_coupon_condition"
+                    style="@style/MultiTypeItemStyle"
+                    app:canUpdate="false"
+                    app:divider="@drawable/divide_size8"
+                    app:itemContent='@{@string/full_discount_coupon_default}'
+                    app:showDividers="middle"
+                    app:title="@string/coupon_condition"
+                    app:titleW="136dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_order_compensate_coupon_shop"
+                    style="@style/MultiTypeItemStyle"
+                    app:canUpdate="false"
+                    app:divider="@drawable/divide_size8"
+                    app:itemContent='@{vm.couponShopName}'
+                    app:showDividers="middle"
+                    app:title="@string/coupon_shop"
+                    app:titleW="136dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_order_compensate_coupon_device_type"
+                    style="@style/MultiTypeItemStyle"
+                    app:canUpdate="false"
+                    app:divider="@drawable/divide_size8"
+                    app:itemContent='@{vm.couponDeviceTypeName}'
+                    app:showDividers="middle"
+                    app:title="@string/coupon_device_type"
+                    app:titleW="136dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_order_compensate_coupon_indate"
+                    style="@style/MultiTypeItemStyle"
+                    android:inputType="numberDecimal"
+                    android:maxLength="4"
+                    android:maxLines="1"
+                    app:divider="@drawable/divide_size8"
+                    app:itemContent='@={vm.indate}'
+                    app:showDividers="middle"
+                    app:title="@string/indate"
+                    app:titleW="136dp"
+                    app:type="input"
+                    app:unitHint="@string/indate_unit" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_order_compensate_coupon_num"
+                    style="@style/MultiTypeItemStyle"
+                    android:inputType="numberDecimal"
+                    android:maxLength="8"
+                    android:maxLines="1"
+                    app:divider="@drawable/divide_size8"
+                    app:itemContent='@={vm.couponNum}'
+                    app:showDividers="middle"
+                    app:title="@string/compensate_num"
+                    app:titleW="136dp"
+                    app:type="input"
+                    app:unitHint="@string/num_unit" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </ScrollView>
+
+        <include layout="@layout/include_dividing1" />
+
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
+            android:id="@+id/btn_shop_create_submit"
+            style="@style/CommonMatchBtnStyle1"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="42dp"
+            android:enabled="@{vm.canSubmit}"
+            android:onClick="@{vm::submit}"
+            android:text="@string/submit" />
+    </LinearLayout>
+</layout>

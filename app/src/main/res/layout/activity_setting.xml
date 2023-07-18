@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.SettingViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".ui.activity.personal.SettingActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/login_title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@color/white"
+            app:title="@string/setting" />
+
+        <include layout="@layout/include_dividing" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_change_password"
+            style="@style/SettingItem"
+            android:text="@string/change_password" />
+
+        <include
+            layout="@layout/include_dividing"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginHorizontal="16dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_privacy_policy"
+            style="@style/SettingItem"
+            android:text="@string/privacy_policy" />
+
+        <include
+            layout="@layout/include_dividing"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginHorizontal="16dp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_version"
+                style="@style/SettingItem"
+                android:text="@string/version" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_setting_new_version"
+                android:layout_width="66dp"
+                android:layout_height="18dp"
+                style="@style/font_10_ffffff"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="@string/new_version"
+                android:layout_marginStart="84dp"
+                android:background="@drawable/shape_sff3b30_r9"
+                android:layout_gravity="center_vertical"/>
+        </FrameLayout>
+
+        <include
+            layout="@layout/include_dividing"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginHorizontal="16dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_cancel_account"
+            style="@style/SettingItem"
+            android:text="@string/cancel_account" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_change_account"
+            style="@style/SettingItem"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/change_account"
+            android:textColor="@color/colorPrimary" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_logout"
+            style="@style/SettingItem"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:onClick="@{vm::logout}"
+            android:text="@string/logout"
+            android:textColor="@color/colorPrimary" />
+
+    </LinearLayout>
+</layout>

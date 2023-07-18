@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg"
+    android:orientation="vertical"
+    tools:context=".ui.activity.device.DeviceAdvancedActivity">
+
+    <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+        android:id="@+id/bar_device_advanced_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_action_bar_h"
+        android:background="@color/white"
+        app:title="@string/advanced_params_setup" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ll_device_advanced_params"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="12dp"
+            app:divider="@drawable/divide_size8"
+            app:showDividers="middle|beginning"/>
+    </ScrollView>
+</LinearLayout>

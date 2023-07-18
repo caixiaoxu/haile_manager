@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".ui.activity.login.LoginActivity">
+
+    <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+        android:id="@+id/login_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_action_bar_h"
+        app:title="@string/login_name"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/icon_login_main" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/shape_strokef0a258_solid26f0a258_r4"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="2dp"
+        android:text="@string/login_app_type"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp" />
+
+    <com.yunshang.haile_manager_android.ui.view.CommonButton
+        android:id="@+id/btn_login_for_password"
+        style="@style/CommonMatchBtnStyle1"
+        android:layout_marginHorizontal="36dp"
+        android:text="@string/login_account_password"
+        android:layout_marginTop="44dp" />
+
+    <com.yunshang.haile_manager_android.ui.view.CommonButton
+        android:id="@+id/btn_login_for_phone"
+        style="@style/CommonMatchBtnStyle2"
+        android:text="@string/login_phone_login"
+        android:layout_marginHorizontal="36dp"
+        android:layout_marginTop="24dp" />
+
+</LinearLayout>

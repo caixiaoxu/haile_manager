@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rg_data_statistics_category_date"
+    android:layout_width="match_parent"
+    android:layout_height="52dp"
+    android:checkedButton="@id/rb_data_statistics_category_day"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingHorizontal="16dp"
+    tools:showIn="@layout/fragment_data_statistics">
+
+    <com.yunshang.haile_manager_android.ui.view.CheckBoldRadioButton
+        android:id="@+id/rb_data_statistics_category_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_data_statistics_category_day"
+        android:button="@null"
+        android:minHeight="0dp"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="4dp"
+        android:text="@string/day_data"
+        android:textColor="@color/data_statistics_category"
+        android:textSize="14sp" />
+
+    <com.yunshang.haile_manager_android.ui.view.CheckBoldRadioButton
+        android:id="@+id/rb_data_statistics_category_week"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_data_statistics_category_day"
+        android:button="@null"
+        android:minHeight="0dp"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="4dp"
+        android:text="@string/week_data"
+        android:textColor="@color/data_statistics_category"
+        android:textSize="14sp" />
+
+    <com.yunshang.haile_manager_android.ui.view.CheckBoldRadioButton
+        android:id="@+id/rb_data_statistics_category_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_data_statistics_category_day"
+        android:button="@null"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="4dp"
+        android:text="@string/month_data"
+        android:textColor="@color/data_statistics_category"
+        android:textSize="14sp" />
+
+    <com.yunshang.haile_manager_android.ui.view.CheckBoldRadioButton
+        android:id="@+id/rb_data_statistics_category_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_data_statistics_category_day"
+        android:button="@null"
+        android:paddingHorizontal="12dp"
+        android:minHeight="0dp"
+        android:paddingVertical="4dp"
+        android:text="@string/year_data"
+        android:textColor="@color/data_statistics_category"
+        android:textSize="14sp" />
+</RadioGroup>

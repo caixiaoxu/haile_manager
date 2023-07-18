@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.MessageEntity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_sffffff_r8"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_message_list_title"
+                style="@style/Font_16_333333_bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="@{item.title}" />
+
+            <View
+                style="@style/DividingStyle"
+                android:layout_marginHorizontal="4dp"
+                tools:ignore="MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_message_list_content"
+                style="@style/Font_14_999999"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@{item.contentEntity.introduction}" />
+
+            <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+                android:id="@+id/ll_message_list_infos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:divider="@drawable/divide_size4"
+                android:orientation="vertical"
+                app:showDividers="middle"
+                app:itemLayout="@layout/item_message_list_infos" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_message_list_click_hint"
+                style="@style/Font_14_333333"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="16dp"
+                android:text="@{item.contentEntity.tags}" />
+
+            <View
+                android:id="@+id/view_message_list_split2"
+                style="@style/DividingStyle"
+                android:layout_marginHorizontal="4dp"
+                android:visibility="gone"
+                tools:ignore="MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_message_list_go"
+                style="@style/Font_14_333333"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingVertical="16dp"
+                android:text="@string/go_update"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_12_333333"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@{item.friendTime}"
+            tools:text="今天 10:24" />
+    </LinearLayout>
+</layout>

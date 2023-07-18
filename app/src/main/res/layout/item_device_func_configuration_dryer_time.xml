@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.yunshang.haile_manager_android.R" />
+
+        <import type="com.lsy.framelib.utils.StringUtils" />
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.ExtAttrBean" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:paddingHorizontal="16dp"
+        android:gravity="center_vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_16_333333"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text='@{StringUtils.getString(R.string.unit_minute_num,item.minutes)}'
+            tools:text="30分钟" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            style="@style/Font_16_333333_cccccc"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@={item.priceValue}"
+            android:background="@android:color/transparent"
+            android:hint="@string/money"
+            android:inputType="numberDecimal"
+            android:maxLines="1" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_16_cccccc"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="@string/unit_yuan_hint" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_dryer_pulse"
+            style="@style/Font_16_333333_cccccc"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="23dp"
+            android:layout_weight="1"
+            android:text="@{item.pulseValue}"
+            android:background="@android:color/transparent"
+            android:hint="@string/please_input"
+            android:inputType="numberDecimal"
+            android:maxLines="1"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_dryer_pulse_hint"
+            style="@style/Font_16_cccccc"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:text="@string/unit_pulse_hint"
+            android:visibility="gone" />
+    </LinearLayout>
+</layout>

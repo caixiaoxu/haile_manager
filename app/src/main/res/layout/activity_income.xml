@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.IncomeViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/page_bg"
+        android:orientation="vertical"
+        tools:context=".ui.activity.personal.IncomeActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_income_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            app:title="@string/income" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <com.yunshang.haile_manager_android.ui.view.AmountTextView
+                    style="@style/Font_26_f0a258"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:text="@{vm.totalIncome}"
+                    tools:text="+10420.00" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Font_12_999999"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center"
+                    android:text="@{vm.deviceName + @string/total_income + @string/unit_yuan_hint}"
+                    tools:text="总收入（元）" />
+
+                <LinearLayout
+                    android:layout_width="170dp"
+                    android:layout_height="28dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="22dp"
+                    android:background="@drawable/shape_sf7f7f7_r14"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/ib_income_date_subtraction"
+                        android:layout_width="36dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        android:onClick="@{(v)->vm.dateOperate(v,-1)}"
+                        android:src="@mipmap/icon_delta_left" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_income_select_date"
+                        style="@style/Font_14_333333"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="@{vm.selectMonthVal}"
+                        tools:text="2023年1月" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/ib_income_date_add"
+                        android:layout_width="36dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        android:clickable="@{vm.canAddDay}"
+                        android:onClick="@{(v)->vm.dateOperate(v,1)}"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/icon_delta_right" />
+                </LinearLayout>
+
+                <View style="@style/DividingStyle" />
+
+                <LinearLayout
+                    android:id="@+id/ll_income_calendar_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:orientation="horizontal"
+                    android:weightSum="7" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_income_calendar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/dividing_line_color_efefef"
+                    android:padding="1dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/dividing_line_color_efefef" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_income_date_title"
+                        style="@style/Font_14_333333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="2023年1月8号总收入：" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_income_date_total_amount"
+                        style="@style/Font_16_f0a258"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/money"
+                        android:text="@{vm.totalIncomeForDay}"
+                        tools:text="+2000.00" />
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_12_CCCCCC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/order_no"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_12_CCCCCC"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/money"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+                    android:id="@+id/rv_income_list_for_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</layout>

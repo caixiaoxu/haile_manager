@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.LoginForPhoneViewModel" />
+
+        <variable
+            name="shared"
+            type="com.yunshang.haile_manager_android.business.vm.SharedViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:context=".ui.activity.login.LoginForPhoneActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/login_title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            app:title="@string/login_name" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="38dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/icon_login_main" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/shape_sffffff_r8"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingBottom="44dp">
+
+            <include
+                layout="@layout/include_login_phone_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:phone="@{vm.phone}" />
+
+            <include
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                layout="@layout/include_login_code_input"
+                app:code="@{vm.code}"
+                app:sendCode="@{vm::sendMsg}"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@null"
+                    android:button="@null"
+                    android:checked="@={vm.isAgree}"
+                    android:drawableStart="@drawable/selector_login_agreement"
+                    android:gravity="center_vertical" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_login_agreement"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/common_txt_color"
+                    android:textSize="12sp"
+                    tools:text="已阅读并同意《隐私协议》" />
+            </LinearLayout>
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_login_sure"
+                style="@style/CommonMatchBtnStyle1"
+                android:layout_marginTop="20dp"
+                android:enabled="false"
+                android:onClick="@{(view)->vm.login(view,shared)}"
+                android:text="@string/sure" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

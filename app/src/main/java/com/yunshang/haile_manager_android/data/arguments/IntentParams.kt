@@ -32,6 +32,19 @@ object IntentParams {
         fun parseId(intent: Intent): Int = intent.getIntExtra(ID, -1)
     }
 
+    object LoginParams {
+        private const val Phone = "phone"
+
+        /**
+         * 包装参数
+         */
+        fun pack(phone: String): Bundle = Bundle().apply {
+            putString(Phone, phone)
+        }
+
+        fun parsePhone(intent: Intent): String? = intent.getStringExtra(Phone)
+    }
+
     object UserParams {
         private const val UserId = "userId"
         private const val UserName = "userName"

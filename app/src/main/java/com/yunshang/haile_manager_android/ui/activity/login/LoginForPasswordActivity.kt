@@ -3,7 +3,6 @@ package com.yunshang.haile_manager_android.ui.activity.login
 import android.content.Intent
 import android.view.View
 import com.lsy.framelib.utils.AppManager
-import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
@@ -27,12 +26,17 @@ class LoginForPasswordActivity :
 
     override fun backBtn(): View = mBinding.loginTitleBar.getBackBtn()
 
+    override fun initIntent() {
+        super.initIntent()
+        mViewModel.phone.value = IntentParams.LoginParams.parsePhone(intent)
+    }
+
     override fun initView() {
         mBinding.shared = mSharedViewModel
 
         // 协议内容
         ViewUtils.initAgreementToTextView(mBinding.tvLoginAgreement) {
-            startActivity(Intent(this@LoginForPasswordActivity,WebViewActivity::class.java).apply {
+            startActivity(Intent(this@LoginForPasswordActivity, WebViewActivity::class.java).apply {
                 putExtras(
                     IntentParams.WebViewParams.pack(
                         BuildConfig.PRIVACY_POLICY,
@@ -47,7 +51,11 @@ class LoginForPasswordActivity :
                 Intent(
                     this@LoginForPasswordActivity,
                     ResetLoginPasswordActivity::class.java
-                )
+                ).apply {
+                    mViewModel.phone.value?.let { phone ->
+                        putExtras(IntentParams.LoginParams.pack(phone))
+                    }
+                }
             )
         }
     }

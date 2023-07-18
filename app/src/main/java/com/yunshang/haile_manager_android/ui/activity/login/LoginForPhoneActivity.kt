@@ -24,6 +24,11 @@ class LoginForPhoneActivity : BaseBusinessActivity<ActivityLoginForPhoneBinding,
     override fun layoutId(): Int =R.layout.activity_login_for_phone
     override fun backBtn(): View = mBinding.loginTitleBar.getBackBtn()
 
+    override fun initIntent() {
+        super.initIntent()
+        mViewModel.phone.value = IntentParams.LoginParams.parsePhone(intent)
+    }
+
     override fun initView() {
         mBinding.shared = mSharedViewModel
 

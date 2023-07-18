@@ -23,6 +23,11 @@ class ResetLoginPasswordActivity :
 
     override fun backBtn(): View = mBinding.loginTitleBar.getBackBtn()
 
+    override fun initIntent() {
+        super.initIntent()
+        mViewModel.phone.value = IntentParams.LoginParams.parsePhone(intent)
+    }
+
     override fun initView() {
 
         // 协议内容

@@ -29,38 +29,40 @@ class LoginActivity : BaseActivity() {
 
     //隐私协议同意弹窗
     private val mAgreementDialog: CommonDialog by lazy {
-        CommonDialog.Builder(StringUtils.formatMultiStyleStr(
-            getString(R.string.agreement_hint),
-            arrayOf(
-                ForegroundColorSpan(
-                    ResourcesCompat.getColor(
-                        resources,
-                        R.color.colorPrimary,
-                        null
-                    )
-                ),
-                object : ClickableSpan() {
-                    override fun onClick(view: View) {
-                        startActivity(
-                            Intent(
-                                this@LoginActivity,
-                                WebViewActivity::class.java
-                            ).apply {
-                                putExtras(
-                                    IntentParams.WebViewParams.pack(
-                                        BuildConfig.PRIVACY_POLICY,
+        CommonDialog.Builder(
+            StringUtils.formatMultiStyleStr(
+                getString(R.string.agreement_hint),
+                arrayOf(
+                    ForegroundColorSpan(
+                        ResourcesCompat.getColor(
+                            resources,
+                            R.color.colorPrimary,
+                            null
+                        )
+                    ),
+                    object : ClickableSpan() {
+                        override fun onClick(view: View) {
+                            startActivity(
+                                Intent(
+                                    this@LoginActivity,
+                                    WebViewActivity::class.java
+                                ).apply {
+                                    putExtras(
+                                        IntentParams.WebViewParams.pack(
+                                            BuildConfig.PRIVACY_POLICY,
+                                        )
                                     )
-                                )
-                            })
-                    }
+                                })
+                        }
 
-                    override fun updateDrawState(ds: TextPaint) {
-                        //去掉下划线
-                        ds.isUnderlineText = false
-                    }
-                },
-            ), 17, 23
-        )).apply {
+                        override fun updateDrawState(ds: TextPaint) {
+                            //去掉下划线
+                            ds.isUnderlineText = false
+                        }
+                    },
+                ), 17, 23
+            )
+        ).apply {
             positiveClickListener = OnClickListener {
                 SPRepository.isAgreeAgreement = true
             }
@@ -88,7 +90,11 @@ class LoginActivity : BaseActivity() {
         mLoginBinding.btnLoginForPassword.setOnClickListener {
             ActivityCompat.startActivity(
                 this@LoginActivity,
-                Intent(this@LoginActivity, LoginForPasswordActivity::class.java),
+                Intent(this@LoginActivity, LoginForPasswordActivity::class.java).apply {
+                    SPRepository.changeUser?.lastOrNull()?.let { user ->
+                        putExtras(IntentParams.LoginParams.pack(user.userInfo.userInfo.phone))
+                    }
+                },
                 null
             )
         }
@@ -96,7 +102,11 @@ class LoginActivity : BaseActivity() {
         mLoginBinding.btnLoginForPhone.setOnClickListener {
             ActivityCompat.startActivity(
                 this@LoginActivity,
-                Intent(this@LoginActivity, LoginForPhoneActivity::class.java),
+                Intent(this@LoginActivity, LoginForPhoneActivity::class.java).apply {
+                    SPRepository.changeUser?.lastOrNull()?.let { user ->
+                        putExtras(IntentParams.LoginParams.pack(user.userInfo.userInfo.phone))
+                    }
+                },
                 null
             )
         }

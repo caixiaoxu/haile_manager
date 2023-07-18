@@ -26,7 +26,7 @@ object GlideUtils {
         default: Int = R.mipmap.icon_default_head,
         err: Int = R.mipmap.icon_default_head
     ) {
-        Glide.with(imageView).load(url).placeholder(default).error(err).fitCenter()
+        Glide.with(imageView).load(url).placeholder(default).error(err).centerCrop()
             .into(imageView)
     }
 }

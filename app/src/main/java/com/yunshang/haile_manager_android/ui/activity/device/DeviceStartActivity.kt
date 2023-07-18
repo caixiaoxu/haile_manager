@@ -41,8 +41,8 @@ class DeviceStartActivity :
         mViewModel.categoryCode = intent.getStringExtra(DeviceCategory.CategoryCode)
         intent.getStringExtra(Items)?.let {
             GsonUtils.json2List(it, Item::class.java)?.let { list ->
-                mViewModel.items = list.map { item ->
-                    if (DeviceCategory.isDryer(mViewModel.categoryCode)) {
+                mViewModel.items = list.filter { item -> 1 == item.soldState }.map { item ->
+                    if (DeviceCategory.isDryerOrHair(mViewModel.categoryCode)) {
                         val times =
                             GsonUtils.json2List(item.extAttr, ExtAttrBean::class.java)?.map { ext ->
                                 ext.minutes
@@ -69,7 +69,7 @@ class DeviceStartActivity :
         super.initEvent()
         mViewModel.selectItem.observe(this) {
             it?.let { item ->
-                if (DeviceCategory.isDryer(mViewModel.categoryCode)) {
+                if (DeviceCategory.isDryerOrHair(mViewModel.categoryCode)) {
                     mBinding.rgDeviceStartTimeList.removeAllViews()
                     val timeW = DimensionUtils.dip2px(dipValue = 70f)
                     val timeH = DimensionUtils.dip2px(dipValue = 28f)
@@ -101,16 +101,20 @@ class DeviceStartActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+        mBinding.tvDeviceStartModel.hint =
+            StringUtils.getString(R.string.please_select) + DeviceCategory.deviceCategoryName(
+                mViewModel.categoryCode
+            ) + StringUtils.getString(R.string.model)
         mBinding.tvDeviceStartModel.setOnClickListener {
             CommonBottomSheetDialog.Builder(
-                StringUtils.getString(R.string.wash_model),
+                DeviceCategory.deviceCategoryName(mViewModel.categoryCode) + StringUtils.getString(R.string.model),
                 mViewModel.items
             ).apply {
                 onValueSureListener =
                     object : CommonBottomSheetDialog.OnValueSureListener<DeviceConfigSelectParams> {
                         override fun onValue(data: DeviceConfigSelectParams?) {
                             mViewModel.selectItem.value = data
-                            if (!DeviceCategory.isDryer(mViewModel.categoryCode)) {
+                            if (!DeviceCategory.isDryerOrHair(mViewModel.categoryCode)) {
                                 mViewModel.selectTime.value = data?.times?.get(0)
                             }
                         }

@@ -23,9 +23,11 @@ import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.DeviceDetailModel
 import com.yunshang.haile_manager_android.business.vm.DeviceMultiChangeViewModel
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
+import com.yunshang.haile_manager_android.data.entities.Item
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceDetailBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceDetailFuncPriceBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 
 class DeviceDetailActivity :
@@ -293,6 +295,24 @@ class DeviceDetailActivity :
                             }
                         }
                     }.build().show(supportFragmentManager)
+                }
+                // 复位
+                8 -> mViewModel.deviceDetail.value?.let { detail ->
+                    if (DeviceCategory.isHair(detail.categoryCode)) {
+                        CommonBottomSheetDialog.Builder(
+                            StringUtils.getString(R.string.restart_dialog_title),
+                            detail.items.filter { item -> 1 == item.soldState }
+                        ).apply {
+                            onValueSureListener =
+                                object : CommonBottomSheetDialog.OnValueSureListener<Item> {
+                                    override fun onValue(data: Item?) {
+                                        mViewModel.deviceOperate(0, data?.id)
+                                    }
+                                }
+                        }.build().show(supportFragmentManager)
+                    } else {
+                        mViewModel.deviceOperate(0)
+                    }
                 }
             }
         }

@@ -87,7 +87,7 @@ class DeviceDetailModel : BaseViewModel() {
             MutableLiveData(UserPermissionUtils.hasDeviceResetPermission())
         ) {
             //复位事件
-            deviceOperate(0)
+            jump.postValue(8)
         },
         ItemShowParam(
             StringUtils.getString(R.string.start),
@@ -245,7 +245,7 @@ class DeviceDetailModel : BaseViewModel() {
     /**
      * 设备操作
      */
-    fun deviceOperate(type: Int) {
+    fun deviceOperate(type: Int, itemId: Int? = null) {
         if (-1 == goodsId) {
             return
         }
@@ -258,7 +258,11 @@ class DeviceDetailModel : BaseViewModel() {
                             ApiRepository.createRequestBody(
                                 hashMapOf(
                                     "goodsId" to goodsId,
-                                )
+                                ).apply {
+                                    itemId?.let {
+                                        put("itemId", it)
+                                    }
+                                }
                             )
                         )
                     )

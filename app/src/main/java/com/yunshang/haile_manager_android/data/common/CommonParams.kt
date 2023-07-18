@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.data.common
 
 import androidx.annotation.IntDef
 import androidx.annotation.StringDef
+import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 
 /**
@@ -61,6 +62,16 @@ object DeviceCategory {
      * 10-串口 20-脉冲
      */
     fun isPulseDevice(communicationType: Int?) = 20 == communicationType
+
+    fun deviceCategoryName(categoryCode: String?): String = when (categoryCode) {
+        Washing -> StringUtils.getString(R.string.wash)
+        Shoes -> StringUtils.getString(R.string.shoes)
+        Dryer -> StringUtils.getString(R.string.dryer)
+        Hair -> StringUtils.getString(R.string.hair)
+        Water -> StringUtils.getString(R.string.water)
+        Dispenser -> StringUtils.getString(R.string.dispenser)
+        else -> ""
+    }
 
     /**
      * 可显示的设备类型

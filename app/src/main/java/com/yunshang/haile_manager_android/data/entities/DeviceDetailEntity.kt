@@ -4,6 +4,7 @@ import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
+import com.yunshang.haile_manager_android.data.rule.ICommonBottomItemEntity
 
 /**
  * Title :
@@ -116,7 +117,7 @@ data class Item(
     val extAttr: String,
     val feature: String,
     val soldState: Int,
-) {
+) : ICommonBottomItemEntity {
 
     /**
      * 根据型号区分配置内容
@@ -177,4 +178,6 @@ data class Item(
             soldState
         )
     }
+
+    override fun getTitle(): String = name
 }

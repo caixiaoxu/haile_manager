@@ -143,6 +143,7 @@
     <string name="advanced_params_setup">高级参数设置</string>
     <string name="func_operate">功能操作</string>
     <string name="restart">复位</string>
+    <string name="restart_dialog_title">请选择复位的通道</string>
     <string name="restart_success">复位成功</string>
     <string name="start">启动</string>
     <string name="start_success">启动成功</string>
@@ -165,6 +166,13 @@
     <string name="device_start">设备启动</string>
     <string name="device_start_hint">设备如果正在运行当中请先复位后再启动设备</string>
     <string name="wash_model">洗衣模式</string>
+    <string name="model">模式</string>
+    <string name="wash">洗衣</string>
+    <string name="shoes">洗鞋</string>
+    <string name="dryer">烘干</string>
+    <string name="hair">吹风</string>
+    <string name="water">饮水</string>
+    <string name="dispenser">投放</string>
     <string name="wash_model_hint">请选择洗衣模式</string>
     <string name="update_imei_title">新模块信息录入</string>
     <string name="update_pay_code_title">新付款码信息录入</string>

@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.data.entities
 import android.graphics.Color
 import androidx.core.content.ContextCompat
 import com.lsy.framelib.data.constants.Constants
+import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.rule.IMultiTypeEntity
@@ -47,8 +48,14 @@ data class DeviceEntity(
     val workStatus: Int,//设备状态(10-空闲；20-工作中；30-故障；40-停用)
     val iotStatus: Int,//网络状态(1-在线；2-离线；4-故障)
     val signals: Int,//信号值
-    val income: Double//总收益
-) :ISearchSelectEntity, IMultiTypeEntity {
+    val income: Double,//总收益
+    val qrId: Long // 设备编号
+) : ISearchSelectEntity, IMultiTypeEntity {
+
+    fun getDeviceCategoryAndNo() = if (qrId > 0L)
+        "${StringUtils.getString(R.string.device_category_no)}：${categoryName} $qrId"
+    else
+        "${StringUtils.getString(R.string.device_category)}：${categoryName}"
 
     /**
      * 获取类型

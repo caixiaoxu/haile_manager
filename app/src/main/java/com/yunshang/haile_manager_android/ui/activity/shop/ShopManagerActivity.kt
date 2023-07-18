@@ -92,7 +92,7 @@ class ShopManagerActivity :
         ) { mBinding, _, item ->
             mBinding?.item = item
 
-            var title = StringUtils.getString(R.string.total_income)
+            var title = StringUtils.getString(R.string.total_earnings)
             var value =
                 NumberUtils.keepTwoDecimals(item.income) + StringUtils.getString(R.string.unit_yuan)
             var start = title.length + 1

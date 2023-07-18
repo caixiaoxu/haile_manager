@@ -56,12 +56,17 @@ data class DeviceDetailEntity(
     var appointmentEnabled: Boolean?,
     val shopAppointmentEnabled: Boolean,
     val scanUrl: String,
+    val qrId: Long // 设备编号
 ) {
     fun getReason() = "${deviceErrorMsg}${deviceErrorCode}"
 
     fun hasName(): Boolean = !name.isNullOrEmpty()
 
     fun getNameTitle(): String = StringUtils.getString(R.string.device_name)
+
+    fun hasQrId(): Boolean = 0L < qrId
+
+    fun getQrIdTitle(): String = StringUtils.getString(R.string.device_no)
 
     fun hasShop(): Boolean = 0 != shopId && !shopName.isNullOrEmpty()
 

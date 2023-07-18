@@ -21,6 +21,107 @@
         android:paddingEnd="8dp">
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_item_device_category_no"
+            style="@style/Font_12_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:paddingVertical="8dp"
+            android:text='@{item.getDeviceCategoryAndNo}'
+            app:layout_constraintEnd_toStartOf="@id/tv_item_device_iot_status_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="设备类型/编号：洗衣机 81003103" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_item_device_iot_status_title"
+            style="@style/Font_12_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="1dp"
+            android:text='@{@string/signal+":"}'
+            app:layout_constraintBottom_toBottomOf="@id/tv_item_device_category_no"
+            app:layout_constraintEnd_toStartOf="@id/view_item_device_iot_status1"
+            app:layout_constraintTop_toTopOf="@id/tv_item_device_category_no"
+            tools:text="信号:" />
+
+        <View
+            android:id="@+id/view_item_device_iot_status1"
+            android:layout_width="1.77dp"
+            android:layout_height="2.79dp"
+            android:layout_marginEnd="1dp"
+            android:background='@{item.signals > 0?@color/color_green:@color/color_gray}'
+            app:layout_constraintBottom_toBottomOf="@id/view_item_device_iot_status2"
+            app:layout_constraintEnd_toStartOf="@id/view_item_device_iot_status2"
+            tools:background="@color/color_green" />
+
+        <View
+            android:id="@+id/view_item_device_iot_status2"
+            android:layout_width="1.77dp"
+            android:layout_height="4.31dp"
+            android:layout_marginEnd="1dp"
+            android:background='@{item.signals >= 5?@color/color_green:@color/color_gray}'
+            app:layout_constraintBottom_toBottomOf="@id/view_item_device_iot_status3"
+            app:layout_constraintEnd_toStartOf="@id/view_item_device_iot_status3"
+            tools:background="@color/color_green" />
+
+        <View
+            android:id="@+id/view_item_device_iot_status3"
+            android:layout_width="1.77dp"
+            android:layout_height="6.08dp"
+            android:layout_marginEnd="1dp"
+            android:background='@{item.signals >= 10?@color/color_green:@color/color_gray}'
+            app:layout_constraintBottom_toBottomOf="@id/view_item_device_iot_status4"
+            app:layout_constraintEnd_toStartOf="@id/view_item_device_iot_status4"
+            tools:background="@color/color_green" />
+
+        <View
+            android:id="@+id/view_item_device_iot_status4"
+            android:layout_width="1.77dp"
+            android:layout_height="7.86dp"
+            android:layout_marginEnd="1dp"
+            android:background='@{item.signals >= 15?@color/color_green:@color/color_gray}'
+            app:layout_constraintBottom_toBottomOf="@id/view_item_device_iot_status5"
+            app:layout_constraintEnd_toStartOf="@id/view_item_device_iot_status5"
+            tools:background="@color/color_green" />
+
+        <View
+            android:id="@+id/view_item_device_iot_status5"
+            android:layout_width="1.77dp"
+            android:layout_height="9.63dp"
+            android:layout_marginEnd="8dp"
+            android:background='@{item.signals >= 20?@color/color_green:@color/color_gray}'
+            app:layout_constraintBottom_toBottomOf="@id/tv_item_device_category_no"
+            app:layout_constraintEnd_toStartOf="@id/tv_item_device_iot_status"
+            app:layout_constraintTop_toTopOf="@id/tv_item_device_category_no"
+            tools:background="@color/color_gray" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_item_device_iot_status"
+            style="@style/Font_12_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@{item.getIotStatusValue}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_item_device_category_no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_item_device_category_no"
+            tools:text="在线" />
+
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="@{item.isIotShow?View.VISIBLE:View.GONE}"
+            app:constraint_referenced_ids="view_item_device_iot_status1,view_item_device_iot_status2,view_item_device_iot_status3,view_item_device_iot_status4,view_item_device_iot_status5,tv_item_device_iot_status" />
+
+        <include
+            layout="@layout/include_dividing"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_item_device_category_no" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_item_device_name"
             style="@style/Font_16_333333_bold"
             android:layout_width="wrap_content"
@@ -31,18 +132,21 @@
             app:layout_constraintEnd_toStartOf="@id/iv_item_device_name_right"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_device_category_no"
             tools:text="1号洗衣机" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/iv_item_device_name_right"
+            style="@style/Font_14_333333"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_arrow_right_with_padding"
+            android:drawableEnd="@drawable/icon_arrow_right_with_padding"
+            android:text="@{item.getDeviceStatusValue}"
             app:layout_constraintBottom_toBottomOf="@id/tv_item_device_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_item_device_name"
-            app:layout_constraintTop_toTopOf="@id/tv_item_device_name" />
+            app:layout_constraintTop_toTopOf="@id/tv_item_device_name"
+            tools:text="运行中" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_item_device_shop"
@@ -56,123 +160,6 @@
             app:layout_constraintTop_toBottomOf="@id/tv_item_device_name"
             tools:text="1号店铺" />
 
-        <com.yunshang.haile_manager_android.ui.view.MultiTypeTextView
-            android:id="@+id/tv_item_device_type"
-            style="@style/Font_10_f0a258"
-            bgResIds="@{item.multiTypeBgRes}"
-            txtColors="@{item.multiTypeTxtColors}"
-            type="@{item.multiType}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:gravity="center"
-            android:paddingHorizontal="4dp"
-            android:paddingVertical="2dp"
-            android:text="@{item.categoryName}"
-            app:layout_constraintStart_toStartOf="@id/tv_item_device_shop"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_device_shop"
-            tools:text="洗衣机" />
-
-        <com.yunshang.haile_manager_android.ui.view.MultiTypeTextView
-            android:id="@+id/tv_item_device_status"
-            style="@style/Font_10_f0a258"
-            bgResIds="@{item.getStatusBgRes}"
-            txtColors="@{item.getStatusTxtColors}"
-            type="@{item.getDeviceStatus}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:gravity="center"
-            android:paddingHorizontal="4dp"
-            android:paddingVertical="2dp"
-            android:text="@{item.getDeviceStatusValue}"
-            app:layout_constraintStart_toEndOf="@id/tv_item_device_type"
-            app:layout_constraintTop_toTopOf="@id/tv_item_device_type"
-            tools:text="运行中" />
-
-        <View
-            android:id="@+id/view_item_device_iot_status"
-            android:layout_width="47dp"
-            android:layout_height="18dp"
-            android:layout_marginStart="4dp"
-            android:background="@drawable/shape_strokecccccc_r9"
-            android:paddingHorizontal="4dp"
-            android:paddingVertical="2dp"
-            app:layout_constraintStart_toEndOf="@id/tv_item_device_status"
-            app:layout_constraintTop_toTopOf="@id/tv_item_device_status"
-            tools:text="运行中" />
-
-        <View
-            android:id="@+id/view_item_device_iot_status1"
-            android:layout_width="1.77dp"
-            android:layout_height="2.79dp"
-            android:layout_marginStart="6dp"
-            android:background='@{item.signals > 0?@color/color_green:@color/color_gray}'
-            app:layout_constraintBottom_toBottomOf="@id/view_item_device_iot_status2"
-            app:layout_constraintEnd_toStartOf="@id/view_item_device_iot_status2"
-            app:layout_constraintStart_toStartOf="@id/view_item_device_iot_status" />
-
-        <View
-            android:id="@+id/view_item_device_iot_status2"
-            android:layout_width="1.77dp"
-            android:layout_height="4.31dp"
-            android:layout_marginStart="1dp"
-            android:background='@{item.signals >= 5?@color/color_green:@color/color_gray}'
-            app:layout_constraintBottom_toBottomOf="@id/view_item_device_iot_status3"
-            app:layout_constraintEnd_toStartOf="@id/view_item_device_iot_status3"
-            app:layout_constraintStart_toEndOf="@id/view_item_device_iot_status1" />
-
-        <View
-            android:id="@+id/view_item_device_iot_status3"
-            android:layout_width="1.77dp"
-            android:layout_height="6.08dp"
-            android:layout_marginStart="1dp"
-            android:background='@{item.signals >= 10?@color/color_green:@color/color_gray}'
-            app:layout_constraintBottom_toBottomOf="@id/view_item_device_iot_status4"
-            app:layout_constraintEnd_toStartOf="@id/view_item_device_iot_status4"
-            app:layout_constraintStart_toEndOf="@id/view_item_device_iot_status2" />
-
-        <View
-            android:id="@+id/view_item_device_iot_status4"
-            android:layout_width="1.77dp"
-            android:layout_height="7.86dp"
-            android:layout_marginStart="1dp"
-            android:background='@{item.signals >= 15?@color/color_green:@color/color_gray}'
-            app:layout_constraintBottom_toBottomOf="@id/view_item_device_iot_status5"
-            app:layout_constraintEnd_toStartOf="@id/view_item_device_iot_status5"
-            app:layout_constraintStart_toEndOf="@id/view_item_device_iot_status3" />
-
-        <View
-            android:id="@+id/view_item_device_iot_status5"
-            android:layout_width="1.77dp"
-            android:layout_height="9.63dp"
-            android:layout_marginStart="1dp"
-            android:background='@{item.signals >= 20?@color/color_green:@color/color_gray}'
-            app:layout_constraintBottom_toBottomOf="@id/view_item_device_iot_status"
-            app:layout_constraintEnd_toStartOf="@id/view_item_device_iot_status4"
-            app:layout_constraintStart_toEndOf="@id/view_item_device_iot_status4"
-            app:layout_constraintTop_toTopOf="@id/view_item_device_iot_status" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_item_device_iot_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:text="@{item.getIotStatusValue}"
-            android:textColor="@{4 == item.iotStatus?@color/color_pink:@color/common_txt_color}"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="@id/view_item_device_iot_status"
-            app:layout_constraintEnd_toEndOf="@id/view_item_device_iot_status"
-            app:layout_constraintTop_toTopOf="@id/view_item_device_iot_status"
-            tools:text="在线" />
-
-        <androidx.constraintlayout.widget.Group
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:visibility="@{item.isIotShow?View.VISIBLE:View.GONE}"
-            app:constraint_referenced_ids="view_item_device_iot_status,view_item_device_iot_status1,view_item_device_iot_status2,view_item_device_iot_status3,view_item_device_iot_status4,view_item_device_iot_status5,tv_item_device_iot_status" />
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_item_device_total_income"
             style="@style/Font_14_333333"
@@ -182,8 +169,8 @@
             android:drawableEnd="@drawable/icon_arrow_right_with_padding"
             android:gravity="center"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="@id/tv_item_device_type"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_device_type"
+            app:layout_constraintStart_toStartOf="@id/tv_item_device_shop"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_device_shop"
             tools:text="总收益：856420.00元" />
 
         <include

@@ -3,7 +3,6 @@ package com.yunshang.haile_manager_android.data.entities
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.rule.IIncomeDetailEntity
 import com.yunshang.haile_manager_android.data.rule.IncomeDetailInfo
-import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.StringUtils
 
 /**

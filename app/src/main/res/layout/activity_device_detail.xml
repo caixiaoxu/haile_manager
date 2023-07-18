@@ -27,8 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
             android:background="@color/white"
-            app:rightModel="text"
             app:layout_constraintTop_toTopOf="parent"
+            app:rightModel="text"
             app:title="@string/device_detail" />
 
         <androidx.core.widget.NestedScrollView
@@ -215,6 +215,13 @@
                             app:show="@{vm.deviceDetail.hasName}"
                             app:showCopy="@{false}"
                             app:title="@{vm.deviceDetail.getNameTitle}" />
+
+                        <include
+                            layout="@layout/item_device_detail_base_info"
+                            app:content='@{vm.deviceDetail.qrId +""}'
+                            app:show="@{vm.deviceDetail.hasQrId}"
+                            app:showCopy="@{true}"
+                            app:title="@{vm.deviceDetail.getQrIdTitle}" />
 
                         <include
                             layout="@layout/item_device_detail_base_info"

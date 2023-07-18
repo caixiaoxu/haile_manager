@@ -29,6 +29,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="@{show?View.VISIBLE:View.GONE}"
         android:paddingHorizontal="16dp">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -37,7 +38,6 @@
             android:textColor="@color/common_sub_txt_color"
             android:layout_width="wrap_content"
             android:text="@{title}"
-            android:visibility="@{show?View.VISIBLE:View.GONE}"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -66,7 +66,6 @@
             android:layout_width="0dp"
             android:background="@color/transparent"
             android:text="@{content}"
-            android:visibility="@{show?View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1"

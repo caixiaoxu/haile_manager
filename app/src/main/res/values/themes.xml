@@ -158,7 +158,7 @@
     <style name="ShopDetailTitleItemStyle" parent="ShopDetailItemStyle">
         <item name="android:textColor">@color/common_txt_color</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:background">@drawable/shape_bottom_stroke_dividing_efefef_mlr12</item>
+        <item name="android:background">@drawable/shape_bottom_stroke_dividing_mlr12</item>
     </style>
 
     <style name="DeviceManagerCategoryBtnStyle" parent="Font_14_333333">

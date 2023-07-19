@@ -22,7 +22,7 @@
             android:id="@+id/bar_department_select_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
-            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            android:background="@drawable/shape_bottom_stroke_dividing"
             app:layout_constraintTop_toTopOf="parent"
             app:rightModel="text"
             app:title="@{vm.searchSelectTitle}" />
@@ -31,7 +31,7 @@
             android:id="@+id/view_device_manager_search_parent_bg"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            android:background="@drawable/shape_bottom_stroke_dividing"
             app:layout_constraintTop_toBottomOf="@id/bar_department_select_title" />
 
         <View

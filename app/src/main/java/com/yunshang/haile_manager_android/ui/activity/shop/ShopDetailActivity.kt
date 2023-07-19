@@ -45,6 +45,7 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
         mBinding.tvShopDetailAppointmentInfoTitle.setOnClickListener {
             if (mViewModel.shopDetail.value?.appointSettingList.isNullOrEmpty()) return@setOnClickListener
             (View.VISIBLE == mBinding.groupShopDetailAppointmentInfo.visibility).let { show ->
+                if (show) it.setBackgroundColor(Color.WHITE) else it.setBackgroundResource(R.drawable.shape_bottom_stroke_dividing_mlr12)
                 mBinding.groupShopDetailAppointmentInfo.visibility =
                     if (show) View.GONE else View.VISIBLE
                 mBinding.tvShopDetailAppointmentInfoStatus.setCompoundDrawablesWithIntrinsicBounds(

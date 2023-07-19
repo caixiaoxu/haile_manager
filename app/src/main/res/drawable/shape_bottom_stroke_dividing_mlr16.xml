@@ -5,12 +5,14 @@
             <solid android:color="@color/white" />  <!-- 主体背景颜色 -->
         </shape>
     </item>
-    <item android:left="8dp" android:right="8dp"> <!-- 格子间的连接处颜色 -->
+    <item
+        android:left="16dp"
+        android:right="16dp"> <!-- 格子间的连接处颜色 -->
         <shape>
             <solid android:color="@color/dividing_line_color" />
         </shape>
     </item>
-    <item android:bottom="1dp"> <!--设置底部有边框-->
+    <item android:bottom="0.5dp"> <!--设置底部有边框-->
         <shape>
             <solid android:color="@color/white" />  <!-- 主体背景颜色 -->
         </shape>

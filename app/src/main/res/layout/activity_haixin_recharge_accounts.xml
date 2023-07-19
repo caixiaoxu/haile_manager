@@ -18,7 +18,7 @@
             android:id="@+id/bar_recharge_accounts_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
-            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            android:background="@drawable/shape_bottom_stroke_dividing"
             app:layout_constraintTop_toTopOf="parent"
             app:title="@string/recharge_accounts" />
 
@@ -26,7 +26,7 @@
             android:id="@+id/view_recharge_accounts_search_parent_bg"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            android:background="@drawable/shape_bottom_stroke_dividing"
             app:layout_constraintTop_toBottomOf="@id/bar_recharge_accounts_title" />
 
         <View
@@ -68,7 +68,7 @@
             android:id="@+id/bg_recharge_accounts_category"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            android:background="@drawable/shape_bottom_stroke_dividing"
             android:paddingHorizontal="16dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"

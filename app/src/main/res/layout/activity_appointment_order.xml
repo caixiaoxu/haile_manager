@@ -18,7 +18,7 @@
             android:id="@+id/bar_appointment_order_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
-            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            android:background="@drawable/shape_bottom_stroke_dividing"
             app:layout_constraintTop_toTopOf="parent"
             app:title="@string/appointment_order" />
 
@@ -26,7 +26,7 @@
             android:id="@+id/view_appointment_order_search_parent_bg"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            android:background="@drawable/shape_bottom_stroke_dividing"
             app:layout_constraintTop_toBottomOf="@id/bar_appointment_order_title" />
 
         <View
@@ -63,7 +63,7 @@
             android:id="@+id/bg_appointment_order_category"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            android:background="@drawable/shape_bottom_stroke_dividing"
             android:paddingHorizontal="16dp"
             android:scrollbars="none"
             app:layout_constraintTop_toBottomOf="@id/view_appointment_order_search_parent_bg">
@@ -90,7 +90,7 @@
             android:id="@+id/indicator_order_status"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            android:background="@drawable/shape_bottom_stroke_dividing"
             android:paddingHorizontal="16dp"
             app:layout_constraintTop_toBottomOf="@id/bg_appointment_order_category" />
 

@@ -19,6 +19,7 @@ import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.ExtAttrBean
 import com.yunshang.haile_manager_android.data.entities.SkuEntity
 import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
+import com.yunshang.haile_manager_android.data.entities.UserPermissionEntity
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceFunctionConfigurationBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceFuncConfigurationBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceFuncConfigurationDryerBinding
@@ -188,7 +189,10 @@ class DeviceFunctionConfigurationActivity :
         ).apply {
             onValueSureListener = object :
                 MultiSelectBottomSheetDialog.OnValueSureListener<ExtAttrBean> {
-                override fun onValue(datas: List<ExtAttrBean>) {
+                override fun onValue(
+                    datas: List<ExtAttrBean>,
+                    allSelectData: List<ExtAttrBean>
+                ) {
                     mAdapter.notifyItemChanged(pos)
                 }
             }

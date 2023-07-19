@@ -204,7 +204,10 @@ class DiscountsCreateActivity :
         ).apply {
             onValueSureListener = object :
                 MultiSelectBottomSheetDialog.OnValueSureListener<DiscountsDeviceTypeEntity> {
-                override fun onValue(datas: List<DiscountsDeviceTypeEntity>) {
+                override fun onValue(
+                    datas: List<DiscountsDeviceTypeEntity>,
+                    allSelectData: List<DiscountsDeviceTypeEntity>
+                ) {
                     mViewModel.selectDeviceCategory.value = datas
                 }
             }
@@ -254,7 +257,10 @@ class DiscountsCreateActivity :
             ).apply {
                 onValueSureListener = object :
                     MultiSelectBottomSheetDialog.OnValueSureListener<ActiveDayParam> {
-                    override fun onValue(datas: List<ActiveDayParam>) {
+                    override fun onValue(
+                        datas: List<ActiveDayParam>,
+                        allSelectData: List<ActiveDayParam>
+                    ) {
                         mViewModel.selectActiveDays.value = datas
                     }
                 }

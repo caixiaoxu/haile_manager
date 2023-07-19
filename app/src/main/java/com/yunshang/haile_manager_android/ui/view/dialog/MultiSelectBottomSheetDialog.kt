@@ -1,6 +1,7 @@
 package com.yunshang.haile_manager_android.ui.view.dialog
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -78,7 +79,7 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
                 SToast.showToast(context, "您还没有选择选项")
                 return@setOnClickListener
             }
-            builder.onValueSureListener?.onValue(selectList)
+            builder.onValueSureListener?.onValue(selectList, builder.list)
             dismiss()
         }
 
@@ -111,6 +112,11 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
         mBinding.flowMultiSelectList.referencedIds = idList
     }
 
+    override fun onDismiss(dialog: DialogInterface) {
+        builder.onCancelListener?.invoke(builder.list)
+        super.onDismiss(dialog)
+    }
+
     /**
      * 默认显示
      */
@@ -132,6 +138,9 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
         // 选择监听
         var onValueSureListener: OnValueSureListener<D>? = null
 
+        // 取消监听
+        var onCancelListener: ((datas: List<D>) -> Unit)? = null
+
         /**
          * 构建
          */
@@ -139,6 +148,6 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
     }
 
     interface OnValueSureListener<D : IMultiSelectBottomItemEntity> {
-        fun onValue(datas: List<D>)
+        fun onValue(selectData: List<D>, allSelectData: List<D>)
     }
 }

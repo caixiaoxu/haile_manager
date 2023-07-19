@@ -128,7 +128,7 @@ class ShopManagerActivity :
             }
 
             title = StringUtils.getString(R.string.device_num)
-            value = item.deviceNum.toString() + StringUtils.getString(R.string.unit_tai)
+            value = item.deviceNum.toString()
             start = title.length + 1
             end = title.length + 1 + value.length
             // 格式化设备数样式

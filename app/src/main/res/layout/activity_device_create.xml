@@ -122,10 +122,6 @@
                     app:title="@string/fun_configure"
                     app:type="info" />
 
-                <View
-                    style="@style/DividingStyle"
-                    android:layout_marginHorizontal="16dp" />
-
                 <LinearLayout
                     android:id="@+id/ll_device_create_select_fun_configuration"
                     android:layout_width="match_parent"

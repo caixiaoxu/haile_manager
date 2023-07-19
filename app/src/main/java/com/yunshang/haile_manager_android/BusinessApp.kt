@@ -27,6 +27,7 @@ class BusinessApp : BaseApp() {
 
     override fun onCreate() {
         super.onCreate()
+        // 初始化加载动画
         LoadDialogMgr.loadingRes = R.drawable.loading_origin_animation
         initLog()
         initNetwork()

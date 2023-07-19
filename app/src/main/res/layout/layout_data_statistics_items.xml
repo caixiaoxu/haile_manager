@@ -36,7 +36,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="12dp"
-        android:background="@color/dividing_line_color_efefef"
+        android:background="@color/dividing_line_color"
         app:layout_constraintBottom_toBottomOf="@id/gl_row1"
         app:layout_constraintBottom_toTopOf="@id/view_column3"
         app:layout_constraintStart_toStartOf="@id/gl_column1"
@@ -46,7 +46,7 @@
         android:id="@+id/view_column2"
         android:layout_width="1dp"
         android:layout_height="0dp"
-        android:background="@color/dividing_line_color_efefef"
+        android:background="@color/dividing_line_color"
         app:layout_constraintBottom_toBottomOf="@id/view_column1"
         app:layout_constraintStart_toStartOf="@id/gl_column2"
         app:layout_constraintTop_toTopOf="@id/view_column1" />
@@ -57,7 +57,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="24dp"
-        android:background="@color/dividing_line_color_efefef"
+        android:background="@color/dividing_line_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/gl_column1"
         app:layout_constraintTop_toBottomOf="@id/view_column1" />
@@ -68,7 +68,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
-        android:background="@color/dividing_line_color_efefef"
+        android:background="@color/dividing_line_color"
         app:layout_constraintBottom_toBottomOf="@id/view_column3"
         app:layout_constraintStart_toStartOf="@id/gl_column2"
         app:layout_constraintTop_toTopOf="@id/view_column3" />

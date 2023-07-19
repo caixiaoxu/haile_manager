@@ -11,6 +11,7 @@ import com.yunshang.haile_manager_android.business.vm.SubAccountCreateViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
+import com.yunshang.haile_manager_android.data.entities.DiscountsDeviceTypeEntity
 import com.yunshang.haile_manager_android.data.entities.ShopBusinessTypeEntity
 import com.yunshang.haile_manager_android.data.entities.StaffEntity
 import com.yunshang.haile_manager_android.databinding.ActivitySubAccountCreateBinding
@@ -170,7 +171,10 @@ class SubAccountCreateActivity :
         MultiSelectBottomSheetDialog.Builder("选择设备类型", list).apply {
             onValueSureListener = object :
                 MultiSelectBottomSheetDialog.OnValueSureListener<CategoryEntity> {
-                override fun onValue(datas: List<CategoryEntity>) {
+                override fun onValue(
+                    datas: List<CategoryEntity>,
+                    allSelectData: List<CategoryEntity>
+                ) {
                     mViewModel.deviceCategory.value = datas
                 }
             }

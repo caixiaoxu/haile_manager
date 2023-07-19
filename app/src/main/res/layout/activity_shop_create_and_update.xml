@@ -35,7 +35,7 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:divider="@color/dividing_line_color_efefef"
+                app:divider="@color/dividing_line_color"
                 app:showDividers="middle|end"
                 app:dividerPadding="16dp"
                 android:orientation="vertical">

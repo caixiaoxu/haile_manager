@@ -99,16 +99,14 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_chainStyle="spread_inside" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <com.yunshang.haile_manager_android.ui.view.AmountTextView
                         android:id="@+id/tv_home_income"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:fontFamily="@font/money"
                         android:text="@{vm.inComeVal}"
                         android:textColor="@color/common_txt_color"
                         android:textSize="36sp"
-                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_home_income_title"
                         tools:text="¥2000.00" />

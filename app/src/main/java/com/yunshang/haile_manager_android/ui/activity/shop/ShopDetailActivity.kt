@@ -50,7 +50,7 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
                 mBinding.tvShopDetailAppointmentInfoStatus.setCompoundDrawablesWithIntrinsicBounds(
                     0,
                     0,
-                    if (show) R.drawable.icon_arrow_down_with_padding else R.drawable.icon_arrow_right_with_padding,
+                    if (!show) R.drawable.icon_arrow_down_with_padding else R.drawable.icon_arrow_right_with_padding,
                     0
                 )
             }

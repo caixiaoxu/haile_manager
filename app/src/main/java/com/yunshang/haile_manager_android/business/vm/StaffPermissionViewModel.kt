@@ -15,7 +15,6 @@ import com.yunshang.haile_manager_android.data.arguments.StaffPermissionParams
 import com.yunshang.haile_manager_android.data.entities.UserPermissionEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.data.model.SPRepository
-import com.yunshang.haile_manager_android.ui.activity.staff.StaffPermissionActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -56,8 +55,9 @@ class StaffPermissionViewModel : BaseViewModel() {
                     if (0 == it.parentId) {
                         parent.add(it)
                     } else {
-                        it.isCheck =
+                        it.isOldCheck =
                             if (selectList.isEmpty()) false else selectList.contains(it.menuId)
+                        it.isCheck = it.isOldCheck
                         if (child[it.parentId].isNullOrEmpty()) {
                             child[it.parentId] = mutableListOf()
                         }
@@ -95,7 +95,8 @@ class StaffPermissionViewModel : BaseViewModel() {
         permissionList.value?.let {
             it.forEach { staffParams ->
                 staffParams.child?.forEach { entity ->
-                    entity.isCheck = !isAll.value!!
+                    entity.isOldCheck = !isAll.value!!
+                    entity.isCheck = entity.isOldCheck
                 }
                 staffParams.notifyPropertyChanged(BR.selectNum)
             }

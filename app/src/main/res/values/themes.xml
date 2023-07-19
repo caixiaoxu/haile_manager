@@ -20,7 +20,7 @@
     <style name="DividingStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.5dp</item>
-        <item name="android:background">@color/dividing_line_color_efefef</item>
+        <item name="android:background">@color/dividing_line_color</item>
     </style>
 
     <style name="CommonMatchBtnStyle" parent="@style/Widget.AppCompat.Button.Borderless">
@@ -293,6 +293,12 @@
     <style name="Font_14_333333_999999">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/common_txt_color</item>
+        <item name="android:textColorHint">@color/common_sub_txt_color</item>
+    </style>
+
+    <style name="Font_14_999999_999999">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/common_sub_txt_color</item>
         <item name="android:textColorHint">@color/common_sub_txt_color</item>
     </style>
 

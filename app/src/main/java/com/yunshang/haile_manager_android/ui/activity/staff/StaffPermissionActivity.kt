@@ -19,7 +19,10 @@ import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
 
 class StaffPermissionActivity :
-    BaseBusinessActivity<ActivityStaffPermissionBinding, StaffPermissionViewModel>(StaffPermissionViewModel::class.java,BR.vm) {
+    BaseBusinessActivity<ActivityStaffPermissionBinding, StaffPermissionViewModel>(
+        StaffPermissionViewModel::class.java,
+        BR.vm
+    ) {
 
     companion object {
         const val PermissionResultCode = 0x90100
@@ -41,9 +44,21 @@ class StaffPermissionActivity :
                         isCanSelectEmpty = true
                         onValueSureListener = object :
                             MultiSelectBottomSheetDialog.OnValueSureListener<UserPermissionEntity> {
-                            override fun onValue(datas: List<UserPermissionEntity>) {
-                                mViewModel.checkSelectAll();
+
+                            override fun onValue(
+                                selectData: List<UserPermissionEntity>,
+                                allSelectData: List<UserPermissionEntity>
+                            ) {
+                                allSelectData.forEach { permission ->
+                                    permission.isOldCheck = permission.isCheck
+                                }
+                                mViewModel.checkSelectAll()
                                 data.notifyPropertyChanged(BR.selectNum)
+                            }
+                        }
+                        onCancelListener = {
+                            list.forEach { permission ->
+                                permission.isCheck = permission.isOldCheck
                             }
                         }
                     }.build()

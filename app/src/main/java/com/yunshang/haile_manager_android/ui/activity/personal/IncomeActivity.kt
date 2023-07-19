@@ -25,9 +25,12 @@ import com.yunshang.haile_manager_android.databinding.ItemIncomeListByDayBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.GridSpaceItemDecoration
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
+import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.ViewUtils
+import timber.log.Timber
+import java.util.*
 
 class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewModel>(
     IncomeViewModel::class.java,
@@ -75,9 +78,13 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
             BR.item
         ) { mItemBinding, _, item ->
             mItemBinding?.root?.setOnClickListener {
-                startActivity(Intent(this@IncomeActivity, EarningsDetailActivity::class.java).apply {
-                    putExtra(EarningsDetailActivity.IncomeId, item.id)
-                })
+                startActivity(
+                    Intent(
+                        this@IncomeActivity,
+                        EarningsDetailActivity::class.java
+                    ).apply {
+                        putExtra(EarningsDetailActivity.IncomeId, item.id)
+                    })
             }
         }
     }
@@ -118,6 +125,21 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+
+        mBinding.tvIncomeSelectDate.setOnClickListener {
+            DateSelectorDialog.Builder().apply {
+                showModel = 1
+                maxDate = Calendar.getInstance().apply { time = Date() }
+                onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
+                    override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
+                        Timber.i("----选择的日期${DateTimeUtils.formatDateTime(date1, "yyyy-MM-dd")}")
+                        //更换时间
+                        mViewModel.selectMonth.value = date1
+                    }
+                }
+            }.build().show(supportFragmentManager)
+        }
+
         val arr = resources.getStringArray(R.array.week_arr)
         ViewUtils.refreshLinearLayoutChild(
             mBinding.llIncomeCalendarTitle,

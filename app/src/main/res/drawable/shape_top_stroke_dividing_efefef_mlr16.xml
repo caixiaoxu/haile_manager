@@ -9,7 +9,7 @@
         android:left="16dp"
         android:right="16dp"> <!-- 格子间的连接处颜色 -->
         <shape>
-            <solid android:color="@color/dividing_line_color_efefef" />
+            <solid android:color="@color/dividing_line_color" />
         </shape>
     </item>
     <item android:top="1dp"> <!--设置底部有边框-->

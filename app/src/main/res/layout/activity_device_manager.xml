@@ -55,7 +55,7 @@
             app:layout_constraintTop_toTopOf="@id/view_device_manager_search_bg" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            style="@style/Font_14_999999"
+            style="@style/Font_14_999999_999999"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"

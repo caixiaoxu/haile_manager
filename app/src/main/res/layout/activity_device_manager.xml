@@ -56,10 +56,12 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/Font_14_999999"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="@string/device_search_hint"
+            android:text="@{vm.searchKey}"
+            android:hint="@string/device_search_hint"
+            app:layout_constraintEnd_toEndOf="@id/view_device_manager_search_bg"
             app:layout_constraintBottom_toBottomOf="@id/view_device_manager_search_bg"
             app:layout_constraintStart_toEndOf="@id/iv_device_manager_search"
             app:layout_constraintTop_toTopOf="@id/view_device_manager_search_bg" />

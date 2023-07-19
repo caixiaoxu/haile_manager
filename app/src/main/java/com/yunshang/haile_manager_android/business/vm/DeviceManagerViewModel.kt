@@ -32,6 +32,11 @@ class DeviceManagerViewModel : BaseViewModel() {
     private val mDeviceRepo = ApiRepository.apiClient(DeviceService::class.java)
     private val mCategoryRepo = ApiRepository.apiClient(CategoryService::class.java)
 
+    // 搜索内容
+    val searchKey: MutableLiveData<String> by lazy {
+        MutableLiveData()
+    }
+
     // 设备类型
     val categoryList: MutableLiveData<List<CategoryEntity>> = MutableLiveData()
 
@@ -115,6 +120,7 @@ class DeviceManagerViewModel : BaseViewModel() {
             titles[1].num = totals?.getTotal(20) ?: 0
             titles[2].num = totals?.getTotal(10) ?: 0
             titles[3].num = totals?.getTotal(30) ?: 0
+            titles[0].num = titles[1].num + titles[2].num + titles[3].num
 //            titles[4].num = totals?.getTotal(40) ?: 0
             deviceStatus.postValue(titles)
         }
@@ -133,6 +139,7 @@ class DeviceManagerViewModel : BaseViewModel() {
                 "page" to page,
                 "pageSize" to pageSize,
                 "workStatus" to (curWorkStatus.value ?: ""),
+                "keywords" to (searchKey.value?.trim() ?: "")
             )
             // 店铺
             selectDepartment.value?.let {

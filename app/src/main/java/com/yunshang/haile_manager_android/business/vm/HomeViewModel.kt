@@ -96,6 +96,17 @@ class HomeViewModel : BaseViewModel() {
                     true,
                 )
             ),
+//            FunItem(
+//                StringUtils.getString(R.string.notice_manager),
+//                R.mipmap.icon_notice_manager,
+//                WebViewActivity::class.java,
+//                UserPermissionUtils.hasWorkOrderPermission(),
+//                IntentParams.WebViewParams.pack(
+//                    BuildConfig.H5_WORK_ORDER,
+////                    "http://192.168.3.32:5173/",//测试
+//                    true,
+//                )
+//            ),
         )
     )
 

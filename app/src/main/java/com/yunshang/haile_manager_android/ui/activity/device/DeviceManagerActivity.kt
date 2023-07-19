@@ -3,10 +3,8 @@ package com.yunshang.haile_manager_android.ui.activity.device
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Typeface
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.text.style.TypefaceSpan
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -38,6 +36,7 @@ import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.NumberUtils
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
@@ -86,9 +85,10 @@ class DeviceManagerActivity :
             BR.item
         ) { mBinding, _, item ->
 
-            val title = StringUtils.getString(R.string.total_earnings)
+            val title =
+                StringUtils.getString(R.string.total_earnings)
             val value =
-                NumberUtils.keepTwoDecimals(item.income) + StringUtils.getString(R.string.unit_yuan)
+                StringUtils.getString(R.string.unit_money) + NumberUtils.keepTwoDecimals(item.income)
             val start = title.length + 1
             val end = title.length + 1 + value.length
             // 格式化总收益样式
@@ -104,12 +104,11 @@ class DeviceManagerActivity :
                             )
                         ),
                         AbsoluteSizeSpan(DimensionUtils.sp2px(18f, this@DeviceManagerActivity)),
-                        StyleSpan(Typeface.BOLD),
                         TypefaceSpan("money")
                     ), start, end
                 )
             mBinding?.tvItemDeviceTotalIncome?.setOnClickListener {
-                if (true == mSharedViewModel.hasDeviceProfitPermission.value) {
+                if (UserPermissionUtils.hasDeviceProfitPermission()) {
                     // 跳转到设备收益
                     startActivity(
                         Intent(
@@ -125,7 +124,7 @@ class DeviceManagerActivity :
 
             // 进入详情
             mBinding?.root?.setOnClickListener {
-                if (true == mSharedViewModel.hasDeviceInfoPermission.value) {
+                if (UserPermissionUtils.hasDeviceInfoPermission()) {
                     // 设备详情
                     startActivity(
                         Intent(
@@ -144,23 +143,30 @@ class DeviceManagerActivity :
 
     override fun backBtn(): View = mBinding.barDeviceTitle.getBackBtn()
 
+    override fun initIntent() {
+        super.initIntent()
+        mViewModel.searchKey.value = IntentParams.SearchParams.parseKeyWord(intent)
+    }
+
     /**
      * 设置标题右侧按钮
      */
     private fun initRightBtn() {
-        mBinding.barDeviceTitle.getRightBtn(true).run {
-            setText(R.string.add_device)
-            setCompoundDrawablesRelativeWithIntrinsicBounds(
-                R.mipmap.icon_add, 0, 0, 0
-            )
-            compoundDrawablePadding = DimensionUtils.dip2px(this@DeviceManagerActivity, 4f)
-            setOnClickListener {
-                startActivity(
-                    Intent(
-                        this@DeviceManagerActivity,
-                        DeviceCreateActivity::class.java
-                    )
+        if (mViewModel.searchKey.value.isNullOrEmpty()){
+            mBinding.barDeviceTitle.getRightBtn(true).run {
+                setText(R.string.add_device)
+                setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    R.mipmap.icon_add, 0, 0, 0
                 )
+                compoundDrawablePadding = DimensionUtils.dip2px(this@DeviceManagerActivity, 4f)
+                setOnClickListener {
+                    startActivity(
+                        Intent(
+                            this@DeviceManagerActivity,
+                            DeviceCreateActivity::class.java
+                        )
+                    )
+                }
             }
         }
     }
@@ -283,7 +289,7 @@ class DeviceManagerActivity :
                     pageSize: Int,
                     callBack: (responseList: ResponseList<out DeviceEntity>?) -> Unit
                 ) {
-                    if (true == mSharedViewModel.hasDeviceListPermission.value) {
+                    if (UserPermissionUtils.hasDeviceListPermission()) {
                         mViewModel.requestDeviceList(page, pageSize, callBack)
                     }
                 }
@@ -292,9 +298,6 @@ class DeviceManagerActivity :
 
     override fun initEvent() {
         super.initEvent()
-        mSharedViewModel.hasDeviceListPermission.observe(this) {}
-        mSharedViewModel.hasDeviceInfoPermission.observe(this) {}
-        mSharedViewModel.hasDeviceProfitPermission.observe(this) {}
         mSharedViewModel.hasDeviceAddPermission.observe(this) {
             if (it)
                 initRightBtn()
@@ -312,7 +315,7 @@ class DeviceManagerActivity :
                             normalColor = Color.parseColor("#666666")
                             selectedColor = Color.WHITE
                             list[index].run {
-                                text = title + if (0 < num) num else ""
+                                text = title + if (0 < num) " $num" else ""
                                 setOnClickListener {
                                     mViewModel.curWorkStatus.value = value
                                     onPageSelected(index)

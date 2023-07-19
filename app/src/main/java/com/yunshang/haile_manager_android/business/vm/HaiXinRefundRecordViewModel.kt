@@ -59,7 +59,6 @@ class HaiXinRefundRecordViewModel : BaseViewModel() {
         page: Int,
         pageSize: Int,
         result: (listWrapper: ResponseList<RefundRecordEntity>?) -> Unit
-
     ) {
         launch({
             val params: HashMap<String, Any> = hashMapOf(

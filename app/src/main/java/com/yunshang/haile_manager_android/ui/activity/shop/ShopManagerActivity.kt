@@ -90,9 +90,10 @@ class ShopManagerActivity :
             R.layout.item_shop_list,
             BR.item
         ) { mBinding, _, item ->
-            var title = StringUtils.getString(R.string.total_earnings)
+            var title =
+                StringUtils.getString(R.string.total_earnings)
             var value =
-                NumberUtils.keepTwoDecimals(item.income) + StringUtils.getString(R.string.unit_yuan)
+                StringUtils.getString(R.string.unit_money) + NumberUtils.keepTwoDecimals(item.income)
             var start = title.length + 1
             var end = title.length + 1 + value.length
             // 格式化总收益样式

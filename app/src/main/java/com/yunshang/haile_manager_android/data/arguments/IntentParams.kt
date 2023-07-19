@@ -201,6 +201,19 @@ object IntentParams {
         fun parseOrderNo(intent: Intent): String? = intent.getStringExtra(OrderNo)
     }
 
+    object SearchParams {
+        private const val KeyWord = "keyWord"
+
+        /**
+         * 包装参数
+         */
+        fun pack(keyWord: String? = null): Bundle = Bundle().apply {
+            putString(KeyWord, keyWord)
+        }
+
+        fun parseKeyWord(intent: Intent): String? = intent.getStringExtra(KeyWord)
+    }
+
     object OrderDetailParams {
         private const val IsAppoint = "isAppoint"
 

@@ -31,6 +31,11 @@ import java.util.Date
 class OrderManagerViewModel : BaseViewModel() {
     private val mOrderRepo = ApiRepository.apiClient(OrderService::class.java)
 
+    // 搜索内容
+    val searchKey: MutableLiveData<String> by lazy {
+        MutableLiveData()
+    }
+
     // 设备数量
     val mOrderCountStr: MutableLiveData<String> = MutableLiveData()
 
@@ -90,6 +95,7 @@ class OrderManagerViewModel : BaseViewModel() {
             IndicatorEntity("支付超时", 0, "401"),
         )
     )
+
     fun requestOrderList(
         page: Int,
         pageSize: Int,
@@ -101,6 +107,8 @@ class OrderManagerViewModel : BaseViewModel() {
                 "page" to page,
                 "pageSize" to pageSize,
                 "orderStatus" to (curOrderStatus.value ?: ""),
+                "searchType" to if (searchKey.value.isNullOrEmpty()) 1 else 2,
+                "searchStr" to (searchKey.value?.trim() ?: ""),
             )
             // 店铺
             selectDepartment.value?.let {
@@ -108,10 +116,10 @@ class OrderManagerViewModel : BaseViewModel() {
             }
             // 时间
             startTime.value?.let {
-                params["startTime"] = DateTimeUtils.formatDateTime(it,"yyyy-MM-dd") + " 00:00:00"
+                params["startTime"] = DateTimeUtils.formatDateTime(it, "yyyy-MM-dd") + " 00:00:00"
             }
             endTime.value?.let {
-                params["endTime"] = DateTimeUtils.formatDateTime(it,"yyyy-MM-dd") + " 23:59:59"
+                params["endTime"] = DateTimeUtils.formatDateTime(it, "yyyy-MM-dd") + " 23:59:59"
             }
 
             val listWrapper = ApiRepository.dealApiResult(

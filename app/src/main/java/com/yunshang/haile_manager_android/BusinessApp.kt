@@ -6,6 +6,7 @@ import com.lsy.framelib.network.interceptors.BasicParamsInterceptor
 import com.lsy.framelib.network.interceptors.OkHttpBodyLogInterceptor
 import com.lsy.framelib.network.interceptors.ResponseInterceptor
 import com.lsy.framelib.ui.base.BaseApp
+import com.lsy.framelib.ui.weight.loading.LoadDialogMgr
 import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.log.CrashReportingTree
 import com.yunshang.haile_manager_android.utils.WeChatHelper
@@ -26,6 +27,7 @@ class BusinessApp : BaseApp() {
 
     override fun onCreate() {
         super.onCreate()
+        LoadDialogMgr.loadingRes = R.drawable.loading_origin_animation
         initLog()
         initNetwork()
         initWechat()

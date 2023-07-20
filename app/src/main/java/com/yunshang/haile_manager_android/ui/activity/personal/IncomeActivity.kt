@@ -11,6 +11,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.data.constants.Constants
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.StringUtils
@@ -54,20 +55,21 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
                 mViewModel.selectDay.value = item.getDate()
             }
             mViewModel.selectDay.observe(this) { day ->
+                val isSelect = item.isSelect(day)
                 mItemBinding?.root?.setBackgroundColor(
-                    ContextCompat.getColor(
+                    if (isSelect) item.curTypeColor else ContextCompat.getColor(
                         this@IncomeActivity,
-                        if (item.isSelect(day)) R.color.colorPrimary else R.color.white
+                        R.color.white
                     )
                 )
                 mItemBinding?.tvIncomeCalendarDayNum?.setTextColor(
                     ContextCompat.getColor(
                         this@IncomeActivity,
-                        if (item.isSelect(day)) R.color.white else R.color.common_txt_color
+                        if (isSelect) R.color.white else R.color.common_txt_color
                     )
                 )
                 mItemBinding?.tvIncomeCalendarDayAmount?.setTextColor(
-                    if (item.isSelect(day)) Color.WHITE else item.curTypeColor
+                    if (isSelect) Color.WHITE else item.curTypeColor
                 )
             }
         }

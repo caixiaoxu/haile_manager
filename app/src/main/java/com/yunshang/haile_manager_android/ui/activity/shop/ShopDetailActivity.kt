@@ -127,30 +127,32 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
 
         // 刷新预约布局
         mViewModel.shopDetail.observe(this) {
-            val noAllClose = it.appointSettingList.any { setting -> 0 != setting.appointSwitch }
-            mBinding.tvShopDetailAppointmentInfoStatus.setText(if (noAllClose) R.string.open else R.string.close)
-            mBinding.tvShopDetailAppointmentInfoStatus.setTextColor(
-                ContextCompat.getColor(
-                    this@ShopDetailActivity,
-                    if (noAllClose) R.color.colorPrimary else R.color.common_sub_txt_color
-                )
-            )
-            mBinding.llShopDetailAppointmentInfo.buildChild<ItemShopDetailAppointmentBinding, AppointSetting>(
-                it.appointSettingList,
-            ) { _, childBinding, data ->
-                childBinding.tvShopDetailsAppointmentName.text =
-                    data.goodsCategoryName + StringUtils.getString(R.string.appointment)
-                childBinding.tvShopDetailsAppointmentValue.text =
-                    StringUtils.getString(if (0 == data.appointSwitch) R.string.out_of_service else R.string.in_use)
-                childBinding.tvShopDetailsAppointmentValue.setTextColor(
-                    ResourcesCompat.getColor(
-                        resources,
-                        if (0 == data.appointSwitch) R.color.common_sub_txt_color else R.color.colorPrimary,
-                        null
+            if (null != it.appointSettingList) {
+                val noAllClose = it.appointSettingList.any { setting -> 0 != setting.appointSwitch }
+                mBinding.tvShopDetailAppointmentInfoStatus.setText(if (noAllClose) R.string.open else R.string.close)
+                mBinding.tvShopDetailAppointmentInfoStatus.setTextColor(
+                    ContextCompat.getColor(
+                        this@ShopDetailActivity,
+                        if (noAllClose) R.color.colorPrimary else R.color.common_sub_txt_color
                     )
                 )
-            }
-            mBinding.llShopDetailAppointmentInfo.visibility = View.GONE
+                mBinding.llShopDetailAppointmentInfo.buildChild<ItemShopDetailAppointmentBinding, AppointSetting>(
+                    it.appointSettingList,
+                ) { _, childBinding, data ->
+                    childBinding.tvShopDetailsAppointmentName.text =
+                        data.goodsCategoryName + StringUtils.getString(R.string.appointment)
+                    childBinding.tvShopDetailsAppointmentValue.text =
+                        StringUtils.getString(if (0 == data.appointSwitch) R.string.out_of_service else R.string.in_use)
+                    childBinding.tvShopDetailsAppointmentValue.setTextColor(
+                        ResourcesCompat.getColor(
+                            resources,
+                            if (0 == data.appointSwitch) R.color.common_sub_txt_color else R.color.colorPrimary,
+                            null
+                        )
+                    )
+                }
+            } else
+                mBinding.llShopDetailAppointmentInfo.visibility = View.GONE
         }
 
         // 修改成功后

@@ -19,7 +19,6 @@ class IncomeDetailActivity :
         const val IncomeId = "incomeId"
         const val OrderNo = "orderNo"
     }
-
     override fun layoutId(): Int = R.layout.activity_income_detail
 
     override fun backBtn(): View = mBinding.barIncomeDetailTitle.getBackBtn()

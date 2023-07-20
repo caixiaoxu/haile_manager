@@ -74,6 +74,7 @@ class DeviceStartViewModel : BaseViewModel() {
             withContext(Dispatchers.Main) {
                 LiveDataBus.post(BusEvents.DEVICE_LIST_STATUS, true)
                 SToast.showToast(view.context, "启动成功")
+                jump.postValue(0)
             }
         })
     }

@@ -13,6 +13,7 @@ import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import com.yunshang.haile_manager_android.data.rule.DeviceIndicatorEntity
 import com.yunshang.haile_manager_android.data.rule.IndicatorEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -71,15 +72,14 @@ class DeviceManagerViewModel : BaseViewModel() {
     // 状态的工作状态
     val curWorkStatus: MutableLiveData<String> = MutableLiveData("")
 
-    val deviceStatus: MutableLiveData<List<IndicatorEntity<String>>> = MutableLiveData(
+    val deviceStatus: List<DeviceIndicatorEntity<String>> =
         arrayListOf(
-            IndicatorEntity("全部", 0, ""),
-            IndicatorEntity("运行", 0, "20"),
-            IndicatorEntity("空闲", 0, "10"),
-            IndicatorEntity("故障", 0, "30"),
+            DeviceIndicatorEntity("全部", MutableLiveData(0), ""),
+            DeviceIndicatorEntity("运行", MutableLiveData(0), "20"),
+            DeviceIndicatorEntity("空闲", MutableLiveData(0), "10"),
+            DeviceIndicatorEntity("故障", MutableLiveData(0), "30"),
 //            IndicatorEntity("停用", 0, "40"),
         )
-    )
 
 
     /**
@@ -114,15 +114,15 @@ class DeviceManagerViewModel : BaseViewModel() {
         val totals = ApiRepository.dealApiResult(
             mDeviceRepo.deviceStatusTotals(hashMapOf())
         )
-        deviceStatus.value?.let { list ->
-            val titles = arrayListOf<IndicatorEntity<String>>()
-            titles.addAll(list)
-            titles[1].num = totals?.getTotal(20) ?: 0
-            titles[2].num = totals?.getTotal(10) ?: 0
-            titles[3].num = totals?.getTotal(30) ?: 0
-            titles[0].num = titles[1].num + titles[2].num + titles[3].num
+        deviceStatus.let { list ->
+            val runningNum = totals?.getTotal(20) ?: 0
+            list[1].num.postValue(runningNum)
+            val idleNum = totals?.getTotal(10) ?: 0
+            list[2].num.postValue(idleNum)
+            val falutNum = totals?.getTotal(30) ?: 0
+            list[3].num.postValue(falutNum)
+            list[0].num.postValue(runningNum + idleNum + falutNum)
 //            titles[4].num = totals?.getTotal(40) ?: 0
-            deviceStatus.postValue(titles)
         }
     }
 

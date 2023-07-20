@@ -152,7 +152,7 @@ class DeviceManagerActivity :
      * 设置标题右侧按钮
      */
     private fun initRightBtn() {
-        if (mViewModel.searchKey.value.isNullOrEmpty()){
+        if (mViewModel.searchKey.value.isNullOrEmpty()) {
             mBinding.barDeviceTitle.getRightBtn(true).run {
                 setText(R.string.add_device)
                 setCompoundDrawablesRelativeWithIntrinsicBounds(
@@ -262,6 +262,43 @@ class DeviceManagerActivity :
             }.build().show(supportFragmentManager)
         }
 
+        // 设备状态
+        mBinding.indicatorDeviceStatus.navigator = CommonNavigator(this).apply {
+
+            adapter = object : CommonNavigatorAdapter() {
+                override fun getCount(): Int = mViewModel.deviceStatus.size
+
+                override fun getTitleView(context: Context?, index: Int): IPagerTitleView {
+                    return SimplePagerTitleView(context).apply {
+                        normalColor = Color.parseColor("#666666")
+                        selectedColor = Color.WHITE
+                        mViewModel.deviceStatus[index].run {
+                            num.observe(this@DeviceManagerActivity) { n ->
+                                text = title + if (0 < n) " $n" else " 0"
+                            }
+                            setOnClickListener {
+                                mViewModel.curWorkStatus.value = value
+                                onPageSelected(index)
+                                notifyDataSetChanged()
+                            }
+                        }
+                    }
+                }
+
+                override fun getIndicator(context: Context?): IPagerIndicator {
+                    return WrapPagerIndicator(context).apply {
+                        verticalPadding = DimensionUtils.dip2px(this@DeviceManagerActivity, 4f)
+                        fillColor = ContextCompat.getColor(
+                            this@DeviceManagerActivity,
+                            R.color.colorPrimary
+                        )
+                        roundRadius =
+                            DimensionUtils.dip2px(this@DeviceManagerActivity, 14f).toFloat()
+                    }
+                }
+            }
+        }
+
         // 刷新
         mBinding.tvDeviceManagerListRefresh.setOnClickListener {
             mBinding.rvDeviceManagerList.requestRefresh()
@@ -301,43 +338,6 @@ class DeviceManagerActivity :
         mSharedViewModel.hasDeviceAddPermission.observe(this) {
             if (it)
                 initRightBtn()
-        }
-
-        // 刷新状态
-        mViewModel.deviceStatus.observe(this) { list ->
-            mBinding.indicatorDeviceStatus.navigator = CommonNavigator(this).apply {
-
-                adapter = object : CommonNavigatorAdapter() {
-                    override fun getCount(): Int = list.size
-
-                    override fun getTitleView(context: Context?, index: Int): IPagerTitleView {
-                        return SimplePagerTitleView(context).apply {
-                            normalColor = Color.parseColor("#666666")
-                            selectedColor = Color.WHITE
-                            list[index].run {
-                                text = title + if (0 < num) " $num" else " 0"
-                                setOnClickListener {
-                                    mViewModel.curWorkStatus.value = value
-                                    onPageSelected(index)
-                                    notifyDataSetChanged()
-                                }
-                            }
-                        }
-                    }
-
-                    override fun getIndicator(context: Context?): IPagerIndicator {
-                        return WrapPagerIndicator(context).apply {
-                            verticalPadding = DimensionUtils.dip2px(this@DeviceManagerActivity, 4f)
-                            fillColor = ContextCompat.getColor(
-                                this@DeviceManagerActivity,
-                                R.color.colorPrimary
-                            )
-                            roundRadius =
-                                DimensionUtils.dip2px(this@DeviceManagerActivity, 14f).toFloat()
-                        }
-                    }
-                }
-            }
         }
 
         // 设备类型
@@ -382,11 +382,13 @@ class DeviceManagerActivity :
 
         // 监听刷新
         LiveDataBus.with(BusEvents.DEVICE_LIST_STATUS)?.observe(this) {
+            mViewModel.requestData(4)
             mBinding.rvDeviceManagerList.requestRefresh()
         }
 
         // 监听删除
         LiveDataBus.with(BusEvents.DEVICE_LIST_ITEM_DELETE_STATUS, Int::class.java)?.observe(this) {
+            mViewModel.requestData(4)
             mAdapter.deleteItem { item -> item.id == it }
         }
     }

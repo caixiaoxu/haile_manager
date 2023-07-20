@@ -167,7 +167,7 @@ class HomeViewModel : BaseViewModel() {
      */
     private suspend fun requestUnReadCount() {
         // 未读消息数量
-        val unReadList = ApiRepository.dealApiResult(
+        ApiRepository.dealApiResult(
             mMessageRepo.messageTypeCount(
                 ApiRepository.createRequestBody(
                     hashMapOf(
@@ -176,13 +176,14 @@ class HomeViewModel : BaseViewModel() {
                     )
                 )
             )
-        )
-        // 累加
-        var count = 0
-        unReadList?.forEach {
-            count += it.count
+        )?.let { list ->
+            // 累加
+            var count = 0
+            list.forEach {
+                count += it.count
+            }
+            unReadMsgNum.postValue(count)
         }
-        unReadMsgNum.postValue(count)
     }
 
     /**

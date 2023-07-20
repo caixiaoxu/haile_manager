@@ -15,6 +15,7 @@
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowBackground">@color/page_bg</item>
+        <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Borderless</item>
     </style>
 
     <style name="DividingStyle">
@@ -239,6 +240,7 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
     <style name="Font_12_ffffff_bold" parent="Font_12_ffffff">
         <item name="android:textStyle">bold</item>
     </style>

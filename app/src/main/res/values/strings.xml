@@ -353,6 +353,7 @@
 
     <string name="home_capital_title">资金管理</string>
     <string name="sub_account_manager">分账管理</string>
+    <string name="sub_account_search_hint">搜索关键字</string>
     <string name="sub_account_shop">分账门店</string>
     <string name="sub_account_info">分账信息</string>
     <string name="sub_account_account">分账账号</string>

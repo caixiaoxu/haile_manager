@@ -52,7 +52,7 @@
                     style="@style/MultiTypeItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     app:itemContent="@={vm.name}"
-                    app:showArrow="true"
+                    app:showArrow="false"
                     app:title="@string/name"
                     app:type="input" />
 
@@ -64,7 +64,7 @@
                     android:maxLength="11"
                     android:maxLines="1"
                     app:itemContent="@={vm.phone}"
-                    app:showArrow="true"
+                    app:showArrow="false"
                     app:title="@string/phone"
                     app:type="input" />
 

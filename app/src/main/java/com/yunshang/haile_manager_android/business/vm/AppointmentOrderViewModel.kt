@@ -31,6 +31,11 @@ import java.util.*
 class AppointmentOrderViewModel : BaseViewModel() {
     private val mOrderRepo = ApiRepository.apiClient(OrderService::class.java)
 
+    // 搜索内容
+    val searchKey: MutableLiveData<String> by lazy {
+        MutableLiveData()
+    }
+
     // 设备数量
     val mAppointmentOrderCountStr: MutableLiveData<String> = MutableLiveData()
 
@@ -102,6 +107,8 @@ class AppointmentOrderViewModel : BaseViewModel() {
                 "pageSize" to pageSize,
                 "orderType" to 300,
                 "orderStatus" to (curAppointmentOrderStatus.value ?: ""),
+                "searchType" to if (searchKey.value.isNullOrEmpty()) 1 else 2,
+                "searchStr" to (searchKey.value?.trim() ?: ""),
             )
             // 店铺
             selectDepartment.value?.let {

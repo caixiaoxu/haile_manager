@@ -120,7 +120,7 @@
                         android:layout_marginTop="16dp"
                         android:clickable="@{vm.isSubmit}"
                         android:src="@mipmap/bg_id_card_front"
-                        app:imgUrl="@{vm.authInfo.idCardFont}"
+                        app:imgCenterUrl="@{vm.authInfo.idCardFont}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_id_photo_title" />
@@ -132,7 +132,7 @@
                         android:layout_marginTop="12dp"
                         android:clickable="@{vm.isSubmit}"
                         android:src="@mipmap/bg_id_card_back"
-                        app:imgUrl="@{vm.authInfo.idCardReverse}"
+                        app:imgCenterUrl="@{vm.authInfo.idCardReverse}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/iv_id_card_front" />
@@ -151,7 +151,7 @@
                         android:clickable="@{vm.isSubmit}"
                         android:src="@mipmap/bg_business_license"
                         android:visibility="@{1 == vm.authInfo.verifyType?View.GONE:View.VISIBLE}"
-                        app:imgUrl="@{vm.authInfo.companyLicense}"
+                        app:imgCenterUrl="@{vm.authInfo.companyLicense}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/iv_id_card_back" />
@@ -241,13 +241,21 @@
                     app:titleW="64dp"
                     app:type="info" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"/>
+
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.core.widget.NestedScrollView>
+
+        <View
+            android:layout_marginTop="24dp"
+            style="@style/DividingStyle"/>
 
         <com.lsy.framelib.ui.weight.SingleTapButton
             style="@style/CommonMatchBtnStyle1"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="40dp"
             android:onClick="@{vm::submit}"
             android:text="@string/submit_data"

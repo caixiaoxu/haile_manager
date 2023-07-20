@@ -6,8 +6,8 @@
         </shape>
     </item>
     <item
-        android:bottom="1dp"
-        android:top="1dp"> <!--设置底部有边框-->
+        android:bottom="0.5dp"
+        android:top="0.5dp"> <!--设置底部有边框-->
         <shape>
             <solid android:color="#ffffff" />  <!-- 主体背景颜色 -->
         </shape>

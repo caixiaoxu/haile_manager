@@ -168,7 +168,7 @@ class SearchSelectRadioActivity :
                     ).let { binding ->
                         binding.item = item
                         if (0 < index) {
-                            binding.root.setBackgroundResource(R.drawable.shape_top_stroke_dividing_efefef_mlr16)
+                            binding.root.setBackgroundResource(R.drawable.shape_top_stroke_dividing_mlr16)
                         } else {
                             binding.root.setBackgroundColor(Color.WHITE)
                         }
@@ -212,7 +212,7 @@ class SearchSelectRadioActivity :
                     ).let { binding ->
                         binding.item = item
                         if (0 < index) {
-                            binding.root.setBackgroundResource(R.drawable.shape_top_stroke_dividing_efefef_mlr16)
+                            binding.root.setBackgroundResource(R.drawable.shape_top_stroke_dividing_mlr16)
                         } else {
                             binding.root.setBackgroundColor(Color.WHITE)
                         }

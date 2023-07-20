@@ -1,6 +1,5 @@
 package com.yunshang.haile_manager_android.data.entities
 
-import android.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.data.constants.Constants
@@ -42,7 +41,7 @@ data class SchemeConfigsDetailEntity(
     override fun getMultiType(): Int = if (suspendFlag) 1 else 0
 
     override fun getMultiTypeBgRes() = intArrayOf(
-        R.drawable.shape_strokef0a258_solid26f0a258_r4,
+        R.drawable.shape_s26f0a258_r4,
         R.drawable.shape_sf7f7f7_r4,
     )
 
@@ -51,7 +50,10 @@ data class SchemeConfigsDetailEntity(
             Constants.APP_CONTEXT,
             R.color.colorPrimary
         ),
-        Color.parseColor("#999999")
+        ContextCompat.getColor(
+            Constants.APP_CONTEXT,
+            R.color.common_sub_txt_color
+        ),
     )
 }
 

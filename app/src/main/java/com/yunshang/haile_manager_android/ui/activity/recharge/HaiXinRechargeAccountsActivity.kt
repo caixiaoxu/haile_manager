@@ -17,10 +17,12 @@ import com.yunshang.haile_manager_android.business.vm.HaiXinRechargeAccountsView
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
+import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.HaixinRechargeAccountEntity
 import com.yunshang.haile_manager_android.databinding.ActivityHaixinRechargeAccountsBinding
 import com.yunshang.haile_manager_android.databinding.ItemHaixinRechargeAccountsBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
@@ -94,6 +96,11 @@ class HaiXinRechargeAccountsActivity :
 
     override fun backBtn(): View = mBinding.barRechargeAccountsTitle.getBackBtn()
 
+    override fun initIntent() {
+        super.initIntent()
+        mViewModel.searchKeyword.value = IntentParams.SearchParams.parseKeyWord(intent)
+    }
+
     override fun initEvent() {
         super.initEvent()
 
@@ -111,8 +118,14 @@ class HaiXinRechargeAccountsActivity :
     override fun initView() {
         window.statusBarColor = Color.WHITE
 
-        mBinding.etRechargeAccountsSearch.onTextChange = {
-            mBinding.rvRechargeAccountsList.requestRefresh()
+        mBinding.viewRechargeAccountsSearchBg.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@HaiXinRechargeAccountsActivity,
+                    SearchActivity::class.java
+                ).apply {
+                    putExtra(SearchType.SearchType, SearchType.HaiXinRechargeAccount)
+                })
         }
 
         // 所属门店

@@ -19,11 +19,12 @@ import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.HaiXinRefundRecordViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
-import com.yunshang.haile_manager_android.data.entities.OrderListEntity
+import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.RefundRecordEntity
 import com.yunshang.haile_manager_android.databinding.ActivityHaixinRefundRecordBinding
 import com.yunshang.haile_manager_android.databinding.ItemRefundRecordBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
@@ -79,6 +80,11 @@ class HaiXinRefundRecordActivity :
 
     override fun backBtn(): View = mBinding.barRefundRecordTitle.getBackBtn()
 
+    override fun initIntent() {
+        super.initIntent()
+        mViewModel.searchKeyword.value = IntentParams.SearchParams.parseKeyWord(intent)
+    }
+
     override fun initEvent() {
         super.initEvent()
 
@@ -98,8 +104,10 @@ class HaiXinRefundRecordActivity :
     override fun initView() {
         window.statusBarColor = Color.WHITE
 
-        mBinding.etRefundRecordSearch.onTextChange = {
-            mBinding.rvRefundRecordList.requestRefresh()
+        mBinding.viewRefundRecordSearchBg.setOnClickListener {
+            startActivity(Intent(this@HaiXinRefundRecordActivity, SearchActivity::class.java).apply {
+                putExtra(SearchType.SearchType, SearchType.HaiXinRefundRecord)
+            })
         }
 
         // 状态

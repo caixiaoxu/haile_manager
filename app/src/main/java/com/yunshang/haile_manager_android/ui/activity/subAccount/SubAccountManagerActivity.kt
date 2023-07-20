@@ -11,15 +11,21 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.SubAccountManagerViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.SubAccountEntity
 import com.yunshang.haile_manager_android.databinding.ActivitySubAccountManagerBinding
 import com.yunshang.haile_manager_android.databinding.ItemSubAccountManagerBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.adapter.GridSameSpaceItemDecoration
 
 class SubAccountManagerActivity :
-    BaseBusinessActivity<ActivitySubAccountManagerBinding, SubAccountManagerViewModel>(SubAccountManagerViewModel::class.java,BR.vm) {
+    BaseBusinessActivity<ActivitySubAccountManagerBinding, SubAccountManagerViewModel>(
+        SubAccountManagerViewModel::class.java,
+        BR.vm
+    ) {
 
     private val mAdapter: CommonRecyclerAdapter<ItemSubAccountManagerBinding, SubAccountEntity> by lazy {
         CommonRecyclerAdapter(
@@ -44,6 +50,10 @@ class SubAccountManagerActivity :
 
     override fun backBtn(): View = mBinding.barSubAccountManagerTitle.getBackBtn()
 
+    override fun initIntent() {
+        super.initIntent()
+        mViewModel.keyword.value = IntentParams.SearchParams.parseKeyWord(intent)
+    }
     override fun initEvent() {
         super.initEvent()
         mSharedViewModel.hasDistributionListPermission.observe(this) {
@@ -66,6 +76,12 @@ class SubAccountManagerActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+
+        mBinding.viewSubAccountManagerSearchBg.setOnClickListener {
+            startActivity(Intent(this@SubAccountManagerActivity, SearchActivity::class.java).apply {
+                putExtra(SearchType.SearchType, SearchType.SubAccount)
+            })
+        }
 
         mBinding.rvSubAccountList.layoutManager =
             GridLayoutManager(this, 2, RecyclerView.VERTICAL, false)

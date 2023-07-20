@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.SoftKeyboardUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -21,12 +20,15 @@ import com.yunshang.haile_manager_android.databinding.ItemSearchSelectBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceDetailActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivity
+import com.yunshang.haile_manager_android.ui.activity.order.AppointmentOrderActivity
 import com.yunshang.haile_manager_android.ui.activity.order.OrderDetailActivity
 import com.yunshang.haile_manager_android.ui.activity.order.OrderManagerActivity
+import com.yunshang.haile_manager_android.ui.activity.recharge.HaiXinRechargeAccountsActivity
+import com.yunshang.haile_manager_android.ui.activity.recharge.HaiXinRefundRecordActivity
 import com.yunshang.haile_manager_android.ui.activity.shop.ShopDetailActivity
+import com.yunshang.haile_manager_android.ui.activity.subAccount.SubAccountManagerActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonLoadMoreRecyclerView
-import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 
 class SearchActivity :
     BaseBusinessActivity<ActivitySearchBinding, SearchViewModel>(
@@ -199,10 +201,38 @@ class SearchActivity :
                 ).apply {
                     putExtras(IntentParams.SearchParams.pack(mViewModel.searchKey.value))
                 })
-            SearchType.Order -> startActivity(
+            SearchType.Order, SearchType.AppointOrder -> startActivity(
                 Intent(
                     this@SearchActivity,
                     OrderManagerActivity::class.java
+                ).apply {
+                    putExtras(IntentParams.SearchParams.pack(mViewModel.searchKey.value))
+                })
+            SearchType.Order -> startActivity(
+                Intent(
+                    this@SearchActivity,
+                    AppointmentOrderActivity::class.java
+                ).apply {
+                    putExtras(IntentParams.SearchParams.pack(mViewModel.searchKey.value))
+                })
+            SearchType.HaiXinRefundRecord -> startActivity(
+                Intent(
+                    this@SearchActivity,
+                    HaiXinRefundRecordActivity::class.java
+                ).apply {
+                    putExtras(IntentParams.SearchParams.pack(mViewModel.searchKey.value))
+                })
+            SearchType.HaiXinRechargeAccount -> startActivity(
+                Intent(
+                    this@SearchActivity,
+                    HaiXinRechargeAccountsActivity::class.java
+                ).apply {
+                    putExtras(IntentParams.SearchParams.pack(mViewModel.searchKey.value))
+                })
+            SearchType.SubAccount -> startActivity(
+                Intent(
+                    this@SearchActivity,
+                    SubAccountManagerActivity::class.java
                 ).apply {
                     putExtras(IntentParams.SearchParams.pack(mViewModel.searchKey.value))
                 })

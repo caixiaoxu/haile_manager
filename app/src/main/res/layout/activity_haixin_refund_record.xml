@@ -50,16 +50,17 @@
             app:layout_constraintStart_toStartOf="@id/view_refund_record_search_bg"
             app:layout_constraintTop_toTopOf="@id/view_refund_record_search_bg" />
 
-        <com.yunshang.haile_manager_android.ui.view.SearchEditText
-            android:id="@+id/et_refund_record_search"
-            style="@style/Font_14_333333_999999"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_refund_record_search"
+            style="@style/Font_14_999999_999999"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="18dp"
             android:background="@color/transparent"
+            android:gravity="center_vertical"
             android:hint="@string/order_search_hint"
-            android:text="@={vm.searchKeyword}"
+            android:text="@{vm.searchKeyword}"
             app:autoSearch="false"
             app:layout_constraintBottom_toBottomOf="@id/view_refund_record_search_bg"
             app:layout_constraintEnd_toEndOf="@id/view_refund_record_search_bg"

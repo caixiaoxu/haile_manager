@@ -315,7 +315,7 @@ class DeviceManagerActivity :
                             normalColor = Color.parseColor("#666666")
                             selectedColor = Color.WHITE
                             list[index].run {
-                                text = title + if (0 < num) " $num" else ""
+                                text = title + if (0 < num) " $num" else " 0"
                                 setOnClickListener {
                                     mViewModel.curWorkStatus.value = value
                                     onPageSelected(index)

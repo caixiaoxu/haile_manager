@@ -156,6 +156,19 @@ class HomeViewModel : BaseViewModel() {
     }
 
     /**
+     * 请求消息数据
+     */
+    fun requestMsgData() {
+        launch(
+            {
+                // 未读消息数
+                requestUnReadCount()
+                // 消息列表
+                requestMessageList()
+            })
+    }
+
+    /**
      * 今日总收益
      */
     private suspend fun requestIncomeToday() {

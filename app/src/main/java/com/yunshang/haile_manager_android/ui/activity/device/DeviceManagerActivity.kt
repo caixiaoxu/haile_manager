@@ -146,6 +146,9 @@ class DeviceManagerActivity :
     override fun initIntent() {
         super.initIntent()
         mViewModel.searchKey.value = IntentParams.SearchParams.parseKeyWord(intent)
+        IntentParams.DeviceManagerParams.parseShop(intent)?.let {
+            mViewModel.selectDepartment.value = it
+        }
     }
 
     /**

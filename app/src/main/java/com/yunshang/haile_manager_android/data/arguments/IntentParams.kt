@@ -131,6 +131,21 @@ object IntentParams {
         fun parseSelectList(intent: Intent): IntArray? = intent.getIntArrayExtra(SelectList)
     }
 
+    object DeviceManagerParams {
+        private const val Shop = "Shop"
+
+        /**
+         * 包装参数
+         */
+        fun pack(shop: SearchSelectParam): Bundle = Bundle().apply {
+            putString(Shop, GsonUtils.any2Json(shop))
+        }
+
+        fun parseShop(intent: Intent): SearchSelectParam? = GsonUtils.json2Class(
+            intent.getStringExtra(Shop), SearchSelectParam::class.java
+        )
+    }
+
     object WalletParams {
         private const val RealNameAuthStatus = "realNameAuthStatus"
 

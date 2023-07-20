@@ -123,18 +123,23 @@ class MessageCenterViewModel : BaseViewModel() {
         fun getLastMsg() = if (isNull) StringUtils.getString(R.string.message_empty) else last
     }
 
-    fun readAllMessage() {
+    fun readAllMessage(typeId: Int? = null) {
         launch({
             ApiRepository.dealApiResult(
                 mMessageRepo.readMessageAll(
                     ApiRepository.createRequestBody(
-                        hashMapOf()
+                        hashMapOf<String, Any>().apply {
+                            typeId?.let {
+                                put("typeId", typeId)
+                            }
+                        }
                     )
                 )
             )
             messageList.value?.let { list ->
                 val temp = mutableListOf<MessageCenterEntity>()
-                temp.addAll(list.apply { forEach { it.count = 0 } })
+                list.forEach { it.count = 0 }
+                temp.addAll(list)
                 messageList.postValue(temp)
             }
         })

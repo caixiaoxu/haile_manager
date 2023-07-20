@@ -24,12 +24,14 @@ import com.github.mikephil.charting.listener.ChartTouchListener.ChartGesture
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.utils.MPPointF
 import com.github.mikephil.charting.utils.ViewPortHandler
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.ScreenUtils
 import com.lsy.framelib.utils.StatusBarUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.HomeViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.HomeIncomeEntity
@@ -237,6 +239,12 @@ class HomeFragment :
         // 消息列表 
         mViewModel.lastMsgList.observe(this) { list ->
             list?.let {
+                mBinding.tvLastMsgNum.setOnClickListener {
+                    startActivity(Intent(requireContext(), MessageCenterActivity::class.java))
+                }
+                mBinding.viewLastMsgUnread.setOnClickListener {
+                    startActivity(Intent(requireContext(), MessageCenterActivity::class.java))
+                }
 
                 mBinding.llLastMsgList.removeAllViews()
                 val lastMsg = it.take(2)
@@ -339,6 +347,10 @@ class HomeFragment :
             mViewModel.capitalList.value?.let { list ->
                 mViewModel.capitalList.value = list.apply { this[0].isShow = it }
             }
+        }
+
+        LiveDataBus.with(BusEvents.MESSAGE_READ_STATUS)?.observe(this){
+            mViewModel.requestMsgData()
         }
     }
 

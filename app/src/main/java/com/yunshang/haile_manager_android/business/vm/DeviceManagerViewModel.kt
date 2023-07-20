@@ -111,8 +111,15 @@ class DeviceManagerViewModel : BaseViewModel() {
      * 状态数量
      */
     private suspend fun requestDeviceStatusTotals() {
+
+        val params = hashMapOf<String, Any>()
+        // 店铺
+        selectDepartment.value?.let {
+            params["shopId"] = it.id
+        }
+
         val totals = ApiRepository.dealApiResult(
-            mDeviceRepo.deviceStatusTotals(hashMapOf())
+            mDeviceRepo.deviceStatusTotals(params)
         )
         deviceStatus.let { list ->
             val runningNum = totals?.getTotal(20) ?: 0

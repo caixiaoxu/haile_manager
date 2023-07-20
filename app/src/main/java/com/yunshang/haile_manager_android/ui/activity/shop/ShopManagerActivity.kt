@@ -19,12 +19,15 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.ShopManagerViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.ShopEntity
 import com.yunshang.haile_manager_android.databinding.ActivityShopManagerBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopListBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
+import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
@@ -140,6 +143,24 @@ class ShopManagerActivity :
                         StyleSpan(Typeface.BOLD),
                     ), start, end
                 )
+
+            mBinding?.tvItemShopDeviceNum?.setOnClickListener {
+                startActivity(
+                    Intent(
+                        this@ShopManagerActivity,
+                        DeviceManagerActivity::class.java
+                    ).apply {
+                        putExtras(
+                            IntentParams.DeviceManagerParams.pack(
+                                SearchSelectParam(
+                                    item.id,
+                                    item.name
+                                )
+                            )
+                        )
+                    }
+                )
+            }
 
             // 进入详情
             mBinding?.root?.setOnClickListener {

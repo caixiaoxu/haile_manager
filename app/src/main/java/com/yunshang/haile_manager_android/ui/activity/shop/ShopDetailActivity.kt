@@ -151,8 +151,8 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
                         )
                     )
                 }
-            } else
                 mBinding.llShopDetailAppointmentInfo.visibility = View.GONE
+            }
         }
 
         // 修改成功后

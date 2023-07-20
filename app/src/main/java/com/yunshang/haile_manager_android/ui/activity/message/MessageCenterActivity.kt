@@ -10,10 +10,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.MessageCenterViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.databinding.ActivityMessageCenterBinding
@@ -33,6 +35,8 @@ class MessageCenterActivity :
         ) { mItemBinding, _, item ->
             mItemBinding?.root?.setOnClickListener {
                 if (!item.isNull) {
+                    mViewModel.readAllMessage(item.typeId)
+                    LiveDataBus.post(BusEvents.MESSAGE_READ_STATUS, true)
                     startActivity(
                         Intent(
                             this@MessageCenterActivity,

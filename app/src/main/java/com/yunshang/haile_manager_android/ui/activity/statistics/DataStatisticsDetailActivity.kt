@@ -385,7 +385,7 @@ class DataStatisticsDetailActivity :
     private fun showHintDialog(type: Int) {
         CommonDialog.Builder(StringUtils.getStringArray(R.array.indicator_specification_content)[type])
             .apply {
-                title = StringUtils.getStringArray(R.array.indicator_specification)[type]
+                title = StringUtils.getString(R.string.indicator_specification)
                 isNegativeShow = false
                 positiveTxt = StringUtils.getString(R.string.i_know)
             }.build().show(supportFragmentManager)

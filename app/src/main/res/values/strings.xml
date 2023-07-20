@@ -86,13 +86,9 @@
     <string name="data_device_frequency">设备频次</string>
     <string name="more_statistics">更多统计</string>
     <string name="data_detail">数据详情</string>
-    <string-array name="indicator_specification">
-        <item>订单数据</item>
-        <item>设备数据</item>
-        <item>用户数据</item>
-    </string-array>
+    <string name="indicator_specification">指标说明</string>
     <string-array name="indicator_specification_content">
-        <item>订单量：门店实际订单总数量（含海星订单量）\n\n收益：用户实际支付的金额（含购买海星和平台补贴金额）\n\n活跃用户量：下单的用户数量(不含海星订单)\n\n新增用户量：新注册的用户数量\n\n活跃设备数：产生订单交易的设备数量\n\n设备频次：每台设备平均使用次数"</item>
+        <item>订单量：门店实际订单总数量（含海星订单量）\n\n收益：用户实际支付的金额（含购买海星和平台补贴金额）\n\n退款订单量：退款和补偿订单的总数量（不含海星订单）\n\n退款订单金额：退款和补偿订单的总金额（不含海星订单）\n\n无效订单量：用户下单后未完成付款的订单数量\n\n无效订单占比：无效订单量占总订单的比例</item>
         <item>设备数量：已绑定设备的总数量（不含删除设备）\n\n活跃设备量：实际产生订单的设备总数量\n\n设备活跃率：实际产生订单的设备占比\n\n设备故障率：出现过故障的设备占比\n\n设备离线率：持续离线30分钟及以上的设备占比\n\n设备频次：每台设备平均使用次数</item>
         <item>总用户量：下过订单的用户量\n\n新增用户量：新注册的用户数量\n\n新用户占比：新用户占总用户量的比例\n\n活跃用户量：下单的用户数量(不含海星订单)\n\n用户活跃率：下单用户占总用户量的比例\n\n用户复购率：下单次数超过1次的用户占比</item>
     </string-array>

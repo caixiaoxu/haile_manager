@@ -49,9 +49,10 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
             R.layout.item_income_calendar,
             BR.item
         ) { mItemBinding, _, item ->
+            val isAfterToday = item.afterToday()
             mItemBinding?.root?.setOnClickListener {
                 if (-1 == item.type) return@setOnClickListener
-                if (item.afterToday()) return@setOnClickListener
+                if (isAfterToday) return@setOnClickListener
                 mViewModel.selectDay.value = item.getDate()
             }
             mViewModel.selectDay.observe(this) { day ->
@@ -65,7 +66,7 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
                 mItemBinding?.tvIncomeCalendarDayNum?.setTextColor(
                     ContextCompat.getColor(
                         this@IncomeActivity,
-                        if (isSelect) R.color.white else R.color.common_txt_color
+                        if (isSelect) R.color.white else if (isAfterToday) R.color.common_txt_hint_color else R.color.common_txt_color
                     )
                 )
                 mItemBinding?.tvIncomeCalendarDayAmount?.setTextColor(

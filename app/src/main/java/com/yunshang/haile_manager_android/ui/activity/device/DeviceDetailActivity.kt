@@ -52,10 +52,12 @@ class DeviceDetailActivity :
                                     mViewModel.deviceDetail.value?.imei = it
                                     mViewModel.imei.value = it
                                 }
+
                                 DeviceMultiChangeViewModel.typeChangePayCode -> {
                                     mViewModel.deviceDetail.value?.code = it
                                     mViewModel.code.value = it
                                 }
+
                                 DeviceMultiChangeViewModel.typeChangeName -> {
                                     mViewModel.deviceDetail.value?.name = it
                                     mViewModel.name.value = it
@@ -130,6 +132,29 @@ class DeviceDetailActivity :
                     ?.let { item ->
                         item.show.value = false
                     }
+            }
+            // 投放器不显示部分icon
+            if (DeviceCategory.isDispenser(detail.categoryCode)) {
+                mViewModel.deviceDetailFunOperate.forEach { item ->
+                    if (item.icon == R.mipmap.icon_device_self_clean ||
+                        item.icon == R.mipmap.icon_device_change_model ||
+                        item.icon == R.mipmap.icon_device_change_pay_code ||
+                        item.icon == R.mipmap.icon_device_create_pay_code ||
+                        item.icon == R.mipmap.icon_device_device_appointment_setting
+                    ) {
+                        item.show.value = false
+                    }
+                }
+            } else {
+                mViewModel.deviceDetailFunOperate.forEach { item ->
+                    if (item.icon == R.mipmap.icon_device_device_selfclean ||
+                        item.icon == R.mipmap.icon_device_device_drain ||
+                        item.icon == R.mipmap.icon_device_device_voice ||
+                        item.icon == R.mipmap.icon_device_device_unblanking
+                    ) {
+                        item.show.value = false
+                    }
+                }
             }
 
             mBinding.llDeviceDetailFuncPrice.removeAllViews()
@@ -314,6 +339,8 @@ class DeviceDetailActivity :
                         mViewModel.deviceOperate(0)
                     }
                 }
+
+
             }
         }
 

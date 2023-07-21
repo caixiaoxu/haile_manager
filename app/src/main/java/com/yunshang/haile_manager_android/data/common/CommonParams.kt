@@ -53,6 +53,10 @@ object DeviceCategory {
     fun isHair(categoryCode: String?) = Hair == categoryCode
 
     /**
+     * 是否是投放器
+     */
+    fun isDispenser(categoryCode: String?) = Dispenser == categoryCode
+    /**
      * 是否是烘干机
      */
     fun isDryerOrHair(categoryCode: String?) = Dryer == categoryCode || Hair == categoryCode

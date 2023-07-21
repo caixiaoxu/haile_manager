@@ -160,7 +160,40 @@ class DeviceDetailModel : BaseViewModel() {
             //预约设置事件
             jump.postValue(7)
         },
-    )
+        ItemShowParam(
+            StringUtils.getString(R.string.device_unblanking),
+            R.mipmap.icon_device_device_unblanking,
+            MutableLiveData(UserPermissionUtils.hasDeviceAppointmentPermission())
+        ) {
+            //开锁事件
+            jump.postValue(9)
+        },
+        ItemShowParam(
+            StringUtils.getString(R.string.device_voice),
+            R.mipmap.icon_device_device_voice,
+            MutableLiveData(UserPermissionUtils.hasDeviceAppointmentPermission())
+        ) {
+            //语音设置事件
+            jump.postValue(10)
+        },
+        ItemShowParam(
+            StringUtils.getString(R.string.device_drain),
+            R.mipmap.icon_device_device_drain,
+            MutableLiveData(UserPermissionUtils.hasDeviceAppointmentPermission())
+        ) {
+            //排空设置事件
+            jump.postValue(11)
+        },
+        ItemShowParam(
+            StringUtils.getString(R.string.devices_selfclean),
+            R.mipmap.icon_device_device_selfclean,
+            MutableLiveData(UserPermissionUtils.hasDeviceAppointmentPermission())
+        ) {
+            //排空设置事件
+            jump.postValue(12)
+        },
+
+        )
 
     fun requestData(type: Int = 0) {
         if (-1 == goodsId) {
@@ -270,6 +303,7 @@ class DeviceDetailModel : BaseViewModel() {
                         SToast.showToast(msg = "复位成功")
                     }
                 }
+
                 1 -> {
                     ApiRepository.dealApiResult(
                         mDeviceRepo.deviceClean(

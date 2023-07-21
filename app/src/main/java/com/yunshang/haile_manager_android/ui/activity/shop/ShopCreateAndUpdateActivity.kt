@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import com.amap.api.services.core.PoiItem
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR

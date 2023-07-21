@@ -3,10 +3,8 @@ package com.yunshang.haile_manager_android.business.vm
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.yunshang.haile_manager_android.business.apiService.HaiXinService
-import com.yunshang.haile_manager_android.data.entities.HaiXinTotalEntity
 import com.yunshang.haile_manager_android.data.entities.HaixinRechargeAccountDetailEntity
 import com.yunshang.haile_manager_android.data.entities.HaixinRechargeAccountEntity
-import com.yunshang.haile_manager_android.data.entities.HaixinRechargeEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import kotlinx.coroutines.Dispatchers

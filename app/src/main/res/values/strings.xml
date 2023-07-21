@@ -553,4 +553,24 @@
         <item>周六</item>
         <item>周日</item>
     </string-array>
+
+    <string name="notice_manager">公告管理</string>
+    <string name="add_notice">添加公告</string>
+    <string name="notice_info">配置信息</string>
+    <string name="create_notice">添加公告</string>
+    <string name="notice_detail">公告详情</string>
+    <string name="notice_template">公告模版</string>
+    <string name="notice_time">时间</string>
+    <string name="notice_showtime">展示时间</string>
+    <string name="notice_selectshop">选择门店</string>
+    <string name="notice_templname">公告名称：</string>
+    <string name="notice_end_message">确定手动结束该公告吗？</string>
+    <string name="notice_stop_success">停用成功</string>
+
+    <string name="device_unblanking">开锁</string>
+    <string name="device_voice">语音设置</string>
+    <string name="device_drain">排空</string>
+    <string name="devices_selfclean">自清洁</string>
+
+
 </resources>

@@ -179,7 +179,14 @@ class DeviceManagerActivity :
     private fun AppCompatTextView.showDeviceOperateView() {
         val mPopupBinding =
             PopupDeviceOperateManagerBinding.inflate(LayoutInflater.from(this@DeviceManagerActivity))
+        val popupWindow = TranslucencePopupWindow(
+            mPopupBinding.root,
+            window,
+            DimensionUtils.dip2px(this@DeviceManagerActivity, 110f)
+        )
+
         mPopupBinding.tvDeviceOperateAdd.setOnClickListener {
+            popupWindow.dismiss()
             startActivity(
                 Intent(
                     this@DeviceManagerActivity,
@@ -188,16 +195,12 @@ class DeviceManagerActivity :
             )
         }
         mPopupBinding.tvDeviceOperateUpdate.setOnClickListener {
-
+            popupWindow.dismiss()
         }
         mPopupBinding.tvDeviceOperateStart.setOnClickListener {
-
+            popupWindow.dismiss()
         }
-        TranslucencePopupWindow(
-            mPopupBinding.root,
-            window,
-            DimensionUtils.dip2px(this@DeviceManagerActivity, 110f)
-        ).showAsDropDown(
+        popupWindow.showAsDropDown(
             this,
             -DimensionUtils.dip2px(this@DeviceManagerActivity, 16f),
             0

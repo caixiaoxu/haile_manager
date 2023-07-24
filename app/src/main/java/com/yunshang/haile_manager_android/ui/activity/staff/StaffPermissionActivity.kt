@@ -123,7 +123,7 @@ class StaffPermissionActivity :
 
         ResourcesCompat.getDrawable(
             resources,
-            R.drawable.divder_efefef_size_half,
+            R.drawable.divder_efefef,
             null
         )?.let { drawable ->
             mBinding.rvStaffPermissionList.addItemDecoration(

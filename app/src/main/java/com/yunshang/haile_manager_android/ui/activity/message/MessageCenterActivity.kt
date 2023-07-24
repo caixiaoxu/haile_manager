@@ -114,7 +114,7 @@ class MessageCenterActivity :
         mBinding.rvMessageList.layoutManager = LinearLayoutManager(this)
         ResourcesCompat.getDrawable(
             resources,
-            R.drawable.divder_efefef_size_half,
+            R.drawable.divder_efefef,
             null
         )?.let {
             mBinding.rvMessageList.addItemDecoration(

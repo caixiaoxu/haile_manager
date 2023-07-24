@@ -205,7 +205,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:visibility="@{vm.showInfo?View.VISIBLE:View.GONE}"
-                        app:divider="@drawable/divder_efefef_size_half"
+                        app:divider="@drawable/divder_efefef"
                         app:dividerPadding="12dp"
                         app:showDividers="middle">
 

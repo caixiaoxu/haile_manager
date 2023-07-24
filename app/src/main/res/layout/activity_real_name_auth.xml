@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingVertical="16dp"
-                app:divider="@drawable/divder_efefef_size_half"
+                app:divider="@drawable/divder_efefef"
                 app:dividerPadding="16dp"
                 app:showDividers="middle">
 

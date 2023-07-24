@@ -44,6 +44,7 @@ import com.yunshang.haile_manager_android.ui.activity.message.MessageListActivit
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
 import com.yunshang.haile_manager_android.ui.view.chart.BarChartRenderer
 import com.yunshang.haile_manager_android.ui.view.chart.CustomMarkerView
+import com.yunshang.haile_manager_android.ui.view.dialog.DeviceCategoryDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import timber.log.Timber
@@ -349,7 +350,7 @@ class HomeFragment :
             }
         }
 
-        LiveDataBus.with(BusEvents.MESSAGE_READ_STATUS)?.observe(this){
+        LiveDataBus.with(BusEvents.MESSAGE_READ_STATUS)?.observe(this) {
             mViewModel.requestMsgData()
         }
     }
@@ -395,11 +396,19 @@ class HomeFragment :
             }
             // 点击事件
             mFuncAreaBinding.root.setOnClickListener {
-                startActivity(Intent(requireContext(), item.clz).apply {
-                    item.bundle?.let { bundle ->
-                        putExtras(bundle)
-                    }
-                })
+                if (item.icon == R.mipmap.icon_device_manager) {
+                    DeviceCategoryDialog.Builder().apply {
+                        onDeviceCodeSelectListener = { type ->
+
+                        }
+                    }.build().show(childFragmentManager)
+                } else {
+                    startActivity(Intent(requireContext(), item.clz).apply {
+                        item.bundle?.let { bundle ->
+                            putExtras(bundle)
+                        }
+                    })
+                }
             }
             // 数据
             mFuncAreaBinding.funcItem = item
@@ -448,8 +457,8 @@ class HomeFragment :
             mBinding.bcTrendChart.marker = markerView
             mBinding.bcTrendChart.data = barData
             mBinding.bcTrendChart.invalidate()
-            mBinding.bcTrendChart.animateY(1500, Easing.EaseInOutQuad) // 启用Y轴方向的动画效果
-            mBinding.bcTrendChart.animateXY(1500, 1500, Easing.EaseInOutQuad) // 启用XY轴方向的动画效果
+//            mBinding.bcTrendChart.animateY(1500, Easing.EaseInOutQuad) // 启用Y轴方向的动画效果
+            mBinding.bcTrendChart.animateXY(1000, 1000, Easing.EaseInOutQuad) // 启用XY轴方向的动画效果
             //选中当日
             val instance = Calendar.getInstance()
             val index = instance[Calendar.DAY_OF_MONTH]

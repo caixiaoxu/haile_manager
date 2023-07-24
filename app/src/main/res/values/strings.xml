@@ -177,6 +177,16 @@
     <string name="hair">吹风</string>
     <string name="water">饮水</string>
     <string name="dispenser">投放</string>
+    <string name="category_wash_dryer">洗烘机</string>
+    <string name="category_wash_dryer_desc">洗衣机/烘干机/洗鞋机</string>
+    <string name="category_hair">吹风机</string>
+    <string name="category_hair_desc">扫码控制电源使用</string>
+    <string name="category_shower">沐浴</string>
+    <string name="category_shower_desc">扫码/刷卡自助淋浴</string>
+    <string name="category_dispenser">投放器</string>
+    <string name="category_dispenser_desc">洗衣液/除菌液自助投放</string>
+    <string name="category_drink">饮水</string>
+    <string name="category_drink_desc">扫码/刷卡自助接水</string>
     <string name="wash_model_hint">请选择洗衣模式</string>
     <string name="update_imei_title">新模块信息录入</string>
     <string name="update_pay_code_title">新付款码信息录入</string>

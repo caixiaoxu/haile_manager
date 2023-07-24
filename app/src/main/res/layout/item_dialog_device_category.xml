@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="icon"
+            type="java.lang.Integer" />
+
+        <variable
+            name="name"
+            type="java.lang.String" />
+
+        <variable
+            name="desc"
+            type="java.lang.String" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="169dp"
+        android:layout_height="120dp"
+        android:background="@drawable/shape_sf7f7f7_r8"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            app:imgRes="@{icon}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_18_333333_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@{name}"
+            tools:text="洗烘" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_12_666666"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@{desc}"
+            tools:text="洗衣机/烘干机/洗鞋机" />
+
+    </LinearLayout>
+</layout>

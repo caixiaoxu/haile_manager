@@ -108,4 +108,41 @@ interface DeviceService {
      */
     @POST("/goods/appointment/enable")
     suspend fun openOrCloseDeviceAppointment(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 投放器设备设置
+     */
+    @POST("/dosing/passSetting")
+    suspend fun devicePassSetting(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 投放器开盖
+     */
+    @POST("/dosing/openCap/start")
+    suspend fun deviceOpenCap(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 投放器开盖
+     */
+    @POST("/dosing/volumeSetting")
+    suspend fun deviceVolumeSetting(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 投放器温度
+     */
+    @POST("/dosing/temperatureSetting")
+    suspend fun deviceTemperatureSetting(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 投放器核销洗衣液
+     */
+    @POST("/dosing/activate")
+    suspend fun deviceActivate(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 投放器开盖结束
+     */
+    @POST("/dosing/openCap/finish")
+    suspend fun deviceOpenCapFinish(@Body params: RequestBody): ResponseWrapper<Any>
+
 }

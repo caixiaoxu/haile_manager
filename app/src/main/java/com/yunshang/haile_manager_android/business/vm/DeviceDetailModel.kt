@@ -10,6 +10,7 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.ItemShowParam
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.DeviceAdvancedSettingEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
@@ -52,15 +53,41 @@ class DeviceDetailModel : BaseViewModel() {
         MutableLiveData()
     }
 
+    val categoryCode: MutableLiveData<String> by lazy {
+        MutableLiveData()
+    }
+
     val deviceAdvancedValues: MutableLiveData<MutableList<DeviceAdvancedSettingEntity>> by lazy {
         MutableLiveData()
     }
 
     val showFuncPrice: MutableLiveData<Boolean> = MutableLiveData(false)
 
+    val showTemperature: MutableLiveData<Boolean> = MutableLiveData(true)
+
+    val showErrorOrder: MutableLiveData<Boolean> = MutableLiveData(true)
+
+    val showLiquid: MutableLiveData<Boolean> = MutableLiveData(true)
+
+    fun changeShowErrorOrder(view: View) {
+        showErrorOrder.value =
+            (!deviceDetail.value?.errorDeviceOrderNo.isNullOrEmpty()) && !(showErrorOrder.value
+                ?: false)
+    }
+
     fun changeShowFuncPrice(view: View) {
         showFuncPrice.value =
             (!deviceDetail.value?.items.isNullOrEmpty()) && !(showFuncPrice.value ?: false)
+    }
+
+    fun changeShowLiquid(view: View) {
+        showLiquid.value =
+            (!deviceDetail.value?.items.isNullOrEmpty()) && !(showLiquid.value ?: false)
+    }
+
+    fun changeShowTemperature(view: View) {
+        showTemperature.value =
+            (!deviceDetail.value?.items.isNullOrEmpty()) && !(showTemperature.value ?: false)
     }
 
     val showAppointment: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -72,9 +99,17 @@ class DeviceDetailModel : BaseViewModel() {
 
     val showInfo: MutableLiveData<Boolean> = MutableLiveData(false)
 
+    val showAssociation: MutableLiveData<Boolean> = MutableLiveData(false)
+
     fun changeShowInfo(view: View) {
         showInfo.value =
-            (null != deviceDetail.value) && !(showInfo.value ?: false)
+            (null != deviceDetail.value) && (null != deviceDetail.value?.relatedGoodsDetailVo) && !(showInfo.value
+                ?: false)
+    }
+
+    fun changeShowAssociation(view: View) {
+        showAssociation.value =
+            (null != deviceDetail.value) && !(showAssociation.value ?: false)
     }
 
     /**
@@ -96,6 +131,22 @@ class DeviceDetailModel : BaseViewModel() {
         ) {
             //启动事件
             jump.postValue(2)
+        },
+        ItemShowParam(
+            StringUtils.getString(R.string.devices_selfclean),
+            R.mipmap.icon_device_device_selfclean,
+            MutableLiveData(UserPermissionUtils.hasDeviceAppointmentPermission())
+        ) {
+            //排空设置事件
+            jump.postValue(12)
+        },
+        ItemShowParam(
+            StringUtils.getString(R.string.device_unblanking),
+            R.mipmap.icon_device_device_unblanking,
+            MutableLiveData(UserPermissionUtils.hasDeviceAppointmentPermission())
+        ) {
+            //开锁事件
+            jump.postValue(9)
         },
         ItemShowParam(
             StringUtils.getString(R.string.self_clean),
@@ -160,14 +211,7 @@ class DeviceDetailModel : BaseViewModel() {
             //预约设置事件
             jump.postValue(7)
         },
-        ItemShowParam(
-            StringUtils.getString(R.string.device_unblanking),
-            R.mipmap.icon_device_device_unblanking,
-            MutableLiveData(UserPermissionUtils.hasDeviceAppointmentPermission())
-        ) {
-            //开锁事件
-            jump.postValue(9)
-        },
+
         ItemShowParam(
             StringUtils.getString(R.string.device_voice),
             R.mipmap.icon_device_device_voice,
@@ -184,14 +228,7 @@ class DeviceDetailModel : BaseViewModel() {
             //排空设置事件
             jump.postValue(11)
         },
-        ItemShowParam(
-            StringUtils.getString(R.string.devices_selfclean),
-            R.mipmap.icon_device_device_selfclean,
-            MutableLiveData(UserPermissionUtils.hasDeviceAppointmentPermission())
-        ) {
-            //排空设置事件
-            jump.postValue(12)
-        },
+
 
         )
 
@@ -340,4 +377,93 @@ class DeviceDetailModel : BaseViewModel() {
             }
         })
     }
+
+    /**
+     * 设备设置
+     */
+    fun deviceSetting(settingType: Int, imei: String) {
+        if (imei.isNullOrEmpty()) {
+            return
+        }
+        launch({
+            ApiRepository.dealApiResult(
+                mDeviceRepo.devicePassSetting(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "imei" to imei,
+                            "settingType" to settingType,
+                        )
+                    )
+                )
+            )
+            withContext(Dispatchers.Main) {
+                SToast.showToast(msg = "操作成功")
+            }
+        })
+
+    }
+
+    /**
+     * 投放器重置100%
+     */
+    fun deviceActivate(liquidType: Int, activationCode: String) {
+        if (imei.value.isNullOrEmpty()) {
+            return
+        }
+        launch({
+            ApiRepository.dealApiResult(
+                mDeviceRepo.deviceActivate(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "liquidType" to liquidType,
+                            "activationCode" to activationCode,
+                            "goodsId" to goodsId,
+                        )
+                    )
+                )
+            )
+            ApiRepository.dealApiResult(
+                mDeviceRepo.deviceOpenCapFinish(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "liquidType" to liquidType,
+                            "imei" to imei.value!!,
+                        )
+                    )
+                )
+            )
+            withContext(Dispatchers.Main) {
+                SToast.showToast(msg = "更换完成，已重置100%")
+                requestData()
+            }
+
+        })
+    }
+
+    /**
+     * 投放器开盖
+     */
+    fun deviceOpenCap(imei: String) {
+        if (imei.isNullOrEmpty()) {
+            return
+        }
+        launch({
+            ApiRepository.dealApiResult(
+                mDeviceRepo.deviceOpenCap(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "imei" to imei,
+                        )
+                    )
+                )
+            )
+            withContext(Dispatchers.Main) {
+                SToast.showToast(msg = "操作成功")
+            }
+        })
+    }
+
+    fun isDispenser(categoryCode: String?) = DeviceCategory.Dispenser == categoryCode
+
+
 }

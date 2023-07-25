@@ -55,6 +55,16 @@ class DeviceCreateActivity :
         } ?: SToast.showToast(this, R.string.imei_code_error)
     }
 
+    // 洗衣机IMEI相机启动器
+    private val washimeiLauncher = registerForActivityResult(ScanContract()) { result ->
+        result.contents?.trim()?.let {
+            Timber.i("IMEI:$it")
+            if (StringUtils.isImeiCode(it))
+                mViewModel.washimeiCode.value = it
+            else SToast.showToast(this, R.string.imei_code_error1)
+        } ?: SToast.showToast(this, R.string.imei_code_error)
+    }
+
     private val scanOptions: ScanOptions by lazy {
         ScanOptions().apply {
             captureActivity = CustomCaptureActivity::class.java
@@ -79,6 +89,7 @@ class DeviceCreateActivity :
                         }
                     }
                 }
+
                 DeviceModelActivity.ResultCode -> {
                     result.data?.let { intent ->
                         mViewModel.changeDeviceModel(
@@ -90,6 +101,7 @@ class DeviceCreateActivity :
                         )
                     }
                 }
+
                 DeviceFunctionConfigurationActivity.ResultCode -> {
                     result.data?.let { intent ->
                         GsonUtils.json2List(
@@ -121,6 +133,11 @@ class DeviceCreateActivity :
             imeiLauncher.launch(scanOptions)
         }
 
+        // 洗衣机IMEI
+        mBinding.mtivDeviceWashImei.onSelectedEvent = {
+            washimeiLauncher.launch(scanOptions)
+        }
+
         // 设备型号
         mBinding.mtivDeviceCreateModel.onSelectedEvent = {
             startNext.launch(
@@ -129,7 +146,6 @@ class DeviceCreateActivity :
                     DeviceModelActivity::class.java
                 )
             )
-
         }
 
         // 所属门店
@@ -144,31 +160,49 @@ class DeviceCreateActivity :
 
         // 功能配置
         mBinding.mtivDeviceCreateFunConfigure.onSelectedEvent = {
-            startNext.launch(
-                Intent(
-                    this@DeviceCreateActivity,
-                    DeviceFunctionConfigurationActivity::class.java
-                ).apply {
-                    putExtra(
-                        DeviceFunctionConfigurationActivity.SpuId,
-                        mViewModel.createAndUpdateEntity.value?.spuId
-                    )
-                    putExtra(
-                        DeviceCategory.CategoryCode,
-                        mViewModel.deviceCategoryCode
-                    )
-                    putExtra(
-                        DeviceCategory.CommunicationType,
-                        mViewModel.deviceCommunicationType
-                    )
-                    mViewModel.createDeviceFunConfigure.value?.let { configs ->
+            if (mViewModel.isDispenser.value!!) {
+                startNext.launch(
+                    Intent(
+                        this@DeviceCreateActivity,
+                        DropperAddSettingActivity::class.java
+                    ).apply {
                         putExtra(
-                            DeviceFunctionConfigurationActivity.OldFuncConfiguration,
-                            GsonUtils.any2Json(configs)
+                            DropperAddSettingActivity.SpuId,
+                            mViewModel.createAndUpdateEntity.value?.spuId
+                        )
+                        putExtra(
+                            DropperAddSettingActivity.Deviceid,
+                            mViewModel.createAndUpdateEntity.value?.id
                         )
                     }
-                }
-            )
+                )
+            } else {
+                startNext.launch(
+                    Intent(
+                        this@DeviceCreateActivity,
+                        DeviceFunctionConfigurationActivity::class.java
+                    ).apply {
+                        putExtra(
+                            DeviceFunctionConfigurationActivity.SpuId,
+                            mViewModel.createAndUpdateEntity.value?.spuId
+                        )
+                        putExtra(
+                            DeviceCategory.CategoryCode,
+                            mViewModel.deviceCategoryCode
+                        )
+                        putExtra(
+                            DeviceCategory.CommunicationType,
+                            mViewModel.deviceCommunicationType
+                        )
+                        mViewModel.createDeviceFunConfigure.value?.let { configs ->
+                            putExtra(
+                                DeviceFunctionConfigurationActivity.OldFuncConfiguration,
+                                GsonUtils.any2Json(configs)
+                            )
+                        }
+                    }
+                )
+            }
         }
     }
 

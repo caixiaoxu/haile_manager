@@ -35,7 +35,8 @@ data class SkuEntity(
     val createTime: String,
     val updateTime: String,
     val specValues: List<SpecValue>,
-    var pulse: Int
+    var pulse: Int,
+    var dosingConfigs: List<DosingConfigs>
 ) {
     var unitValue: String?
         get() = unit.toString()

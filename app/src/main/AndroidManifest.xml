@@ -42,6 +42,18 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.device.DropperAllocationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.device.DropperAddSettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.device.DropperTemperatureActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.device.DropperVoiceActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.notice.NoticeDetailActivity"
             android:exported="false" />
         <activity

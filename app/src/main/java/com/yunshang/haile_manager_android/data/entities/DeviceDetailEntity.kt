@@ -57,13 +57,24 @@ data class DeviceDetailEntity(
     var appointmentEnabled: Boolean?,
     val shopAppointmentEnabled: Boolean,
     val scanUrl: String,
-    val qrId: Long // 设备编号
-) {
+    val qrId: Long, // 设备编号
+    val deviceAttributeVo: DeviceAttributeVo,
+    val relatedGoodsDetailVo: RelatedGoodsDetailVo,
+    val dosingVOS: List<DosingVOS>,
+    val errorDeviceOrderId: Int,
+    val errorDeviceOrderNo: String,
+
+    ) {
     fun getReason() = "${deviceErrorMsg}${deviceErrorCode}"
 
     fun hasName(): Boolean = !name.isNullOrEmpty()
 
     fun getNameTitle(): String = StringUtils.getString(R.string.device_name)
+    fun getAssociationNameTitle(): String = StringUtils.getString(R.string.device_name)
+    fun getDeviceStateTitle(): String = StringUtils.getString(R.string.device_status)
+    fun getDeviceOrderTitle(): String = StringUtils.getString(R.string.device_order)
+    fun getAssociationTypeTitle(): String = StringUtils.getString(R.string.device_category)
+    fun getAssociationImeiTitle(): String = StringUtils.getString(R.string.imei)
 
     fun hasQrId(): Boolean = 0L < qrId
 
@@ -180,4 +191,42 @@ data class Item(
     }
 
     override fun getTitle(): String = name
+
 }
+
+data class DeviceAttributeVo(
+    val maxTemperature: Int,
+    val minTemperature: Int,
+    val nowTemperature: Int,
+    val preventDisturbStartTime: String,
+    val preventDisturbStopTime: String,
+    val preventDisturbSwitch: Boolean,
+    val temperatureSwitch: Boolean,
+    val voiceBroadcastStatus: Boolean,
+    val volume: Int,
+)
+
+data class RelatedGoodsDetailVo(
+    val imei: String,
+    val spuName: String,
+    val categoryName: String,
+    val categoryCode: String,
+)
+
+data class DosingVOS(
+    val liquidRemaining: Int,
+    val liquidStatus: Int,
+    val liquidType: Int,
+    val configs: List<DosingConfigs>,
+)
+
+data class DosingConfigs(
+    val amount: Int,
+    val itemId: Int,
+    val liquidType: Int,
+    val liquidTypeId: Int,
+    val price: Int,
+    val name: String,
+    var isDefault: Boolean,
+    val isOn: Boolean,
+)

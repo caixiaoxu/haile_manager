@@ -56,6 +56,7 @@ object DeviceCategory {
      * 是否是投放器
      */
     fun isDispenser(categoryCode: String?) = Dispenser == categoryCode
+
     /**
      * 是否是烘干机
      */
@@ -81,7 +82,7 @@ object DeviceCategory {
      * 可显示的设备类型
      */
     fun canShowDeviceCategory(categoryCode: String): Boolean =
-        categoryCode in arrayOf(Washing, Shoes, Dryer, Hair)
+        categoryCode in arrayOf(Washing, Shoes, Dryer, Hair, Dispenser)
 }
 
 object SearchType {

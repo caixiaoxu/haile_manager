@@ -18,5 +18,5 @@ dependencyResolutionManagement {
 rootProject.name = "HaileManager_Android"
 include ':app'
 include ":CoreLibModules"
-project(':CoreLibModules').projectDir = new File('../CoreLibModules/')
+project(':CoreLibModules').projectDir = new File('../core-lib/')
 include ':CoreLibModules:framelib'

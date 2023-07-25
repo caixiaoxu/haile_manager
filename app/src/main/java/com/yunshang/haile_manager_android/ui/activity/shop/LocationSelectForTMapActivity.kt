@@ -1,6 +1,5 @@
 package com.yunshang.haile_manager_android.ui.activity.shop
 
-import android.Manifest
 import android.content.Intent
 import android.graphics.Color
 import android.location.Location

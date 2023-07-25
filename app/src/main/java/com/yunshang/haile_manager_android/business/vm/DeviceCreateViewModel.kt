@@ -10,6 +10,7 @@ import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.DeviceCreateParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
@@ -41,10 +42,16 @@ class DeviceCreateViewModel : BaseViewModel() {
     // IMEI
     val imeiCode: MutableLiveData<String> = MutableLiveData()
 
+    // IMEI
+    val washimeiCode: MutableLiveData<String> = MutableLiveData()
+
     // 设备型号
     val createDeviceModelName: MutableLiveData<String> by lazy {
         MutableLiveData()
     }
+
+    // 是否为投放器
+    val isDispenser: MutableLiveData<Boolean> = MutableLiveData()
 
     val isSelectedModel: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -116,6 +123,7 @@ class DeviceCreateViewModel : BaseViewModel() {
         deviceCommunicationType = communicationType
         isSelectedModel.value = true
         createDeviceFunConfigure.value = null
+        isDispenser.postValue(DeviceCategory.Dispenser == deviceCategoryCode)
     }
 
     /**
@@ -134,7 +142,7 @@ class DeviceCreateViewModel : BaseViewModel() {
                 )
             }
         }, {
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 it.message?.let { it1 -> SToast.showToast(msg = it1) }
             }
             Timber.d("请求失败或异常$it")
@@ -162,4 +170,5 @@ class DeviceCreateViewModel : BaseViewModel() {
             jump.postValue(0)
         })
     }
+
 }

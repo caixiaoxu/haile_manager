@@ -81,6 +81,7 @@ class NoticeDetailActivity :
             allowUniversalAccessFromFileURLs = true
             mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         }
+        mBinding.wbNoticeContent.setBackgroundColor(0);
     }
 
 

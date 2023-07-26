@@ -185,6 +185,12 @@ class DeviceCreateActivity :
                         DropperAddSettingActivity.Deviceid,
                         mViewModel.createAndUpdateEntity.value?.id
                     )
+                    mViewModel.createDeviceFunConfigure.value?.let { configs ->
+                        putExtra(
+                            DeviceFunctionConfigurationActivity.OldFuncConfiguration,
+                            GsonUtils.any2Json(configs)
+                        )
+                    }
                 })
             } else {
                 startNext.launch(Intent(

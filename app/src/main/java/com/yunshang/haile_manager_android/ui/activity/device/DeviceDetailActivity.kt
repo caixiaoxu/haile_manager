@@ -28,11 +28,13 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.DosingConfigs
 import com.yunshang.haile_manager_android.data.entities.Item
+import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceDetailBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceDetailDisposeMinBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceDetailFuncPriceBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.CustomCaptureActivity
+import com.yunshang.haile_manager_android.ui.activity.device.DropperAddSettingActivity.Companion.OldFuncConfiguration
 import com.yunshang.haile_manager_android.ui.activity.order.OrderDetailActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
@@ -243,30 +245,68 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                 0 -> finish()
                 // 修改功能价格
                 1 -> {
-                    mViewModel.deviceDetail.value?.let { detail ->
-                        startActivity(Intent(
-                            this@DeviceDetailActivity,
-                            DeviceFunctionConfigurationActivity::class.java
-                        ).apply {
-                            putExtra(
-                                DeviceFunctionConfigurationActivity.GoodId, mViewModel.goodsId
-                            )
-                            putExtra(
-                                DeviceFunctionConfigurationActivity.SpuId, detail.spuId
-                            )
-                            putExtra(
-                                DeviceCategory.CategoryCode, detail.categoryCode
-                            )
-                            putExtra(
-                                DeviceCategory.CommunicationType, detail.communicationType
-                            )
-                            if (detail.items.isNotEmpty()) {
+                    if (mViewModel.isDispenser(mViewModel.categoryCode.value)) {
+                        mViewModel.deviceDetail.value?.let { detail ->
+                            startActivity(Intent(
+                                this@DeviceDetailActivity,
+                                DropperAddSettingActivity::class.java
+                            ).apply {
                                 putExtra(
-                                    DeviceFunctionConfigurationActivity.OldFuncConfiguration,
-                                    GsonUtils.any2Json(detail.items.map { item -> item.changeConfigurationParam() })
+                                    DropperAddSettingActivity.SpuId,
+                                    detail.spuId
                                 )
-                            }
-                        })
+                                putExtra(
+                                    DropperAddSettingActivity.Deviceid,
+                                    detail.id
+                                )
+                                var skufuncs = ArrayList<SkuFuncConfigurationParam>()
+                                detail.items.forEach { it ->
+                                    var sku = SkuFuncConfigurationParam(
+                                        it.skuId,
+                                        it.name,
+                                        it.price.toDouble(),
+                                        (if (it.pulse.isNullOrEmpty()) 0 else it.pulse.toInt()),
+                                        it.unit.toInt(),
+                                        it.extAttr,
+                                        it.feature,
+                                        it.soldState
+                                    )
+                                    skufuncs.add(sku)
+                                }
+                                putExtra(
+                                    OldFuncConfiguration,
+                                    GsonUtils.any2Json(skufuncs)
+                                )
+
+                            })
+                        }
+                    } else {
+                        mViewModel.deviceDetail.value?.let { detail ->
+                            startActivity(Intent(
+                                this@DeviceDetailActivity,
+                                DeviceFunctionConfigurationActivity::class.java
+                            ).apply {
+                                putExtra(
+                                    DeviceFunctionConfigurationActivity.GoodId,
+                                    mViewModel.goodsId
+                                )
+                                putExtra(
+                                    DeviceFunctionConfigurationActivity.SpuId, detail.spuId
+                                )
+                                putExtra(
+                                    DeviceCategory.CategoryCode, detail.categoryCode
+                                )
+                                putExtra(
+                                    DeviceCategory.CommunicationType, detail.communicationType
+                                )
+                                if (detail.items.isNotEmpty()) {
+                                    putExtra(
+                                        DeviceFunctionConfigurationActivity.OldFuncConfiguration,
+                                        GsonUtils.any2Json(detail.items.map { item -> item.changeConfigurationParam() })
+                                    )
+                                }
+                            })
+                        }
                     }
                 }
                 // 启动
@@ -371,7 +411,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
 
                 10 -> mViewModel.deviceDetail.value?.let { detail ->
                     //语音设置
-                    startActivity(Intent(
+                    startNext.launch(Intent(
                         this@DeviceDetailActivity, DropperVoiceActivity::class.java
                     ).apply {
                         putExtra(DropperVoiceActivity.Deviceimei, detail.imei)

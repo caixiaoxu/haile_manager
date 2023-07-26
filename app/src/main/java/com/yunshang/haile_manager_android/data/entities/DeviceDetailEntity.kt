@@ -274,7 +274,7 @@ data class DosingConfigs(
     val itemId: Int,
     val liquidType: Int,
     val liquidTypeId: Int,
-    val price: Int,
+    val price: Double,
     val name: String,
     var isDefault: Boolean,
     val isOn: Boolean,

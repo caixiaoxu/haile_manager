@@ -4,18 +4,16 @@ import android.content.Intent
 import android.graphics.Color
 import android.text.Editable
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DropperAllocationViewModel
-import com.yunshang.haile_manager_android.data.entities.DosingConfigs
-import com.yunshang.haile_manager_android.data.entities.SkuEntity
+import com.yunshang.haile_manager_android.data.entities.LocationSelectEntityI
 import com.yunshang.haile_manager_android.databinding.ActivityDropperAllocationBinding
-import com.yunshang.haile_manager_android.databinding.ItemDisposeUseDryerBinding
-import com.yunshang.haile_manager_android.databinding.ItemDisposeUseItemBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
-import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
+import com.yunshang.haile_manager_android.ui.activity.shop.ShopCreateAndUpdateActivity
 
 class DropperAllocationActivity :
     BaseBusinessActivity<ActivityDropperAllocationBinding, DropperAllocationViewModel>(
@@ -29,9 +27,11 @@ class DropperAllocationActivity :
         const val isDefault = "isdefault"
         const val isOn = "ison"
         const val itemId = "itemid"
+        const val ResultCode = 0x90005
     }
 
     private var itemid: String = ""
+    private var number: String = ""
 
     override fun layoutId(): Int = R.layout.activity_dropper_allocation
 
@@ -56,6 +56,7 @@ class DropperAllocationActivity :
         window.statusBarColor = Color.WHITE
         var amount = intent.getStringExtra(Amount)
         itemid = intent.getStringExtra(itemId) ?: ""
+        number = intent.getStringExtra("number") ?: ""
         var price = intent.getStringExtra(Price)
         var liquidtype = intent.getIntExtra(liquidType, 0)
         var ison = intent.getBooleanExtra(isOn, false)
@@ -77,6 +78,27 @@ class DropperAllocationActivity :
             })
             finish()
         }
+
+        if (number.isNotEmpty()) {
+            mBinding.barDeviceTitle.getRightBtn(false).run {
+                setText(R.string.device_del_setting)
+                setTextColor(
+                    ContextCompat.getColor(
+                        this@DropperAllocationActivity,
+                        R.color.colorPrimary
+                    )
+                )
+                setOnClickListener {
+                    setResult(ResultCode, Intent().apply {
+                        putExtra(
+                            "number", number
+                        )
+                    })
+                    finish()
+                }
+            }
+        }
+
     }
 
     override fun initData() {

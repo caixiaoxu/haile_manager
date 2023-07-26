@@ -7,6 +7,7 @@ import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.DeviceCreateParam
@@ -80,10 +81,33 @@ class DropperAddSettingViewModel : BaseViewModel() {
      * 提交设置
      */
     fun submit(view: View) {
-        val params = configurationList.value?.map {
-            it.getDispenserRequestParams()
-        } ?: arrayListOf()
-        resultData.postValue(params)
+        if (goodsId == -1) {
+            val params = configurationList.value?.map {
+                it.getDispenserRequestParams()
+            } ?: arrayListOf()
+            resultData.postValue(params)
+        } else {
+            launch({
+                val params = configurationList.value?.map {
+                    it.getDispenserRequestParams()
+                } ?: arrayListOf()
+                ApiRepository.dealApiResult(
+                    mRepo.deviceUpdate(
+                        ApiRepository.createRequestBody(
+                            hashMapOf(
+                                "id" to goodsId,
+                                "items" to params,
+                            )
+                        )
+                    )
+                )
+                withContext(Dispatchers.Main) {
+                    LiveDataBus.post(BusEvents.DEVICE_DETAILS_STATUS, true)
+                    SToast.showToast(view.context, R.string.update_success)
+                }
+                jump.postValue(0)
+            })
+        }
     }
 
 

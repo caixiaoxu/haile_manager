@@ -147,11 +147,11 @@
                     android:id="@+id/ll_device_create_select_fun_configuration"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginHorizontal="8dp"
                     android:layout_marginBottom="16dp"
                     android:background="@drawable/shape_sf7f7f7_r8"
                     android:orientation="vertical"
-                    android:paddingHorizontal="12dp"
+                    android:paddingHorizontal="8dp"
                     android:visibility="@{(null == vm.createDeviceFunConfigure || 0 == vm.createDeviceFunConfigure.size())?View.GONE:View.VISIBLE}" />
 
                 <View

@@ -8,17 +8,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
-import com.yunshang.haile_manager_android.business.vm.DeviceMultiChangeViewModel
 import com.yunshang.haile_manager_android.business.vm.DropperAddSettingViewModel
 import com.yunshang.haile_manager_android.data.entities.DosingConfigs
 import com.yunshang.haile_manager_android.data.entities.SkuEntity
+import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.yunshang.haile_manager_android.databinding.ActivityDropperAddSettingBinding
 import com.yunshang.haile_manager_android.databinding.ItemDisposeUseDryerBinding
 import com.yunshang.haile_manager_android.databinding.ItemDisposeUseItemBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
-import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
-import com.yunshang.haile_manager_android.web.WebViewActivity
 
 class DropperAddSettingActivity :
     BaseBusinessActivity<ActivityDropperAddSettingBinding, DropperAddSettingViewModel>(
@@ -30,6 +28,7 @@ class DropperAddSettingActivity :
         const val SpuId = "spuId"
         const val ResultCode = 0x90004
         const val ResultData = "ResultData"
+        const val OldFuncConfiguration = "oldFuncConfiguration"
     }
 
 
@@ -66,6 +65,7 @@ class DropperAddSettingActivity :
             R.layout.item_dispose_use_dryer, BR.item
         ) { mBinding, postop, items ->
             mBinding?.itemRecyclerView?.layoutManager = LinearLayoutManager(this)
+
             var adas = CommonRecyclerAdapter<ItemDisposeUseItemBinding, DosingConfigs>(
                 R.layout.item_dispose_use_item, BR.item
             ) { mBinding, pos, item ->
@@ -82,6 +82,7 @@ class DropperAddSettingActivity :
                         putExtra(DropperAllocationActivity.Price, item.price.toString())
                         putExtra(DropperAllocationActivity.isDefault, item.isDefault)
                         putExtra(DropperAllocationActivity.isOn, item.isOn)
+                        putExtra("number", "${postop}-${pos}")
                         putExtra(
                             DropperAllocationActivity.itemId,
                             "${postop}-${pos}"
@@ -108,7 +109,6 @@ class DropperAddSettingActivity :
         }
     }
 
-
     private val startNext =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
@@ -126,7 +126,7 @@ class DropperAddSettingActivity :
                             itemId = 0,
                             liquidTypeId = liquidType,
                             liquidType = liquidType,
-                            price = price?.toInt() ?: 0,
+                            price = price?.toDouble() ?: 0.0,
                             name = if (liquidType == 1) "洗衣液" else "除菌液",
                             isDefault = isdefault,
                             isOn = ison
@@ -156,6 +156,22 @@ class DropperAddSettingActivity :
                         mViewModel.configurationList.postValue(skulists)
                     }
                 }
+
+                DropperAllocationActivity.ResultCode -> {
+                    result.data?.let { intent ->
+                        var number = intent.getStringExtra("number")
+                        var skulists = ArrayList<SkuEntity>()
+                        var skus_ = ArrayList<DosingConfigs>()
+                        skulists.addAll(mViewModel.configurationList.value!!)
+                        if (number!!.contains("-")) {
+                            skus_.addAll(skulists[number.split("-")[0].toInt()].dosingConfigs)
+                            skus_.removeAt(number.split("-")[1].toInt())
+                            skulists[number.split("-")[0].toInt()].dosingConfigs = skus_
+                            mViewModel.configurationList.postValue(skulists)
+                        }
+                    }
+                }
+
             }
         }
 
@@ -164,9 +180,49 @@ class DropperAddSettingActivity :
 
         mBinding.recyclerView.layoutManager = LinearLayoutManager(this)
         mBinding.recyclerView.adapter = mAdapter
+
+        var skuparam = GsonUtils.json2List(
+            intent.getStringExtra(OldFuncConfiguration),
+            SkuFuncConfigurationParam::class.java
+        )
+
+        var listskus = ArrayList<SkuEntity>()
+        skuparam?.forEach { item ->
+            var doings = GsonUtils.json2List(item.extAttr, DosingConfigs::class.java)
+            var skuentity = doings?.let {
+                SkuEntity(
+                    id = item.skuId,
+                    name = if (it.isNotEmpty()) it[0].name else "",
+                    feature = "",
+                    price = 0.0,
+                    soldState = 1,
+                    extAttr = "",
+                    unit = 0,
+                    amount = 0,
+                    pulse = 0,
+                    dosingConfigs = it,
+                    spuId = 0,
+                    code = "",
+                    items = "",
+                    chargeUnit = "",
+                    version = 0,
+                    lastEditor = 0,
+                    deleteFlag = 0,
+                    createTime = "",
+                    updateTime = "",
+                    specValues = emptyList()
+                )
+            }
+            skuentity?.let { listskus.add(it) }
+
+        }
+        mViewModel.configurationList.postValue(listskus)
+
     }
 
     override fun initData() {
-        mViewModel.requestData()
+        if (-1 == mViewModel.goodsId) {
+            mViewModel.requestData()
+        }
     }
 }

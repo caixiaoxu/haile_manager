@@ -581,6 +581,7 @@
     <string name="device_error">设备状态</string>
     <string name="device_order">当前订单</string>
     <string name="device_find_order">查看订单</string>
+    <string name="device_del_setting">删除配置</string>
 
 
 </resources>

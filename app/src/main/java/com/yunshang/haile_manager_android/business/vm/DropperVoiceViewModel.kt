@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
+import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.DeviceCreateParam
@@ -64,8 +65,11 @@ class DropperVoiceViewModel : BaseViewModel() {
                 )
             )
             withContext(Dispatchers.Main) {
+                LiveDataBus.post(BusEvents.DEVICE_LIST_STATUS, true)
+                LiveDataBus.post(BusEvents.DEVICE_DETAILS_STATUS, true)
                 SToast.showToast(msg = "操作成功")
             }
+            jump.postValue(0)
             jump.postValue(0)
         })
     }

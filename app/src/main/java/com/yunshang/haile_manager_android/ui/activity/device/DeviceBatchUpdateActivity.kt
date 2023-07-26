@@ -169,7 +169,7 @@ class DeviceBatchUpdateActivity :
                             mViewModel.selectCategory.value?.id ?: -1,
                             shopIdList = mViewModel.selectDepartments.value?.map { it.id }
                                 ?.toIntArray(),
-                            mustSelect = false
+                            mustSelect = true
                         )
                     )
                 }

@@ -15,7 +15,7 @@ import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.ExtAttrBean
-import com.yunshang.haile_manager_android.data.entities.SkuEntity
+import com.yunshang.haile_manager_android.data.entities.SkuUnionIntersectionEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -40,10 +40,11 @@ class DeviceBatchStartViewModel : BaseViewModel() {
     }
 
     val selectDepartmentsVal: LiveData<String> = selectDepartments.map {
-        val count: Int = it.size
-        if (0 == count) ""
-        else if (1 == count) it[0].name
-        else "已选中${count}个门店"
+        when (val count: Int = it.size) {
+            0 -> ""
+            1 -> it[0].name
+            else -> "已选中${count}个门店"
+        }
     }
 
     // 设备类型列表
@@ -77,21 +78,29 @@ class DeviceBatchStartViewModel : BaseViewModel() {
             && null != selectCategory.value)
 
     // 设备型号
-    val selectDeviceModel: MutableLiveData<SearchSelectParam?> by lazy {
+    val selectDeviceModel: MutableLiveData<MutableList<SearchSelectParam>?> by lazy {
         MutableLiveData()
     }
-    val selectDeviceModelVal: LiveData<String> = selectDeviceModel.map { it?.name ?: "" }
+    val selectDeviceModelVal: LiveData<String> = selectDeviceModel.map {
+        it?.let {
+            when (val count: Int = it.size) {
+                0 -> ""
+                1 -> it[0].name
+                else -> "已选中${count}个型号"
+            }
+        } ?: ""
+    }
 
     // 配置列表
-    val funcList: MutableLiveData<MutableList<SkuEntity>> by lazy {
+    val funcList: MutableLiveData<MutableList<SkuUnionIntersectionEntity>> by lazy {
         MutableLiveData()
     }
-    val selectFunc: MutableLiveData<SkuEntity?> by lazy {
+    val selectFunc: MutableLiveData<SkuUnionIntersectionEntity?> by lazy {
         MutableLiveData()
     }
     val selectFuncVal: LiveData<String> = selectFunc.map {
         it?.let { sku ->
-            sku.functionName
+            sku.getTitle()
         } ?: ""
     }
     var selectAttrList: List<ExtAttrBean>? = null
@@ -153,9 +162,19 @@ class DeviceBatchStartViewModel : BaseViewModel() {
     }
 
     fun requestDeviceSku() {
-        if (null == selectDeviceModel.value?.id) return
+        if (null == selectDeviceModel.value) return
         launch({
-            ApiRepository.dealApiResult(mDeviceRepo.sku(selectDeviceModel.value!!.id))?.let {
+            ApiRepository.dealApiResult(
+                mDeviceRepo.intersectionSku(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "spuIdList" to selectDeviceModel.value?.map { item ->
+                                item.id
+                            }
+                        )
+                    )
+                )
+            )?.let {
                 funcList.postValue(it)
             }
         })
@@ -169,14 +188,16 @@ class DeviceBatchStartViewModel : BaseViewModel() {
                         hashMapOf(
                             "shopIdList" to selectDepartments.value?.map { item -> item.id },
                             "categoryId" to selectCategory.value?.id,
-                            "spuIdList" to intArrayOf(selectDeviceModel.value!!.id),
-                            "functionId" to selectFunc.value?.functionId,
+                            "spuIdList" to selectDeviceModel.value?.map { item ->
+                                item.id
+                            },
+                            "functionId" to selectFunc.value?.id,
                             "time" to selectAttr.value
                         )
                     )
                 )
             )?.let {
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     SToast.showToast(v.context, "提交成功")
                 }
                 jump.postValue(0)

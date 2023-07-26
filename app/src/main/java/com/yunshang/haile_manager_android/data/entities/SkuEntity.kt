@@ -38,7 +38,7 @@ data class SkuEntity(
     var pulse: Int,
     val functionId: String,
     val functionName: String
-) : IMultiSelectBottomItemEntity {
+) {
     var unitValue: String?
         get() = unit.toString()
         set(value) {
@@ -123,10 +123,6 @@ data class SkuEntity(
             soldState = old.soldState
         }
     }
-
-    override var isCheck: Boolean = false
-
-    override fun getTitle(): String = functionName
 }
 
 data class SpecValue(

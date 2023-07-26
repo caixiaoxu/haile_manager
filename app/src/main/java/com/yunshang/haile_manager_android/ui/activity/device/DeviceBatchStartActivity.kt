@@ -13,7 +13,7 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.ExtAttrBean
-import com.yunshang.haile_manager_android.data.entities.SkuEntity
+import com.yunshang.haile_manager_android.data.entities.SkuUnionIntersectionEntity
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceBatchStartBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
@@ -48,8 +48,7 @@ class DeviceBatchStartActivity :
                             ?.let { json ->
                                 GsonUtils.json2List(json, SearchSelectParam::class.java)
                                     ?.let { selected ->
-                                        mViewModel.selectDeviceModel.value =
-                                            selected.firstOrNull()
+                                        mViewModel.selectDeviceModel.value = selected
                                         mViewModel.clearSelectFunc()
                                     }
                             }
@@ -131,7 +130,8 @@ class DeviceBatchStartActivity :
                             mViewModel.selectCategory.value?.id ?: -1,
                             shopIdList = mViewModel.selectDepartments.value?.map { it.id }
                                 ?.toIntArray(),
-                            mustSelect = false
+                            mustSelect = true,
+                            moreSelect = true,
                         )
                     )
                 }
@@ -149,10 +149,10 @@ class DeviceBatchStartActivity :
                 ).apply {
                     supportSingle = true
                     onValueSureListener = object :
-                        MultiSelectBottomSheetDialog.OnValueSureListener<SkuEntity> {
+                        MultiSelectBottomSheetDialog.OnValueSureListener<SkuUnionIntersectionEntity> {
                         override fun onValue(
-                            datas: List<SkuEntity>,
-                            allSelectData: List<SkuEntity>
+                            datas: List<SkuUnionIntersectionEntity>,
+                            allSelectData: List<SkuUnionIntersectionEntity>
                         ) {
                             datas.firstOrNull()?.let {
                                 mViewModel.selectFunc.value = it

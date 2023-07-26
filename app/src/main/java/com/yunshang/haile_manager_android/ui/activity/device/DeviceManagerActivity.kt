@@ -196,9 +196,21 @@ class DeviceManagerActivity :
         }
         mPopupBinding.tvDeviceOperateUpdate.setOnClickListener {
             popupWindow.dismiss()
+            startActivity(
+                Intent(
+                    this@DeviceManagerActivity,
+                    DeviceBatchUpdateActivity::class.java
+                )
+            )
         }
         mPopupBinding.tvDeviceOperateStart.setOnClickListener {
             popupWindow.dismiss()
+            startActivity(
+                Intent(
+                    this@DeviceManagerActivity,
+                    DeviceBatchStartActivity::class.java
+                )
+            )
         }
         popupWindow.showAsDropDown(
             this,

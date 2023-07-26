@@ -6,6 +6,7 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
 import com.yunshang.haile_manager_android.data.entities.MessageSubTypeEntity
 import com.yunshang.haile_manager_android.data.entities.RealNameAuthDetailEntity
+import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
 
 /**
  * Title :
@@ -72,6 +73,32 @@ object IntentParams {
         fun parsePhone(intent: Intent): String? = intent.getStringExtra(Phone)
     }
 
+    object DeviceParams {
+        private const val CategoryId = "categoryId"
+        private const val CategoryCode = "categoryCode"
+        private const val CommunicationType = "communicationType"
+
+        /**
+         * 包装参数
+         */
+        fun pack(categoryId: Int? = -1, categoryCode: String?, communicationType: Int? = -1): Bundle =
+            Bundle().apply {
+                categoryId?.let {
+                    putInt(CategoryId, categoryId)
+                }
+                categoryCode?.let {
+                    putString(CategoryCode, categoryCode)
+                }
+                communicationType?.let {
+                    putInt(CommunicationType, communicationType)
+                }
+            }
+
+        fun parseCategoryId(intent: Intent): Int = intent.getIntExtra(CommunicationType, -1)
+        fun parseCategoryCode(intent: Intent): String? = intent.getStringExtra(CategoryCode)
+        fun parseCommunicationType(intent: Intent): Int = intent.getIntExtra(CommunicationType, -1)
+    }
+
     object ShopParams {
         private const val ShopId = "shopId"
         private const val ShopName = "shopName"
@@ -93,7 +120,9 @@ object IntentParams {
         const val SearchSelectType = "searchSelectType"
         const val StaffId = "staffId"
         const val CategoryId = "categoryId"
+        const val ShopIdList = "shopIdList"
         const val MustSelect = "mustSelect"
+        const val MoreSelect = "moreSelect"
         const val SelectList = "selectList"
         const val ShopResultCode = 0x90001
         const val DeviceModelResultCode = 0x90002
@@ -108,11 +137,16 @@ object IntentParams {
             searchSelectType: Int? = null,
             categoryId: Int? = null,
             staffId: Int? = null,
+            shopIdList: IntArray? = null,
             mustSelect: Boolean = true,
+            moreSelect: Boolean = false,
             selectArr: IntArray = intArrayOf()
         ): Bundle = Bundle().apply {
             searchSelectType?.let {
                 putInt(SearchSelectType, it)
+            }
+            shopIdList?.let {
+                putIntArray(ShopIdList, shopIdList)
             }
             categoryId?.let {
                 putInt(CategoryId, it)
@@ -121,14 +155,71 @@ object IntentParams {
                 putInt(StaffId, it)
             }
             putBoolean(MustSelect, mustSelect)
+            putBoolean(MoreSelect, moreSelect)
             putIntArray(SelectList, selectArr)
         }
 
         fun parseSearchSelectType(intent: Intent): Int = intent.getIntExtra(SearchSelectType, -1)
         fun parseCategoryId(intent: Intent): Int = intent.getIntExtra(CategoryId, -1)
         fun parseStaffId(intent: Intent): Int = intent.getIntExtra(StaffId, -1)
+        fun parseShopIdList(intent: Intent): IntArray? = intent.getIntArrayExtra(ShopIdList)
         fun parseMustSelect(intent: Intent): Boolean = intent.getBooleanExtra(MustSelect, true)
+        fun parseMoreSelect(intent: Intent): Boolean = intent.getBooleanExtra(MoreSelect, false)
         fun parseSelectList(intent: Intent): IntArray? = intent.getIntArrayExtra(SelectList)
+    }
+
+    object DeviceFunctionConfigurationParams {
+        private const val GoodId = "goodId"
+        private const val SpuId = "spuId"
+        private const val OldFuncConfiguration = "oldFuncConfiguration"
+        const val ResultCode = 0x90003
+        const val ResultData = "ResultData"
+
+
+        /**
+         * 包装参数
+         */
+        fun pack(
+            goodId: Int? = -1,
+            spuId: Int? = -1,
+            categoryCode: String?,
+            communicationType: Int? = -1,
+            oldFuncConfiguration: List<SkuFuncConfigurationParam>?
+        ): Bundle = Bundle().apply {
+            putAll(
+                DeviceParams.pack(
+                    categoryCode = categoryCode,
+                    communicationType = communicationType
+                )
+            )
+            goodId?.let {
+                putInt(GoodId, goodId)
+            }
+            spuId?.let {
+                putInt(SpuId, spuId)
+            }
+            oldFuncConfiguration?.let {
+                putString(OldFuncConfiguration, GsonUtils.any2Json(oldFuncConfiguration))
+            }
+        }
+
+        fun parseGoodId(intent: Intent): Int = intent.getIntExtra(GoodId, -1)
+        fun parseSpuId(intent: Intent): Int = intent.getIntExtra(SpuId, -1)
+        fun parseOldFuncConfiguration(intent: Intent): List<SkuFuncConfigurationParam>? =
+            GsonUtils.json2List(
+                intent.getStringExtra(OldFuncConfiguration),
+                SkuFuncConfigurationParam::class.java
+            )
+
+        fun packResult(skuFuncConfiguration: List<SkuFuncConfigurationParam>) = Bundle().apply {
+            putString(ResultData, GsonUtils.any2Json(skuFuncConfiguration))
+        }
+
+        fun parseSkuFuncConfiguration(intent: Intent): List<SkuFuncConfigurationParam>? =
+            GsonUtils.json2List(
+                intent.getStringExtra(ResultData),
+                SkuFuncConfigurationParam::class.java
+            )
     }
 
     object DeviceManagerParams {

@@ -4,17 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <variable
-            name="vm"
-            type="com.yunshang.haile_manager_android.business.vm.DeviceFunctionConfigurationViewModel" />
     </data>
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
+        app:divider="@drawable/divder_efefef"
+        app:showDividers="middle"
         tools:context=".ui.activity.device.DeviceFunctionConfigurationActivity">
 
         <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
@@ -22,8 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
             app:title="@string/add_device" />
-
-        <include layout="@layout/include_dividing1" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_device_fun_configuration_list"
@@ -37,7 +33,6 @@
             android:layout_marginHorizontal="14dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="42dp"
-            android:onClick="@{vm::save}"
             android:text="@string/save" />
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

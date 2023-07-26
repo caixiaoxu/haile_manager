@@ -15,10 +15,10 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DeviceCreateViewModel
-import com.yunshang.haile_manager_android.data.common.DeviceCategory
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
-import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceCreateBinding
 import com.yunshang.haile_manager_android.databinding.ItemSelectedDeviceFuncationConfigurationBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -90,12 +90,10 @@ class DeviceCreateActivity :
                         )
                     }
                 }
-                DeviceFunctionConfigurationActivity.ResultCode -> {
+                IntentParams.DeviceFunctionConfigurationParams.ResultCode -> {
                     result.data?.let { intent ->
-                        GsonUtils.json2List(
-                            intent.getStringExtra(
-                                DeviceFunctionConfigurationActivity.ResultData
-                            ), SkuFuncConfigurationParam::class.java
+                        IntentParams.DeviceFunctionConfigurationParams.parseSkuFuncConfiguration(
+                            intent
                         )?.let {
                             mViewModel.createDeviceFunConfigure.value = it
                         }
@@ -149,24 +147,14 @@ class DeviceCreateActivity :
                     this@DeviceCreateActivity,
                     DeviceFunctionConfigurationActivity::class.java
                 ).apply {
-                    putExtra(
-                        DeviceFunctionConfigurationActivity.SpuId,
-                        mViewModel.createAndUpdateEntity.value?.spuId
-                    )
-                    putExtra(
-                        DeviceCategory.CategoryCode,
-                        mViewModel.deviceCategoryCode
-                    )
-                    putExtra(
-                        DeviceCategory.CommunicationType,
-                        mViewModel.deviceCommunicationType
-                    )
-                    mViewModel.createDeviceFunConfigure.value?.let { configs ->
-                        putExtra(
-                            DeviceFunctionConfigurationActivity.OldFuncConfiguration,
-                            GsonUtils.any2Json(configs)
+                    putExtras(
+                        IntentParams.DeviceFunctionConfigurationParams.pack(
+                            spuId = mViewModel.createAndUpdateEntity.value?.spuId,
+                            categoryCode = mViewModel.deviceCategoryCode,
+                            communicationType = mViewModel.deviceCommunicationType,
+                            oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
                         )
-                    }
+                    )
                 }
             )
         }

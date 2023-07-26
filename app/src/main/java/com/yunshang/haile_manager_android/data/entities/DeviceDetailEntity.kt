@@ -175,7 +175,8 @@ data class Item(
             unitV,
             extAttr,
             feature,
-            soldState
+            soldState,
+            "",
         )
     }
 

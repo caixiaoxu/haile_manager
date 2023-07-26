@@ -22,6 +22,7 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.DeviceDetailModel
 import com.yunshang.haile_manager_android.business.vm.DeviceMultiChangeViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.Item
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceDetailBinding
@@ -175,28 +176,15 @@ class DeviceDetailActivity :
                                 this@DeviceDetailActivity,
                                 DeviceFunctionConfigurationActivity::class.java
                             ).apply {
-                                putExtra(
-                                    DeviceFunctionConfigurationActivity.GoodId,
-                                    mViewModel.goodsId
-                                )
-                                putExtra(
-                                    DeviceFunctionConfigurationActivity.SpuId,
-                                    detail.spuId
-                                )
-                                putExtra(
-                                    DeviceCategory.CategoryCode,
-                                    detail.categoryCode
-                                )
-                                putExtra(
-                                    DeviceCategory.CommunicationType,
-                                    detail.communicationType
-                                )
-                                if (detail.items.isNotEmpty()) {
-                                    putExtra(
-                                        DeviceFunctionConfigurationActivity.OldFuncConfiguration,
-                                        GsonUtils.any2Json(detail.items.map { item -> item.changeConfigurationParam() })
+                                putExtras(
+                                    IntentParams.DeviceFunctionConfigurationParams.pack(
+                                        goodId = mViewModel.goodsId,
+                                        spuId = detail.spuId,
+                                        categoryCode = detail.categoryCode,
+                                        communicationType = detail.communicationType,
+                                        oldFuncConfiguration = detail.items.mapNotNull { item -> item.changeConfigurationParam() }
                                     )
-                                }
+                                )
                             }
                         )
                     }

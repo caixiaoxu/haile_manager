@@ -10,16 +10,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.SoftKeyboardUtils
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DeviceFunctionConfigurationViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.ExtAttrBean
 import com.yunshang.haile_manager_android.data.entities.SkuEntity
-import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
-import com.yunshang.haile_manager_android.data.entities.UserPermissionEntity
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceFunctionConfigurationBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceFuncConfigurationBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceFuncConfigurationDryerBinding
@@ -30,16 +30,8 @@ import com.yunshang.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetD
 
 class DeviceFunctionConfigurationActivity :
     BaseBusinessActivity<ActivityDeviceFunctionConfigurationBinding, DeviceFunctionConfigurationViewModel>(
-        DeviceFunctionConfigurationViewModel::class.java,
-        BR.vm
+        DeviceFunctionConfigurationViewModel::class.java
     ) {
-    companion object {
-        const val GoodId = "goodId"
-        const val SpuId = "spuId"
-        const val OldFuncConfiguration = "oldFuncConfiguration"
-        const val ResultCode = 0x90003
-        const val ResultData = "ResultData"
-    }
 
     private val mAdapter by lazy {
         if (DeviceCategory.isDryerOrHair(mViewModel.categoryCode)) {
@@ -123,16 +115,12 @@ class DeviceFunctionConfigurationActivity :
 
     override fun initIntent() {
         super.initIntent()
-        mViewModel.goodsId = intent.getIntExtra(GoodId, -1)
-        mViewModel.spuId = intent.getIntExtra(SpuId, -1)
-        mViewModel.categoryCode =
-            intent.getStringExtra(DeviceCategory.CategoryCode)
-        mViewModel.communicationType =
-            intent.getIntExtra(DeviceCategory.CommunicationType, -1)
-        mViewModel.oldConfigurationList = GsonUtils.json2List(
-            intent.getStringExtra(OldFuncConfiguration),
-            SkuFuncConfigurationParam::class.java
-        )
+        mViewModel.goodsId = IntentParams.DeviceFunctionConfigurationParams.parseGoodId(intent)
+        mViewModel.spuId = IntentParams.DeviceFunctionConfigurationParams.parseSpuId(intent)
+        mViewModel.categoryCode = IntentParams.DeviceParams.parseCategoryCode(intent)
+        mViewModel.communicationType = IntentParams.DeviceParams.parseCommunicationType(intent)
+        mViewModel.oldConfigurationList =
+            IntentParams.DeviceFunctionConfigurationParams.parseOldFuncConfiguration(intent)
     }
 
     override fun initView() {
@@ -154,14 +142,20 @@ class DeviceFunctionConfigurationActivity :
         mViewModel.configurationList.observe(this) { it ->
             mAdapter.refreshList(it, true)
         }
+
+        // 保存
+        mBinding.btnDeviceCreateSubmit.setOnClickListener {
+            SoftKeyboardUtils.hideShowKeyboard(it)
+            mViewModel.save()
+        }
     }
 
     override fun initEvent() {
         super.initEvent()
 
         mViewModel.resultData.observe(this) {
-            setResult(ResultCode, Intent().apply {
-                putExtra(ResultData, GsonUtils.any2Json(it))
+            setResult(IntentParams.DeviceFunctionConfigurationParams.ResultCode, Intent().apply {
+                putExtras(IntentParams.DeviceFunctionConfigurationParams.packResult(it))
             })
             finish()
         }

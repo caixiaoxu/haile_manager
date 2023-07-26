@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="item"
             type="com.yunshang.haile_manager_android.data.entities.DosingConfigs" />
@@ -13,7 +15,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="8dp"
+        android:paddingTop="4dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="4dp">
 
         <TextView
             android:id="@+id/tv_name"
@@ -30,7 +36,6 @@
             android:layout_marginRight="8dp"
             android:layout_toStartOf="@id/tv_default"
             android:layout_toEndOf="@+id/tv_name"
-            android:text=""
             android:textColor="#ff333333"
             android:textSize="14sp" />
 
@@ -39,7 +44,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="已停用"
             android:textColor="#ff999999"
             android:textSize="14sp" />
 
@@ -51,7 +55,8 @@
             android:layout_toLeftOf="@+id/tv_state"
             android:text="默认使用"
             android:textColor="#F0A258"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="@{item.isDefault?View.VISIBLE:View.GONE}" />
 
     </RelativeLayout>
 </layout>

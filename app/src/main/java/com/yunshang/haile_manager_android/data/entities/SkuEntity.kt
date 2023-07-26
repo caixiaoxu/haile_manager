@@ -100,6 +100,20 @@ data class SkuEntity(
     )
 
     /**
+     * 封装成投放器请求的参数
+     */
+    fun getDispenserRequestParams() = SkuFuncConfigurationParam(
+        id,
+        name,
+        price,
+        pulse,
+        unit,
+        dosingConfigs?.let { list -> GsonUtils.any2Json(list) } ?: "",
+        feature,
+        soldState
+    )
+
+    /**
      * 合并旧数据
      */
     fun mergeOld(old: SkuFuncConfigurationParam?) {

@@ -51,7 +51,7 @@ class DeviceCreateViewModel : BaseViewModel() {
     }
 
     // 是否为投放器
-    val isDispenser: MutableLiveData<Boolean> = MutableLiveData()
+    val isDispenser: MutableLiveData<Boolean> = MutableLiveData(false)
 
     val isSelectedModel: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -93,18 +93,23 @@ class DeviceCreateViewModel : BaseViewModel() {
         addSource(createDeviceFunConfigure) {
             value = checkSubmit()
         }
+        addSource(washimeiCode) {
+            value = checkSubmit()
+        }
     }
 
     /**
      * 检测是否可提交
      */
-    private fun checkSubmit(): Boolean = (!createAndUpdateEntity.value?.code.isNullOrEmpty()
-            && !createAndUpdateEntity.value?.imei.isNullOrEmpty()
-            && (-1 != createAndUpdateEntity.value?.spuId)
-            && (-1 != createAndUpdateEntity.value?.shopCategoryId)
-            && !createAndUpdateEntity.value?.name.isNullOrEmpty()
-            && (-1 != createAndUpdateEntity.value?.shopId)
-            && null != createDeviceFunConfigure.value)
+    private fun checkSubmit(): Boolean = (
+            (if (!isDispenser.value!!) !createAndUpdateEntity.value?.code.isNullOrEmpty() else true)
+                    && !createAndUpdateEntity.value?.imei.isNullOrEmpty()
+                    && (if (isDispenser.value!!) !createAndUpdateEntity.value?.washerImei.isNullOrEmpty() else true)
+                    && (-1 != createAndUpdateEntity.value?.spuId)
+                    && (-1 != createAndUpdateEntity.value?.shopCategoryId)
+                    && !createAndUpdateEntity.value?.name.isNullOrEmpty()
+                    && (-1 != createAndUpdateEntity.value?.shopId)
+                    && null != createDeviceFunConfigure.value)
 
     /**
      * 切换设备型号

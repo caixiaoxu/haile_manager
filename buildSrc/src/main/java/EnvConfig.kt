@@ -10,8 +10,7 @@
  */
 object EnvConfig {
     // 测试
-    const val HTTP_BASE_DEBUG = "\"http://115.238.82.114:9083\""
-
+    const val HTTP_BASE_DEBUG = "\"http://test-hlsh.haier-ioc.com:1406\""
     // 预生产
     const val HTTP_BASE_PRE = "\"https://pre-merchant.haier-ioc.com\""
 

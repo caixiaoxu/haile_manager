@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.ui.activity.order
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
@@ -182,6 +183,12 @@ class OrderDetailActivity :
                 this@OrderDetailActivity,
                 2
             )
+        }
+        // 拨打电话
+        mBinding.tvOrderDetailBuyerPhoneCall.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL);
+            intent.data = Uri.parse("tel:${mViewModel.orderDetail.value?.buyerPhone}")
+            startActivity(intent)
         }
     }
 

@@ -70,9 +70,7 @@ class DeviceDetailModel : BaseViewModel() {
     val showLiquid: MutableLiveData<Boolean> = MutableLiveData(true)
 
     fun changeShowErrorOrder(view: View) {
-        showErrorOrder.value =
-            (!deviceDetail.value?.errorDeviceOrderNo.isNullOrEmpty()) && !(showErrorOrder.value
-                ?: false)
+        showErrorOrder.value = !(showErrorOrder.value ?: false)
     }
 
     fun changeShowFuncPrice(view: View) {
@@ -103,13 +101,14 @@ class DeviceDetailModel : BaseViewModel() {
 
     fun changeShowInfo(view: View) {
         showInfo.value =
-            (null != deviceDetail.value) && (null != deviceDetail.value?.relatedGoodsDetailVo) && !(showInfo.value
+            (null != deviceDetail.value) && !(showInfo.value
                 ?: false)
     }
 
     fun changeShowAssociation(view: View) {
         showAssociation.value =
-            (null != deviceDetail.value) && !(showAssociation.value ?: false)
+            (null != deviceDetail.value) && (null != deviceDetail.value?.relatedGoodsDetailVo) && !(showAssociation.value
+                ?: false)
     }
 
     /**

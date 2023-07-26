@@ -25,6 +25,7 @@ class DropperAllocationActivity :
     companion object {
         const val Amount = "amount"
         const val Price = "price"
+        const val liquidType = "liquidType"
         const val isDefault = "isdefault"
         const val isOn = "ison"
         const val itemId = "itemid"
@@ -56,6 +57,7 @@ class DropperAllocationActivity :
         var amount = intent.getStringExtra(Amount)
         itemid = intent.getStringExtra(itemId) ?: ""
         var price = intent.getStringExtra(Price)
+        var liquidtype = intent.getIntExtra(liquidType, 0)
         var ison = intent.getBooleanExtra(isOn, false)
         var isdefault = intent.getBooleanExtra(isDefault, false)
 
@@ -71,6 +73,7 @@ class DropperAllocationActivity :
                 putExtra(isDefault, mBinding.cbDefault.isChecked)
                 putExtra(isOn, mBinding.cbState.isChecked)
                 putExtra(itemId, itemid)
+                putExtra(liquidType, liquidtype)
             })
             finish()
         }

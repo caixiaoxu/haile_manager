@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DeviceMultiChangeViewModel
@@ -27,6 +28,8 @@ class DropperAddSettingActivity :
     companion object {
         const val Deviceid = "id"
         const val SpuId = "spuId"
+        const val ResultCode = 0x90004
+        const val ResultData = "ResultData"
     }
 
 
@@ -50,12 +53,18 @@ class DropperAddSettingActivity :
         mViewModel.jump.observe(this) {
             finish()
         }
+        mViewModel.resultData.observe(this) {
+            setResult(ResultCode, Intent().apply {
+                putExtra(ResultData, GsonUtils.any2Json(it))
+            })
+            finish()
+        }
     }
 
     private val mAdapter by lazy {
         CommonRecyclerAdapter<ItemDisposeUseDryerBinding, SkuEntity>(
             R.layout.item_dispose_use_dryer, BR.item
-        ) { mBinding, postop, item ->
+        ) { mBinding, postop, items ->
             mBinding?.itemRecyclerView?.layoutManager = LinearLayoutManager(this)
             var adas = CommonRecyclerAdapter<ItemDisposeUseItemBinding, DosingConfigs>(
                 R.layout.item_dispose_use_item, BR.item
@@ -69,6 +78,7 @@ class DropperAddSettingActivity :
                         DropperAllocationActivity::class.java
                     ).apply {
                         putExtra(DropperAllocationActivity.Amount, item.amount.toString())
+                        putExtra(DropperAllocationActivity.liquidType, item.liquidTypeId)
                         putExtra(DropperAllocationActivity.Price, item.price.toString())
                         putExtra(DropperAllocationActivity.isDefault, item.isDefault)
                         putExtra(DropperAllocationActivity.isOn, item.isOn)
@@ -80,7 +90,7 @@ class DropperAddSettingActivity :
                 }
             }
             mBinding?.itemRecyclerView?.adapter = adas
-            adas.refreshList(item.dosingConfigs.toMutableList(), true)
+            adas.refreshList(items.dosingConfigs.toMutableList(), true)
             mBinding?.tvSetting?.setOnClickListener {
                 startNext.launch(Intent(
                     this@DropperAddSettingActivity, DropperAllocationActivity::class.java
@@ -88,6 +98,10 @@ class DropperAddSettingActivity :
                     putExtra(
                         DropperAllocationActivity.itemId,
                         postop.toString()
+                    )
+                    putExtra(
+                        DropperAllocationActivity.liquidType,
+                        items.dosingConfigs[0].liquidTypeId
                     )
                 })
             }
@@ -103,16 +117,17 @@ class DropperAddSettingActivity :
                         var itemcode = intent.getStringExtra(DropperAllocationActivity.itemId)
                         var amount = intent.getStringExtra(DropperAllocationActivity.Amount)
                         var price = intent.getStringExtra(DropperAllocationActivity.Price)
+                        var liquidType = intent.getIntExtra(DropperAllocationActivity.liquidType, 0)
                         var ison = intent.getBooleanExtra(DropperAllocationActivity.isOn, false)
                         var isdefault =
                             intent.getBooleanExtra(DropperAllocationActivity.isDefault, false)
                         var dosing = DosingConfigs(
                             amount = amount?.toInt() ?: 0,
                             itemId = 0,
-                            liquidTypeId = 0,
-                            liquidType = 0,
+                            liquidTypeId = liquidType,
+                            liquidType = liquidType,
                             price = price?.toInt() ?: 0,
-                            name = "",
+                            name = if (liquidType == 1) "洗衣液" else "除菌液",
                             isDefault = isdefault,
                             isOn = ison
                         )

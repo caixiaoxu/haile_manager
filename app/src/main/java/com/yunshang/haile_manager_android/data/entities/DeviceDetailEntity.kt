@@ -4,6 +4,7 @@ import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
+import com.yunshang.haile_manager_android.data.common.DeviceCategory.Dispenser
 import com.yunshang.haile_manager_android.data.rule.ICommonBottomItemEntity
 
 /**
@@ -75,6 +76,47 @@ data class DeviceDetailEntity(
     fun getDeviceOrderTitle(): String = StringUtils.getString(R.string.device_order)
     fun getAssociationTypeTitle(): String = StringUtils.getString(R.string.device_category)
     fun getAssociationImeiTitle(): String = StringUtils.getString(R.string.imei)
+    fun showOrderNo(): Boolean = errorDeviceOrderNo.isNullOrEmpty()
+
+    fun showLaundryState(): Boolean {
+        if (null == dosingVOS) return false
+        dosingVOS.find { it.liquidType == 1 }.let {
+            return it?.liquidStatus == 1
+        }
+        return false
+    }
+
+    fun showRemainingState(): Boolean {
+        if (null == dosingVOS) return false
+        dosingVOS.find { it.liquidType == 2 }.let {
+            return it?.liquidStatus == 1
+        }
+        return false
+    }
+
+    fun LaundryNumber(): String {
+        if (null == dosingVOS) return "0%"
+        dosingVOS.find { it.liquidType == 1 }.let {
+            return "${it?.liquidRemaining ?: 0}%"
+        }
+        return "0%"
+    }
+
+    fun RemainingNumber(): String {
+        if (null == dosingVOS) return "0%"
+        dosingVOS.find { it.liquidType == 2 }.let {
+            return "${it?.liquidRemaining ?: 0}%"
+        }
+        return "0%"
+    }
+
+    fun showRelated(): Boolean {
+        if (null == relatedGoodsDetailVo) return false
+        if (relatedGoodsDetailVo.dosingVOS.isNullOrEmpty()) return false
+        if (categoryCode == Dispenser) return false
+        return true
+    }
+
 
     fun hasQrId(): Boolean = 0L < qrId
 
@@ -116,6 +158,18 @@ data class DeviceDetailEntity(
     fun hasCreateTime(): Boolean = !createTime.isNullOrEmpty()
 
     fun getCreateTimeTitle(): String = StringUtils.getString(R.string.create_time)
+
+    /**
+     * 获取状态
+     * 10-空闲；20-工作中；30-故障；40-停用
+     */
+    fun getDeviceStatusValue(): String = when (workStatus) {
+        10 -> "空闲"
+        20 -> "运行中"
+        30 -> "故障"
+        40 -> "停用"
+        else -> ""
+    }
 }
 
 data class Item(
@@ -133,24 +187,25 @@ data class Item(
     /**
      * 根据型号区分配置内容
      */
-    fun getConfigurationStr(communicationType: Int, isDryer: Boolean): String =
-        if (isDryer) {
-            GsonUtils.json2List(extAttr, ExtAttrBean::class.java)?.joinToString("\n") {
-                getSpec(
-                    if (0.0 == it.price) "" else it.price.toString(),
-                    if (0 == it.minutes) "" else it.minutes.toString(),
-                    if (0 == it.pulse || !DeviceCategory.isPulseDevice(communicationType)) "" else it.pulse.toString()
-                )
-            } ?: ""
-        } else {
-            getSpec(price, unit, pulse)
-        }
+    fun getConfigurationStr(communicationType: Int, isDryer: Boolean): String = if (isDryer) {
+        GsonUtils.json2List(extAttr, ExtAttrBean::class.java)?.joinToString("\n") {
+            getSpec(
+                if (0.0 == it.price) "" else it.price.toString(),
+                if (0 == it.minutes) "" else it.minutes.toString(),
+                if (0 == it.pulse || !DeviceCategory.isPulseDevice(communicationType)) "" else it.pulse.toString()
+            )
+        } ?: ""
+    } else {
+        getSpec(price, unit, pulse)
+    }
 
     fun getSpec(price: String, unit: String, pulse: String?) =
-        if (pulse.isNullOrEmpty())
-            StringUtils.getString(R.string.unit_device_configuration_hint3, price, unit)
-        else
-            StringUtils.getString(R.string.unit_device_configuration_hint4, price, unit, pulse)
+        if (pulse.isNullOrEmpty()) StringUtils.getString(
+            R.string.unit_device_configuration_hint3,
+            price,
+            unit
+        )
+        else StringUtils.getString(R.string.unit_device_configuration_hint4, price, unit, pulse)
 
     /**
      * 切换数据格式
@@ -179,14 +234,7 @@ data class Item(
         }
 
         return SkuFuncConfigurationParam(
-            skuId,
-            name,
-            priceV,
-            pulseV,
-            unitV,
-            extAttr,
-            feature,
-            soldState
+            skuId, name, priceV, pulseV, unitV, extAttr, feature, soldState
         )
     }
 
@@ -211,6 +259,7 @@ data class RelatedGoodsDetailVo(
     val spuName: String,
     val categoryName: String,
     val categoryCode: String,
+    val dosingVOS: List<DosingVOS>,
 )
 
 data class DosingVOS(

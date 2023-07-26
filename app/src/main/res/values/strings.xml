@@ -223,6 +223,7 @@
     <string name="appointment_status">预约状态</string>
     <string name="appointment_setting">预约设置</string>
     <string name="copy_phone">复制手机号</string>
+    <string name="call_phone">拨打电话</string>
     <string name="copy_success">已复制到贴粘板</string>
     <string name="search_shop_hint">请输入门店名称</string>
     <string name="shop_delete_hint">是否确定要删除该门店么？</string>
@@ -577,7 +578,7 @@
     <string name="liquid_state">液体状态</string>
     <string name="association_device">关联设备信息</string>
     <string name="device_wash_title">绑定洗衣\n/洗鞋机</string>
-    <string name="device_error">设备故障</string>
+    <string name="device_error">设备状态</string>
     <string name="device_order">当前订单</string>
     <string name="device_find_order">查看订单</string>
 

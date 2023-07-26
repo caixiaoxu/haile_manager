@@ -38,6 +38,11 @@ class DropperAddSettingViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
+    // 返回参数
+    val resultData: MutableLiveData<List<SkuFuncConfigurationParam>> by lazy {
+        MutableLiveData()
+    }
+
 
     // goodsId
     var goodsId: Int = -1
@@ -72,43 +77,13 @@ class DropperAddSettingViewModel : BaseViewModel() {
 
 
     /**
-     * 提交语音设置
+     * 提交设置
      */
-    fun submit(
-        imei: String,
-        volume: Int,
-        voiceBroadcastStatus: Boolean,
-        preventDisturbSwitch: Boolean,
-        preventDisturbStartTime: String,
-        preventDisturbStopTime: String
-    ) {
-        if (imei.isNullOrEmpty()) {
-            return
-        }
-        if (voiceBroadcastStatus && preventDisturbSwitch && preventDisturbStartTime.isNullOrEmpty() && preventDisturbStopTime.isNullOrEmpty()) {
-            SToast.showToast(msg = "请选择时间")
-            return
-        }
-        launch({
-            ApiRepository.dealApiResult(
-                mRepo.deviceVolumeSetting(
-                    ApiRepository.createRequestBody(
-                        hashMapOf(
-                            "imei" to imei,
-                            "volume" to volume,
-                            "preventDisturbSwitch" to preventDisturbSwitch,
-                            "voiceBroadcastStatus" to voiceBroadcastStatus,
-                            "preventDisturbStartTime" to preventDisturbStartTime,
-                            "preventDisturbStopTime" to preventDisturbStopTime,
-                        )
-                    )
-                )
-            )
-            withContext(Dispatchers.Main) {
-                SToast.showToast(msg = "操作成功")
-            }
-            jump.postValue(0)
-        })
+    fun submit(view: View) {
+        val params = configurationList.value?.map {
+            it.getDispenserRequestParams()
+        } ?: arrayListOf()
+        resultData.postValue(params)
     }
 
 

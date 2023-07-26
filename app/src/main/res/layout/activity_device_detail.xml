@@ -147,8 +147,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:background="@color/white"
-                    android:orientation="vertical"
-                    android:visibility="@{null==vm.deviceDetail.errorDeviceOrderNo?View.GONE:View.VISIBLE}">
+                    android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Font_14_333333_bold"
@@ -172,11 +171,11 @@
                         android:layout_margin="12dp"
                         android:background="@drawable/shape_sf7f7f7_r8"
                         android:orientation="vertical"
-                        android:visibility="@{vm.showTemperature?View.VISIBLE:View.GONE}">
+                        android:visibility="@{vm.showErrorOrder?View.VISIBLE:View.GONE}">
 
                         <include
-                            layout="@layout/item_device_detail_base_info"
-                            app:content="@{vm.deviceDetail.relatedGoodsDetailVo.spuName}"
+                            layout="@layout/item_device_detail_base_info_find"
+                            app:content="@{vm.deviceDetail.getDeviceStatusValue}"
                             app:show="@{true}"
                             app:showCopy="@{false}"
                             app:title="@{vm.deviceDetail.getDeviceStateTitle}" />
@@ -184,6 +183,7 @@
                         <include
                             android:id="@+id/include_error"
                             layout="@layout/item_device_detail_base_info_find"
+                            android:visibility="@{vm.deviceDetail.showOrderNo?View.GONE:View.VISIBLE}"
                             app:content="@{vm.deviceDetail.errorDeviceOrderNo}"
                             app:show="@{true}"
                             app:showCopy="@{true}"
@@ -328,7 +328,7 @@
                                 android:text="缺液"
                                 android:textColor="#fffc7f6f"
                                 android:textSize="10sp"
-                                android:visibility="gone" />
+                                android:visibility="@{vm.deviceDetail.showLaundryState?View.VISIBLE:View.GONE}" />
 
 
                             <TextView
@@ -337,7 +337,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:layout_centerVertical="true"
-                                android:text="0%"
+                                android:text="@{vm.deviceDetail.LaundryNumber}"
                                 android:textColor="#ff999999"
                                 android:textSize="14sp" />
 
@@ -383,7 +383,7 @@
                                 android:text="缺液"
                                 android:textColor="#fffc7f6f"
                                 android:textSize="10sp"
-                                android:visibility="gone" />
+                                android:visibility="@{vm.deviceDetail.showRemainingState?View.VISIBLE:View.GONE}" />
 
                             <TextView
                                 android:id="@+id/tv_remaining_disinfectant"
@@ -391,7 +391,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:layout_centerVertical="true"
-                                android:text="0%"
+                                android:text="@{vm.deviceDetail.RemainingNumber}"
                                 android:textColor="#ff999999"
                                 android:textSize="14sp" />
 
@@ -454,7 +454,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:background="@color/white"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="@{null!=vm.deviceDetail.relatedGoodsDetailVo?View.VISIBLE:View.GONE}">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Font_14_333333_bold"
@@ -502,6 +503,14 @@
                             app:showCopy="@{false}"
                             app:title="@{vm.deviceDetail.getAssociationImeiTitle}" />
 
+                        <LinearLayout
+                            android:id="@+id/ll_device_detail_func_related"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="12dp"
+                            android:background="@drawable/shape_sf7f7f7_r8"
+                            android:orientation="vertical"
+                            android:visibility="@{vm.deviceDetail.showRelated?View.VISIBLE:View.GONE}" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.appcompat.widget.LinearLayoutCompat>

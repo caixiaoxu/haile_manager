@@ -167,6 +167,9 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                             ).apply {
                                 setMargins(0, if (0 == index) mTB else 0, 0, mTB)
                             })
+                        itemBinding.tvTime.text = " 单次用量 ${item.amount}ml/${item.price}元"
+                        itemBinding.tvState.text = if (item.isOn) "启用中" else "已停用"
+                        itemBinding.tvState.setTextColor(Color.parseColor(if (item.isOn) "#F0A258" else "#999999"))
                     }
                 }
             } else {
@@ -191,6 +194,34 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                     }
                 }
             }
+
+            mBinding.llDeviceDetailFuncRelated.removeAllViews()
+            if (mViewModel.deviceDetail.value?.showRelated()!!) {
+                var dosingconfigs = ArrayList<DosingConfigs>()
+                detail?.relatedGoodsDetailVo?.dosingVOS?.forEach {
+                    dosingconfigs.addAll(it.configs)
+                }
+                dosingconfigs?.forEachIndexed { index, item ->
+                    val itemBinding = LayoutInflater.from(this@DeviceDetailActivity)
+                        .inflate(R.layout.item_device_detail_dispose_min, null, false).let { view ->
+                            DataBindingUtil.bind<ItemDeviceDetailDisposeMinBinding>(view)
+                        }
+                    itemBinding?.let {
+                        itemBinding.item = item
+                        mBinding.llDeviceDetailFuncRelated.addView(itemBinding.root,
+                            LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                            ).apply {
+                                setMargins(0, if (0 == index) mTB else 0, 0, mTB)
+                            })
+                        itemBinding.tvTime.text = " 单次用量 ${item.amount}ml/${item.price}元"
+                        itemBinding.tvState.text = if (item.isOn) "启用中" else "已停用"
+                        itemBinding.tvState.setTextColor(Color.parseColor(if (item.isOn) "#F0A258" else "#999999"))
+                    }
+                }
+            }
+
             mViewModel.categoryCode.value = detail.categoryCode
 
             if (null == detail.deviceAttributeVo) {
@@ -456,7 +487,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
             ).apply {
                 putExtras(
                     IntentParams.OrderDetailParams.pack(
-                        mViewModel.deviceDetail.value!!.errorDeviceOrderId, true
+                        mViewModel.deviceDetail.value!!.errorDeviceOrderId
                     )
                 )
             })

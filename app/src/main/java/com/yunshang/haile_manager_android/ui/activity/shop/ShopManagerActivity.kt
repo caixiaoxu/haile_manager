@@ -112,8 +112,8 @@ class ShopManagerActivity :
                             )
                         ),
                         AbsoluteSizeSpan(DimensionUtils.sp2px(18f, this@ShopManagerActivity)),
-                        StyleSpan(Typeface.BOLD),
-                        TypefaceSpan("money")
+//                        StyleSpan(Typeface.BOLD),
+                        TypefaceSpan("money"),
                     ), start, end
                 )
             mBinding?.tvItemShopTotalIncome?.setOnClickListener {

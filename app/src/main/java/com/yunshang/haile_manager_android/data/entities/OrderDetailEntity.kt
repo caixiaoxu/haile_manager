@@ -91,6 +91,12 @@ data class OrderDetailEntity(
             _canCompensate = value
             notifyPropertyChanged(BR.canCompensate)
         }
+
+    val deviceTypeVal: String
+        get() = skuList.firstOrNull()?.deviceType ?: ""
+
+    val deviceNameNoVal: String
+        get() = skuList.firstOrNull()?.let { it.goodsName + " " + it.goodsId } ?: ""
 }
 
 data class AppointmentInfo(

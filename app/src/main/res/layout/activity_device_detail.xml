@@ -218,7 +218,7 @@
 
                         <include
                             layout="@layout/item_device_detail_base_info"
-                            app:content='@{vm.deviceDetail.qrId +""}'
+                            app:content='@{vm.deviceDetail.id +""}'
                             app:show="@{vm.deviceDetail.hasQrId}"
                             app:showCopy="@{true}"
                             app:title="@{vm.deviceDetail.getQrIdTitle}" />

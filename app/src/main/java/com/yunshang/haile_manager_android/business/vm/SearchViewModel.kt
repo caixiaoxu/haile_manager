@@ -36,7 +36,7 @@ class SearchViewModel : BaseViewModel() {
 
     // 搜索提示语
     val searchHints = arrayOf(
-        StringUtils.getString(R.string.device_search_hint),
+        StringUtils.getString(R.string.search_device_hint),
         StringUtils.getString(R.string.search_shop_hint),
         StringUtils.getString(R.string.search_order_hint),
         StringUtils.getString(R.string.search_order_hint),

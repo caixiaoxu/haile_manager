@@ -65,11 +65,9 @@ class DropperVoiceViewModel : BaseViewModel() {
                 )
             )
             withContext(Dispatchers.Main) {
-                LiveDataBus.post(BusEvents.DEVICE_LIST_STATUS, true)
                 LiveDataBus.post(BusEvents.DEVICE_DETAILS_STATUS, true)
                 SToast.showToast(msg = "操作成功")
             }
-            jump.postValue(0)
             jump.postValue(0)
         })
     }

@@ -78,7 +78,6 @@
                     android:id="@+id/item_notice_create_selectshop"
                     style="@style/MultiTypeItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
-                    app:itemContent="@{vm.takeChargeShopStr}"
                     app:showArrow="true"
                     app:title="@string/notice_selectshop"
                     app:type="info" />

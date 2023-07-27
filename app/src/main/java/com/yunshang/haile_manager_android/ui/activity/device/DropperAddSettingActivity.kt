@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -93,6 +94,10 @@ class DropperAddSettingActivity :
             mBinding?.itemRecyclerView?.adapter = adas
             adas.refreshList(items.dosingConfigs.toMutableList(), true)
             mBinding?.tvSetting?.setOnClickListener {
+                if (items.dosingConfigs.size == 3) {
+                    SToast.showToast(this@DropperAddSettingActivity, "最多增加三条配置")
+                    return@setOnClickListener
+                }
                 startNext.launch(Intent(
                     this@DropperAddSettingActivity, DropperAllocationActivity::class.java
                 ).apply {
@@ -102,7 +107,7 @@ class DropperAddSettingActivity :
                     )
                     putExtra(
                         DropperAllocationActivity.liquidType,
-                        items.dosingConfigs[0].liquidTypeId
+                        if (items.name == "洗衣液") 1 else 2
                     )
                 })
             }
@@ -192,7 +197,7 @@ class DropperAddSettingActivity :
             var skuentity = doings?.let {
                 SkuEntity(
                     id = item.skuId,
-                    name = if (it.isNotEmpty()) it[0].name else "",
+                    name = item.name,
                     feature = "",
                     price = 0.0,
                     soldState = 1,

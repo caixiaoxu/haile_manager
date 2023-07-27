@@ -44,6 +44,16 @@ class NoticeCreateActivity :
                             GsonUtils.json2List(json, SearchSelectParam::class.java)
                                 ?.let { selected ->
                                     mViewModel.takeChargeShop.value = selected
+                                    var shopnames: List<String>
+                                    selected.let { list ->
+                                        shopnames = list.map { shop -> shop.name }
+                                    }
+                                    mBinding.itemNoticeCreateSelectshop.setItemContent(
+                                        shopnames.joinToString(
+                                            ","
+                                        )
+                                    )
+
                                 }
                         }
                     }
@@ -54,6 +64,8 @@ class NoticeCreateActivity :
     override fun initEvent() {
         super.initEvent()
         mViewModel.noticeId = intent.getIntExtra(NoticeDetailActivity.NoticeId, -1)
+        mBinding.barNoticeCreateTitle.setTitle(if (mViewModel.noticeId == -1) R.string.create_notice else R.string.edit_notice)
+
         mViewModel.templateList.observe(this) {
             if (!it.isNullOrEmpty()) {
                 bottomSheetDialog = CommonBottomSheetDialog.Builder(
@@ -115,7 +127,7 @@ class NoticeCreateActivity :
                         mViewModel.createTime.value = DateTimeUtils.formatDateTime(
                             date1,
                             "yyyy-MM-dd HH:mm"
-                        ) + "~" + DateTimeUtils.formatDateTime(date2, "yyyy-MM-dd HH:mm")
+                        ) + "~\n" + DateTimeUtils.formatDateTime(date2, "yyyy-MM-dd HH:mm")
                     }
                 }
             }.build()
@@ -131,7 +143,7 @@ class NoticeCreateActivity :
                         mViewModel.showTime.value = DateTimeUtils.formatDateTime(
                             date1,
                             "yyyy-MM-dd HH:mm"
-                        ) + "~" + DateTimeUtils.formatDateTime(date2, "yyyy-MM-dd HH:mm")
+                        ) + "~\n" + DateTimeUtils.formatDateTime(date2, "yyyy-MM-dd HH:mm")
                     }
                 }
             }.build()

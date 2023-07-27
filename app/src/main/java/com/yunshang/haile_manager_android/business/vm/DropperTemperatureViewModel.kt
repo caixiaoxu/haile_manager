@@ -2,9 +2,11 @@ package com.yunshang.haile_manager_android.business.vm
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.entities.DiscountsDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
@@ -98,6 +100,7 @@ class DropperTemperatureViewModel : BaseViewModel() {
                 )
             )
             withContext(Dispatchers.Main) {
+                LiveDataBus.post(BusEvents.DEVICE_DETAILS_STATUS, true)
                 SToast.showToast(msg = "操作成功")
             }
             jump.postValue(0)

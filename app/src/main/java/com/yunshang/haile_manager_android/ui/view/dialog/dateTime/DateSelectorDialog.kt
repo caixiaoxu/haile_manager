@@ -35,7 +35,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
     private val DATE_TIME_TAG = "date_time_tag"
     private lateinit var mBinding: DialogDateSelectorBinding
 
-    // 选择的日期类型，0开始，1结束
+    // 选择的日期类型，0开始，1结束,2结束可跨天
     private var selectType: Int = 0
 
     // 记录日期
@@ -88,6 +88,19 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
                 }
                 if (endCal!!.before(startCal)) {
                     SToast.showToast(msg = "结束日期不能早于开始日期")
+                    return@setOnClickListener
+                }
+                if (0 == builder.showModel && -1 != builder.limitSpace && DateTimeUtils.calTwoDaySpaceAbs(
+                        startCal.time, endCal!!.time
+                    ) >= builder.limitSpace
+                ) {
+                    SToast.showToast(requireContext(), "日数据查询跨度最大不能超过31天")
+                    return@setOnClickListener
+                }
+                changeTimeSelectView(0)
+            } else if (2 == builder.selectModel) {
+                if (null == endCal) {
+                    SToast.showToast(msg = "请选择结束日期")
                     return@setOnClickListener
                 }
                 if (0 == builder.showModel && -1 != builder.limitSpace && DateTimeUtils.calTwoDaySpaceAbs(

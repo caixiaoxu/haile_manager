@@ -257,6 +257,7 @@ data class DeviceAttributeVo(
 data class RelatedGoodsDetailVo(
     val imei: String,
     val spuName: String,
+    val name: String,
     val categoryName: String,
     val categoryCode: String,
     val dosingVOS: List<DosingVOS>,

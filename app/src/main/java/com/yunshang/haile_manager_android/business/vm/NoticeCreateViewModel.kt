@@ -54,9 +54,7 @@ class NoticeCreateViewModel : BaseViewModel() {
     val takeChargeShop: MutableLiveData<List<SearchSelectParam>> by lazy {
         MutableLiveData()
     }
-    val takeChargeShopStr: LiveData<String> = takeChargeShop.map {
-        StringUtils.getString(if (it.isNullOrEmpty()) R.string.no_configure else R.string.configured)
-    }
+
     val templateList: MutableLiveData<List<NoticeTemplateEntity>> by lazy {
         MutableLiveData()
     }

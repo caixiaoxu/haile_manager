@@ -58,7 +58,7 @@ class DropperAllocationActivity :
         itemid = intent.getStringExtra(itemId) ?: ""
         number = intent.getStringExtra("number") ?: ""
         var price = intent.getStringExtra(Price)
-        var liquidtype = intent.getIntExtra(liquidType, 0)
+        var liquidtype = intent.getIntExtra(liquidType, 1)
         var ison = intent.getBooleanExtra(isOn, false)
         var isdefault = intent.getBooleanExtra(isDefault, false)
 
@@ -96,6 +96,17 @@ class DropperAllocationActivity :
                     })
                     finish()
                 }
+            }
+        }
+
+        mBinding.cbDefault.setOnCheckedChangeListener { _, ischeck ->
+            if (ischeck) {
+                mBinding.cbState.isChecked = true
+            }
+        }
+        mBinding.cbState.setOnCheckedChangeListener { _, ischeck ->
+            if (!ischeck && mBinding.cbDefault.isChecked) {
+                mBinding.cbDefault.isChecked = false
             }
         }
 

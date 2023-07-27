@@ -74,14 +74,14 @@ class DropperVoiceActivity :
         })
         mBinding.tvSelectTime.setOnClickListener {
             val dailog = DateSelectorDialog.Builder().apply {
-                selectModel = 1
+                selectModel = 2
                 showModel = 4
                 onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
                         preventDisturbStartTime = DateTimeUtils.formatDateTime(date1, "HH:mm")
                         preventDisturbEndTime = DateTimeUtils.formatDateTime(date2, "HH:mm")
                         mBinding.tvSelectTime.text =
-                            preventDisturbStartTime + "~" + preventDisturbEndTime
+                            "$preventDisturbStartTime~$preventDisturbEndTime"
                         mBinding.tvSelectTime.setTextColor(Color.parseColor("#333333"))
                     }
                 }

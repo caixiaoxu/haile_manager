@@ -484,7 +484,7 @@
 
                         <include
                             layout="@layout/item_device_detail_base_info"
-                            app:content="@{vm.deviceDetail.relatedGoodsDetailVo.spuName}"
+                            app:content="@{vm.deviceDetail.relatedGoodsDetailVo.name}"
                             app:show="@{true}"
                             app:showCopy="@{false}"
                             app:title="@{vm.deviceDetail.getAssociationNameTitle}" />

@@ -108,7 +108,7 @@
     <string name="signal">信号</string>
     <string name="device_category_no">设备类型/编号</string>
     <string name="device_no">设备编号</string>
-    <string name="device_search_hint">搜索设备名称/模块编码 (IMEI）</string>
+    <string name="device_search_hint">搜索设备名称/模块编码 (IMEI）/设备编码</string>
     <string name="department">所属门店</string>
     <string name="department_empty">请先选择门店</string>
     <string name="device_category">设备类型</string>

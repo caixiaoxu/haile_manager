@@ -5,12 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CategoryService
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
@@ -198,8 +200,9 @@ class DeviceBatchStartViewModel : BaseViewModel() {
                 )
             )?.let {
                 withContext(Dispatchers.Main) {
-                    SToast.showToast(v.context, "提交成功")
+                    SToast.showToast(v.context, "启动成功")
                 }
+                LiveDataBus.post(BusEvents.DEVICE_LIST_STATUS, true)
                 jump.postValue(0)
             }
         })

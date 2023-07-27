@@ -142,6 +142,10 @@ class DeviceManagerViewModel : BaseViewModel() {
         result: (listWrapper: ResponseList<DeviceEntity>?) -> Unit
     ) {
         launch({
+            if (1 == page) {
+                requestDeviceStatusTotals()
+            }
+
             val params: HashMap<String, Any> = hashMapOf(
                 "page" to page,
                 "pageSize" to pageSize,

@@ -437,7 +437,6 @@ class DeviceManagerActivity :
 
         // 监听刷新
         LiveDataBus.with(BusEvents.DEVICE_LIST_STATUS)?.observe(this) {
-            mViewModel.requestData(4)
             mBinding.rvDeviceManagerList.requestRefresh()
         }
 
@@ -474,6 +473,6 @@ class DeviceManagerActivity :
     }
 
     override fun initData() {
-        mViewModel.requestData(4)
+//        mViewModel.requestData(4)
     }
 }

@@ -1,11 +1,14 @@
 package com.yunshang.haile_manager_android.ui.view.dialog
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatCheckBox
+import androidx.core.view.children
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -78,7 +81,7 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
                 SToast.showToast(context, "您还没有选择选项")
                 return@setOnClickListener
             }
-            builder.onValueSureListener?.onValue(selectList)
+            builder.onValueSureListener?.onValue(selectList, builder.list)
             dismiss()
         }
 
@@ -97,6 +100,19 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
                 itemBinding.root.apply {
                     text = data.getTitle()
                     isChecked = data.isCheck
+
+                    setOnCheckClickListener {
+                        if (builder.supportSingle) {
+                            mBinding.clMultiSelectList.children.forEach { view ->
+                                if (view is AppCompatCheckBox) {
+                                    view.isChecked = it.id == view.id
+                                }
+                            }
+                            true
+                        } else
+                            false
+                    }
+
                     setOnCheckedChangeListener { _, isChecked ->
                         data.isCheck = isChecked
                     }
@@ -109,6 +125,11 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
         // 设置id
         val idList = IntArray(builder.list.size) { it + 1 }
         mBinding.flowMultiSelectList.referencedIds = idList
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        builder.onCancelListener?.invoke(builder.list)
+        super.onDismiss(dialog)
     }
 
     /**
@@ -132,6 +153,12 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
         // 选择监听
         var onValueSureListener: OnValueSureListener<D>? = null
 
+        // 取消监听
+        var onCancelListener: ((datas: List<D>) -> Unit)? = null
+
+        // 支持单选
+        var supportSingle: Boolean = false
+
         /**
          * 构建
          */
@@ -139,6 +166,6 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
     }
 
     interface OnValueSureListener<D : IMultiSelectBottomItemEntity> {
-        fun onValue(datas: List<D>)
+        fun onValue(selectData: List<D>, allSelectData: List<D>)
     }
 }

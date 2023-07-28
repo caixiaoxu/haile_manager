@@ -25,9 +25,12 @@ import com.yunshang.haile_manager_android.databinding.ItemIncomeListByDayBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.GridSpaceItemDecoration
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
+import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.ViewUtils
+import timber.log.Timber
+import java.util.*
 
 class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewModel>(
     IncomeViewModel::class.java,
@@ -46,25 +49,28 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
             R.layout.item_income_calendar,
             BR.item
         ) { mItemBinding, _, item ->
+            val isAfterToday = item.afterToday()
             mItemBinding?.root?.setOnClickListener {
                 if (-1 == item.type) return@setOnClickListener
+                if (isAfterToday) return@setOnClickListener
                 mViewModel.selectDay.value = item.getDate()
             }
             mViewModel.selectDay.observe(this) { day ->
+                val isSelect = item.isSelect(day)
                 mItemBinding?.root?.setBackgroundColor(
-                    ContextCompat.getColor(
+                    if (isSelect) item.curTypeBGColor else ContextCompat.getColor(
                         this@IncomeActivity,
-                        if (item.isSelect(day)) R.color.colorPrimary else R.color.white
+                        R.color.white
                     )
                 )
                 mItemBinding?.tvIncomeCalendarDayNum?.setTextColor(
                     ContextCompat.getColor(
                         this@IncomeActivity,
-                        if (item.isSelect(day)) R.color.white else R.color.common_txt_color
+                        if (isSelect) R.color.white else if (isAfterToday) R.color.common_txt_hint_color else R.color.common_txt_color
                     )
                 )
                 mItemBinding?.tvIncomeCalendarDayAmount?.setTextColor(
-                    if (item.isSelect(day)) Color.WHITE else item.curTypeColor
+                    if (isSelect) Color.WHITE else item.curTypeColor
                 )
             }
         }
@@ -75,9 +81,13 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
             BR.item
         ) { mItemBinding, _, item ->
             mItemBinding?.root?.setOnClickListener {
-                startActivity(Intent(this@IncomeActivity, EarningsDetailActivity::class.java).apply {
-                    putExtra(EarningsDetailActivity.IncomeId, item.id)
-                })
+                startActivity(
+                    Intent(
+                        this@IncomeActivity,
+                        EarningsDetailActivity::class.java
+                    ).apply {
+                        putExtra(EarningsDetailActivity.IncomeId, item.id)
+                    })
             }
         }
     }
@@ -118,6 +128,21 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+
+        mBinding.tvIncomeSelectDate.setOnClickListener {
+            DateSelectorDialog.Builder().apply {
+                showModel = 1
+                maxDate = Calendar.getInstance().apply { time = Date() }
+                onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
+                    override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
+                        Timber.i("----选择的日期${DateTimeUtils.formatDateTime(date1, "yyyy-MM-dd")}")
+                        //更换时间
+                        mViewModel.selectMonth.value = date1
+                    }
+                }
+            }.build().show(supportFragmentManager)
+        }
+
         val arr = resources.getStringArray(R.array.week_arr)
         ViewUtils.refreshLinearLayoutChild(
             mBinding.llIncomeCalendarTitle,
@@ -150,7 +175,7 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
 
         mBinding.rvIncomeListForDate.layoutManager = LinearLayoutManager(this)
         mBinding.rvIncomeListForDate.enableRefresh = false
-        ResourcesCompat.getDrawable(resources, R.drawable.divder_efefef_size_half, null)?.let {
+        ResourcesCompat.getDrawable(resources, R.drawable.divder_efefef, null)?.let {
             mBinding.rvIncomeListForDate.addItemDecoration(
                 DividerItemDecoration(
                     this@IncomeActivity,

@@ -1,6 +1,5 @@
 package com.yunshang.haile_manager_android.data.rule
 
-import android.graphics.Color
 import androidx.core.content.ContextCompat
 import com.lsy.framelib.data.constants.Constants
 import com.yunshang.haile_manager_android.R
@@ -22,11 +21,19 @@ interface ICalendarEntity {
 
     fun getDate(): Date?
 
-    fun isSelect(date:Date):Boolean
+    fun isSelect(date: Date): Boolean
+
+    fun afterToday(): Boolean
 
     fun getDayNum(): String?
 
     var value: String
+
+    /**
+     * 获取当前的类型颜色
+     */
+    val curTypeBGColor: Int
+        get() = color[if (0 == type) 1 else type]
 
     /**
      * 获取当前的类型颜色

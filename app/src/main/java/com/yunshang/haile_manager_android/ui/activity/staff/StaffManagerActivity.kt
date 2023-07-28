@@ -91,7 +91,7 @@ class StaffManagerActivity :
         mBinding.rvStaffManagerList.layoutManager = LinearLayoutManager(this)
         ContextCompat.getDrawable(
             this,
-            R.drawable.shape_bottom_stroke_dividing_efefef_mlr16
+            R.drawable.shape_bottom_stroke_dividing_mlr16
         )?.let {
             mBinding.rvStaffManagerList.addItemDecoration(
                 DividerItemDecoration(

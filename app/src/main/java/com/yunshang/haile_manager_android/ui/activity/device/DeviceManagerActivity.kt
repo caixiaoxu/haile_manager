@@ -3,13 +3,13 @@ package com.yunshang.haile_manager_android.ui.activity.device
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Typeface
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.text.style.TypefaceSpan
+import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -30,14 +30,17 @@ import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceEntity
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceManagerBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceListBinding
+import com.yunshang.haile_manager_android.databinding.PopupDeviceOperateManagerBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
+import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.NumberUtils
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
@@ -86,9 +89,10 @@ class DeviceManagerActivity :
             BR.item
         ) { mBinding, _, item ->
 
-            val title = StringUtils.getString(R.string.total_earnings)
+            val title =
+                StringUtils.getString(R.string.total_earnings)
             val value =
-                NumberUtils.keepTwoDecimals(item.income) + StringUtils.getString(R.string.unit_yuan)
+                StringUtils.getString(R.string.unit_money) + NumberUtils.keepTwoDecimals(item.income)
             val start = title.length + 1
             val end = title.length + 1 + value.length
             // 格式化总收益样式
@@ -104,12 +108,11 @@ class DeviceManagerActivity :
                             )
                         ),
                         AbsoluteSizeSpan(DimensionUtils.sp2px(18f, this@DeviceManagerActivity)),
-                        StyleSpan(Typeface.BOLD),
                         TypefaceSpan("money")
                     ), start, end
                 )
             mBinding?.tvItemDeviceTotalIncome?.setOnClickListener {
-                if (true == mSharedViewModel.hasDeviceProfitPermission.value) {
+                if (UserPermissionUtils.hasDeviceProfitPermission()) {
                     // 跳转到设备收益
                     startActivity(
                         Intent(
@@ -125,7 +128,7 @@ class DeviceManagerActivity :
 
             // 进入详情
             mBinding?.root?.setOnClickListener {
-                if (true == mSharedViewModel.hasDeviceInfoPermission.value) {
+                if (UserPermissionUtils.hasDeviceInfoPermission()) {
                     // 设备详情
                     startActivity(
                         Intent(
@@ -144,34 +147,89 @@ class DeviceManagerActivity :
 
     override fun backBtn(): View = mBinding.barDeviceTitle.getBackBtn()
 
+    override fun initIntent() {
+        super.initIntent()
+        mViewModel.searchKey.value = IntentParams.SearchParams.parseKeyWord(intent)
+        IntentParams.DeviceManagerParams.parseShop(intent)?.let {
+            mViewModel.selectDepartment.value = it
+        }
+    }
+
     /**
      * 设置标题右侧按钮
      */
     private fun initRightBtn() {
-        mBinding.barDeviceTitle.getRightBtn(true).run {
-            setText(R.string.add_device)
-            setCompoundDrawablesRelativeWithIntrinsicBounds(
-                R.mipmap.icon_add, 0, 0, 0
-            )
-            compoundDrawablePadding = DimensionUtils.dip2px(this@DeviceManagerActivity, 4f)
-            setOnClickListener {
-                startActivity(
-                    Intent(
-                        this@DeviceManagerActivity,
-                        DeviceCreateActivity::class.java
-                    )
+        if (mViewModel.searchKey.value.isNullOrEmpty()) {
+            mBinding.barDeviceTitle.getRightBtn(true).run {
+                setText(R.string.operate_manager)
+                setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    R.mipmap.icon_add, 0, 0, 0
                 )
+                compoundDrawablePadding = DimensionUtils.dip2px(this@DeviceManagerActivity, 4f)
+                setOnClickListener {
+                    showDeviceOperateView()
+                }
             }
         }
+    }
+
+    /**
+     * 显示设备管理界面
+     */
+    private fun AppCompatTextView.showDeviceOperateView() {
+        val mPopupBinding =
+            PopupDeviceOperateManagerBinding.inflate(LayoutInflater.from(this@DeviceManagerActivity))
+        val popupWindow = TranslucencePopupWindow(
+            mPopupBinding.root,
+            window,
+            DimensionUtils.dip2px(this@DeviceManagerActivity, 110f)
+        )
+
+        mPopupBinding.tvDeviceOperateAdd.setOnClickListener {
+            popupWindow.dismiss()
+            startActivity(
+                Intent(
+                    this@DeviceManagerActivity,
+                    DeviceCreateActivity::class.java
+                )
+            )
+        }
+        mPopupBinding.tvDeviceOperateUpdate.setOnClickListener {
+            popupWindow.dismiss()
+            startActivity(
+                Intent(
+                    this@DeviceManagerActivity,
+                    DeviceBatchUpdateActivity::class.java
+                )
+            )
+        }
+        mPopupBinding.tvDeviceOperateStart.setOnClickListener {
+            popupWindow.dismiss()
+            startActivity(
+                Intent(
+                    this@DeviceManagerActivity,
+                    DeviceBatchStartActivity::class.java
+                )
+            )
+        }
+        popupWindow.showAsDropDown(
+            this,
+            -DimensionUtils.dip2px(this@DeviceManagerActivity, 16f),
+            0
+        )
     }
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
 
         mBinding.viewDeviceManagerSearchBg.setOnClickListener {
-            startActivity(Intent(this@DeviceManagerActivity, SearchActivity::class.java).apply {
-                putExtra(SearchType.SearchType, SearchType.Device)
-            })
+            startActivity(
+                Intent(
+                    this@DeviceManagerActivity,
+                    SearchActivity::class.java
+                ).apply {
+                    putExtra(SearchType.SearchType, SearchType.Device)
+                })
         }
 
         // 所属门店
@@ -228,7 +286,8 @@ class DeviceManagerActivity :
                 ).apply {
                     mustSelect = false
                     onValueSureListener =
-                        object : CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
+                        object :
+                            CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
                             override fun onValue(data: SearchSelectParam?) {
                                 mViewModel.selectNetworkStatus.value = data
                             }
@@ -248,12 +307,51 @@ class DeviceManagerActivity :
                 mustSelect = false
                 selectData = mViewModel.selectDeviceStatus.value
                 onValueSureListener =
-                    object : CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
+                    object :
+                        CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
                         override fun onValue(data: SearchSelectParam?) {
                             mViewModel.selectDeviceStatus.value = data
                         }
                     }
             }.build().show(supportFragmentManager)
+        }
+
+        // 设备状态
+        mBinding.indicatorDeviceStatus.navigator = CommonNavigator(this).apply {
+
+            adapter = object : CommonNavigatorAdapter() {
+                override fun getCount(): Int = mViewModel.deviceStatus.size
+
+                override fun getTitleView(context: Context?, index: Int): IPagerTitleView {
+                    return SimplePagerTitleView(context).apply {
+                        normalColor = Color.parseColor("#666666")
+                        selectedColor = Color.WHITE
+                        mViewModel.deviceStatus[index].run {
+                            num.observe(this@DeviceManagerActivity) { n ->
+                                text = title + if (0 < n) " $n" else " 0"
+                            }
+                            setOnClickListener {
+                                mViewModel.curWorkStatus.value = value
+                                onPageSelected(index)
+                                notifyDataSetChanged()
+                            }
+                        }
+                    }
+                }
+
+                override fun getIndicator(context: Context?): IPagerIndicator {
+                    return WrapPagerIndicator(context).apply {
+                        verticalPadding =
+                            DimensionUtils.dip2px(this@DeviceManagerActivity, 4f)
+                        fillColor = ContextCompat.getColor(
+                            this@DeviceManagerActivity,
+                            R.color.colorPrimary
+                        )
+                        roundRadius =
+                            DimensionUtils.dip2px(this@DeviceManagerActivity, 14f).toFloat()
+                    }
+                }
+            }
         }
 
         // 刷新
@@ -283,7 +381,7 @@ class DeviceManagerActivity :
                     pageSize: Int,
                     callBack: (responseList: ResponseList<out DeviceEntity>?) -> Unit
                 ) {
-                    if (true == mSharedViewModel.hasDeviceListPermission.value) {
+                    if (UserPermissionUtils.hasDeviceListPermission()) {
                         mViewModel.requestDeviceList(page, pageSize, callBack)
                     }
                 }
@@ -292,49 +390,9 @@ class DeviceManagerActivity :
 
     override fun initEvent() {
         super.initEvent()
-        mSharedViewModel.hasDeviceListPermission.observe(this) {}
-        mSharedViewModel.hasDeviceInfoPermission.observe(this) {}
-        mSharedViewModel.hasDeviceProfitPermission.observe(this) {}
         mSharedViewModel.hasDeviceAddPermission.observe(this) {
             if (it)
                 initRightBtn()
-        }
-
-        // 刷新状态
-        mViewModel.deviceStatus.observe(this) { list ->
-            mBinding.indicatorDeviceStatus.navigator = CommonNavigator(this).apply {
-
-                adapter = object : CommonNavigatorAdapter() {
-                    override fun getCount(): Int = list.size
-
-                    override fun getTitleView(context: Context?, index: Int): IPagerTitleView {
-                        return SimplePagerTitleView(context).apply {
-                            normalColor = Color.parseColor("#666666")
-                            selectedColor = Color.WHITE
-                            list[index].run {
-                                text = title + if (0 < num) num else ""
-                                setOnClickListener {
-                                    mViewModel.curWorkStatus.value = value
-                                    onPageSelected(index)
-                                    notifyDataSetChanged()
-                                }
-                            }
-                        }
-                    }
-
-                    override fun getIndicator(context: Context?): IPagerIndicator {
-                        return WrapPagerIndicator(context).apply {
-                            verticalPadding = DimensionUtils.dip2px(this@DeviceManagerActivity, 4f)
-                            fillColor = ContextCompat.getColor(
-                                this@DeviceManagerActivity,
-                                R.color.colorPrimary
-                            )
-                            roundRadius =
-                                DimensionUtils.dip2px(this@DeviceManagerActivity, 14f).toFloat()
-                        }
-                    }
-                }
-            }
         }
 
         // 设备类型
@@ -383,9 +441,11 @@ class DeviceManagerActivity :
         }
 
         // 监听删除
-        LiveDataBus.with(BusEvents.DEVICE_LIST_ITEM_DELETE_STATUS, Int::class.java)?.observe(this) {
-            mAdapter.deleteItem { item -> item.id == it }
-        }
+        LiveDataBus.with(BusEvents.DEVICE_LIST_ITEM_DELETE_STATUS, Int::class.java)
+            ?.observe(this) {
+                mViewModel.requestData(4)
+                mAdapter.deleteItem { item -> item.id == it }
+            }
     }
 
     /**
@@ -393,11 +453,15 @@ class DeviceManagerActivity :
      */
     private fun showDeviceCategoryDialog(categoryEntities: List<CategoryEntity>) {
         val deviceCategoryDialog =
-            CommonBottomSheetDialog.Builder(getString(R.string.device_category), categoryEntities)
+            CommonBottomSheetDialog.Builder(
+                getString(R.string.device_category),
+                categoryEntities
+            )
                 .apply {
                     mustSelect = false
                     onValueSureListener =
-                        object : CommonBottomSheetDialog.OnValueSureListener<CategoryEntity> {
+                        object :
+                            CommonBottomSheetDialog.OnValueSureListener<CategoryEntity> {
                             override fun onValue(data: CategoryEntity?) {
                                 mViewModel.selectDeviceCategory.value = data
                                 mViewModel.selectDeviceModel.value = null
@@ -409,6 +473,6 @@ class DeviceManagerActivity :
     }
 
     override fun initData() {
-        mViewModel.requestData(4)
+//        mViewModel.requestData(4)
     }
 }

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.DeviceBatchStartViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context=".ui.activity.device.DeviceBatchStartActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_device_batch_start_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            app:title="@string/batch_start" />
+
+        <View style="@style/DividingStyle" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_12_999999"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:text="@string/configure_condition" />
+
+        <View
+            style="@style/DividingStyle"
+            android:layout_marginHorizontal="16dp" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_device_batch_start_department"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.selectDepartmentsVal}"
+                    app:showArrow="true"
+                    app:title="@string/department"
+                    app:type="info" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_device_batch_start_category"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.selectCategoryVal}"
+                    app:showArrow="true"
+                    app:title="@string/device_category"
+                    app:type="info" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_device_batch_start_model"
+                    style="@style/MultiTypeItemStyle"
+                    android:visibility="@{vm.modelShow?View.VISIBLE:View.GONE}"
+                    app:itemContent="@{vm.selectDeviceModelVal}"
+                    app:showArrow="true"
+                    app:title="@string/device_model"
+                    app:type="info" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:visibility="@{vm.modelShow?View.VISIBLE:View.GONE}"
+                    android:layout_marginHorizontal="16dp" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_device_batch_start_func"
+                    style="@style/MultiTypeItemStyle"
+                    android:visibility="@{null != vm.selectDeviceModel?View.VISIBLE:View.GONE}"
+                    app:itemContent="@{vm.selectFuncVal}"
+                    app:showArrow="true"
+                    app:title="@{vm.isDryerOrHair?@string/function_model:@string/function_select}"
+                    app:type="info" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:visibility="@{null != vm.selectDeviceModel?View.VISIBLE:View.GONE}"
+                    android:layout_marginHorizontal="16dp" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_device_batch_start_attr"
+                    style="@style/MultiTypeItemStyle"
+                    android:visibility="@{(null != vm.selectFunc &amp;&amp; vm.isDryerOrHair)?View.VISIBLE:View.GONE}"
+                    app:itemContent="@{vm.selectAttrVal}"
+                    app:showArrow="true"
+                    app:title="@string/dryer_time"
+                    app:type="info" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:visibility="@{(null != vm.selectFunc &amp;&amp; vm.isDryerOrHair)?View.VISIBLE:View.GONE}"
+                    android:layout_marginHorizontal="16dp" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <View style="@style/DividingStyle" />
+
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
+            android:id="@+id/btn_device_batch_start_submit"
+            style="@style/CommonMatchBtnStyle1"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="42dp"
+            android:enabled="@{vm.canSubmit}"
+            android:onClick="@{vm::submit}"
+            android:text="@string/submit" />
+    </LinearLayout>
+</layout>

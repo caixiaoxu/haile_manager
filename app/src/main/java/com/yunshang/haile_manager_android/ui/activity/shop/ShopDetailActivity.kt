@@ -45,12 +45,13 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
         mBinding.tvShopDetailAppointmentInfoTitle.setOnClickListener {
             if (mViewModel.shopDetail.value?.appointSettingList.isNullOrEmpty()) return@setOnClickListener
             (View.VISIBLE == mBinding.groupShopDetailAppointmentInfo.visibility).let { show ->
+                if (show) it.setBackgroundColor(Color.WHITE) else it.setBackgroundResource(R.drawable.shape_bottom_stroke_dividing_mlr12)
                 mBinding.groupShopDetailAppointmentInfo.visibility =
                     if (show) View.GONE else View.VISIBLE
                 mBinding.tvShopDetailAppointmentInfoStatus.setCompoundDrawablesWithIntrinsicBounds(
                     0,
                     0,
-                    if (show) R.drawable.icon_arrow_down_with_padding else R.drawable.icon_arrow_right_with_padding,
+                    if (!show) R.drawable.icon_arrow_down_with_padding else R.drawable.icon_arrow_right_with_padding,
                     0
                 )
             }
@@ -126,30 +127,32 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
 
         // 刷新预约布局
         mViewModel.shopDetail.observe(this) {
-            val noAllClose = it.appointSettingList.any { setting -> 0 != setting.appointSwitch }
-            mBinding.tvShopDetailAppointmentInfoStatus.setText(if (noAllClose) R.string.open else R.string.close)
-            mBinding.tvShopDetailAppointmentInfoStatus.setTextColor(
-                ContextCompat.getColor(
-                    this@ShopDetailActivity,
-                    if (noAllClose) R.color.colorPrimary else R.color.common_sub_txt_color
-                )
-            )
-            mBinding.llShopDetailAppointmentInfo.buildChild<ItemShopDetailAppointmentBinding, AppointSetting>(
-                it.appointSettingList,
-            ) { _, childBinding, data ->
-                childBinding.tvShopDetailsAppointmentName.text =
-                    data.goodsCategoryName + StringUtils.getString(R.string.appointment)
-                childBinding.tvShopDetailsAppointmentValue.text =
-                    StringUtils.getString(if (0 == data.appointSwitch) R.string.out_of_service else R.string.in_use)
-                childBinding.tvShopDetailsAppointmentValue.setTextColor(
-                    ResourcesCompat.getColor(
-                        resources,
-                        if (0 == data.appointSwitch) R.color.common_sub_txt_color else R.color.colorPrimary,
-                        null
+            if (null != it.appointSettingList) {
+                val noAllClose = it.appointSettingList.any { setting -> 0 != setting.appointSwitch }
+                mBinding.tvShopDetailAppointmentInfoStatus.setText(if (noAllClose) R.string.open else R.string.close)
+                mBinding.tvShopDetailAppointmentInfoStatus.setTextColor(
+                    ContextCompat.getColor(
+                        this@ShopDetailActivity,
+                        if (noAllClose) R.color.colorPrimary else R.color.common_sub_txt_color
                     )
                 )
+                mBinding.llShopDetailAppointmentInfo.buildChild<ItemShopDetailAppointmentBinding, AppointSetting>(
+                    it.appointSettingList,
+                ) { _, childBinding, data ->
+                    childBinding.tvShopDetailsAppointmentName.text =
+                        data.goodsCategoryName + StringUtils.getString(R.string.appointment)
+                    childBinding.tvShopDetailsAppointmentValue.text =
+                        StringUtils.getString(if (0 == data.appointSwitch) R.string.out_of_service else R.string.in_use)
+                    childBinding.tvShopDetailsAppointmentValue.setTextColor(
+                        ResourcesCompat.getColor(
+                            resources,
+                            if (0 == data.appointSwitch) R.color.common_sub_txt_color else R.color.colorPrimary,
+                            null
+                        )
+                    )
+                }
+                mBinding.llShopDetailAppointmentInfo.visibility = View.GONE
             }
-            mBinding.llShopDetailAppointmentInfo.visibility = View.GONE
         }
 
         // 修改成功后

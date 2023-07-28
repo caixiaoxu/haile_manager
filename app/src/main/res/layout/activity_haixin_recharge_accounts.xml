@@ -18,7 +18,7 @@
             android:id="@+id/bar_recharge_accounts_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
-            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            android:background="@drawable/shape_bottom_stroke_dividing"
             app:layout_constraintTop_toTopOf="parent"
             app:title="@string/recharge_accounts" />
 
@@ -26,7 +26,7 @@
             android:id="@+id/view_recharge_accounts_search_parent_bg"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            android:background="@drawable/shape_bottom_stroke_dividing"
             app:layout_constraintTop_toBottomOf="@id/bar_recharge_accounts_title" />
 
         <View
@@ -49,15 +49,16 @@
             app:layout_constraintStart_toStartOf="@id/view_recharge_accounts_search_bg"
             app:layout_constraintTop_toTopOf="@id/view_recharge_accounts_search_bg" />
 
-        <com.yunshang.haile_manager_android.ui.view.SearchEditText
-            android:id="@+id/et_recharge_accounts_search"
-            style="@style/Font_14_333333_999999"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_recharge_accounts_search"
+            style="@style/Font_14_999999_999999"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="4dp"
             android:background="@color/transparent"
             android:layout_marginEnd="18dp"
-            android:text="@={vm.searchKeyword}"
+            android:gravity="center_vertical"
+            android:text="@{vm.searchKeyword}"
             app:layout_constraintEnd_toEndOf="@id/view_recharge_accounts_search_bg"
             android:hint="@string/recharge_account_search_hint"
             app:layout_constraintBottom_toBottomOf="@id/view_recharge_accounts_search_bg"
@@ -68,7 +69,7 @@
             android:id="@+id/bg_recharge_accounts_category"
             android:layout_width="match_parent"
             android:layout_height="52dp"
-            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            android:background="@drawable/shape_bottom_stroke_dividing"
             android:paddingHorizontal="16dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
@@ -107,7 +108,6 @@
             android:id="@+id/rv_recharge_accounts_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginVertical="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_recharge_accounts_list_refresh" />
     </androidx.constraintlayout.widget.ConstraintLayout>

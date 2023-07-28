@@ -13,8 +13,8 @@ import com.lsy.framelib.utils.DimensionUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DeviceModelViewModel
-import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.arguments.DeviceModelParam
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.Spu
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceModelBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceCategoryBinding
@@ -23,6 +23,7 @@ import com.yunshang.haile_manager_android.databinding.ItemDeviceModelItemBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.GridSpaceItemDecoration
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
+import com.yunshang.haile_manager_android.utils.GlideUtils
 
 /**
  * Title :
@@ -62,6 +63,13 @@ class DeviceModelActivity :
                     CommonRecyclerAdapter<ItemDeviceModelItemBinding, Spu>(
                         R.layout.item_device_model_item, BR.item
                     ) { itemBinding, _, spu ->
+                        itemBinding?.ivDeviceModelMain?.let {
+                            GlideUtils.glideDefaultFactory(
+                                it,
+                                spu.mainPic,
+                                R.mipmap.icon_device_model_default
+                            ).fitCenter().into(it)
+                        }
                         itemBinding?.root?.setOnClickListener {
                             setResult(ResultCode, Intent().apply {
                                 putExtra(ResultDataName, "${spu.name}${spu.feature}")

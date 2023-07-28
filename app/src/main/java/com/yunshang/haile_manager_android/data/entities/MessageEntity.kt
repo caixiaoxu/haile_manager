@@ -37,8 +37,8 @@ data class MessageEntity(
             content, MessageContentEntity::class.java
         ) else GsonUtils.json2Class(content, MessageSystemContentEntity::class.java)
 
-    val friendTime: String =
-        DateTimeUtils.getFriendlyTime(DateTimeUtils.formatDateFromString(createTime), false)
+    val friendTime: String
+        get() = DateTimeUtils.getFriendlyTime(DateTimeUtils.formatDateFromString(createTime), false)
 }
 
 data class MessageContentEntity(

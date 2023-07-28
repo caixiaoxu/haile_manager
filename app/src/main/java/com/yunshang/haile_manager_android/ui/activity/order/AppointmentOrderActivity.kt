@@ -142,6 +142,11 @@ class AppointmentOrderActivity :
     }
 
 
+    override fun initIntent() {
+        super.initIntent()
+        mViewModel.searchKey.value = IntentParams.SearchParams.parseKeyWord(intent)
+    }
+
     override fun layoutId(): Int = R.layout.activity_appointment_order
 
     override fun backBtn(): View = mBinding.barAppointmentOrderTitle.getBackBtn()

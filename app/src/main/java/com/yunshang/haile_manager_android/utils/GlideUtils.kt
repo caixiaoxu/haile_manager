@@ -24,9 +24,21 @@ object GlideUtils {
         imageView: ImageView,
         url: String?,
         default: Int = R.mipmap.icon_default_head,
-        err: Int = R.mipmap.icon_default_head
+        err: Int? = null,
     ) {
-        Glide.with(imageView).load(url).placeholder(default).error(err).centerCrop()
+        glideDefaultFactory(imageView, url, default, err).centerCrop()
             .into(imageView)
     }
+
+
+    /**
+     * 加载图片，设置默认图和失败图
+     */
+    @JvmStatic
+    fun glideDefaultFactory(
+        imageView: ImageView,
+        url: String?,
+        default: Int = R.mipmap.icon_default_head,
+        err: Int? = null,
+    ) = Glide.with(imageView).load(url).placeholder(default).error(err ?: default).fallback(default)
 }

@@ -23,15 +23,13 @@
         android:layout_height="match_parent"
         android:background="@color/page_bg"
         android:orientation="vertical"
-        app:divider="@drawable/divide_size8"
-        app:showDividers="middle"
         tools:context=".ui.activity.staff.StaffDetailActivity">
 
         <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_staff_detail_manager_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
-            android:background="@color/white"
+            android:background="@drawable/shape_bottom_stroke_dividing"
             app:title="@string/staff_manager" />
 
         <ScrollView
@@ -123,7 +121,7 @@
                         style="@style/Font_16_333333_bold"
                         android:layout_width="match_parent"
                         android:layout_height="54dp"
-                        android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+                        android:background="@drawable/shape_bottom_stroke_dividing"
                         android:gravity="center_vertical"
                         android:text="@string/take_charge_shop1"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -158,7 +156,7 @@
                         style="@style/Font_16_333333_bold"
                         android:layout_width="match_parent"
                         android:layout_height="54dp"
-                        android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+                        android:background="@drawable/shape_bottom_stroke_dividing"
                         android:gravity="center_vertical"
                         android:text="@string/permission" />
                 </LinearLayout>

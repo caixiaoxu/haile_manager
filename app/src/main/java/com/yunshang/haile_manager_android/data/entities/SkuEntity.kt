@@ -36,6 +36,8 @@ data class SkuEntity(
     val updateTime: String,
     val specValues: List<SpecValue>,
     var pulse: Int,
+    val functionId: String,
+    val functionName: String,
     var dosingConfigs: List<DosingConfigs>
 ) {
     var unitValue: String?
@@ -96,7 +98,8 @@ data class SkuEntity(
         unit,
         extAttrValue?.let { list -> GsonUtils.any2Json(list.filter { it.isCheck }) } ?: "",
         feature,
-        soldState
+        soldState,
+        functionId
     )
 
     /**

@@ -16,7 +16,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_bottom_stroke_dividing_efefef_mlr16"
+        android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
         android:padding="16dp">
 
         <androidx.appcompat.widget.AppCompatTextView

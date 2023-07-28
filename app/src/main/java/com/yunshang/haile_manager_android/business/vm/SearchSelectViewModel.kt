@@ -3,7 +3,6 @@ package com.yunshang.haile_manager_android.business.vm
 import android.content.Context
 import android.location.Location
 import androidx.lifecycle.MutableLiveData
-import com.amap.api.services.core.LatLonPoint
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils

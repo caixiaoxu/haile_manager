@@ -40,4 +40,5 @@ object BusEvents {
     const val NOTICE_LIST_ITEM_DELETE_STATUS = "notice_list_item_delete"
     const val NOTICE_LIST_STATUS = "notice_list_change"
     const val NOTICE_DETAIL_CHANGE = "notice_detail_change"
+    const val MESSAGE_READ_STATUS = "message_read_status"
 }

@@ -15,8 +15,10 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DeviceCreateViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.common.DeviceCategory.Dispenser
 import com.yunshang.haile_manager_android.data.entities.DosingConfigs
@@ -33,7 +35,8 @@ import timber.log.Timber
 
 class DeviceCreateActivity :
     BaseBusinessActivity<ActivityDeviceCreateBinding, DeviceCreateViewModel>(
-        DeviceCreateViewModel::class.java, BR.vm
+        DeviceCreateViewModel::class.java,
+        BR.vm
     ) {
 
     // 付款码相机启动器
@@ -51,7 +54,8 @@ class DeviceCreateActivity :
     private val imeiLauncher = registerForActivityResult(ScanContract()) { result ->
         result.contents?.trim()?.let {
             Timber.i("IMEI:$it")
-            if (StringUtils.isImeiCode(it)) mViewModel.imeiCode.value = it
+            if (StringUtils.isImeiCode(it))
+                mViewModel.imeiCode.value = it
             else SToast.showToast(this, R.string.imei_code_error1)
         } ?: SToast.showToast(this, R.string.imei_code_error)
     }
@@ -89,7 +93,6 @@ class DeviceCreateActivity :
                         }
                     }
                 }
-
                 DeviceModelActivity.ResultCode -> {
                     result.data?.let { intent ->
                         mViewModel.changeDeviceModel(
@@ -104,25 +107,10 @@ class DeviceCreateActivity :
 
                     }
                 }
-
                 DeviceFunctionConfigurationActivity.ResultCode -> {
                     result.data?.let { intent ->
-                        GsonUtils.json2List(
-                            intent.getStringExtra(
-                                DeviceFunctionConfigurationActivity.ResultData
-                            ), SkuFuncConfigurationParam::class.java
-                        )?.let {
-                            mViewModel.createDeviceFunConfigure.value = it
-                        }
-                    }
-                }
-
-                DropperAddSettingActivity.ResultCode -> {
-                    result.data?.let { intent ->
-                        GsonUtils.json2List(
-                            intent.getStringExtra(
-                                DeviceFunctionConfigurationActivity.ResultData
-                            ), SkuFuncConfigurationParam::class.java
+                        IntentParams.DeviceFunctionConfigurationParams.parseSkuFuncConfiguration(
+                            intent
                         )?.let {
                             mViewModel.createDeviceFunConfigure.value = it
                         }
@@ -157,15 +145,18 @@ class DeviceCreateActivity :
         mBinding.mtivDeviceCreateModel.onSelectedEvent = {
             startNext.launch(
                 Intent(
-                    this@DeviceCreateActivity, DeviceModelActivity::class.java
+                    this@DeviceCreateActivity,
+                    DeviceModelActivity::class.java
                 )
             )
+
         }
 
         // 所属门店
         mBinding.mtivDeviceCreateDepartment.onSelectedEvent = {
             startNext.launch(Intent(
-                this@DeviceCreateActivity, SearchSelectRadioActivity::class.java
+                this@DeviceCreateActivity,
+                SearchSelectRadioActivity::class.java
             ).apply {
                 putExtras(putExtras(SearchSelectTypeParam.pack(SearchSelectTypeParam.SearchSelectTypeShop)))
             })
@@ -196,22 +187,14 @@ class DeviceCreateActivity :
                 startNext.launch(Intent(
                     this@DeviceCreateActivity, DeviceFunctionConfigurationActivity::class.java
                 ).apply {
-                    putExtra(
-                        DeviceFunctionConfigurationActivity.SpuId,
-                        mViewModel.createAndUpdateEntity.value?.spuId
-                    )
-                    putExtra(
-                        DeviceCategory.CategoryCode, mViewModel.deviceCategoryCode
-                    )
-                    putExtra(
-                        DeviceCategory.CommunicationType, mViewModel.deviceCommunicationType
-                    )
-                    mViewModel.createDeviceFunConfigure.value?.let { configs ->
-                        putExtra(
-                            DeviceFunctionConfigurationActivity.OldFuncConfiguration,
-                            GsonUtils.any2Json(configs)
+                    putExtras(
+                        IntentParams.DeviceFunctionConfigurationParams.pack(
+                            spuId = mViewModel.createAndUpdateEntity.value?.spuId,
+                            categoryCode = mViewModel.deviceCategoryCode,
+                            communicationType = mViewModel.deviceCommunicationType,
+                            oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
                         )
-                    }
+                    )
                 })
             }
         }

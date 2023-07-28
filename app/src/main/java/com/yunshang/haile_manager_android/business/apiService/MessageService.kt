@@ -23,6 +23,12 @@ import retrofit2.http.POST
 interface MessageService {
 
     /**
+     * 消息数量接口
+     */
+    @POST("/message/count")
+    suspend fun messageCount(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
      * 各类型消息数量接口
      */
     @POST("/message/typeCount")

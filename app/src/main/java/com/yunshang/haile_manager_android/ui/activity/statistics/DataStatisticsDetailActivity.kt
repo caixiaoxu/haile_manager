@@ -353,13 +353,13 @@ class DataStatisticsDetailActivity :
         mBinding.includeDataStatisticsDetailDate.root.setBackgroundColor(Color.WHITE)
 
         mBinding.includeDataStatisticsDetailOrder.tvDataStatisticsDetailItemHint.setOnClickListener {
-            showHintDialog()
+            showHintDialog(0)
         }
         mBinding.includeDataStatisticsDetailDevice.tvDataStatisticsDetailItemHint.setOnClickListener {
-            showHintDialog()
+            showHintDialog(1)
         }
         mBinding.includeDataStatisticsDetailUser.tvDataStatisticsDetailItemHint.setOnClickListener {
-            showHintDialog()
+            showHintDialog(2)
         }
     }
 
@@ -382,8 +382,8 @@ class DataStatisticsDetailActivity :
         deviceCategoryDialog.show(supportFragmentManager)
     }
 
-    private fun showHintDialog() {
-        CommonDialog.Builder(StringUtils.getString(R.string.indicator_specification_content))
+    private fun showHintDialog(type: Int) {
+        CommonDialog.Builder(StringUtils.getStringArray(R.array.indicator_specification_content)[type])
             .apply {
                 title = StringUtils.getString(R.string.indicator_specification)
                 isNegativeShow = false

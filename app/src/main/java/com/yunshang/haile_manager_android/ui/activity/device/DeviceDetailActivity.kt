@@ -11,8 +11,6 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
-import com.journeyapps.barcodescanner.ScanContract
-import com.journeyapps.barcodescanner.ScanOptions
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
@@ -33,15 +31,15 @@ import com.yunshang.haile_manager_android.databinding.ActivityDeviceDetailBindin
 import com.yunshang.haile_manager_android.databinding.ItemDeviceDetailDisposeMinBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceDetailFuncPriceBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
-import com.yunshang.haile_manager_android.ui.activity.common.CustomCaptureActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DropperAddSettingActivity.Companion.OldFuncConfiguration
-import com.yunshang.haile_manager_android.ui.activity.order.OrderDetailActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 
-class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, DeviceDetailModel>(
-    DeviceDetailModel::class.java, BR.vm
-) {
+class DeviceDetailActivity :
+    BaseBusinessActivity<ActivityDeviceDetailBinding, DeviceDetailModel>(
+        DeviceDetailModel::class.java,
+        BR.vm
+    ) {
 
     companion object {
         const val GoodsId = "goodsId"
@@ -59,12 +57,10 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                                     mViewModel.deviceDetail.value?.imei = it
                                     mViewModel.imei.value = it
                                 }
-
                                 DeviceMultiChangeViewModel.typeChangePayCode -> {
                                     mViewModel.deviceDetail.value?.code = it
                                     mViewModel.code.value = it
                                 }
-
                                 DeviceMultiChangeViewModel.typeChangeName -> {
                                     mViewModel.deviceDetail.value?.name = it
                                     mViewModel.name.value = it
@@ -88,22 +84,28 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
             setText(R.string.advanced_setup)
             setTextColor(
                 ContextCompat.getColor(
-                    this@DeviceDetailActivity, R.color.colorPrimary
+                    this@DeviceDetailActivity,
+                    R.color.colorPrimary
                 )
             )
             setOnClickListener {
                 mViewModel.deviceAdvancedValues.value?.let { values ->
                     // 高级设置
-                    startActivity(Intent(
-                        this@DeviceDetailActivity, DeviceAdvancedActivity::class.java
-                    ).apply {
-                        putExtra(
-                            DeviceAdvancedActivity.GoodId, mViewModel.goodsId
-                        )
-                        putExtra(
-                            DeviceAdvancedActivity.Advanced, GsonUtils.any2Json(values)
-                        )
-                    })
+                    startActivity(
+                        Intent(
+                            this@DeviceDetailActivity,
+                            DeviceAdvancedActivity::class.java
+                        ).apply {
+                            putExtra(
+                                DeviceAdvancedActivity.GoodId,
+                                mViewModel.goodsId
+                            )
+                            putExtra(
+                                DeviceAdvancedActivity.Advanced,
+                                GsonUtils.any2Json(values)
+                            )
+                        }
+                    )
                 }
             }
         }
@@ -282,86 +284,94 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                         }
                     } else {
                         mViewModel.deviceDetail.value?.let { detail ->
-                            startActivity(Intent(
-                                this@DeviceDetailActivity,
-                                DeviceFunctionConfigurationActivity::class.java
-                            ).apply {
-                                putExtra(
-                                    DeviceFunctionConfigurationActivity.GoodId,
-                                    mViewModel.goodsId
-                                )
-                                putExtra(
-                                    DeviceFunctionConfigurationActivity.SpuId, detail.spuId
-                                )
-                                putExtra(
-                                    DeviceCategory.CategoryCode, detail.categoryCode
-                                )
-                                putExtra(
-                                    DeviceCategory.CommunicationType, detail.communicationType
-                                )
-                                if (detail.items.isNotEmpty()) {
-                                    putExtra(
-                                        DeviceFunctionConfigurationActivity.OldFuncConfiguration,
-                                        GsonUtils.any2Json(detail.items.map { item -> item.changeConfigurationParam() })
+                            startActivity(
+                                Intent(
+                                    this@DeviceDetailActivity,
+                                    DeviceFunctionConfigurationActivity::class.java
+                                ).apply {
+                                    putExtras(
+                                        IntentParams.DeviceFunctionConfigurationParams.pack(
+                                            goodId = mViewModel.goodsId,
+                                            spuId = detail.spuId,
+                                            categoryCode = detail.categoryCode,
+                                            communicationType = detail.communicationType,
+                                            oldFuncConfiguration = detail.items.mapNotNull { item -> item.changeConfigurationParam() }
+                                        )
                                     )
                                 }
-                            })
+                            )
                         }
                     }
                 }
                 // 启动
                 2 -> mViewModel.deviceDetail.value?.let { detail ->
-                    startActivity(Intent(
-                        this@DeviceDetailActivity, DeviceStartActivity::class.java
-                    ).apply {
-                        putExtra(DeviceStartActivity.Imei, detail.imei)
-                        putExtra(DeviceCategory.CategoryCode, detail.categoryCode)
-                        putExtra(DeviceStartActivity.Items, GsonUtils.any2Json(detail.items))
-                    })
+                    startActivity(
+                        Intent(
+                            this@DeviceDetailActivity,
+                            DeviceStartActivity::class.java
+                        ).apply {
+                            putExtra(DeviceStartActivity.Imei, detail.imei)
+                            putExtra(DeviceCategory.CategoryCode, detail.categoryCode)
+                            putExtra(DeviceStartActivity.Items, GsonUtils.any2Json(detail.items))
+                        })
                 }
                 // 更换模块
-                3 -> startNext.launch(Intent(
-                    this@DeviceDetailActivity, DeviceMultiChangeActivity::class.java
-                ).apply {
-                    putExtra(
-                        DeviceMultiChangeActivity.GoodId, mViewModel.goodsId
-                    )
-                    putExtra(
-                        DeviceMultiChangeViewModel.Type,
-                        DeviceMultiChangeViewModel.typeChangeModel
-                    )
-                })
+                3 -> startNext.launch(
+                    Intent(
+                        this@DeviceDetailActivity,
+                        DeviceMultiChangeActivity::class.java
+                    ).apply {
+                        putExtra(
+                            DeviceMultiChangeActivity.GoodId,
+                            mViewModel.goodsId
+                        )
+                        putExtra(
+                            DeviceMultiChangeViewModel.Type,
+                            DeviceMultiChangeViewModel.typeChangeModel
+                        )
+                    }
+                )
                 // 更换付款码
-                4 -> startNext.launch(Intent(
-                    this@DeviceDetailActivity, DeviceMultiChangeActivity::class.java
-                ).apply {
-                    putExtra(
-                        DeviceMultiChangeActivity.GoodId, mViewModel.goodsId
-                    )
-                    putExtra(
-                        DeviceMultiChangeViewModel.Type,
-                        DeviceMultiChangeViewModel.typeChangePayCode
-                    )
-                })
+                4 -> startNext.launch(
+                    Intent(
+                        this@DeviceDetailActivity,
+                        DeviceMultiChangeActivity::class.java
+                    ).apply {
+                        putExtra(
+                            DeviceMultiChangeActivity.GoodId,
+                            mViewModel.goodsId
+                        )
+                        putExtra(
+                            DeviceMultiChangeViewModel.Type,
+                            DeviceMultiChangeViewModel.typeChangePayCode
+                        )
+                    }
+                )
                 // 更换名称
-                5 -> startNext.launch(Intent(
-                    this@DeviceDetailActivity, DeviceMultiChangeActivity::class.java
-                ).apply {
-                    putExtra(
-                        DeviceMultiChangeActivity.GoodId, mViewModel.goodsId
-                    )
-                    putExtra(
-                        DeviceMultiChangeViewModel.Type,
-                        DeviceMultiChangeViewModel.typeChangeName
-                    )
-                })
+                5 -> startNext.launch(
+                    Intent(
+                        this@DeviceDetailActivity,
+                        DeviceMultiChangeActivity::class.java
+                    ).apply {
+                        putExtra(
+                            DeviceMultiChangeActivity.GoodId,
+                            mViewModel.goodsId
+                        )
+                        putExtra(
+                            DeviceMultiChangeViewModel.Type,
+                            DeviceMultiChangeViewModel.typeChangeName
+                        )
+                    }
+                )
                 // 生成付款码
                 6 -> mViewModel.deviceDetail.value?.let { detail ->
-                    startActivity(Intent(
-                        this@DeviceDetailActivity, DevicePayCodeActivity::class.java
-                    ).apply {
-                        putExtra(DevicePayCodeActivity.Code, detail.scanUrl)
-                    })
+                    startActivity(
+                        Intent(
+                            this@DeviceDetailActivity,
+                            DevicePayCodeActivity::class.java
+                        ).apply {
+                            putExtra(DevicePayCodeActivity.Code, detail.scanUrl)
+                        })
                 }
                 // 显示预约
                 7 -> mViewModel.deviceDetail.value?.let { detail ->
@@ -391,8 +401,10 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                 // 复位
                 8 -> mViewModel.deviceDetail.value?.let { detail ->
                     if (DeviceCategory.isHair(detail.categoryCode)) {
-                        CommonBottomSheetDialog.Builder(StringUtils.getString(R.string.restart_dialog_title),
-                            detail.items.filter { item -> 1 == item.soldState }).apply {
+                        CommonBottomSheetDialog.Builder(
+                            StringUtils.getString(R.string.restart_dialog_title),
+                            detail.items.filter { item -> 1 == item.soldState }
+                        ).apply {
                             onValueSureListener =
                                 object : CommonBottomSheetDialog.OnValueSureListener<Item> {
                                     override fun onValue(data: Item?) {
@@ -540,30 +552,4 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
 
         mViewModel.requestData()
     }
-
-
-    // 扫描投放器液体核销码
-    private val activate1Launcher = registerForActivityResult(ScanContract()) { result ->
-        result.contents?.trim()?.let {
-            mViewModel.deviceActivate(1, it)
-        }
-    }
-    private val activate2Launcher = registerForActivityResult(ScanContract()) { result ->
-        result.contents?.trim()?.let {
-            mViewModel.deviceActivate(2, it)
-        }
-    }
-
-    private val scanOptions: ScanOptions by lazy {
-        ScanOptions().apply {
-            captureActivity = CustomCaptureActivity::class.java
-//            setDesiredBarcodeFormats(ScanOptions.ONE_D_CODE_TYPES)// 扫码的类型,一维码，二维码，一/二维码，默认为一/二维码
-            setPrompt("请对准二维码")//提示语
-            setOrientationLocked(true)
-            setCameraId(0) // 选择摄像头
-            setBeepEnabled(true) // 开启声音
-        }
-    }
-
-
 }

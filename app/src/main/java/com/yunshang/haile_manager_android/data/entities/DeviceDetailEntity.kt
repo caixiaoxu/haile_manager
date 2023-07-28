@@ -118,7 +118,7 @@ data class DeviceDetailEntity(
     }
 
 
-    fun hasQrId(): Boolean = 0L < qrId
+    fun hasQrId(): Boolean = 0 < id
 
     fun getQrIdTitle(): String = StringUtils.getString(R.string.device_no)
 
@@ -187,25 +187,24 @@ data class Item(
     /**
      * 根据型号区分配置内容
      */
-    fun getConfigurationStr(communicationType: Int, isDryer: Boolean): String = if (isDryer) {
-        GsonUtils.json2List(extAttr, ExtAttrBean::class.java)?.joinToString("\n") {
-            getSpec(
-                if (0.0 == it.price) "" else it.price.toString(),
-                if (0 == it.minutes) "" else it.minutes.toString(),
-                if (0 == it.pulse || !DeviceCategory.isPulseDevice(communicationType)) "" else it.pulse.toString()
-            )
-        } ?: ""
-    } else {
-        getSpec(price, unit, pulse)
-    }
+    fun getConfigurationStr(communicationType: Int, isDryer: Boolean): String =
+        if (isDryer) {
+            GsonUtils.json2List(extAttr, ExtAttrBean::class.java)?.joinToString("\n") {
+                getSpec(
+                    if (0.0 == it.price) "" else it.price.toString(),
+                    if (0 == it.minutes) "" else it.minutes.toString(),
+                    if (0 == it.pulse || !DeviceCategory.isPulseDevice(communicationType)) "" else it.pulse.toString()
+                )
+            } ?: ""
+        } else {
+            getSpec(price, unit, pulse)
+        }
 
     fun getSpec(price: String, unit: String, pulse: String?) =
-        if (pulse.isNullOrEmpty()) StringUtils.getString(
-            R.string.unit_device_configuration_hint3,
-            price,
-            unit
-        )
-        else StringUtils.getString(R.string.unit_device_configuration_hint4, price, unit, pulse)
+        if (pulse.isNullOrEmpty())
+            StringUtils.getString(R.string.unit_device_configuration_hint3, price, unit)
+        else
+            StringUtils.getString(R.string.unit_device_configuration_hint4, price, unit, pulse)
 
     /**
      * 切换数据格式
@@ -234,7 +233,15 @@ data class Item(
         }
 
         return SkuFuncConfigurationParam(
-            skuId, name, priceV, pulseV, unitV, extAttr, feature, soldState
+            skuId,
+            name,
+            priceV,
+            pulseV,
+            unitV,
+            extAttr,
+            feature,
+            soldState,
+            "",
         )
     }
 

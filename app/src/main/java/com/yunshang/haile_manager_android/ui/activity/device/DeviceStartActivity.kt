@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatRadioButton
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.DeviceStartViewModel
 import com.yunshang.haile_manager_android.data.arguments.DeviceConfigSelectParams
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
@@ -96,6 +98,10 @@ class DeviceStartActivity :
                     mBinding.scrollDeviceStartTimeList.visibility = View.VISIBLE
                 }
             }
+        }
+
+        mViewModel.jump.observe(this){
+            finish()
         }
     }
 

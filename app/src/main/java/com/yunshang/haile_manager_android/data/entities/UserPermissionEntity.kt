@@ -30,6 +30,8 @@ data class UserPermissionEntity(
         return super.hashCode()
     }
 
+    var isOldCheck: Boolean = false
+
     override var isCheck: Boolean = false
 
     override fun getTitle(): String = name

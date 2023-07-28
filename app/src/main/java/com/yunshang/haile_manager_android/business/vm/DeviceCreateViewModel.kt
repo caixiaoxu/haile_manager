@@ -171,6 +171,9 @@ class DeviceCreateViewModel : BaseViewModel() {
                     )
                 )
             )
+            withContext(Dispatchers.Main) {
+                SToast.showToast(view.context, "新增设备成功")
+            }
             LiveDataBus.post(BusEvents.DEVICE_LIST_STATUS, true)
             jump.postValue(0)
         })

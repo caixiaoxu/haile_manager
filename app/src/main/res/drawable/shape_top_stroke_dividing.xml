@@ -2,10 +2,10 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item> <!-- 格子间的连接处颜色 -->
         <shape>
-            <solid android:color="@color/dividing_line_color_efefef" />
+            <solid android:color="@color/dividing_line_color" />
         </shape>
     </item>
-    <item android:top="1dp"> <!--设置底部有边框-->
+    <item android:top="0.5dp"> <!--设置底部有边框-->
         <shape>
             <solid android:color="#ffffff" />  <!-- 主体背景颜色 -->
         </shape>

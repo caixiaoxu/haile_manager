@@ -101,7 +101,7 @@ class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(p
                 if (index > 0) {
                     mBinding.llDialogCommonList.addView(
                         View(context).apply {
-                            setBackgroundResource(R.drawable.divder_efefef_size_half)
+//                            setBackgroundResource(R.drawable.shape_bottom_stroke_dividing_efefef)
                         },
                         ViewGroup.LayoutParams(
                             ViewGroup.LayoutParams.MATCH_PARENT,

@@ -84,7 +84,7 @@ class HaiXinSchemeConfigsActivity :
             }
         }
         mBinding.rvHaixinSchemeConfigsList.layoutManager = LinearLayoutManager(this)
-        ResourcesCompat.getDrawable(resources, R.drawable.divder_efefef_size_half, null)?.let {
+        ResourcesCompat.getDrawable(resources, R.drawable.divder_efefef, null)?.let {
             mBinding.rvHaixinSchemeConfigsList.addItemDecoration(
                 DividerItemDecoration(
                     this@HaiXinSchemeConfigsActivity,

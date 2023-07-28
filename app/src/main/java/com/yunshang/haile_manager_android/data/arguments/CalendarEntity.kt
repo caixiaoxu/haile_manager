@@ -45,8 +45,11 @@ data class CalendarEntity(override var type: Int, val day: String? = null) : ICa
             ),
         )
 
-    override fun getDate(): Date? =DateTimeUtils.formatDateFromString(day)
-    override fun isSelect(date:Date): Boolean = day == DateTimeUtils.formatDateTimeStartParam(date)
+    override fun getDate(): Date? = DateTimeUtils.formatDateFromString(day)
+    override fun isSelect(date: Date): Boolean = day == DateTimeUtils.formatDateTimeStartParam(date)
+    override fun afterToday(): Boolean =
+        DateTimeUtils.formatDateFromString(day)?.time?.let { it > System.currentTimeMillis() }
+            ?: false
 
     override fun getDayNum(): String? =
         day?.let {

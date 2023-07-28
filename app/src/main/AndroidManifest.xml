@@ -63,6 +63,12 @@
             android:name=".ui.activity.notice.NoticeManagerActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.activity.device.DeviceBatchStartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.device.DeviceBatchUpdateActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.statistics.DataStatisticsDetailActivity"
             android:exported="false" />
         <activity
@@ -196,7 +202,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.activity.common.SearchActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.activity.device.DeviceFunctionConfigurationActivity"
             android:exported="false" />
@@ -327,7 +334,6 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="5f90ead1c370be414645533daa7ae38a" />
-
         <meta-data
             android:name="TencentMapSDK"
             android:value="BOOBZ-ISOKZ-TXYX2-TNK3M-J7TVT-SYF4H" />

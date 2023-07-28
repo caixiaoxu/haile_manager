@@ -19,12 +19,15 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.ShopManagerViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.ShopEntity
 import com.yunshang.haile_manager_android.databinding.ActivityShopManagerBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopListBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
+import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
@@ -90,9 +93,10 @@ class ShopManagerActivity :
             R.layout.item_shop_list,
             BR.item
         ) { mBinding, _, item ->
-            var title = StringUtils.getString(R.string.total_earnings)
+            var title =
+                StringUtils.getString(R.string.total_earnings)
             var value =
-                NumberUtils.keepTwoDecimals(item.income) + StringUtils.getString(R.string.unit_yuan)
+                StringUtils.getString(R.string.unit_money) + NumberUtils.keepTwoDecimals(item.income)
             var start = title.length + 1
             var end = title.length + 1 + value.length
             // 格式化总收益样式
@@ -108,8 +112,8 @@ class ShopManagerActivity :
                             )
                         ),
                         AbsoluteSizeSpan(DimensionUtils.sp2px(18f, this@ShopManagerActivity)),
-                        StyleSpan(Typeface.BOLD),
-                        TypefaceSpan("money")
+//                        StyleSpan(Typeface.BOLD),
+                        TypefaceSpan("money"),
                     ), start, end
                 )
             mBinding?.tvItemShopTotalIncome?.setOnClickListener {
@@ -127,7 +131,7 @@ class ShopManagerActivity :
             }
 
             title = StringUtils.getString(R.string.device_num)
-            value = item.deviceNum.toString() + StringUtils.getString(R.string.unit_tai)
+            value = item.deviceNum.toString()
             start = title.length + 1
             end = title.length + 1 + value.length
             // 格式化设备数样式
@@ -139,6 +143,24 @@ class ShopManagerActivity :
                         StyleSpan(Typeface.BOLD),
                     ), start, end
                 )
+
+            mBinding?.tvItemShopDeviceNum?.setOnClickListener {
+                startActivity(
+                    Intent(
+                        this@ShopManagerActivity,
+                        DeviceManagerActivity::class.java
+                    ).apply {
+                        putExtras(
+                            IntentParams.DeviceManagerParams.pack(
+                                SearchSelectParam(
+                                    item.id,
+                                    item.name
+                                )
+                            )
+                        )
+                    }
+                )
+            }
 
             // 进入详情
             mBinding?.root?.setOnClickListener {

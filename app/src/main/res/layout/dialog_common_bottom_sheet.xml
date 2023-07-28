@@ -62,7 +62,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="8dp"
-        android:background="@color/dividing_line_color_efefef" />
+        android:background="@color/dividing_line_color" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_common_dialog_cancel"
@@ -72,5 +72,5 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="8dp"
-        android:background="@color/dividing_line_color_efefef" />
+        android:background="@color/dividing_line_color" />
 </LinearLayout>

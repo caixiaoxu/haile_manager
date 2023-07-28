@@ -31,7 +31,7 @@
             android:id="@+id/bar_order_detail_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
-            android:background="@drawable/shape_bottom_stroke_dividing_efefef"
+            android:background="@drawable/shape_bottom_stroke_dividing"
             app:title="@string/order_detail" />
 
         <ScrollView
@@ -210,14 +210,8 @@
                         style="@style/Font_14_333333"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{vm.orderDetail.deviceType}"
-                        tools:text="设备类型字段信息" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/Font_14_333333"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@{vm.orderDetail.deviceName}"
+                        android:gravity="center_vertical"
+                        android:text="@{vm.orderDetail.deviceNameNoVal}"
                         tools:text="设备名称" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

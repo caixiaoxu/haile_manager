@@ -100,7 +100,24 @@ object SearchType {
     // 搜索预约订单
     const val AppointOrder = 3
 
-    @IntDef(Device, Shop, Order, AppointOrder)
+    // 充值退款
+    const val HaiXinRefundRecord = 4
+
+    // 充值用户
+    const val HaiXinRechargeAccount = 5
+
+    // 分账
+    const val SubAccount = 6
+
+    @IntDef(
+        Device,
+        Shop,
+        Order,
+        AppointOrder,
+        HaiXinRefundRecord,
+        HaiXinRechargeAccount,
+        SubAccount
+    )
     @Retention(AnnotationRetention.SOURCE)
     annotation class ISearchType
 }

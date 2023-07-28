@@ -6,12 +6,15 @@ import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.ShopService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.ShopCreateParam
 import com.yunshang.haile_manager_android.data.entities.*
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.StringUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * Title :
@@ -241,6 +244,12 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                         )
                     }
                 )
+                withContext(Dispatchers.Main) {
+                    SToast.showToast(
+                        view.context,
+                        if (null == params.id) R.string.add_success else R.string.update_success
+                    )
+                }
                 jump.postValue(0)
                 LiveDataBus.post(BusEvents.SHOP_LIST_STATUS, true)
                 LiveDataBus.post(BusEvents.SHOP_DETAILS_STATUS, true)

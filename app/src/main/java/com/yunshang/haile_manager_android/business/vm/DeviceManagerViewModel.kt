@@ -13,6 +13,7 @@ import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import com.yunshang.haile_manager_android.data.rule.DeviceIndicatorEntity
 import com.yunshang.haile_manager_android.data.rule.IndicatorEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -31,6 +32,11 @@ import timber.log.Timber
 class DeviceManagerViewModel : BaseViewModel() {
     private val mDeviceRepo = ApiRepository.apiClient(DeviceService::class.java)
     private val mCategoryRepo = ApiRepository.apiClient(CategoryService::class.java)
+
+    // 搜索内容
+    val searchKey: MutableLiveData<String> by lazy {
+        MutableLiveData()
+    }
 
     // 设备类型
     val categoryList: MutableLiveData<List<CategoryEntity>> = MutableLiveData()
@@ -66,15 +72,14 @@ class DeviceManagerViewModel : BaseViewModel() {
     // 状态的工作状态
     val curWorkStatus: MutableLiveData<String> = MutableLiveData("")
 
-    val deviceStatus: MutableLiveData<List<IndicatorEntity<String>>> = MutableLiveData(
+    val deviceStatus: List<DeviceIndicatorEntity<String>> =
         arrayListOf(
-            IndicatorEntity("全部", 0, ""),
-            IndicatorEntity("运行", 0, "20"),
-            IndicatorEntity("空闲", 0, "10"),
-            IndicatorEntity("故障", 0, "30"),
+            DeviceIndicatorEntity("全部", MutableLiveData(0), ""),
+            DeviceIndicatorEntity("运行", MutableLiveData(0), "20"),
+            DeviceIndicatorEntity("空闲", MutableLiveData(0), "10"),
+            DeviceIndicatorEntity("故障", MutableLiveData(0), "30"),
 //            IndicatorEntity("停用", 0, "40"),
         )
-    )
 
 
     /**
@@ -106,17 +111,25 @@ class DeviceManagerViewModel : BaseViewModel() {
      * 状态数量
      */
     private suspend fun requestDeviceStatusTotals() {
+
+        val params = hashMapOf<String, Any>()
+        // 店铺
+        selectDepartment.value?.let {
+            params["shopId"] = it.id
+        }
+
         val totals = ApiRepository.dealApiResult(
-            mDeviceRepo.deviceStatusTotals(hashMapOf())
+            mDeviceRepo.deviceStatusTotals(params)
         )
-        deviceStatus.value?.let { list ->
-            val titles = arrayListOf<IndicatorEntity<String>>()
-            titles.addAll(list)
-            titles[1].num = totals?.getTotal(20) ?: 0
-            titles[2].num = totals?.getTotal(10) ?: 0
-            titles[3].num = totals?.getTotal(30) ?: 0
+        deviceStatus.let { list ->
+            val runningNum = totals?.getTotal(20) ?: 0
+            list[1].num.postValue(runningNum)
+            val idleNum = totals?.getTotal(10) ?: 0
+            list[2].num.postValue(idleNum)
+            val falutNum = totals?.getTotal(30) ?: 0
+            list[3].num.postValue(falutNum)
+            list[0].num.postValue(runningNum + idleNum + falutNum)
 //            titles[4].num = totals?.getTotal(40) ?: 0
-            deviceStatus.postValue(titles)
         }
     }
 
@@ -129,10 +142,15 @@ class DeviceManagerViewModel : BaseViewModel() {
         result: (listWrapper: ResponseList<DeviceEntity>?) -> Unit
     ) {
         launch({
+            if (1 == page) {
+                requestDeviceStatusTotals()
+            }
+
             val params: HashMap<String, Any> = hashMapOf(
                 "page" to page,
                 "pageSize" to pageSize,
                 "workStatus" to (curWorkStatus.value ?: ""),
+                "keywords" to (searchKey.value?.trim() ?: "")
             )
             // 店铺
             selectDepartment.value?.let {

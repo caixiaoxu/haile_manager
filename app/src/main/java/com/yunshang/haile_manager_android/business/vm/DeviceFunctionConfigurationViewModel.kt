@@ -1,11 +1,9 @@
 package com.yunshang.haile_manager_android.business.vm
 
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
-import com.lsy.framelib.utils.SoftKeyboardUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.event.BusEvents
@@ -81,8 +79,7 @@ class DeviceFunctionConfigurationViewModel : BaseViewModel() {
         })
     }
 
-    fun save(view: View) {
-        SoftKeyboardUtils.hideShowKeyboard(view)
+    fun save() {
         // 参数判断
         configurationList.value?.let { list ->
             list.forEachIndexed { index, config ->
@@ -139,7 +136,6 @@ class DeviceFunctionConfigurationViewModel : BaseViewModel() {
         if (-1 == goodsId) {
             resultData.postValue(params)
         } else {
-
             launch({
                 ApiRepository.dealApiResult(
                     mDeviceRepo.deviceUpdate(

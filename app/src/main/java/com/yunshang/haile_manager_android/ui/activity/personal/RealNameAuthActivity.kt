@@ -31,11 +31,11 @@ class RealNameAuthActivity :
         super.initIntent()
         val oldAuthInfo = IntentParams.RealNameAuthParams.parseAuthInfo(intent)
         if (null != oldAuthInfo) {
-            mViewModel.isSubmit.postValue((null == oldAuthInfo.status || 1 == oldAuthInfo.status))
-            mViewModel.authInfo.postValue(oldAuthInfo)
+            mViewModel.isSubmit.value = (null == oldAuthInfo.status || 1 == oldAuthInfo.status)
+            mViewModel.authInfo.value = oldAuthInfo
         } else {
-            mViewModel.isSubmit.postValue(true)
-            mViewModel.authInfo.postValue(RealNameAuthDetailEntity())
+            mViewModel.isSubmit.value = true
+            mViewModel.authInfo.value = RealNameAuthDetailEntity()
         }
     }
 
@@ -168,6 +168,8 @@ class RealNameAuthActivity :
     }
 
     override fun initData() {
-
+        mViewModel.authInfo.value?.let {
+            it.verifyType = mViewModel.verifyTypeList[0].id
+        }
     }
 }

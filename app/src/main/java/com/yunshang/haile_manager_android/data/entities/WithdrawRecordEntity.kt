@@ -40,7 +40,7 @@ data class WithdrawRecordEntity(
         else -> 0
     }
 
-    override fun getMultiTypeBgRes(): IntArray = intArrayOf(0)
+    override fun getMultiTypeBgRes(): IntArray = intArrayOf()
 
     override fun getMultiTypeTxtColors(): IntArray = intArrayOf(
         ContextCompat.getColor(

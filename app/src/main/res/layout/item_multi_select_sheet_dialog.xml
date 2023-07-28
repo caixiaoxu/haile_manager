@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.AppCompatCheckBox xmlns:tools="http://schemas.android.com/tools"
+<com.yunshang.haile_life.ui.view.ClickCheckBox xmlns:tools="http://schemas.android.com/tools"
     style="@style/MultiSelectBottomSheetStyle"
     tools:text="学校" />

@@ -94,7 +94,7 @@
                     android:background="@drawable/shape_sffffff_r8"
                     android:orientation="vertical"
                     android:paddingHorizontal="16dp"
-                    app:divider="@drawable/divder_efefef_size_half"
+                    app:divider="@drawable/divder_efefef"
                     app:itemLayout="@layout/item_refund_record_detail"
                     app:showDividers="middle" />
 

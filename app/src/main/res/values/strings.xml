@@ -36,6 +36,7 @@
     <string name="operate">操作</string>
     <string name="for_take">拍照</string>
     <string name="for_album">相册</string>
+    <string name="light">补光</string>
     <string name="withdraw">提现</string>
     <string name="withdraw_success">提现成功</string>
     <string name="type">类型</string>
@@ -49,6 +50,7 @@
     <string name="disEnable">停用</string>
     <string name="tip">提示</string>
     <string name="search_history">搜索历史</string>
+    <string name="scan">扫一扫</string>
 
     <string name="empty_content">暂无内容信息</string>
     <string name="empty_device">暂无设备信息</string>
@@ -87,7 +89,11 @@
     <string name="more_statistics">更多统计</string>
     <string name="data_detail">数据详情</string>
     <string name="indicator_specification">指标说明</string>
-    <string name="indicator_specification_content">订单量：门店实际订单总数量（含海星订单量）\n\n收益：用户实际支付的金额（含购买海星和平台补贴金额）\n\n活跃用户量：下单的用户数量(不含海星订单)\n\n新增用户量：新注册的用户数量\n\n活跃设备数：产生订单交易的设备数量\n\n设备频次：每台设备平均使用次数"</string>
+    <string-array name="indicator_specification_content">
+        <item>订单量：门店实际订单总数量（含海星订单量）\n\n收益：用户实际支付的金额（含购买海星和平台补贴金额）\n\n退款订单量：退款和补偿订单的总数量（不含海星订单）\n\n退款订单金额：退款和补偿订单的总金额（不含海星订单）\n\n无效订单量：用户下单后未完成付款的订单数量\n\n无效订单占比：无效订单量占总订单的比例</item>
+        <item>设备数量：已绑定设备的总数量（不含删除设备）\n\n活跃设备量：实际产生订单的设备总数量\n\n设备活跃率：实际产生订单的设备占比\n\n设备故障率：出现过故障的设备占比\n\n设备离线率：持续离线30分钟及以上的设备占比\n\n设备频次：每台设备平均使用次数</item>
+        <item>总用户量：下过订单的用户量\n\n新增用户量：新注册的用户数量\n\n新用户占比：新用户占总用户量的比例\n\n活跃用户量：下单的用户数量(不含海星订单)\n\n用户活跃率：下单用户占总用户量的比例\n\n用户复购率：下单次数超过1次的用户占比</item>
+    </string-array>
 
     <string name="message_center">消息中心</string>
     <string name="message_setting">消息设置</string>
@@ -104,7 +110,7 @@
     <string name="signal">信号</string>
     <string name="device_category_no">设备类型/编号</string>
     <string name="device_no">设备编号</string>
-    <string name="device_search_hint">搜索设备名称/模块编码 (IMEI）</string>
+    <string name="device_search_hint">搜索设备名称/模块编码 (IMEI）/设备编码</string>
     <string name="department">所属门店</string>
     <string name="department_empty">请先选择门店</string>
     <string name="device_category">设备类型</string>
@@ -112,7 +118,12 @@
     <string name="device_model_empty">请先选择设备型号</string>
     <string name="network_status">网络状态</string>
     <string name="device_status">设备状态</string>
+    <string name="operate_manager">操作管理</string>
     <string name="add_device">添加设备</string>
+    <string name="new_device">新增设备</string>
+    <string name="batch_update">批量修改</string>
+    <string name="batch_start">批量启动</string>
+    <string name="configure_condition">配置条件</string>
     <string name="device_num_hint">全部%1$d台设备</string>
     <string name="device_model_search_hint">搜索设备型号</string>
     <string name="device_info">设备信息</string>
@@ -137,7 +148,7 @@
     <string name="desc">描述信息</string>
     <string name="money">金额</string>
     <string name="dryer_time_title">选择烘干时间（可多选）</string>
-    <string name="search_device_hint">请输入设备型号/名称</string>
+    <string name="search_device_hint">请输入设备型号/名称/编号</string>
     <string name="device_detail">设备详情</string>
     <string name="advanced_setup">高级设置</string>
     <string name="advanced_params_setup">高级参数设置</string>
@@ -186,6 +197,8 @@
     <string name="device_delete_hint">是否确定要删除该设备么？</string>
     <string name="open_success">开启成功</string>
     <string name="close_success">关闭成功</string>
+    <string name="function_select">功能选择</string>
+    <string name="function_model">功能模式</string>
 
     <string name="shop_manager">门店管理</string>
     <string name="add_shop">添加门店</string>
@@ -293,6 +306,7 @@
     <string name="update_permission">编辑权限</string>
     <string name="delete_staff">删除人员</string>
     <string name="work_order_manager">工单管理</string>
+    <string name="notice_manager">公告管理</string>
 
     <string name="home_marketing_title">营销中心</string>
     <string name="discount_manager">折扣优惠</string>
@@ -353,6 +367,7 @@
 
     <string name="home_capital_title">资金管理</string>
     <string name="sub_account_manager">分账管理</string>
+    <string name="sub_account_search_hint">搜索关键字</string>
     <string name="sub_account_shop">分账门店</string>
     <string name="sub_account_info">分账信息</string>
     <string name="sub_account_account">分账账号</string>

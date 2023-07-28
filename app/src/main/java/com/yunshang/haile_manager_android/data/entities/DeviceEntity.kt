@@ -52,8 +52,8 @@ data class DeviceEntity(
     val qrId: Long // 设备编号
 ) : ISearchSelectEntity, IMultiTypeEntity {
 
-    fun getDeviceCategoryAndNo() = if (qrId > 0L)
-        "${StringUtils.getString(R.string.device_category_no)}：${categoryName} $qrId"
+    fun getDeviceCategoryAndNo() = if (id > 0)
+        "${StringUtils.getString(R.string.device_category_no)}：${categoryName} $id"
     else
         "${StringUtils.getString(R.string.device_category)}：${categoryName}"
 

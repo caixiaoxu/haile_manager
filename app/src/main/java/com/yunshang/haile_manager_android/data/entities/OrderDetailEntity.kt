@@ -1,10 +1,19 @@
 package com.yunshang.haile_manager_android.data.entities
 
+import android.text.SpannableString
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.google.gson.annotations.SerializedName
+import com.lsy.framelib.data.constants.Constants
+import com.lsy.framelib.utils.DimensionUtils
 import com.yunshang.haile_manager_android.BR
+import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
+import com.yunshang.haile_manager_android.utils.StringUtils
 
 /**
  * Title :
@@ -91,6 +100,28 @@ data class OrderDetailEntity(
             _canCompensate = value
             notifyPropertyChanged(BR.canCompensate)
         }
+
+    val deviceTypeVal: String
+        get() = skuList.firstOrNull()?.deviceType ?: ""
+
+    val deviceNameNoVal: SpannableString
+        get() = skuList.firstOrNull()?.let {
+            val goodName = it.goodsName
+            val goodId = "（${it.deviceType}编号：${it.goodsId}）"
+            val content = goodName + goodId
+            StringUtils.formatMultiStyleStr(
+                content, arrayOf(
+                    AbsoluteSizeSpan(DimensionUtils.sp2px(12f)),
+                    ForegroundColorSpan(
+                        ContextCompat.getColor(
+                            Constants.APP_CONTEXT,
+                            R.color.common_sub_txt_color,
+                        )
+                    ),
+                ), goodName.length, content.length
+            )
+        }
+            ?: SpannableString("")
 }
 
 data class AppointmentInfo(

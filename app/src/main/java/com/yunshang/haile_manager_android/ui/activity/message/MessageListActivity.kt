@@ -7,6 +7,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.network.response.ResponseList
+import com.lsy.framelib.utils.DimensionUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.MessageListViewModel
@@ -28,13 +29,21 @@ class MessageListActivity :
     private val mAdapter by lazy {
         CommonRecyclerAdapter<ItemMessageListBinding, MessageEntity>(
             R.layout.item_message_list, BR.item,
-        ) { mItemBinding, _, item ->
+        ) { mItemBinding, pos, item ->
             item.contentEntity?.let { content ->
                 mItemBinding?.llMessageListInfos?.buildChild<ItemMessageListInfosBinding, CommonKeyValueEntity>(
                     content.items()
                 ) { _, childBinding, data ->
                     childBinding.item = data
                 }
+            }
+            if (0 == pos) {
+                mItemBinding?.root?.setPadding(
+                    0,
+                    DimensionUtils.dip2px(this@MessageListActivity, 12f),
+                    0,
+                    0
+                )
             }
             mItemBinding?.root?.setOnClickListener {
                 if (item.subtype == "merchant:device:fault") {

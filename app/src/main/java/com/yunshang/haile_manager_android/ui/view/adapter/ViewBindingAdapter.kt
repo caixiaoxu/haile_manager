@@ -69,14 +69,17 @@ object ViewBindingAdapter {
     /**
      * ImageView 加载本地图片/图络图片
      */
-    @BindingAdapter("imgRes", "imgUrl", "imgHeadUrl", requireAll = false)
+    @BindingAdapter("imgRes", "imgUrl", "imgCenterUrl", "imgHeadUrl", requireAll = false)
     @JvmStatic
-    fun ImageView.loadImage(res: Int?, url: String?, imgHeadUrl: String?) {
+    fun ImageView.loadImage(res: Int?, url: String?, imgCenterUrl: String?, imgHeadUrl: String?) {
         res?.let {
             setImageResource(res)
         }
         url?.let {
             Glide.with(this).load(url).fitCenter().into(this)
+        }
+        imgCenterUrl?.let {
+            Glide.with(this).load(imgCenterUrl).centerCrop().into(this)
         }
         imgHeadUrl?.let {
             GlideUtils.loadImage(this, imgHeadUrl)

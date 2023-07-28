@@ -19,13 +19,12 @@
         <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_message_list_title"
             android:layout_width="match_parent"
-            android:background="@color/white"
-            android:layout_height="@dimen/title_action_bar_h" />
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing" />
 
         <com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
             android:id="@+id/rv_message_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </layout>

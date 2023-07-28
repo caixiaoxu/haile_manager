@@ -62,7 +62,7 @@ object ApiRepository {
     /**
      * 生成请求body
      */
-    fun createRequestBody(params: Map<String, Any>): RequestBody =
+    fun createRequestBody(params: Map<String, Any?>): RequestBody =
         createRequestBody(GsonUtils.any2Json(params))
 
 

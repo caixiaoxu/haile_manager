@@ -47,14 +47,15 @@ class MultiTypeTextView @JvmOverloads constructor(
      * 刷新type样式
      */
     private fun refreshType() {
-        if (bgResIds.isEmpty() || txtColors.isEmpty()) {
-            return
+        if (bgResIds.isNotEmpty()) {
+            // 背影
+            val bgRes = bgResIds[min(type, bgResIds.size)]
+            setBackgroundResource(bgRes)
         }
-        //取出对应值
-        val bgRes = bgResIds[min(type, bgResIds.size)]
-        val txtColor = txtColors[min(type, bgResIds.size)]
-        // 赋值
-        setBackgroundResource(bgRes)
-        setTextColor(txtColor)
+        if (txtColors.isNotEmpty()){
+            //文字颜色
+            val txtColor = txtColors[min(type, txtColors.size)]
+            setTextColor(txtColor)
+        }
     }
 }

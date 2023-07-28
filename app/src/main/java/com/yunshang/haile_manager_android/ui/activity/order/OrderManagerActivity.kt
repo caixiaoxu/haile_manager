@@ -35,6 +35,7 @@ import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDi
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.NumberUtils
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
@@ -96,7 +97,7 @@ class OrderManagerActivity :
                 )
             }
             mItemBinding?.root?.setOnClickListener {
-                if (true == mSharedViewModel.hasOrderInfoPermission.value) {
+                if (UserPermissionUtils.hasOrderInfoPermission()) {
                     startActivity(
                         Intent(
                             this@OrderManagerActivity,
@@ -131,10 +132,13 @@ class OrderManagerActivity :
 
     override fun backBtn(): View = mBinding.barOrderManagerTitle.getBackBtn()
 
+    override fun initIntent() {
+        super.initIntent()
+        mViewModel.searchKey.value = IntentParams.SearchParams.parseKeyWord(intent)
+    }
+
     override fun initEvent() {
         super.initEvent()
-        mSharedViewModel.hasOrderListPermission.observe(this) {}
-        mSharedViewModel.hasOrderInfoPermission.observe(this) {}
 
         // 刷新状态
         mViewModel.orderStatus.observe(this) { list ->
@@ -197,16 +201,18 @@ class OrderManagerActivity :
     override fun initView() {
         window.statusBarColor = Color.WHITE
 
-        mBinding.barOrderManagerTitle.getRightBtn().run {
-            setText(R.string.appointment_order)
-            setTextColor(ContextCompat.getColor(this@OrderManagerActivity, R.color.colorPrimary))
-            setOnClickListener {
-                startActivity(
-                    Intent(
-                        this@OrderManagerActivity,
-                        AppointmentOrderActivity::class.java
+        if (mViewModel.searchKey.value.isNullOrEmpty()){
+            mBinding.barOrderManagerTitle.getRightBtn().run {
+                setText(R.string.appointment_order)
+                setTextColor(ContextCompat.getColor(this@OrderManagerActivity, R.color.colorPrimary))
+                setOnClickListener {
+                    startActivity(
+                        Intent(
+                            this@OrderManagerActivity,
+                            AppointmentOrderActivity::class.java
+                        )
                     )
-                )
+                }
             }
         }
 
@@ -265,7 +271,7 @@ class OrderManagerActivity :
                     pageSize: Int,
                     callBack: (responseList: ResponseList<out OrderListEntity>?) -> Unit
                 ) {
-                    if (true == mSharedViewModel.hasOrderListPermission.value) {
+                    if (UserPermissionUtils.hasOrderListPermission()) {
                         mViewModel.requestOrderList(page, pageSize, callBack)
                     }
                 }

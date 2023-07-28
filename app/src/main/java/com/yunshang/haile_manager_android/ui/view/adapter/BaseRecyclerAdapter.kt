@@ -62,8 +62,10 @@ abstract class BaseRecyclerAdapter<D> : RecyclerView.Adapter<MyViewHolder>() {
 class MyViewHolder(itemView: View) :
     RecyclerView.ViewHolder(itemView) {
 
-    fun <T : ViewDataBinding> bind(br: Int, entity: Any?): T? =
+    fun <T : ViewDataBinding> bind(br: Int? = null, entity: Any?): T? =
         DataBindingUtil.bind<T>(itemView)?.apply {
-            setVariable(br, entity)
+            br?.let {
+                setVariable(br, entity)
+            }
         }
 }

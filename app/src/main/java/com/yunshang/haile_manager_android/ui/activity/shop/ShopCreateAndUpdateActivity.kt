@@ -188,7 +188,10 @@ class ShopCreateAndUpdateActivity :
                     MultiSelectBottomSheetDialog.Builder("选择业务类型", list).apply {
                         onValueSureListener = object :
                             MultiSelectBottomSheetDialog.OnValueSureListener<ShopBusinessTypeEntity> {
-                            override fun onValue(datas: List<ShopBusinessTypeEntity>) {
+                            override fun onValue(
+                                datas: List<ShopBusinessTypeEntity>,
+                                allSelectData: List<ShopBusinessTypeEntity>
+                            ) {
                                 mViewModel.changeBusinessType(datas)
                             }
                         }
@@ -214,6 +217,10 @@ class ShopCreateAndUpdateActivity :
                             }
                     }.build()
             }
+        }
+
+        mViewModel.addressValue.observe(this) {
+            mViewModel.createAndUpdateEntity.value?.address = it
         }
 
         mViewModel.jump.observe(this) {

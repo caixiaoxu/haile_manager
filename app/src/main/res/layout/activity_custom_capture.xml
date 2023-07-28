@@ -24,13 +24,14 @@
         android:src="@mipmap/icon_scan_back"
         android:background="@color/transparent"/>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_capture_light"
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/cb_capture_light"
         style="@style/Font_12_ffffff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginBottom="16dp"
+        android:button="@null"
         android:drawableTop="@mipmap/icon_camera_light"
         android:drawablePadding="4dp"
         android:gravity="center"

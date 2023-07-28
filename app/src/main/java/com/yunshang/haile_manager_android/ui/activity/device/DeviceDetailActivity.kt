@@ -11,6 +11,8 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
@@ -31,7 +33,9 @@ import com.yunshang.haile_manager_android.databinding.ActivityDeviceDetailBindin
 import com.yunshang.haile_manager_android.databinding.ItemDeviceDetailDisposeMinBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceDetailFuncPriceBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.activity.common.CustomCaptureActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DropperAddSettingActivity.Companion.OldFuncConfiguration
+import com.yunshang.haile_manager_android.ui.activity.order.OrderDetailActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 
@@ -57,10 +61,12 @@ class DeviceDetailActivity :
                                     mViewModel.deviceDetail.value?.imei = it
                                     mViewModel.imei.value = it
                                 }
+
                                 DeviceMultiChangeViewModel.typeChangePayCode -> {
                                     mViewModel.deviceDetail.value?.code = it
                                     mViewModel.code.value = it
                                 }
+
                                 DeviceMultiChangeViewModel.typeChangeName -> {
                                     mViewModel.deviceDetail.value?.name = it
                                     mViewModel.name.value = it
@@ -271,7 +277,8 @@ class DeviceDetailActivity :
                                         it.unit.toInt(),
                                         it.extAttr,
                                         it.feature,
-                                        it.soldState
+                                        it.soldState,
+                                        ""
                                     )
                                     skufuncs.add(sku)
                                 }
@@ -552,4 +559,29 @@ class DeviceDetailActivity :
 
         mViewModel.requestData()
     }
+
+    // 扫描投放器液体核销码
+    private val activate1Launcher = registerForActivityResult(ScanContract()) { result ->
+        result.contents?.trim()?.let {
+            mViewModel.deviceActivate(1, it)
+        }
+    }
+    private val activate2Launcher = registerForActivityResult(ScanContract()) { result ->
+        result.contents?.trim()?.let {
+            mViewModel.deviceActivate(2, it)
+        }
+    }
+
+    private val scanOptions: ScanOptions by lazy {
+        ScanOptions().apply {
+            captureActivity = CustomCaptureActivity::class.java
+//            setDesiredBarcodeFormats(ScanOptions.ONE_D_CODE_TYPES)// 扫码的类型,一维码，二维码，一/二维码，默认为一/二维码
+            setPrompt("请对准二维码")//提示语
+            setOrientationLocked(true)
+            setCameraId(0) // 选择摄像头
+            setBeepEnabled(true) // 开启声音
+        }
+    }
+
+
 }

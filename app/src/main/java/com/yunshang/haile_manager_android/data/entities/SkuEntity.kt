@@ -113,7 +113,8 @@ data class SkuEntity(
         unit,
         dosingConfigs?.let { list -> GsonUtils.any2Json(list) } ?: "",
         feature,
-        soldState
+        soldState,
+        ""
     )
 
     /**
@@ -214,6 +215,7 @@ data class SkuFuncConfigurationParam(
     val extAttr: String,
     val feature: String,
     val soldState: Int,
+    val functionId: String,
 ) {
     /**
      * 根据型号区分配置内容

@@ -99,7 +99,7 @@ class HomeViewModel : BaseViewModel() {
             ),
             FunItem(
                 StringUtils.getString(R.string.notice_manager),
-                R.mipmap.icon_notice,
+                R.mipmap.icon_notice_manager,
                 NoticeManagerActivity::class.java,
                 true
             ),

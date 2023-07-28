@@ -570,7 +570,6 @@
         <item>周日</item>
     </string-array>
 
-    <string name="notice_manager">公告管理</string>
     <string name="add_notice">添加公告</string>
     <string name="notice_info">配置信息</string>
     <string name="create_notice">添加公告</string>

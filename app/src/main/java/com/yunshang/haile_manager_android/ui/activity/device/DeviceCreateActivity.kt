@@ -16,9 +16,7 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DeviceCreateViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
-import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
-import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.common.DeviceCategory.Dispenser
 import com.yunshang.haile_manager_android.data.entities.DosingConfigs
@@ -84,8 +82,8 @@ class DeviceCreateActivity :
     private val startNext =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
-                SearchSelectTypeParam.ShopResultCode -> {
-                    result.data?.getStringExtra(SearchSelectTypeParam.ResultData)?.let { json ->
+                IntentParams.SearchSelectTypeParam.ShopResultCode -> {
+                    result.data?.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)?.let { json ->
                         GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
                             if (selected.isNotEmpty()) {
                                 mViewModel.createDeviceShop.value = selected[0]
@@ -116,6 +114,18 @@ class DeviceCreateActivity :
                         }
                     }
                 }
+                DropperAddSettingActivity.ResultCode -> {
+                    result.data?.let { intent ->
+                        GsonUtils.json2List(
+                            intent.getStringExtra(
+                                DropperAddSettingActivity.ResultData
+                            ), SkuFuncConfigurationParam::class.java
+                        )?.let {
+                            mViewModel.createDeviceFunConfigure.value = it
+                        }
+                    }
+                }
+
             }
         }
 
@@ -158,7 +168,7 @@ class DeviceCreateActivity :
                 this@DeviceCreateActivity,
                 SearchSelectRadioActivity::class.java
             ).apply {
-                putExtras(putExtras(SearchSelectTypeParam.pack(SearchSelectTypeParam.SearchSelectTypeShop)))
+                putExtras(putExtras(IntentParams.SearchSelectTypeParam.pack(IntentParams.SearchSelectTypeParam.SearchSelectTypeShop)))
             })
         }
 

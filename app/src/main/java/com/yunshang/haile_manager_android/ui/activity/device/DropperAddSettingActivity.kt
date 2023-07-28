@@ -75,8 +75,7 @@ class DropperAddSettingActivity :
                 mBinding?.tvState?.text = if (item.isOn) "启用中" else "已停用"
                 mBinding?.root?.setOnClickListener {
                     startNext.launch(Intent(
-                        this@DropperAddSettingActivity,
-                        DropperAllocationActivity::class.java
+                        this@DropperAddSettingActivity, DropperAllocationActivity::class.java
                     ).apply {
                         putExtra(DropperAllocationActivity.Amount, item.amount.toString())
                         putExtra(DropperAllocationActivity.liquidType, item.liquidTypeId)
@@ -85,8 +84,7 @@ class DropperAddSettingActivity :
                         putExtra(DropperAllocationActivity.isOn, item.isOn)
                         putExtra("number", "${postop}-${pos}")
                         putExtra(
-                            DropperAllocationActivity.itemId,
-                            "${postop}-${pos}"
+                            DropperAllocationActivity.itemId, "${postop}-${pos}"
                         )
                     })
                 }
@@ -102,8 +100,7 @@ class DropperAddSettingActivity :
                     this@DropperAddSettingActivity, DropperAllocationActivity::class.java
                 ).apply {
                     putExtra(
-                        DropperAllocationActivity.itemId,
-                        postop.toString()
+                        DropperAllocationActivity.itemId, postop.toString()
                     )
                     putExtra(
                         DropperAllocationActivity.liquidType,
@@ -187,8 +184,7 @@ class DropperAddSettingActivity :
         mBinding.recyclerView.adapter = mAdapter
 
         var skuparam = GsonUtils.json2List(
-            intent.getStringExtra(OldFuncConfiguration),
-            SkuFuncConfigurationParam::class.java
+            intent.getStringExtra(OldFuncConfiguration), SkuFuncConfigurationParam::class.java
         )
 
         var listskus = ArrayList<SkuEntity>()
@@ -215,7 +211,9 @@ class DropperAddSettingActivity :
                     deleteFlag = 0,
                     createTime = "",
                     updateTime = "",
-                    specValues = emptyList()
+                    specValues = emptyList(),
+                    functionId = "",
+                    functionName = ""
                 )
             }
             skuentity?.let { listskus.add(it) }

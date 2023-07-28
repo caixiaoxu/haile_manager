@@ -36,6 +36,7 @@
     <string name="operate">操作</string>
     <string name="for_take">拍照</string>
     <string name="for_album">相册</string>
+    <string name="light">补光</string>
     <string name="withdraw">提现</string>
     <string name="withdraw_success">提现成功</string>
     <string name="type">类型</string>
@@ -49,6 +50,7 @@
     <string name="disEnable">停用</string>
     <string name="tip">提示</string>
     <string name="search_history">搜索历史</string>
+    <string name="scan">扫一扫</string>
 
     <string name="empty_content">暂无内容信息</string>
     <string name="empty_device">暂无设备信息</string>

@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatCheckBox
+import androidx.core.view.children
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -98,6 +100,19 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
                 itemBinding.root.apply {
                     text = data.getTitle()
                     isChecked = data.isCheck
+
+                    setOnCheckClickListener {
+                        if (builder.supportSingle) {
+                            mBinding.clMultiSelectList.children.forEach { view ->
+                                if (view is AppCompatCheckBox) {
+                                    view.isChecked = it.id == view.id
+                                }
+                            }
+                            true
+                        } else
+                            false
+                    }
+
                     setOnCheckedChangeListener { _, isChecked ->
                         data.isCheck = isChecked
                     }
@@ -140,6 +155,9 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
 
         // 取消监听
         var onCancelListener: ((datas: List<D>) -> Unit)? = null
+
+        // 支持单选
+        var supportSingle: Boolean = false
 
         /**
          * 构建

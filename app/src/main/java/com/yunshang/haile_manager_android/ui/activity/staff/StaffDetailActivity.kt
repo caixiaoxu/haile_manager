@@ -154,6 +154,7 @@ class StaffDetailActivity :
                         SearchSelectTypeParam.pack(
                             SearchSelectTypeParam.SearchSelectTypeTakeChargeShop,
                             staffId = mViewModel.staffId,
+                            moreSelect = true,
                             selectArr = mViewModel.staffDetail.value?.shopList?.map { shop -> shop.id }
                                 ?.toIntArray() ?: intArrayOf()
                         )

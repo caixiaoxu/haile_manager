@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import com.amap.api.services.core.PoiItem
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
@@ -15,7 +14,6 @@ import com.yunshang.haile_manager_android.business.vm.SearchSelectViewModel.Comp
 import com.yunshang.haile_manager_android.business.vm.ShopCreateAndUpdateViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.PoiResultData
-import com.yunshang.haile_manager_android.data.entities.ExtAttrBean
 import com.yunshang.haile_manager_android.data.entities.SchoolSelectEntity
 import com.yunshang.haile_manager_android.data.entities.ShopBusinessTypeEntity
 import com.yunshang.haile_manager_android.data.entities.ShopTypeEntity
@@ -219,6 +217,10 @@ class ShopCreateAndUpdateActivity :
                             }
                     }.build()
             }
+        }
+
+        mViewModel.addressValue.observe(this) {
+            mViewModel.createAndUpdateEntity.value?.address = it
         }
 
         mViewModel.jump.observe(this) {

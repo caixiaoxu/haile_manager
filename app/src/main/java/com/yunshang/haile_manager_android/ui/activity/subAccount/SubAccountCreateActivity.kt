@@ -142,7 +142,12 @@ class SubAccountCreateActivity :
                     this@SubAccountCreateActivity,
                     SearchSelectRadioActivity::class.java
                 ).apply {
-                    putExtras(SearchSelectTypeParam.pack(SearchSelectTypeParam.SearchSelectTypeTakeChargeShop))
+                    putExtras(
+                        SearchSelectTypeParam.pack(
+                            SearchSelectTypeParam.SearchSelectTypeTakeChargeShop,
+                            moreSelect = true
+                        )
+                    )
                 }
             )
         }

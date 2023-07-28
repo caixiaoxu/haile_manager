@@ -72,10 +72,14 @@ class SearchSelectRadioViewModel : BaseViewModel() {
 
     var staffId: Int = -1
 
+    var shopIdList: IntArray? = null
+
     // 设备类型id
     var categoryId: Int = -1
 
     var mustSelect = true
+
+    var moreSelect = false
 
     var selectArr = intArrayOf()
 
@@ -115,8 +119,13 @@ class SearchSelectRadioViewModel : BaseViewModel() {
                         if (originSelectList.isNullOrEmpty()) {
                             if (-1 != categoryId) {
                                 val list =
-                                    ApiRepository.dealApiResult(mDeviceRepo.spuList(categoryId))
-                                originSelectList = list?.let { it[0].spu }
+                                    ApiRepository.dealApiResult(
+                                        mDeviceRepo.spuList(
+                                            categoryId,
+                                            shopIdList
+                                        )
+                                    )
+                                originSelectList = list?.firstOrNull()?.spu
                                 originSelectList
                             } else null
                         } else {

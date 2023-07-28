@@ -25,10 +25,25 @@ interface DeviceService {
     suspend fun sku(@Path("spuId") spuId: Int): ResponseWrapper<MutableList<SkuEntity>>
 
     /**
+     * 标准功能列表(并集)列表接口
+     */
+    @POST("/sku/function/union/list")
+    suspend fun unionSku(@Body params: RequestBody): ResponseWrapper<MutableList<SkuUnionIntersectionEntity>>
+
+    /**
+     * 标准功能列表(交集)列表接口
+     */
+    @POST("/sku/function/intersection/list")
+    suspend fun intersectionSku(@Body params: RequestBody): ResponseWrapper<MutableList<SkuUnionIntersectionEntity>>
+
+    /**
      * spu列表接口
      */
     @GET("/spu/list")
-    suspend fun spuList(@Query("categoryId") categoryId: Int): ResponseWrapper<MutableList<SpuEntity>>
+    suspend fun spuList(
+        @Query("categoryId") categoryId: Int,
+        @Query("shopIdList") shopIdList: IntArray? = null
+    ): ResponseWrapper<MutableList<SpuEntity>>
 
     /**
      * spu列表接口
@@ -108,4 +123,16 @@ interface DeviceService {
      */
     @POST("/goods/appointment/enable")
     suspend fun openOrCloseDeviceAppointment(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 批量修改接口
+     */
+    @POST("/goods/batch/edit")
+    suspend fun batchEditDevice(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 批量启动接口
+     */
+    @POST("/goods/batch/start")
+    suspend fun batchStartDevice(@Body params: RequestBody): ResponseWrapper<Any>
 }

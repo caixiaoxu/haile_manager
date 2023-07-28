@@ -90,7 +90,7 @@
             android:gravity="center"
             android:paddingHorizontal="16dp"
             android:text="@{vm.isAllSelect()?@string/no_select_all:@string/select_all}"
-            android:visibility="@{2 == vm.searchSelectType?View.VISIBLE:View.GONE}"
+            android:visibility="@{vm.moreSelect?View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/tv_department_select_list_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_department_select_list_title" />

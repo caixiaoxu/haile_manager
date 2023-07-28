@@ -86,7 +86,14 @@ class StaffCreateActivity :
                     this@StaffCreateActivity,
                     SearchSelectRadioActivity::class.java
                 ).apply {
-                    putExtras(putExtras(SearchSelectTypeParam.pack(SearchSelectTypeParam.SearchSelectTypeTakeChargeShop)))
+                    putExtras(
+                        putExtras(
+                            SearchSelectTypeParam.pack(
+                                SearchSelectTypeParam.SearchSelectTypeTakeChargeShop,
+                                moreSelect = true
+                            )
+                        )
+                    )
                 }
             )
         }

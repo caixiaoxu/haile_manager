@@ -36,6 +36,7 @@
     <string name="operate">操作</string>
     <string name="for_take">拍照</string>
     <string name="for_album">相册</string>
+    <string name="light">补光</string>
     <string name="withdraw">提现</string>
     <string name="withdraw_success">提现成功</string>
     <string name="type">类型</string>
@@ -49,6 +50,7 @@
     <string name="disEnable">停用</string>
     <string name="tip">提示</string>
     <string name="search_history">搜索历史</string>
+    <string name="scan">扫一扫</string>
 
     <string name="empty_content">暂无内容信息</string>
     <string name="empty_device">暂无设备信息</string>
@@ -108,7 +110,7 @@
     <string name="signal">信号</string>
     <string name="device_category_no">设备类型/编号</string>
     <string name="device_no">设备编号</string>
-    <string name="device_search_hint">搜索设备名称/模块编码 (IMEI）</string>
+    <string name="device_search_hint">搜索设备名称/模块编码 (IMEI）/设备编码</string>
     <string name="department">所属门店</string>
     <string name="department_empty">请先选择门店</string>
     <string name="device_category">设备类型</string>
@@ -116,7 +118,12 @@
     <string name="device_model_empty">请先选择设备型号</string>
     <string name="network_status">网络状态</string>
     <string name="device_status">设备状态</string>
+    <string name="operate_manager">操作管理</string>
     <string name="add_device">添加设备</string>
+    <string name="new_device">新增设备</string>
+    <string name="batch_update">批量修改</string>
+    <string name="batch_start">批量启动</string>
+    <string name="configure_condition">配置条件</string>
     <string name="device_num_hint">全部%1$d台设备</string>
     <string name="device_model_search_hint">搜索设备型号</string>
     <string name="device_info">设备信息</string>
@@ -141,7 +148,7 @@
     <string name="desc">描述信息</string>
     <string name="money">金额</string>
     <string name="dryer_time_title">选择烘干时间（可多选）</string>
-    <string name="search_device_hint">请输入设备型号/名称</string>
+    <string name="search_device_hint">请输入设备型号/名称/编号</string>
     <string name="device_detail">设备详情</string>
     <string name="advanced_setup">高级设置</string>
     <string name="advanced_params_setup">高级参数设置</string>
@@ -200,6 +207,8 @@
     <string name="device_delete_hint">是否确定要删除该设备么？</string>
     <string name="open_success">开启成功</string>
     <string name="close_success">关闭成功</string>
+    <string name="function_select">功能选择</string>
+    <string name="function_model">功能模式</string>
 
     <string name="shop_manager">门店管理</string>
     <string name="add_shop">添加门店</string>

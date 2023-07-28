@@ -65,7 +65,7 @@ data class DeviceDetailEntity(
 
     fun getNameTitle(): String = StringUtils.getString(R.string.device_name)
 
-    fun hasQrId(): Boolean = 0L < qrId
+    fun hasQrId(): Boolean = 0 < id
 
     fun getQrIdTitle(): String = StringUtils.getString(R.string.device_no)
 
@@ -175,7 +175,8 @@ data class Item(
             unitV,
             extAttr,
             feature,
-            soldState
+            soldState,
+            "",
         )
     }
 

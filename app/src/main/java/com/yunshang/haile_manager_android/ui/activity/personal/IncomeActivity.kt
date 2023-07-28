@@ -175,7 +175,7 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
 
         mBinding.rvIncomeListForDate.layoutManager = LinearLayoutManager(this)
         mBinding.rvIncomeListForDate.enableRefresh = false
-        ResourcesCompat.getDrawable(resources, R.drawable.divder_efefef_size_half, null)?.let {
+        ResourcesCompat.getDrawable(resources, R.drawable.divder_efefef, null)?.let {
             mBinding.rvIncomeListForDate.addItemDecoration(
                 DividerItemDecoration(
                     this@IncomeActivity,

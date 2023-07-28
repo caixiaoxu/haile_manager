@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:divider="@drawable/divder_efefef_size_half"
+                app:divider="@drawable/divder_efefef"
                 app:dividerPadding="16dp"
                 app:showDividers="middle">
 

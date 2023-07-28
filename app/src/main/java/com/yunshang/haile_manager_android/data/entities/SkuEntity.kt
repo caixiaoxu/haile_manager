@@ -35,7 +35,9 @@ data class SkuEntity(
     val createTime: String,
     val updateTime: String,
     val specValues: List<SpecValue>,
-    var pulse: Int
+    var pulse: Int,
+    val functionId: String,
+    val functionName: String
 ) {
     var unitValue: String?
         get() = unit.toString()
@@ -95,7 +97,8 @@ data class SkuEntity(
         unit,
         extAttrValue?.let { list -> GsonUtils.any2Json(list.filter { it.isCheck }) } ?: "",
         feature,
-        soldState
+        soldState,
+        functionId
     )
 
     /**
@@ -196,6 +199,7 @@ data class SkuFuncConfigurationParam(
     val extAttr: String,
     val feature: String,
     val soldState: Int,
+    val functionId: String,
 ) {
     /**
      * 根据型号区分配置内容

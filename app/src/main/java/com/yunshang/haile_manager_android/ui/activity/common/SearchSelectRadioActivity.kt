@@ -78,7 +78,8 @@ class SearchSelectRadioActivity :
                                         selected.map {
                                             SearchSelectParam(
                                                 it.getSelectId(),
-                                                it.getSelectName()
+                                                it.getSelectName(),
+                                                it
                                             )
                                         }
                                     )
@@ -98,8 +99,10 @@ class SearchSelectRadioActivity :
         mViewModel.searchSelectType.value = SearchSelectTypeParam.parseSearchSelectType(intent)
         mViewModel.categoryId = SearchSelectTypeParam.parseCategoryId(intent)
         mViewModel.staffId = SearchSelectTypeParam.parseStaffId(intent)
+        mViewModel.shopIdList = SearchSelectTypeParam.parseShopIdList(intent)
         mViewModel.staffId = SearchSelectTypeParam.parseStaffId(intent)
         mViewModel.mustSelect = SearchSelectTypeParam.parseMustSelect(intent)
+        mViewModel.moreSelect = SearchSelectTypeParam.parseMoreSelect(intent)
         mViewModel.selectArr = SearchSelectTypeParam.parseSelectList(intent) ?: intArrayOf()
     }
 
@@ -141,7 +144,7 @@ class SearchSelectRadioActivity :
      */
     private fun initSelectList(list: MutableList<out SearchSelectRadioEntity>?) {
         val inflate = LayoutInflater.from(this)
-        if (SearchSelectTypeParam.SearchSelectTypeTakeChargeShop == mViewModel.searchSelectType.value) {
+        if (mViewModel.moreSelect) {
             if (mBinding.svDepartmentSelectList.getChildAt(0) !is LinearLayout) {
                 mBinding.svDepartmentSelectList.removeAllViews()
             } else {

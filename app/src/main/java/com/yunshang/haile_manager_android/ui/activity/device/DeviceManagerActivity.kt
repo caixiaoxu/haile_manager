@@ -6,8 +6,10 @@ import android.graphics.Color
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.TypefaceSpan
+import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -28,10 +30,12 @@ import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceEntity
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceManagerBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceListBinding
+import com.yunshang.haile_manager_android.databinding.PopupDeviceOperateManagerBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
+import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
@@ -157,30 +161,75 @@ class DeviceManagerActivity :
     private fun initRightBtn() {
         if (mViewModel.searchKey.value.isNullOrEmpty()) {
             mBinding.barDeviceTitle.getRightBtn(true).run {
-                setText(R.string.add_device)
+                setText(R.string.operate_manager)
                 setCompoundDrawablesRelativeWithIntrinsicBounds(
                     R.mipmap.icon_add, 0, 0, 0
                 )
                 compoundDrawablePadding = DimensionUtils.dip2px(this@DeviceManagerActivity, 4f)
                 setOnClickListener {
-                    startActivity(
-                        Intent(
-                            this@DeviceManagerActivity,
-                            DeviceCreateActivity::class.java
-                        )
-                    )
+                    showDeviceOperateView()
                 }
             }
         }
+    }
+
+    /**
+     * 显示设备管理界面
+     */
+    private fun AppCompatTextView.showDeviceOperateView() {
+        val mPopupBinding =
+            PopupDeviceOperateManagerBinding.inflate(LayoutInflater.from(this@DeviceManagerActivity))
+        val popupWindow = TranslucencePopupWindow(
+            mPopupBinding.root,
+            window,
+            DimensionUtils.dip2px(this@DeviceManagerActivity, 110f)
+        )
+
+        mPopupBinding.tvDeviceOperateAdd.setOnClickListener {
+            popupWindow.dismiss()
+            startActivity(
+                Intent(
+                    this@DeviceManagerActivity,
+                    DeviceCreateActivity::class.java
+                )
+            )
+        }
+        mPopupBinding.tvDeviceOperateUpdate.setOnClickListener {
+            popupWindow.dismiss()
+            startActivity(
+                Intent(
+                    this@DeviceManagerActivity,
+                    DeviceBatchUpdateActivity::class.java
+                )
+            )
+        }
+        mPopupBinding.tvDeviceOperateStart.setOnClickListener {
+            popupWindow.dismiss()
+            startActivity(
+                Intent(
+                    this@DeviceManagerActivity,
+                    DeviceBatchStartActivity::class.java
+                )
+            )
+        }
+        popupWindow.showAsDropDown(
+            this,
+            -DimensionUtils.dip2px(this@DeviceManagerActivity, 16f),
+            0
+        )
     }
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
 
         mBinding.viewDeviceManagerSearchBg.setOnClickListener {
-            startActivity(Intent(this@DeviceManagerActivity, SearchActivity::class.java).apply {
-                putExtra(SearchType.SearchType, SearchType.Device)
-            })
+            startActivity(
+                Intent(
+                    this@DeviceManagerActivity,
+                    SearchActivity::class.java
+                ).apply {
+                    putExtra(SearchType.SearchType, SearchType.Device)
+                })
         }
 
         // 所属门店
@@ -237,7 +286,8 @@ class DeviceManagerActivity :
                 ).apply {
                     mustSelect = false
                     onValueSureListener =
-                        object : CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
+                        object :
+                            CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
                             override fun onValue(data: SearchSelectParam?) {
                                 mViewModel.selectNetworkStatus.value = data
                             }
@@ -257,7 +307,8 @@ class DeviceManagerActivity :
                 mustSelect = false
                 selectData = mViewModel.selectDeviceStatus.value
                 onValueSureListener =
-                    object : CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
+                    object :
+                        CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
                         override fun onValue(data: SearchSelectParam?) {
                             mViewModel.selectDeviceStatus.value = data
                         }
@@ -290,7 +341,8 @@ class DeviceManagerActivity :
 
                 override fun getIndicator(context: Context?): IPagerIndicator {
                     return WrapPagerIndicator(context).apply {
-                        verticalPadding = DimensionUtils.dip2px(this@DeviceManagerActivity, 4f)
+                        verticalPadding =
+                            DimensionUtils.dip2px(this@DeviceManagerActivity, 4f)
                         fillColor = ContextCompat.getColor(
                             this@DeviceManagerActivity,
                             R.color.colorPrimary
@@ -385,15 +437,15 @@ class DeviceManagerActivity :
 
         // 监听刷新
         LiveDataBus.with(BusEvents.DEVICE_LIST_STATUS)?.observe(this) {
-            mViewModel.requestData(4)
             mBinding.rvDeviceManagerList.requestRefresh()
         }
 
         // 监听删除
-        LiveDataBus.with(BusEvents.DEVICE_LIST_ITEM_DELETE_STATUS, Int::class.java)?.observe(this) {
-            mViewModel.requestData(4)
-            mAdapter.deleteItem { item -> item.id == it }
-        }
+        LiveDataBus.with(BusEvents.DEVICE_LIST_ITEM_DELETE_STATUS, Int::class.java)
+            ?.observe(this) {
+                mViewModel.requestData(4)
+                mAdapter.deleteItem { item -> item.id == it }
+            }
     }
 
     /**
@@ -401,11 +453,15 @@ class DeviceManagerActivity :
      */
     private fun showDeviceCategoryDialog(categoryEntities: List<CategoryEntity>) {
         val deviceCategoryDialog =
-            CommonBottomSheetDialog.Builder(getString(R.string.device_category), categoryEntities)
+            CommonBottomSheetDialog.Builder(
+                getString(R.string.device_category),
+                categoryEntities
+            )
                 .apply {
                     mustSelect = false
                     onValueSureListener =
-                        object : CommonBottomSheetDialog.OnValueSureListener<CategoryEntity> {
+                        object :
+                            CommonBottomSheetDialog.OnValueSureListener<CategoryEntity> {
                             override fun onValue(data: CategoryEntity?) {
                                 mViewModel.selectDeviceCategory.value = data
                                 mViewModel.selectDeviceModel.value = null
@@ -417,6 +473,6 @@ class DeviceManagerActivity :
     }
 
     override fun initData() {
-        mViewModel.requestData(4)
+//        mViewModel.requestData(4)
     }
 }

@@ -78,18 +78,45 @@ data class DeviceDetailEntity(
     fun getAssociationImeiTitle(): String = StringUtils.getString(R.string.imei)
     fun showOrderNo(): Boolean = errorDeviceOrderNo.isNullOrEmpty()
 
+    fun getLaundryStateName(): String {
+        if (null == dosingVOS) return ""
+        dosingVOS.find { it.liquidType == 1 }.let {
+            return when (it?.liquidStatus) {
+                0 -> "正常"
+                1 -> "液量低"
+                2 -> "缺液"
+                else -> ""
+            }
+        }
+        return ""
+    }
+
+    fun getRemainingStateName(): String {
+        if (null == dosingVOS) return ""
+        dosingVOS.find { it.liquidType == 2 }.let {
+            return when (it?.liquidStatus) {
+                0 -> "正常"
+                1 -> "液量低"
+                2 -> "缺液"
+                else -> ""
+            }
+        }
+        return ""
+    }
+
     fun showLaundryState(): Boolean {
         if (null == dosingVOS) return false
         dosingVOS.find { it.liquidType == 1 }.let {
-            return it?.liquidStatus == 1
+            return (it?.liquidStatus == 1 || it?.liquidStatus == 2)
         }
         return false
     }
 
     fun showRemainingState(): Boolean {
+        //0正常，1液量低，2缺液
         if (null == dosingVOS) return false
         dosingVOS.find { it.liquidType == 2 }.let {
-            return it?.liquidStatus == 1
+            return (it?.liquidStatus == 1 || it?.liquidStatus == 2)
         }
         return false
     }

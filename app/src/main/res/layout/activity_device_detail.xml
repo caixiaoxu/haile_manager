@@ -325,7 +325,7 @@
                                 android:layout_toRightOf="@+id/tv_laundry_title"
                                 android:background="@drawable/shape_yuanjiao_26fc7f6f"
                                 android:gravity="center"
-                                android:text="缺液"
+                                android:text="@{vm.deviceDetail.getLaundryStateName}"
                                 android:textColor="#fffc7f6f"
                                 android:textSize="10sp"
                                 android:visibility="@{vm.deviceDetail.showLaundryState?View.VISIBLE:View.GONE}" />
@@ -380,7 +380,7 @@
                                 android:layout_toRightOf="@+id/tv_remaining_title"
                                 android:background="@drawable/shape_yuanjiao_26fc7f6f"
                                 android:gravity="center"
-                                android:text="缺液"
+                                android:text="@{vm.deviceDetail.getRemainingStateName}"
                                 android:textColor="#fffc7f6f"
                                 android:textSize="10sp"
                                 android:visibility="@{vm.deviceDetail.showRemainingState?View.VISIBLE:View.GONE}" />

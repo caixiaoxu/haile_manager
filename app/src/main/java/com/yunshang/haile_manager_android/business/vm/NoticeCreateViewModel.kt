@@ -89,9 +89,6 @@ class NoticeCreateViewModel : BaseViewModel() {
             )?.let {
                 notice.postValue(it)
             }
-            withContext(Dispatchers.Main) {
-
-            }
         })
     }
 
@@ -99,10 +96,10 @@ class NoticeCreateViewModel : BaseViewModel() {
         val params = hashMapOf<String, Any>(
             "id" to noticeId,
             "templateId" to templateid,
-            "startTime" to createTime.value!!.split("~")[0] + ":00",
-            "endTime" to createTime.value!!.split("~")[1] + ":00",
-            "templateStartTime" to showTime.value!!.split("~")[0] + ":00",
-            "templateEndTime" to showTime.value!!.split("~")[1] + ":00",
+            "startTime" to createTime.value!!.split("~\n")[0] + ":00",
+            "endTime" to createTime.value!!.split("~\n")[1] + ":00",
+            "templateStartTime" to showTime.value!!.split("~\n")[0] + ":00",
+            "templateEndTime" to showTime.value!!.split("~\n")[1] + ":00",
         )
         takeChargeShop.value?.let { list ->
             params["shopIds"] = list.map { shop -> shop.id }

@@ -97,11 +97,11 @@ class NoticeCreateActivity :
             mViewModel.createTime.value = DateTimeUtils.formatDateTimeForStr(
                 it.startTime,
                 "yyyy-MM-dd HH:mm"
-            ) + "~" + DateTimeUtils.formatDateTimeForStr(it.endTime, "yyyy-MM-dd HH:mm")
+            ) + "~\n" + DateTimeUtils.formatDateTimeForStr(it.endTime, "yyyy-MM-dd HH:mm")
             mViewModel.showTime.value = DateTimeUtils.formatDateTimeForStr(
                 it.templateStartTime,
                 "yyyy-MM-dd HH:mm"
-            ) + "~" + DateTimeUtils.formatDateTimeForStr(it.templateEndTime, "yyyy-MM-dd HH:mm")
+            ) + "~\n" + DateTimeUtils.formatDateTimeForStr(it.templateEndTime, "yyyy-MM-dd HH:mm")
             mViewModel.templateid = it.templateId
             mViewModel.templatename.value = it.templateName
         }

@@ -27,8 +27,8 @@ data class NoticeDetailEntity(
     val templateEndTime: String,
     val noticeShopDtos: List<NoticeShopDtosBean>,
 ) {
-    fun time(): String = "${startTime}~${endTime}"
-    fun showtime(): String = "${templateStartTime}~${templateEndTime}"
+    fun time(): String = "${startTime}~\n${endTime}"
+    fun showtime(): String = "${templateStartTime}~\n${templateEndTime}"
     fun shopnames(): String {
         val shopname = StringBuilder()
         noticeShopDtos.forEach {

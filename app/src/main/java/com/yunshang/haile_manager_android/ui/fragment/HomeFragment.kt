@@ -399,7 +399,11 @@ class HomeFragment :
                 if (item.icon == R.mipmap.icon_device_manager) {
                     DeviceCategoryDialog.Builder().apply {
                         onDeviceCodeSelectListener = { type ->
+                            startActivity(Intent(requireContext(), item.clz).apply {
+                                when(type){
 
+                                }
+                            })
                         }
                     }.build().show(childFragmentManager)
                 } else {

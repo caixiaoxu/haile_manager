@@ -25,6 +25,7 @@ import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.DeviceDetailModel
 import com.yunshang.haile_manager_android.business.vm.DeviceMultiChangeViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.DosingConfigs
 import com.yunshang.haile_manager_android.data.entities.Item
@@ -319,7 +320,39 @@ class DeviceDetailActivity :
                         ).apply {
                             putExtra(DeviceStartActivity.Imei, detail.imei)
                             putExtra(DeviceCategory.CategoryCode, detail.categoryCode)
-                            putExtra(DeviceStartActivity.Items, GsonUtils.any2Json(detail.items))
+                            if (DeviceCategory.isDispenser(mViewModel.categoryCode.value)) {
+                                var newitems = ArrayList<Item>()
+                                detail.items.forEach { it ->
+                                    GsonUtils.json2List(it.extAttr, DosingConfigs::class.java)
+                                        ?.let { dosing ->
+                                            dosing.forEach { itemdos ->
+                                                var item: Item = Item(
+                                                    it.id,
+                                                    it.skuId,
+                                                    it.name,
+                                                    itemdos.price.toString(),
+                                                    it.pulse,
+                                                    itemdos.amount.toString(),
+                                                    GsonUtils.any2Json(itemdos),
+                                                    it.feature,
+                                                    it.soldState
+                                                )
+                                                newitems.add(item)
+                                            }
+                                        }
+                                    putExtra(
+                                        DeviceStartActivity.Items,
+                                        GsonUtils.any2Json(newitems)
+                                    )
+                                }
+
+
+                            } else {
+                                putExtra(
+                                    DeviceStartActivity.Items,
+                                    GsonUtils.any2Json(detail.items)
+                                )
+                            }
                         })
                 }
                 // 更换模块

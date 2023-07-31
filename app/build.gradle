@@ -53,6 +53,20 @@ android {
             minifyEnabled false
             signingConfig signingConfigs.debug
         }
+        pre {
+//            applicationIdSuffix ".debug"
+//            versionNameSuffix '.debug'
+            buildConfigField "String", "BASE_URL", EnvConfig.HTTP_BASE_PRE
+            buildConfigField "String", "H5_WORK_ORDER", EnvConfig.H5_WORK_OREDER_RELEASE
+            buildConfigField "String", "PRIVACY_POLICY", EnvConfig.PRIVACY_POLICY
+            buildConfigField "String", "SERVICE_CHECK", EnvConfig.SERVICE_CHECK_RELEASE
+            buildConfigField "Integer", "MAP_TYPE", "1"// 定义地图，0高德，1腾讯
+
+            zipAlignEnabled true // Zipalign优化
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            matchingFallbacks = ['debug', 'release'] //依赖库和主工程的build type不一致的问题
+        }
         release {
             buildConfigField "String", "BASE_URL", EnvConfig.HTTP_BASE_RELEASE
             buildConfigField "String", "H5_WORK_ORDER", EnvConfig.H5_WORK_OREDER_RELEASE

@@ -187,6 +187,9 @@
             android:name=".ui.activity.device.DeviceFunctionConfigurationActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.activity.device.DeviceDrinkingFunctionConfigurationActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.common.CustomCaptureActivity"
             android:exported="false" />
         <activity

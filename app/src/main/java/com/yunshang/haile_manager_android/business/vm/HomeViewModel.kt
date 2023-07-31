@@ -205,7 +205,7 @@ class HomeViewModel : BaseViewModel() {
     fun requestHomeIncome() {
         launch(
             {
-                val incomeList = ApiRepository.dealApiResult(
+                ApiRepository.dealApiResult(
                     mCapitalRepo.homeInCome(
                         ApiRepository.createRequestBody(
                             hashMapOf(
@@ -218,8 +218,7 @@ class HomeViewModel : BaseViewModel() {
                             ),
                         )
                     )
-                )
-                incomeList?.let { list ->
+                )?.let { list ->
                     homeIncomeList.postValue(list)
                 }
             })

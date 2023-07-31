@@ -8,13 +8,13 @@ import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CategoryService
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.data.rule.DeviceIndicatorEntity
-import com.yunshang.haile_manager_android.data.rule.IndicatorEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -38,6 +38,9 @@ class DeviceManagerViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
+    // 设备大类型
+    var bigCategoryType: Int = -1
+
     // 设备类型
     val categoryList: MutableLiveData<List<CategoryEntity>> = MutableLiveData()
 
@@ -50,7 +53,7 @@ class DeviceManagerViewModel : BaseViewModel() {
     }
 
     // 选择的设备类型
-    val selectDeviceCategory: MutableLiveData<CategoryEntity> by lazy {
+    val selectDeviceCategory: MutableLiveData<List<CategoryEntity>?> by lazy {
         MutableLiveData()
     }
 
@@ -99,11 +102,23 @@ class DeviceManagerViewModel : BaseViewModel() {
      * 请求设备类型
      */
     private suspend fun requestDeviceCategory() {
-        val list = ApiRepository.dealApiResult(
+        ApiRepository.dealApiResult(
             mCategoryRepo.category(1)
-        )
-        list?.let {
+        )?.let {
             categoryList.postValue(it.filter { e -> DeviceCategory.canShowDeviceCategory(e.code) })
+
+            when (bigCategoryType) {
+                IntentParams.DeviceManagerParams.CategoryBigType_WashDryer ->
+                    selectDeviceCategory.postValue(it.filter { e -> e.code == DeviceCategory.Washing || e.code == DeviceCategory.Dryer || e.code == DeviceCategory.Shoes })
+                IntentParams.DeviceManagerParams.CategoryBigType_Hair ->
+                    selectDeviceCategory.postValue(it.filter { e -> e.code == DeviceCategory.Hair })
+                IntentParams.DeviceManagerParams.CategoryBigType_Shower ->
+                    selectDeviceCategory.postValue(it.filter { e -> e.code == DeviceCategory.Shower })
+                IntentParams.DeviceManagerParams.CategoryBigType_Dispenser ->
+                    selectDeviceCategory.postValue(it.filter { e -> e.code == DeviceCategory.Dispenser })
+                IntentParams.DeviceManagerParams.CategoryBigType_Drink ->
+                    selectDeviceCategory.postValue(it.filter { e -> e.code == DeviceCategory.Water })
+            }
         }
     }
 
@@ -116,6 +131,10 @@ class DeviceManagerViewModel : BaseViewModel() {
         // 店铺
         selectDepartment.value?.let {
             params["shopId"] = it.id
+        }
+        // 设备类型
+        selectDeviceCategory.value?.let {
+            params["categoryIdList"] = it.joinToString(",") { item -> item.id.toString() }
         }
 
         val totals = ApiRepository.dealApiResult(
@@ -158,7 +177,7 @@ class DeviceManagerViewModel : BaseViewModel() {
             }
             // 设备类型
             selectDeviceCategory.value?.let {
-                params["categoryId"] = it.id
+                params["categoryIdList"] = it.joinToString(",") { item -> item.id.toString() }
             }
             // 设备模型
             selectDeviceModel.value?.let {
@@ -173,10 +192,9 @@ class DeviceManagerViewModel : BaseViewModel() {
                 params["soldState"] = it.id
             }
 
-            val listWrapper = ApiRepository.dealApiResult(
+            ApiRepository.dealApiResult(
                 mDeviceRepo.deviceList(params)
-            )
-            listWrapper?.let {
+            )?.let {
                 mDeviceCountStr.postValue(
                     StringUtils.getString(R.string.device_num_hint, it.total),
                 )

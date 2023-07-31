@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.DeviceDrinkingFunctionConfigurationViewModel" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        app:divider="@drawable/divder_efefef"
+        app:showDividers="middle"
+        tools:context=".ui.activity.device.DeviceFunctionConfigurationActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_device_drinking_func_configuration_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            app:title="@string/add_device" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:divider="@drawable/divder_efefef"
+                app:dividerPadding="16dp"
+                app:showDividers="middle">
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_device_fun_configuration_calculate_model"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.drinkAttrConfigure.priceCalculateModelVal}"
+                    app:showArrow="true"
+                    app:title="@string/pricing_manner"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_device_fun_configuration_overtime"
+                    style="@style/MultiTypeItemStyle"
+                    android:hint="@string/over_time_hint"
+                    app:itemContent="@={vm.drinkAttrConfigure.overTime}"
+                    app:title="@string/over_time"
+                    app:titleDrawableEnd="@mipmap/icon_item_required"
+                    app:titleDrawablePadding="6dp"
+                    app:type="input"
+                    app:unitHint="@string/unit_second_hint" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_device_fun_configuration_pause_time"
+                    style="@style/MultiTypeItemStyle"
+                    android:hint="@string/pause_time_hint"
+                    app:itemContent="@={vm.drinkAttrConfigure.pauseTime}"
+                    app:title="@string/pause_time"
+                    app:titleDrawableEnd="@mipmap/icon_item_required"
+                    app:titleDrawablePadding="6dp"
+                    app:type="input"
+                    app:unitHint="@string/unit_second_hint" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_device_fun_configuration_single_pulse_quantity"
+                    style="@style/MultiTypeItemStyle"
+                    android:hint="@string/single_pulse_quantity_hint"
+                    android:visibility="@{1 == vm.drinkAttrConfigure.priceCalculateMode?View.GONE:View.VISIBLE}"
+                    app:itemContent="@={vm.drinkAttrConfigure.singlePulseQuantity}"
+                    app:title="@string/single_pulse_quantity"
+                    app:type="input"
+                    app:unitHint="@string/unit_quantity_hint" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_333333"
+                        android:layout_width="104dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/normal_water_price" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        style="@style/Font_16_333333_cccccc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/transparent"
+                        android:hint="@string/please_input"
+                        android:text="@{vm.drinkAttrConfigure.normalPrice}" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_cccccc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{1== vm.drinkAttrConfigure.priceCalculateMode?@string/unit_water_time_price_hint:@string/unit_water_quantity_price_hint}" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_device_drinking_fun_configuration_normal_open"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{1 == vm.drinkAttrConfigure.normalSoldState}"
+                        android:onCheckedChanged="@{(btn,checked)->vm.drinkAttrConfigure.setNormalSoldState(checked)}"
+                        android:thumb="@drawable/selector_default_switch_thumb"
+                        app:track="@drawable/selector_default_switch_track" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_333333"
+                        android:layout_width="104dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hot_water_price" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        style="@style/Font_16_333333_cccccc"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/transparent"
+                        android:hint="@string/please_input"
+                        android:text="@{vm.drinkAttrConfigure.hotPrice}" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_cccccc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{1== vm.drinkAttrConfigure.priceCalculateMode?@string/unit_water_time_price_hint:@string/unit_water_quantity_price_hint}" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_device_drinking_fun_configuration_hot_open"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{1 == vm.drinkAttrConfigure.hotSoldState}"
+                        android:onCheckedChanged="@{(btn,checked)->vm.drinkAttrConfigure.setHotSoldState(checked)}"
+                        android:thumb="@drawable/selector_default_switch_thumb"
+                        app:track="@drawable/selector_default_switch_track" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
+            android:id="@+id/btn_device_drinking_create_submit"
+            style="@style/CommonMatchBtnStyle1"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="42dp"
+            android:text="@string/save" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

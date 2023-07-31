@@ -54,8 +54,6 @@ android {
             signingConfig signingConfigs.debug
         }
         pre {
-//            applicationIdSuffix ".debug"
-//            versionNameSuffix '.debug'
             buildConfigField "String", "BASE_URL", EnvConfig.HTTP_BASE_PRE
             buildConfigField "String", "H5_WORK_ORDER", EnvConfig.H5_WORK_OREDER_RELEASE
             buildConfigField "String", "PRIVACY_POLICY", EnvConfig.PRIVACY_POLICY

@@ -81,7 +81,11 @@ object IntentParams {
         /**
          * 包装参数
          */
-        fun pack(categoryId: Int? = -1, categoryCode: String?, communicationType: Int? = -1): Bundle =
+        fun pack(
+            categoryId: Int? = -1,
+            categoryCode: String?,
+            communicationType: Int? = -1
+        ): Bundle =
             Bundle().apply {
                 categoryId?.let {
                     putInt(CategoryId, categoryId)
@@ -223,18 +227,30 @@ object IntentParams {
     }
 
     object DeviceManagerParams {
+        const val CategoryBigType_WashDryer = 0
+        const val CategoryBigType_Hair = 1
+        const val CategoryBigType_Shower = 2
+        const val CategoryBigType_Dispenser = 3
+        const val CategoryBigType_Drink = 4
+
         private const val Shop = "Shop"
+        private const val CategoryBigType = "categoryBigType"
 
         /**
          * 包装参数
          */
-        fun pack(shop: SearchSelectParam): Bundle = Bundle().apply {
-            putString(Shop, GsonUtils.any2Json(shop))
+        fun pack(shop: SearchSelectParam? = null, categoryBigType: Int = -1): Bundle = Bundle().apply {
+            shop?.let {
+                putString(Shop, GsonUtils.any2Json(shop))
+            }
+            putInt(CategoryBigType, categoryBigType)
         }
 
         fun parseShop(intent: Intent): SearchSelectParam? = GsonUtils.json2Class(
             intent.getStringExtra(Shop), SearchSelectParam::class.java
         )
+
+        fun parseCategoryBigType(intent: Intent): Int = intent.getIntExtra(CategoryBigType, -1)
     }
 
     object WalletParams {

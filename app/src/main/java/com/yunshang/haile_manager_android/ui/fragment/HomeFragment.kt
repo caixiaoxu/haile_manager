@@ -26,6 +26,7 @@ import com.github.mikephil.charting.utils.MPPointF
 import com.github.mikephil.charting.utils.ViewPortHandler
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.ScreenUtils
 import com.lsy.framelib.utils.StatusBarUtils
 import com.lsy.framelib.utils.gson.GsonUtils
@@ -399,11 +400,12 @@ class HomeFragment :
                 if (item.icon == R.mipmap.icon_device_manager) {
                     DeviceCategoryDialog.Builder().apply {
                         onDeviceCodeSelectListener = { type ->
-                            startActivity(Intent(requireContext(), item.clz).apply {
-                                when(type){
-
-                                }
-                            })
+                            if (IntentParams.DeviceManagerParams.CategoryBigType_Shower == type)
+                                SToast.showToast(requireContext(), R.string.coming_soon)
+                            else
+                                startActivity(Intent(requireContext(), item.clz).apply {
+                                    putExtras(IntentParams.DeviceManagerParams.pack(categoryBigType = type))
+                                })
                         }
                     }.build().show(childFragmentManager)
                 } else {
@@ -460,8 +462,7 @@ class HomeFragment :
             // 赋值
             mBinding.bcTrendChart.marker = markerView
             mBinding.bcTrendChart.data = barData
-            mBinding.bcTrendChart.postInvalidateDelayed(500)
-//            mBinding.bcTrendChart.invalidate()
+            mBinding.bcTrendChart.invalidate()
             mBinding.bcTrendChart.animateXY(1000, 1000, Easing.EaseInOutQuad) // 启用XY轴方向的动画效果
             //选中当日
             val instance = Calendar.getInstance()
@@ -478,6 +479,9 @@ class HomeFragment :
         super.onHiddenChanged(hidden)
         if (!hidden) {
             mViewModel.requestHomeData()
+            if (mViewModel.homeIncomeList.value.isNullOrEmpty()) {
+                mViewModel.requestHomeIncome()
+            }
         }
     }
 }

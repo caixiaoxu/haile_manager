@@ -35,10 +35,13 @@ object DeviceCategory {
     // 饮水机
     const val Water = "04"
 
+    // 沐浴
+    const val Shower = "08"
+
     // 投放器
     const val Dispenser = "09"
 
-    @StringDef(Washing, Shoes, Dryer, Hair, Water, Dispenser)
+    @StringDef(Washing, Shoes, Dryer, Hair, Water, Dispenser, Shower)
     @Retention(AnnotationRetention.SOURCE)
     annotation class IDeviceCategoryType
 
@@ -51,6 +54,11 @@ object DeviceCategory {
      * 是否是吹风机
      */
     fun isHair(categoryCode: String?) = Hair == categoryCode
+
+    /**
+     * 是否是饮水机
+     */
+    fun isDrink(categoryCode: String?) = Water == categoryCode
 
     /**
      * 是否是烘干机
@@ -70,6 +78,7 @@ object DeviceCategory {
         Hair -> StringUtils.getString(R.string.hair)
         Water -> StringUtils.getString(R.string.water)
         Dispenser -> StringUtils.getString(R.string.dispenser)
+        Shower -> StringUtils.getString(R.string.shower)
         else -> ""
     }
 
@@ -77,7 +86,7 @@ object DeviceCategory {
      * 可显示的设备类型
      */
     fun canShowDeviceCategory(categoryCode: String): Boolean =
-        categoryCode in arrayOf(Washing, Shoes, Dryer, Hair)
+        categoryCode in arrayOf(Washing, Shoes, Dryer, Hair, Water, Dispenser)
 }
 
 object SearchType {

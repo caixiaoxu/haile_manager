@@ -16,6 +16,7 @@ import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.ScreenUtils
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.databinding.DialogDeviceCategoryBinding
 import com.yunshang.haile_manager_android.databinding.ItemDialogDeviceCategoryBinding
@@ -83,6 +84,7 @@ class DeviceCategoryDialog private constructor(private val builder: Builder) :
                     itemBinding.desc = deviceCategoryItem.desc
                     itemBinding.root.setOnClickListener {
                         builder.onDeviceCodeSelectListener?.invoke(deviceCategoryItem.type)
+                        dismiss()
                     }
                     itemBinding.root
                 },
@@ -138,31 +140,31 @@ class DeviceCategoryDialog private constructor(private val builder: Builder) :
                 R.mipmap.icon_device_category_wash_dryer_small,
                 StringUtils.getString(R.string.category_wash_dryer),
                 StringUtils.getString(R.string.category_wash_dryer_desc),
-                0
+                IntentParams.DeviceManagerParams.CategoryBigType_WashDryer
             ),
             DeviceCategoryItem(
                 R.mipmap.icon_device_category_hair_small,
                 StringUtils.getString(R.string.hair),
                 StringUtils.getString(R.string.category_hair_desc),
-                1
+                IntentParams.DeviceManagerParams.CategoryBigType_Hair
             ),
             DeviceCategoryItem(
                 R.mipmap.icon_device_category_shower_small,
                 StringUtils.getString(R.string.category_shower),
                 StringUtils.getString(R.string.category_shower_desc),
-                2
+                IntentParams.DeviceManagerParams.CategoryBigType_Shower
             ),
             DeviceCategoryItem(
                 R.mipmap.icon_device_category_dispenser_small,
                 StringUtils.getString(R.string.category_dispenser),
                 StringUtils.getString(R.string.category_dispenser_desc),
-                3
+                IntentParams.DeviceManagerParams.CategoryBigType_Dispenser
             ),
             DeviceCategoryItem(
                 R.mipmap.icon_device_category_drink_small,
                 StringUtils.getString(R.string.category_drink),
                 StringUtils.getString(R.string.category_drink_desc),
-                4
+                IntentParams.DeviceManagerParams.CategoryBigType_Drink
             ),
         )
 
@@ -174,7 +176,7 @@ class DeviceCategoryDialog private constructor(private val builder: Builder) :
         )
 
         // 选择监听
-        var onDeviceCodeSelectListener: ((type: Int)->Unit)? = null
+        var onDeviceCodeSelectListener: ((type: Int) -> Unit)? = null
 
         /**
          * 构建

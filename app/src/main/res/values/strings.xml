@@ -145,6 +145,17 @@
     <string name="hair_time">吹风时间</string>
     <string name="wash_money">洗涤费用</string>
     <string name="pulse_count">脉冲数</string>
+    <string name="pricing_manner">计价方式</string>
+    <string name="for_time">按时间</string>
+    <string name="for_quantity">按流量</string>
+    <string name="over_time">过流时间</string>
+    <string name="over_time_hint">输入范围10-600</string>
+    <string name="pause_time">暂停时间</string>
+    <string name="pause_time_hint">输入范围10-600</string>
+    <string name="single_pulse_quantity">单脉冲流量</string>
+    <string name="single_pulse_quantity_hint">输入范围0.001-50.000</string>
+    <string name="normal_water_price">常温单价</string>
+    <string name="hot_water_price">热水单价</string>
     <string name="desc">描述信息</string>
     <string name="money">金额</string>
     <string name="dryer_time_title">选择烘干时间（可多选）</string>
@@ -184,6 +195,7 @@
     <string name="hair">吹风</string>
     <string name="water">饮水</string>
     <string name="dispenser">投放</string>
+    <string name="shower">沐浴</string>
     <string name="category_wash_dryer">洗烘机</string>
     <string name="category_wash_dryer_desc">洗衣机/烘干机/洗鞋机</string>
     <string name="category_hair">吹风机</string>
@@ -209,6 +221,7 @@
     <string name="close_success">关闭成功</string>
     <string name="function_select">功能选择</string>
     <string name="function_model">功能模式</string>
+    <string name="coming_soon">敬请期待</string>
 
     <string name="shop_manager">门店管理</string>
     <string name="add_shop">添加门店</string>
@@ -549,7 +562,11 @@
     <string name="unit_minute_hint">（分）</string>
     <string name="unit_yuan_hint">（元）</string>
     <string name="unit_ge_hint">（个）</string>
+    <string name="unit_second_hint">（秒）</string>
+    <string name="unit_quantity_hint">（ml）</string>
     <string name="unit_pulse_hint">（脉冲）</string>
+    <string name="unit_water_time_price_hint">（元/S）</string>
+    <string name="unit_water_quantity_price_hint">（元/L）</string>
     <string name="unit_minute_num">%1$d分钟</string>
     <string name="unit_device_configuration_hint1">%1$.2f元/%2$d分钟</string>
     <string name="unit_device_configuration_hint2">%1$.2f元/%2$d分钟/%3$d个脉冲</string>

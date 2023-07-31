@@ -143,19 +143,33 @@ class DeviceCreateActivity :
         // 功能配置
         mBinding.mtivDeviceCreateFunConfigure.onSelectedEvent = {
             startNext.launch(
-                Intent(
-                    this@DeviceCreateActivity,
-                    DeviceFunctionConfigurationActivity::class.java
-                ).apply {
-                    putExtras(
-                        IntentParams.DeviceFunctionConfigurationParams.pack(
-                            spuId = mViewModel.createAndUpdateEntity.value?.spuId,
-                            categoryCode = mViewModel.deviceCategoryCode,
-                            communicationType = mViewModel.deviceCommunicationType,
-                            oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
+                if (DeviceCategory.isDrink(mViewModel.deviceCategoryCode))
+                    Intent(
+                        this@DeviceCreateActivity,
+                        DeviceDrinkingFunctionConfigurationActivity::class.java
+                    ).apply {
+                        putExtras(
+                            IntentParams.DeviceFunctionConfigurationParams.pack(
+                                spuId = mViewModel.createAndUpdateEntity.value?.spuId,
+                                categoryCode = mViewModel.deviceCategoryCode,
+                                oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
+                            )
                         )
-                    )
-                }
+                    }
+                else
+                    Intent(
+                        this@DeviceCreateActivity,
+                        DeviceFunctionConfigurationActivity::class.java
+                    ).apply {
+                        putExtras(
+                            IntentParams.DeviceFunctionConfigurationParams.pack(
+                                spuId = mViewModel.createAndUpdateEntity.value?.spuId,
+                                categoryCode = mViewModel.deviceCategoryCode,
+                                communicationType = mViewModel.deviceCommunicationType,
+                                oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
+                            )
+                        )
+                    }
             )
         }
     }

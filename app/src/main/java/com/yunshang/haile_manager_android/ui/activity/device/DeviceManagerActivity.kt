@@ -153,6 +153,7 @@ class DeviceManagerActivity :
         IntentParams.DeviceManagerParams.parseShop(intent)?.let {
             mViewModel.selectDepartment.value = it
         }
+        mViewModel.bigCategoryType = IntentParams.DeviceManagerParams.parseCategoryBigType(intent)
     }
 
     /**
@@ -253,7 +254,7 @@ class DeviceManagerActivity :
         mBinding.tvDeviceCategoryCategory.setOnClickListener {
             mViewModel.categoryList.value?.let {
                 showDeviceCategoryDialog(it)
-            } ?: mViewModel.requestData(1)
+            }
         }
 
         // 设备模型
@@ -266,7 +267,7 @@ class DeviceManagerActivity :
                     putExtras(
                         IntentParams.SearchSelectTypeParam.pack(
                             IntentParams.SearchSelectTypeParam.SearchSelectTypeDeviceModel,
-                            mViewModel.selectDeviceCategory.value?.id ?: -1,
+                            mViewModel.selectDeviceCategory.value?.firstOrNull()?.id ?: -1,
                             mustSelect = false
                         )
                     )
@@ -395,11 +396,6 @@ class DeviceManagerActivity :
                 initRightBtn()
         }
 
-        // 设备类型
-        mViewModel.categoryList.observe(this) {
-            showDeviceCategoryDialog(it)
-        }
-
         // 选择店铺
         mViewModel.selectDepartment.observe(this) {
             mBinding.tvDeviceCategoryDepartment.text = it?.name ?: ""
@@ -408,7 +404,8 @@ class DeviceManagerActivity :
 
         // 选择设备类型
         mViewModel.selectDeviceCategory.observe(this) {
-            mBinding.tvDeviceCategoryCategory.text = it?.name ?: ""
+            mBinding.tvDeviceCategoryCategory.text =
+                if (1 == (it?.size ?: 0)) it?.firstOrNull()?.name ?: "" else ""
             mBinding.rvDeviceManagerList.requestRefresh()
         }
 
@@ -432,7 +429,9 @@ class DeviceManagerActivity :
 
         // 切换工作状态
         mViewModel.curWorkStatus.observe(this) {
-            mBinding.rvDeviceManagerList.requestRefresh()
+            if (-1 == mViewModel.bigCategoryType || null != mViewModel.selectDeviceCategory.value) {
+                mBinding.rvDeviceManagerList.requestRefresh()
+            }
         }
 
         // 监听刷新
@@ -463,7 +462,7 @@ class DeviceManagerActivity :
                         object :
                             CommonBottomSheetDialog.OnValueSureListener<CategoryEntity> {
                             override fun onValue(data: CategoryEntity?) {
-                                mViewModel.selectDeviceCategory.value = data
+                                mViewModel.selectDeviceCategory.value = data?.let { listOf(data) }
                                 mViewModel.selectDeviceModel.value = null
                             }
                         }
@@ -473,6 +472,6 @@ class DeviceManagerActivity :
     }
 
     override fun initData() {
-//        mViewModel.requestData(4)
+        mViewModel.requestData(1)
     }
 }

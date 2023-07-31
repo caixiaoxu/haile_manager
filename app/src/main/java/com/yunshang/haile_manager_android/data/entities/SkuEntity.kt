@@ -189,6 +189,15 @@ data class ExtAttrBean(
     }
 }
 
+data class ExtAttrDrinkBean(
+    val waterTypeId: Int,
+    val overTime: String,//过流时间
+    val pauseTime: String,//暂停时间
+    val priceCalculateMode: String,//1 按时间，2按流量
+    val priceCalculateUnit: String,//计价单位，写死1
+    val singlePulseQuantity: String//单脉冲流量
+)
+
 data class SkuFuncConfigurationParam(
 //    val id: Int = -1,
     val skuId: Int,

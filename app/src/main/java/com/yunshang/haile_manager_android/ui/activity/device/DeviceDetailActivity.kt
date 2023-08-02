@@ -25,7 +25,6 @@ import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.DeviceDetailModel
 import com.yunshang.haile_manager_android.business.vm.DeviceMultiChangeViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
-import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.DosingConfigs
 import com.yunshang.haile_manager_android.data.entities.Item
@@ -159,50 +158,51 @@ class DeviceDetailActivity :
             }
 
             mBinding.llDeviceDetailFuncPrice.removeAllViews()
+            val inflater = LayoutInflater.from(this@DeviceDetailActivity)
             if (mViewModel.isDispenser(detail.categoryCode)) {
                 var dosingconfigs = ArrayList<DosingConfigs>()
                 detail?.dosingVOS?.forEach {
                     dosingconfigs.addAll(it.configs)
                 }
-                dosingconfigs?.forEachIndexed { index, item ->
-                    val itemBinding = LayoutInflater.from(this@DeviceDetailActivity)
-                        .inflate(R.layout.item_device_detail_dispose_min, null, false).let { view ->
-                            DataBindingUtil.bind<ItemDeviceDetailDisposeMinBinding>(view)
-                        }
-                    itemBinding?.let {
-                        itemBinding.item = item
-                        mBinding.llDeviceDetailFuncPrice.addView(itemBinding.root,
-                            LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT,
-                            ).apply {
-                                setMargins(0, if (0 == index) mTB else 0, 0, mTB)
-                            })
-                        itemBinding.tvTime.text = " 单次用量 ${item.amount}ml/${item.price}元"
-                        itemBinding.tvState.text = if (item.isOn) "启用中" else "已停用"
-                        itemBinding.tvState.setTextColor(Color.parseColor(if (item.isOn) "#F0A258" else "#999999"))
-                    }
+                dosingconfigs.forEachIndexed { index, item ->
+                    val itemBinding = DataBindingUtil.inflate<ItemDeviceDetailDisposeMinBinding>(
+                        inflater,
+                        R.layout.item_device_detail_dispose_min,
+                        null,
+                        false
+                    )
+                    itemBinding.item = item
+                    mBinding.llDeviceDetailFuncPrice.addView(itemBinding.root,
+                        LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                        ).apply {
+                            setMargins(0, if (0 == index) mTB else 0, 0, mTB)
+                        })
+                    itemBinding.tvTime.text = " 单次用量 ${item.amount}ml/${item.price}元"
+                    itemBinding.tvState.text = if (item.isOn) "启用中" else "已停用"
+                    itemBinding.tvState.setTextColor(Color.parseColor(if (item.isOn) "#F0A258" else "#999999"))
                 }
             } else {
                 detail?.items?.forEachIndexed { index, item ->
-                    val itemBinding = LayoutInflater.from(this@DeviceDetailActivity)
-                        .inflate(R.layout.item_device_detail_func_price, null, false).let { view ->
-                            DataBindingUtil.bind<ItemDeviceDetailFuncPriceBinding>(view)
-                        }
-                    itemBinding?.let {
-                        itemBinding.item = item
-                        itemBinding.isDryer = DeviceCategory.isDryerOrHair(detail.categoryCode)
-                        itemBinding.deviceCommunicationType = detail.communicationType
-                        itemBinding.tvFunPriceDesc.visibility =
-                            if (DeviceCategory.isHair(detail.categoryCode)) View.GONE else View.VISIBLE
-                        mBinding.llDeviceDetailFuncPrice.addView(itemBinding.root,
-                            LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT,
-                            ).apply {
-                                setMargins(0, if (0 == index) mTB else 0, 0, mTB)
-                            })
-                    }
+                    val itemBinding = DataBindingUtil.inflate<ItemDeviceDetailFuncPriceBinding>(
+                        inflater,
+                        R.layout.item_device_detail_func_price,
+                        null,
+                        false
+                    )
+                    itemBinding.item = item
+                    itemBinding.isDryer = DeviceCategory.isDryerOrHair(detail.categoryCode)
+                    itemBinding.deviceCommunicationType = detail.communicationType
+                    itemBinding.tvFunPriceDesc.visibility =
+                        if (DeviceCategory.isHair(detail.categoryCode)) View.GONE else View.VISIBLE
+                    mBinding.llDeviceDetailFuncPrice.addView(itemBinding.root,
+                        LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                        ).apply {
+                            setMargins(0, if (0 == index) mTB else 0, 0, mTB)
+                        })
                 }
             }
 
@@ -212,7 +212,7 @@ class DeviceDetailActivity :
                 detail?.relatedGoodsDetailVo?.dosingVOS?.forEach {
                     dosingconfigs.addAll(it.configs)
                 }
-                dosingconfigs?.forEachIndexed { index, item ->
+                dosingconfigs.forEachIndexed { index, item ->
                     val itemBinding = LayoutInflater.from(this@DeviceDetailActivity)
                         .inflate(R.layout.item_device_detail_dispose_min, null, false).let { view ->
                             DataBindingUtil.bind<ItemDeviceDetailDisposeMinBinding>(view)
@@ -234,12 +234,8 @@ class DeviceDetailActivity :
             }
 
             mViewModel.categoryCode.value = detail.categoryCode
-
-            if (null == detail.deviceAttributeVo) {
-
-            }
             mBinding.tvLaundryTemperature.text =
-                if (null == detail.deviceAttributeVo) "0°C" else "${detail.deviceAttributeVo.nowTemperature}°C"
+                "${detail.deviceAttributeVo?.nowTemperature ?: 0}°C"
         }
 
         // 是否有高级参数设置
@@ -268,24 +264,21 @@ class DeviceDetailActivity :
                                     DropperAddSettingActivity.Deviceid,
                                     detail.id
                                 )
-                                var skufuncs = ArrayList<SkuFuncConfigurationParam>()
-                                detail.items.forEach { it ->
-                                    var sku = SkuFuncConfigurationParam(
-                                        it.skuId,
-                                        it.name,
-                                        it.price.toDouble(),
-                                        (if (it.pulse.isNullOrEmpty()) 0 else it.pulse.toInt()),
-                                        it.unit.toInt(),
-                                        it.extAttr,
-                                        it.feature,
-                                        it.soldState,
-                                        ""
-                                    )
-                                    skufuncs.add(sku)
-                                }
                                 putExtra(
                                     OldFuncConfiguration,
-                                    GsonUtils.any2Json(skufuncs)
+                                    GsonUtils.any2Json(detail.items.map {item->
+                                        SkuFuncConfigurationParam(
+                                            item.skuId,
+                                            item.name,
+                                            item.price.toDouble(),
+                                            (if (item.pulse.isNullOrEmpty()) 0 else item.pulse.toInt()),
+                                            item.unit.toInt(),
+                                            item.extAttr,
+                                            item.feature,
+                                            item.soldState,
+                                            ""
+                                        )
+                                    })
                                 )
 
                             })
@@ -326,7 +319,7 @@ class DeviceDetailActivity :
                                     GsonUtils.json2List(it.extAttr, DosingConfigs::class.java)
                                         ?.let { dosing ->
                                             dosing.forEach { itemdos ->
-                                                var item: Item = Item(
+                                                var item = Item(
                                                     it.id,
                                                     it.skuId,
                                                     it.name,
@@ -345,8 +338,6 @@ class DeviceDetailActivity :
                                         GsonUtils.any2Json(newitems)
                                     )
                                 }
-
-
                             } else {
                                 putExtra(
                                     DeviceStartActivity.Items,

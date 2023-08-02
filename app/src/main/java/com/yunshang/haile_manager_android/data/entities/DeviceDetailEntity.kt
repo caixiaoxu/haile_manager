@@ -59,6 +59,17 @@ data class DeviceDetailEntity(
     val scanUrl: String,
     val qrId: Long // 设备编号
 ) {
+
+    fun getDeviceDetailMain(): Int = when (categoryCode) {
+        DeviceCategory.Washing -> R.mipmap.icon_device_detail_washing_main
+        DeviceCategory.Dryer -> R.mipmap.icon_device_detail_dryer_main
+        DeviceCategory.Shoes -> R.mipmap.icon_device_detail_shose_main
+        DeviceCategory.Hair -> R.mipmap.icon_device_detail_hair_main
+        DeviceCategory.Dispenser -> R.mipmap.icon_device_detail_dispenser_main
+        DeviceCategory.Water -> R.mipmap.icon_device_detail_drinking_main
+        else -> R.mipmap.icon_device_detail_washing_main
+    }
+
     fun getReason() = "${deviceErrorMsg}${deviceErrorCode}"
 
     fun hasName(): Boolean = !name.isNullOrEmpty()

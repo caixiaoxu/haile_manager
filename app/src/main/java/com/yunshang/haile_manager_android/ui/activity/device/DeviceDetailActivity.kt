@@ -24,9 +24,11 @@ import com.yunshang.haile_manager_android.business.vm.DeviceDetailModel
 import com.yunshang.haile_manager_android.business.vm.DeviceMultiChangeViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
+import com.yunshang.haile_manager_android.data.entities.ExtAttrDrinkBean
 import com.yunshang.haile_manager_android.data.entities.Item
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceDetailBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceDetailFuncPriceBinding
+import com.yunshang.haile_manager_android.databinding.ItemSelectedDrinkDeviceFuncationConfigurationBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
@@ -115,7 +117,6 @@ class DeviceDetailActivity :
     override fun initEvent() {
         super.initEvent()
 
-        val mTB = DimensionUtils.dip2px(this, 12f)
         mViewModel.deviceDetail.observe(this) { detail ->
             if (!detail.shopAppointmentEnabled) {
                 mBinding.glDeviceDetailFunc.children.find {
@@ -131,29 +132,39 @@ class DeviceDetailActivity :
                     ?.let { item ->
                         item.show.value = false
                     }
+            } else if (DeviceCategory.isDrinking(detail.categoryCode)) {// 饮水机
+                mViewModel.deviceDetailFunOperate.filter { item -> item.icon != R.mipmap.icon_device_unlock && item.icon != R.mipmap.icon_device_create_pay_code && item.icon != R.mipmap.icon_device_update }
+                    .forEach { item ->
+                        item.show.value = false
+                    }
             }
 
             mBinding.llDeviceDetailFuncPrice.removeAllViews()
-            detail?.items?.forEachIndexed { index, item ->
-                val itemBinding = LayoutInflater.from(this@DeviceDetailActivity)
-                    .inflate(R.layout.item_device_detail_func_price, null, false).let { view ->
-                        DataBindingUtil.bind<ItemDeviceDetailFuncPriceBinding>(view)
+            val inflater = LayoutInflater.from(this@DeviceDetailActivity)
+            detail?.items?.let { items ->
+                if (DeviceCategory.isDrinking(detail.categoryCode)) {
+                    buildDrinkingConfigureItemView(items, inflater)
+                } else {
+                    items.forEachIndexed { _, item ->
+                        val itemBinding = DataBindingUtil.inflate<ItemDeviceDetailFuncPriceBinding>(
+                            inflater,
+                            R.layout.item_device_detail_func_price,
+                            null,
+                            false
+                        )
+                        itemBinding.item = item
+                        itemBinding.isDryer = DeviceCategory.isDryerOrHair(detail.categoryCode)
+                        itemBinding.deviceCommunicationType =
+                            detail.communicationType
+                        itemBinding.tvFunPriceDesc.visibility =
+                            if (DeviceCategory.isHair(detail.categoryCode)) View.GONE else View.VISIBLE
+                        mBinding.llDeviceDetailFuncPrice.addView(
+                            itemBinding.root, LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                            )
+                        )
                     }
-                itemBinding?.let {
-                    itemBinding.item = item
-                    itemBinding.isDryer = DeviceCategory.isDryerOrHair(detail.categoryCode)
-                    itemBinding.deviceCommunicationType =
-                        detail.communicationType
-                    itemBinding.tvFunPriceDesc.visibility =
-                        if (DeviceCategory.isHair(detail.categoryCode)) View.GONE else View.VISIBLE
-                    mBinding.llDeviceDetailFuncPrice.addView(
-                        itemBinding.root, LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT,
-                        ).apply {
-                            setMargins(0, if (0 == index) mTB else 0, 0, mTB)
-                        }
-                    )
                 }
             }
         }
@@ -172,20 +183,35 @@ class DeviceDetailActivity :
                 1 -> {
                     mViewModel.deviceDetail.value?.let { detail ->
                         startActivity(
-                            Intent(
-                                this@DeviceDetailActivity,
-                                DeviceFunctionConfigurationActivity::class.java
-                            ).apply {
-                                putExtras(
-                                    IntentParams.DeviceFunctionConfigurationParams.pack(
-                                        goodId = mViewModel.goodsId,
-                                        spuId = detail.spuId,
-                                        categoryCode = detail.categoryCode,
-                                        communicationType = detail.communicationType,
-                                        oldFuncConfiguration = detail.items.mapNotNull { item -> item.changeConfigurationParam() }
+                            if (DeviceCategory.isDrinking(detail.categoryCode))
+                                Intent(
+                                    this@DeviceDetailActivity,
+                                    DeviceDrinkingFunctionConfigurationActivity::class.java
+                                ).apply {
+                                    putExtras(
+                                        IntentParams.DeviceFunctionConfigurationParams.pack(
+                                            goodId = mViewModel.goodsId,
+                                            spuId = detail.spuId,
+                                            categoryCode = detail.categoryCode,
+                                            oldFuncConfiguration = detail.items.mapNotNull { item -> item.changeConfigurationParam() }
+                                        )
                                     )
-                                )
-                            }
+                                }
+                            else
+                                Intent(
+                                    this@DeviceDetailActivity,
+                                    DeviceFunctionConfigurationActivity::class.java
+                                ).apply {
+                                    putExtras(
+                                        IntentParams.DeviceFunctionConfigurationParams.pack(
+                                            goodId = mViewModel.goodsId,
+                                            spuId = detail.spuId,
+                                            categoryCode = detail.categoryCode,
+                                            communicationType = detail.communicationType,
+                                            oldFuncConfiguration = detail.items.mapNotNull { item -> item.changeConfigurationParam() }
+                                        )
+                                    )
+                                }
                         )
                     }
                 }
@@ -262,11 +288,11 @@ class DeviceDetailActivity :
                 // 显示预约
                 7 -> mViewModel.deviceDetail.value?.let { detail ->
                     if (20 == detail.communicationType) {
-                        SToast.showToast(this@DeviceDetailActivity, "当前功能不支撑脉冲设备");
+                        SToast.showToast(this@DeviceDetailActivity, "当前功能不支撑脉冲设备")
                         return@let
                     }
                     if (null == detail.appointmentEnabled) {
-                        SToast.showToast(this@DeviceDetailActivity, "当前功能不可用");
+                        SToast.showToast(this@DeviceDetailActivity, "当前功能不可用")
                         return@let
                     }
                     CommonDialog.Builder(
@@ -300,6 +326,18 @@ class DeviceDetailActivity :
                         }.build().show(supportFragmentManager)
                     } else {
                         mViewModel.deviceOperate(0)
+                    }
+                }
+                // 解锁
+                9 -> mViewModel.deviceDetail.value?.let { detail ->
+                    detail.items.firstOrNull()?.let { first ->
+                        mViewModel.startDrinkingDevice(
+                            first.id,
+                            detail.imei,
+                            detail.categoryCode,
+                        ) {
+                            SToast.showToast(this@DeviceDetailActivity, R.string.unlock_success)
+                        }
                     }
                 }
             }
@@ -350,6 +388,85 @@ class DeviceDetailActivity :
                 }
             }.build()
                 .show(supportFragmentManager)
+        }
+    }
+
+    /**
+     * 构建饮水配置界面
+     */
+    private fun buildDrinkingConfigureItemView(
+        list: List<Item>,
+        inflater: LayoutInflater,
+    ) {
+        list.firstOrNull()?.let { first ->
+            GsonUtils.json2Class(first.extAttr, ExtAttrDrinkBean::class.java)
+                ?.let { firstAttr ->
+                    // 计价界面
+                    DataBindingUtil.inflate<ItemSelectedDrinkDeviceFuncationConfigurationBinding>(
+                        inflater,
+                        R.layout.item_selected_drink_device_funcation_configuration,
+                        null,
+                        false
+                    ).let { binding ->
+                        binding.title =
+                            StringUtils.getString(
+                                if (1 == firstAttr.priceCalculateMode) R.string.for_quantity
+                                else R.string.for_time
+                            ) + "计价"
+                        binding.content = "${
+                            StringUtils.getString(R.string.over_time) +
+                                    StringUtils.getString(
+                                        R.string.unit_minute_num_str,
+                                        firstAttr.overTime
+                                    )
+                        }\n${
+                            StringUtils.getString(R.string.pause_time) +
+                                    StringUtils.getString(
+                                        R.string.unit_minute_num_str,
+                                        firstAttr.pauseTime
+                                    )
+                        }${
+                            if (1 == firstAttr.priceCalculateMode) {
+                                "\n" + StringUtils.getString(R.string.single_pulse_quantity) +
+                                        StringUtils.getString(
+                                            R.string.unit_quantity_num_str,
+                                            firstAttr.singlePulseQuantity
+                                        )
+                            } else ""
+                        }"
+                        binding.soldState = 0
+                        mBinding.llDeviceDetailFuncPrice.addView(
+                            binding.root,
+                            LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                            )
+                        )
+                    }
+
+                    // 单价界面
+                    list.forEach { sku ->
+                        DataBindingUtil.inflate<ItemSelectedDrinkDeviceFuncationConfigurationBinding>(
+                            inflater,
+                            R.layout.item_selected_drink_device_funcation_configuration,
+                            null,
+                            false
+                        ).let { binding ->
+                            binding.title =
+                                sku.name + StringUtils.getString(R.string.price)
+                            binding.content =
+                                "${sku.price}${StringUtils.getString(if (1 == firstAttr.priceCalculateMode) R.string.unit_water_quantity_price_hint else R.string.unit_water_time_price_hint)}"
+                            binding.soldState = sku.soldState
+                            mBinding.llDeviceDetailFuncPrice.addView(
+                                binding.root,
+                                LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                            )
+                        }
+                    }
+                }
         }
     }
 

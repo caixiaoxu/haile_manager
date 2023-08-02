@@ -102,7 +102,7 @@
                     android:layout_marginHorizontal="16dp"
                     android:visibility="@{vm.configShow?View.VISIBLE:View.GONE}" />
 
-                <LinearLayout
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_device_batch_update_select_fun_configuration"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -110,7 +110,9 @@
                     android:layout_marginBottom="16dp"
                     android:background="@drawable/shape_sf7f7f7_r8"
                     android:orientation="vertical"
-                    android:paddingHorizontal="12dp"
+                    android:padding="12dp"
+                    app:divider="@drawable/divide_size12"
+                    app:showDividers="middle"
                     android:visibility="@{(null == vm.createDeviceFunConfigure || 0 == vm.createDeviceFunConfigure.size())?View.GONE:View.VISIBLE}" />
 
                 <View

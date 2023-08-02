@@ -8,6 +8,7 @@
     <string name="please_select">请选择</string>
     <string name="cancel">取消</string>
     <string name="delete">删除</string>
+    <string name="unBind">解绑</string>
     <string name="delete_success">删除成功</string>
     <string name="edit">编辑</string>
     <string name="out_of_service">已停用</string>
@@ -138,6 +139,7 @@
     <string name="pay_code_error">该付款码无效</string>
     <string name="imei_code_error">该IMEI码无效</string>
     <string name="imei_code_error1">请扫描正确的IMEI</string>
+    <string name="scan_code_error">无法识别该二维码</string>
     <string name="device_func_configuration_title">功能配置%1$d</string>
     <string name="model_name">模式名称</string>
     <string name="wash_time">洗涤时间</string>
@@ -154,8 +156,7 @@
     <string name="pause_time_hint">输入范围10-600</string>
     <string name="single_pulse_quantity">单脉冲流量</string>
     <string name="single_pulse_quantity_hint">输入范围0.001-50.000</string>
-    <string name="normal_water_price">常温单价</string>
-    <string name="hot_water_price">热水单价</string>
+    <string name="price">单价</string>
     <string name="desc">描述信息</string>
     <string name="money">金额</string>
     <string name="dryer_time_title">选择烘干时间（可多选）</string>
@@ -168,6 +169,8 @@
     <string name="restart_dialog_title">请选择复位的通道</string>
     <string name="restart_success">复位成功</string>
     <string name="start">启动</string>
+    <string name="unlock">开锁</string>
+    <string name="unlock_success">开锁成功</string>
     <string name="start_success">启动成功</string>
     <string name="self_clean">桶自洁</string>
     <string name="change_model">更换模块</string>
@@ -565,8 +568,10 @@
     <string name="unit_second_hint">（秒）</string>
     <string name="unit_quantity_hint">（ml）</string>
     <string name="unit_pulse_hint">（脉冲）</string>
-    <string name="unit_water_time_price_hint">（元/S）</string>
-    <string name="unit_water_quantity_price_hint">（元/L）</string>
+    <string name="unit_water_time_price_hint">元/S</string>
+    <string name="unit_water_quantity_price_hint">元/L</string>
+    <string name="unit_quantity_num_str">%1$sml</string>
+    <string name="unit_minute_num_str">%1$s分钟</string>
     <string name="unit_minute_num">%1$d分钟</string>
     <string name="unit_device_configuration_hint1">%1$.2f元/%2$d分钟</string>
     <string name="unit_device_configuration_hint2">%1$.2f元/%2$d分钟/%3$d个脉冲</string>

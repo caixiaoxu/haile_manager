@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.ui.view
 
+import android.content.Context
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -49,5 +50,51 @@ class TranslucencePopupWindow(
             }
             window.attributes = windowAttr
         }
+    }
+
+
+    /**
+     * 计算出PopUpWindow显示的高度
+     * @return PopUpWindow的高度
+     */
+    private fun calculatePopWindowHeight(): Int {
+        val screenWidth = contentView.context.resources.displayMetrics.widthPixels
+        //若popupWindow高度已被定义,可直接返回
+        if (height > 0) {
+            return height
+        }
+        val popupWindowWidth = width
+        //根据popupWindow的宽度来选择PopUpWindow的测量模式
+        val measureWidthParams = when {
+            popupWindowWidth > 0 -> {
+                View.MeasureSpec.makeMeasureSpec(popupWindowWidth, View.MeasureSpec.EXACTLY)
+            }
+            popupWindowWidth == WindowManager.LayoutParams.MATCH_PARENT -> {
+                View.MeasureSpec.makeMeasureSpec(screenWidth, View.MeasureSpec.EXACTLY)
+            }
+            popupWindowWidth == WindowManager.LayoutParams.WRAP_CONTENT -> {
+                //若popupWindow的宽度为WRAP_CONTENT，测量会存在偏差。因此需要设置PopUpWindow的宽度为屏幕宽度的一半，测试模式为精准测量
+                width = screenWidth / 2
+                View.MeasureSpec.makeMeasureSpec(screenWidth / 2, View.MeasureSpec.EXACTLY)
+            }
+            else -> 0
+        }
+        contentView.measure(
+            measureWidthParams,
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        )
+        return contentView.measuredHeight
+    }
+
+    /**
+     * 显示PopUpWindow在参考布局之上
+     * @param anchorView 参考布局
+     */
+    fun showAsAbove(anchorView: View?, xOff: Int = 0, yOff: Int = 0) {
+        val popupWindowHeight = calculatePopWindowHeight()
+        val anchorViewHeight = anchorView?.height ?: 0
+        //实际需要偏移的高度为参考view的高度加上PopUpWindow的高度
+        val yOffset = -(popupWindowHeight + anchorViewHeight)
+        this.showAsDropDown(anchorView, xOff, yOffset + yOff)
     }
 }

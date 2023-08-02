@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="java.lang.Integer" />
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.DrinkAttrConfigure.DrinkAttrConfigureItem" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        tools:showIn="@layout/activity_device_drinking_function_configuration">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_16_333333"
+            android:layout_width="104dp"
+            android:layout_height="wrap_content"
+            android:text="@{item.title + @string/price}" />
+
+        <com.yunshang.haile_manager_android.ui.view.AmountEditText
+            style="@style/Font_16_333333_cccccc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:hint="@string/please_input"
+            android:text="@={item.priceValue}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_16_cccccc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{"（" + (2 == model?@string/unit_water_time_price_hint:@string/unit_water_quantity_price_hint) + "）"}' />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_device_drinking_fun_configuration_normal_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{1 == item.soldState}"
+            android:onCheckedChanged="@{(btn,checked)->item.setSoldState(checked)}"
+            android:thumb="@drawable/selector_default_switch_thumb"
+            app:track="@drawable/selector_default_switch_track" />
+    </LinearLayout>
+</layout>

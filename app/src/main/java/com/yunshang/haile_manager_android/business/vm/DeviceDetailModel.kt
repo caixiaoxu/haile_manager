@@ -106,6 +106,14 @@ class DeviceDetailModel : BaseViewModel() {
             deviceOperate(1)
         },
         ItemShowParam(
+            StringUtils.getString(R.string.unlock),
+            R.mipmap.icon_device_unlock,
+            MutableLiveData(UserPermissionUtils.hasDeviceStartPermission())
+        ) {
+            //启动事件
+            jump.postValue(9)
+        },
+        ItemShowParam(
             StringUtils.getString(R.string.change_model),
             R.mipmap.icon_device_change_model,
             MutableLiveData(true)
@@ -286,6 +294,29 @@ class DeviceDetailModel : BaseViewModel() {
                 }
             }
             LiveDataBus.post(BusEvents.DEVICE_LIST_STATUS, true)
+        })
+    }
+
+    /**
+     * 启动饮水设备
+     */
+    fun startDrinkingDevice(itemId: Int, imei: String, categoryCode: String,callBack:()->Unit) {
+        launch({
+            ApiRepository.dealApiResult(
+                mDeviceRepo.deviceStart(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "itemId" to itemId,
+                            "imei" to imei,
+                            "categoryCode" to categoryCode,
+                        )
+                    )
+                )
+            )
+            LiveDataBus.post(BusEvents.DEVICE_LIST_STATUS, true)
+            withContext(Dispatchers.Main) {
+                callBack()
+            }
         })
     }
 

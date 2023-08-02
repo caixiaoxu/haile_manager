@@ -1,7 +1,11 @@
 package com.yunshang.haile_manager_android.data.entities
 
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.rule.IMultiSelectBottomItemEntity
@@ -72,6 +76,9 @@ data class SkuEntity(
     // 烘干机时间列表
     var extAttrValue: List<ExtAttrBean>? = null
 
+    // 饮水机
+    var extAttrDrink: ExtAttrDrinkBean? = null
+
     // 烘干机选择的时间值
     val extAttrStr: String
         get() {
@@ -102,6 +109,21 @@ data class SkuEntity(
     )
 
     /**
+     * 封装成饮水请求的参数
+     */
+    fun getDrinkRequestParams() = SkuFuncConfigurationParam(
+        id,
+        name,
+        price,
+        pulse,
+        unit,
+        GsonUtils.any2Json(extAttrDrink),
+        feature,
+        soldState,
+        functionId
+    )
+
+    /**
      * 合并旧数据
      */
     fun mergeOld(old: SkuFuncConfigurationParam?) {
@@ -118,6 +140,23 @@ data class SkuEntity(
                         ext.mergeOld(oldExtAttrValue.find { bean -> bean.minutes == ext.minutes })
                     }
                 }
+            }
+            feature = old.feature
+            soldState = old.soldState
+        }
+    }
+
+    /**
+     * 合并旧数据
+     */
+    fun mergeDrinkOld(old: SkuFuncConfigurationParam?) {
+        old?.let {
+            name = old.name
+            price = old.price
+            pulse = old.pulse
+            unit = old.unit
+            if (old.extAttr.isNotEmpty()) {
+                extAttrDrink = GsonUtils.json2Class(old.extAttr, ExtAttrDrinkBean::class.java)
             }
             feature = old.feature
             soldState = old.soldState
@@ -191,12 +230,82 @@ data class ExtAttrBean(
 
 data class ExtAttrDrinkBean(
     val waterTypeId: Int,
-    val overTime: String,//过流时间
-    val pauseTime: String,//暂停时间
-    val priceCalculateMode: String,//1 按时间，2按流量
-    val priceCalculateUnit: String,//计价单位，写死1
-    val singlePulseQuantity: String//单脉冲流量
+    var priceCalculateMode: Int,//1 按时间，2按流量
+    var overTime: String,//过流时间
+    var pauseTime: String,//暂停时间
+    var singlePulseQuantity: String,//单脉冲流量
+    val priceCalculateUnit: String//计价单位，写死1
 )
+
+data class DrinkAttrConfigure(
+    val priceCalculateMode: MutableLiveData<Int>,//1 按流量，2按时间
+    var _overTime: Int,//过流时间
+    var _pauseTime: Int,//暂停时间
+    var _singlePulseQuantity: Double,//单脉冲流量
+    var items: List<DrinkAttrConfigureItem>
+) : BaseObservable() {
+
+    @get:Bindable
+    var overTime: String = _overTime.toString()
+        set(value) {
+            field = value
+            _overTime = try {
+                value.toInt()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                0
+            }
+            notifyPropertyChanged(BR.overTime)
+        }
+
+    @get:Bindable
+    var pauseTime: String = _pauseTime.toString()
+        set(value) {
+            field = value
+            _pauseTime = try {
+                value.toInt()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                0
+            }
+            notifyPropertyChanged(BR.pauseTime)
+        }
+
+    @get:Bindable
+    var singlePulseQuantity: String = _singlePulseQuantity.toString()
+        set(value) {
+            field = value
+            _singlePulseQuantity =  try {
+                value.toDouble()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                0.0
+            }
+            notifyPropertyChanged(BR.singlePulseQuantity)
+        }
+
+    data class DrinkAttrConfigureItem(
+        var title: String,//标题
+        var price: Double,//常温价格
+        var soldState: Int,//常温开关
+    ) : BaseObservable() {
+
+        @get:Bindable
+        var priceValue: String = price.toString()
+            set(value) {
+                try {
+                    field = value
+                    price = if (value.isNullOrEmpty()) 0.0 else value.toDouble()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+        fun setSoldState(checked: Boolean) {
+            soldState = if (checked) 1 else 2
+        }
+    }
+}
 
 data class SkuFuncConfigurationParam(
 //    val id: Int = -1,

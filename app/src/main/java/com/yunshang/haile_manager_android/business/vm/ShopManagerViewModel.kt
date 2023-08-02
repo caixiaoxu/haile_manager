@@ -47,10 +47,10 @@ class ShopManagerViewModel : BaseViewModel() {
                     )
                 )
             )
+            mShopCountStr.postValue(
+                StringUtils.getString(R.string.shop_num_hint, listWrapper?.total ?: 0),
+            )
             listWrapper?.let {
-                mShopCountStr.postValue(
-                    StringUtils.getString(R.string.shop_num_hint, it.total),
-                )
                 withContext(Dispatchers.Main) {
                     result.invoke(it)
                 }

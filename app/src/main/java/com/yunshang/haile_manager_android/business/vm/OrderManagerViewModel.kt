@@ -125,10 +125,10 @@ class OrderManagerViewModel : BaseViewModel() {
             val listWrapper = ApiRepository.dealApiResult(
                 mOrderRepo.requestOrderList(params)
             )
+            mOrderCountStr.postValue(
+                StringUtils.getString(R.string.order_num_hint, listWrapper?.total ?: 0),
+            )
             listWrapper?.let {
-                mOrderCountStr.postValue(
-                    StringUtils.getString(R.string.order_num_hint, it.total),
-                )
                 withContext(Dispatchers.Main) {
                     result.invoke(it)
                 }

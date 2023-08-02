@@ -1,13 +1,16 @@
 package com.yunshang.haile_manager_android.business.vm
 
-import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
+import android.view.View
 import androidx.lifecycle.MutableLiveData
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
-import com.lsy.framelib.utils.StringUtils
-import com.yunshang.haile_manager_android.BR
-import com.yunshang.haile_manager_android.R
+import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
+import com.yunshang.haile_manager_android.business.event.BusEvents
+import com.yunshang.haile_manager_android.data.entities.DrinkAttrConfigure
+import com.yunshang.haile_manager_android.data.entities.ExtAttrDrinkBean
+import com.yunshang.haile_manager_android.data.entities.SkuEntity
 import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 
@@ -37,6 +40,9 @@ class DeviceDrinkingFunctionConfigurationViewModel : BaseViewModel() {
     // 旧的方法配置
     var oldConfigurationList: List<SkuFuncConfigurationParam>? = null
 
+    // 配置列表
+    var configurationList: MutableList<SkuEntity>? = null
+
     // 饮水配置
     val drinkAttrConfigure: MutableLiveData<DrinkAttrConfigure> by lazy {
         MutableLiveData()
@@ -53,91 +59,136 @@ class DeviceDrinkingFunctionConfigurationViewModel : BaseViewModel() {
         }
 
         launch({
-            val list = ApiRepository.dealApiResult(mDeviceRepo.sku(spuId))
-            list?.let {
+            ApiRepository.dealApiResult(mDeviceRepo.sku(spuId))?.let {
                 it.forEach { sku ->
                     // 如果有旧数据，合并旧数据，如果没有，配置默认数据
                     if (!oldConfigurationList.isNullOrEmpty()) {
-
+                        sku.mergeDrinkOld(oldConfigurationList!!.find { param -> param.skuId == sku.id })
                     } else {
-                        if (sku.extAttr.isNotEmpty()) {
-                        }
+                        sku.extAttrDrink =
+                            GsonUtils.json2Class(sku.extAttr, ExtAttrDrinkBean::class.java)
                     }
                 }
+                it.firstOrNull()?.let { first ->
+                    first.extAttrDrink?.let { firstAttr ->
+                        drinkAttrConfigure.postValue(
+                            DrinkAttrConfigure(
+                                MutableLiveData(firstAttr.priceCalculateMode),
+                                try {
+                                    firstAttr.overTime.toInt()
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                    10
+                                },
+                                try {
+                                    firstAttr.pauseTime.toInt()
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                    10
+                                },
+                                try {
+                                    firstAttr.singlePulseQuantity.toDouble()
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                    0.0001
+                                },
+                                it.map { sku ->
+                                    DrinkAttrConfigure.DrinkAttrConfigureItem(
+                                        sku.name,
+                                        sku.price,
+                                        sku.soldState
+                                    )
+                                }
+                            )
+                        )
+                    }
+                }
+                configurationList = it
             }
         })
     }
 
-    fun save() {
-    }
-
-    data class DrinkAttrConfigure(
-        var _priceCalculateMode: Int,//1 按时间，2按流量
-        var _overTime: String,//过流时间
-        var _pauseTime: String,//暂停时间
-        var _singlePulseQuantity: String,//单脉冲流量
-        var _normalPrice: String,//常温价格
-        var _hotPrice: String,//热水价格
-        var normalSoldState: Int,//常温开关
-        var hotSoldState: Int,//热水开关
-    ) : BaseObservable() {
-        val priceCalculateModelVal: String
-            get() = StringUtils.getString(if (1 == _priceCalculateMode) R.string.for_time else R.string.for_quantity)
-
-        @get:Bindable
-        var priceCalculateMode: Int = _priceCalculateMode
-            set(value) {
-                _priceCalculateMode = value
-                field = value
-                notifyPropertyChanged(BR.priceCalculateMode)
+    fun save(v: View) {
+        if (null == drinkAttrConfigure.value) return
+        if (drinkAttrConfigure.value?.overTime.isNullOrEmpty()) {
+            SToast.showToast(msg = "请先输入过流时间")
+            return
+        }
+        if (10 > drinkAttrConfigure.value!!._overTime || 600 < drinkAttrConfigure.value!!._overTime) {
+            SToast.showToast(msg = "过流时间输入范围为10-600")
+            return
+        }
+        if (drinkAttrConfigure.value?.pauseTime.isNullOrEmpty()) {
+            SToast.showToast(msg = "请先输入暂停时间")
+            return
+        }
+        if (10 > drinkAttrConfigure.value!!._pauseTime || 600 < drinkAttrConfigure.value!!._pauseTime) {
+            SToast.showToast(msg = "暂停时间输入范围为10-600")
+            return
+        }
+        if (1 == drinkAttrConfigure.value?.priceCalculateMode?.value
+            && drinkAttrConfigure.value?.singlePulseQuantity.isNullOrEmpty()
+        ) {
+            SToast.showToast(msg = "请先输入单脉冲流量")
+            return
+        }
+        if (1 == drinkAttrConfigure.value?.priceCalculateMode?.value
+            && (0.001 > drinkAttrConfigure.value!!._singlePulseQuantity || 50.0 < drinkAttrConfigure.value!!._singlePulseQuantity)
+        ) {
+            SToast.showToast(msg = "单脉冲流量范围为0.001-50.0")
+            return
+        }
+        if (drinkAttrConfigure.value?.items.isNullOrEmpty()) return
+        if (drinkAttrConfigure.value?.items?.all { item -> 2 == item.soldState } != false) {
+            SToast.showToast(msg = "请至少开启一个单价")
+            return
+        }
+        drinkAttrConfigure.value?.items?.forEach { item ->
+            if (item.priceValue.isEmpty()) {
+                SToast.showToast(msg = "请输入${item.title}单价")
+                return
             }
-
-        @get:Bindable
-        var overTime: String = _overTime
-            set(value) {
-                _overTime = value
-                field = value
-                notifyPropertyChanged(BR.overTime)
+            if (0 > item.price || item.price > 10) {
+                SToast.showToast(msg = "${item.title}单价的输入范围为0.00-10.00")
+                return
             }
-
-        @get:Bindable
-        var pauseTime: String = _pauseTime
-            set(value) {
-                _pauseTime = value
-                field = value
-                notifyPropertyChanged(BR.pauseTime)
-            }
-
-        @get:Bindable
-        var singlePulseQuantity: String = _singlePulseQuantity
-            set(value) {
-                _singlePulseQuantity = value
-                field = value
-                notifyPropertyChanged(BR.singlePulseQuantity)
-            }
-
-        @get:Bindable
-        var normalPrice: String = _normalPrice
-            set(value) {
-                _normalPrice = value
-                field = value
-                notifyPropertyChanged(BR.normalPrice)
-            }
-
-        @get:Bindable
-        var hotPrice: String = _hotPrice
-            set(value) {
-                _hotPrice = value
-                field = value
-                notifyPropertyChanged(BR.hotPrice)
-            }
-
-        fun setNormalSoldState(checked:Boolean){
-            normalSoldState = if (checked) 1 else 2
         }
 
-        fun setHotSoldState(checked:Boolean){
-            hotSoldState = if (checked) 1 else 2
+        // 重新赋值
+        val items = drinkAttrConfigure.value!!.items
+        val itemCount = items.size
+        configurationList?.forEachIndexed { index, sku ->
+            if (itemCount > index) {
+                sku.price = items[index].price
+                sku.soldState = items[index].soldState
+            }
+            sku.extAttrDrink?.priceCalculateMode =
+                drinkAttrConfigure.value!!.priceCalculateMode.value!!
+            sku.extAttrDrink?.overTime = drinkAttrConfigure.value!!._overTime.toString()
+            sku.extAttrDrink?.pauseTime = drinkAttrConfigure.value!!._pauseTime.toString()
+            sku.extAttrDrink?.singlePulseQuantity =
+                drinkAttrConfigure.value!!._singlePulseQuantity.toString()
+        }
+        val params = configurationList?.map {
+            it.getDrinkRequestParams()
+        } ?: arrayListOf()
+        if (-1 == goodsId) {
+            resultData.postValue(params)
+        } else {
+            launch({
+                ApiRepository.dealApiResult(
+                    mDeviceRepo.deviceUpdate(
+                        ApiRepository.createRequestBody(
+                            hashMapOf(
+                                "id" to goodsId,
+                                "items" to params
+                            )
+                        )
+                    )
+                )
+                LiveDataBus.post(BusEvents.DEVICE_DETAILS_STATUS, true)
+                jump.postValue(0)
+            })
         }
     }
 }

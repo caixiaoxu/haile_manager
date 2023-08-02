@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
-import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -16,9 +15,12 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
+import com.yunshang.haile_manager_android.data.entities.ExtAttrDrinkBean
+import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.yunshang.haile_manager_android.data.entities.Spu
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceBatchUpdateBinding
 import com.yunshang.haile_manager_android.databinding.ItemSelectedDeviceFuncationConfigurationBinding
+import com.yunshang.haile_manager_android.databinding.ItemSelectedDrinkDeviceFuncationConfigurationBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
@@ -85,20 +87,18 @@ class DeviceBatchUpdateActivity :
         mViewModel.createDeviceFunConfigure.observe(this) {
             it?.let { list ->
                 mBinding.llDeviceBatchUpdateSelectFunConfiguration.removeAllViews()
-                val mtb = DimensionUtils.dip2px(this@DeviceBatchUpdateActivity, 12f)
-                list.forEachIndexed { index, config ->
-                    val selectFuncConfigItem =
-                        LayoutInflater.from(this@DeviceBatchUpdateActivity)
-                            .inflate(
+                val inflater = LayoutInflater.from(this@DeviceBatchUpdateActivity)
+                if (DeviceCategory.isDrinking(mViewModel.selectCategory.value?.code)) {
+                    buildDrinkingConfigureItemView(list, inflater)
+                } else {
+                    list.forEachIndexed { _, config ->
+                        val mFuncConfigBinding =
+                            DataBindingUtil.inflate<ItemSelectedDeviceFuncationConfigurationBinding>(
+                                inflater,
                                 R.layout.item_selected_device_funcation_configuration,
                                 null,
                                 false
                             )
-                    val mFuncConfigBinding =
-                        DataBindingUtil.bind<ItemSelectedDeviceFuncationConfigurationBinding>(
-                            selectFuncConfigItem
-                        )
-                    mFuncConfigBinding?.let {
                         val categoryCode = mViewModel.selectCategory.value?.code
                         mFuncConfigBinding.item = config
                         mFuncConfigBinding.isDryer =
@@ -116,9 +116,7 @@ class DeviceBatchUpdateActivity :
                             LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
-                            ).apply {
-                                setMargins(0, if (0 == index) mtb else 0, 0, mtb)
-                            }
+                            )
                         )
                     }
                 }
@@ -179,27 +177,125 @@ class DeviceBatchUpdateActivity :
         // 功能配置
         mBinding.itemDeviceBatchUpdateFunConfigure.onSelectedEvent = {
             startNext.launch(
-                Intent(
-                    this@DeviceBatchUpdateActivity,
-                    DeviceFunctionConfigurationActivity::class.java
-                ).apply {
-                    putExtras(
-                        IntentParams.DeviceFunctionConfigurationParams.pack(
-                            spuId = mViewModel.selectDeviceModel.value?.id,
-                            categoryCode = mViewModel.selectCategory.value?.code,
-                            communicationType = mViewModel.selectDeviceModel.value?.origin?.let { origin ->
-                                if (origin is Spu) {
-                                    origin.communicationType
-                                } else -1
-                            } ?: -1,
-                            oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
+                if (DeviceCategory.isDrinking(mViewModel.selectCategory.value?.code))
+                    Intent(
+                        this@DeviceBatchUpdateActivity,
+                        DeviceDrinkingFunctionConfigurationActivity::class.java
+                    ).apply {
+                        putExtras(
+                            IntentParams.DeviceFunctionConfigurationParams.pack(
+                                spuId = mViewModel.selectDeviceModel.value?.id,
+                                categoryCode = mViewModel.selectCategory.value?.code,
+                                oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
+                            )
                         )
-                    )
-                }
+                    }
+                else
+                    Intent(
+                        this@DeviceBatchUpdateActivity,
+                        DeviceFunctionConfigurationActivity::class.java
+                    ).apply {
+                        putExtras(
+                            IntentParams.DeviceFunctionConfigurationParams.pack(
+                                spuId = mViewModel.selectDeviceModel.value?.id,
+                                categoryCode = mViewModel.selectCategory.value?.code,
+                                communicationType = mViewModel.selectDeviceModel.value?.origin?.let { origin ->
+                                    if (origin is Spu) {
+                                        origin.communicationType
+                                    } else -1
+                                } ?: -1,
+                                oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
+                            )
+                        )
+                    }
             )
         }
-        mViewModel.jump.observe(this){
+        mViewModel.jump.observe(this) {
             finish()
+        }
+    }
+
+    /**
+     * 构建饮水配置界面
+     */
+    private fun buildDrinkingConfigureItemView(
+        list: List<SkuFuncConfigurationParam>,
+        inflater: LayoutInflater,
+    ) {
+        list.firstOrNull()?.let { first ->
+            GsonUtils.json2Class(first.extAttr, ExtAttrDrinkBean::class.java)
+                ?.let { firstAttr ->
+                    // 计价界面
+                    DataBindingUtil.inflate<ItemSelectedDrinkDeviceFuncationConfigurationBinding>(
+                        inflater,
+                        R.layout.item_selected_drink_device_funcation_configuration,
+                        null,
+                        false
+                    ).let { binding ->
+                        binding.title =
+                            com.lsy.framelib.utils.StringUtils.getString(
+                                if (1 == firstAttr.priceCalculateMode) R.string.for_quantity
+                                else R.string.for_time
+                            ) + "计价"
+                        binding.content = "${
+                            com.lsy.framelib.utils.StringUtils.getString(R.string.over_time) +
+                                    com.lsy.framelib.utils.StringUtils.getString(
+                                        R.string.unit_minute_num_str,
+                                        firstAttr.overTime
+                                    )
+                        }\n${
+                            com.lsy.framelib.utils.StringUtils.getString(R.string.pause_time) +
+                                    com.lsy.framelib.utils.StringUtils.getString(
+                                        R.string.unit_minute_num_str,
+                                        firstAttr.pauseTime
+                                    )
+                        }${
+                            if (1 == firstAttr.priceCalculateMode) {
+                                "\n" + com.lsy.framelib.utils.StringUtils.getString(R.string.single_pulse_quantity) +
+                                        com.lsy.framelib.utils.StringUtils.getString(
+                                            R.string.unit_quantity_num_str,
+                                            firstAttr.singlePulseQuantity
+                                        )
+                            } else ""
+                        }"
+                        binding.soldState = 0
+                        mBinding.llDeviceBatchUpdateSelectFunConfiguration.addView(
+                            binding.root,
+                            LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                            )
+                        )
+                    }
+
+                    // 单价界面
+                    list.forEach { sku ->
+                        DataBindingUtil.inflate<ItemSelectedDrinkDeviceFuncationConfigurationBinding>(
+                            inflater,
+                            R.layout.item_selected_drink_device_funcation_configuration,
+                            null,
+                            false
+                        ).let { binding ->
+                            binding.title =
+                                sku.name + com.lsy.framelib.utils.StringUtils.getString(R.string.price)
+                            binding.content =
+                                "${
+                                    String.format(
+                                        "%.2f",
+                                        sku.price
+                                    )
+                                }${com.lsy.framelib.utils.StringUtils.getString(if (1 == firstAttr.priceCalculateMode) R.string.unit_water_quantity_price_hint else R.string.unit_water_time_price_hint)}"
+                            binding.soldState = sku.soldState
+                            mBinding.llDeviceBatchUpdateSelectFunConfiguration.addView(
+                                binding.root,
+                                LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                            )
+                        }
+                    }
+                }
         }
     }
 

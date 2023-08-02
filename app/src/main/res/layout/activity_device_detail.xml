@@ -57,10 +57,11 @@
                         android:id="@+id/iv_device_detail_main"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/icon_device_detail_main"
+                        app:imgRes="@{vm.deviceDetail.getDeviceDetailMain}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@mipmap/icon_device_detail_washing_main" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_device_detail_name"
@@ -165,14 +166,17 @@
                         style="@style/DividingStyle"
                         android:visibility="@{vm.showFuncPrice?View.VISIBLE:View.GONE}" />
 
-                    <LinearLayout
+                    <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/ll_device_detail_func_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="12dp"
                         android:background="@drawable/shape_sf7f7f7_r8"
                         android:orientation="vertical"
-                        android:visibility="@{vm.showFuncPrice?View.VISIBLE:View.GONE}" />
+                        android:padding="12dp"
+                        android:visibility="@{vm.showFuncPrice?View.VISIBLE:View.GONE}"
+                        app:divider="@drawable/divide_size12"
+                        app:showDividers="middle" />
 
                 </LinearLayout>
 
@@ -303,7 +307,7 @@
             style="@style/CommonStrokeTxtBtnStyle"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/delete"
+            android:text="@string/unBind"
             android:visibility="@{shared.hasDeviceDeletePermission?View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="@id/view_device_detail_bottom"
             app:layout_constraintTop_toTopOf="@id/view_device_detail_bottom" />

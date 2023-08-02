@@ -129,8 +129,10 @@
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginBottom="16dp"
                     android:background="@drawable/shape_sf7f7f7_r8"
+                    android:divider="@drawable/divide_size12"
                     android:orientation="vertical"
-                    android:paddingHorizontal="12dp"
+                    android:padding="12dp"
+                    android:showDividers="middle"
                     android:visibility="@{(null == vm.createDeviceFunConfigure || 0 == vm.createDeviceFunConfigure.size())?View.GONE:View.VISIBLE}" />
 
                 <View

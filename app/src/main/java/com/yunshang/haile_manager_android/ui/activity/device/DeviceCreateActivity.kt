@@ -9,7 +9,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
-import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
@@ -19,8 +18,11 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
+import com.yunshang.haile_manager_android.data.entities.ExtAttrDrinkBean
+import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceCreateBinding
 import com.yunshang.haile_manager_android.databinding.ItemSelectedDeviceFuncationConfigurationBinding
+import com.yunshang.haile_manager_android.databinding.ItemSelectedDrinkDeviceFuncationConfigurationBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.CustomCaptureActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
@@ -34,25 +36,20 @@ class DeviceCreateActivity :
         BR.vm
     ) {
 
-    // 付款码相机启动器
-    private val payCodeLauncher = registerForActivityResult(ScanContract()) { result ->
+    // 扫码启动器
+    private val codeLauncher = registerForActivityResult(ScanContract()) { result ->
         result.contents?.trim()?.let {
-            Timber.i("付款码:$it")
+            Timber.i("扫码:$it")
             val payCode = StringUtils.getPayCode(it)
             payCode?.let { code ->
                 mViewModel.payCode.value = code
-            } ?: SToast.showToast(this, R.string.pay_code_error)
+            } ?: run {
+                if (StringUtils.isImeiCode(it))
+                    mViewModel.imeiCode.value = it
+                else
+                    SToast.showToast(this, R.string.scan_code_error)
+            }
         }
-    }
-
-    // IMEI相机启动器
-    private val imeiLauncher = registerForActivityResult(ScanContract()) { result ->
-        result.contents?.trim()?.let {
-            Timber.i("IMEI:$it")
-            if (StringUtils.isImeiCode(it))
-                mViewModel.imeiCode.value = it
-            else SToast.showToast(this, R.string.imei_code_error1)
-        } ?: SToast.showToast(this, R.string.imei_code_error)
     }
 
     private val scanOptions: ScanOptions by lazy {
@@ -111,12 +108,12 @@ class DeviceCreateActivity :
 
         // 付款码
         mBinding.mtivDeviceCreatePayCode.onSelectedEvent = {
-            payCodeLauncher.launch(scanOptions)
+            codeLauncher.launch(scanOptions)
         }
 
         // IMEI
         mBinding.mtivDeviceCreateImei.onSelectedEvent = {
-            imeiLauncher.launch(scanOptions)
+            codeLauncher.launch(scanOptions)
         }
 
         // 设备型号
@@ -143,7 +140,7 @@ class DeviceCreateActivity :
         // 功能配置
         mBinding.mtivDeviceCreateFunConfigure.onSelectedEvent = {
             startNext.launch(
-                if (DeviceCategory.isDrink(mViewModel.deviceCategoryCode))
+                if (DeviceCategory.isDrinking(mViewModel.deviceCategoryCode))
                     Intent(
                         this@DeviceCreateActivity,
                         DeviceDrinkingFunctionConfigurationActivity::class.java
@@ -200,20 +197,18 @@ class DeviceCreateActivity :
         mViewModel.createDeviceFunConfigure.observe(this) {
             it?.let { list ->
                 mBinding.llDeviceCreateSelectFunConfiguration.removeAllViews()
-                val mtb = DimensionUtils.dip2px(this@DeviceCreateActivity, 12f)
-                list.forEachIndexed { index, config ->
-                    val selectFuncConfigItem =
-                        LayoutInflater.from(this@DeviceCreateActivity)
-                            .inflate(
+                val inflater = LayoutInflater.from(this@DeviceCreateActivity)
+                if (DeviceCategory.isDrinking(mViewModel.deviceCategoryCode)) {
+                    buildDrinkingConfigureItemView(list, inflater)
+                } else {
+                    list.forEachIndexed { _, config ->
+                        val mFuncConfigBinding =
+                            DataBindingUtil.inflate<ItemSelectedDeviceFuncationConfigurationBinding>(
+                                inflater,
                                 R.layout.item_selected_device_funcation_configuration,
                                 null,
                                 false
                             )
-                    val mFuncConfigBinding =
-                        DataBindingUtil.bind<ItemSelectedDeviceFuncationConfigurationBinding>(
-                            selectFuncConfigItem
-                        )
-                    mFuncConfigBinding?.let {
                         mFuncConfigBinding.item = config
                         mFuncConfigBinding.isDryer =
                             DeviceCategory.isDryerOrHair(mViewModel.deviceCategoryCode)
@@ -226,9 +221,7 @@ class DeviceCreateActivity :
                             LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
-                            ).apply {
-                                setMargins(0, if (0 == index) mtb else 0, 0, mtb)
-                            }
+                            )
                         )
                     }
                 }
@@ -238,6 +231,90 @@ class DeviceCreateActivity :
         // 跳转
         mViewModel.jump.observe(this) {
             finish()
+        }
+    }
+
+    /**
+     * 构建饮水配置界面
+     */
+    private fun buildDrinkingConfigureItemView(
+        list: List<SkuFuncConfigurationParam>,
+        inflater: LayoutInflater,
+    ) {
+        list.firstOrNull()?.let { first ->
+            GsonUtils.json2Class(first.extAttr, ExtAttrDrinkBean::class.java)
+                ?.let { firstAttr ->
+                    // 计价界面
+                    DataBindingUtil.inflate<ItemSelectedDrinkDeviceFuncationConfigurationBinding>(
+                        inflater,
+                        R.layout.item_selected_drink_device_funcation_configuration,
+                        null,
+                        false
+                    ).let { binding ->
+                        binding.title =
+                            com.lsy.framelib.utils.StringUtils.getString(
+                                if (1 == firstAttr.priceCalculateMode) R.string.for_quantity
+                                else R.string.for_time
+                            ) + "计价"
+                        binding.content = "${
+                            com.lsy.framelib.utils.StringUtils.getString(R.string.over_time) +
+                                    com.lsy.framelib.utils.StringUtils.getString(
+                                        R.string.unit_minute_num_str,
+                                        firstAttr.overTime
+                                    )
+                        }\n${
+                            com.lsy.framelib.utils.StringUtils.getString(R.string.pause_time) +
+                                    com.lsy.framelib.utils.StringUtils.getString(
+                                        R.string.unit_minute_num_str,
+                                        firstAttr.pauseTime
+                                    )
+                        }${
+                            if (1 == firstAttr.priceCalculateMode) {
+                                "\n" + com.lsy.framelib.utils.StringUtils.getString(R.string.single_pulse_quantity) +
+                                        com.lsy.framelib.utils.StringUtils.getString(
+                                            R.string.unit_quantity_num_str,
+                                            firstAttr.singlePulseQuantity
+                                        )
+                            } else ""
+                        }"
+                        binding.soldState = 0
+                        mBinding.llDeviceCreateSelectFunConfiguration.addView(
+                            binding.root,
+                            LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                            )
+                        )
+                    }
+
+                    // 单价界面
+                    list.forEach { sku ->
+                        DataBindingUtil.inflate<ItemSelectedDrinkDeviceFuncationConfigurationBinding>(
+                            inflater,
+                            R.layout.item_selected_drink_device_funcation_configuration,
+                            null,
+                            false
+                        ).let { binding ->
+                            binding.title =
+                                sku.name + com.lsy.framelib.utils.StringUtils.getString(R.string.price)
+                            binding.content =
+                                "${
+                                    String.format(
+                                        "%.2f",
+                                        sku.price
+                                    )
+                                }${com.lsy.framelib.utils.StringUtils.getString(if (1 == firstAttr.priceCalculateMode) R.string.unit_water_quantity_price_hint else R.string.unit_water_time_price_hint)}"
+                            binding.soldState = sku.soldState
+                            mBinding.llDeviceCreateSelectFunConfiguration.addView(
+                                binding.root,
+                                LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                            )
+                        }
+                    }
+                }
         }
     }
 

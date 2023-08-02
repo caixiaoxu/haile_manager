@@ -95,7 +95,8 @@ class DeviceManagerViewModel : BaseViewModel() {
                     1 -> requestDeviceCategory()
                     4 -> requestDeviceStatusTotals()
                 }
-            })
+            }, showLoading = false
+        )
     }
 
     /**
@@ -192,12 +193,13 @@ class DeviceManagerViewModel : BaseViewModel() {
                 params["soldState"] = it.id
             }
 
-            ApiRepository.dealApiResult(
+            val deviceList = ApiRepository.dealApiResult(
                 mDeviceRepo.deviceList(params)
-            )?.let {
-                mDeviceCountStr.postValue(
-                    StringUtils.getString(R.string.device_num_hint, it.total),
-                )
+            )
+            mDeviceCountStr.postValue(
+                StringUtils.getString(R.string.device_num_hint, deviceList?.total ?: 0),
+            )
+            deviceList?.let {
                 withContext(Dispatchers.Main) {
                     result.invoke(it)
                 }

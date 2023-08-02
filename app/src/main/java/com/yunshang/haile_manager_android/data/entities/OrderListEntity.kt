@@ -1,5 +1,7 @@
 package com.yunshang.haile_manager_android.data.entities
 
+import com.google.gson.annotations.SerializedName
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.data.rule.ISearchSelectEntity
 
 /**
@@ -78,10 +80,18 @@ data class Sku(
     val discountPrice: String,
     val goodsCategoryCode: String,
     val goodsId: Int,
-    val goodsItemInfo: String,
+    @SerializedName("goodsItemInfo")
+    val _goodsItemInfo: String,
     val goodsName: String,
     val num: Int,
     val orderNo: String,
     val originPrice: String,
     val realPrice: String,
+) {
+    val goodsItemInfo: GoodsItemInfoEntity?
+        get() = GsonUtils.json2Class(_goodsItemInfo, GoodsItemInfoEntity::class.java)
+}
+
+data class GoodsItemInfoEntity(
+    val priceCalculateMode: Int,
 )

@@ -166,7 +166,7 @@
     <string name="update_device_name">修改设备名称</string>
     <string name="device_transfer">设备转移</string>
     <string name="device_appointment_setting">预约设置</string>
-    <string name="func_price">功能价格</string>
+    <string name="func_price">功能配置</string>
     <string name="func_price_item1">%1$s：%2$s元/%3$s分钟</string>
     <string name="func_price_item2">%1$s：%2$s元/%3$s分钟/%4$s个脉冲</string>
     <string name="device_base_info">设备基础信息</string>
@@ -236,6 +236,7 @@
     <string name="appointment_status">预约状态</string>
     <string name="appointment_setting">预约设置</string>
     <string name="copy_phone">复制手机号</string>
+    <string name="call_phone">拨打电话</string>
     <string name="copy_success">已复制到贴粘板</string>
     <string name="search_shop_hint">请输入门店名称</string>
     <string name="shop_delete_hint">是否确定要删除该门店么？</string>
@@ -568,4 +569,34 @@
         <item>周六</item>
         <item>周日</item>
     </string-array>
+
+    <string name="add_notice">添加公告</string>
+    <string name="notice_info">配置信息</string>
+    <string name="create_notice">添加公告</string>
+    <string name="edit_notice">编辑公告</string>
+    <string name="notice_detail">公告详情</string>
+    <string name="notice_template">公告模版</string>
+    <string name="notice_time">时间</string>
+    <string name="notice_showtime">展示时间</string>
+    <string name="notice_selectshop">选择门店</string>
+    <string name="notice_templname">公告名称：</string>
+    <string name="notice_end_message">确定手动结束该公告吗？</string>
+    <string name="notice_stop_success">停用成功</string>
+
+    <string name="device_unblanking">开锁</string>
+    <string name="device_voice">语音设置</string>
+    <string name="device_drain">排空</string>
+    <string name="devices_selfclean">自清洁</string>
+    <string name="devices_voicesetting">语音设置</string>
+    <string name="devices_temperaturesetting">温度限制</string>
+    <string name="temperature_information">温度信息</string>
+    <string name="liquid_state">液体状态</string>
+    <string name="association_device">关联设备信息</string>
+    <string name="device_wash_title">绑定洗衣\n/洗鞋机</string>
+    <string name="device_error">设备状态</string>
+    <string name="device_order">当前订单</string>
+    <string name="device_find_order">查看订单</string>
+    <string name="device_del_setting">删除配置</string>
+
+
 </resources>

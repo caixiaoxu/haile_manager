@@ -16,10 +16,13 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DeviceCreateViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
-import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
+import com.yunshang.haile_manager_android.data.common.DeviceCategory.Dispenser
+import com.yunshang.haile_manager_android.data.entities.DosingConfigs
+import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceCreateBinding
+import com.yunshang.haile_manager_android.databinding.ItemDeviceDetailDisposeMinBinding
 import com.yunshang.haile_manager_android.databinding.ItemSelectedDeviceFuncationConfigurationBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.CustomCaptureActivity
@@ -55,6 +58,15 @@ class DeviceCreateActivity :
         } ?: SToast.showToast(this, R.string.imei_code_error)
     }
 
+    // 洗衣机IMEI相机启动器
+    private val washimeiLauncher = registerForActivityResult(ScanContract()) { result ->
+        result.contents?.trim()?.let {
+            Timber.i("IMEI:$it")
+            if (StringUtils.isImeiCode(it)) mViewModel.washimeiCode.value = it
+            else SToast.showToast(this, R.string.imei_code_error1)
+        } ?: SToast.showToast(this, R.string.imei_code_error)
+    }
+
     private val scanOptions: ScanOptions by lazy {
         ScanOptions().apply {
             captureActivity = CustomCaptureActivity::class.java
@@ -70,8 +82,8 @@ class DeviceCreateActivity :
     private val startNext =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
-                SearchSelectTypeParam.ShopResultCode -> {
-                    result.data?.getStringExtra(SearchSelectTypeParam.ResultData)?.let { json ->
+                IntentParams.SearchSelectTypeParam.ShopResultCode -> {
+                    result.data?.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)?.let { json ->
                         GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
                             if (selected.isNotEmpty()) {
                                 mViewModel.createDeviceShop.value = selected[0]
@@ -88,9 +100,12 @@ class DeviceCreateActivity :
                             intent.getStringExtra(DeviceCategory.CategoryCode),
                             intent.getIntExtra(DeviceCategory.CommunicationType, -1)
                         )
+                        mViewModel.isDispenser.value =
+                            intent.getStringExtra(DeviceCategory.CategoryCode).equals(Dispenser)
+
                     }
                 }
-                IntentParams.DeviceFunctionConfigurationParams.ResultCode -> {
+                DeviceFunctionConfigurationActivity.ResultCode -> {
                     result.data?.let { intent ->
                         IntentParams.DeviceFunctionConfigurationParams.parseSkuFuncConfiguration(
                             intent
@@ -99,6 +114,18 @@ class DeviceCreateActivity :
                         }
                     }
                 }
+                DropperAddSettingActivity.ResultCode -> {
+                    result.data?.let { intent ->
+                        GsonUtils.json2List(
+                            intent.getStringExtra(
+                                DropperAddSettingActivity.ResultData
+                            ), SkuFuncConfigurationParam::class.java
+                        )?.let {
+                            mViewModel.createDeviceFunConfigure.value = it
+                        }
+                    }
+                }
+
             }
         }
 
@@ -119,6 +146,11 @@ class DeviceCreateActivity :
             imeiLauncher.launch(scanOptions)
         }
 
+        // 洗衣机IMEI
+        mBinding.mtivDeviceWashImei.onSelectedEvent = {
+            washimeiLauncher.launch(scanOptions)
+        }
+
         // 设备型号
         mBinding.mtivDeviceCreateModel.onSelectedEvent = {
             startNext.launch(
@@ -136,16 +168,34 @@ class DeviceCreateActivity :
                 this@DeviceCreateActivity,
                 SearchSelectRadioActivity::class.java
             ).apply {
-                putExtras(putExtras(SearchSelectTypeParam.pack(SearchSelectTypeParam.SearchSelectTypeShop)))
+                putExtras(putExtras(IntentParams.SearchSelectTypeParam.pack(IntentParams.SearchSelectTypeParam.SearchSelectTypeShop)))
             })
         }
 
         // 功能配置
         mBinding.mtivDeviceCreateFunConfigure.onSelectedEvent = {
-            startNext.launch(
-                Intent(
-                    this@DeviceCreateActivity,
-                    DeviceFunctionConfigurationActivity::class.java
+            if (mViewModel.isDispenser.value!!) {
+                startNext.launch(Intent(
+                    this@DeviceCreateActivity, DropperAddSettingActivity::class.java
+                ).apply {
+                    putExtra(
+                        DropperAddSettingActivity.SpuId,
+                        mViewModel.createAndUpdateEntity.value?.spuId
+                    )
+                    putExtra(
+                        DropperAddSettingActivity.Deviceid,
+                        mViewModel.createAndUpdateEntity.value?.id
+                    )
+                    mViewModel.createDeviceFunConfigure.value?.let { configs ->
+                        putExtra(
+                            DeviceFunctionConfigurationActivity.OldFuncConfiguration,
+                            GsonUtils.any2Json(configs)
+                        )
+                    }
+                })
+            } else {
+                startNext.launch(Intent(
+                    this@DeviceCreateActivity, DeviceFunctionConfigurationActivity::class.java
                 ).apply {
                     putExtras(
                         IntentParams.DeviceFunctionConfigurationParams.pack(
@@ -155,8 +205,8 @@ class DeviceCreateActivity :
                             oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
                         )
                     )
-                }
-            )
+                })
+            }
         }
     }
 
@@ -170,6 +220,10 @@ class DeviceCreateActivity :
         mViewModel.imeiCode.observe(this) {
             mViewModel.createAndUpdateEntity.value?.imei = it
             mViewModel.requestModelOfImei(it)
+        }
+        // 洗衣机IMEI
+        mViewModel.washimeiCode.observe(this) {
+            mViewModel.createAndUpdateEntity.value?.washerImei = it
         }
 
         //设备名称
@@ -187,35 +241,67 @@ class DeviceCreateActivity :
             it?.let { list ->
                 mBinding.llDeviceCreateSelectFunConfiguration.removeAllViews()
                 val mtb = DimensionUtils.dip2px(this@DeviceCreateActivity, 12f)
-                list.forEachIndexed { index, config ->
-                    val selectFuncConfigItem =
-                        LayoutInflater.from(this@DeviceCreateActivity)
-                            .inflate(
+                if (mViewModel.isDispenser.value!!) {
+                    var dosingconfigs = ArrayList<DosingConfigs>()
+                    list.forEach { it ->
+                        var disings = GsonUtils.json2List(it.extAttr, DosingConfigs::class.java)
+                        disings?.let { it1 -> dosingconfigs.addAll(it1) }
+                    }
+                    dosingconfigs.forEachIndexed { index, config ->
+                        val selectFuncConfigItem =
+                            LayoutInflater.from(this@DeviceCreateActivity).inflate(
+                                R.layout.item_device_detail_dispose_min, null, false
+                            )
+                        val mFuncConfigBinding =
+                            DataBindingUtil.bind<ItemDeviceDetailDisposeMinBinding>(
+                                selectFuncConfigItem
+                            )
+                        mFuncConfigBinding?.let {
+                            mFuncConfigBinding.item = config
+
+                            mFuncConfigBinding.tvTime.text =
+                                " 单次用量 ${config.amount}ml/${config.price}元"
+                            mFuncConfigBinding.tvState.text =
+                                if (config.isOn) "启用中" else "已停用"
+                            mFuncConfigBinding.tvState.setTextColor(Color.parseColor(if (config.isOn) "#F0A258" else "#999999"))
+
+                            mBinding.llDeviceCreateSelectFunConfiguration.addView(mFuncConfigBinding.root,
+                                LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                ).apply {
+                                    setMargins(0, if (0 == index) mtb else 0, 0, mtb)
+                                })
+                        }
+                    }
+                } else {
+                    list.forEachIndexed { index, config ->
+                        val selectFuncConfigItem =
+                            LayoutInflater.from(this@DeviceCreateActivity).inflate(
                                 R.layout.item_selected_device_funcation_configuration,
                                 null,
                                 false
                             )
-                    val mFuncConfigBinding =
-                        DataBindingUtil.bind<ItemSelectedDeviceFuncationConfigurationBinding>(
-                            selectFuncConfigItem
-                        )
-                    mFuncConfigBinding?.let {
-                        mFuncConfigBinding.item = config
-                        mFuncConfigBinding.isDryer =
-                            DeviceCategory.isDryerOrHair(mViewModel.deviceCategoryCode)
-                        mFuncConfigBinding.deviceCommunicationType =
-                            mViewModel.deviceCommunicationType
-                        mFuncConfigBinding.tvSelectFuncConfigurationFeature.visibility =
-                            if (DeviceCategory.isHair(mViewModel.deviceCategoryCode)) View.GONE else View.VISIBLE
-                        mBinding.llDeviceCreateSelectFunConfiguration.addView(
-                            mFuncConfigBinding.root,
-                            LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT
-                            ).apply {
-                                setMargins(0, if (0 == index) mtb else 0, 0, mtb)
-                            }
-                        )
+                        val mFuncConfigBinding =
+                            DataBindingUtil.bind<ItemSelectedDeviceFuncationConfigurationBinding>(
+                                selectFuncConfigItem
+                            )
+                        mFuncConfigBinding?.let {
+                            mFuncConfigBinding.item = config
+                            mFuncConfigBinding.isDryer =
+                                DeviceCategory.isDryerOrHair(mViewModel.deviceCategoryCode)
+                            mFuncConfigBinding.deviceCommunicationType =
+                                mViewModel.deviceCommunicationType
+                            mFuncConfigBinding.tvSelectFuncConfigurationFeature.visibility =
+                                if (DeviceCategory.isHair(mViewModel.deviceCategoryCode)) View.GONE else View.VISIBLE
+                            mBinding.llDeviceCreateSelectFunConfiguration.addView(mFuncConfigBinding.root,
+                                LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                ).apply {
+                                    setMargins(0, if (0 == index) mtb else 0, 0, mtb)
+                                })
+                        }
                     }
                 }
             }

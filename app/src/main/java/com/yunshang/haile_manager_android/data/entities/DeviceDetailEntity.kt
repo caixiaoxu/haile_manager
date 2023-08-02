@@ -4,6 +4,7 @@ import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
+import com.yunshang.haile_manager_android.data.common.DeviceCategory.Dispenser
 import com.yunshang.haile_manager_android.data.rule.ICommonBottomItemEntity
 
 /**
@@ -57,13 +58,92 @@ data class DeviceDetailEntity(
     var appointmentEnabled: Boolean?,
     val shopAppointmentEnabled: Boolean,
     val scanUrl: String,
-    val qrId: Long // 设备编号
-) {
+    val qrId: Long, // 设备编号
+    val deviceAttributeVo: DeviceAttributeVo,
+    val relatedGoodsDetailVo: RelatedGoodsDetailVo,
+    val dosingVOS: List<DosingVOS>,
+    val errorDeviceOrderId: Int,
+    val errorDeviceOrderNo: String,
+
+    ) {
     fun getReason() = "${deviceErrorMsg}${deviceErrorCode}"
 
     fun hasName(): Boolean = !name.isNullOrEmpty()
 
     fun getNameTitle(): String = StringUtils.getString(R.string.device_name)
+    fun getAssociationNameTitle(): String = StringUtils.getString(R.string.device_name)
+    fun getDeviceStateTitle(): String = StringUtils.getString(R.string.device_status)
+    fun getDeviceOrderTitle(): String = StringUtils.getString(R.string.device_order)
+    fun getAssociationTypeTitle(): String = StringUtils.getString(R.string.device_category)
+    fun getAssociationImeiTitle(): String = StringUtils.getString(R.string.imei)
+    fun showOrderNo(): Boolean = errorDeviceOrderNo.isNullOrEmpty()
+
+    fun getLaundryStateName(): String {
+        if (null == dosingVOS) return ""
+        dosingVOS.find { it.liquidType == 1 }.let {
+            return when (it?.liquidStatus) {
+                0 -> "正常"
+                1 -> "液量低"
+                2 -> "缺液"
+                else -> ""
+            }
+        }
+        return ""
+    }
+
+    fun getRemainingStateName(): String {
+        if (null == dosingVOS) return ""
+        dosingVOS.find { it.liquidType == 2 }.let {
+            return when (it?.liquidStatus) {
+                0 -> "正常"
+                1 -> "液量低"
+                2 -> "缺液"
+                else -> ""
+            }
+        }
+        return ""
+    }
+
+    fun showLaundryState(): Boolean {
+        if (null == dosingVOS) return false
+        dosingVOS.find { it.liquidType == 1 }.let {
+            return (it?.liquidStatus == 1 || it?.liquidStatus == 2)
+        }
+        return false
+    }
+
+    fun showRemainingState(): Boolean {
+        //0正常，1液量低，2缺液
+        if (null == dosingVOS) return false
+        dosingVOS.find { it.liquidType == 2 }.let {
+            return (it?.liquidStatus == 1 || it?.liquidStatus == 2)
+        }
+        return false
+    }
+
+    fun LaundryNumber(): String {
+        if (null == dosingVOS) return "0%"
+        dosingVOS.find { it.liquidType == 1 }.let {
+            return "${it?.liquidRemaining ?: 0}%"
+        }
+        return "0%"
+    }
+
+    fun RemainingNumber(): String {
+        if (null == dosingVOS) return "0%"
+        dosingVOS.find { it.liquidType == 2 }.let {
+            return "${it?.liquidRemaining ?: 0}%"
+        }
+        return "0%"
+    }
+
+    fun showRelated(): Boolean {
+        if (null == relatedGoodsDetailVo) return false
+        if (relatedGoodsDetailVo.dosingVOS.isNullOrEmpty()) return false
+        if (categoryCode == Dispenser) return false
+        return true
+    }
+
 
     fun hasQrId(): Boolean = 0 < id
 
@@ -105,6 +185,18 @@ data class DeviceDetailEntity(
     fun hasCreateTime(): Boolean = !createTime.isNullOrEmpty()
 
     fun getCreateTimeTitle(): String = StringUtils.getString(R.string.create_time)
+
+    /**
+     * 获取状态
+     * 10-空闲；20-工作中；30-故障；40-停用
+     */
+    fun getDeviceStatusValue(): String = when (workStatus) {
+        10 -> "空闲"
+        20 -> "运行中"
+        30 -> "故障"
+        40 -> "停用"
+        else -> ""
+    }
 }
 
 data class Item(
@@ -181,4 +273,44 @@ data class Item(
     }
 
     override fun getTitle(): String = name
+
 }
+
+data class DeviceAttributeVo(
+    val maxTemperature: Int,
+    val minTemperature: Int,
+    val nowTemperature: Int,
+    val preventDisturbStartTime: String,
+    val preventDisturbStopTime: String,
+    val preventDisturbSwitch: Boolean,
+    val temperatureSwitch: Boolean,
+    val voiceBroadcastStatus: Boolean,
+    val volume: Int,
+)
+
+data class RelatedGoodsDetailVo(
+    val imei: String,
+    val spuName: String,
+    val name: String,
+    val categoryName: String,
+    val categoryCode: String,
+    val dosingVOS: List<DosingVOS>,
+)
+
+data class DosingVOS(
+    val liquidRemaining: Int,
+    val liquidStatus: Int,
+    val liquidType: Int,
+    val configs: List<DosingConfigs>,
+)
+
+data class DosingConfigs(
+    val amount: Int,
+    val itemId: Int,
+    val liquidType: Int,
+    val liquidTypeId: Int,
+    val price: Double,
+    val name: String,
+    var isDefault: Boolean,
+    val isOn: Boolean,
+)

@@ -16,6 +16,7 @@ import com.yunshang.haile_manager_android.data.entities.MessageEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.discounts.DiscountsManagerActivity
+import com.yunshang.haile_manager_android.ui.activity.notice.NoticeManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.order.OrderManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.recharge.HaiXinRechargeConfigsActivity
 import com.yunshang.haile_manager_android.ui.activity.shop.ShopManagerActivity
@@ -96,17 +97,12 @@ class HomeViewModel : BaseViewModel() {
                     true,
                 )
             ),
-//            FunItem(
-//                StringUtils.getString(R.string.notice_manager),
-//                R.mipmap.icon_notice_manager,
-//                WebViewActivity::class.java,
-//                UserPermissionUtils.hasWorkOrderPermission(),
-//                IntentParams.WebViewParams.pack(
-//                    BuildConfig.H5_WORK_ORDER,
-////                    "http://192.168.3.32:5173/",//测试
-//                    true,
-//                )
-//            ),
+            FunItem(
+                StringUtils.getString(R.string.notice_manager),
+                R.mipmap.icon_notice_manager,
+                NoticeManagerActivity::class.java,
+                true
+            ),
         )
     )
 

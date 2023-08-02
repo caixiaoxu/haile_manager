@@ -33,6 +33,12 @@ class DeviceFunctionConfigurationActivity :
         DeviceFunctionConfigurationViewModel::class.java
     ) {
 
+    companion object {
+        const val ResultCode = 0x90003
+        const val OldFuncConfiguration = "oldFuncConfiguration"
+    }
+
+
     private val mAdapter by lazy {
         if (DeviceCategory.isDryerOrHair(mViewModel.categoryCode)) {
             val itemDryerHeight =

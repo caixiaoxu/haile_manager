@@ -3,15 +3,11 @@ package com.yunshang.haile_manager_android.ui.activity.message
 import android.graphics.Color
 import android.view.View
 import androidx.appcompat.widget.SwitchCompat
-import androidx.core.content.res.ResourcesCompat
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.MessageSettingViewModel
-import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.MessageSettingEntity
-import com.yunshang.haile_manager_android.data.entities.MessageSubTypeEntity
 import com.yunshang.haile_manager_android.databinding.ActivityMessageSettingBinding
 import com.yunshang.haile_manager_android.databinding.ItemMessageSettingBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity

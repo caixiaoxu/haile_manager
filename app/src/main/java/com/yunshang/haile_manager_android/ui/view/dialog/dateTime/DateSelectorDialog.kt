@@ -35,7 +35,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
     private val DATE_TIME_TAG = "date_time_tag"
     private lateinit var mBinding: DialogDateSelectorBinding
 
-    // 选择的日期类型，0开始，1结束
+    // 选择的日期类型，0开始，1结束,2结束可跨天
     private var selectType: Int = 0
 
     // 记录日期
@@ -98,6 +98,19 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
                     return@setOnClickListener
                 }
                 changeTimeSelectView(0)
+            } else if (2 == builder.selectModel) {
+                if (null == endCal) {
+                    SToast.showToast(msg = "请选择结束日期")
+                    return@setOnClickListener
+                }
+                if (0 == builder.showModel && -1 != builder.limitSpace && DateTimeUtils.calTwoDaySpaceAbs(
+                        startCal.time, endCal!!.time
+                    ) >= builder.limitSpace
+                ) {
+                    SToast.showToast(requireContext(), "日数据查询跨度最大不能超过31天")
+                    return@setOnClickListener
+                }
+                changeTimeSelectView(0)
             }
             builder.onDateSelectedListener?.onDateSelect(
                 builder.selectModel,
@@ -128,7 +141,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
         // 年
         initWheelView(
             mBinding.wvDateTimeYear,
-            (0 == builder.showModel || 1 == builder.showModel || 6 == builder.showModel || 7 == builder.showModel)
+            (0 == builder.showModel || 1 == builder.showModel || 6 == builder.showModel || 7 == builder.showModel || 8 == builder.showModel)
         ) { index ->
             getCurSelectCalender().set(Calendar.YEAR, builder.minDate.get(Calendar.YEAR) + index)
             refreshMonthData()
@@ -140,7 +153,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
         // 月
         initWheelView(
             mBinding.wvDateTimeMonth,
-            (0 == builder.showModel || 1 == builder.showModel || 2 == builder.showModel|| 7 == builder.showModel)
+            (0 == builder.showModel || 1 == builder.showModel || 2 == builder.showModel || 7 == builder.showModel || 8 == builder.showModel)
         ) { index ->
             getCurSelectCalender().set(Calendar.MONTH, index + monthInterval)
             refreshDayData()
@@ -151,7 +164,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
         // 日
         initWheelView(
             mBinding.wvDateTimeDay,
-            (0 == builder.showModel || 2 == builder.showModel)
+            (0 == builder.showModel || 2 == builder.showModel || 8 == builder.showModel)
         ) { index ->
             getCurSelectCalender().set(Calendar.DAY_OF_MONTH, 1 + index + dayInterval)
             if (0 != builder.selectModel) {
@@ -169,7 +182,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
         // 时
         initWheelView(
             mBinding.wvDateTimeHour,
-            (3 == builder.showModel || 4 == builder.showModel)
+            (3 == builder.showModel || 4 == builder.showModel || 8 == builder.showModel)
         ) { index ->
             getCurSelectCalender().set(Calendar.HOUR_OF_DAY, index)
             if (0 != builder.selectModel) {
@@ -179,7 +192,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
         // 分
         initWheelView(
             mBinding.wvDateTimeMinute,
-            (3 == builder.showModel || 4 == builder.showModel || 5 == builder.showModel)
+            (3 == builder.showModel || 4 == builder.showModel || 5 == builder.showModel || 8 == builder.showModel)
         ) { index ->
             getCurSelectCalender().set(Calendar.MINUTE, index)
             if (0 != builder.selectModel) {
@@ -271,6 +284,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
         3 -> "HH:mm:ss"
         4 -> "HH:mm"
         5 -> "mm:ss"
+        8 -> "yyyy-MM-dd HH:mm"
         else -> "yyyy-MM-dd"
     }
 
@@ -334,7 +348,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
      */
     private fun refreshAllWheelData() {
         // 年
-        if ((0 == builder.showModel || 1 == builder.showModel || 6 == builder.showModel || 7 == builder.showModel)) {
+        if ((0 == builder.showModel || 1 == builder.showModel || 6 == builder.showModel || 7 == builder.showModel || 8 == builder.showModel)) {
             refreshWheelData(
                 mBinding.wvDateTimeYear,
                 getCurSelectCalender().get(Calendar.YEAR) - builder.minDate.get(Calendar.YEAR),
@@ -347,7 +361,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
         // 月
         refreshMonthData()
         // 时
-        if ((3 == builder.showModel || 4 == builder.showModel)) {
+        if ((3 == builder.showModel || 4 == builder.showModel) || 8 == builder.showModel) {
             refreshWheelData(
                 mBinding.wvDateTimeHour,
                 getCurSelectCalender().get(Calendar.HOUR_OF_DAY),
@@ -355,7 +369,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
             )
         }
         // 分
-        if ((3 == builder.showModel || 4 == builder.showModel || 5 == builder.showModel)) {
+        if ((3 == builder.showModel || 4 == builder.showModel || 5 == builder.showModel) || 8 == builder.showModel) {
             refreshWheelData(
                 mBinding.wvDateTimeMinute,
                 getCurSelectCalender().get(Calendar.MINUTE),
@@ -376,7 +390,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
      * 刷新月份数据
      */
     private fun refreshMonthData() {
-        if ((0 == builder.showModel || 1 == builder.showModel || 2 == builder.showModel||7 == builder.showModel)) {
+        if ((0 == builder.showModel || 1 == builder.showModel || 2 == builder.showModel || 7 == builder.showModel) || 8 == builder.showModel) {
             refreshWheelData(
                 mBinding.wvDateTimeMonth,
                 getCurSelectCalender().get(Calendar.MONTH) - monthInterval,
@@ -479,7 +493,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
      * 刷新天份数据
      */
     private fun refreshDayData() {
-        if ((0 == builder.showModel || 2 == builder.showModel)) {
+        if ((0 == builder.showModel || 2 == builder.showModel) || 8 == builder.showModel) {
             refreshWheelData(
                 mBinding.wvDateTimeDay,
                 min(
@@ -563,7 +577,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
         // 0单选/1区间
         var selectModel: Int = 0
 
-        // 显示年月日，0年月日/1年月/2月日/3时分秒/4时分/5分秒/6年/7年月周
+        // 显示年月日，0年月日/1年月/2月日/3时分秒/4时分/5分秒/6年/7年月周/8年月日时分
         var showModel: Int = 0
 
         // 最小或最大时间

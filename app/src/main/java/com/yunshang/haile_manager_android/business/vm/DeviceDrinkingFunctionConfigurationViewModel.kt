@@ -135,7 +135,7 @@ class DeviceDrinkingFunctionConfigurationViewModel : BaseViewModel() {
         if (1 == drinkAttrConfigure.value?.priceCalculateMode?.value
             && (0.001 > drinkAttrConfigure.value!!._singlePulseQuantity || 50.0 < drinkAttrConfigure.value!!._singlePulseQuantity)
         ) {
-            SToast.showToast(msg = "单脉冲流量范围为0.001-50.0")
+            SToast.showToast(msg = "单脉冲流量范围为0.001-50.0ml")
             return
         }
         if (drinkAttrConfigure.value?.items.isNullOrEmpty()) return

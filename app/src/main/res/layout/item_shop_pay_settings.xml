@@ -5,12 +5,6 @@
 
     <data>
 
-        <import type="android.view.View" />
-
-        <variable
-            name="isAdd"
-            type="java.lang.Boolean" />
-
         <variable
             name="item"
             type="com.yunshang.haile_manager_android.data.entities.GoodsSetting" />
@@ -40,7 +34,6 @@
             android:id="@+id/area_shop_pay_settings_compel_use_starfish_open"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:visibility="@{isAdd?View.GONE:View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/area_shop_pay_settings_compel_no_pwd_pay_open"
             app:layout_constraintHorizontal_weight="1"

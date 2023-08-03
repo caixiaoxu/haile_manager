@@ -5,8 +5,6 @@
 
     <data>
 
-        <import type="android.view.View" />
-
         <variable
             name="vm"
             type="com.yunshang.haile_manager_android.business.vm.ShopPaySettingsViewModel" />
@@ -95,7 +93,6 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="@string/compel_use_starfish"
-                        android:visibility="@{null == vm.shopIds?View.GONE:View.VISIBLE}"
                         app:layout_constraintBottom_toBottomOf="@id/tv_shop_pay_settings_category_title"
                         app:layout_constraintEnd_toStartOf="@id/tv_shop_pay_settings_compel_no_pwd_pay_title"
                         app:layout_constraintHorizontal_weight="1"

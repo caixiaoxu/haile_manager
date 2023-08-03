@@ -44,7 +44,6 @@ class ShopPaySettingsActivity :
                     ), 1
                 ) { _, childBinding, data ->
                     childBinding.item = data
-                    childBinding.isAdd = null == mViewModel.shopIds
                 }
             }
         }

@@ -197,6 +197,12 @@
         <item name="android:background">@drawable/selector_26f0a258_ffffff</item>
     </style>
 
+    <style name="CustomSwitchStyle" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:thumb">@drawable/selector_default_switch_thumb</item>
+        <item name="track">@drawable/selector_default_switch_track</item>
+        <item name="android:background">@null</item>
+    </style>
+
     <style name="Font_10_333333">
         <item name="android:textSize">10sp</item>
         <item name="android:textColor">@color/common_txt_color</item>

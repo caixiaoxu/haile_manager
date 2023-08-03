@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="isAdd"
+            type="java.lang.Boolean" />
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.GoodsSetting" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@color/white"
+        tools:showIn="@layout/activity_shop_pay_settings">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_shop_pay_settings_category"
+            style="@style/Font_16_333333"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:text="@{item.goodsCategoryName}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/area_shop_pay_settings_compel_use_starfish_open"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/device_category" />
+
+        <View
+            android:id="@+id/area_shop_pay_settings_compel_use_starfish_open"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="@{isAdd?View.GONE:View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/area_shop_pay_settings_compel_no_pwd_pay_open"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/tv_shop_pay_settings_category"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/area_shop_pay_settings_compel_no_pwd_pay_open"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/area_shop_pay_settings_no_pwd_pay_open"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/area_shop_pay_settings_compel_use_starfish_open"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/area_shop_pay_settings_no_pwd_pay_open"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/area_shop_pay_settings_compel_no_pwd_pay_open"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_shop_pay_settings_compel_use_starfish_open"
+            style="@style/CustomSwitchStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@={item.checkTokenCoinForceUse}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/area_shop_pay_settings_compel_use_starfish_open"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="@id/area_shop_pay_settings_compel_use_starfish_open"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_shop_pay_settings_compel_no_pwd_pay_open"
+            style="@style/CustomSwitchStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@={item.checkNoPassForceUse}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/area_shop_pay_settings_compel_no_pwd_pay_open"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="@id/area_shop_pay_settings_compel_no_pwd_pay_open"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_shop_pay_settings_no_pwd_pay_open"
+            style="@style/CustomSwitchStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@={item.checkNoPassTipUse}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/area_shop_pay_settings_no_pwd_pay_open"
+            app:layout_constraintStart_toStartOf="@id/area_shop_pay_settings_no_pwd_pay_open"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

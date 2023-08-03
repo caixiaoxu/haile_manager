@@ -158,13 +158,59 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_pay_config_title"
+                    style="@style/ShopDetailTitleItemStyle"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white"
+                    android:drawableEnd="@drawable/icon_arrow_right_with_padding"
+                    android:text="@string/shop_pay_config"
+                    android:visibility="@{(null == vm.shopDetail.paymentSettings)?View.GONE:View.VISIBLE}"
+                    app:layout_constraintTop_toBottomOf="@id/ll_shop_detail_base_info" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_shop_detail_pay_config_info_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_top_stroke_dividing_mlr12"
+                    android:padding="12dp"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:divider="@drawable/divide_size8"
+                    app:layout_constraintTop_toBottomOf="@id/tv_shop_detail_pay_config_title"
+                    app:showDividers="middle">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_detail_pay_config_info_allow_refund"
+                        style="@style/Font_14_333333"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_sf7f7f7_r8"
+                        android:padding="12dp"
+                        android:text='@{@string/allow_starfish_refund +"：" + (1 == vm.shopDetail.paymentSettings.tokenCoinAllowRefund?@string/opened:@string/closed)}'
+                        tools:text="允许海星退款：已开启" />
+
+                    <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+                        android:id="@+id/ll_shop_detail_pay_config_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_sf7f7f7_r8"
+                        android:orientation="vertical"
+                        android:paddingVertical="12dp"
+                        android:visibility="@{vm.shopDetail.paymentSettings.showSettingList?View.VISIBLE:View.GONE}"
+                        app:divider="@drawable/divide_size12"
+                        app:itemLayout="@layout/item_shop_detail_pay_config"
+                        app:showDividers="middle" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_shop_detail_appointment_info_title"
                     style="@style/ShopDetailTitleItemStyle"
                     android:layout_width="match_parent"
                     android:layout_marginTop="8dp"
                     android:background="@color/white"
                     android:text="@string/appointment_status"
-                    app:layout_constraintTop_toBottomOf="@id/ll_shop_detail_base_info" />
+                    app:layout_constraintTop_toBottomOf="@id/ll_shop_detail_pay_config_info_parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_shop_detail_appointment_info_status"

@@ -38,7 +38,8 @@ data class ShopDetailEntity(
     val shopBusiness: String, // 店铺业务
     val businessName: List<ShopBusinessTypeEntity>,// 店铺业务名称
     val attribute: Int,// 店铺属性1联营店,0非联营
-    val appointSettingList: List<AppointSetting>,//预约开关
+    val appointSettingList: List<AppointSetting>?,//预约开关
+    val paymentSettings: ShopPaySettingsEntity? //
 ) {
     fun getRealAddress(): String = if (1 == shopType) area else address
     fun hasSchoolName(): Boolean = 0 != schoolId && !schoolName.isNullOrEmpty()

@@ -17,8 +17,10 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.ShopDetailViewModel
 import com.yunshang.haile_manager_android.data.entities.AppointSetting
+import com.yunshang.haile_manager_android.data.entities.GoodsSetting
 import com.yunshang.haile_manager_android.databinding.ActivityShopDetailBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopDetailAppointmentBinding
+import com.yunshang.haile_manager_android.databinding.ItemShopDetailPayConfigBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 
@@ -41,6 +43,20 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+
+        mBinding.tvShopDetailPayConfigTitle.setOnClickListener {
+            mViewModel.shopDetail.value?.paymentSettings?.let {
+                val show = View.VISIBLE == mBinding.llShopDetailPayConfigInfoParent.visibility
+                mBinding.llShopDetailPayConfigInfoParent.visibility =
+                    if (show) View.GONE else View.VISIBLE
+                mBinding.tvShopDetailPayConfigTitle.setCompoundDrawablesWithIntrinsicBounds(
+                    0,
+                    0,
+                    if (!show) R.drawable.icon_arrow_down_with_padding else R.drawable.icon_arrow_right_with_padding,
+                    0
+                )
+            }
+        }
 
         mBinding.tvShopDetailAppointmentInfoTitle.setOnClickListener {
             if (mViewModel.shopDetail.value?.appointSettingList.isNullOrEmpty()) return@setOnClickListener
@@ -125,8 +141,16 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
             mBinding.btnShopDetailDelete.visibility = if (it) View.VISIBLE else View.GONE
         }
 
-        // 刷新预约布局
         mViewModel.shopDetail.observe(this) {
+            // 刷新支付设置布局
+            mBinding.llShopDetailPayConfigInfo.buildChild<ItemShopDetailPayConfigBinding, GoodsSetting>(
+                it.paymentSettings?.goodsSettingList
+            ) { _, childBinding, data ->
+                val content = data.getOpenSettings()
+                childBinding.root.visibility = if (content.isEmpty()) View.GONE else View.VISIBLE
+                childBinding.content = data.goodsCategoryName + "：" + content
+            }
+            // 刷新预约布局
             if (null != it.appointSettingList) {
                 val noAllClose = it.appointSettingList.any { setting -> 0 != setting.appointSwitch }
                 mBinding.tvShopDetailAppointmentInfoStatus.setText(if (noAllClose) R.string.open else R.string.close)

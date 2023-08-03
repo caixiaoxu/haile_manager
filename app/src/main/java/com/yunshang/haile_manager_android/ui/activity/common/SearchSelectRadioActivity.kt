@@ -16,6 +16,7 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.SearchSelectRadioViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.rule.SearchSelectRadioEntity
@@ -23,6 +24,7 @@ import com.yunshang.haile_manager_android.databinding.ActivitySearchSelectRadioB
 import com.yunshang.haile_manager_android.databinding.ItemDepartmentMultiSelectBinding
 import com.yunshang.haile_manager_android.databinding.ItemDepartmentSelectBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.activity.shop.ShopPaySettingsActivity
 
 class SearchSelectRadioActivity :
     BaseBusinessActivity<ActivitySearchSelectRadioBinding, SearchSelectRadioViewModel>(
@@ -50,7 +52,20 @@ class SearchSelectRadioActivity :
                 mViewModel.selectList.value?.let { list ->
                     val selected = list.filter { select -> select.getCheck()?.value ?: false }
 
-                    if (SearchSelectTypeParam.SearchSelectTypeTakeChargeShop == mViewModel.searchSelectType.value
+                    if (SearchSelectTypeParam.SearchSelectTypePaySettingsShop == mViewModel.searchSelectType.value) {
+                        // 支付设置
+                        startActivity(Intent(
+                            this@SearchSelectRadioActivity,
+                            ShopPaySettingsActivity::class.java
+                        ).apply {
+                            putExtras(
+                                IntentParams.ShopPaySettingsParams.pack(selected.map { item ->
+                                    item.getSelectId()
+                                }.toIntArray())
+                            )
+                        })
+                        finish()
+                    } else if (SearchSelectTypeParam.SearchSelectTypeTakeChargeShop == mViewModel.searchSelectType.value
                         && -1 != mViewModel.staffId
                     ) {
                         mViewModel.updateStaffShop(

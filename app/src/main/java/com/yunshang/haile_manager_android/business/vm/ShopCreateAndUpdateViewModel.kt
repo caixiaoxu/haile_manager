@@ -10,7 +10,10 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.ShopService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.ShopCreateParam
-import com.yunshang.haile_manager_android.data.entities.*
+import com.yunshang.haile_manager_android.data.entities.SchoolSelectEntity
+import com.yunshang.haile_manager_android.data.entities.ShopBusinessTypeEntity
+import com.yunshang.haile_manager_android.data.entities.ShopDetailEntity
+import com.yunshang.haile_manager_android.data.entities.ShopTypeEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.StringUtils
 import kotlinx.coroutines.Dispatchers
@@ -67,11 +70,10 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
      * 初始化数据
      */
     fun requestData() {
-        launch(
-            {
-                shopTypeList.postValue(ApiRepository.dealApiResult(mRepo.shopTypeList()))
-                shopBusinessTypeList.postValue(ApiRepository.dealApiResult(mRepo.shopBusinessType()))
-            })
+        launch({
+            shopTypeList.postValue(ApiRepository.dealApiResult(mRepo.shopTypeList()))
+            shopBusinessTypeList.postValue(ApiRepository.dealApiResult(mRepo.shopBusinessType()))
+        })
     }
 
     /**
@@ -269,9 +271,9 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                     shopDetailEntity.id,
                     name = shopDetailEntity.name,
                     address = if (1 == shopDetailEntity.shopType) shopDetailEntity.area else shopDetailEntity.address,
-                    serviceTelephone = shopDetailEntity.serviceTelephone
+                    serviceTelephone = shopDetailEntity.serviceTelephone,
+                    _paymentSettings = shopDetailEntity.paymentSettings
                 )
-
 
             // 店铺类型
             changeShopType(ShopTypeEntity(shopDetailEntity.shopType, shopDetailEntity.shopTypeName))

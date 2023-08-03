@@ -7,7 +7,9 @@ import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.text.style.TypefaceSpan
+import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,10 +27,12 @@ import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.ShopEntity
 import com.yunshang.haile_manager_android.databinding.ActivityShopManagerBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopListBinding
+import com.yunshang.haile_manager_android.databinding.PopupShopOperateManagerBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
-import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivity
+import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
+import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.NumberUtils
@@ -48,18 +52,13 @@ class ShopManagerActivity :
      */
     private fun initRightBtn() {
         mBinding.shopTitleBar.getRightBtn(true).run {
-            setText(R.string.add_shop)
+            setText(R.string.operate_manager)
             setCompoundDrawablesRelativeWithIntrinsicBounds(
                 R.mipmap.icon_add, 0, 0, 0
             )
             compoundDrawablePadding = DimensionUtils.dip2px(this@ShopManagerActivity, 4f)
             setOnClickListener {
-                startActivity(
-                    Intent(
-                        this@ShopManagerActivity,
-                        ShopCreateAndUpdateActivity::class.java
-                    )
-                )
+                showDeviceOperateView()
             }
         }
     }
@@ -148,7 +147,7 @@ class ShopManagerActivity :
                 startActivity(
                     Intent(
                         this@ShopManagerActivity,
-                        DeviceManagerActivity::class.java
+                        ShopManagerActivity::class.java
                     ).apply {
                         putExtras(
                             IntentParams.DeviceManagerParams.pack(
@@ -187,6 +186,49 @@ class ShopManagerActivity :
                     }
                 }
             }
+    }
+
+    /**
+     * 显示店铺管理界面
+     */
+    private fun AppCompatTextView.showDeviceOperateView() {
+        val mPopupBinding =
+            PopupShopOperateManagerBinding.inflate(LayoutInflater.from(this@ShopManagerActivity))
+        val popupWindow = TranslucencePopupWindow(
+            mPopupBinding.root,
+            window,
+            DimensionUtils.dip2px(this@ShopManagerActivity, 110f)
+        )
+
+        mPopupBinding.tvShopOperateAdd.setOnClickListener {
+            popupWindow.dismiss()
+            startActivity(
+                Intent(
+                    this@ShopManagerActivity,
+                    ShopCreateAndUpdateActivity::class.java
+                )
+            )
+        }
+        mPopupBinding.tvShopOperatePaySetting.setOnClickListener {
+            popupWindow.dismiss()
+            startActivity(Intent(
+                this@ShopManagerActivity,
+                SearchSelectRadioActivity::class.java
+            ).apply {
+                putExtras(
+                    IntentParams.SearchSelectTypeParam.pack(
+                        IntentParams.SearchSelectTypeParam.SearchSelectTypePaySettingsShop,
+                        mustSelect = true,
+                        moreSelect = true
+                    )
+                )
+            })
+        }
+        popupWindow.showAsDropDown(
+            this,
+            -DimensionUtils.dip2px(this@ShopManagerActivity, 16f),
+            0
+        )
     }
 
     override fun initEvent() {

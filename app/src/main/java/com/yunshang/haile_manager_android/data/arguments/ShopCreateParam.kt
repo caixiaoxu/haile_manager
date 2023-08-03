@@ -1,5 +1,11 @@
 package com.yunshang.haile_manager_android.data.arguments
 
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import com.google.gson.annotations.SerializedName
+import com.yunshang.haile_manager_android.BR
+import com.yunshang.haile_manager_android.data.entities.ShopPaySettingsEntity
+
 /**
  * Title :
  * Author: Lsy
@@ -25,5 +31,16 @@ data class ShopCreateParam(
     var workTime: String = "",
     var serviceTelephone: String = "",
     var shopBusiness: String = "",
-    var schoolId: Int = -1
-)
+    var schoolId: Int = -1,
+    @SerializedName("paymentSettings")
+    var _paymentSettings: ShopPaySettingsEntity? = null
+) : BaseObservable() {
+
+    @get:Bindable
+    var paymentSettings: ShopPaySettingsEntity?
+        get() = _paymentSettings
+        set(value) {
+            _paymentSettings = value
+            notifyPropertyChanged(BR.paymentSettings)
+        }
+}

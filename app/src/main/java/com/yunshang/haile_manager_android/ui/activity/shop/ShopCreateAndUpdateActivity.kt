@@ -69,6 +69,14 @@ class ShopCreateAndUpdateActivity :
                         }
                     }
                 }
+                IntentParams.ShopPaySettingsParams.ResultCode -> {
+                    it.data?.let { intent ->
+                        IntentParams.ShopPaySettingsParams.parseShopPaySettings(intent)
+                            ?.let { settings ->
+                                mViewModel.createAndUpdateEntity.value?.paymentSettings = settings
+                            }
+                    }
+                }
             }
         }
 
@@ -198,6 +206,19 @@ class ShopCreateAndUpdateActivity :
                     }.build()
                 multiDialog.show(supportFragmentManager)
             }
+        }
+
+        mBinding.itemShopCreatePaySetting.onSelectedEvent = {
+            startSearchSelect.launch(
+                Intent(
+                    this@ShopCreateAndUpdateActivity,
+                    ShopPaySettingsActivity::class.java
+                ).apply {
+                    mViewModel.createAndUpdateEntity.value?.paymentSettings?.let { settings ->
+                        putExtras(IntentParams.ShopPaySettingsParams.pack(shopPaySettings = settings))
+                    }
+                }
+            )
         }
     }
 

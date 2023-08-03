@@ -3,10 +3,7 @@ package com.yunshang.haile_manager_android.data.arguments
 import android.content.Intent
 import android.os.Bundle
 import com.lsy.framelib.utils.gson.GsonUtils
-import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
-import com.yunshang.haile_manager_android.data.entities.MessageSubTypeEntity
-import com.yunshang.haile_manager_android.data.entities.RealNameAuthDetailEntity
-import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
+import com.yunshang.haile_manager_android.data.entities.*
 
 /**
  * Title :
@@ -120,6 +117,42 @@ object IntentParams {
         fun parseShopName(intent: Intent): String? = intent.getStringExtra(ShopName)
     }
 
+    object ShopPaySettingsParams {
+        private const val ShopIds = "shopIds"
+        private const val ShopPaySettings = "shopPaySettings"
+        const val ResultCode = 10003
+
+        /**
+         * 包装参数
+         */
+        fun pack(
+            shopIds: IntArray? = null,
+            shopPaySettings: ShopPaySettingsEntity? = null
+        ): Bundle =
+            Bundle().apply {
+                shopIds?.let {
+                    putIntArray(ShopIds, shopIds)
+                }
+                shopPaySettings?.let {
+                    putString(ShopPaySettings, GsonUtils.any2Json(shopPaySettings))
+                }
+            }
+
+        fun parseShopIds(intent: Intent): IntArray? = intent.getIntArrayExtra(ShopIds)
+
+        fun parseShopPaySettings(intent: Intent): ShopPaySettingsEntity? = GsonUtils.json2Class(
+            intent.getStringExtra(ShopPaySettings),
+            ShopPaySettingsEntity::class.java
+        )
+
+        /**
+         * 包装参数
+         */
+        fun packResult(shopPaySettings: ShopPaySettingsEntity): Bundle = Bundle().apply {
+            putString(ShopPaySettings, GsonUtils.any2Json(shopPaySettings))
+        }
+    }
+
     object SearchSelectTypeParam {
         const val SearchSelectType = "searchSelectType"
         const val StaffId = "staffId"
@@ -136,6 +169,7 @@ object IntentParams {
         const val SearchSelectTypeDeviceModel = 1
         const val SearchSelectTypeTakeChargeShop = 2
         const val SearchSelectTypeRechargeShop = 4
+        const val SearchSelectTypePaySettingsShop = 5
 
         fun pack(
             searchSelectType: Int? = null,
@@ -239,12 +273,13 @@ object IntentParams {
         /**
          * 包装参数
          */
-        fun pack(shop: SearchSelectParam? = null, categoryBigType: Int = -1): Bundle = Bundle().apply {
-            shop?.let {
-                putString(Shop, GsonUtils.any2Json(shop))
+        fun pack(shop: SearchSelectParam? = null, categoryBigType: Int = -1): Bundle =
+            Bundle().apply {
+                shop?.let {
+                    putString(Shop, GsonUtils.any2Json(shop))
+                }
+                putInt(CategoryBigType, categoryBigType)
             }
-            putInt(CategoryBigType, categoryBigType)
-        }
 
         fun parseShop(intent: Intent): SearchSelectParam? = GsonUtils.json2Class(
             intent.getStringExtra(Shop), SearchSelectParam::class.java

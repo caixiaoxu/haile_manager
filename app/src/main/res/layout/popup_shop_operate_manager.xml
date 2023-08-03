@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yunshang.haile_manager_android.ui.view.UpTriangleBackgroundLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="109dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_shop_operate_add"
+        style="@style/Font_14_333333"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:drawableStart="@mipmap/icon_device_operate_add"
+        android:drawablePadding="4dp"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:text="@string/add_shop" />
+
+    <View
+        style="@style/DividingStyle"
+        android:layout_marginHorizontal="12dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_shop_operate_pay_setting"
+        style="@style/Font_14_333333"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:drawableStart="@mipmap/icon_shop_operate_pay_setting"
+        android:drawablePadding="4dp"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:text="@string/shop_pay_setting" />
+</com.yunshang.haile_manager_android.ui.view.UpTriangleBackgroundLinearLayout>

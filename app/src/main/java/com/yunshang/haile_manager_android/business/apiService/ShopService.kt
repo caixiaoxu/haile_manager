@@ -98,4 +98,16 @@ interface ShopService {
      */
     @POST("/appoint/setting")
     suspend fun setShopAppointment(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 店铺支付设置模版
+     */
+    @POST("/pay/settingsTemplate")
+    suspend fun getShopPaySettingsTemplate(@Body body: RequestBody): ResponseWrapper<ShopPaySettingsEntity>
+
+    /**
+     * 绑定店铺支付设置
+     */
+    @POST("/pay/batchCreateSettings")
+    suspend fun batchShopPaySettings(@Body body: RequestBody): ResponseWrapper<Any>
 }

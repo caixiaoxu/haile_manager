@@ -41,7 +41,7 @@ class SearchSelectRadioViewModel : BaseViewModel() {
 
     val searchSelectTitle: LiveData<String> = searchSelectType.map {
         when (it) {
-            SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeRechargeShop -> StringUtils.getString(
+            SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeRechargeShop, SearchSelectTypeParam.SearchSelectTypePaySettingsShop -> StringUtils.getString(
                 R.string.department
             )
             SearchSelectTypeParam.SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model))
@@ -52,7 +52,7 @@ class SearchSelectRadioViewModel : BaseViewModel() {
 
     val searchSelectHint: LiveData<String> = searchSelectType.map {
         when (it) {
-            SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop, SearchSelectTypeParam.SearchSelectTypeRechargeShop -> StringUtils.getString(
+            SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop, SearchSelectTypeParam.SearchSelectTypeRechargeShop, SearchSelectTypeParam.SearchSelectTypePaySettingsShop -> StringUtils.getString(
                 R.string.shop_search_hint
             )
             SearchSelectTypeParam.SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model_search_hint))
@@ -62,7 +62,7 @@ class SearchSelectRadioViewModel : BaseViewModel() {
 
     val searchSelectListHint: LiveData<String> = searchSelectType.map {
         when (it) {
-            SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop, SearchSelectTypeParam.SearchSelectTypeRechargeShop -> StringUtils.getString(
+            SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop, SearchSelectTypeParam.SearchSelectTypeRechargeShop, SearchSelectTypeParam.SearchSelectTypePaySettingsShop -> StringUtils.getString(
                 R.string.shop_info
             )
             SearchSelectTypeParam.SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model))
@@ -106,7 +106,7 @@ class SearchSelectRadioViewModel : BaseViewModel() {
         launch({
             val list: MutableList<out SearchSelectRadioEntity> =
                 when (searchSelectType.value) {
-                    SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop -> ApiRepository.dealApiResult(
+                    SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop, SearchSelectTypeParam.SearchSelectTypePaySettingsShop -> ApiRepository.dealApiResult(
                         mShopRepo.shopSelectList(
                             ApiRepository.createRequestBody(
                                 hashMapOf(

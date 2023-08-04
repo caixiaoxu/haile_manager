@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.NoticeDetailViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F7F7F7"
+        android:orientation="vertical"
+        tools:context=".activity.NoticeDetailActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_notice_detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@color/white"
+            app:title="@string/notice_detail" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/ll_bottom"
+            android:layout_below="@+id/bar_notice_detail_title">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="83dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="#ffffff"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:layout_marginLeft="16dp"
+                        android:src="@mipmap/notice_state" />
+
+                    <TextView
+                        android:id="@+id/tv_notice_detail_state"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:text="@{vm.notice.notice_state()}"
+                        android:textColor="#ff333333"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="44dp"
+                        android:background="#ffffff"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="16dp"
+                        android:singleLine="true"
+                        android:text="@string/notice_templname"
+                        android:textColor="#ff333333"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_notice_detail_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:background="#ffffff"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:paddingRight="16dp"
+                        android:singleLine="true"
+                        android:text="@{vm.notice.templateName}"
+                        android:textColor="#ff333333"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="#ffffff"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:background="#ffffff"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:singleLine="true"
+                        android:text="公告内容"
+                        android:textColor="#ff333333"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:background="#F9F9F9" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="12dp"
+                        android:background="@drawable/shape_solid_f9f9f9_r8"
+                        android:padding="12dp">
+
+                        <WebView
+                            android:id="@+id/wb_notice_content"
+                            android:layout_width="match_parent"
+
+                            android:layout_height="wrap_content"
+                            android:layerType="software"
+                            android:scrollbars="none"
+                            tools:ignore="WebViewLayout" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="#ffffff"
+                    android:orientation="vertical"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp">
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:text="时间："
+                            android:textColor="#ff999999"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_notice_detail_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{vm.notice.time}"
+                            android:textColor="#ff333333"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp">
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:text="展示时间："
+                            android:textColor="#ff999999"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_notice_detail_showtime"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{vm.notice.showtime}"
+                            android:textColor="#ff333333"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp">
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:text="适用门店："
+                            android:textColor="#ff999999"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_notice_shopname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{vm.notice.shopnames}"
+                            android:textColor="#ff333333"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/ll_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:background="#ffffff"
+            android:gravity="right|center_vertical"
+            android:orientation="horizontal"
+            android:paddingRight="16dp"
+            android:visibility="@{vm.notice.isBottomShow?View.VISIBLE:View.GONE}">
+
+            <TextView
+                android:id="@+id/tv_notice_edit"
+                android:layout_width="62dp"
+                android:layout_height="36dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/shape_stroke_979797"
+                android:gravity="center"
+                android:text="编辑"
+                android:textColor="#ff333333"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_notice_end"
+                android:layout_width="62dp"
+                android:layout_height="36dp"
+                android:background="@drawable/shape_stroke_979797"
+                android:gravity="center"
+                android:text="结束"
+                android:textColor="#ff333333"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</layout>

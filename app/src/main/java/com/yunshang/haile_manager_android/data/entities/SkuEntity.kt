@@ -41,7 +41,8 @@ data class SkuEntity(
     val specValues: List<SpecValue>,
     var pulse: Int,
     val functionId: String,
-    val functionName: String
+    val functionName: String,
+    var dosingConfigs: List<DosingConfigs>
 ) {
     var unitValue: String?
         get() = unit.toString()
@@ -121,6 +122,21 @@ data class SkuEntity(
         feature,
         soldState,
         functionId
+    )
+
+    /**
+     * 封装成投放器请求的参数
+     */
+    fun getDispenserRequestParams() = SkuFuncConfigurationParam(
+        id,
+        name,
+        price,
+        pulse,
+        unit,
+        dosingConfigs?.let { list -> GsonUtils.any2Json(list) } ?: "",
+        feature,
+        soldState,
+        ""
     )
 
     /**

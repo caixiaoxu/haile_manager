@@ -45,6 +45,27 @@
             android:name=".ui.activity.shop.ShopPaySettingsActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.activity.device.DropperAllocationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.device.DropperAddSettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.device.DropperTemperatureActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.device.DropperVoiceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.notice.NoticeDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.notice.NoticeCreateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.notice.NoticeManagerActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.device.DeviceBatchStartActivity"
             android:exported="false" />
         <activity

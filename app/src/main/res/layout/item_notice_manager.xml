@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.NoticeEntity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_notice_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/tv_notice_state"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@{item.time}"
+                android:textColor="#ff999999"
+                android:textSize="13sp" />
+
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_arrow_right_with_padding" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_notice_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="22dp"
+                android:text="@{item.statename}"
+                android:textColor="@{item.statecolor}"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#EFEFEF" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_notice_title"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="@{item.templateName}"
+            android:textColor="#ff333333"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+</layout>

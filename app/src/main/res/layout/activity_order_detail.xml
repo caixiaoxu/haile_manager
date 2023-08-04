@@ -105,7 +105,7 @@
                         android:gravity="center_vertical"
                         android:paddingStart="16dp"
                         android:text="@{vm.orderDetail.buyerPhone}"
-                        app:layout_constraintEnd_toStartOf="@id/tv_order_detail_buyer_phone_copy"
+                        app:layout_constraintEnd_toStartOf="@id/tv_order_detail_buyer_phone_call"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="RtlSymmetry"
@@ -120,9 +120,22 @@
                         android:onClickListener="@{(v)->vm.copyToClipBroad(v,vm.orderDetail.buyerPhone)}"
                         android:paddingStart="10dp"
                         android:paddingEnd="16dp"
-                        android:text="@string/copy_phone"
+                        android:text="@string/copy"
                         app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_buyer_phone"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_order_detail_buyer_phone" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_order_detail_buyer_phone_call"
+                        style="@style/Font_14_f0a258"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="16dp"
+                        android:text="@string/call_phone"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_buyer_phone"
+                        app:layout_constraintEnd_toStartOf="@id/tv_order_detail_buyer_phone_copy"
                         app:layout_constraintTop_toTopOf="@id/tv_order_detail_buyer_phone" />
 
                     <View
@@ -162,7 +175,7 @@
                         android:onClickListener="@{(v)->vm.copyToClipBroad(v,vm.orderDetail.orderNo)}"
                         android:paddingStart="10dp"
                         android:paddingEnd="16dp"
-                        android:text="@string/copy_order_no"
+                        android:text="@string/copy"
                         app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_order_no"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tv_order_detail_order_no" />

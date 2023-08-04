@@ -22,6 +22,7 @@ data class DeviceCreateParam(
     var imei: String = "'",//	IMEI
     var code: String = "",//付款码
     var extAttr: String = "",//	附加属性
+    var washerImei: String = "",//	洗衣机imei
     var soldState: Int = -1,//售卖状态。1上架，2下架
     var items: List<SkuFuncConfigurationParam> = arrayListOf(),//	功能列表
     @Transient
@@ -42,6 +43,7 @@ data class DeviceCreateParam(
                 "code" to code,
                 "extAttr" to extAttr,
                 "items" to items,
+                "washerImei" to washerImei,
             )
         )
 

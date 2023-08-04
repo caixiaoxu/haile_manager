@@ -50,6 +50,17 @@ class DeviceStartActivity :
                                 ext.minutes
                             }
                         DeviceConfigSelectParams(item.id, item.name, times ?: arrayListOf())
+                    } else if (DeviceCategory.isDispenser(mViewModel.categoryCode)) {
+                        DeviceConfigSelectParams(
+                            item.id,
+                            "${item.name}  ${item.unit}ml ${item.price}元",
+                            try {
+                                arrayListOf(item.unit.toInt())
+                            } catch (e: NumberFormatException) {
+                                e.printStackTrace()
+                                arrayListOf()
+                            }
+                        )
                     } else {
                         DeviceConfigSelectParams(
                             item.id,
@@ -100,7 +111,7 @@ class DeviceStartActivity :
             }
         }
 
-        mViewModel.jump.observe(this){
+        mViewModel.jump.observe(this) {
             finish()
         }
     }

@@ -11,6 +11,8 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
@@ -24,12 +26,18 @@ import com.yunshang.haile_manager_android.business.vm.DeviceDetailModel
 import com.yunshang.haile_manager_android.business.vm.DeviceMultiChangeViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
-import com.yunshang.haile_manager_android.data.entities.ExtAttrDrinkBean
+import com.yunshang.haile_manager_android.data.entities.DosingConfigs
 import com.yunshang.haile_manager_android.data.entities.Item
+import com.yunshang.haile_manager_android.data.entities.ExtAttrDrinkBean
+import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceDetailBinding
+import com.yunshang.haile_manager_android.databinding.ItemDeviceDetailDisposeMinBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceDetailFuncPriceBinding
 import com.yunshang.haile_manager_android.databinding.ItemSelectedDrinkDeviceFuncationConfigurationBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.activity.common.CustomCaptureActivity
+import com.yunshang.haile_manager_android.ui.activity.device.DropperAddSettingActivity.Companion.OldFuncConfiguration
+import com.yunshang.haile_manager_android.ui.activity.order.OrderDetailActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 
@@ -137,36 +145,101 @@ class DeviceDetailActivity :
                     .forEach { item ->
                         item.show.value = false
                     }
+            } else if (DeviceCategory.isDispenser(detail.categoryCode)) {// 投放器不显示部分icon
+                mViewModel.deviceDetailFunOperate.forEach { item ->
+                    if (item.icon == R.mipmap.icon_device_self_clean || item.icon == R.mipmap.icon_device_change_model || item.icon == R.mipmap.icon_device_change_pay_code || item.icon == R.mipmap.icon_device_create_pay_code || item.icon == R.mipmap.icon_device_device_appointment_setting) {
+                        item.show.value = false
+                    }
+                }
+            } else {
+                mViewModel.deviceDetailFunOperate.forEach { item ->
+                    if (item.icon == R.mipmap.icon_device_device_selfclean || item.icon == R.mipmap.icon_device_device_drain || item.icon == R.mipmap.icon_device_device_voice || item.icon == R.mipmap.icon_device_device_unblanking) {
+                        item.show.value = false
+                    }
+                }
             }
 
             mBinding.llDeviceDetailFuncPrice.removeAllViews()
             val inflater = LayoutInflater.from(this@DeviceDetailActivity)
-            detail?.items?.let { items ->
-                if (DeviceCategory.isDrinking(detail.categoryCode)) {
-                    buildDrinkingConfigureItemView(items, inflater)
-                } else {
-                    items.forEachIndexed { _, item ->
-                        val itemBinding = DataBindingUtil.inflate<ItemDeviceDetailFuncPriceBinding>(
-                            inflater,
-                            R.layout.item_device_detail_func_price,
-                            null,
-                            false
+            if (mViewModel.isDispenser(detail.categoryCode)) {
+                var dosingconfigs = ArrayList<DosingConfigs>()
+                detail?.dosingVOS?.forEach {
+                    dosingconfigs.addAll(it.configs)
+                }
+                dosingconfigs.forEachIndexed { index, item ->
+                    val itemBinding = DataBindingUtil.inflate<ItemDeviceDetailDisposeMinBinding>(
+                        inflater,
+                        R.layout.item_device_detail_dispose_min,
+                        null,
+                        false
+                    )
+                    itemBinding.item = item
+                    mBinding.llDeviceDetailFuncPrice.addView(
+                        itemBinding.root,
+                        LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
                         )
+                    )
+                    itemBinding.tvTime.text = " 单次用量 ${item.amount}ml/${item.price}元"
+                    itemBinding.tvState.text = if (item.isOn) "启用中" else "已停用"
+                    itemBinding.tvState.setTextColor(Color.parseColor(if (item.isOn) "#F0A258" else "#999999"))
+                }
+            } else if (DeviceCategory.isDrinking(detail.categoryCode)) {
+                buildDrinkingConfigureItemView(items, inflater)
+            } else {
+                detail?.items?.forEachIndexed { index, item ->
+                    val itemBinding = DataBindingUtil.inflate<ItemDeviceDetailFuncPriceBinding>(
+                        inflater,
+                        R.layout.item_device_detail_func_price,
+                        null,
+                        false
+                    )
+                    itemBinding.item = item
+                    itemBinding.isDryer = DeviceCategory.isDryerOrHair(detail.categoryCode)
+                    itemBinding.deviceCommunicationType = detail.communicationType
+                    itemBinding.tvFunPriceDesc.visibility =
+                        if (DeviceCategory.isHair(detail.categoryCode)) View.GONE else View.VISIBLE
+                    mBinding.llDeviceDetailFuncPrice.addView(
+                        itemBinding.root,
+                        LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                        )
+                    )
+                }
+            }
+
+            mBinding.llDeviceDetailFuncRelated.removeAllViews()
+            if (mViewModel.deviceDetail.value?.showRelated()!!) {
+                var dosingconfigs = ArrayList<DosingConfigs>()
+                detail?.relatedGoodsDetailVo?.dosingVOS?.forEach {
+                    dosingconfigs.addAll(it.configs)
+                }
+                dosingconfigs.forEachIndexed { index, item ->
+                    val itemBinding = LayoutInflater.from(this@DeviceDetailActivity)
+                        .inflate(R.layout.item_device_detail_dispose_min, null, false).let { view ->
+                            DataBindingUtil.bind<ItemDeviceDetailDisposeMinBinding>(view)
+                        }
+                    itemBinding?.let {
                         itemBinding.item = item
-                        itemBinding.isDryer = DeviceCategory.isDryerOrHair(detail.categoryCode)
-                        itemBinding.deviceCommunicationType =
-                            detail.communicationType
-                        itemBinding.tvFunPriceDesc.visibility =
-                            if (DeviceCategory.isHair(detail.categoryCode)) View.GONE else View.VISIBLE
-                        mBinding.llDeviceDetailFuncPrice.addView(
-                            itemBinding.root, LinearLayout.LayoutParams(
+                        mBinding.llDeviceDetailFuncRelated.addView(itemBinding.root,
+                            LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
-                            )
-                        )
+                            ).apply {
+                                setMargins(0, if (0 == index) mTB else 0, 0, mTB)
+                            })
+                        itemBinding.tvTime.text = " 单次用量 ${item.amount}ml/${item.price}元"
+                        itemBinding.tvState.text = if (item.isOn) "启用中" else "已停用"
+                        itemBinding.tvState.setTextColor(Color.parseColor(if (item.isOn) "#F0A258" else "#999999"))
                     }
                 }
             }
+
+            mViewModel.categoryCode.value = detail.categoryCode
+            mBinding.tvLaundryTemperature.text =
+                "${detail.deviceAttributeVo?.nowTemperature ?: 0}°C"
         }
 
         // 是否有高级参数设置
@@ -181,23 +254,56 @@ class DeviceDetailActivity :
                 0 -> finish()
                 // 修改功能价格
                 1 -> {
-                    mViewModel.deviceDetail.value?.let { detail ->
-                        startActivity(
-                            if (DeviceCategory.isDrinking(detail.categoryCode))
-                                Intent(
-                                    this@DeviceDetailActivity,
-                                    DeviceDrinkingFunctionConfigurationActivity::class.java
-                                ).apply {
-                                    putExtras(
-                                        IntentParams.DeviceFunctionConfigurationParams.pack(
-                                            goodId = mViewModel.goodsId,
-                                            spuId = detail.spuId,
-                                            categoryCode = detail.categoryCode,
-                                            oldFuncConfiguration = detail.items.mapNotNull { item -> item.changeConfigurationParam() }
+                    if (mViewModel.isDispenser(mViewModel.categoryCode.value)) {
+                        mViewModel.deviceDetail.value?.let { detail ->
+                            startActivity(Intent(
+                                this@DeviceDetailActivity,
+                                DropperAddSettingActivity::class.java
+                            ).apply {
+                                putExtra(
+                                    DropperAddSettingActivity.SpuId,
+                                    detail.spuId
+                                )
+                                putExtra(
+                                    DropperAddSettingActivity.Deviceid,
+                                    detail.id
+                                )
+                                putExtra(
+                                    OldFuncConfiguration,
+                                    GsonUtils.any2Json(detail.items.map { item ->
+                                        SkuFuncConfigurationParam(
+                                            item.skuId,
+                                            item.name,
+                                            item.price.toDouble(),
+                                            (if (item.pulse.isNullOrEmpty()) 0 else item.pulse.toInt()),
+                                            item.unit.toInt(),
+                                            item.extAttr,
+                                            item.feature,
+                                            item.soldState,
+                                            ""
                                         )
-                                    )
-                                }
-                            else
+                                    })
+                                )
+
+                            })
+                        }
+                    } else if (DeviceCategory.isDrinking(detail.categoryCode)) {
+                        startActivity(Intent(
+                            this@DeviceDetailActivity,
+                            DeviceDrinkingFunctionConfigurationActivity::class.java
+                        ).apply {
+                            putExtras(
+                                IntentParams.DeviceFunctionConfigurationParams.pack(
+                                    goodId = mViewModel.goodsId,
+                                    spuId = detail.spuId,
+                                    categoryCode = detail.categoryCode,
+                                    oldFuncConfiguration = detail.items.mapNotNull { item -> item.changeConfigurationParam() }
+                                )
+                            )
+                        })
+                    } else {
+                        mViewModel.deviceDetail.value?.let { detail ->
+                            startActivity(
                                 Intent(
                                     this@DeviceDetailActivity,
                                     DeviceFunctionConfigurationActivity::class.java
@@ -212,7 +318,8 @@ class DeviceDetailActivity :
                                         )
                                     )
                                 }
-                        )
+                            )
+                        }
                     }
                 }
                 // 启动
@@ -224,7 +331,37 @@ class DeviceDetailActivity :
                         ).apply {
                             putExtra(DeviceStartActivity.Imei, detail.imei)
                             putExtra(DeviceCategory.CategoryCode, detail.categoryCode)
-                            putExtra(DeviceStartActivity.Items, GsonUtils.any2Json(detail.items))
+                            if (DeviceCategory.isDispenser(mViewModel.categoryCode.value)) {
+                                var newitems = ArrayList<Item>()
+                                detail.items.forEach { it ->
+                                    GsonUtils.json2List(it.extAttr, DosingConfigs::class.java)
+                                        ?.let { dosing ->
+                                            dosing.forEach { itemdos ->
+                                                var item = Item(
+                                                    it.id,
+                                                    it.skuId,
+                                                    it.name,
+                                                    itemdos.price.toString(),
+                                                    it.pulse,
+                                                    itemdos.amount.toString(),
+                                                    GsonUtils.any2Json(itemdos),
+                                                    it.feature,
+                                                    it.soldState
+                                                )
+                                                newitems.add(item)
+                                            }
+                                        }
+                                    putExtra(
+                                        DeviceStartActivity.Items,
+                                        GsonUtils.any2Json(newitems)
+                                    )
+                                }
+                            } else {
+                                putExtra(
+                                    DeviceStartActivity.Items,
+                                    GsonUtils.any2Json(detail.items)
+                                )
+                            }
                         })
                 }
                 // 更换模块
@@ -328,8 +465,42 @@ class DeviceDetailActivity :
                         mViewModel.deviceOperate(0)
                     }
                 }
-                // 解锁
                 9 -> mViewModel.deviceDetail.value?.let { detail ->
+                    mViewModel.deviceOpenCap(detail.imei)
+                }
+                10 -> mViewModel.deviceDetail.value?.let { detail ->
+                    //语音设置
+                    startNext.launch(Intent(
+                        this@DeviceDetailActivity, DropperVoiceActivity::class.java
+                    ).apply {
+                        putExtra(DropperVoiceActivity.Deviceimei, detail.imei)
+                        putExtra("process", detail.deviceAttributeVo.volume)
+                        putExtra(
+                            "preventDisturbSwitch",
+                            detail.deviceAttributeVo.preventDisturbSwitch
+                        )
+                        putExtra(
+                            "voiceBroadcastStatus",
+                            detail.deviceAttributeVo.voiceBroadcastStatus
+                        )
+                        putExtra(
+                            "preventDisturbStartTime",
+                            detail.deviceAttributeVo.preventDisturbStartTime
+                        )
+                        putExtra(
+                            "preventDisturbEndTime",
+                            detail.deviceAttributeVo.preventDisturbStopTime
+                        )
+                    })
+                }
+                11 -> mViewModel.deviceDetail.value?.let { detail ->
+                    mViewModel.deviceSetting(20, detail.imei)
+                }
+                12 -> mViewModel.deviceDetail.value?.let { detail ->
+                    mViewModel.deviceSetting(30, detail.imei)
+                }
+                // 解锁
+                13 -> mViewModel.deviceDetail.value?.let { detail ->
                     detail.items.firstOrNull()?.let { first ->
                         mViewModel.startDrinkingDevice(
                             first.id,
@@ -340,6 +511,7 @@ class DeviceDetailActivity :
                         }
                     }
                 }
+
             }
         }
 
@@ -386,9 +558,49 @@ class DeviceDetailActivity :
                 setPositiveButton(StringUtils.getString(R.string.delete)) {
                     mViewModel.deviceDelete()
                 }
-            }.build()
-                .show(supportFragmentManager)
+            }.build().show(supportFragmentManager)
         }
+
+        mBinding.tvTemperatureLimit.setOnClickListener {
+            startActivity(Intent(
+                this@DeviceDetailActivity, DropperTemperatureActivity::class.java
+            ).apply {
+                putExtra(
+                    "max", "${mViewModel.deviceDetail.value?.deviceAttributeVo?.maxTemperature}"
+
+                )
+                putExtra(
+                    "min", "${mViewModel.deviceDetail.value?.deviceAttributeVo?.minTemperature}"
+                )
+                putExtra(
+                    "imei", "${mViewModel.deviceDetail.value?.imei}"
+                )
+                putExtra(
+                    "temperatureSwitch",
+                    mViewModel.deviceDetail.value?.deviceAttributeVo?.temperatureSwitch
+                )
+            })
+
+        }
+
+        mBinding.tvOpencap1.setOnClickListener {
+            activate1Launcher.launch(scanOptions)
+        }
+        mBinding.tvOpencap2.setOnClickListener {
+            activate2Launcher.launch(scanOptions)
+        }
+        mBinding.includeError.tvBaseInfoContentFind.setOnClickListener {
+            startActivity(Intent(
+                this@DeviceDetailActivity, OrderDetailActivity::class.java
+            ).apply {
+                putExtras(
+                    IntentParams.OrderDetailParams.pack(
+                        mViewModel.deviceDetail.value!!.errorDeviceOrderId
+                    )
+                )
+            })
+        }
+
     }
 
     /**
@@ -475,4 +687,29 @@ class DeviceDetailActivity :
 
         mViewModel.requestData()
     }
+
+    // 扫描投放器液体核销码
+    private val activate1Launcher = registerForActivityResult(ScanContract()) { result ->
+        result.contents?.trim()?.let {
+            mViewModel.deviceActivate(1, it)
+        }
+    }
+    private val activate2Launcher = registerForActivityResult(ScanContract()) { result ->
+        result.contents?.trim()?.let {
+            mViewModel.deviceActivate(2, it)
+        }
+    }
+
+    private val scanOptions: ScanOptions by lazy {
+        ScanOptions().apply {
+            captureActivity = CustomCaptureActivity::class.java
+//            setDesiredBarcodeFormats(ScanOptions.ONE_D_CODE_TYPES)// 扫码的类型,一维码，二维码，一/二维码，默认为一/二维码
+            setPrompt("请对准二维码")//提示语
+            setOrientationLocked(true)
+            setCameraId(0) // 选择摄像头
+            setBeepEnabled(true) // 开启声音
+        }
+    }
+
+
 }

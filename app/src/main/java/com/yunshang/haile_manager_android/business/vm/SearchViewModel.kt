@@ -92,7 +92,8 @@ class SearchViewModel : BaseViewModel() {
                     "page" to page,
                     "pageSize" to pageSize,
                     "workStatus" to "",
-                    "keywords" to (searchKey.value?.trim() ?: "")
+                    "keywords" to (searchKey.value?.trim() ?: ""),
+                    "searchFlag" to true
                 )
             )
         )

@@ -83,6 +83,7 @@ class DeviceModelActivity :
                                     mViewModel.selectCategory.value?.code
                                 )
                                 putExtra(DeviceCategory.CommunicationType, spu.communicationType)
+                                putExtra(DeviceCategory.IgnorePayCodeFlag, spu.getIgnorePayCodeFlag())
                             })
                             finish()
                         }

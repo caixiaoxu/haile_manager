@@ -19,6 +19,7 @@ object DeviceCategory {
     const val CategoryId = "categoryId"
     const val CategoryCode = "categoryCode"
     const val CommunicationType = "communicationType"
+    const val IgnorePayCodeFlag = "ignorePayCodeFlag"
 
     // 洗衣机
     const val Washing = "00"

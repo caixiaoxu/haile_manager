@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.SoftKeyboardUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -29,6 +30,8 @@ import com.yunshang.haile_manager_android.ui.activity.shop.ShopDetailActivity
 import com.yunshang.haile_manager_android.ui.activity.subAccount.SubAccountManagerActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonLoadMoreRecyclerView
+import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 
 class SearchActivity :
     BaseBusinessActivity<ActivitySearchBinding, SearchViewModel>(
@@ -45,7 +48,7 @@ class SearchActivity :
             mBinding?.root?.setOnClickListener {
 
                 when (mViewModel.searchType) {
-                    SearchType.Device -> if (true == mSharedViewModel.hasDeviceInfoPermission.value) {
+                    SearchType.Device -> if (UserPermissionUtils.hasDeviceInfoPermission()) {
                         startActivity(
                             Intent(
                                 this@SearchActivity,
@@ -55,7 +58,7 @@ class SearchActivity :
                             }
                         )
                     }
-                    SearchType.Shop -> if (true == mSharedViewModel.hasShopInfoPermission.value) {
+                    SearchType.Shop -> if (UserPermissionUtils.hasShopInfoPermission()) {
                         startActivity(
                             Intent(
                                 this@SearchActivity,
@@ -65,7 +68,7 @@ class SearchActivity :
                             }
                         )
                     }
-                    SearchType.Order, SearchType.AppointOrder -> if (true == mSharedViewModel.hasOrderInfoPermission.value) {
+                    SearchType.Order, SearchType.AppointOrder -> if (UserPermissionUtils.hasOrderInfoPermission()) {
                         startActivity(
                             Intent(
                                 this@SearchActivity,
@@ -97,6 +100,11 @@ class SearchActivity :
     override fun initView() {
         mBinding.ibSearchBack.setOnClickListener {
             onBackListener()
+        }
+        mBinding.etSearchKey.onTextChange = {
+            if (SearchType.Device == mViewModel.searchType) {
+                search(true)
+            }
         }
         mBinding.tvSearchSearch.setOnClickListener {
             search()
@@ -139,45 +147,45 @@ class SearchActivity :
                         pageSize: Int,
                         callBack: (responseList: MutableList<out ISearchSelectEntity>?) -> Unit
                     ) {
-                        if (true == mSharedViewModel.hasShopListPermission.value) {
+                        if (UserPermissionUtils.hasShopListPermission()) {
                             mViewModel.searchList(page, pageSize, result1 = callBack)
                         }
                     }
                 }
         } else {
-//            mBinding.rvSearchList2.enableRefresh = false
-//            mBinding.rvSearchList2.layoutManager = LinearLayoutManager(this)
-//            if (SearchType.Device == mViewModel.searchType) {
-//                mBinding.rvSearchList2.listStatusImgResId = R.mipmap.icon_list_device_empty
-//                mBinding.rvSearchList2.listStatusTxtResId = R.string.empty_device
-//            }
-//            mBinding.rvSearchList2.adapter = mAdapter
-//            mBinding.rvSearchList2.requestData =
-//                object : CommonRefreshRecyclerView.OnRequestDataListener<ISearchSelectEntity>() {
-//                    override fun requestData(
-//                        isRefresh: Boolean,
-//                        page: Int,
-//                        pageSize: Int,
-//                        callBack: (responseList: ResponseList<out ISearchSelectEntity>?) -> Unit
-//                    ) {
-//                        if ((SearchType.Device == mViewModel.searchType
-//                                    && true == mSharedViewModel.hasDeviceListPermission.value)
-//                            || (SearchType.Order == mViewModel.searchType
-//                                    && true == mSharedViewModel.hasOrderListPermission.value)
-//                            || SearchType.AppointOrder == mViewModel.searchType
-//                        ) {
-//                            mViewModel.searchList(page, pageSize, result2 = callBack)
-//                        }
-//                    }
-//                }
+            mBinding.rvSearchList2.enableRefresh = false
+            mBinding.rvSearchList2.layoutManager = LinearLayoutManager(this)
+            if (SearchType.Device == mViewModel.searchType) {
+                mBinding.rvSearchList2.listStatusImgResId = R.mipmap.icon_list_device_empty
+                mBinding.rvSearchList2.listStatusTxtResId = R.string.empty_device
+            }
+            mBinding.rvSearchList2.adapter = mAdapter
+            mBinding.rvSearchList2.requestData =
+                object : CommonRefreshRecyclerView.OnRequestDataListener<ISearchSelectEntity>() {
+                    override fun requestData(
+                        isRefresh: Boolean,
+                        page: Int,
+                        pageSize: Int,
+                        callBack: (responseList: ResponseList<out ISearchSelectEntity>?) -> Unit
+                    ) {
+                        if ((SearchType.Device == mViewModel.searchType
+                                    && UserPermissionUtils.hasDeviceListPermission())
+                            || (SearchType.Order == mViewModel.searchType
+                                    && UserPermissionUtils.hasOrderListPermission())
+                            || SearchType.AppointOrder == mViewModel.searchType
+                        ) {
+                            mViewModel.searchList(page, pageSize, result2 = callBack)
+                        }
+                    }
+                }
         }
     }
 
-    private fun search() {
-        SoftKeyboardUtils.hideShowKeyboard(mBinding.etSearchKey)
+    private fun search(autoSearch: Boolean = false) {
         // 保留历史
         val keyword = mViewModel.searchKey.value?.trim()
-        if (!keyword.isNullOrEmpty()) {
+        if (!keyword.isNullOrEmpty() && !autoSearch) {
+            SoftKeyboardUtils.hideShowKeyboard(mBinding.etSearchKey)
             val list = SPRepository.searchHistory ?: mutableListOf()
             list.find { item -> item.type == mViewModel.searchType && item.keyword == keyword }
                 ?.let { params ->
@@ -189,26 +197,45 @@ class SearchActivity :
 
         when (mViewModel.searchType) {
             SearchType.Shop -> {
-                mBinding.rvSearchList1.requestLoadMore(true)
-                mBinding.clSearchHistory.visibility = View.GONE
-                // 显示搜索列表
-                mBinding.rvSearchList1.visibility = View.VISIBLE
+                if (keyword.isNullOrEmpty()) {
+                    mBinding.clSearchHistory.visibility = View.VISIBLE
+                    mBinding.rvSearchList1.visibility = View.GONE
+                } else {
+                    mBinding.rvSearchList1.requestLoadMore(true)
+                    mBinding.clSearchHistory.visibility = View.GONE
+                    // 显示搜索列表
+                    mBinding.rvSearchList1.visibility = View.VISIBLE
+                }
             }
-            SearchType.Device -> startActivity(
-                Intent(
-                    this@SearchActivity,
-                    DeviceManagerActivity::class.java
-                ).apply {
-                    putExtras(IntentParams.SearchParams.pack(mViewModel.searchKey.value))
-                })
-            SearchType.Order, SearchType.AppointOrder -> startActivity(
+            SearchType.Device -> {
+                if (autoSearch) {
+                    if (keyword.isNullOrEmpty()) {
+                        mBinding.clSearchHistory.visibility = View.VISIBLE
+                        mBinding.rvSearchList2.visibility = View.GONE
+                    } else {
+                        mBinding.rvSearchList2.requestRefresh(true)
+                        mBinding.clSearchHistory.visibility = View.GONE
+                        // 显示搜索列表
+                        mBinding.rvSearchList2.visibility = View.VISIBLE
+                    }
+                } else {
+                    startActivity(
+                        Intent(
+                            this@SearchActivity,
+                            DeviceManagerActivity::class.java
+                        ).apply {
+                            putExtras(IntentParams.SearchParams.pack(mViewModel.searchKey.value))
+                        })
+                }
+            }
+            SearchType.Order -> startActivity(
                 Intent(
                     this@SearchActivity,
                     OrderManagerActivity::class.java
                 ).apply {
                     putExtras(IntentParams.SearchParams.pack(mViewModel.searchKey.value))
                 })
-            SearchType.Order -> startActivity(
+            SearchType.AppointOrder -> startActivity(
                 Intent(
                     this@SearchActivity,
                     AppointmentOrderActivity::class.java

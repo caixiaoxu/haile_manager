@@ -1,6 +1,10 @@
 package com.yunshang.haile_manager_android.data.entities
 
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.data.rule.SearchSelectRadioEntity
 
 /**
@@ -72,6 +76,13 @@ data class Spu(
     override fun getSelectName(): String = name
 
     override fun getCheck(): MutableLiveData<Boolean>? = isSelect
+
+    fun getIgnorePayCodeFlag(): Boolean = try {
+        JsonParser.parseString(extAttr).asJsonObject["ignorePayCodeFlag"].asBoolean
+    } catch (e: Exception) {
+        e.printStackTrace()
+        false
+    }
 }
 
 data class SpuSpec(

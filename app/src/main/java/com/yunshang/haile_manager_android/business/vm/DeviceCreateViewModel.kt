@@ -73,6 +73,9 @@ class DeviceCreateViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
+    // 是否是二码合一
+    var isIgnorePayCodeFlag: Boolean = false
+
     // 是否可提交
     val canSubmit: MediatorLiveData<Boolean> = MediatorLiveData(false).apply {
         addSource(payCode) {

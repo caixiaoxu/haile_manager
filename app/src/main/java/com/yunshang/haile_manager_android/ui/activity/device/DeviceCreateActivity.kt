@@ -42,13 +42,16 @@ class DeviceCreateActivity :
     private val codeLauncher = registerForActivityResult(ScanContract()) { result ->
         result.contents?.trim()?.let {
             Timber.i("扫码:$it")
-            val payCode = StringUtils.getPayCode(it)
-            payCode?.let { code ->
+            StringUtils.getPayImeiCode(it)?.let { code ->
                 mViewModel.payCode.value = code
+                mViewModel.imeiCode.value = code
             } ?: run {
-                if (StringUtils.isImeiCode(it))
+                val payCode = StringUtils.getPayCode(it)
+                if (!mViewModel.isIgnorePayCodeFlag && null != payCode) {
+                    mViewModel.payCode.value = payCode
+                } else if (StringUtils.isImeiCode(it)) {
                     mViewModel.imeiCode.value = it
-                else
+                } else
                     SToast.showToast(this, R.string.scan_code_error)
             }
         }
@@ -98,6 +101,9 @@ class DeviceCreateActivity :
                             intent.getStringExtra(DeviceCategory.CategoryCode),
                             intent.getIntExtra(DeviceCategory.CommunicationType, -1)
                         )
+                        mViewModel.isIgnorePayCodeFlag =
+                            intent.getBooleanExtra(DeviceCategory.IgnorePayCodeFlag, false)
+                        checkIgnorePayCode()
                         mViewModel.isDispenser.value =
                             intent.getStringExtra(DeviceCategory.CategoryCode).equals(Dispenser)
 
@@ -394,5 +400,11 @@ class DeviceCreateActivity :
     }
 
     override fun initData() {
+    }
+
+    private fun checkIgnorePayCode() {
+        if (mViewModel.isIgnorePayCodeFlag) {
+            mViewModel.payCode.value = mViewModel.imeiCode.value ?: ""
+        }
     }
 }

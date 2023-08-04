@@ -42,7 +42,7 @@
             app:layout_constraintStart_toEndOf="@id/ib_search_back"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatEditText
+        <com.yunshang.haile_manager_android.ui.view.SearchEditText
             android:id="@+id/et_search_key"
             style="@style/Font_14_333333_999999"
             android:layout_width="0dp"
@@ -50,8 +50,6 @@
             android:layout_marginStart="4dp"
             android:background="@color/transparent"
             android:hint="@{vm.searchHints[vm.searchType]}"
-            android:maxLines="1"
-            android:singleLine="true"
             android:paddingHorizontal="20dp"
             android:text="@={vm.searchKey}"
             app:layout_constraintBottom_toBottomOf="@id/view_search_bg"

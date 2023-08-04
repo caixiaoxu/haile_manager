@@ -155,7 +155,6 @@
                 <View
                     style="@style/DividingStyle"
                     android:visibility="@{(null == vm.createDeviceFunConfigure || 0 == vm.createDeviceFunConfigure.size())?View.GONE:View.VISIBLE}" />
-
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

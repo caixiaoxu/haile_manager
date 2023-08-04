@@ -570,6 +570,7 @@
     <string name="unit_tai">台</string>
     <string name="unit_folds">折</string>
     <string name="unit_ge">个</string>
+    <string name="unit_degree_centigrade">°C</string>
     <string name="num_folds">%1$s折</string>
     <string name="unit_minute_hint">（分）</string>
     <string name="unit_yuan_hint">（元）</string>
@@ -623,13 +624,14 @@
     <string name="notice_end_message">确定手动结束该公告吗？</string>
     <string name="notice_stop_success">停用成功</string>
 
-    <string name="device_unblanking">开锁</string>
     <string name="device_voice">语音设置</string>
     <string name="device_drain">排空</string>
-    <string name="devices_selfclean">自清洁</string>
-    <string name="devices_voicesetting">语音设置</string>
-    <string name="devices_temperaturesetting">温度限制</string>
+    <string name="devices_self_clean">自清洁</string>
+    <string name="devices_voice_setting">语音设置</string>
+    <string name="devices_temperature_setting">温度限制</string>
     <string name="temperature_information">温度信息</string>
+    <string name="room_temperature">室内温度</string>
+    <string name="default_use">默认使用</string>
     <string name="liquid_state">液体状态</string>
     <string name="association_device">关联设备信息</string>
     <string name="device_wash_title">绑定洗衣\n/洗鞋机</string>
@@ -637,6 +639,9 @@
     <string name="device_order">当前订单</string>
     <string name="device_find_order">查看订单</string>
     <string name="device_del_setting">删除配置</string>
+    <string name="laundry_detergent_surplus">洗衣液剩余</string>
+    <string name="antibacterial_solution_surplus">除菌液剩余</string>
+    <string name="reset_100_percent">重置100%</string>
 
 
 </resources>

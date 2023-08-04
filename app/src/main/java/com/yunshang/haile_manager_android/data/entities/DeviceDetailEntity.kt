@@ -65,6 +65,10 @@ data class DeviceDetailEntity(
     val errorDeviceOrderId: Int,
     val errorDeviceOrderNo: String,
 ) {
+
+    val isDispenser: Boolean
+        get() = DeviceCategory.isDispenser(categoryCode)
+
     fun getDeviceDetailMain(): Int = when (categoryCode) {
         DeviceCategory.Washing -> R.mipmap.icon_device_detail_washing_main
         DeviceCategory.Dryer -> R.mipmap.icon_device_detail_dryer_main

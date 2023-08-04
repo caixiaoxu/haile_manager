@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -12,51 +11,35 @@
             type="com.yunshang.haile_manager_android.data.entities.DosingConfigs" />
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="8dp"
-        android:paddingTop="4dp"
-        android:paddingRight="8dp"
-        android:paddingBottom="4dp">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{item.name}"
-            android:textColor="#ff333333"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tv_time"
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_14_333333"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:layout_toStartOf="@id/tv_default"
-            android:layout_toEndOf="@+id/tv_name"
-            android:textColor="#ff333333"
-            android:textSize="14sp" />
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text='@{item.name + " 单次用量" + item.amount + "ml/" + item.price + "元"}' />
 
         <TextView
-            android:id="@+id/tv_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:textColor="#ff999999"
-            android:textSize="14sp" />
+            android:layout_marginEnd="8dp"
+            android:text="@string/default_use"
+            style="@style/Font_14_f0a258"
+            android:visibility="@{item.isDefault?View.VISIBLE:View.GONE}"
+            tools:visibility="visible" />
 
-        <TextView
-            android:id="@+id/tv_default"
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_14_999999"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@+id/tv_state"
-            android:text="默认使用"
-            android:textColor="#F0A258"
-            android:textSize="14sp"
-            android:visibility="@{item.isDefault?View.VISIBLE:View.GONE}" />
-
-    </RelativeLayout>
+            android:text="@{item.isOn?@string/in_use:@string/out_of_service}"
+            android:textColor="@{item.isOn?@color/colorPrimary:@color/common_txt_color}"
+            tools:text="启用中" />
+    </LinearLayout>
 </layout>

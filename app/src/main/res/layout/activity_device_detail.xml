@@ -148,7 +148,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:background="@color/white"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Font_14_333333_bold"
@@ -201,7 +202,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@color/white"
                     android:orientation="vertical"
-                    android:visibility="@{vm.isDispenser(vm.categoryCode)?View.VISIBLE:View.GONE}">
+                    android:visibility="@{vm.deviceDetail.isDispenser?View.VISIBLE:View.GONE}">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Font_14_333333_bold"
@@ -219,56 +220,22 @@
                         style="@style/DividingStyle"
                         android:visibility="@{vm.showTemperature?View.VISIBLE:View.GONE}" />
 
-                    <LinearLayout
+                    <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="12dp"
                         android:background="@drawable/shape_sf7f7f7_r8"
-                        android:orientation="vertical"
                         android:padding="12dp"
-                        android:visibility="@{vm.showTemperature?View.VISIBLE:View.GONE}">
+                        android:visibility="@{vm.showTemperature?View.VISIBLE:View.GONE}"
+                        tools:visibility="gone">
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:text="室内温度"
-                                android:textColor="#ff333333"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:id="@+id/tv_laundry_temperature"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
-                                android:text="0°C"
-                                android:textColor="#ff999999"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:id="@+id/tv_temperature_limit"
-                                android:layout_width="wrap_content"
-                                android:layout_height="25dp"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:background="@drawable/shape_stroke_4_cccccc"
-                                android:gravity="center"
-                                android:paddingLeft="8dp"
-                                android:paddingRight="8dp"
-                                android:text="温度限制"
-                                android:textColor="#333333"
-                                android:textSize="12sp" />
-
-                        </RelativeLayout>
-
-                    </LinearLayout>
-
-
+                        <include
+                            android:id="@+id/include_dispenser_temperature"
+                            layout="@layout/item_device_detail_dispenser"
+                            app:content="@{vm.deviceDetail.deviceAttributeVo.nowTemperature + @string/unit_degree_centigrade}"
+                            app:operateValue="@{@string/devices_temperature_setting}"
+                            app:title="@{@string/room_temperature}" />
+                    </FrameLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -277,7 +244,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@color/white"
                     android:orientation="vertical"
-                    android:visibility="@{vm.isDispenser(vm.categoryCode)?View.VISIBLE:View.GONE}">
+                    android:visibility="@{vm.deviceDetail.isDispenser?View.VISIBLE:View.GONE}">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Font_14_333333_bold"
@@ -295,125 +262,36 @@
                         style="@style/DividingStyle"
                         android:visibility="@{vm.showTemperature?View.VISIBLE:View.GONE}" />
 
-                    <LinearLayout
+                    <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="12dp"
                         android:background="@drawable/shape_sf7f7f7_r8"
                         android:orientation="vertical"
                         android:padding="12dp"
-                        android:visibility="@{vm.showLiquid?View.VISIBLE:View.GONE}">
+                        android:visibility="@{vm.showLiquid?View.VISIBLE:View.GONE}"
+                        app:divider="@drawable/divide_size8"
+                        app:showDividers="middle"
+                        tools:visibility="gone">
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                        <include
+                            android:id="@+id/include_dispenser_laundry"
+                            layout="@layout/item_device_detail_dispenser"
+                            app:content="@{vm.deviceDetail.LaundryNumber}"
+                            app:operateValue="@{@string/reset_100_percent}"
+                            app:showState="@{vm.deviceDetail.showLaundryState}"
+                            app:state="@{vm.deviceDetail.getLaundryStateName}"
+                            app:title="@{@string/laundry_detergent_surplus}" />
 
-                            <TextView
-                                android:id="@+id/tv_laundry_title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:text="洗衣液剩余"
-                                android:textColor="#ff333333"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:id="@+id/tv_laundry_state"
-                                android:layout_width="28dp"
-                                android:layout_height="18dp"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="4dp"
-                                android:layout_toRightOf="@+id/tv_laundry_title"
-                                android:background="@drawable/shape_yuanjiao_26fc7f6f"
-                                android:gravity="center"
-                                android:text="@{vm.deviceDetail.getLaundryStateName}"
-                                android:textColor="#fffc7f6f"
-                                android:textSize="10sp"
-                                android:visibility="@{vm.deviceDetail.showLaundryState?View.VISIBLE:View.GONE}" />
-
-
-                            <TextView
-                                android:id="@+id/tv_laundry_detergent"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
-                                android:text="@{vm.deviceDetail.LaundryNumber}"
-                                android:textColor="#ff999999"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:id="@+id/tv_opencap1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="25dp"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:background="@drawable/shape_stroke_4_cccccc"
-                                android:gravity="center"
-                                android:paddingLeft="8dp"
-                                android:paddingRight="8dp"
-                                android:text="重置100%"
-                                android:textColor="#333333"
-                                android:textSize="12sp" />
-
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp">
-
-                            <TextView
-                                android:id="@+id/tv_remaining_title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:text="除菌液剩余"
-                                android:textColor="#ff333333"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:id="@+id/tv_remaining_state"
-                                android:layout_width="28dp"
-                                android:layout_height="18dp"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="4dp"
-                                android:layout_toRightOf="@+id/tv_remaining_title"
-                                android:background="@drawable/shape_yuanjiao_26fc7f6f"
-                                android:gravity="center"
-                                android:text="@{vm.deviceDetail.getRemainingStateName}"
-                                android:textColor="#fffc7f6f"
-                                android:textSize="10sp"
-                                android:visibility="@{vm.deviceDetail.showRemainingState?View.VISIBLE:View.GONE}" />
-
-                            <TextView
-                                android:id="@+id/tv_remaining_disinfectant"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
-                                android:text="@{vm.deviceDetail.RemainingNumber}"
-                                android:textColor="#ff999999"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:id="@+id/tv_opencap2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="25dp"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:background="@drawable/shape_stroke_4_cccccc"
-                                android:gravity="center"
-                                android:paddingLeft="8dp"
-                                android:paddingRight="8dp"
-                                android:text="重置100%"
-                                android:textColor="#333333"
-                                android:textSize="12sp" />
-                        </RelativeLayout>
-
-                    </LinearLayout>
-
-
+                        <include
+                            android:id="@+id/include_dispenser_remaining"
+                            layout="@layout/item_device_detail_dispenser"
+                            app:content="@{vm.deviceDetail.RemainingNumber}"
+                            app:operateValue="@{@string/reset_100_percent}"
+                            app:showState="@{vm.deviceDetail.showRemainingState}"
+                            app:state="@{vm.deviceDetail.getRemainingStateName}"
+                            app:title="@{@string/antibacterial_solution_surplus}" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
                 </LinearLayout>
 
                 <LinearLayout
@@ -449,7 +327,8 @@
                         android:padding="12dp"
                         android:visibility="@{vm.showFuncPrice?View.VISIBLE:View.GONE}"
                         app:divider="@drawable/divide_size12"
-                        app:showDividers="middle" />
+                        app:showDividers="middle"
+                        tools:visibility="gone" />
 
                 </LinearLayout>
 
@@ -483,7 +362,8 @@
                         android:orientation="vertical"
                         android:visibility="@{vm.showAssociation?View.VISIBLE:View.GONE}"
                         app:dividerPadding="12dp"
-                        app:showDividers="middle">
+                        app:showDividers="middle"
+                        tools:visibility="gone">
 
                         <include
                             layout="@layout/item_device_detail_base_info"
@@ -549,7 +429,8 @@
                         android:visibility="@{vm.showInfo?View.VISIBLE:View.GONE}"
                         app:divider="@drawable/divder_efefef"
                         app:dividerPadding="12dp"
-                        app:showDividers="middle">
+                        app:showDividers="middle"
+                        tools:visibility="gone">
 
                         <include
                             layout="@layout/item_device_detail_base_info"

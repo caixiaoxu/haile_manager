@@ -1,7 +1,6 @@
 package com.yunshang.haile_manager_android.business.vm
 
 import android.view.View
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
@@ -10,16 +9,14 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.event.BusEvents
-import com.yunshang.haile_manager_android.data.arguments.DeviceCreateParam
-import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.DosingConfigs
 import com.yunshang.haile_manager_android.data.entities.ExtAttrBean
 import com.yunshang.haile_manager_android.data.entities.SkuEntity
 import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import com.yunshang.haile_manager_android.ui.activity.device.DropperAddSettingActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 /**
  * Title :
@@ -74,6 +71,41 @@ class DropperAddSettingViewModel : BaseViewModel() {
                 configurationList.postValue(it)
             }
         })
+    }
+
+    fun useOldData(oldDataJson: String?) {
+        configurationList.postValue(
+            GsonUtils.json2List(
+                oldDataJson, SkuFuncConfigurationParam::class.java
+            )?.mapNotNull { item ->
+                GsonUtils.json2List(item.extAttr, DosingConfigs::class.java)?.let { configs ->
+                    SkuEntity(
+                        id = item.skuId,
+                        name = item.name,
+                        feature = "",
+                        price = 0.0,
+                        soldState = 1,
+                        extAttr = "",
+                        unit = 0,
+                        amount = 0,
+                        pulse = 0,
+                        dosingConfigs = configs,
+                        spuId = 0,
+                        code = "",
+                        items = "",
+                        chargeUnit = "",
+                        version = 0,
+                        lastEditor = 0,
+                        deleteFlag = 0,
+                        createTime = "",
+                        updateTime = "",
+                        specValues = emptyList(),
+                        functionId = "",
+                        functionName = ""
+                    )
+                }
+            }?.toMutableList()
+        )
     }
 
 

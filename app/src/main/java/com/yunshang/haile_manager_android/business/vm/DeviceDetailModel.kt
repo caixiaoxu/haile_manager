@@ -10,7 +10,6 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.ItemShowParam
-import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.DeviceAdvancedSettingEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
@@ -50,10 +49,6 @@ class DeviceDetailModel : BaseViewModel() {
     }
 
     val imei: MutableLiveData<String> by lazy {
-        MutableLiveData()
-    }
-
-    val categoryCode: MutableLiveData<String> by lazy {
         MutableLiveData()
     }
 
@@ -132,20 +127,12 @@ class DeviceDetailModel : BaseViewModel() {
             jump.postValue(2)
         },
         ItemShowParam(
-            StringUtils.getString(R.string.devices_selfclean),
+            StringUtils.getString(R.string.devices_self_clean),
             R.mipmap.icon_device_device_selfclean,
             MutableLiveData(UserPermissionUtils.hasDeviceAppointmentPermission())
         ) {
             //排空设置事件
             jump.postValue(12)
-        },
-        ItemShowParam(
-            StringUtils.getString(R.string.device_unblanking),
-            R.mipmap.icon_device_device_unblanking,
-            MutableLiveData(UserPermissionUtils.hasDeviceAppointmentPermission())
-        ) {
-            //开锁事件
-            jump.postValue(9)
         },
         ItemShowParam(
             StringUtils.getString(R.string.self_clean),
@@ -492,8 +479,4 @@ class DeviceDetailModel : BaseViewModel() {
             }
         })
     }
-
-    fun isDispenser(categoryCode: String?) = DeviceCategory.Dispenser == categoryCode
-
-
 }

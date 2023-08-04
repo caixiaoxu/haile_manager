@@ -78,14 +78,16 @@ class DeviceCreateActivity :
     private val startNext =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
-                SearchSelectTypeParam.ShopResultCode -> {
-                    result.data?.getStringExtra(SearchSelectTypeParam.ResultData)?.let { json ->
-                        GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
-                            if (selected.isNotEmpty()) {
-                                mViewModel.createDeviceShop.value = selected[0]
-                            }
+                IntentParams.SearchSelectTypeParam.ShopResultCode -> {
+                    result.data?.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)
+                        ?.let { json ->
+                            GsonUtils.json2List(json, SearchSelectParam::class.java)
+                                ?.let { selected ->
+                                    if (selected.isNotEmpty()) {
+                                        mViewModel.createDeviceShop.value = selected[0]
+                                    }
+                                }
                         }
-                    }
                 }
                 DeviceModelActivity.ResultCode -> {
                     result.data?.let { intent ->
@@ -155,7 +157,6 @@ class DeviceCreateActivity :
                     DeviceModelActivity::class.java
                 )
             )
-
         }
 
         // 所属门店
@@ -164,7 +165,7 @@ class DeviceCreateActivity :
                 this@DeviceCreateActivity,
                 SearchSelectRadioActivity::class.java
             ).apply {
-                putExtras(putExtras(SearchSelectTypeParam.pack(SearchSelectTypeParam.SearchSelectTypeShop)))
+                putExtras(putExtras(IntentParams.SearchSelectTypeParam.pack(IntentParams.SearchSelectTypeParam.SearchSelectTypeShop)))
             })
         }
 
@@ -251,44 +252,31 @@ class DeviceCreateActivity :
         mViewModel.createDeviceFunConfigure.observe(this) {
             it?.let { list ->
                 mBinding.llDeviceCreateSelectFunConfiguration.removeAllViews()
-                val mtb = DimensionUtils.dip2px(this@DeviceCreateActivity, 12f)
+                val inflater = LayoutInflater.from(this@DeviceCreateActivity)
                 if (mViewModel.isDispenser.value!!) {
-                    var dosingconfigs = ArrayList<DosingConfigs>()
-                    list.forEach { it ->
-                        var disings = GsonUtils.json2List(it.extAttr, DosingConfigs::class.java)
-                        disings?.let { it1 -> dosingconfigs.addAll(it1) }
-                    }
-                    dosingconfigs.forEachIndexed { index, config ->
-                        val selectFuncConfigItem =
-                            LayoutInflater.from(this@DeviceCreateActivity).inflate(
-                                R.layout.item_device_detail_dispose_min, null, false
-                            )
+                    list.flatMap { item ->
+                        GsonUtils.json2List(item.extAttr, DosingConfigs::class.java) ?: listOf()
+                    }.forEachIndexed { _, config ->
                         val mFuncConfigBinding =
-                            DataBindingUtil.bind<ItemDeviceDetailDisposeMinBinding>(
-                                selectFuncConfigItem
+                            DataBindingUtil.inflate<ItemDeviceDetailDisposeMinBinding>(
+                                inflater,
+                                R.layout.item_device_detail_dispose_min,
+                                null,
+                                false
                             )
-                        mFuncConfigBinding?.let {
-                            mFuncConfigBinding.item = config
-
-                            mFuncConfigBinding.tvTime.text =
-                                " 单次用量 ${config.amount}ml/${config.price}元"
-                            mFuncConfigBinding.tvState.text =
-                                if (config.isOn) "启用中" else "已停用"
-                            mFuncConfigBinding.tvState.setTextColor(Color.parseColor(if (config.isOn) "#F0A258" else "#999999"))
-
-                            mBinding.llDeviceCreateSelectFunConfiguration.addView(mFuncConfigBinding.root,
-                                LinearLayout.LayoutParams(
-                                    LinearLayout.LayoutParams.MATCH_PARENT,
-                                    LinearLayout.LayoutParams.WRAP_CONTENT
-                                ).apply {
-                                    setMargins(0, if (0 == index) mtb else 0, 0, mtb)
-                                })
-                        }
+                        mFuncConfigBinding.item = config
+                        mBinding.llDeviceCreateSelectFunConfiguration.addView(
+                            mFuncConfigBinding.root,
+                            LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                            )
+                        )
                     }
                 } else if (DeviceCategory.isDrinking(mViewModel.deviceCategoryCode)) {
                     buildDrinkingConfigureItemView(list, inflater)
                 } else {
-                    list.forEachIndexed { index, config ->
+                    list.forEachIndexed { _, config ->
                         val mFuncConfigBinding =
                             DataBindingUtil.inflate<ItemSelectedDeviceFuncationConfigurationBinding>(
                                 inflater,

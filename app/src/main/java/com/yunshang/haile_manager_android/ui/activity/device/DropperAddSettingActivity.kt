@@ -4,6 +4,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
@@ -12,7 +14,6 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DropperAddSettingViewModel
 import com.yunshang.haile_manager_android.data.entities.DosingConfigs
 import com.yunshang.haile_manager_android.data.entities.SkuEntity
-import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.yunshang.haile_manager_android.databinding.ActivityDropperAddSettingBinding
 import com.yunshang.haile_manager_android.databinding.ItemDisposeUseDryerBinding
 import com.yunshang.haile_manager_android.databinding.ItemDisposeUseItemBinding
@@ -32,19 +33,18 @@ class DropperAddSettingActivity :
         const val OldFuncConfiguration = "oldFuncConfiguration"
     }
 
-
     override fun layoutId(): Int = R.layout.activity_dropper_add_setting
 
-    override fun backBtn(): View = mBinding.barDeviceTitle.getBackBtn()
+    override fun backBtn(): View = mBinding.barDeviceDispenserFunConfigurationTitle.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()
+        mViewModel.spuId = intent.getIntExtra(SpuId, -1)
+        mViewModel.goodsId = intent.getIntExtra(Deviceid, -1)
     }
 
     override fun initEvent() {
         super.initEvent()
-        mViewModel.spuId = intent.getIntExtra(SpuId, -1)
-        mViewModel.goodsId = intent.getIntExtra(Deviceid, -1)
 
         //刷新数据
         mViewModel.configurationList.observe(this) {
@@ -64,34 +64,32 @@ class DropperAddSettingActivity :
     private val mAdapter by lazy {
         CommonRecyclerAdapter<ItemDisposeUseDryerBinding, SkuEntity>(
             R.layout.item_dispose_use_dryer, BR.item
-        ) { mBinding, postop, items ->
-            mBinding?.itemRecyclerView?.layoutManager = LinearLayoutManager(this)
-
-            var adas = CommonRecyclerAdapter<ItemDisposeUseItemBinding, DosingConfigs>(
-                R.layout.item_dispose_use_item, BR.item
-            ) { mBinding, pos, item ->
-                mBinding?.tvName?.text = "单次用量 ${item.amount}ml/${item.price}元"
-                mBinding?.tvDefalt?.visibility = if (item.isDefault) View.VISIBLE else View.GONE
-                mBinding?.tvState?.text = if (item.isOn) "启用中" else "已停用"
-                mBinding?.root?.setOnClickListener {
-                    startNext.launch(Intent(
-                        this@DropperAddSettingActivity, DropperAllocationActivity::class.java
-                    ).apply {
-                        putExtra(DropperAllocationActivity.Amount, item.amount.toString())
-                        putExtra(DropperAllocationActivity.liquidType, item.liquidTypeId)
-                        putExtra(DropperAllocationActivity.Price, item.price.toString())
-                        putExtra(DropperAllocationActivity.isDefault, item.isDefault)
-                        putExtra(DropperAllocationActivity.isOn, item.isOn)
-                        putExtra("number", "${postop}-${pos}")
-                        putExtra(
-                            DropperAllocationActivity.itemId, "${postop}-${pos}"
-                        )
-                    })
+        ) { mItemBinding, posTop, items ->
+            mItemBinding?.rvDispenserFunConfigItems?.layoutManager = LinearLayoutManager(this)
+            mItemBinding?.rvDispenserFunConfigItems?.adapter =
+                CommonRecyclerAdapter<ItemDisposeUseItemBinding, DosingConfigs>(
+                    R.layout.item_dispose_use_item, BR.item
+                ) { mChildBinding, pos, item ->
+                    mChildBinding?.root?.setOnClickListener {
+                        startNext.launch(Intent(
+                            this@DropperAddSettingActivity,
+                            DropperAllocationActivity::class.java
+                        ).apply {
+                            putExtra(DropperAllocationActivity.Amount, item.amount.toString())
+                            putExtra(DropperAllocationActivity.liquidType, item.liquidTypeId)
+                            putExtra(DropperAllocationActivity.Price, item.price.toString())
+                            putExtra(DropperAllocationActivity.isDefault, item.isDefault)
+                            putExtra(DropperAllocationActivity.isOn, item.isOn)
+                            putExtra("number", "${posTop}-${pos}")
+                            putExtra(
+                                DropperAllocationActivity.itemId, "${posTop}-${pos}"
+                            )
+                        })
+                    }
+                }.apply {
+                    refreshList(items.dosingConfigs.toMutableList(), true)
                 }
-            }
-            mBinding?.itemRecyclerView?.adapter = adas
-            adas.refreshList(items.dosingConfigs.toMutableList(), true)
-            mBinding?.tvSetting?.setOnClickListener {
+            mItemBinding?.tvDispenserFunConfigAdd?.setOnClickListener {
                 if (items.dosingConfigs.size == 3) {
                     SToast.showToast(this@DropperAddSettingActivity, "最多增加三条配置")
                     return@setOnClickListener
@@ -100,7 +98,7 @@ class DropperAddSettingActivity :
                     this@DropperAddSettingActivity, DropperAllocationActivity::class.java
                 ).apply {
                     putExtra(
-                        DropperAllocationActivity.itemId, postop.toString()
+                        DropperAllocationActivity.itemId, posTop.toString()
                     )
                     putExtra(
                         DropperAllocationActivity.liquidType,
@@ -116,60 +114,60 @@ class DropperAddSettingActivity :
             when (result.resultCode) {
                 RESULT_OK -> {
                     result.data?.let { intent ->
-                        var itemcode = intent.getStringExtra(DropperAllocationActivity.itemId)
-                        var amount = intent.getStringExtra(DropperAllocationActivity.Amount)
-                        var price = intent.getStringExtra(DropperAllocationActivity.Price)
-                        var liquidType = intent.getIntExtra(DropperAllocationActivity.liquidType, 0)
-                        var ison = intent.getBooleanExtra(DropperAllocationActivity.isOn, false)
-                        var isdefault =
+                        val itemCode = intent.getStringExtra(DropperAllocationActivity.itemId)
+                        val amount = intent.getStringExtra(DropperAllocationActivity.Amount)
+                        val price = intent.getStringExtra(DropperAllocationActivity.Price)
+                        val liquidType = intent.getIntExtra(DropperAllocationActivity.liquidType, 0)
+                        val isOn = intent.getBooleanExtra(DropperAllocationActivity.isOn, false)
+                        val isDefault =
                             intent.getBooleanExtra(DropperAllocationActivity.isDefault, false)
-                        var dosing = DosingConfigs(
+                        val dosing = DosingConfigs(
                             amount = amount?.toInt() ?: 0,
                             itemId = 0,
                             liquidTypeId = liquidType,
                             liquidType = liquidType,
                             price = price?.toDouble() ?: 0.0,
                             name = if (liquidType == 1) "洗衣液" else "除菌液",
-                            isDefault = isdefault,
-                            isOn = ison
+                            isDefault = isDefault,
+                            isOn = isOn
                         )
-                        var skulists = ArrayList<SkuEntity>()
-                        var skus_ = ArrayList<DosingConfigs>()
-                        skulists.addAll(mViewModel.configurationList.value!!)
-                        if (itemcode!!.contains("-")) {
-                            skus_.addAll(skulists[itemcode.split("-")[0].toInt()].dosingConfigs)
-                            if (isdefault) {
-                                skus_.forEach {
+                        val skuLists = ArrayList<SkuEntity>()
+                        skuLists.addAll(mViewModel.configurationList.value!!)
+                        val skus = ArrayList<DosingConfigs>()
+                        if (itemCode!!.contains("-")) {
+                            skus.addAll(skuLists[itemCode.split("-")[0].toInt()].dosingConfigs)
+                            if (isDefault) {
+                                skus.forEach {
                                     it.isDefault = false
                                 }
                             }
-                            skus_[itemcode.split("-")[1].toInt()] = dosing
-                            skulists[itemcode.split("-")[0].toInt()].dosingConfigs = skus_
+                            skus[itemCode.split("-")[1].toInt()] = dosing
+                            skuLists[itemCode.split("-")[0].toInt()].dosingConfigs = skus
                         } else {
-                            skus_.addAll(skulists[itemcode.toInt()].dosingConfigs)
-                            if (isdefault) {
-                                skus_.forEach {
+                            skus.addAll(skuLists[itemCode.toInt()].dosingConfigs)
+                            if (isDefault) {
+                                skus.forEach {
                                     it.isDefault = false
                                 }
                             }
-                            skus_.add(dosing)
-                            skulists[itemcode.toInt()].dosingConfigs = skus_
+                            skus.add(dosing)
+                            skuLists[itemCode.toInt()].dosingConfigs = skus
                         }
-                        mViewModel.configurationList.postValue(skulists)
+                        mViewModel.configurationList.postValue(skuLists)
                     }
                 }
 
                 DropperAllocationActivity.ResultCode -> {
                     result.data?.let { intent ->
-                        var number = intent.getStringExtra("number")
-                        var skulists = ArrayList<SkuEntity>()
-                        var skus_ = ArrayList<DosingConfigs>()
-                        skulists.addAll(mViewModel.configurationList.value!!)
+                        val number = intent.getStringExtra("number")
+                        val skuLists = ArrayList<SkuEntity>()
+                        val skus = ArrayList<DosingConfigs>()
+                        skuLists.addAll(mViewModel.configurationList.value!!)
                         if (number!!.contains("-")) {
-                            skus_.addAll(skulists[number.split("-")[0].toInt()].dosingConfigs)
-                            skus_.removeAt(number.split("-")[1].toInt())
-                            skulists[number.split("-")[0].toInt()].dosingConfigs = skus_
-                            mViewModel.configurationList.postValue(skulists)
+                            skus.addAll(skuLists[number.split("-")[0].toInt()].dosingConfigs)
+                            skus.removeAt(number.split("-")[1].toInt())
+                            skuLists[number.split("-")[0].toInt()].dosingConfigs = skus
+                            mViewModel.configurationList.postValue(skuLists)
                         }
                     }
                 }
@@ -180,52 +178,24 @@ class DropperAddSettingActivity :
     override fun initView() {
         window.statusBarColor = Color.WHITE
 
-        mBinding.recyclerView.layoutManager = LinearLayoutManager(this)
-        mBinding.recyclerView.adapter = mAdapter
-
-        var skuparam = GsonUtils.json2List(
-            intent.getStringExtra(OldFuncConfiguration), SkuFuncConfigurationParam::class.java
-        )
-
-        var listskus = ArrayList<SkuEntity>()
-        skuparam?.forEach { item ->
-            var doings = GsonUtils.json2List(item.extAttr, DosingConfigs::class.java)
-            var skuentity = doings?.let {
-                SkuEntity(
-                    id = item.skuId,
-                    name = item.name,
-                    feature = "",
-                    price = 0.0,
-                    soldState = 1,
-                    extAttr = "",
-                    unit = 0,
-                    amount = 0,
-                    pulse = 0,
-                    dosingConfigs = it,
-                    spuId = 0,
-                    code = "",
-                    items = "",
-                    chargeUnit = "",
-                    version = 0,
-                    lastEditor = 0,
-                    deleteFlag = 0,
-                    createTime = "",
-                    updateTime = "",
-                    specValues = emptyList(),
-                    functionId = "",
-                    functionName = ""
-                )
-            }
-            skuentity?.let { listskus.add(it) }
-
+        mBinding.rvDeviceDispenserFunConfigurationList.layoutManager = LinearLayoutManager(this)
+        ResourcesCompat.getDrawable(resources, R.drawable.divide_size8, null)?.let {
+            mBinding.rvDeviceDispenserFunConfigurationList.addItemDecoration(
+                DividerItemDecoration(
+                    this@DropperAddSettingActivity,
+                    DividerItemDecoration.VERTICAL
+                ).apply {
+                    setDrawable(it)
+                })
         }
-        mViewModel.configurationList.postValue(listskus)
-
+        mBinding.rvDeviceDispenserFunConfigurationList.adapter = mAdapter
     }
 
     override fun initData() {
         if (-1 == mViewModel.goodsId) {
             mViewModel.requestData()
+        } else {
+            mViewModel.useOldData(intent.getStringExtra(OldFuncConfiguration))
         }
     }
 }

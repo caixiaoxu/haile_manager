@@ -91,7 +91,7 @@ class OrderDetailActivity :
                         itemBinding.title =
                             "${sku.skuName}/${
                                 if (DeviceCategory.isDrinking(sku.goodsCategoryCode)) {
-                                    if (1 == sku.goodsItemInfo?.priceCalculateMode) "${sku.skuUnit / 1000.0}L" else "${sku.skuUnit}S"
+                                    if (1 == sku.goodsItemInfo?.priceCalculateMode) "${sku.skuUnit}ml" else "${sku.skuUnit}s"
                                 } else "${sku.skuUnit}分钟"
                             }："
                         itemBinding.value = "￥${sku.originUnitPrice}"

@@ -23,6 +23,7 @@ import com.yunshang.haile_manager_android.business.vm.OrderManagerViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.OrderListEntity
 import com.yunshang.haile_manager_android.databinding.ActivityOrderManagerBinding
@@ -84,12 +85,11 @@ class OrderManagerActivity :
                                 R.color.colorPrimary
                             )
                         )
-                        text = StringUtils.getString(
-                            R.string.order_specs,
-                            sku.skuName,
-                            sku.skuUnit,
-                            NumberUtils.keepTwoDecimals(sku.originUnitPrice)
-                        )
+                        text = "${sku.skuName} ${
+                            if (DeviceCategory.isDrinking(sku.goodsCategoryCode)) {
+                                if (1 == sku.goodsItemInfo?.priceCalculateMode) "${sku.skuUnit}ml" else "${sku.skuUnit}s"
+                            } else "${sku.skuUnit}分钟"
+                        } ￥${NumberUtils.keepTwoDecimals(sku.originUnitPrice)}"
                     }, ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT
@@ -201,10 +201,15 @@ class OrderManagerActivity :
     override fun initView() {
         window.statusBarColor = Color.WHITE
 
-        if (mViewModel.searchKey.value.isNullOrEmpty()){
+        if (mViewModel.searchKey.value.isNullOrEmpty()) {
             mBinding.barOrderManagerTitle.getRightBtn().run {
                 setText(R.string.appointment_order)
-                setTextColor(ContextCompat.getColor(this@OrderManagerActivity, R.color.colorPrimary))
+                setTextColor(
+                    ContextCompat.getColor(
+                        this@OrderManagerActivity,
+                        R.color.colorPrimary
+                    )
+                )
                 setOnClickListener {
                     startActivity(
                         Intent(

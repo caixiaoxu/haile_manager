@@ -20,7 +20,7 @@ android {
 
     android.applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "HaileManager_${AndroidConfig.defaultConfig.versionName}_debug.apk"
+            outputFileName = "HaileManager_${AndroidConfig.defaultConfig.versionName}_${buildType.name}.apk"
         }
     }
 

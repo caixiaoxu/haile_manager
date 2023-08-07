@@ -118,8 +118,13 @@ object ViewBindingAdapter {
     @JvmStatic
     fun MultiTypeItemView.setItemContent(content: String?) {
         content?.let {
-            contentView.setText(content)
-            contentView.setSelection(contentView.text?.length ?: 0)
+            // 如果内容不一致，重新赋值
+            if (contentView.text.toString().trim() != it) {
+                contentView.setText(it)
+                if (0 == contentView.selectionStart && !contentView.text.isNullOrEmpty()) {
+                    contentView.setSelection(contentView.text?.length ?: 0)
+                }
+            }
         }
     }
 

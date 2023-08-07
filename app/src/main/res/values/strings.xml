@@ -176,6 +176,7 @@
     <string name="restart_success">复位成功</string>
     <string name="start">启动</string>
     <string name="unlock">开锁</string>
+    <string name="unlock1">解锁</string>
     <string name="unlock_success">开锁成功</string>
     <string name="start_success">启动成功</string>
     <string name="self_clean">桶自洁</string>

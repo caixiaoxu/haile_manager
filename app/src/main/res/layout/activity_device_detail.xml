@@ -105,18 +105,17 @@
                         app:layout_constraintTop_toTopOf="@id/tv_device_detail_status"
                         tools:text="排水异常0401" />
 
-                    <androidx.appcompat.widget.SwitchCompat
+                    <com.yunshang.haile_manager_android.ui.view.ClickSwitchView
                         android:id="@+id/switch_device_detail_open"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:checked="@{1 == vm.deviceDetail.soldState}"
                         android:onCheckedChanged="@{(v,isCheck)->vm.switchDevice(isCheck)}"
-                        android:thumb="@drawable/selector_default_switch_thumb"
+                        style="@style/CustomSwitchStyle"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:track="@drawable/selector_default_switch_track" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -485,7 +484,7 @@
                             layout="@layout/item_device_detail_base_info"
                             app:content="@{vm.code}"
                             app:show="@{vm.deviceDetail.hasPayCode}"
-                            app:showCopy="@{false}"
+                            app:showCopy="@{true}"
                             app:title="@{vm.deviceDetail.getPayCodeTitle}" />
 
                         <include

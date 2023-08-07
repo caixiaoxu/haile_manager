@@ -20,8 +20,8 @@ class ClickSwitchView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : SwitchCompat(context, attrs) {
 
-    private var onSwitchClickListener: ((v: View) -> Boolean)? = null
-    fun setOnSwitchClickListener(onSwitchClickListener: (v: View) -> Boolean) {
+    private var onSwitchClickListener: ((v: SwitchCompat) -> Boolean)? = null
+    fun setOnSwitchClickListener(onSwitchClickListener: (v: SwitchCompat) -> Boolean) {
         this.onSwitchClickListener = onSwitchClickListener
     }
 

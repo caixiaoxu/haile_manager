@@ -16,6 +16,7 @@ import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.data.rule.ISearchSelectEntity
 import com.yunshang.haile_manager_android.databinding.ActivitySearchBinding
+import com.yunshang.haile_manager_android.databinding.ItemDeviceSearchSelectBinding
 import com.yunshang.haile_manager_android.databinding.ItemSearchHistoryFlowBinding
 import com.yunshang.haile_manager_android.databinding.ItemSearchSelectBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -44,7 +45,6 @@ class SearchActivity :
             R.layout.item_search_select,
             BR.item
         ) { mBinding, _, item ->
-            mBinding?.item = item
             mBinding?.root?.setOnClickListener {
 
                 when (mViewModel.searchType) {
@@ -84,6 +84,24 @@ class SearchActivity :
                     }
                 }
                 finish()
+            }
+        }
+    }
+
+    private val mDeviceAdapter: CommonRecyclerAdapter<ItemDeviceSearchSelectBinding, ISearchSelectEntity> by lazy {
+        CommonRecyclerAdapter(
+            R.layout.item_device_search_select,
+            BR.item
+        ) { mBinding, _, item ->
+            mBinding?.root?.setOnClickListener {
+                startActivity(
+                    Intent(
+                        this@SearchActivity,
+                        DeviceDetailActivity::class.java
+                    ).apply {
+                        putExtra(DeviceDetailActivity.GoodsId, item.getSearchId())
+                    }
+                )
             }
         }
     }
@@ -158,8 +176,10 @@ class SearchActivity :
             if (SearchType.Device == mViewModel.searchType) {
                 mBinding.rvSearchList2.listStatusImgResId = R.mipmap.icon_list_device_empty
                 mBinding.rvSearchList2.listStatusTxtResId = R.string.empty_device
+                mBinding.rvSearchList2.adapter = mDeviceAdapter
+            } else {
+                mBinding.rvSearchList2.adapter = mAdapter
             }
-            mBinding.rvSearchList2.adapter = mAdapter
             mBinding.rvSearchList2.requestData =
                 object : CommonRefreshRecyclerView.OnRequestDataListener<ISearchSelectEntity>() {
                     override fun requestData(
@@ -174,7 +194,7 @@ class SearchActivity :
                                     && UserPermissionUtils.hasOrderListPermission())
                             || SearchType.AppointOrder == mViewModel.searchType
                         ) {
-                            mViewModel.searchList(page, pageSize, result2 = callBack)
+                            mViewModel.searchList(page, pageSize, false, result2 = callBack)
                         }
                     }
                 }

@@ -61,6 +61,7 @@ class SearchViewModel : BaseViewModel() {
     fun searchList(
         page: Int,
         pageSize: Int,
+        showLoading: Boolean = true,
         result1: ((responseList: MutableList<out ISearchSelectEntity>?) -> Unit)? = null,
         result2: ((responseList: ResponseList<out ISearchSelectEntity>?) -> Unit)? = null
     ) {
@@ -75,7 +76,7 @@ class SearchViewModel : BaseViewModel() {
                     result2
                 )
             }
-        }, null, null, 1 == page)
+        }, null, null, if (showLoading) 1 == page else false)
     }
 
     /**
@@ -86,7 +87,7 @@ class SearchViewModel : BaseViewModel() {
         pageSize: Int,
         result: ((responseList: ResponseList<out ISearchSelectEntity>?) -> Unit)?
     ) {
-        val listWrapper = ApiRepository.dealApiResult(
+        ApiRepository.dealApiResult(
             mDeviceRepo.deviceList(
                 hashMapOf(
                     "page" to page,
@@ -96,8 +97,7 @@ class SearchViewModel : BaseViewModel() {
                     "searchFlag" to true
                 )
             )
-        )
-        listWrapper?.let {
+        )?.let {
             withContext(Dispatchers.Main) {
                 result?.invoke(it)
             }

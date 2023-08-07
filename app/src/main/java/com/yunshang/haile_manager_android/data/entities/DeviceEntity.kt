@@ -131,6 +131,9 @@ data class DeviceEntity(
     fun isIotShow(): Boolean = 0 != iotStatus
     override fun getSearchId(): Int = id
 
-    override fun getTitle(): String = name
+    override fun getTitle(): String = getDeviceCategoryAndNo()
 
+    override fun getContent(): Array<String> = arrayOf(
+        name, shopName
+    )
 }

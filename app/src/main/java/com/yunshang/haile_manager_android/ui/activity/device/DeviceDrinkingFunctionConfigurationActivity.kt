@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -50,18 +51,33 @@ class DeviceDrinkingFunctionConfigurationActivity :
                     it.priceCalculateMode.observe(this) { model ->
                         childBinding.model = model
                     }
+                    childBinding.switchDeviceDrinkingFunConfigurationNormalOpen.setOnSwitchClickListener {switch->
+                        if (switch.isChecked) {
+                            //如果当前是开启状态，关闭前先判断是否只开启了一个
+                            val openNum =
+                                mViewModel.drinkAttrConfigure.value?.items?.count { item -> 1 == item.soldState }
+                                    ?: 0
+                            if (1 >= openNum) {
+                                SToast.showToast(msg = "请至少开启一个单价")
+                                true
+                            } else false
+                        } else false
+
+                    }
                 }
             }
         }
 
-        mViewModel.resultData.observe(this) {
+        mViewModel.resultData.observe(this)
+        {
             setResult(IntentParams.DeviceFunctionConfigurationParams.ResultCode, Intent().apply {
                 putExtras(IntentParams.DeviceFunctionConfigurationParams.packResult(it))
             })
             finish()
         }
 
-        mViewModel.jump.observe(this) {
+        mViewModel.jump.observe(this)
+        {
             when (it) {
                 0 -> finish()
             }

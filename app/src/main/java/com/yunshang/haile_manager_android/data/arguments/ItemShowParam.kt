@@ -16,7 +16,7 @@ import androidx.lifecycle.MutableLiveData
  * 作者姓名 修改时间 版本号 描述
  */
 data class ItemShowParam(
-    val title: String,
+    var title: String,
     @DrawableRes val icon: Int,
     val show: MutableLiveData<Boolean>,
     val onClick:OnClickListener,

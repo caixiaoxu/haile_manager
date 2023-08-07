@@ -14,7 +14,6 @@ import androidx.databinding.DataBindingUtil
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 import com.lsy.framelib.async.LiveDataBus
-import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.ScreenUtils
 import com.lsy.framelib.utils.StringUtils
@@ -30,10 +29,7 @@ import com.yunshang.haile_manager_android.data.entities.DosingConfigs
 import com.yunshang.haile_manager_android.data.entities.ExtAttrDrinkBean
 import com.yunshang.haile_manager_android.data.entities.Item
 import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
-import com.yunshang.haile_manager_android.databinding.ActivityDeviceDetailBinding
-import com.yunshang.haile_manager_android.databinding.ItemDeviceDetailDisposeMinBinding
-import com.yunshang.haile_manager_android.databinding.ItemDeviceDetailFuncPriceBinding
-import com.yunshang.haile_manager_android.databinding.ItemSelectedDrinkDeviceFuncationConfigurationBinding
+import com.yunshang.haile_manager_android.databinding.*
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.CustomCaptureActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DropperAddSettingActivity.Companion.OldFuncConfiguration
@@ -164,6 +160,9 @@ class DeviceDetailActivity :
                         item.show.value = false
                     }
             } else if (DeviceCategory.isDrinking(detail.categoryCode)) {// 饮水机
+                mBinding.glDeviceDetailFunc.children.find { view -> view.tag == R.mipmap.icon_device_unlock }
+                    ?.findViewById<AppCompatTextView>(R.id.tv_device_detail_func)?.text =
+                    StringUtils.getString(R.string.unlock1)
                 mViewModel.deviceDetailFunOperate.filter { item -> item.icon != R.mipmap.icon_device_unlock && item.icon != R.mipmap.icon_device_create_pay_code && item.icon != R.mipmap.icon_device_update }
                     .forEach { item ->
                         item.show.value = false
@@ -466,23 +465,42 @@ class DeviceDetailActivity :
                                 }
                         }.build().show(supportFragmentManager)
                     } else {
-                        mViewModel.deviceOperate(0)
+                        CommonDialog.Builder("确定复位此设备？").apply {
+                            negativeTxt = StringUtils.getString(R.string.cancel)
+                            setPositiveButton(StringUtils.getString(R.string.sure)) {
+                                mViewModel.deviceOperate(0)
+                            }
+                        }.build().show(supportFragmentManager)
                     }
                 }
                 // 开锁
                 9 -> mViewModel.deviceDetail.value?.let { detail ->
                     if (DeviceCategory.isDrinking(detail.categoryCode)) {
-                        detail.items.firstOrNull()?.let { first ->
-                            mViewModel.startDrinkingDevice(
-                                first.id,
-                                detail.imei,
-                                detail.categoryCode,
-                            ) {
-                                SToast.showToast(this@DeviceDetailActivity, R.string.unlock_success)
+                        CommonDialog.Builder("确定解锁此设备？").apply {
+                            negativeTxt = StringUtils.getString(R.string.cancel)
+                            setPositiveButton(StringUtils.getString(R.string.sure)) {
+                                detail.items.firstOrNull()?.let { first ->
+                                    mViewModel.startDrinkingDevice(
+                                        first.id,
+                                        detail.imei,
+                                        detail.categoryCode,
+                                    ) {
+                                        SToast.showToast(
+                                            this@DeviceDetailActivity,
+                                            R.string.unlock_success
+                                        )
+                                    }
+                                }
                             }
-                        }
-                    } else
-                        mViewModel.deviceOpenCap(detail.imei)
+                        }.build().show(supportFragmentManager)
+                    } else {
+                        CommonDialog.Builder("确定开锁此设备？").apply {
+                            negativeTxt = StringUtils.getString(R.string.cancel)
+                            setPositiveButton(StringUtils.getString(R.string.sure)) {
+                                mViewModel.deviceOpenCap(detail.imei)
+                            }
+                        }.build().show(supportFragmentManager)
+                    }
                 }
                 10 -> mViewModel.deviceDetail.value?.let { detail ->
                     //语音设置
@@ -526,35 +544,40 @@ class DeviceDetailActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+        mBinding.switchDeviceDetailOpen.setOnSwitchClickListener { switch ->
+            if (switch.isChecked) {
+                CommonDialog.Builder("确定停用此设备？").apply {
+                    negativeTxt = StringUtils.getString(R.string.cancel)
+                    setPositiveButton(StringUtils.getString(R.string.sure)) {
+                        switch.isChecked = false
+                    }
+                }.build().show(supportFragmentManager)
+                true
+            } else false
+        }
 
         // 初始化功能操作区
         val itemW = ScreenUtils.screenWidth / mBinding.glDeviceDetailFunc.columnCount
-        val pLR = DimensionUtils.dip2px(this, 8f)
-        val pTB = DimensionUtils.dip2px(this, 16f)
-        mViewModel.deviceDetailFunOperate.forEachIndexed { index, config ->
-            (LayoutInflater.from(this@DeviceDetailActivity)
-                .inflate(
-                    R.layout.item_device_detail_func,
-                    null,
-                    false
-                ) as AppCompatTextView).also {
-                it.text = config.title
-                it.tag = config.icon
-                it.setCompoundDrawablesWithIntrinsicBounds(0, config.icon, 0, 0)
-                it.setPadding(
-                    pLR,
-                    if (0 == index % mBinding.glDeviceDetailFunc.columnCount) pTB else 0,
-                    pLR,
-                    pTB
+        val inflater = LayoutInflater.from(this@DeviceDetailActivity)
+        mViewModel.deviceDetailFunOperate.forEachIndexed { _, config ->
+            ItemDeviceDetailFuncBinding.inflate(inflater).also { childBinding ->
+                childBinding.tvDeviceDetailFunc.text = config.title
+                childBinding.root.tag = config.icon
+                childBinding.tvDeviceDetailFunc.setCompoundDrawablesWithIntrinsicBounds(
+                    0,
+                    config.icon,
+                    0,
+                    0
                 )
                 config.show.observe(this) { show ->
                     if (!show) {
-                        mBinding.glDeviceDetailFunc.removeView(it)
+                        mBinding.glDeviceDetailFunc.removeView(childBinding.root)
                     }
                 }
-                it.setOnClickListener(config.onClick)
+                childBinding.root.setOnClickListener(config.onClick)
                 mBinding.glDeviceDetailFunc.addView(
-                    it, ViewGroup.LayoutParams(itemW, ViewGroup.LayoutParams.WRAP_CONTENT)
+                    childBinding.root,
+                    ViewGroup.LayoutParams(itemW, ViewGroup.LayoutParams.WRAP_CONTENT)
                 )
             }
         }

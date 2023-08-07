@@ -42,13 +42,12 @@
             android:layout_height="wrap_content"
             android:text='@{"（" + (2 == model?@string/unit_water_time_price_hint:@string/unit_water_quantity_price_hint) + "）"}' />
 
-        <androidx.appcompat.widget.SwitchCompat
+        <com.yunshang.haile_manager_android.ui.view.ClickSwitchView
             android:id="@+id/switch_device_drinking_fun_configuration_normal_open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="@{1 == item.soldState}"
             android:onCheckedChanged="@{(btn,checked)->item.setSoldState(checked)}"
-            android:thumb="@drawable/selector_default_switch_thumb"
-            app:track="@drawable/selector_default_switch_track" />
+            style="@style/CustomSwitchStyle" />
     </LinearLayout>
 </layout>

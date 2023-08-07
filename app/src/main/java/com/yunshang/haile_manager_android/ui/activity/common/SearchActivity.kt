@@ -143,8 +143,9 @@ class SearchActivity :
                         itemBinding.name = searchParam.keyword
                         itemBinding.root.id = index + 1
                         itemBinding.root.setOnClickListener {
+                            mBinding.etSearchKey.clearFocus()
                             mViewModel.searchKey.value = searchParam.keyword.trim()
-                            search()
+                            search(true)
                         }
                         mBinding.clSearchHistory.addView(itemBinding.root)
                     }

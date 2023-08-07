@@ -7,7 +7,6 @@ import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.widget.addTextChangedListener
-import com.lsy.framelib.utils.DimensionUtils
 import com.yunshang.haile_manager_android.R
 
 /**
@@ -39,7 +38,7 @@ class SearchEditText @JvmOverloads constructor(
         isSingleLine = true
         imeOptions = EditorInfo.IME_ACTION_SEARCH
 
-        if (autoSearch){
+        if (autoSearch) {
             addTextChangedListener {
                 mHandler.removeMessages(0)
                 mHandler.sendEmptyMessageDelayed(0, 600)

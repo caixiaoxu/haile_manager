@@ -20,6 +20,7 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.listener.ChartTouchListener.ChartGesture
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.utils.MPPointF
@@ -48,6 +49,7 @@ import com.yunshang.haile_manager_android.ui.view.chart.CustomMarkerView
 import com.yunshang.haile_manager_android.ui.view.dialog.DeviceCategoryDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import timber.log.Timber
 import java.lang.reflect.Field
 import java.util.*
@@ -442,32 +444,45 @@ class HomeFragment :
                     e.printStackTrace()
                 }
             }
-            val dataSet = BarDataSet(positives, "收益趋势")
-            dataSet.color = Color.parseColor("#FFEBD8")
-            dataSet.setDrawValues(false)
-            dataSet.highLightAlpha = 255
-            dataSet.highLightColor = Color.parseColor("#F0A258") //选中颜色
 
-            val dataSet1 = BarDataSet(negatives, "收益趋势")
-            dataSet1.color = Color.parseColor("#C4F0E4")
-            dataSet1.setDrawValues(false)
-            dataSet1.highLightAlpha = 255
-            dataSet1.highLightColor = Color.parseColor("#30C19A") //选中颜色
+            // 如果正负收益列表都为空，或者没有权限，不显示
+            if ((positives.isEmpty() && negatives.isEmpty()) || !UserPermissionUtils.hasProfitPermission()) {
+                mBinding.clHomeTrend.visibility = View.GONE
+            } else {
+                mBinding.clHomeTrend.visibility = View.VISIBLE
+                val dataList = arrayListOf<IBarDataSet>()
+                if (positives.isNotEmpty()){
+                    val dataSet = BarDataSet(positives, "收益趋势")
+                    dataSet.color = Color.parseColor("#FFEBD8")
+                    dataSet.setDrawValues(false)
+                    dataSet.highLightAlpha = 255
+                    dataSet.highLightColor = Color.parseColor("#F0A258") //选中颜色
+                    dataList.add(dataSet)
+                }
+                if (negatives.isNotEmpty()){
+                    val dataSet1 = BarDataSet(negatives, "收益趋势")
+                    dataSet1.color = Color.parseColor("#C4F0E4")
+                    dataSet1.setDrawValues(false)
+                    dataSet1.highLightAlpha = 255
+                    dataSet1.highLightColor = Color.parseColor("#30C19A") //选中颜色
+                    dataList.add(dataSet1)
+                }
 
-            val barData = BarData(dataSet, dataSet1)
-            // 自定义marker
-            val markerView = CustomMarkerView(context, R.layout.bar_chart_marker)
-            markerView.chartView = mBinding.bcTrendChart
-            markerView.addData(it)
-            // 赋值
-            mBinding.bcTrendChart.marker = markerView
-            mBinding.bcTrendChart.data = barData
-            mBinding.bcTrendChart.invalidate()
-            mBinding.bcTrendChart.animateXY(1000, 1000, Easing.EaseInOutQuad) // 启用XY轴方向的动画效果
-            //选中当日
-            val instance = Calendar.getInstance()
-            val index = instance[Calendar.DAY_OF_MONTH]
-            mBinding.bcTrendChart.highlightValue(index.toFloat(), 0, 0)
+                val barData = BarData(dataList)
+                // 自定义marker
+                val markerView = CustomMarkerView(context, R.layout.bar_chart_marker)
+                markerView.chartView = mBinding.bcTrendChart
+                markerView.addData(it)
+                // 赋值
+                mBinding.bcTrendChart.marker = markerView
+                mBinding.bcTrendChart.data = barData
+                mBinding.bcTrendChart.invalidate()
+                mBinding.bcTrendChart.animateXY(1000, 1000, Easing.EaseInOutQuad) // 启用XY轴方向的动画效果
+                //选中当日
+                val instance = Calendar.getInstance()
+                val index = instance[Calendar.DAY_OF_MONTH]
+                mBinding.bcTrendChart.highlightValue(index.toFloat(), 0, 0)
+            }
         }
     }
 

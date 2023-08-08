@@ -476,8 +476,8 @@ class HomeFragment :
                 // 赋值
                 mBinding.bcTrendChart.marker = markerView
                 mBinding.bcTrendChart.data = barData
-                mBinding.bcTrendChart.invalidate()
-                mBinding.bcTrendChart.animateXY(1000, 1000, Easing.EaseInOutQuad) // 启用XY轴方向的动画效果
+                mBinding.bcTrendChart.postInvalidateDelayed(1000)
+//                mBinding.bcTrendChart.animateXY(1000, 1000, Easing.EaseInOutQuad) // 启用XY轴方向的动画效果
                 //选中当日
                 val instance = Calendar.getInstance()
                 val index = instance[Calendar.DAY_OF_MONTH]

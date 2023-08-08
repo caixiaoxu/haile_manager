@@ -147,8 +147,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:background="@color/white"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Font_14_333333_bold"
@@ -189,10 +188,7 @@
                             app:show="@{true}"
                             app:showCopy="@{true}"
                             app:title="@{vm.deviceDetail.getDeviceOrderTitle}" />
-
                     </LinearLayout>
-
-
                 </LinearLayout>
 
                 <LinearLayout

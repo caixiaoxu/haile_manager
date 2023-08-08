@@ -75,7 +75,7 @@ data class Sku(
     val realUnitPrice: Double,
     val skuName: String,
     val skuPrice: Double,
-    val skuUnit: Int,
+    val skuUnit: String,
     val state: Int,
     val discountPrice: String,
     val goodsCategoryCode: String,

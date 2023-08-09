@@ -26,7 +26,7 @@
             android:id="@+id/bar_device_detail_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
-            android:background="@color/white"
+            android:background="@drawable/shape_bottom_stroke_dividing"
             app:layout_constraintTop_toTopOf="parent"
             app:rightModel="text"
             app:title="@string/device_detail" />
@@ -34,7 +34,6 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
             android:scrollbars="none"
             app:layout_constraintBottom_toTopOf="@id/view_device_detail_bottom"
             app:layout_constraintEnd_toEndOf="parent"
@@ -45,6 +44,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="8dp"
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout

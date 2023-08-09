@@ -44,6 +44,15 @@ class ShopPaySettingsActivity :
                     ), 1
                 ) { _, childBinding, data ->
                     childBinding.item = data
+
+                    childBinding.switchShopPaySettingsNoPwdPayOpen.setOnSwitchClickListener {
+                        SToast.showToast(this@ShopPaySettingsActivity,"免密支付功能，暂不可使用")
+                        true
+                    }
+                    childBinding.switchShopPaySettingsCompelNoPwdPayOpen.setOnSwitchClickListener {
+                        SToast.showToast(this@ShopPaySettingsActivity,"免密支付功能，暂不可使用")
+                        true
+                    }
                 }
             }
         }

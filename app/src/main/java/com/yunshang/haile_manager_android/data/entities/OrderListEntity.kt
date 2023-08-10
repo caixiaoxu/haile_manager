@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.data.entities
 
 import com.google.gson.annotations.SerializedName
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.rule.ISearchSelectEntity
 
 /**
@@ -90,6 +91,13 @@ data class Sku(
 ) {
     val goodsItemInfo: GoodsItemInfoEntity?
         get() = GsonUtils.json2Class(_goodsItemInfo, GoodsItemInfoEntity::class.java)
+
+    val unitValue: String
+        get() = if (DeviceCategory.isDrinking(goodsCategoryCode)) {
+            if (1 == goodsItemInfo?.priceCalculateMode) "${skuUnit}ml" else "${skuUnit}s"
+        } else if (DeviceCategory.isDispenser(goodsCategoryCode)) {
+            "${skuUnit}ml"
+        } else "${skuUnit}分钟"
 }
 
 data class GoodsItemInfoEntity(

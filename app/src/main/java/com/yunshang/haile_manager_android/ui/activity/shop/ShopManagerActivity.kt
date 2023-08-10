@@ -139,7 +139,8 @@ class ShopManagerActivity :
                     "$title：$value",
                     arrayOf(
                         AbsoluteSizeSpan(DimensionUtils.sp2px(16f, this@ShopManagerActivity)),
-                        StyleSpan(Typeface.BOLD),
+//                        StyleSpan(Typeface.BOLD),
+                        TypefaceSpan("money"),
                     ), start, end
                 )
 

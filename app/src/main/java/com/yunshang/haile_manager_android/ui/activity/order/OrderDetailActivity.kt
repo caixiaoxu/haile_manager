@@ -17,7 +17,6 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.OrderDetailViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
-import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.databinding.ActivityOrderDetailBinding
 import com.yunshang.haile_manager_android.databinding.ItemOrderDetailItemBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -89,11 +88,7 @@ class OrderDetailActivity :
                         false
                     ).also { itemBinding ->
                         itemBinding.title =
-                            "${sku.skuName}/${
-                                if (DeviceCategory.isDrinking(sku.goodsCategoryCode)) {
-                                    if (1 == sku.goodsItemInfo?.priceCalculateMode) "${sku.skuUnit}ml" else "${sku.skuUnit}s"
-                                } else "${sku.skuUnit}分钟"
-                            }："
+                            "${sku.skuName}/${sku.unitValue}："
                         itemBinding.value = "￥${sku.originUnitPrice}"
                         itemBinding.mStart = mStart
                         mBinding.llOrderDetailSkuList.addView(

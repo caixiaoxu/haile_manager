@@ -206,7 +206,7 @@
     <string name="water">饮水</string>
     <string name="dispenser">投放</string>
     <string name="shower">沐浴</string>
-    <string name="category_wash_dryer">洗烘机</string>
+    <string name="category_wash_dryer">洗烘</string>
     <string name="category_wash_dryer_desc">洗衣机/烘干机/洗鞋机</string>
     <string name="category_hair">吹风机</string>
     <string name="category_hair_desc">扫码控制电源使用</string>

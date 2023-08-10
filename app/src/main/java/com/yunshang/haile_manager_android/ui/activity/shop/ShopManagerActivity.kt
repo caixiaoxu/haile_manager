@@ -92,6 +92,7 @@ class ShopManagerActivity :
             R.layout.item_shop_list,
             BR.item
         ) { mBinding, _, item ->
+            mBinding?.share = mSharedViewModel
             var title =
                 StringUtils.getString(R.string.total_earnings)
             var value =
@@ -140,7 +141,7 @@ class ShopManagerActivity :
                     arrayOf(
                         AbsoluteSizeSpan(DimensionUtils.sp2px(16f, this@ShopManagerActivity)),
 //                        StyleSpan(Typeface.BOLD),
-                        TypefaceSpan("money"),
+
                     ), start, end
                 )
 

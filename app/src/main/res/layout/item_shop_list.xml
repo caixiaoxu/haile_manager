@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="share"
+            type="com.yunshang.haile_manager_android.business.vm.SharedViewModel" />
+
         <variable
             name="item"
             type="com.yunshang.haile_manager_android.data.entities.ShopEntity" />
@@ -49,23 +55,24 @@
             android:layout_height="46dp"
             android:drawableEnd="@drawable/icon_arrow_right_with_padding"
             android:gravity="center"
+            android:visibility="@{share.hasShopProfitPermission?View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintEnd_toStartOf="@id/tv_item_shop_device_num"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="@id/tv_item_shop_name"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_shop_name"
-            tools:text="总收益：856420.00元" />
+            app:layout_constraintTop_toTopOf="@id/tv_item_shop_device_num"
+            tools:text="总收益：856420.00元"
+            tools:visibility="invisible" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_item_shop_device_num"
             style="@style/Font_14_333333"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="46dp"
             android:drawableEnd="@drawable/icon_arrow_right_with_padding"
             android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="@id/tv_item_shop_total_income"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_item_shop_total_income"
-            app:layout_constraintTop_toTopOf="@id/tv_item_shop_total_income"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_shop_name"
             tools:text="设备数：9台" />
 
         <include

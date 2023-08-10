@@ -334,7 +334,7 @@ data class SkuFuncConfigurationParam(
     val extAttr: String,
     val feature: String,
     val soldState: Int,
-    val functionId: String,
+    val functionId: String?,
 ) {
     /**
      * 根据型号区分配置内容

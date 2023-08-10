@@ -45,10 +45,12 @@ class DeviceCreateActivity :
             StringUtils.getPayImeiCode(it)?.let { code ->
                 mViewModel.payCode.value = code
                 mViewModel.imeiCode.value = code
+                mViewModel.createAndUpdateEntity.value?.codeStr = it
             } ?: run {
                 val payCode = StringUtils.getPayCode(it)
                 if (!mViewModel.isIgnorePayCodeFlag && null != payCode) {
                     mViewModel.payCode.value = payCode
+                    mViewModel.createAndUpdateEntity.value?.codeStr = it
                 } else if (StringUtils.isImeiCode(it)) {
                     mViewModel.imeiCode.value = it
                 } else

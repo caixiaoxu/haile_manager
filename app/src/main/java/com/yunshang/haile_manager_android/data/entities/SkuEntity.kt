@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.data.entities
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.JsonObject
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
@@ -78,7 +79,7 @@ data class SkuEntity(
     var extAttrValue: List<ExtAttrBean>? = null
 
     // 饮水机
-    var extAttrDrink: ExtAttrDrinkBean? = null
+    var extAttrDrink: JsonObject? = null
 
     // 烘干机选择的时间值
     val extAttrStr: String
@@ -118,7 +119,7 @@ data class SkuEntity(
         price,
         pulse,
         unit,
-        GsonUtils.any2Json(extAttrDrink),
+        extAttrDrink.toString(),
         feature,
         soldState,
         functionId
@@ -133,7 +134,7 @@ data class SkuEntity(
         price,
         pulse,
         unit,
-        dosingConfigs?.let { list -> GsonUtils.any2Json(list) } ?: "",
+        dosingConfigs.let { list -> GsonUtils.any2Json(list) } ?: "",
         feature,
         soldState,
         ""
@@ -172,7 +173,7 @@ data class SkuEntity(
             pulse = old.pulse
             unit = old.unit
             if (old.extAttr.isNotEmpty()) {
-                extAttrDrink = GsonUtils.json2Class(old.extAttr, ExtAttrDrinkBean::class.java)
+                extAttrDrink = GsonUtils.json2JsonObject(old.extAttr)
             }
             feature = old.feature
             soldState = old.soldState
@@ -291,7 +292,7 @@ data class DrinkAttrConfigure(
     var singlePulseQuantity: String = _singlePulseQuantity.toString()
         set(value) {
             field = value
-            _singlePulseQuantity =  try {
+            _singlePulseQuantity = try {
                 value.toDouble()
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -366,5 +367,4 @@ data class SkuFuncConfigurationParam(
 
     fun getSoldStateValue() =
         StringUtils.getString(if (1 == soldState) R.string.in_use else R.string.out_of_service)
-
 }

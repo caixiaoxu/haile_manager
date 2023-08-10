@@ -68,29 +68,28 @@ class DeviceDrinkingFunctionConfigurationViewModel : BaseViewModel() {
                     if (!oldConfigurationList.isNullOrEmpty()) {
                         sku.mergeDrinkOld(oldConfigurationList!!.find { param -> param.skuId == sku.id })
                     } else {
-                        sku.extAttrDrink =
-                            GsonUtils.json2Class(sku.extAttr, ExtAttrDrinkBean::class.java)
+                        sku.extAttrDrink = GsonUtils.json2JsonObject(sku.extAttr)
                     }
                 }
                 it.firstOrNull()?.let { first ->
                     first.extAttrDrink?.let { firstAttr ->
                         drinkAttrConfigure.postValue(
                             DrinkAttrConfigure(
-                                MutableLiveData(firstAttr.priceCalculateMode),
+                                MutableLiveData(firstAttr["priceCalculateMode"].asInt),
                                 try {
-                                    firstAttr.overTime.toInt()
+                                    firstAttr["overTime"].asInt
                                 } catch (e: Exception) {
                                     e.printStackTrace()
                                     10
                                 },
                                 try {
-                                    firstAttr.pauseTime.toInt()
+                                    firstAttr["pauseTime"].asInt
                                 } catch (e: Exception) {
                                     e.printStackTrace()
                                     10
                                 },
                                 try {
-                                    firstAttr.singlePulseQuantity.toDouble()
+                                    firstAttr["singlePulseQuantity"].asDouble
                                 } catch (e: Exception) {
                                     e.printStackTrace()
                                     0.0001
@@ -165,12 +164,22 @@ class DeviceDrinkingFunctionConfigurationViewModel : BaseViewModel() {
                 sku.price = items[index].price
                 sku.soldState = items[index].soldState
             }
-            sku.extAttrDrink?.priceCalculateMode =
-                drinkAttrConfigure.value!!.priceCalculateMode.value!!
-            sku.extAttrDrink?.overTime = drinkAttrConfigure.value!!._overTime.toString()
-            sku.extAttrDrink?.pauseTime = drinkAttrConfigure.value!!._pauseTime.toString()
-            sku.extAttrDrink?.singlePulseQuantity =
+            sku.extAttrDrink?.addProperty(
+                "priceCalculateMode",
+                drinkAttrConfigure.value!!.priceCalculateMode.value
+            )
+            sku.extAttrDrink?.addProperty(
+                "overTime",
+                drinkAttrConfigure.value!!._overTime.toString()
+            )
+            sku.extAttrDrink?.addProperty(
+                "pauseTime",
+                drinkAttrConfigure.value!!._pauseTime.toString()
+            )
+            sku.extAttrDrink?.addProperty(
+                "singlePulseQuantity",
                 drinkAttrConfigure.value!!._singlePulseQuantity.toString()
+            )
         }
         val params = configurationList?.map {
             it.getDrinkRequestParams()

@@ -76,6 +76,8 @@ class DeviceMultiChangeViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
+    var originCode: String? = null
+
     // 是否可提交
     val canSubmit: MediatorLiveData<Boolean> = MediatorLiveData(false).apply {
         addSource(content) {
@@ -89,11 +91,14 @@ class DeviceMultiChangeViewModel : BaseViewModel() {
         }
 
         launch({
-            val params = HashMap<String, Any>()
+            val params = HashMap<String, Any?>()
             params["id"] = goodId
             when (type.value) {
                 typeChangeModel -> params["imei"] = content.value!!
-                typeChangePayCode -> params["code"] = content.value!!
+                typeChangePayCode -> {
+                    params["code"] = content.value!!
+                    params["codeStr"] = originCode
+                }
                 typeChangeName -> params["name"] = content.value!!
             }
 

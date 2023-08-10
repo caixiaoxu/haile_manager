@@ -50,7 +50,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="23dp"
             android:layout_weight="1"
-            android:text="@{item.pulseValue}"
+            android:text="@={item.pulseValue}"
             android:background="@android:color/transparent"
             android:hint="@string/please_input"
             android:inputType="numberDecimal"

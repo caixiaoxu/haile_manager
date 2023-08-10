@@ -34,6 +34,7 @@ class DeviceMultiChangeActivity :
                     val payCode = StringUtils.getPayCode(it)
                     payCode?.let { code ->
                         mViewModel.content.value = code
+                        mViewModel.originCode = it
                     } ?: SToast.showToast(this, R.string.pay_code_error)
                 }
             }

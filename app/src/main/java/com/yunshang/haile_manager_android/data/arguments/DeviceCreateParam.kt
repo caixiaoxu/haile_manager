@@ -21,6 +21,7 @@ data class DeviceCreateParam(
     var name: String = "",//	设备名称
     var imei: String = "'",//	IMEI
     var code: String = "",//付款码
+    var codeStr: String? = null,// 付款码原链接
     var extAttr: String = "",//	附加属性
     var washerImei: String? = null,//	洗衣机imei
     var soldState: Int = -1,//售卖状态。1上架，2下架

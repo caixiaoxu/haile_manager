@@ -42,6 +42,7 @@ data class DeviceCreateParam(
                 "shopCategoryId" to shopCategoryId,
                 "imei" to imei,
                 "code" to code,
+                "codeStr" to codeStr,
                 "extAttr" to extAttr,
                 "items" to items,
                 "washerImei" to washerImei,

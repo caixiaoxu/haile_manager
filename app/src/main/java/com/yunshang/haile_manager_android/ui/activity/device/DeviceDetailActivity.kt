@@ -585,7 +585,7 @@ class DeviceDetailActivity :
         mBinding.btnDeviceDetailDelete.setOnClickListener {
             CommonDialog.Builder(StringUtils.getString(R.string.device_delete_hint)).apply {
                 negativeTxt = StringUtils.getString(R.string.cancel)
-                setPositiveButton(StringUtils.getString(R.string.delete)) {
+                setPositiveButton(StringUtils.getString(R.string.unBind)) {
                     mViewModel.deviceDelete()
                 }
             }.build().show(supportFragmentManager)

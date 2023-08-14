@@ -2,10 +2,8 @@ package com.yunshang.haile_manager_android.ui.activity.shop
 
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Typeface
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +29,7 @@ import com.yunshang.haile_manager_android.databinding.PopupShopOperateManagerBin
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
 import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
@@ -149,7 +148,7 @@ class ShopManagerActivity :
                 startActivity(
                     Intent(
                         this@ShopManagerActivity,
-                        ShopManagerActivity::class.java
+                        DeviceManagerActivity::class.java
                     ).apply {
                         putExtras(
                             IntentParams.DeviceManagerParams.pack(

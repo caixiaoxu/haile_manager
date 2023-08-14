@@ -34,6 +34,7 @@ data class ShopDetailEntity(
     val lat: Double,// 经度
     val lng: Double,// 纬度
     val workTime: String,// 营业时间
+    val workTimeStr: String,// 营业时间
     val serviceTelephone: String,// 客服电话
     val shopBusiness: String, // 店铺业务
     val businessName: List<ShopBusinessTypeEntity>,// 店铺业务名称

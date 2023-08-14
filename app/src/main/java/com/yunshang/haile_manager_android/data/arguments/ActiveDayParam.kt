@@ -19,4 +19,14 @@ data class ActiveDayParam(val name: String, val id: Int) : ICommonBottomItemEnti
 
     override fun getTitle(): String = name
 
+    override fun hashCode(): Int {
+        return super.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other === this) return true
+        if (other !is ActiveDayParam) return false
+        if (other.id == this.id) return true
+        return super.equals(other)
+    }
 }

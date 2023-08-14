@@ -23,10 +23,6 @@ import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectActivit
 import com.yunshang.haile_manager_android.ui.view.dialog.AreaSelectDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
-import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
-import com.yunshang.haile_manager_android.utils.DateTimeUtils
-import timber.log.Timber
-import java.util.*
 
 class ShopCreateAndUpdateActivity :
     BaseBusinessActivity<ActivityShopCreateAndUpdateBinding, ShopCreateAndUpdateViewModel>(
@@ -77,9 +73,9 @@ class ShopCreateAndUpdateActivity :
                             }
                     }
                 }
-                IntentParams.ShopBusinessParams.ResultCode -> {
+                IntentParams.ShopBusinessHoursParams.ResultCode -> {
                     it.data?.let { intent ->
-                        IntentParams.ShopBusinessParams.parseShopBusinessHours(intent)
+                        IntentParams.ShopBusinessHoursParams.parseShopBusinessHoursJson(intent)
                             ?.let { hours ->
                                 mViewModel.changeWorkTime(hours)
                             }
@@ -169,31 +165,16 @@ class ShopCreateAndUpdateActivity :
 
         // 营业时间
         mBinding.mtivShopCreateBusinessHours.onSelectedEvent = {
-//            DateSelectorDialog.Builder().apply {
-//                selectModel = 1
-//                showModel = 4
-//                onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
-//                    override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
-//                        Timber.i("选择的日期${DateTimeUtils.formatDateTime(date1, "yyyy-MM")}")
-//                        //更换时间
-//                        mViewModel.changeWorkTime(
-//                            "${
-//                                DateTimeUtils.formatDateTime(
-//                                    date1,
-//                                    "HH:mm"
-//                                )
-//                            }-${DateTimeUtils.formatDateTime(date2, "HH:mm")}"
-//                        )
-//                    }
-//                }
-//            }.build().show(supportFragmentManager)
-
-            startSearchSelect.launch(
-                Intent(
-                    this@ShopCreateAndUpdateActivity,
-                    ShopBusinessActivity::class.java
+            mViewModel.createAndUpdateEntity.value?.workTimeStr?.let { workTimeStr ->
+                startSearchSelect.launch(
+                    Intent(
+                        this@ShopCreateAndUpdateActivity,
+                        ShopBusinessHoursActivity::class.java
+                    ).apply {
+                        putExtras(IntentParams.ShopBusinessHoursParams.pack(workTimeStr))
+                    }
                 )
-            )
+            }
         }
 
         // 业务类型

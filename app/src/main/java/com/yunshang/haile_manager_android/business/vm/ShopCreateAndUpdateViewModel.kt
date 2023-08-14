@@ -9,6 +9,7 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.ShopService
 import com.yunshang.haile_manager_android.business.event.BusEvents
+import com.yunshang.haile_manager_android.data.arguments.BusinessHourEntity
 import com.yunshang.haile_manager_android.data.arguments.ShopCreateParam
 import com.yunshang.haile_manager_android.data.entities.SchoolSelectEntity
 import com.yunshang.haile_manager_android.data.entities.ShopBusinessTypeEntity
@@ -157,9 +158,32 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
     /**
      * 切换营业时间
      */
-    fun changeWorkTime(time: String) {
-        createAndUpdateEntity.value?.workTime = time
-        workTimeValue.value = time
+    fun changeWorkTime(workTimeStr: String, workTime: String? = null) {
+        createAndUpdateEntity.value?.workTimeStr = workTimeStr
+
+        val timeList = GsonUtils.json2List(
+            workTimeStr,
+            BusinessHourEntity::class.java
+        )
+        workTimeValue.value = timeList?.let { list ->
+            list.joinToString("\n") { item ->
+                item.weekDays.joinToString("、") { day -> day.name } + item.workTime
+            }
+        } ?: ""
+
+        createAndUpdateEntity.value?.workTime = workTime ?: run {
+            timeList?.let {
+                val arr = Array(7) { "" }
+                for (index in 0..6) {
+                    arr[index] =
+                        timeList.filter { item -> null != item.weekDays.find { day -> day.id == (index + 1) } }
+                            .joinToString(",") { item ->
+                                item.workTime
+                            }
+                }
+                GsonUtils.any2Json(arr)
+            } ?: ""
+        }
     }
 
     /**
@@ -315,7 +339,7 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                 )
             }
             // 营业时间
-            changeWorkTime(shopDetailEntity.workTime)
+            changeWorkTime(shopDetailEntity.workTimeStr, shopDetailEntity.workTime)
             // 业务类型
             changeBusinessType(shopDetailEntity.businessName)
         }

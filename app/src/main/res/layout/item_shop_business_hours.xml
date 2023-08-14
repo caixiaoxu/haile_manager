@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.arguments.BusinessHourEntity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingVertical="16dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_shop_business_dates"
+            style="@style/Font_16_333333_cccccc"
+            android:layout_width="128dp"
+            android:layout_height="wrap_content"
+            android:text="@{item.hourWeekVal}"
+            android:hint="@string/please_select_date"
+            tools:text="周一、周二、周三、周四、周五" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_shop_business_hours"
+            style="@style/Font_16_333333_cccccc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_weight="1"
+            android:text="@{item.workTime}"
+            android:hint="@string/please_select_hours"
+            tools:text="12:00-14:00" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_shop_business_hours_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:src="@mipmap/icon_shop_business_hours_del" />
+    </LinearLayout>
+</layout>

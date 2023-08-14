@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.yunshang.haile_manager_android.business.vm.ShopBusinessViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.ShopBusinessHoursViewModel" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -16,7 +16,7 @@
         android:orientation="vertical"
         app:divider="@drawable/divder_efefef"
         app:showDividers="middle"
-        tools:context=".ui.activity.shop.ShopBusinessActivity">
+        tools:context=".ui.activity.shop.ShopBusinessHoursActivity">
 
         <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_shop_business_time_title"
@@ -30,13 +30,13 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:orientation="vertical"
                 android:paddingHorizontal="16dp"
+                android:background="@color/white"
                 app:divider="@drawable/divder_efefef"
-                app:dividerPadding="16dp"
                 app:showDividers="middle">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -56,31 +56,42 @@
                         style="@style/Font_14_f0a258_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/shape_storke_f0a258_r4"
+                        android:drawableStart="@mipmap/device_add_setting"
+                        android:gravity="center"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="6dp"
-                        android:gravity="center"
-                        android:drawableStart="@mipmap/device_add_setting"
                         android:text="@string/new_config"
-                        android:background="@drawable/shape_storke_f0a258_r4"
+                        android:onClick="@{vm::addHourConfigure}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout>
+
+                <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+                    android:id="@+id/ll_business_hour_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:divider="@drawable/divder_efefef"
+                    app:itemLayout="@layout/item_shop_business_hours"
+                    app:showDividers="middle" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.core.widget.NestedScrollView>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="96dp"
-            android:paddingHorizontal="14dp"
             android:background="@color/white"
+            android:paddingHorizontal="14dp"
             android:paddingTop="8dp">
 
             <com.yunshang.haile_manager_android.ui.view.CommonButton
                 style="@style/CommonMatchBtnStyle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/save"/>
+                android:text="@string/save" />
         </FrameLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

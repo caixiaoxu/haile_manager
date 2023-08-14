@@ -29,6 +29,7 @@ data class ShopCreateParam(
     var lat: Double? = null,
     var schoolName: String = "",
     var workTime: String = "",
+    var workTimeStr: String = "",
     var serviceTelephone: String = "",
     var shopBusiness: String = "",
     var schoolId: Int = -1,
@@ -42,5 +43,39 @@ data class ShopCreateParam(
         set(value) {
             _paymentSettings = value
             notifyPropertyChanged(BR.paymentSettings)
+        }
+}
+
+data class BusinessHourEntity(
+    var _weekDays: List<ActiveDayParam> = listOf(),
+    var _workTime: String = ""
+) : BaseObservable() {
+
+    @get:Bindable
+    var weekDays: List<ActiveDayParam>
+        get() = _weekDays
+        set(value) {
+            _weekDays = value.sortedBy { item -> item.id }
+            notifyPropertyChanged(BR.hourWeekVal)
+        }
+
+    @get:Bindable
+    val hourWeekVal: String
+        get() = if (_weekDays.isEmpty()) "" else {
+            val first = _weekDays.first()
+            val last = _weekDays.last()
+            val temp = last.id - first.id
+            if (_weekDays.size == (temp + 1) && temp > 2) {
+                "${first.name}至${last.name}"
+            } else
+                _weekDays.joinToString("、") { item -> item.name }
+        }
+
+    @get:Bindable
+    var workTime: String
+        get() = _workTime
+        set(value) {
+            _workTime = value
+            notifyPropertyChanged(BR.workTime)
         }
 }

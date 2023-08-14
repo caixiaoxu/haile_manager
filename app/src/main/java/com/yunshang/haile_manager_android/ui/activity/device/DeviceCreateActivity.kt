@@ -43,16 +43,16 @@ class DeviceCreateActivity :
         result.contents?.trim()?.let {
             Timber.i("扫码:$it")
             StringUtils.getPayImeiCode(it)?.let { code ->
-                mViewModel.payCode.value = code
-                mViewModel.imeiCode.value = code
+                mViewModel.payCode.postValue(code)
+                mViewModel.imeiCode.postValue(code)
                 mViewModel.createAndUpdateEntity.value?.codeStr = it
             } ?: run {
                 val payCode = StringUtils.getPayCode(it)
                 if (!mViewModel.isIgnorePayCodeFlag && null != payCode) {
-                    mViewModel.payCode.value = payCode
+                    mViewModel.payCode.postValue(payCode)
                     mViewModel.createAndUpdateEntity.value?.codeStr = it
                 } else if (StringUtils.isImeiCode(it)) {
-                    mViewModel.imeiCode.value = it
+                    mViewModel.imeiCode.postValue(it)
                 } else
                     SToast.showToast(this, R.string.scan_code_error)
             }

@@ -117,11 +117,31 @@ object IntentParams {
         fun parseShopName(intent: Intent): String? = intent.getStringExtra(ShopName)
     }
 
-    object ShopBusinessParams{
+    object ShopBusinessHoursParams {
         private const val ShopBusinessHours = "ShopBusinessHours"
         const val ResultCode = 0x70001
 
-        fun parseShopBusinessHours(intent: Intent): String? = intent.getStringExtra(ShopBusinessHours)
+        fun pack(
+            hoursJson: String? = null,
+            hours: MutableList<BusinessHourEntity>? = null
+        ): Bundle =
+            Bundle().apply {
+                hoursJson?.let {
+                    putString(ShopBusinessHours, hoursJson)
+                }
+                hours?.let {
+                    putString(ShopBusinessHours, GsonUtils.any2Json(hours))
+                }
+            }
+
+        fun parseShopBusinessHoursJson(intent: Intent): String? =
+            intent.getStringExtra(ShopBusinessHours)
+
+        fun parseShopBusinessHours(intent: Intent): MutableList<BusinessHourEntity>? =
+            GsonUtils.json2List(
+                intent.getStringExtra(ShopBusinessHours),
+                BusinessHourEntity::class.java
+            )
     }
 
     object ShopPaySettingsParams {

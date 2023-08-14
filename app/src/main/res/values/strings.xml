@@ -252,6 +252,8 @@
     <string name="location_floor">楼栋/楼层</string>
     <string name="business_hours">营业时间</string>
     <string name="hours_configure">时间配置</string>
+    <string name="please_select_date">请选择日期</string>
+    <string name="please_select_hours">请选择时间</string>
     <string name="business_phone">客服电话</string>
     <string name="income_type">收支类型</string>
     <string name="business_type">业务类型</string>

@@ -63,8 +63,8 @@ data class RewardsConfig(
     val id: Int? = null,
     val itemId: Int? = null,
     val price: Int? = null,
-    var reach: Int? = null,
-    var reward: Int? = null,
+    var reach: Int = 0,
+    var reward: Int = 0,
     val shopId: Int? = null,
     val shopTokenCoinId: Int? = null,
     var status: Int? = null

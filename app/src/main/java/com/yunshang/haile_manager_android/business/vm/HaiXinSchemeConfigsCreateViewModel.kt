@@ -82,7 +82,7 @@ class HaiXinSchemeConfigsCreateViewModel : BaseViewModel() {
                 SToast.showToast(v.context, R.string.empty_scheme_shop)
                 return@let
             }
-            if (!it.rewards.any { item -> 0 == item.status && item.reach.isNotEmptyAmount() && item.reward.isNotEmptyAmount() }) {
+            if (!it.rewards.any { item -> 0 == item.status && item.reach.isNotEmptyAmount() }) {
                 SToast.showToast(v.context, R.string.empty_scheme_list)
                 return@let
             }

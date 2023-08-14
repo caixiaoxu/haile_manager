@@ -315,6 +315,10 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
+    <style name="Font_14_f0a258_bold" parent="Font_14_f0a258">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Font_14_ccccccc">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/common_txt_hint_color</item>

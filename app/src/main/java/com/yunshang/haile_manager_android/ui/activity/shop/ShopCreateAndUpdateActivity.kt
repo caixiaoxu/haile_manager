@@ -77,6 +77,14 @@ class ShopCreateAndUpdateActivity :
                             }
                     }
                 }
+                IntentParams.ShopBusinessParams.ResultCode -> {
+                    it.data?.let { intent ->
+                        IntentParams.ShopBusinessParams.parseShopBusinessHours(intent)
+                            ?.let { hours ->
+                                mViewModel.changeWorkTime(hours)
+                            }
+                    }
+                }
             }
         }
 
@@ -161,25 +169,31 @@ class ShopCreateAndUpdateActivity :
 
         // 营业时间
         mBinding.mtivShopCreateBusinessHours.onSelectedEvent = {
-            val dailog = DateSelectorDialog.Builder().apply {
-                selectModel = 1
-                showModel = 4
-                onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
-                    override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
-                        Timber.i("选择的日期${DateTimeUtils.formatDateTime(date1, "yyyy-MM")}")
-                        //更换时间
-                        mViewModel.changeWorkTime(
-                            "${
-                                DateTimeUtils.formatDateTime(
-                                    date1,
-                                    "HH:mm"
-                                )
-                            }-${DateTimeUtils.formatDateTime(date2, "HH:mm")}"
-                        )
-                    }
-                }
-            }.build()
-            dailog.show(supportFragmentManager)
+//            DateSelectorDialog.Builder().apply {
+//                selectModel = 1
+//                showModel = 4
+//                onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
+//                    override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
+//                        Timber.i("选择的日期${DateTimeUtils.formatDateTime(date1, "yyyy-MM")}")
+//                        //更换时间
+//                        mViewModel.changeWorkTime(
+//                            "${
+//                                DateTimeUtils.formatDateTime(
+//                                    date1,
+//                                    "HH:mm"
+//                                )
+//                            }-${DateTimeUtils.formatDateTime(date2, "HH:mm")}"
+//                        )
+//                    }
+//                }
+//            }.build().show(supportFragmentManager)
+
+            startSearchSelect.launch(
+                Intent(
+                    this@ShopCreateAndUpdateActivity,
+                    ShopBusinessActivity::class.java
+                )
+            )
         }
 
         // 业务类型
@@ -197,10 +211,10 @@ class ShopCreateAndUpdateActivity :
                         onValueSureListener = object :
                             MultiSelectBottomSheetDialog.OnValueSureListener<ShopBusinessTypeEntity> {
                             override fun onValue(
-                                datas: List<ShopBusinessTypeEntity>,
+                                selectData: List<ShopBusinessTypeEntity>,
                                 allSelectData: List<ShopBusinessTypeEntity>
                             ) {
-                                mViewModel.changeBusinessType(datas)
+                                mViewModel.changeBusinessType(selectData)
                             }
                         }
                     }.build()

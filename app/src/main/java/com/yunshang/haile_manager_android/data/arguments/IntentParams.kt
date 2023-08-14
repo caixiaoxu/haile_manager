@@ -117,6 +117,13 @@ object IntentParams {
         fun parseShopName(intent: Intent): String? = intent.getStringExtra(ShopName)
     }
 
+    object ShopBusinessParams{
+        private const val ShopBusinessHours = "ShopBusinessHours"
+        const val ResultCode = 0x70001
+
+        fun parseShopBusinessHours(intent: Intent): String? = intent.getStringExtra(ShopBusinessHours)
+    }
+
     object ShopPaySettingsParams {
         private const val ShopIds = "shopIds"
         private const val ShopPaySettings = "shopPaySettings"

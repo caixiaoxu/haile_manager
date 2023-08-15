@@ -103,6 +103,8 @@
 }
 
 # WebView混淆配置
+-keepattributes *Annotation*
+-keepattributes *JavascriptInterface*
 -keepclassmembers class * extends android.webkit.WebViewClient {
     public void *(android.webkit.WebView, java.lang.String, android.graphics.Bitmap);
     public boolean *(android.webkit.WebView, java.lang.String);
@@ -113,11 +115,18 @@
 -keepclassmembers class com.github.lzyzsd.jsbridge.BridgeWebView {
     public *;
 }
+
 -keepclassmembers class com.yunshang.haile_manager_android.web.MainJavascriptInterface {
     <methods>;
 }
 
 -keep public class com.yunshang.haile_manager_android.data.entities.** {
+    public void set*(***);
+    public *** get*();
+    public *** is*();
+}
+
+-keep public class com.yunshang.haile_manager_android.web.bean.** {
     public void set*(***);
     public *** get*();
     public *** is*();
@@ -153,12 +162,12 @@
 -dontwarn com.squareup.okhttp3.**
 -keep class com.squareup.okhttp3.** { *;}
 -dontwarn okio.**
-#---------------------- keep -----------------------------
+#---------------------- okhttp -----------------------------
 #---------------------- retrofit -----------------------------
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
 -keepattributes Exceptions
-#---------------------- keep -----------------------------
+#---------------------- retrofit -----------------------------
 #---------------------- glide -----------------------------
 -keep public class * implements com.bumptech.glide.module.AppGlideModule
 -keep public class * implements com.bumptech.glide.module.LibraryGlideModule
@@ -220,3 +229,8 @@
 -dontwarn com.github.mikephil.**
 -keep class com.github.mikephil.**{ *; }
 #---------------------- MPAndroidChart -----------------------------
+#------------------微信sdk------------------
+-keep class com.tencent.mm.opensdk.** {*;}
+-keep class com.tencent.wxop.** {*;}
+-keep class com.tencent.mm.sdk.** {*;}
+#------------------微信sdk------------------

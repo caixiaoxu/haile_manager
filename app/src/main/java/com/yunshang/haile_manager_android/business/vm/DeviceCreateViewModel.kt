@@ -131,7 +131,7 @@ class DeviceCreateViewModel : BaseViewModel() {
         deviceCommunicationType = communicationType
         isSelectedModel.value = true
         createDeviceFunConfigure.value = null
-        isDispenser.postValue(DeviceCategory.Dispenser == deviceCategoryCode)
+        isDispenser.value = DeviceCategory.Dispenser == deviceCategoryCode
     }
 
     /**
@@ -139,15 +139,16 @@ class DeviceCreateViewModel : BaseViewModel() {
      */
     fun requestModelOfImei(imei: String) {
         launch({
-            val deviceType = ApiRepository.dealApiResult(mRepo.deviceTypeOfImei(imei))
-            deviceType?.let { type ->
-                changeDeviceModel(
-                    type.spu.id,
-                    type.spu.name + type.spu.feature,
-                    type.category.id,
-                    type.category.code,
-                    type.spu.communicationType
-                )
+            ApiRepository.dealApiResult(mRepo.deviceTypeOfImei(imei))?.let { type ->
+                withContext(Dispatchers.Main) {
+                    changeDeviceModel(
+                        type.spu.id,
+                        type.spu.name + type.spu.feature,
+                        type.category.id,
+                        type.category.code,
+                        type.spu.communicationType
+                    )
+                }
             }
         }, {
             withContext(Dispatchers.Main) {

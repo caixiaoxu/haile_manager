@@ -2,6 +2,8 @@ package com.yunshang.haile_manager_android.business.vm
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
@@ -10,6 +12,7 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.ShopService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.BusinessHourEntity
+import com.yunshang.haile_manager_android.data.arguments.BusinessHourParams
 import com.yunshang.haile_manager_android.data.arguments.ShopCreateParam
 import com.yunshang.haile_manager_android.data.entities.SchoolSelectEntity
 import com.yunshang.haile_manager_android.data.entities.ShopBusinessTypeEntity
@@ -159,20 +162,22 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
      * 切换营业时间
      */
     fun changeWorkTime(workTimeStr: String, workTime: String? = null) {
-        createAndUpdateEntity.value?.workTimeStr = workTimeStr
-
-        val timeList = GsonUtils.json2List(
+        GsonUtils.json2List(
             workTimeStr,
             BusinessHourEntity::class.java
-        )
-        workTimeValue.value = timeList?.let { list ->
-            list.joinToString("\n") { item ->
-                item.weekDays.joinToString("、") { day -> day.name } + item.workTime
-            }
-        } ?: ""
+        )?.let { timeList ->
 
-        createAndUpdateEntity.value?.workTime = workTime ?: run {
-            timeList?.let {
+            createAndUpdateEntity.value?.workTimeStr = GsonUtils.any2Json(timeList.map { item ->
+                BusinessHourParams(
+                    item._weekDays.map { day -> day.id },
+                    item._workTime
+                )
+            })
+            workTimeValue.value = timeList.joinToString("\n") { item ->
+                item.hourWeekVal + item.workTime
+            }
+
+            createAndUpdateEntity.value?.workTime = workTime ?: run {
                 val arr = Array(7) { "" }
                 for (index in 0..6) {
                     arr[index] =
@@ -182,7 +187,7 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                             }
                 }
                 GsonUtils.any2Json(arr)
-            } ?: ""
+            }
         }
     }
 

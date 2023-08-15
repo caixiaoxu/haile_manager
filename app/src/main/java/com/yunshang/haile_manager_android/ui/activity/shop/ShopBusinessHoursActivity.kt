@@ -1,7 +1,9 @@
 package com.yunshang.haile_manager_android.ui.activity.shop
 
+import android.content.Intent
 import android.graphics.Color
 import android.view.View
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -63,7 +65,6 @@ class ShopBusinessHoursActivity :
         }
     }
 
-
     /**
      * 显示活动日
      */
@@ -111,6 +112,24 @@ class ShopBusinessHoursActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+
+        mBinding.btnShopBusinessHoursSave.setOnClickListener {
+            if (mViewModel.businessHourList.value.isNullOrEmpty() || mViewModel.businessHourList.value!!.all { item -> item.isEmpty() }) {
+                SToast.showToast(this@ShopBusinessHoursActivity, "请至少配置一个营业时间")
+                return@setOnClickListener
+            }
+
+            if (mViewModel.businessHourList.value!!.any { item -> item.isNotFull() }) {
+                SToast.showToast(this@ShopBusinessHoursActivity, "请补全配置营业时间或者删除")
+                return@setOnClickListener
+            }
+
+            setResult(IntentParams.ShopBusinessHoursParams.ResultCode, Intent().apply {
+                putExtras(IntentParams.ShopBusinessHoursParams.pack(mViewModel.businessHourList.value!!.filter { item -> !item.isEmpty() }
+                    .toMutableList()))
+            })
+            finish()
+        }
     }
 
     override fun initData() {

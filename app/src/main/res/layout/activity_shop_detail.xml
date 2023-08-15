@@ -136,7 +136,7 @@
 
                     <include
                         layout="@layout/item_device_detail_base_info"
-                        app:content="@{vm.shopDetail.workTime}"
+                        app:content="@{vm.shopDetail.workTimeVal}"
                         app:show="@{vm.shopDetail.hasWorkTime}"
                         app:showCopy="@{false}"
                         app:title="@{vm.shopDetail.getWorkTimeTitle}" />

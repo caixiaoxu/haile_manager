@@ -1,7 +1,11 @@
 package com.yunshang.haile_manager_android.data.entities
 
 import com.lsy.framelib.utils.StringUtils
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.data.arguments.BusinessHourEntity
+import com.yunshang.haile_manager_android.data.arguments.BusinessHourParams
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 
 /**
  * Title :
@@ -53,7 +57,23 @@ data class ShopDetailEntity(
     fun getBusinessNameTitle(): String = StringUtils.getString(R.string.business_type)
     fun hasLocation(): Boolean = !getRealAddress().isNullOrEmpty()
     fun getLocationTitle(): String = StringUtils.getString(R.string.location_detail)
-    fun hasWorkTime(): Boolean = !workTime.isNullOrEmpty()
+    fun hasWorkTime(): Boolean = !workTime.isNullOrEmpty() || !workTimeStr.isNullOrEmpty()
+
+    fun workTimeArr(): MutableList<BusinessHourEntity>? =
+        GsonUtils.json2List(workTimeStr, BusinessHourParams::class.java)?.let { params ->
+            params.map {
+                BusinessHourEntity().apply {
+                    formatData(it.weekDays, it.workTime)
+                }
+            }.toMutableList()
+        }
+
+    fun workTimeVal(): String = workTimeArr()?.let {
+        it.joinToString("\n") { item ->
+            item.hourWeekVal + item.workTime
+        }
+    } ?: workTime
+
     fun getWorkTimeTitle(): String = StringUtils.getString(R.string.business_hours)
     fun hasCreator(): Boolean = !createName.isNullOrEmpty()
     fun getCreatorTitle(): String = StringUtils.getString(R.string.creator)

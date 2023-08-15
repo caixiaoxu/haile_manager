@@ -12,6 +12,8 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SCHOOL
 import com.yunshang.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SEARCH_TYPE
 import com.yunshang.haile_manager_android.business.vm.ShopCreateAndUpdateViewModel
+import com.yunshang.haile_manager_android.data.arguments.BusinessHourEntity
+import com.yunshang.haile_manager_android.data.arguments.BusinessHourParams
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.PoiResultData
 import com.yunshang.haile_manager_android.data.entities.SchoolSelectEntity
@@ -165,16 +167,22 @@ class ShopCreateAndUpdateActivity :
 
         // 营业时间
         mBinding.mtivShopCreateBusinessHours.onSelectedEvent = {
-            mViewModel.createAndUpdateEntity.value?.workTimeStr?.let { workTimeStr ->
-                startSearchSelect.launch(
-                    Intent(
-                        this@ShopCreateAndUpdateActivity,
-                        ShopBusinessHoursActivity::class.java
-                    ).apply {
-                        putExtras(IntentParams.ShopBusinessHoursParams.pack(workTimeStr))
+            startSearchSelect.launch(
+                Intent(
+                    this@ShopCreateAndUpdateActivity,
+                    ShopBusinessHoursActivity::class.java
+                ).apply {
+                    GsonUtils.json2List(
+                        mViewModel.createAndUpdateEntity.value?.workTimeStr,
+                        BusinessHourParams::class.java
+                    )?.let { params ->
+                        putExtras(IntentParams.ShopBusinessHoursParams.pack(params.map {
+                            BusinessHourEntity().apply {
+                                formatData(it.weekDays, it.workTime)
+                            }
+                        }.toMutableList()))
                     }
-                )
-            }
+                })
         }
 
         // 业务类型

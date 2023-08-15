@@ -121,14 +121,8 @@ object IntentParams {
         private const val ShopBusinessHours = "ShopBusinessHours"
         const val ResultCode = 0x70001
 
-        fun pack(
-            hoursJson: String? = null,
-            hours: MutableList<BusinessHourEntity>? = null
-        ): Bundle =
+        fun pack(hours: MutableList<BusinessHourEntity>? = null): Bundle =
             Bundle().apply {
-                hoursJson?.let {
-                    putString(ShopBusinessHours, hoursJson)
-                }
                 hours?.let {
                     putString(ShopBusinessHours, GsonUtils.any2Json(hours))
                 }

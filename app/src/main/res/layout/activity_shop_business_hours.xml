@@ -88,6 +88,7 @@
             android:paddingTop="8dp">
 
             <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_shop_business_hours_save"
                 style="@style/CommonMatchBtnStyle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

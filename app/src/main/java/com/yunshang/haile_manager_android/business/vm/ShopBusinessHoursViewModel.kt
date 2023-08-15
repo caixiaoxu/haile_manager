@@ -26,7 +26,9 @@ class ShopBusinessHoursViewModel : BaseViewModel() {
             if (hoursStrings.isNullOrEmpty()) {
                 mutableListOf(BusinessHourEntity())
             } else {
-                hoursStrings
+                hoursStrings.apply {
+                    add(BusinessHourEntity())
+                }
             }
         )
     }

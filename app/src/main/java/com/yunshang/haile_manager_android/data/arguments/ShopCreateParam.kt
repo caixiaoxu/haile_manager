@@ -2,6 +2,8 @@ package com.yunshang.haile_manager_android.data.arguments
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.data.entities.ShopPaySettingsEntity
@@ -78,4 +80,18 @@ data class BusinessHourEntity(
             _workTime = value
             notifyPropertyChanged(BR.workTime)
         }
+
+    fun isEmpty(): Boolean = _weekDays.isEmpty() && _workTime.isEmpty()
+
+    fun isNotFull(): Boolean = !isEmpty() && (_weekDays.isEmpty() || _workTime.isEmpty())
+
+    fun formatData(days: List<Int>, time: String) {
+        _weekDays = ShopParam.businessDay.filter { item -> item.id in days }
+        _workTime = time
+    }
 }
+
+data class BusinessHourParams(
+    val weekDays: List<Int>,
+    val workTime: String
+)

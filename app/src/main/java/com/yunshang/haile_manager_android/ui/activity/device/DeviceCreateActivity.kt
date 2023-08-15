@@ -2,6 +2,8 @@ package com.yunshang.haile_manager_android.ui.activity.device
 
 import android.content.Intent
 import android.graphics.Color
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
@@ -42,30 +44,34 @@ class DeviceCreateActivity :
     private val codeLauncher = registerForActivityResult(ScanContract()) { result ->
         result.contents?.trim()?.let {
             Timber.i("扫码:$it")
-            StringUtils.getPayImeiCode(it)?.let { code ->
-                mViewModel.payCode.postValue(code)
-                mViewModel.imeiCode.postValue(code)
-                mViewModel.createAndUpdateEntity.value?.codeStr = it
-            } ?: run {
-                val payCode = StringUtils.getPayCode(it)
-                if (!mViewModel.isIgnorePayCodeFlag && null != payCode) {
-                    mViewModel.payCode.postValue(payCode)
+            Handler(Looper.getMainLooper()).post {
+                StringUtils.getPayImeiCode(it)?.let { code ->
+                    mViewModel.payCode.value = code
+                    mViewModel.imeiCode.value = code
                     mViewModel.createAndUpdateEntity.value?.codeStr = it
-                } else if (StringUtils.isImeiCode(it)) {
-                    mViewModel.imeiCode.postValue(it)
-                } else
-                    SToast.showToast(this, R.string.scan_code_error)
+                } ?: run {
+                    val payCode = StringUtils.getPayCode(it)
+                    if (!mViewModel.isIgnorePayCodeFlag && null != payCode) {
+                        mViewModel.payCode.value = payCode
+                        mViewModel.createAndUpdateEntity.value?.codeStr = it
+                    } else if (StringUtils.isImeiCode(it)) {
+                        mViewModel.imeiCode.value = it
+                    } else
+                        SToast.showToast(this, R.string.scan_code_error)
+                }
             }
         }
     }
 
     // 洗衣机IMEI相机启动器
     private val washimeiLauncher = registerForActivityResult(ScanContract()) { result ->
-        result.contents?.trim()?.let {
-            Timber.i("IMEI:$it")
-            if (StringUtils.isImeiCode(it)) mViewModel.washimeiCode.postValue(it)
-            else SToast.showToast(this, R.string.imei_code_error1)
-        } ?: SToast.showToast(this, R.string.imei_code_error)
+        Handler(Looper.getMainLooper()).post {
+            result.contents?.trim()?.let {
+                Timber.i("IMEI:$it")
+                if (StringUtils.isImeiCode(it)) mViewModel.washimeiCode.value = it
+                else SToast.showToast(this, R.string.imei_code_error1)
+            } ?: SToast.showToast(this, R.string.imei_code_error)
+        }
     }
 
     private val scanOptions: ScanOptions by lazy {

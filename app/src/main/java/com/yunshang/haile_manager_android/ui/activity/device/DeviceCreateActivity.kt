@@ -63,7 +63,7 @@ class DeviceCreateActivity :
     private val washimeiLauncher = registerForActivityResult(ScanContract()) { result ->
         result.contents?.trim()?.let {
             Timber.i("IMEI:$it")
-            if (StringUtils.isImeiCode(it)) mViewModel.washimeiCode.value = it
+            if (StringUtils.isImeiCode(it)) mViewModel.washimeiCode.postValue(it)
             else SToast.showToast(this, R.string.imei_code_error1)
         } ?: SToast.showToast(this, R.string.imei_code_error)
     }

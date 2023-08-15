@@ -103,6 +103,8 @@
 }
 
 # WebView混淆配置
+-keepattributes *Annotation*
+-keepattributes *JavascriptInterface*
 -keepclassmembers class * extends android.webkit.WebViewClient {
     public void *(android.webkit.WebView, java.lang.String, android.graphics.Bitmap);
     public boolean *(android.webkit.WebView, java.lang.String);
@@ -113,11 +115,18 @@
 -keepclassmembers class com.github.lzyzsd.jsbridge.BridgeWebView {
     public *;
 }
+
 -keepclassmembers class com.yunshang.haile_manager_android.web.MainJavascriptInterface {
     <methods>;
 }
 
 -keep public class com.yunshang.haile_manager_android.data.entities.** {
+    public void set*(***);
+    public *** get*();
+    public *** is*();
+}
+
+-keep public class com.yunshang.haile_manager_android.web.bean.** {
     public void set*(***);
     public *** get*();
     public *** is*();

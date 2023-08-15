@@ -33,7 +33,6 @@ import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioAc
 import com.yunshang.haile_manager_android.utils.StringUtils
 import timber.log.Timber
 
-
 class DeviceCreateActivity :
     BaseBusinessActivity<ActivityDeviceCreateBinding, DeviceCreateViewModel>(
         DeviceCreateViewModel::class.java,

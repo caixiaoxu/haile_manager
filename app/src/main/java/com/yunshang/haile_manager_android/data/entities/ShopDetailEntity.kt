@@ -59,20 +59,18 @@ data class ShopDetailEntity(
     fun getLocationTitle(): String = StringUtils.getString(R.string.location_detail)
     fun hasWorkTime(): Boolean = !workTime.isNullOrEmpty() || !workTimeStr.isNullOrEmpty()
 
-    fun workTimeArr(): MutableList<BusinessHourEntity>? =
-        GsonUtils.json2List(workTimeStr, BusinessHourParams::class.java)?.let { params ->
-            params.map {
-                BusinessHourEntity().apply {
-                    formatData(it.weekDays, it.workTime)
-                }
-            }.toMutableList()
-        } ?: run {
+    fun workTimeArr(): MutableList<BusinessHourEntity> =
+        GsonUtils.json2List(workTimeStr, BusinessHourParams::class.java)?.map {
+            BusinessHourEntity().apply {
+                formatData(it.weekDays, it.workTime)
+            }
+        }?.toMutableList() ?: run {
             mutableListOf(
                 BusinessHourEntity(ShopParam.businessDay, workTime)
             )
         }
 
-    fun workTimeVal(): String = workTimeArr()?.let {
+    fun workTimeVal(): String = workTimeArr().let {
         it.joinToString("\n") { item ->
             item.hourWeekVal + item.workTime
         }

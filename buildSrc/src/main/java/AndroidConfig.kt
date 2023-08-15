@@ -7,11 +7,11 @@ object AndroidConfig {
     val defaultConfig = DefaultConfig()
 
     class DefaultConfig {
-//        val applicationId = "com.yunshang.haile_manager_android"
+        //        val applicationId = "com.yunshang.haile_manager_android"
         val applicationId = "com.yunshang.haileshenghuo"
         val minSdk = 21
         val targetSdk = 33
-        val versionCode = 202
-        val versionName = "2.0.2"
+        val versionCode = 203
+        val versionName = "2.0.3"
     }
 }

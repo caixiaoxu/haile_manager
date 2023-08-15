@@ -2,8 +2,6 @@ package com.yunshang.haile_manager_android.data.arguments
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.data.entities.ShopPaySettingsEntity

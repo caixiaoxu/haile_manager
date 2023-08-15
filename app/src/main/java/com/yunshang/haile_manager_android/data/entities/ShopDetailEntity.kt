@@ -5,7 +5,7 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.arguments.BusinessHourEntity
 import com.yunshang.haile_manager_android.data.arguments.BusinessHourParams
-import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.arguments.ShopParam
 
 /**
  * Title :
@@ -66,6 +66,10 @@ data class ShopDetailEntity(
                     formatData(it.weekDays, it.workTime)
                 }
             }.toMutableList()
+        } ?: run {
+            mutableListOf(
+                BusinessHourEntity(ShopParam.businessDay, workTime)
+            )
         }
 
     fun workTimeVal(): String = workTimeArr()?.let {

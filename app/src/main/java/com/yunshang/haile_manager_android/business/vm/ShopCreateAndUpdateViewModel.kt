@@ -2,8 +2,6 @@ package com.yunshang.haile_manager_android.business.vm
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
@@ -161,12 +159,11 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
     /**
      * 切换营业时间
      */
-    fun changeWorkTime(workTimeStr: String, workTime: String? = null) {
-        GsonUtils.json2List(
-            workTimeStr,
-            BusinessHourEntity::class.java
-        )?.let { timeList ->
-
+    fun changeWorkTime(
+        timeList: MutableList<BusinessHourEntity>? = null,
+        workTime: String? = null
+    ) {
+        timeList?.let {
             createAndUpdateEntity.value?.workTimeStr = GsonUtils.any2Json(timeList.map { item ->
                 BusinessHourParams(
                     item._weekDays.map { day -> day.id },
@@ -176,7 +173,6 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
             workTimeValue.value = timeList.joinToString("\n") { item ->
                 item.hourWeekVal + item.workTime
             }
-
             createAndUpdateEntity.value?.workTime = workTime ?: run {
                 val arr = Array(7) { "" }
                 for (index in 0..6) {
@@ -344,7 +340,7 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                 )
             }
             // 营业时间
-            changeWorkTime(shopDetailEntity.workTimeStr, shopDetailEntity.workTime)
+            changeWorkTime(shopDetailEntity.workTimeArr(), shopDetailEntity.workTime)
             // 业务类型
             changeBusinessType(shopDetailEntity.businessName)
         }

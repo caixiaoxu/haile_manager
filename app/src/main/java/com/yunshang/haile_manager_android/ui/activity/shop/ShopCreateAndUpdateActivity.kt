@@ -79,7 +79,12 @@ class ShopCreateAndUpdateActivity :
                     it.data?.let { intent ->
                         IntentParams.ShopBusinessHoursParams.parseShopBusinessHoursJson(intent)
                             ?.let { hours ->
-                                mViewModel.changeWorkTime(hours)
+                                mViewModel.changeWorkTime(
+                                    GsonUtils.json2List(
+                                        hours,
+                                        BusinessHourEntity::class.java
+                                    )
+                                )
                             }
                     }
                 }

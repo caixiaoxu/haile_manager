@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.business.vm
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.data.arguments.BusinessHourEntity
 
 /**
@@ -27,7 +28,9 @@ class ShopBusinessHoursViewModel : BaseViewModel() {
                 mutableListOf(BusinessHourEntity())
             } else {
                 hoursStrings.apply {
-                    add(BusinessHourEntity())
+                    if (5 > hoursStrings.size) {
+                        add(BusinessHourEntity())
+                    }
                 }
             }
         )
@@ -38,14 +41,19 @@ class ShopBusinessHoursViewModel : BaseViewModel() {
         businessHourList.value = if (list.isNullOrEmpty()) {
             mutableListOf(BusinessHourEntity())
         } else {
-            // 如果最后一个数据不为空，就添加
-            val isLastEmpty = list.lastOrNull()?.let {
-                it.weekDays.isEmpty() || it.workTime.isEmpty()
-            } ?: false
-            if (isLastEmpty) {
+            if (5 <= list.size) {
+                SToast.showToast(v.context, "最多只能新增5条")
                 list
             } else {
-                list.apply { list.add(BusinessHourEntity()) }
+                // 如果最后一个数据不为空，就添加
+                val isLastEmpty = list.lastOrNull()?.let {
+                    it.weekDays.isEmpty() || it.workTime.isEmpty()
+                } ?: false
+                if (isLastEmpty) {
+                    list
+                } else {
+                    list.apply { list.add(BusinessHourEntity()) }
+                }
             }
         }
     }

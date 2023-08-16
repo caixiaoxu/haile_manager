@@ -8,7 +8,10 @@ import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.ShopBusinessHoursViewModel
-import com.yunshang.haile_manager_android.data.arguments.*
+import com.yunshang.haile_manager_android.data.arguments.ActiveDayParam
+import com.yunshang.haile_manager_android.data.arguments.BusinessHourEntity
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.arguments.ShopParam
 import com.yunshang.haile_manager_android.databinding.ActivityShopBusinessHoursBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopBusinessHoursBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -37,6 +40,7 @@ class ShopBusinessHoursActivity :
 
         mViewModel.businessHourList.observe(this) {
             it?.let {
+                val count = it.size
                 mBinding.llBusinessHourList.buildChild<ItemShopBusinessHoursBinding, BusinessHourEntity>(
                     it
                 ) { _, childBinding, data ->
@@ -50,9 +54,10 @@ class ShopBusinessHoursActivity :
                     }
 
                     //删除
+                    childBinding.ibShopBusinessHoursDel.visibility = if (1 == count) View.INVISIBLE else View.VISIBLE
                     childBinding.ibShopBusinessHoursDel.setOnClickListener {
                         val list = mViewModel.businessHourList.value
-                        if (!list.isNullOrEmpty()) {
+                        if (!list.isNullOrEmpty() && list.size > 1) {
                             list.remove(data)
                             val tempList =
                                 mutableListOf<BusinessHourEntity>()

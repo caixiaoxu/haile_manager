@@ -72,7 +72,7 @@ class DeviceMultiChangeViewModel : BaseViewModel() {
 
     val multiChangeDesc: LiveData<String> = type.map { multiChangeDescs[it] }
 
-    val content: MutableLiveData<String> by lazy {
+    val content: MutableLiveData<String?> by lazy {
         MutableLiveData()
     }
 

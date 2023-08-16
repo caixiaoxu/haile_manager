@@ -40,8 +40,10 @@ class DeviceMultiChangeActivity :
             }
             DeviceMultiChangeViewModel.typeChangeModel -> {
                 result.contents?.let {
-                    mViewModel.content.value = it
-                } ?: SToast.showToast(this, R.string.imei_code_error)
+                    if (StringUtils.isImeiCode(it)) {
+                        mViewModel.content.value = it
+                    } else SToast.showToast(this, R.string.imei_code_error)
+                }
             }
         }
     }

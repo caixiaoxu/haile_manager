@@ -71,10 +71,10 @@
                     android:id="@+id/mtiv_device_create_imei"
                     style="@style/MultiTypeItemStyle"
                     android:hint="@string/scan_hint"
-                    app:itemContent="@{vm.imeiCode}"
+                    app:itemContent="@={vm.imeiCode}"
                     app:tailDrawable="@mipmap/icon_device_scan"
                     app:title="@string/imei"
-                    app:type="info" />
+                    app:type="input" />
 
                 <View
                     style="@style/DividingStyle"

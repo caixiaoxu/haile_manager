@@ -118,17 +118,17 @@ class DeviceCreateViewModel : BaseViewModel() {
      * 切换设备型号
      */
     fun changeDeviceModel(
-        spuId: Int,
-        spuName: String?,
-        categoryId: Int,
-        categoryCode: String?,
-        communicationType: Int
+        spuId: Int? = null,
+        spuName: String? = "",
+        categoryId: Int? = null,
+        categoryCode: String? = null,
+        communicationType: Int? = null
     ) {
-        createAndUpdateEntity.value?.spuId = spuId
-        createDeviceModelName.value = spuName
-        createAndUpdateEntity.value?.shopCategoryId = categoryId
+        createAndUpdateEntity.value?.spuId = spuId ?: -1
+        createDeviceModelName.value = spuName ?: ""
+        createAndUpdateEntity.value?.shopCategoryId = categoryId ?: -1
         deviceCategoryCode = categoryCode
-        deviceCommunicationType = communicationType
+        deviceCommunicationType = communicationType ?: -1
         isSelectedModel.value = true
         createDeviceFunConfigure.value = null
         isDispenser.value = DeviceCategory.Dispenser == deviceCategoryCode
@@ -139,8 +139,9 @@ class DeviceCreateViewModel : BaseViewModel() {
      */
     fun requestModelOfImei(imei: String) {
         launch({
-            ApiRepository.dealApiResult(mRepo.deviceTypeOfImei(imei))?.let { type ->
-                withContext(Dispatchers.Main) {
+            val type = ApiRepository.dealApiResult(mRepo.deviceTypeOfImei(imei))
+            withContext(Dispatchers.Main) {
+                type?.let {
                     changeDeviceModel(
                         type.spu.id,
                         type.spu.name + type.spu.feature,
@@ -148,7 +149,7 @@ class DeviceCreateViewModel : BaseViewModel() {
                         type.category.code,
                         type.spu.communicationType
                     )
-                }
+                } ?: changeDeviceModel()
             }
         }, {
             withContext(Dispatchers.Main) {

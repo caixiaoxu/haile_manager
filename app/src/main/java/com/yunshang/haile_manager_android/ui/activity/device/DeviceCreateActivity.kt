@@ -52,6 +52,7 @@ class DeviceCreateActivity :
                     mViewModel.createAndUpdateEntity.value?.codeStr = it
                 } else if (StringUtils.isImeiCode(it)) {
                     mViewModel.imeiCode.value = it
+                    mBinding.mtivDeviceCreateImei.clearFocus()
                 } else
                     SToast.showToast(this, R.string.scan_code_error)
             }
@@ -237,8 +238,14 @@ class DeviceCreateActivity :
         }
         // IMEI
         mViewModel.imeiCode.observe(this) {
-            mViewModel.createAndUpdateEntity.value?.imei = it
-            mViewModel.requestModelOfImei(it)
+            // 如果符合规则就查询型号
+            if (StringUtils.isImeiCode(it)) {
+                mBinding.mtivDeviceCreateImei.clearFocus()
+                mViewModel.createAndUpdateEntity.value?.imei = it
+                mViewModel.requestModelOfImei(it)
+            } else {
+                mViewModel.changeDeviceModel()
+            }
         }
         // 洗衣机IMEI
         mViewModel.washimeiCode.observe(this) {

@@ -226,7 +226,7 @@ object StringUtils {
     }
 
     /**
-     * 是否是付款码
+     * 是否是IMEI码
      */
     fun isImeiCode(code: String?): Boolean = try {
         code?.matches(Regex(IMEICode)) ?: false

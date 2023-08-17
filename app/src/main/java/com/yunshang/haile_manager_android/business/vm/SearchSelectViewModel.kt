@@ -104,10 +104,8 @@ class SearchSelectViewModel : BaseViewModel() {
                             PoiResultData(
                                 it.title,
                                 it.address,
-                                Location("").apply {
-                                    latitude = it.latLng.getLatitude()
-                                    longitude = it.latLng.getLongitude()
-                                },
+                                it.latLng.getLatitude(),
+                                it.latLng.getLongitude(),
                                 it.distance
                             )
                         )
@@ -129,10 +127,9 @@ class SearchSelectViewModel : BaseViewModel() {
                             PoiResultData(
                                 it.title,
                                 it.provinceName + it.cityName + it.adName + it.snippet,
-                                Location("").apply {
-                                    latitude = it.latLonPoint.latitude
-                                    longitude = it.latLonPoint.longitude
-                                }, it.distance.toDouble()
+                                it.latLonPoint.latitude,
+                                it.latLonPoint.longitude,
+                                it.distance.toDouble()
                             )
                         )
                     }

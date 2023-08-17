@@ -42,10 +42,9 @@ class LocationSelectViewModel : BaseViewModel() {
                     PoiResultData(
                         it.title,
                         it.provinceName + it.cityName + it.adName + it.snippet,
-                        Location("").apply {
-                            latitude = it.latLonPoint.latitude
-                            longitude = it.latLonPoint.longitude
-                        }, it.distance.toDouble()
+                        it.latLonPoint.latitude,
+                        it.latLonPoint.longitude,
+                        it.distance.toDouble()
                     )
                 }.toMutableList())
             } else {
@@ -65,10 +64,13 @@ class LocationSelectViewModel : BaseViewModel() {
             loadingStatus.postValue(false)
             if (poiResult.isNotEmpty()) {
                 poiItemList.postValue(poiResult.map {
-                    PoiResultData(it.title, it.address, Location("").apply {
-                        latitude = it.latLng.getLatitude()
-                        longitude = it.latLng.getLongitude()
-                    }, it.distance)
+                    PoiResultData(
+                        it.title,
+                        it.address,
+                        it.latLng.getLatitude(),
+                        it.latLng.getLongitude(),
+                        it.distance
+                    )
                 }.toMutableList())
             } else {
                 SToast.showToast(msg = "请求附近位置失败")

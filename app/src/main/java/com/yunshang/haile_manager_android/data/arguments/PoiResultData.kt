@@ -1,7 +1,5 @@
 package com.yunshang.haile_manager_android.data.arguments
 
-import android.location.Location
-
 /**
  * Title :
  * Author: Lsy
@@ -15,6 +13,7 @@ import android.location.Location
 data class PoiResultData(
     val title: String,
     val address: String,
-    val location: Location,
+    val latitude:Double,
+    val longitude:Double,
     val distance: Double
 )

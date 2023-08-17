@@ -60,8 +60,8 @@ class ShopCreateAndUpdateActivity :
                         GsonUtils.json2Class(json, PoiResultData::class.java)?.let { poiItem ->
                             mViewModel.changeMansion(
                                 poiItem.title,
-                                poiItem.location.latitude,
-                                poiItem.location.longitude,
+                                poiItem.latitude,
+                                poiItem.longitude,
                                 poiItem.address
                             )
                         }

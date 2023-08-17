@@ -50,7 +50,7 @@
             android:layout_width="1.77dp"
             android:layout_height="2.79dp"
             android:layout_marginEnd="1dp"
-            android:background='@{item.signals > 0?@color/color_green:@color/color_gray}'
+            android:background='@{item.getSignalsVal > 0?@color/color_green:@color/color_gray}'
             app:layout_constraintBottom_toBottomOf="@id/view_item_device_iot_status2"
             app:layout_constraintEnd_toStartOf="@id/view_item_device_iot_status2"
             tools:background="@color/color_green" />
@@ -60,7 +60,7 @@
             android:layout_width="1.77dp"
             android:layout_height="4.31dp"
             android:layout_marginEnd="1dp"
-            android:background='@{item.signals >= 5?@color/color_green:@color/color_gray}'
+            android:background='@{item.getSignalsVal >= 5?@color/color_green:@color/color_gray}'
             app:layout_constraintBottom_toBottomOf="@id/view_item_device_iot_status3"
             app:layout_constraintEnd_toStartOf="@id/view_item_device_iot_status3"
             tools:background="@color/color_green" />
@@ -70,7 +70,7 @@
             android:layout_width="1.77dp"
             android:layout_height="6.08dp"
             android:layout_marginEnd="1dp"
-            android:background='@{item.signals >= 10?@color/color_green:@color/color_gray}'
+            android:background='@{item.getSignalsVal >= 10?@color/color_green:@color/color_gray}'
             app:layout_constraintBottom_toBottomOf="@id/view_item_device_iot_status4"
             app:layout_constraintEnd_toStartOf="@id/view_item_device_iot_status4"
             tools:background="@color/color_green" />
@@ -80,7 +80,7 @@
             android:layout_width="1.77dp"
             android:layout_height="7.86dp"
             android:layout_marginEnd="1dp"
-            android:background='@{item.signals >= 15?@color/color_green:@color/color_gray}'
+            android:background='@{item.getSignalsVal >= 15?@color/color_green:@color/color_gray}'
             app:layout_constraintBottom_toBottomOf="@id/view_item_device_iot_status5"
             app:layout_constraintEnd_toStartOf="@id/view_item_device_iot_status5"
             tools:background="@color/color_green" />
@@ -90,7 +90,7 @@
             android:layout_width="1.77dp"
             android:layout_height="9.63dp"
             android:layout_marginEnd="8dp"
-            android:background='@{item.signals >= 20?@color/color_green:@color/color_gray}'
+            android:background='@{item.getSignalsVal >= 20?@color/color_green:@color/color_gray}'
             app:layout_constraintBottom_toBottomOf="@id/tv_item_device_category_no"
             app:layout_constraintEnd_toStartOf="@id/tv_item_device_iot_status"
             app:layout_constraintTop_toTopOf="@id/tv_item_device_category_no"

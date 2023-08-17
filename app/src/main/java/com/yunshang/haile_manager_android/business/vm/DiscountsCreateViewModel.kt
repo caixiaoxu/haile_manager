@@ -170,7 +170,7 @@ class DiscountsCreateViewModel : BaseViewModel() {
             selectActiveModel.value = it
         }
         selectActiveDays.value =
-            detail.weekDayList.mapNotNull { id -> DiscountsParam.activeDay.find { it.id == id } }
+            detail.weekDayList?.mapNotNull { id -> DiscountsParam.activeDay.find { it.id == id } }
 
         activeTimeFrame.value = detail.timeSpan
         discounts.value = String.format("%.1f", detail.discount * 10)
@@ -247,8 +247,9 @@ class DiscountsCreateViewModel : BaseViewModel() {
                 params["timeId"] = id
             }
             if (2 == selectActiveModel.value!!.id) {
-                params["weekDayList"] =
-                    selectActiveDays.value!!.map { it.id }//生效日模式。1 全部，2 按天选择，3 工作日，4 周末
+                selectActiveDays.value?.let {list->
+                    params["weekDayList"] = list.map { it.id }//生效日模式。1 全部，2 按天选择，3 工作日，4 周末
+                }
             }
 
             ApiRepository.dealApiResult(

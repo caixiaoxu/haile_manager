@@ -116,6 +116,11 @@ data class DeviceEntity(
     }
 
     /**
+     * 获取信号状态
+     */
+    fun getSignalsVal(): Int = if (1 == iotStatus) signals else 0
+
+    /**
      * 获取iot状态
      */
     fun getIotStatusValue(): String = when (iotStatus) {

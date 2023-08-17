@@ -32,7 +32,7 @@ data class DiscountsDetailEntity(
     val shop: List<SearchSelectParam>,
     val status: Int,
     val timeSpan: String,
-    val weekDayList: List<Int>,
+    val weekDayList: List<Int>?,
     val weekDayMode: Int
 ) {
     val shopStr: String
@@ -62,10 +62,9 @@ data class DiscountsDetailEntity(
     val hasWeekDayMode: Boolean
         get() = weekDayModeStr.isNotEmpty()
     val weekDayStr: String
-        get() = if (null == weekDayList) ""
-        else weekDayList.joinToString(" ") { id ->
+        get() = weekDayList?.joinToString(" ") { id ->
             DiscountsParam.activeDay.find { it.id == id }?.name ?: ""
-        }
+        } ?: ""
     val hasWeekDay: Boolean
         get() = weekDayStr.isNotEmpty()
     val hasTimeSpan: Boolean

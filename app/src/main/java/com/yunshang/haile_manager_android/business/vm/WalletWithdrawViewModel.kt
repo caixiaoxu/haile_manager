@@ -1,9 +1,9 @@
 package com.yunshang.haile_manager_android.business.vm
 
 import android.view.View
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
@@ -37,15 +37,26 @@ class WalletWithdrawViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
-    val canSubmit: LiveData<Boolean> = withdrawAmount.map {
-        try {
-            it.toDouble()
-            true
-        } catch (e: Exception) {
-            e.printStackTrace()
-            false
+    // 是否可提交
+    val canSubmit: MediatorLiveData<Boolean> = MediatorLiveData(false).apply {
+        addSource(withdrawAmount) {
+            value = checkSubmit()
+        }
+        addSource(withdrawAccount) {
+            value = checkSubmit()
         }
     }
+
+    /**
+     * 检测是否可提交
+     */
+    private fun checkSubmit(): Boolean = try {
+        null != withdrawAmount.value?.toDouble()
+    } catch (e: Exception) {
+        e.printStackTrace()
+        false
+    } && null != withdrawAccount.value?.id
+
     val withdrawCalculate: MutableLiveData<WithdrawCalculateEntity> by lazy {
         MutableLiveData()
     }

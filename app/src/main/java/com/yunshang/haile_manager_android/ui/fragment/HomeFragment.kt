@@ -12,7 +12,6 @@ import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import com.github.mikephil.charting.animation.ChartAnimator
-import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
@@ -27,7 +26,6 @@ import com.github.mikephil.charting.utils.MPPointF
 import com.github.mikephil.charting.utils.ViewPortHandler
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
-import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.ScreenUtils
 import com.lsy.framelib.utils.StatusBarUtils
 import com.lsy.framelib.utils.gson.GsonUtils
@@ -402,12 +400,9 @@ class HomeFragment :
                 if (item.icon == R.mipmap.icon_device_manager) {
                     DeviceCategoryDialog.Builder().apply {
                         onDeviceCodeSelectListener = { type ->
-                            if (IntentParams.DeviceManagerParams.CategoryBigType_Shower == type)
-                                SToast.showToast(requireContext(), R.string.coming_soon)
-                            else
-                                startActivity(Intent(requireContext(), item.clz).apply {
-                                    putExtras(IntentParams.DeviceManagerParams.pack(categoryBigType = type))
-                                })
+                            startActivity(Intent(requireContext(), item.clz).apply {
+                                putExtras(IntentParams.DeviceManagerParams.pack(categoryBigType = type))
+                            })
                         }
                     }.build().show(childFragmentManager)
                 } else {
@@ -451,7 +446,7 @@ class HomeFragment :
             } else {
                 mBinding.clHomeTrend.visibility = View.VISIBLE
                 val dataList = arrayListOf<IBarDataSet>()
-                if (positives.isNotEmpty()){
+                if (positives.isNotEmpty()) {
                     val dataSet = BarDataSet(positives, "收益趋势")
                     dataSet.color = Color.parseColor("#FFEBD8")
                     dataSet.setDrawValues(false)
@@ -459,7 +454,7 @@ class HomeFragment :
                     dataSet.highLightColor = Color.parseColor("#F0A258") //选中颜色
                     dataList.add(dataSet)
                 }
-                if (negatives.isNotEmpty()){
+                if (negatives.isNotEmpty()) {
                     val dataSet1 = BarDataSet(negatives, "收益趋势")
                     dataSet1.color = Color.parseColor("#C4F0E4")
                     dataSet1.setDrawValues(false)

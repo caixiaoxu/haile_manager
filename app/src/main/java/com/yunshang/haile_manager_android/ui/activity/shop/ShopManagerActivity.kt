@@ -201,7 +201,7 @@ class ShopManagerActivity :
             DimensionUtils.dip2px(this@ShopManagerActivity, 110f)
         )
 
-        mPopupBinding.tvShopOperateAdd.setOnClickListener {
+        mPopupBinding.tvShopOperateAddShop.setOnClickListener {
             popupWindow.dismiss()
             startActivity(
                 Intent(
@@ -209,6 +209,10 @@ class ShopManagerActivity :
                     ShopCreateAndUpdateActivity::class.java
                 )
             )
+        }
+        mPopupBinding.tvShopOperateAddPt.setOnClickListener {
+            popupWindow.dismiss()
+            // TODO 跳转新增点位
         }
         mPopupBinding.tvShopOperatePaySetting.setOnClickListener {
             popupWindow.dismiss()

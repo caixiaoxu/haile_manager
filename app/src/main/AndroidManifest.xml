@@ -217,6 +217,9 @@
             android:name=".ui.activity.device.DeviceDrinkingFunctionConfigurationActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.activity.device.DeviceShowerFunctionConfigurationActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.common.CustomCaptureActivity"
             android:exported="false" />
         <activity

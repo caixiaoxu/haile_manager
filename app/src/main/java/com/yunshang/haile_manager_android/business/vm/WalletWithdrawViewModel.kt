@@ -2,7 +2,6 @@ package com.yunshang.haile_manager_android.business.vm
 
 import android.view.View
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.lsy.framelib.async.LiveDataBus

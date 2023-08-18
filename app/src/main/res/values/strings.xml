@@ -234,7 +234,9 @@
     <string name="coming_soon">敬请期待</string>
 
     <string name="shop_manager">门店管理</string>
+    <string name="pt_manager">点位管理</string>
     <string name="add_shop">新增门店</string>
+    <string name="add_pt">新增点位</string>
     <string name="shop_pay_setting">支付设置</string>
     <string name="shop_pay_config">支付配置</string>
     <string name="shop_search_hint">搜索门店名称</string>

@@ -63,11 +63,7 @@ class DeviceModelViewModel : BaseViewModel() {
             mCategoryRepo.category(1)
         )
         list?.let {
-            categoryList.postValue(it.filter { category ->
-                DeviceCategory.canShowDeviceCategory(
-                    category.code
-                )
-            })
+            categoryList.postValue(it)
         }
         return list?.get(0)
     }

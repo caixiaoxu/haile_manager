@@ -234,7 +234,6 @@ object IntentParams {
         const val ResultCode = 0x90003
         const val ResultData = "ResultData"
 
-
         /**
          * 包装参数
          */

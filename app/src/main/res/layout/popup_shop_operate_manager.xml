@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_shop_operate_add"
+        android:id="@+id/tv_shop_operate_add_shop"
         style="@style/Font_14_333333"
         android:layout_width="match_parent"
         android:layout_height="44dp"
@@ -17,6 +17,23 @@
 
     <View
         style="@style/DividingStyle"
+        android:layout_marginHorizontal="12dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_shop_operate_add_pt"
+        style="@style/Font_14_333333"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:drawableStart="@mipmap/icon_device_operate_add"
+        android:drawablePadding="4dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:paddingHorizontal="16dp"
+        android:text="@string/add_pt" />
+
+    <View
+        style="@style/DividingStyle"
+        android:visibility="gone"
         android:layout_marginHorizontal="12dp" />
 
     <androidx.appcompat.widget.AppCompatTextView

@@ -213,6 +213,21 @@ class DeviceCreateActivity :
                         )
                     }
                 )
+            } else if (DeviceCategory.isShower(mViewModel.deviceCategoryCode)) {
+                startNext.launch(
+                    Intent(
+                        this@DeviceCreateActivity,
+                        DeviceShowerFunctionConfigurationActivity::class.java
+                    ).apply {
+                        putExtras(
+                            IntentParams.DeviceFunctionConfigurationParams.pack(
+                                spuId = mViewModel.createAndUpdateEntity.value?.spuId,
+                                categoryCode = mViewModel.deviceCategoryCode,
+                                oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
+                            )
+                        )
+                    }
+                )
             } else {
                 startNext.launch(Intent(
                     this@DeviceCreateActivity, DeviceFunctionConfigurationActivity::class.java

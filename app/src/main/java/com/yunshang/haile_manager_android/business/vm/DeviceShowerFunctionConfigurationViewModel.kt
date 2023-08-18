@@ -115,16 +115,16 @@ class DeviceShowerFunctionConfigurationViewModel : BaseViewModel() {
             SToast.showToast(msg = "请先输入过流时间")
             return
         }
-        if (10 > drinkAttrConfigure.value!!._overTime || 600 < drinkAttrConfigure.value!!._overTime) {
-            SToast.showToast(msg = "过流时间输入范围为10-600")
+        if (10 > drinkAttrConfigure.value!!._overTime || 60 < drinkAttrConfigure.value!!._overTime) {
+            SToast.showToast(msg = "过流时间输入范围为10-60")
             return
         }
         if (drinkAttrConfigure.value?.pauseTime.isNullOrEmpty()) {
             SToast.showToast(msg = "请先输入暂停时间")
             return
         }
-        if (10 > drinkAttrConfigure.value!!._pauseTime || 600 < drinkAttrConfigure.value!!._pauseTime) {
-            SToast.showToast(msg = "暂停时间输入范围为10-600")
+        if (5 > drinkAttrConfigure.value!!._pauseTime || 60 < drinkAttrConfigure.value!!._pauseTime) {
+            SToast.showToast(msg = "暂停时间输入范围为5-60")
             return
         }
         if (1 == drinkAttrConfigure.value?.priceCalculateMode?.value

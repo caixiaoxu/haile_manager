@@ -62,6 +62,11 @@ object DeviceCategory {
     fun isDispenser(categoryCode: String?) = Dispenser == categoryCode
 
     /**
+     * 是否是饮水机或淋浴
+     */
+    fun isDrinkingOrShower(categoryCode: String?) = Water == categoryCode || Shower == categoryCode
+
+    /**
      * 是否是饮水机
      */
     fun isDrinking(categoryCode: String?) = Water == categoryCode
@@ -69,7 +74,7 @@ object DeviceCategory {
     /**
      * 是否是淋浴
      */
-    fun isShower(categoryCode: String?) = Water == categoryCode || Shower == categoryCode
+    fun isShower(categoryCode: String?) = Shower == categoryCode
 
 
     /**

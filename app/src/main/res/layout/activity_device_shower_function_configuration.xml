@@ -9,7 +9,7 @@
 
         <variable
             name="vm"
-            type="com.yunshang.haile_manager_android.business.vm.DeviceDrinkingFunctionConfigurationViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.DeviceShowerFunctionConfigurationViewModel" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -22,7 +22,7 @@
         tools:context=".ui.activity.device.DeviceFunctionConfigurationActivity">
 
         <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
-            android:id="@+id/bar_device_drinking_func_configuration_title"
+            android:id="@+id/bar_device_shower_func_configuration_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
             app:title="@string/add_device" />
@@ -51,26 +51,26 @@
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_fun_configuration_overtime"
                     style="@style/MultiTypeItemStyle"
-                    android:hint="@string/over_time_hint"
+                    android:hint="@string/over_time_hint1"
                     app:itemContent="@={vm.drinkAttrConfigure.overTime}"
                     app:title="@string/over_time"
                     android:inputType="numberDecimal"
                     app:titleDrawableEnd="@mipmap/icon_item_required"
                     app:titleDrawablePadding="6dp"
                     app:type="input"
-                    app:unitHint="@string/unit_second_hint" />
+                    app:unitHint="@string/unit_minute_hint1" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_fun_configuration_pause_time"
                     style="@style/MultiTypeItemStyle"
-                    android:hint="@string/pause_time_hint"
+                    android:hint="@string/pause_time_hint1"
                     app:itemContent="@={vm.drinkAttrConfigure.pauseTime}"
                     app:title="@string/pause_time"
                     android:inputType="numberDecimal"
                     app:titleDrawableEnd="@mipmap/icon_item_required"
                     app:titleDrawablePadding="6dp"
                     app:type="input"
-                    app:unitHint="@string/unit_second_hint" />
+                    app:unitHint="@string/unit_minute_hint1" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_fun_configuration_single_pulse_quantity"
@@ -100,7 +100,7 @@
         </androidx.core.widget.NestedScrollView>
 
         <com.yunshang.haile_manager_android.ui.view.CommonButton
-            android:id="@+id/btn_device_drinking_create_submit"
+            android:id="@+id/btn_device_shower_create_submit"
             style="@style/CommonMatchBtnStyle1"
             android:layout_marginHorizontal="14dp"
             android:layout_marginTop="8dp"

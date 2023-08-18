@@ -302,7 +302,7 @@ class DeviceCreateActivity :
                             )
                         )
                     }
-                } else if (DeviceCategory.isDrinking(mViewModel.deviceCategoryCode)) {
+                } else if (DeviceCategory.isDrinkingOrShower(mViewModel.deviceCategoryCode)) {
                     buildDrinkingConfigureItemView(list, inflater)
                 } else {
                     list.forEachIndexed { _, config ->

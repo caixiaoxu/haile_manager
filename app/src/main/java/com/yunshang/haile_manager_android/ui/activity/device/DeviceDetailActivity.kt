@@ -159,7 +159,7 @@ class DeviceDetailActivity :
                     ?.let { item ->
                         item.show.value = false
                     }
-            } else if (DeviceCategory.isDrinking(detail.categoryCode)) {// 饮水机
+            } else if (DeviceCategory.isDrinkingOrShower(detail.categoryCode)) {// 饮水机
                 mBinding.glDeviceDetailFunc.children.find { view -> view.tag == R.mipmap.icon_device_unlock }
                     ?.findViewById<AppCompatTextView>(R.id.tv_device_detail_func)?.text =
                     StringUtils.getString(R.string.unlock1)
@@ -203,7 +203,7 @@ class DeviceDetailActivity :
                 }
             } else {
                 detail?.items?.let { items ->
-                    if (DeviceCategory.isDrinking(detail.categoryCode)) {
+                    if (DeviceCategory.isDrinkingOrShower(detail.categoryCode)) {
                         buildDrinkingConfigureItemView(items, inflater)
                     } else {
                         items.forEachIndexed { _, item ->
@@ -302,6 +302,20 @@ class DeviceDetailActivity :
                             Intent(
                                 this@DeviceDetailActivity,
                                 DeviceDrinkingFunctionConfigurationActivity::class.java
+                            ).apply {
+                                putExtras(
+                                    IntentParams.DeviceFunctionConfigurationParams.pack(
+                                        goodId = mViewModel.goodsId,
+                                        spuId = detail.spuId,
+                                        categoryCode = detail.categoryCode,
+                                        oldFuncConfiguration = detail.items.mapNotNull { item -> item.changeConfigurationParam() }
+                                    )
+                                )
+                            }
+                        }else if (DeviceCategory.isShower(detail.categoryCode)) {
+                            Intent(
+                                this@DeviceDetailActivity,
+                                DeviceShowerFunctionConfigurationActivity::class.java
                             ).apply {
                                 putExtras(
                                     IntentParams.DeviceFunctionConfigurationParams.pack(
@@ -475,7 +489,7 @@ class DeviceDetailActivity :
                 }
                 // 开锁
                 9 -> mViewModel.deviceDetail.value?.let { detail ->
-                    if (DeviceCategory.isDrinking(detail.categoryCode)) {
+                    if (DeviceCategory.isDrinkingOrShower(detail.categoryCode)) {
                         CommonDialog.Builder("确定解锁此设备？").apply {
                             negativeTxt = StringUtils.getString(R.string.cancel)
                             setPositiveButton(StringUtils.getString(R.string.sure)) {

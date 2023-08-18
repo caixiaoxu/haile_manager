@@ -158,8 +158,10 @@
     <string name="for_quantity">按流量</string>
     <string name="over_time">过流时间</string>
     <string name="over_time_hint">输入范围10-600</string>
+    <string name="over_time_hint1">输入范围10-60</string>
     <string name="pause_time">暂停时间</string>
     <string name="pause_time_hint">输入范围10-600</string>
+    <string name="pause_time_hint1">输入范围5-60</string>
     <string name="single_pulse_quantity">单脉冲流量</string>
     <string name="single_pulse_quantity_hint">输入范围0.001-50.000</string>
     <string name="price">单价</string>
@@ -582,6 +584,7 @@
     <string name="unit_yuan_hint">（元）</string>
     <string name="unit_ge_hint">（个）</string>
     <string name="unit_second_hint">（秒）</string>
+    <string name="unit_minute_hint1">（分钟）</string>
     <string name="unit_quantity_hint">（ml）</string>
     <string name="unit_pulse_hint">（脉冲）</string>
     <string name="unit_water_time_price_hint">元/S</string>

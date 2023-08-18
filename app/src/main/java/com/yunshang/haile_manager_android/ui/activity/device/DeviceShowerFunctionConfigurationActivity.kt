@@ -25,9 +25,9 @@ class DeviceShowerFunctionConfigurationActivity :
         DeviceShowerFunctionConfigurationViewModel::class.java, BR.vm
     ) {
 
-    override fun layoutId(): Int = R.layout.activity_device_drinking_function_configuration
+    override fun layoutId(): Int = R.layout.activity_device_shower_function_configuration
 
-    override fun backBtn(): View = mBinding.barDeviceDrinkingFuncConfigurationTitle.getBackBtn()
+    override fun backBtn(): View = mBinding.barDeviceShowerFuncConfigurationTitle.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()

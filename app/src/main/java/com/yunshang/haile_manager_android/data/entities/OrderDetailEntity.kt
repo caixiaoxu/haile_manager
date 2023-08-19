@@ -4,7 +4,6 @@ import android.text.SpannableString
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.google.gson.annotations.SerializedName

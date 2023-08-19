@@ -95,6 +95,8 @@ data class Sku(
     val unitValue: String
         get() = if (DeviceCategory.isDrinking(goodsCategoryCode)) {
             if (1 == goodsItemInfo?.priceCalculateMode) "${skuUnit}ml" else "${skuUnit}s"
+        } else if (DeviceCategory.isShower(goodsCategoryCode)) {
+            if (1 == goodsItemInfo?.priceCalculateMode) "${skuUnit}ml" else "${skuUnit}s"
         } else if (DeviceCategory.isDispenser(goodsCategoryCode)) {
             "${skuUnit}ml"
         } else "${skuUnit}分钟"

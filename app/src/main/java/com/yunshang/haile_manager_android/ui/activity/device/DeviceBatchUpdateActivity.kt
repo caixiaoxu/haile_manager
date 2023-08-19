@@ -88,7 +88,7 @@ class DeviceBatchUpdateActivity :
             it?.let { list ->
                 mBinding.llDeviceBatchUpdateSelectFunConfiguration.removeAllViews()
                 val inflater = LayoutInflater.from(this@DeviceBatchUpdateActivity)
-                if (DeviceCategory.isDrinking(mViewModel.selectCategory.value?.code)) {
+                if (DeviceCategory.isDrinkingOrShower(mViewModel.selectCategory.value?.code)) {
                     buildDrinkingConfigureItemView(list, inflater)
                 } else {
                     list.forEachIndexed { _, config ->
@@ -181,6 +181,19 @@ class DeviceBatchUpdateActivity :
                     Intent(
                         this@DeviceBatchUpdateActivity,
                         DeviceDrinkingFunctionConfigurationActivity::class.java
+                    ).apply {
+                        putExtras(
+                            IntentParams.DeviceFunctionConfigurationParams.pack(
+                                spuId = mViewModel.selectDeviceModel.value?.id,
+                                categoryCode = mViewModel.selectCategory.value?.code,
+                                oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
+                            )
+                        )
+                    }
+                else if (DeviceCategory.isDrinking(mViewModel.selectCategory.value?.code))
+                    Intent(
+                        this@DeviceBatchUpdateActivity,
+                        DeviceShowerFunctionConfigurationActivity::class.java
                     ).apply {
                         putExtras(
                             IntentParams.DeviceFunctionConfigurationParams.pack(

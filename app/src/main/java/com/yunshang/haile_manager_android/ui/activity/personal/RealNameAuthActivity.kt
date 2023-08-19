@@ -35,7 +35,8 @@ class RealNameAuthActivity :
             mViewModel.authInfo.value = oldAuthInfo
         } else {
             mViewModel.isSubmit.value = true
-            mViewModel.authInfo.value = RealNameAuthDetailEntity()
+            mViewModel.authInfo.value =
+                RealNameAuthDetailEntity(_verifyType = mViewModel.verifyTypeList[0].id)
         }
     }
 
@@ -168,8 +169,5 @@ class RealNameAuthActivity :
     }
 
     override fun initData() {
-        mViewModel.authInfo.value?.let {
-            it.verifyType = mViewModel.verifyTypeList[0].id
-        }
     }
 }

@@ -18,8 +18,7 @@
         <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_device_func_configuration_title"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/title_action_bar_h"
-            app:title="@string/add_device" />
+            android:layout_height="@dimen/title_action_bar_h" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_device_fun_configuration_list"

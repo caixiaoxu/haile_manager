@@ -61,7 +61,7 @@ data class MessageContentEntity(
     override fun items(): List<CommonKeyValueEntity> = listOf(
         CommonKeyValueEntity(StringUtils.getString(R.string.shop_name), shopName),
         CommonKeyValueEntity(StringUtils.getString(R.string.device_name), goodsName),
-        CommonKeyValueEntity(StringUtils.getString(R.string.break_down_type), shortDescription),
+        CommonKeyValueEntity(StringUtils.getString(R.string.break_down_type), faultType),
         CommonKeyValueEntity(StringUtils.getString(R.string.break_down_desc), faultMsg),
     )
 }

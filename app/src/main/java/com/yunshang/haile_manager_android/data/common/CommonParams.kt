@@ -98,12 +98,6 @@ object DeviceCategory {
         Shower -> StringUtils.getString(R.string.shower)
         else -> ""
     }
-
-    /**
-     * 可显示的设备类型
-     */
-    fun canShowDeviceCategory(categoryCode: String): Boolean =
-        categoryCode in arrayOf(Washing, Shoes, Dryer, Hair, Water, Dispenser)
 }
 
 object SearchType {

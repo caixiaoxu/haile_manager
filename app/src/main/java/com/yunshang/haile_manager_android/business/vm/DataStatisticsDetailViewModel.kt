@@ -129,7 +129,7 @@ class DataStatisticsDetailViewModel : BaseViewModel() {
             ApiRepository.dealApiResult(
                 mCategoryRepo.category(1)
             )?.let {
-                categoryList.postValue(it.filter { e -> DeviceCategory.canShowDeviceCategory(e.code) })
+                categoryList.postValue(it)
             }
         })
     }

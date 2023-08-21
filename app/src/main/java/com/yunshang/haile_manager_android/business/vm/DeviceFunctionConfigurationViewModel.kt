@@ -62,12 +62,16 @@ class DeviceFunctionConfigurationViewModel : BaseViewModel() {
         launch({
             val list = ApiRepository.dealApiResult(mDeviceRepo.sku(spuId))
             list?.let {
+                val dryerOrHair = DeviceCategory.isDryerOrHair(categoryCode)
                 it.forEach { sku ->
                     // 如果有旧数据，合并旧数据，如果没有，配置默认数据
                     if (!oldConfigurationList.isNullOrEmpty()) {
-                        sku.mergeOld(oldConfigurationList!!.find { param -> param.skuId == sku.id })
+                        sku.mergeOld(
+                            oldConfigurationList!!.find { param -> param.skuId == sku.id },
+                            dryerOrHair
+                        )
                     } else {
-                        if (sku.extAttr.isNotEmpty()) {
+                        if (sku.extAttr.isNotEmpty() && dryerOrHair) {
                             sku.extAttrValue =
                                 GsonUtils.json2List(sku.extAttr, ExtAttrBean::class.java)?.apply {
                                     forEach { ext ->

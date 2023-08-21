@@ -125,8 +125,13 @@ class DeviceFunctionConfigurationActivity :
         mViewModel.spuId = IntentParams.DeviceFunctionConfigurationParams.parseSpuId(intent)
         mViewModel.categoryCode = IntentParams.DeviceParams.parseCategoryCode(intent)
         mViewModel.communicationType = IntentParams.DeviceParams.parseCommunicationType(intent)
-        mViewModel.oldConfigurationList =
-            IntentParams.DeviceFunctionConfigurationParams.parseOldFuncConfiguration(intent)
+        val oldConfigure = IntentParams.DeviceFunctionConfigurationParams.parseOldFuncConfiguration(intent)
+        mViewModel.oldConfigurationList =oldConfigure
+        if (oldConfigure != null) {
+            mBinding.barDeviceFuncConfigurationTitle.setTitle(R.string.update_func_price)
+        } else {
+            mBinding.barDeviceFuncConfigurationTitle.setTitle(R.string.add_device)
+        }
     }
 
     override fun initView() {

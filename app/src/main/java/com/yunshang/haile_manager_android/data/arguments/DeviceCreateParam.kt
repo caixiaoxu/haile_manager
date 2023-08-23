@@ -41,7 +41,7 @@ data class DeviceCreateParam(
                 "spuId" to spuId,
                 "shopCategoryId" to shopCategoryId,
                 "imei" to imei,
-                "code" to code,
+                "code" to if (imei == code) null else code,
                 "codeStr" to codeStr,
                 "extAttr" to extAttr,
                 "items" to items,

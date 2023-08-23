@@ -274,9 +274,7 @@ class DeviceCreateActivity :
         super.initEvent()
         // 付款码
         mViewModel.payCode.observe(this) {
-            if (it != mViewModel.imeiCode.value){
-                mViewModel.createAndUpdateEntity.value?.code = it
-            }
+            mViewModel.createAndUpdateEntity.value?.code = it
         }
         // IMEI
         mViewModel.imeiCode.observe(this) {

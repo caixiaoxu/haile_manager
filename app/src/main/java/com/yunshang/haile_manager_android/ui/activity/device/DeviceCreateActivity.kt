@@ -7,12 +7,14 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
-import com.journeyapps.barcodescanner.ScanContract
-import com.journeyapps.barcodescanner.ScanOptions
+import com.king.camera.scan.CameraScan
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.SystemPermissionHelper
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.DeviceCreateViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
@@ -26,8 +28,8 @@ import com.yunshang.haile_manager_android.databinding.ItemDeviceDetailDisposeMin
 import com.yunshang.haile_manager_android.databinding.ItemSelectedDeviceFuncationConfigurationBinding
 import com.yunshang.haile_manager_android.databinding.ItemSelectedDrinkDeviceFuncationConfigurationBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
-import com.yunshang.haile_manager_android.ui.activity.common.CustomCaptureActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.yunshang.haile_manager_android.ui.activity.common.WeChatQRCodeScanActivity
 import com.yunshang.haile_manager_android.utils.StringUtils
 import timber.log.Timber
 
@@ -36,48 +38,60 @@ class DeviceCreateActivity :
         DeviceCreateViewModel::class.java,
         BR.vm
     ) {
+    private var isAttrImei = false
 
-    // 扫码启动器
-    private val codeLauncher = registerForActivityResult(ScanContract()) { result ->
-        result.contents?.trim()?.let {
-            Timber.i("扫码:$it")
-            StringUtils.getPayImeiCode(it)?.let { code ->
-                mViewModel.payCode.value = code
-                mViewModel.imeiCode.value = code
-                mViewModel.createAndUpdateEntity.value?.codeStr = it
-            } ?: run {
-                val payCode = StringUtils.getPayCode(it)
-                if (!mViewModel.isIgnorePayCodeFlag && null != payCode) {
-                    mViewModel.payCode.value = payCode
-                    mViewModel.createAndUpdateEntity.value?.codeStr = it
-                } else if (StringUtils.isImeiCode(it)) {
-                    mViewModel.imeiCode.value = it
-                    mBinding.mtivDeviceCreateImei.clearFocus()
-                } else
-                    SToast.showToast(this, R.string.scan_code_error)
+    // 权限
+    private val requestMultiplePermission =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result: Map<String, Boolean> ->
+            if (result.values.any { it }) {
+                // 授权权限成功
+                startQRActivity(false)
+            } else {
+                // 授权失败
+                SToast.showToast(this, R.string.empty_permission)
             }
         }
+
+    private fun startQRActivity(isOne: Boolean) {
+        startQRCodeScan.launch(Intent(
+            this,
+            WeChatQRCodeScanActivity::class.java
+        ).apply {
+            putExtra("isOne", isOne)
+        })
     }
 
-    // 洗衣机IMEI相机启动器
-    private val washimeiLauncher = registerForActivityResult(ScanContract()) { result ->
-        result.contents?.trim()?.let {
-            Timber.i("IMEI:$it")
-            if (StringUtils.isImeiCode(it)) mViewModel.washimeiCode.value = it
-            else SToast.showToast(this, R.string.imei_code_error1)
-        } ?: SToast.showToast(this, R.string.imei_code_error)
-    }
-
-    private val scanOptions: ScanOptions by lazy {
-        ScanOptions().apply {
-            captureActivity = CustomCaptureActivity::class.java
-//            setDesiredBarcodeFormats(ScanOptions.ONE_D_CODE_TYPES)// 扫码的类型,一维码，二维码，一/二维码，默认为一/二维码
-            setPrompt("请对准二维码")//提示语
-            setOrientationLocked(true)
-            setCameraId(0) // 选择摄像头
-            setBeepEnabled(true) // 开启声音
+    // 二维码
+    private val startQRCodeScan =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            // 扫码结果
+            if (result.resultCode == RESULT_OK) {
+                CameraScan.parseScanResult(result.data)?.let {
+                    Timber.i("扫码:$it")
+                    if (isAttrImei) {
+                        Timber.i("IMEI:$it")
+                        if (StringUtils.isImeiCode(it)) mViewModel.washimeiCode.value = it
+                        else SToast.showToast(this, R.string.imei_code_error1)
+                    } else {
+                        StringUtils.getPayImeiCode(it)?.let { code ->
+                            mViewModel.payCode.value = code
+                            mViewModel.imeiCode.value = code
+                            mViewModel.createAndUpdateEntity.value?.codeStr = it
+                        } ?: run {
+                            val payCode = StringUtils.getPayCode(it)
+                            if (!mViewModel.isIgnorePayCodeFlag && null != payCode) {
+                                mViewModel.payCode.value = payCode
+                                mViewModel.createAndUpdateEntity.value?.codeStr = it
+                            } else if (StringUtils.isImeiCode(it)) {
+                                mViewModel.imeiCode.value = it
+                                mBinding.mtivDeviceCreateImei.clearFocus()
+                            } else
+                                SToast.showToast(this, R.string.scan_code_error)
+                        }
+                    }
+                } ?: SToast.showToast(this, R.string.imei_code_error)
+            }
         }
-    }
 
     // 搜索型号界面
     private val startNext =
@@ -107,7 +121,8 @@ class DeviceCreateActivity :
                             intent.getBooleanExtra(DeviceCategory.IgnorePayCodeFlag, false)
                         checkIgnorePayCode()
                         mViewModel.isDispenser.value =
-                            intent.getStringExtra(DeviceCategory.CategoryCode).equals(Dispenser)
+                            intent.getStringExtra(DeviceCategory.CategoryCode)
+                                .equals(Dispenser)
 
                     }
                 }
@@ -135,6 +150,18 @@ class DeviceCreateActivity :
             }
         }
 
+    override fun onResume() {
+        super.onResume()
+        LiveDataBus.with(BusEvents.SCAN_CHANGE_STATUS, Boolean::class.java)?.observe(this) {
+            startQRActivity(it)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        LiveDataBus.remove(BusEvents.SCAN_CHANGE_STATUS)
+    }
+
     override fun layoutId(): Int = R.layout.activity_device_create
 
     override fun backBtn(): View = mBinding.barDeviceCreateTitle.getBackBtn()
@@ -144,17 +171,29 @@ class DeviceCreateActivity :
 
         // 付款码
         mBinding.mtivDeviceCreatePayCode.onSelectedEvent = {
-            codeLauncher.launch(scanOptions)
+            isAttrImei = false
+            requestMultiplePermission.launch(
+                SystemPermissionHelper.cameraPermissions()
+                    .plus(SystemPermissionHelper.readWritePermissions())
+            )
         }
 
         // IMEI
         mBinding.mtivDeviceCreateImei.onSelectedEvent = {
-            codeLauncher.launch(scanOptions)
+            isAttrImei = false
+            requestMultiplePermission.launch(
+                SystemPermissionHelper.cameraPermissions()
+                    .plus(SystemPermissionHelper.readWritePermissions())
+            )
         }
 
         // 洗衣机IMEI
         mBinding.mtivDeviceWashImei.onSelectedEvent = {
-            washimeiLauncher.launch(scanOptions)
+            isAttrImei = true
+            requestMultiplePermission.launch(
+                SystemPermissionHelper.cameraPermissions()
+                    .plus(SystemPermissionHelper.readWritePermissions())
+            )
         }
 
         // 设备型号
@@ -215,7 +254,8 @@ class DeviceCreateActivity :
                 )
             } else {
                 startNext.launch(Intent(
-                    this@DeviceCreateActivity, DeviceFunctionConfigurationActivity::class.java
+                    this@DeviceCreateActivity,
+                    DeviceFunctionConfigurationActivity::class.java
                 ).apply {
                     putExtras(
                         IntentParams.DeviceFunctionConfigurationParams.pack(
@@ -234,7 +274,9 @@ class DeviceCreateActivity :
         super.initEvent()
         // 付款码
         mViewModel.payCode.observe(this) {
-            mViewModel.createAndUpdateEntity.value?.code = it
+            if (it != mViewModel.imeiCode.value){
+                mViewModel.createAndUpdateEntity.value?.code = it
+            }
         }
         // IMEI
         mViewModel.imeiCode.observe(this) {
@@ -269,7 +311,8 @@ class DeviceCreateActivity :
                 val inflater = LayoutInflater.from(this@DeviceCreateActivity)
                 if (mViewModel.isDispenser.value!!) {
                     list.flatMap { item ->
-                        GsonUtils.json2List(item.extAttr, DosingConfigs::class.java) ?: listOf()
+                        GsonUtils.json2List(item.extAttr, DosingConfigs::class.java)
+                            ?: listOf()
                     }.forEachIndexed { _, config ->
                         val mFuncConfigBinding =
                             DataBindingUtil.inflate<ItemDeviceDetailDisposeMinBinding>(

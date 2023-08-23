@@ -143,13 +143,13 @@ data class SkuEntity(
     /**
      * 合并旧数据
      */
-    fun mergeOld(old: SkuFuncConfigurationParam?) {
+    fun mergeOld(old: SkuFuncConfigurationParam?, dryerOrHair: Boolean) {
         old?.let {
             name = old.name
             price = old.price
             pulse = old.pulse
             unit = old.unit
-            if (old.extAttr.isNotEmpty()) {
+            if (old.extAttr.isNotEmpty() && dryerOrHair) {
                 val oldExtAttrValue = GsonUtils.json2List(old.extAttr, ExtAttrBean::class.java)
                 oldExtAttrValue?.let {
                     extAttrValue = GsonUtils.json2List(extAttr, ExtAttrBean::class.java)

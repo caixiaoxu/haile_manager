@@ -81,7 +81,7 @@ class CustomCaptureActivity : BaseActivity() {
             }
         }
 
-        capture = CustomCaptureManager(this, mBinding.zxingBarcodeScanner)
+        capture = CustomCaptureManager(this, mBinding.zxingBarcodeScanner){}
         capture.initializeFromIntent(intent, savedInstanceState)
         capture.decode()
     }

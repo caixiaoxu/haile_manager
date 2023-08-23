@@ -70,9 +70,14 @@ class DeviceMultiChangeActivity :
                     DeviceMultiChangeViewModel.typeChangeModel -> {
                         CameraScan.parseScanResult(result.data)?.let {
                             Timber.i("扫码:$it")
-                            if (StringUtils.isImeiCode(it)) {
-                                mViewModel.content.value = it
-                            } else SToast.showToast(this, R.string.imei_code_error)
+
+                            StringUtils.getPayImeiCode(it)?.let { code ->
+                                mViewModel.content.value = code
+                            } ?: run {
+                                if (StringUtils.isImeiCode(it)) {
+                                    mViewModel.content.value = it
+                                } else SToast.showToast(this, R.string.imei_code_error)
+                            }
                         } ?: SToast.showToast(this, R.string.imei_code_error)
                     }
                 }

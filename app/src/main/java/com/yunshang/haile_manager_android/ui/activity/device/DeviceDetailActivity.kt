@@ -75,7 +75,7 @@ class DeviceDetailActivity :
             }
         }
 
-    var isDeviceActivateType: Int = 1
+    private var isDeviceActivateType: Int = 1
 
     // 权限
     private val requestMultiplePermission =
@@ -355,7 +355,7 @@ class DeviceDetailActivity :
                                     )
                                 )
                             }
-                        }else if (DeviceCategory.isShower(detail.categoryCode)) {
+                        } else if (DeviceCategory.isShower(detail.categoryCode)) {
                             Intent(
                                 this@DeviceDetailActivity,
                                 DeviceShowerFunctionConfigurationActivity::class.java

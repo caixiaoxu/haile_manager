@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.ui.activity.personal
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.ui.base.activity.BaseBindingActivity
@@ -23,6 +24,8 @@ class WithdrawRecordActivity : BaseBindingActivity<ActivityWithdrawRecordBinding
     private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
 
     override fun layoutId(): Int = R.layout.activity_withdraw_record
+
+    override fun backBtn(): View = mBinding.barWithdrawRecordTitle.getBackBtn()
 
     private val adapter by lazy {
         CommonRecyclerAdapter<ItemWithdrawRecordBinding, WithdrawRecordEntity>(

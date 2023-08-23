@@ -180,16 +180,15 @@ class DeviceDetailActivity :
 
             // 吹风机不显示桶自洁
             if (DeviceCategory.isHair(detail.categoryCode)) {
-                mViewModel.deviceDetailFunOperate.find { item ->
+                mViewModel.deviceDetailFunOperate.filter { item ->
                     item.icon == R.mipmap.icon_device_device_selfclean
                             || item.icon == R.mipmap.icon_device_self_clean
                             || item.icon == R.mipmap.icon_device_unlock
                             || item.icon == R.mipmap.icon_device_device_voice
                             || item.icon == R.mipmap.icon_device_device_drain
+                }.forEach { item ->
+                    item.show.value = false
                 }
-                    ?.let { item ->
-                        item.show.value = false
-                    }
             } else if (DeviceCategory.isDrinking(detail.categoryCode)) {// 饮水机
                 mBinding.glDeviceDetailFunc.children.find { view -> view.tag == R.mipmap.icon_device_unlock }
                     ?.findViewById<AppCompatTextView>(R.id.tv_device_detail_func)?.text =
@@ -197,7 +196,8 @@ class DeviceDetailActivity :
                 mViewModel.deviceDetailFunOperate.filter { item ->
                     item.icon != R.mipmap.icon_device_unlock
                             && item.icon != R.mipmap.icon_device_create_pay_code
-                            && item.icon != R.mipmap.icon_device_update }
+                            && item.icon != R.mipmap.icon_device_update
+                }
                     .forEach { item ->
                         item.show.value = false
                     }
@@ -207,7 +207,8 @@ class DeviceDetailActivity :
                         || item.icon == R.mipmap.icon_device_change_model
                         || item.icon == R.mipmap.icon_device_change_pay_code
                         || item.icon == R.mipmap.icon_device_create_pay_code
-                        || item.icon == R.mipmap.icon_device_device_appointment_setting) {
+                        || item.icon == R.mipmap.icon_device_device_appointment_setting
+                    ) {
                         item.show.value = false
                     }
                 }
@@ -216,7 +217,8 @@ class DeviceDetailActivity :
                     if (item.icon == R.mipmap.icon_device_device_selfclean
                         || item.icon == R.mipmap.icon_device_device_drain
                         || item.icon == R.mipmap.icon_device_device_voice
-                        || item.icon == R.mipmap.icon_device_unlock) {
+                        || item.icon == R.mipmap.icon_device_unlock
+                    ) {
                         item.show.value = false
                     }
                 }

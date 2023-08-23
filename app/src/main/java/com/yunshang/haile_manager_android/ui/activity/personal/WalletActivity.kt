@@ -38,9 +38,9 @@ class WalletActivity : BaseBindingActivity<ActivityWalletBinding>() {
             }
         }
 
-
+        val authInfo = IntentParams.WalletParams.parseRealNameAuthStatus(intent)
         mBinding.btnWalletWithdraw.setOnClickListener {
-            if (!IntentParams.WalletParams.parseRealNameAuthStatus(intent)) {
+            if (3 != authInfo?.status) {
                 CommonDialog.Builder(StringUtils.getString(R.string.withdraw_err_no_real_name_auth))
                     .apply {
                         title = StringUtils.getString(R.string.tip)
@@ -50,7 +50,11 @@ class WalletActivity : BaseBindingActivity<ActivityWalletBinding>() {
                                 Intent(
                                     this@WalletActivity,
                                     RealNameAuthActivity::class.java
-                                )
+                                ).apply {
+                                    authInfo?.let {
+                                        putExtras(IntentParams.RealNameAuthParams.pack(it))
+                                    }
+                                }
                             )
                         }
                     }.build()

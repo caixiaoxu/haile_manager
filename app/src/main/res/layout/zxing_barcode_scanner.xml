@@ -9,7 +9,8 @@
     <com.yunshang.haile_manager_android.ui.view.scan.CustomViewFinderView
         android:id="@+id/zxing_viewfinder_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/zxing_status_view"
@@ -17,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:background="@color/zxing_transparent"
-        android:visibility="gone"
         android:text="@string/zxing_msg_default_status"
-        android:textColor="@color/zxing_status_text" />
+        android:textColor="@color/zxing_status_text"
+        android:visibility="gone" />
 </merge>

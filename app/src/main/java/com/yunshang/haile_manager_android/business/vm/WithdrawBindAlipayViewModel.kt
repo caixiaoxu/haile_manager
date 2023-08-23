@@ -11,7 +11,6 @@ import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.business.event.BusEvents
-import com.yunshang.haile_manager_android.data.entities.AuthCodeEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -110,7 +109,7 @@ class WithdrawBindAlipayViewModel : BaseViewModel() {
                 "realName" to alipayName.value!!,
             )
             ApiRepository.dealApiResult(
-                if (-1 != id) {
+                if (id > 0) {
                     mCapitalRepo.updateWithdrawAlipayAccount(
                         ApiRepository.createRequestBody(params.apply {
                             this["id"] = id
@@ -125,7 +124,7 @@ class WithdrawBindAlipayViewModel : BaseViewModel() {
             withContext(Dispatchers.Main) {
                 SToast.showToast(
                     v.context,
-                    if (-1 != id) R.string.update_success else R.string.bind_success
+                    if (id > 0) R.string.update_success else R.string.bind_success
                 )
             }
             LiveDataBus.post(BusEvents.BIND_WITHDRAW_ACCOUNT_STATUS, true)

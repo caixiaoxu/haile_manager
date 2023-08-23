@@ -5,23 +5,28 @@ import android.graphics.Color
 import android.net.http.SslError
 import android.view.View
 import android.webkit.*
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.journeyapps.barcodescanner.ScanContract
-import com.journeyapps.barcodescanner.ScanOptions
+import com.king.camera.scan.CameraScan
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.AppManager
+import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.SystemPermissionHelper
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.WebViewViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.databinding.ActivityWebviewBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
-import com.yunshang.haile_manager_android.ui.activity.common.CustomCaptureActivity
+import com.yunshang.haile_manager_android.ui.activity.common.WeChatQRCodeScanActivity
 import com.yunshang.haile_manager_android.ui.activity.login.LoginActivity
 import com.yunshang.haile_manager_android.utils.DialogUtils
 import com.yunshang.haile_manager_android.utils.StringUtils
 import com.yunshang.haile_manager_android.web.bean.*
+import timber.log.Timber
 
 
 class WebViewActivity : BaseBusinessActivity<ActivityWebviewBinding, WebViewViewModel>(
@@ -29,84 +34,111 @@ class WebViewActivity : BaseBusinessActivity<ActivityWebviewBinding, WebViewView
 ) {
     private val jsInterfaceName = "WebViewJavascriptBridge"
 
-    // 扫码相机启动器
-    private val scanLauncher = registerForActivityResult(ScanContract()) { result ->
-        result.contents?.let { code ->
-            mViewModel.jsScanRequestBean?.let { scanRequest ->
-                when (scanRequest.typeVal) {
-                    -1 -> callResponse(
-                        JsResponseBean(JsScanResponseBean(scanRequest.type, code))
-                    )
-                    0 -> if (15 == code.trim().length) {
-                        callResponse(
-                            JsResponseBean(JsScanResponseBean(
-                                scanRequest.type, code, scanRequest.getTypeStr(1)
-                            ).apply {
-                                imei = code
-                            })
-                        )
-                    } else {
-                        val payCode: String? = StringUtils.getPayCode(code)
-                        if (payCode.isNullOrEmpty()) {
-                            callResponse(JsResponseBean(JsScanResponseBean(scanRequest.type, code)))
-                        } else {
-                            callResponse(
-                                JsResponseBean(
-                                    JsScanResponseBean(
-                                        scanRequest.type, code, scanRequest.getTypeStr(2),
-                                    ).apply {
-                                        pay = code
-                                    }
-                                )
-                            )
-                        }
-                    }
-                    1 -> if (15 == code.trim().length) {
-                        callResponse(
-                            JsResponseBean(JsScanResponseBean(
-                                scanRequest.type, code,
-                                scanRequest.getTypeStr(1)
-                            ).apply {
-                                imei = code
-                            })
-                        )
-                    } else {
-                        callResponse(JsResponseBean<Any>(4, "IMEI码不正确"))
-                    }
-                    2 -> {
-                        val payCode: String? = StringUtils.getPayCode(code)
-                        if (payCode.isNullOrEmpty()) {
-                            callResponse(JsResponseBean<Any>(4, "付款码不正确"))
-                        } else {
-                            callResponse(
-                                JsResponseBean(JsScanResponseBean(
-                                    scanRequest.type, code,
-                                    scanRequest.getTypeStr(2)
-                                ).apply {
-                                    pay = code
-                                })
-                            )
-                        }
-                    }
-                }
+    // 权限
+    private val requestMultiplePermission =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result: Map<String, Boolean> ->
+            if (result.values.any { it }) {
+                // 授权权限成功
+                startQRActivity(false)
+            } else {
+                // 授权失败
+                SToast.showToast(this, R.string.empty_permission)
             }
         }
+
+    private fun startQRActivity(isOne: Boolean) {
+        startQRCodeScan.launch(Intent(
+            this,
+            WeChatQRCodeScanActivity::class.java
+        ).apply {
+            putExtra("isOne", isOne)
+        })
     }
 
-    // 扫码配置
-    private val scanOptions: ScanOptions by lazy {
-        ScanOptions().apply {
-            captureActivity = CustomCaptureActivity::class.java
-            setPrompt("请对准一/二维码")//提示语
-            setOrientationLocked(true)
-            setCameraId(0) // 选择摄像头
-            setBeepEnabled(true) // 开启声音
+    // 扫码相机启动器
+    private val startQRCodeScan =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            // 扫码结果
+            if (result.resultCode == RESULT_OK) {
+                CameraScan.parseScanResult(result.data)?.let {code->
+                    Timber.i("扫码:$code")
+                    mViewModel.jsScanRequestBean?.let { scanRequest ->
+                        when (scanRequest.typeVal) {
+                            -1 -> callResponse(
+                                JsResponseBean(JsScanResponseBean(scanRequest.type, code))
+                            )
+                            0 -> if (15 == code.trim().length) {
+                                callResponse(
+                                    JsResponseBean(JsScanResponseBean(
+                                        scanRequest.type, code, scanRequest.getTypeStr(1)
+                                    ).apply {
+                                        imei = code
+                                    })
+                                )
+                            } else {
+                                val payCode: String? = StringUtils.getPayCode(code)
+                                if (payCode.isNullOrEmpty()) {
+                                    callResponse(JsResponseBean(JsScanResponseBean(scanRequest.type, code)))
+                                } else {
+                                    callResponse(
+                                        JsResponseBean(
+                                            JsScanResponseBean(
+                                                scanRequest.type, code, scanRequest.getTypeStr(2),
+                                            ).apply {
+                                                pay = code
+                                            }
+                                        )
+                                    )
+                                }
+                            }
+                            1 -> if (15 == code.trim().length) {
+                                callResponse(
+                                    JsResponseBean(JsScanResponseBean(
+                                        scanRequest.type, code,
+                                        scanRequest.getTypeStr(1)
+                                    ).apply {
+                                        imei = code
+                                    })
+                                )
+                            } else {
+                                callResponse(JsResponseBean<Any>(4, "IMEI码不正确"))
+                            }
+                            2 -> {
+                                val payCode: String? = StringUtils.getPayCode(code)
+                                if (payCode.isNullOrEmpty()) {
+                                    callResponse(JsResponseBean<Any>(4, "付款码不正确"))
+                                } else {
+                                    callResponse(
+                                        JsResponseBean(JsScanResponseBean(
+                                            scanRequest.type, code,
+                                            scanRequest.getTypeStr(2)
+                                        ).apply {
+                                            pay = code
+                                        })
+                                    )
+                                }
+                            }
+                        }
+                    }
+                } ?: SToast.showToast(this, R.string.scan_code_error)
+            }
         }
-    }
 
     override fun layoutId(): Int = R.layout.activity_webview
 
     override fun backBtn(): View = mBinding.barWebviewTitle.getBackBtn()
+
+    override fun onResume() {
+        super.onResume()
+        LiveDataBus.with(BusEvents.SCAN_CHANGE_STATUS, Boolean::class.java)?.observe(this) {
+            startQRActivity(it)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        LiveDataBus.remove(BusEvents.SCAN_CHANGE_STATUS)
+    }
 
     override fun initEvent() {
         super.initEvent()
@@ -283,7 +315,10 @@ class WebViewActivity : BaseBusinessActivity<ActivityWebviewBinding, WebViewView
                     object : TypeToken<JsRequestBean<JsScanRequestBean>>() {}.type
                 )?.let { bean ->
                     mViewModel.jsScanRequestBean = bean.data
-                    scanLauncher.launch(scanOptions)
+                    requestMultiplePermission.launch(
+                        SystemPermissionHelper.cameraPermissions()
+                            .plus(SystemPermissionHelper.readWritePermissions())
+                    )
                 } ?: callResponse(JsResponseBean<Any?>(-1, "参数不正确"))
             }
             3 -> {

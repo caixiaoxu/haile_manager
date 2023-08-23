@@ -314,15 +314,18 @@ object IntentParams {
         /**
          * 包装参数
          */
-        fun pack(isAuth: Boolean): Bundle = Bundle().apply {
-            putBoolean(RealNameAuthStatus, isAuth)
+        fun pack(authInfo: RealNameAuthDetailEntity): Bundle = Bundle().apply {
+            putString(RealNameAuthStatus, GsonUtils.any2Json(authInfo))
         }
 
         /**
          * 解析TotalBalance
          */
-        fun parseRealNameAuthStatus(intent: Intent): Boolean =
-            intent.getBooleanExtra(RealNameAuthStatus, false)
+        fun parseRealNameAuthStatus(intent: Intent): RealNameAuthDetailEntity? =
+            GsonUtils.json2Class(
+                intent.getStringExtra(RealNameAuthStatus),
+                RealNameAuthDetailEntity::class.java
+            )
     }
 
     object WalletWithdrawParams {

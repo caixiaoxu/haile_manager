@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.ui.view.scan
 import android.app.Activity
 import android.content.Intent
 import com.google.zxing.client.android.Intents
+import com.journeyapps.barcodescanner.BarcodeResult
 import com.journeyapps.barcodescanner.CaptureManager
 import com.journeyapps.barcodescanner.DecoratedBarcodeView
 
@@ -16,8 +17,16 @@ import com.journeyapps.barcodescanner.DecoratedBarcodeView
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class CustomCaptureManager(private val activity: Activity, barcodeView: DecoratedBarcodeView) :
-    CaptureManager(activity, barcodeView) {
+class CustomCaptureManager(
+    private val activity: Activity,
+    barcodeView: DecoratedBarcodeView,
+    private val resultCallBack: (String?) -> Unit
+) : CaptureManager(activity, barcodeView) {
+
+    override fun returnResult(rawResult: BarcodeResult?) {
+//        super.returnResult(rawResult)
+        resultCallBack(rawResult?.result?.text)
+    }
 
     fun returnResultForAlbum(code: String?) {
         activity.setResult(Activity.RESULT_OK, Intent().apply {

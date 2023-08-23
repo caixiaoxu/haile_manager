@@ -66,6 +66,7 @@
             app:itemContent="@{item.extAttrStr}"
             android:inputType="numberDecimal"
             app:title="@string/dryer_time"
+            app:showArrow="true"
             app:type="info" />
 
         <LinearLayout

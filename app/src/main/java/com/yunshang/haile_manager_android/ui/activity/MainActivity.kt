@@ -1,6 +1,8 @@
 package com.yunshang.haile_manager_android.ui.activity
 
+import android.os.Bundle
 import android.view.View
+import com.king.wechat.qrcode.WeChatQRCodeDetector
 import com.lsy.framelib.utils.ActivityUtils
 import com.lsy.framelib.utils.AppPackageUtils
 import com.yunshang.haile_manager_android.BR
@@ -14,6 +16,7 @@ import com.yunshang.haile_manager_android.databinding.ActivityMainBinding
 import com.yunshang.haile_manager_android.ui.view.dialog.ServiceCheckDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.UpdateAppDialog
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
+import org.opencv.OpenCV
 import timber.log.Timber
 import java.io.File
 import java.util.*
@@ -28,6 +31,15 @@ class MainActivity :
 
     override fun onBackListener() {
         ActivityUtils.doubleBack(this)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // 初始化OpenCV
+        OpenCV.initAsync(this)
+        // 初始化WeChatQRCodeDetector
+        WeChatQRCodeDetector.init(this)
     }
 
     override fun initView() {

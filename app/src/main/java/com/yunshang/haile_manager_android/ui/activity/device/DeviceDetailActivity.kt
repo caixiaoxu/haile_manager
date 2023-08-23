@@ -11,12 +11,12 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
-import com.journeyapps.barcodescanner.ScanContract
-import com.journeyapps.barcodescanner.ScanOptions
+import com.king.camera.scan.CameraScan
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.ScreenUtils
 import com.lsy.framelib.utils.StringUtils
+import com.lsy.framelib.utils.SystemPermissionHelper
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -31,11 +31,12 @@ import com.yunshang.haile_manager_android.data.entities.Item
 import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.yunshang.haile_manager_android.databinding.*
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
-import com.yunshang.haile_manager_android.ui.activity.common.CustomCaptureActivity
+import com.yunshang.haile_manager_android.ui.activity.common.WeChatQRCodeScanActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DropperAddSettingActivity.Companion.OldFuncConfiguration
 import com.yunshang.haile_manager_android.ui.activity.order.OrderDetailActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
+import timber.log.Timber
 
 class DeviceDetailActivity :
     BaseBusinessActivity<ActivityDeviceDetailBinding, DeviceDetailModel>(
@@ -74,28 +75,40 @@ class DeviceDetailActivity :
             }
         }
 
-    // 扫描投放器液体核销码
-    private val activate1Launcher = registerForActivityResult(ScanContract()) { result ->
-        result.contents?.trim()?.let {
-            mViewModel.deviceActivate(1, it)
+    var isDeviceActivateType: Int = 1
+
+    // 权限
+    private val requestMultiplePermission =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result: Map<String, Boolean> ->
+            if (result.values.any { it }) {
+                // 授权权限成功
+                startQRActivity(false)
+            } else {
+                // 授权失败
+                SToast.showToast(this, R.string.empty_permission)
+            }
         }
-    }
-    private val activate2Launcher = registerForActivityResult(ScanContract()) { result ->
-        result.contents?.trim()?.let {
-            mViewModel.deviceActivate(2, it)
-        }
+
+    private fun startQRActivity(isOne: Boolean) {
+        startQRCodeScan.launch(Intent(
+            this,
+            WeChatQRCodeScanActivity::class.java
+        ).apply {
+            putExtra("isOne", isOne)
+        })
     }
 
-    private val scanOptions: ScanOptions by lazy {
-        ScanOptions().apply {
-            captureActivity = CustomCaptureActivity::class.java
-//            setDesiredBarcodeFormats(ScanOptions.ONE_D_CODE_TYPES)// 扫码的类型,一维码，二维码，一/二维码，默认为一/二维码
-            setPrompt("请对准二维码")//提示语
-            setOrientationLocked(true)
-            setCameraId(0) // 选择摄像头
-            setBeepEnabled(true) // 开启声音
+    // 扫描投放器液体核销码
+    private val startQRCodeScan =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            // 扫码结果
+            if (result.resultCode == RESULT_OK) {
+                CameraScan.parseScanResult(result.data)?.let {
+                    Timber.i("扫码:$it")
+                    mViewModel.deviceActivate(isDeviceActivateType, it)
+                } ?: SToast.showToast(this, R.string.imei_code_error)
+            }
         }
-    }
 
     override fun layoutId(): Int = R.layout.activity_device_detail
 
@@ -141,6 +154,18 @@ class DeviceDetailActivity :
         mViewModel.goodsId = intent.getIntExtra(GoodsId, -1)
     }
 
+    override fun onResume() {
+        super.onResume()
+        LiveDataBus.with(BusEvents.SCAN_CHANGE_STATUS, Boolean::class.java)?.observe(this) {
+            startQRActivity(it)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        LiveDataBus.remove(BusEvents.SCAN_CHANGE_STATUS)
+    }
+
     override fun initEvent() {
         super.initEvent()
 
@@ -155,7 +180,13 @@ class DeviceDetailActivity :
 
             // 吹风机不显示桶自洁
             if (DeviceCategory.isHair(detail.categoryCode)) {
-                mViewModel.deviceDetailFunOperate.find { item -> item.icon == R.mipmap.icon_device_self_clean }
+                mViewModel.deviceDetailFunOperate.find { item ->
+                    item.icon == R.mipmap.icon_device_device_selfclean
+                            || item.icon == R.mipmap.icon_device_self_clean
+                            || item.icon == R.mipmap.icon_device_unlock
+                            || item.icon == R.mipmap.icon_device_device_voice
+                            || item.icon == R.mipmap.icon_device_device_drain
+                }
                     ?.let { item ->
                         item.show.value = false
                     }
@@ -163,19 +194,29 @@ class DeviceDetailActivity :
                 mBinding.glDeviceDetailFunc.children.find { view -> view.tag == R.mipmap.icon_device_unlock }
                     ?.findViewById<AppCompatTextView>(R.id.tv_device_detail_func)?.text =
                     StringUtils.getString(R.string.unlock1)
-                mViewModel.deviceDetailFunOperate.filter { item -> item.icon != R.mipmap.icon_device_unlock && item.icon != R.mipmap.icon_device_create_pay_code && item.icon != R.mipmap.icon_device_update }
+                mViewModel.deviceDetailFunOperate.filter { item ->
+                    item.icon != R.mipmap.icon_device_unlock
+                            && item.icon != R.mipmap.icon_device_create_pay_code
+                            && item.icon != R.mipmap.icon_device_update }
                     .forEach { item ->
                         item.show.value = false
                     }
             } else if (DeviceCategory.isDispenser(detail.categoryCode)) {// 投放器不显示部分icon
                 mViewModel.deviceDetailFunOperate.forEach { item ->
-                    if (item.icon == R.mipmap.icon_device_self_clean || item.icon == R.mipmap.icon_device_change_model || item.icon == R.mipmap.icon_device_change_pay_code || item.icon == R.mipmap.icon_device_create_pay_code || item.icon == R.mipmap.icon_device_device_appointment_setting) {
+                    if (item.icon == R.mipmap.icon_device_self_clean
+                        || item.icon == R.mipmap.icon_device_change_model
+                        || item.icon == R.mipmap.icon_device_change_pay_code
+                        || item.icon == R.mipmap.icon_device_create_pay_code
+                        || item.icon == R.mipmap.icon_device_device_appointment_setting) {
                         item.show.value = false
                     }
                 }
             } else {
                 mViewModel.deviceDetailFunOperate.forEach { item ->
-                    if (item.icon == R.mipmap.icon_device_device_selfclean || item.icon == R.mipmap.icon_device_device_drain || item.icon == R.mipmap.icon_device_device_voice || item.icon == R.mipmap.icon_device_unlock) {
+                    if (item.icon == R.mipmap.icon_device_device_selfclean
+                        || item.icon == R.mipmap.icon_device_device_drain
+                        || item.icon == R.mipmap.icon_device_device_voice
+                        || item.icon == R.mipmap.icon_device_unlock) {
                         item.show.value = false
                     }
                 }
@@ -616,10 +657,18 @@ class DeviceDetailActivity :
         }
 
         mBinding.includeDispenserLaundry.tvDispenserItemLimit.setOnClickListener {
-            activate1Launcher.launch(scanOptions)
+            isDeviceActivateType = 1
+            requestMultiplePermission.launch(
+                SystemPermissionHelper.cameraPermissions()
+                    .plus(SystemPermissionHelper.readWritePermissions())
+            )
         }
         mBinding.includeDispenserRemaining.tvDispenserItemLimit.setOnClickListener {
-            activate2Launcher.launch(scanOptions)
+            isDeviceActivateType = 2
+            requestMultiplePermission.launch(
+                SystemPermissionHelper.cameraPermissions()
+                    .plus(SystemPermissionHelper.readWritePermissions())
+            )
         }
         mBinding.includeError.tvBaseInfoContentFind.setOnClickListener {
             startActivity(Intent(

@@ -35,7 +35,7 @@
         android:drawableTop="@mipmap/icon_camera_light"
         android:drawablePadding="4dp"
         android:gravity="center"
-        android:text="@string/light"
+        android:text="@string/capture_light"
         app:layout_constraintBottom_toBottomOf="@id/zxing_barcode_scanner"
         app:layout_constraintStart_toStartOf="@id/zxing_barcode_scanner" />
 

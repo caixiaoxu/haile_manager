@@ -122,13 +122,14 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
     override fun initEvent() {
         super.initEvent()
 
-        LiveDataBus.with(BusEvents.REAL_NAME_AUTH_STATUS)?.observe(this) {
-            mViewModel.requestRealNameAuthAsync()
-        }
-
         LiveDataBus.with(BusEvents.BALANCE_STATUS)?.observe(this) {
             mViewModel.requestBalanceAsync()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mViewModel.requestRealNameAuthAsync()
     }
 
     override fun initData() {

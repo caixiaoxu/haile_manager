@@ -105,7 +105,7 @@ class PersonalViewModel : BaseViewModel() {
     fun requestRealNameAuthAsync() {
         launch({
             requestRealNameAuth()
-        })
+        }, {})
     }
 
     private suspend fun requestRealNameAuth() {
@@ -117,7 +117,7 @@ class PersonalViewModel : BaseViewModel() {
                 bundle = IntentParams.RealNameAuthParams.pack(it)
             }
             personalItems.find { item -> item?.title == R.string.wallet }?.run {
-                bundle = IntentParams.WalletParams.pack(3 == it.status)
+                bundle = IntentParams.WalletParams.pack(it)
             }
         }
     }

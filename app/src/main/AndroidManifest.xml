@@ -44,7 +44,8 @@
         <activity
             android:name=".ui.activity.common.WeChatQRCodeScanActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.shop.ShopBusinessHoursActivity"
             android:exported="false" />

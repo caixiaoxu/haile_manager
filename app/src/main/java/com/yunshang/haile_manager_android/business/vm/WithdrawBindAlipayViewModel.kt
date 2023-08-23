@@ -110,7 +110,7 @@ class WithdrawBindAlipayViewModel : BaseViewModel() {
                 "realName" to alipayName.value!!,
             )
             ApiRepository.dealApiResult(
-                if (-1 != id) {
+                if (id > 0) {
                     mCapitalRepo.updateWithdrawAlipayAccount(
                         ApiRepository.createRequestBody(params.apply {
                             this["id"] = id
@@ -125,7 +125,7 @@ class WithdrawBindAlipayViewModel : BaseViewModel() {
             withContext(Dispatchers.Main) {
                 SToast.showToast(
                     v.context,
-                    if (-1 != id) R.string.update_success else R.string.bind_success
+                    if (id > 0) R.string.update_success else R.string.bind_success
                 )
             }
             LiveDataBus.post(BusEvents.BIND_WITHDRAW_ACCOUNT_STATUS, true)

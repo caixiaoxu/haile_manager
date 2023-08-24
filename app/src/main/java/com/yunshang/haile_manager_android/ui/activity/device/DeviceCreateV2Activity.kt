@@ -70,7 +70,6 @@ class DeviceCreateV2Activity :
                             mViewModel.payCode.value = payCode
                         } else if (StringUtils.isImeiCode(it)) {
                             mViewModel.imeiCode.value = it
-                            clearImeiEditFocus()
                         } else
                             SToast.showToast(this, R.string.scan_code_error)
                     }
@@ -103,13 +102,18 @@ class DeviceCreateV2Activity :
 
         mViewModel.imeiCode.observe(this) {
             // 如果符合规则就查询型号
+            // binding双向绑定，会调用两次
             if (StringUtils.isImeiCode(it)) {
                 clearImeiEditFocus()
-                mViewModel.requestModelOfImei(it) {
-                    if (it) {
-                        jumpPage(2)
+                mViewModel.requestModelOfImei(it) { isSuccess ->
+                    if (isSuccess) {
+                        if (mViewModel.step.value != 2) {
+                            mViewModel.step.value = 2
+                        }
                     } else {
-                        jumpPage(1)
+                        if (mViewModel.step.value != 1) {
+                            mViewModel.step.value = 1
+                        }
                     }
                 }
             }
@@ -174,11 +178,13 @@ class DeviceCreateV2Activity :
     private fun refreshFragmentStep(step: Int) {
         if (0 <= step && step < mViewModel.deviceCreateStepFragments.size) {
             val curFragment = mViewModel.deviceCreateStepFragments[step]
-            val name = curFragment.javaClass.name
-            supportFragmentManager.beginTransaction()
-                .add(R.id.fl_device_create_parent, curFragment, name)
-                .addToBackStack(name)
-                .commit()
+            val name = curFragment.javaClass.simpleName
+            if (null == supportFragmentManager.findFragmentByTag(name)) {
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.fl_device_create_parent, curFragment, name)
+                    .addToBackStack(name)
+                    .commit()
+            }
         }
     }
 

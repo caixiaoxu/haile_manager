@@ -12,7 +12,6 @@ import com.yunshang.haile_manager_android.ui.fragment.device.DeviceCreateStep2Fr
 import com.yunshang.haile_manager_android.ui.fragment.device.DeviceCreateStep3Fragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 /**
  * Title :

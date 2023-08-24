@@ -141,6 +141,7 @@
     <string name="device_name">设备名称</string>
     <string name="fun_configure">功能配置</string>
     <string name="scan_hint">扫描模块上的二维码</string>
+    <string name="scan_pay_hint">扫描模块上的付款码</string>
     <string name="no_configure">未配置</string>
     <string name="configured">已配置</string>
     <string name="pay_code_error">该付款码无效</string>

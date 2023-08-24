@@ -59,6 +59,7 @@ class DeviceCreateV2Activity :
                     setCompoundDrawablesWithIntrinsicBounds(
                         R.mipmap.icon_device_create_scan, 0, 0, 0
                     )
+                    setBackgroundResource(R.drawable.shape_sf0a258_r14)
                     compoundDrawablePadding = pV
                     setOnClickListener {
                     }

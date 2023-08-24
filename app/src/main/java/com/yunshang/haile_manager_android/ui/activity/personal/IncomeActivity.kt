@@ -128,6 +128,13 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+        mBinding.barIncomeTitle.setTitle(
+            when (mViewModel.profitType) {
+                1 -> R.string.shop_income
+                2 -> R.string.device_income
+                else -> R.string.income
+            }
+        )
 
         mBinding.tvIncomeSelectDate.setOnClickListener {
             DateSelectorDialog.Builder().apply {

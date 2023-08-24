@@ -441,6 +441,8 @@
     <string name="my_change">我的零钱</string>
     <string name="balance">余额</string>
     <string name="balance_detail">余额明细</string>
+    <string name="shop_income">门店收入</string>
+    <string name="device_income">设备收入</string>
     <string name="income">收入明细</string>
     <string name="earning">收入</string>
     <string name="expend">支出</string>

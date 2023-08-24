@@ -20,5 +20,5 @@ object NumberUtils {
      */
     @JvmStatic
     fun keepTwoDecimals(num: Double): String =
-        BigDecimal(num).run { setScale(2, RoundingMode.DOWN).toString() }
+        BigDecimal(num).run { setScale(2, RoundingMode.HALF_UP).toString() }
 }

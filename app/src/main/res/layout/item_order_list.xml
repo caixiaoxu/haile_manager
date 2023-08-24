@@ -106,7 +106,7 @@
             android:layout_marginTop="12dp"
             android:fontFamily="@font/money"
             android:gravity="center_vertical"
-            android:text='@{NumberUtils.keepTwoDecimals(item.realPrice) + "元"}'
+            android:text='@{item.realPrice + "元"}'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_order_list_real_income_title"
             app:layout_constraintTop_toBottomOf="@id/ll_order_list_specs"

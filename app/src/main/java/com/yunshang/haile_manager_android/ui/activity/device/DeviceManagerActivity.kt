@@ -191,7 +191,8 @@ class DeviceManagerActivity :
             startActivity(
                 Intent(
                     this@DeviceManagerActivity,
-                    DeviceCreateActivity::class.java
+//                    DeviceCreateActivity::class.java
+                    DeviceCreateV2Activity::class.java
                 )
             )
         }

@@ -39,7 +39,7 @@ data class OrderListEntity(
     val payMethodType: Int,
     val payTime: String,
     val promotionList: List<Promotion>,
-    val realPrice: Double,
+    val realPrice: String,
     val shopId: Int,
     val shopName: String,
     val skuList: List<Sku>,

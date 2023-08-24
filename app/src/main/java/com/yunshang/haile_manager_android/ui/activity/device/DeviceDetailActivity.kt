@@ -224,6 +224,8 @@ class DeviceDetailActivity :
                 }
             }
 
+            mBinding.glDeviceDetailFunc.visibility = View.VISIBLE
+
             // 功能配置
             mBinding.llDeviceDetailFuncPrice.removeAllViews()
             val inflater = LayoutInflater.from(this@DeviceDetailActivity)

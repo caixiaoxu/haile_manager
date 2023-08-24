@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import com.lsy.framelib.utils.DimensionUtils
+import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DeviceCreateV2ViewModel
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceCreateV2Binding
@@ -15,7 +16,7 @@ import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
  */
 class DeviceCreateV2Activity :
     BaseBusinessActivity<ActivityDeviceCreateV2Binding, DeviceCreateV2ViewModel>(
-        DeviceCreateV2ViewModel::class.java
+        DeviceCreateV2ViewModel::class.java,BR.vm
     ) {
 
     override fun layoutId(): Int = R.layout.activity_device_create_v2
@@ -35,7 +36,11 @@ class DeviceCreateV2Activity :
         window.statusBarColor = Color.WHITE
 
         mBinding.btnDeviceCreateNextOrSave.setOnClickListener {
-            mViewModel.step.value = mViewModel.step.value!! + 1
+            if (mViewModel.step.value!! < (mViewModel.deviceCreateStepFragments.size - 1)) {
+                mViewModel.step.value = mViewModel.step.value!! + 1
+            } else {
+
+            }
         }
     }
 
@@ -67,7 +72,6 @@ class DeviceCreateV2Activity :
 
     private fun refreshFragmentStep(step: Int) {
         if (0 <= step && step < mViewModel.deviceCreateStepFragments.size) {
-
             val curFragment = mViewModel.deviceCreateStepFragments[step]
             val name = curFragment.javaClass.name
             supportFragmentManager.beginTransaction()

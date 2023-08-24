@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.DeviceCreateV2ViewModel" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -27,21 +30,21 @@
             android:id="@+id/fl_device_create_parent"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:background="@color/white"
-            android:layout_height="96dp">
+            android:layout_height="96dp"
+            android:background="@color/white">
 
             <com.yunshang.haile_manager_android.ui.view.CommonButton
                 android:id="@+id/btn_device_create_next_or_save"
                 style="@style/CommonMatchBtnStyle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/next"
                 android:layout_marginHorizontal="18dp"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:text="@{(vm.deviceCreateStepFragments.size - 1) == vm.step?@string/save:@string/next }" />
         </FrameLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

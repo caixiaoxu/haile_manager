@@ -7,7 +7,6 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.setPadding
@@ -52,8 +51,8 @@ class MultiTypeItemView @JvmOverloads constructor(
             field = value
             onItemContentChange?.onChange()
         }
-    val contentView: AppCompatEditText by lazy {
-        AppCompatEditText(context).apply {
+    val contentView: BindingEditText by lazy {
+        BindingEditText(context).apply {
             textSize = 16f
             background = null
             setPadding(0)

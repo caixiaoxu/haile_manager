@@ -126,6 +126,7 @@
     <string name="network_status">网络状态</string>
     <string name="device_status">设备状态</string>
     <string name="operate_manager">操作管理</string>
+    <string name="add_device_hint">绑定须知：\n1.设备先通电3分钟以上，再进行绑定操作；\n2.蓝牙设备，需要收集靠近设备1米以内操作</string>
     <string name="add_device">添加设备</string>
     <string name="new_device">新增设备</string>
     <string name="batch_update">批量修改</string>

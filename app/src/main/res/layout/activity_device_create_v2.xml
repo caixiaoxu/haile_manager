@@ -10,19 +10,17 @@
             type="com.yunshang.haile_manager_android.business.vm.DeviceCreateV2ViewModel" />
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:divider="@color/dividing_line_color"
-        app:showDividers="middle"
         tools:context=".ui.activity.device.DeviceCreateV2Activity">
 
         <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_device_create_v2_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
-            android:background="@color/white"
+            android:background="@drawable/shape_bottom_stroke_dividing"
             app:rightModel="area"
             app:title="@string/add_device" />
 
@@ -31,6 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
+
+        <View style="@style/DividingStyle"/>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -46,5 +46,5 @@
                 android:layout_marginTop="8dp"
                 android:text="@{(vm.deviceCreateStepFragments.size - 1) == vm.step?@string/save:@string/next }" />
         </FrameLayout>
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </LinearLayout>
 </layout>

@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.ui.fragment.device
 
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DeviceCreateStep1ViewModel
+import com.yunshang.haile_manager_android.business.vm.DeviceCreateV2ViewModel
 import com.yunshang.haile_manager_android.databinding.FragmentDeviceCreateStep1Binding
 import com.yunshang.haile_manager_android.ui.fragment.BaseBusinessFragment
 
@@ -19,11 +20,20 @@ class DeviceCreateStep1Fragment :
     BaseBusinessFragment<FragmentDeviceCreateStep1Binding, DeviceCreateStep1ViewModel>(
         DeviceCreateStep1ViewModel::class.java
     ) {
+    val mActivityViewModel by lazy {
+        getActivityViewModelProvider(requireActivity())[DeviceCreateV2ViewModel::class.java]
+    }
+
     override fun layoutId(): Int = R.layout.fragment_device_create_step1
 
     override fun initView() {
     }
 
     override fun initData() {
+        mBinding.vm = mActivityViewModel
+    }
+
+    fun clearImeiFocus(){
+        mBinding.itemDeviceCreateImei.clearFocus()
     }
 }

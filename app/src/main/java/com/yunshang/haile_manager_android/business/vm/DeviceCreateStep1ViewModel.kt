@@ -1,6 +1,5 @@
 package com.yunshang.haile_manager_android.business.vm
 
-import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
 
 /**
@@ -15,12 +14,4 @@ import com.lsy.framelib.ui.base.BaseViewModel
  */
 class DeviceCreateStep1ViewModel: BaseViewModel() {
 
-
-    // 付款码
-    val payCode: MutableLiveData<String> by lazy {
-        MutableLiveData()
-    }
-
-    // IMEI
-    val imeiCode: MutableLiveData<String> = MutableLiveData()
 }

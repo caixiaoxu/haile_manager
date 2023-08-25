@@ -173,7 +173,7 @@ data class SkuEntity(
             pulse = old.pulse
             unit = old.unit
             if (old.extAttr.isNotEmpty()) {
-                extAttrDrink = GsonUtils.json2JsonObject(old.extAttr)
+                extAttrDrink = GsonUtils.json2JsonObject(old.extAttr) ?: JsonObject()
             }
             feature = old.feature
             soldState = old.soldState

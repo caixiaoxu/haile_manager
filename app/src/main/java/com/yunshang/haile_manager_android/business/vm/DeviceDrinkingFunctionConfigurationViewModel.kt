@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.business.vm
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.JsonObject
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
@@ -68,14 +69,21 @@ class DeviceDrinkingFunctionConfigurationViewModel : BaseViewModel() {
                     if (!oldConfigurationList.isNullOrEmpty()) {
                         sku.mergeDrinkOld(oldConfigurationList!!.find { param -> param.skuId == sku.id })
                     } else {
-                        sku.extAttrDrink = GsonUtils.json2JsonObject(sku.extAttr)
+                        sku.extAttrDrink = GsonUtils.json2JsonObject(sku.extAttr) ?: JsonObject()
                     }
                 }
                 it.firstOrNull()?.let { first ->
                     first.extAttrDrink?.let { firstAttr ->
                         drinkAttrConfigure.postValue(
                             DrinkAttrConfigure(
-                                MutableLiveData(firstAttr["priceCalculateMode"].asInt),
+                                MutableLiveData(
+                                    try {
+                                        firstAttr["priceCalculateMode"].asInt
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                        1
+                                    }
+                                ),
                                 try {
                                     firstAttr["overTime"].asInt
                                 } catch (e: Exception) {
@@ -92,7 +100,7 @@ class DeviceDrinkingFunctionConfigurationViewModel : BaseViewModel() {
                                     firstAttr["singlePulseQuantity"].asDouble
                                 } catch (e: Exception) {
                                     e.printStackTrace()
-                                    0.0001
+                                    0.0
                                 },
                                 it.map { sku ->
                                     DrinkAttrConfigure.DrinkAttrConfigureItem(

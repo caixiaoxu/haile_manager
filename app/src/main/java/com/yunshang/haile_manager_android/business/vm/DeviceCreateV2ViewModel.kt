@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.business.vm
 
 import android.view.View
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.lsy.framelib.ui.base.BaseViewModel
@@ -40,7 +41,9 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
-    var spuId: Int = -1
+    val spuId: MutableLiveData<Int> by lazy {
+        MutableLiveData()
+    }
 
     // 设备类型
     val categoryName: MutableLiveData<String> by lazy {
@@ -51,7 +54,9 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
     val modelName: MutableLiveData<String> by lazy {
         MutableLiveData()
     }
-    var categoryId: Int = -1
+    val categoryId: MutableLiveData<Int> by lazy {
+        MutableLiveData()
+    }
     val categoryCode: MutableLiveData<String> = MutableLiveData()
     val hasCategoryCode: LiveData<Boolean> = categoryCode.map {
         !it.isNullOrEmpty()
@@ -59,8 +64,8 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
     val isDispenser: LiveData<Boolean> = categoryCode.map {
         DeviceCategory.isDispenser(it)
     }
-    val isDrinking: LiveData<Boolean> = categoryCode.map {
-        DeviceCategory.isDrinking(it)
+    val isDrinkingOrShower: LiveData<Boolean> = categoryCode.map {
+        DeviceCategory.isDrinkingOrShower(it)
     }
 
     // 脉冲
@@ -91,6 +96,51 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
     val isFunConfigure: LiveData<Boolean> = createDeviceFunConfigure.map {
         !it.isNullOrEmpty()
     }
+
+    // 是否可提交
+    val canSubmit: MediatorLiveData<Boolean> = MediatorLiveData(false).apply {
+        addSource(imeiCode) {
+            value = checkSubmit()
+        }
+        addSource(payCode) {
+            value = checkSubmit()
+        }
+        addSource(createDeviceShop) {
+            value = checkSubmit()
+        }
+        addSource(spuId) {
+            value = checkSubmit()
+        }
+        addSource(categoryId) {
+            value = checkSubmit()
+        }
+        addSource(deviceName) {
+            value = checkSubmit()
+        }
+        addSource(createDeviceFunConfigure) {
+            value = checkSubmit()
+        }
+        addSource(washImeiCode) {
+            value = checkSubmit()
+        }
+        addSource(communicationVal) {
+            value = checkSubmit()
+        }
+    }
+
+    /**
+     * 检测是否可提交
+     */
+    private fun checkSubmit(): Boolean = (!imeiCode.value.isNullOrEmpty()
+            && (if (true != isDispenser.value) !payCode.value.isNullOrEmpty() else true)
+            && (null != createDeviceShop.value && createDeviceShop.value!!.id > 0)
+            && (null != spuId.value && spuId.value!! > 0)
+            && (null != categoryId.value && categoryId.value!! > 0)
+            && (!deviceName.value.isNullOrEmpty())
+            && (if (true == isDispenser.value) !washImeiCode.value.isNullOrEmpty() else true)
+            && (if (true == isDrinkingOrShower.value) !communicationVal.value.isNullOrEmpty() else true)
+            && null != createDeviceFunConfigure.value)
+
 
     /**
      * 根据imei请求型号
@@ -123,10 +173,10 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
         communicationType: Int,
         ignorePayCodeFlag: Boolean
     ) {
-        spuId = sId
+        spuId.postValue(sId)
         categoryName.postValue(cName ?: "")
         modelName.postValue(feature ?: "")
-        categoryId = cId
+        categoryId.postValue(cId)
         categoryCode.postValue(code ?: "")
         deviceCommunicationType = communicationType
         deviceIgnorePayCodeFlag = ignorePayCodeFlag

@@ -138,12 +138,12 @@
                     app:title="@string/single_pulse_quantity"
                     app:type="input"
                     app:unitHint="@string/unit_quantity_hint"
-                    app:visibility="@{vm.isDrinking}" />
+                    app:visibility="@{vm.isDrinkingOrShower}" />
 
                 <View
                     style="@style/DividingStyle"
                     android:layout_marginHorizontal="16dp"
-                    app:visibility="@{vm.isDrinking}" />
+                    app:visibility="@{vm.isDrinkingOrShower}" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_wash_imei"
@@ -203,6 +203,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
                 android:layout_marginTop="8dp"
+                android:enabled="@{vm.canSubmit}"
                 android:onClick="@{vm::save}"
                 android:text="@string/save" />
         </FrameLayout>

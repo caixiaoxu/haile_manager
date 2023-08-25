@@ -2,8 +2,11 @@ package com.yunshang.haile_manager_android.ui.activity.device
 
 import android.content.Intent
 import android.graphics.Color
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.databinding.DataBindingUtil
 import com.king.camera.scan.CameraScan
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
@@ -17,7 +20,13 @@ import com.yunshang.haile_manager_android.business.vm.DeviceCreateV2ViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
+import com.yunshang.haile_manager_android.data.entities.DosingConfigs
+import com.yunshang.haile_manager_android.data.entities.ExtAttrDrinkBean
+import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceCreateV2Binding
+import com.yunshang.haile_manager_android.databinding.ItemDeviceDetailDisposeMinBinding
+import com.yunshang.haile_manager_android.databinding.ItemSelectedDeviceFuncationConfigurationBinding
+import com.yunshang.haile_manager_android.databinding.ItemSelectedDrinkDeviceFuncationConfigurationBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.activity.common.WeChatQRCodeScanActivity
@@ -86,7 +95,6 @@ class DeviceCreateV2Activity :
             }
         }
 
-
     // 搜索型号界面
     private val startNext =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -152,6 +160,146 @@ class DeviceCreateV2Activity :
                 mBinding.itemDeviceCreateImei.clearFocus()
                 mViewModel.requestModelOfImei(it)
             }
+        }
+
+        // 功能配置
+        mViewModel.createDeviceFunConfigure.observe(this) {
+            it?.let { list ->
+                mBinding.llDeviceCreateSelectFunConfiguration.removeAllViews()
+                val inflater = LayoutInflater.from(this)
+                if (mViewModel.isDispenser.value!!) {
+                    list.flatMap { item ->
+                        GsonUtils.json2List(item.extAttr, DosingConfigs::class.java)
+                            ?: listOf()
+                    }.forEachIndexed { _, config ->
+                        val mFuncConfigBinding =
+                            DataBindingUtil.inflate<ItemDeviceDetailDisposeMinBinding>(
+                                inflater,
+                                R.layout.item_device_detail_dispose_min,
+                                null,
+                                false
+                            )
+                        mFuncConfigBinding.item = config
+                        mBinding.llDeviceCreateSelectFunConfiguration.addView(
+                            mFuncConfigBinding.root,
+                            LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                            )
+                        )
+                    }
+                } else if (DeviceCategory.isDrinkingOrShower(mViewModel.categoryCode.value)) {
+                    buildDrinkingConfigureItemView(list, inflater)
+                } else {
+                    list.forEachIndexed { _, config ->
+                        val mFuncConfigBinding =
+                            DataBindingUtil.inflate<ItemSelectedDeviceFuncationConfigurationBinding>(
+                                inflater,
+                                R.layout.item_selected_device_funcation_configuration,
+                                null,
+                                false
+                            )
+                        mFuncConfigBinding.item = config
+                        mFuncConfigBinding.isDryer =
+                            DeviceCategory.isDryerOrHair(mViewModel.categoryCode.value)
+                        mFuncConfigBinding.deviceCommunicationType =
+                            mViewModel.deviceCommunicationType
+                        mFuncConfigBinding.tvSelectFuncConfigurationFeature.visibility =
+                            if (DeviceCategory.isHair(mViewModel.categoryCode.value)) View.GONE else View.VISIBLE
+                        mBinding.llDeviceCreateSelectFunConfiguration.addView(
+                            mFuncConfigBinding.root,
+                            LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 构建饮水配置界面
+     */
+    private fun buildDrinkingConfigureItemView(
+        list: List<SkuFuncConfigurationParam>,
+        inflater: LayoutInflater,
+    ) {
+        list.firstOrNull()?.let { first ->
+            GsonUtils.json2Class(first.extAttr, ExtAttrDrinkBean::class.java)
+                ?.let { firstAttr ->
+                    // 计价界面
+                    DataBindingUtil.inflate<ItemSelectedDrinkDeviceFuncationConfigurationBinding>(
+                        inflater,
+                        R.layout.item_selected_drink_device_funcation_configuration,
+                        null,
+                        false
+                    ).let { binding ->
+                        binding.title =
+                            com.lsy.framelib.utils.StringUtils.getString(
+                                if (1 == firstAttr.priceCalculateMode) R.string.for_quantity
+                                else R.string.for_time
+                            ) + "计价"
+                        binding.content = "${
+                            com.lsy.framelib.utils.StringUtils.getString(R.string.over_time) +
+                                    com.lsy.framelib.utils.StringUtils.getString(
+                                        R.string.unit_minute_num_str,
+                                        firstAttr.overTime
+                                    )
+                        }\n${
+                            com.lsy.framelib.utils.StringUtils.getString(R.string.pause_time) +
+                                    com.lsy.framelib.utils.StringUtils.getString(
+                                        R.string.unit_minute_num_str,
+                                        firstAttr.pauseTime
+                                    )
+                        }${
+                            if (1 == firstAttr.priceCalculateMode) {
+                                "\n" + com.lsy.framelib.utils.StringUtils.getString(R.string.single_pulse_quantity) +
+                                        com.lsy.framelib.utils.StringUtils.getString(
+                                            R.string.unit_quantity_num_str,
+                                            firstAttr.singlePulseQuantity
+                                        )
+                            } else ""
+                        }"
+                        binding.soldState = 0
+                        mBinding.llDeviceCreateSelectFunConfiguration.addView(
+                            binding.root,
+                            LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                            )
+                        )
+                    }
+
+                    // 单价界面
+                    list.forEach { sku ->
+                        DataBindingUtil.inflate<ItemSelectedDrinkDeviceFuncationConfigurationBinding>(
+                            inflater,
+                            R.layout.item_selected_drink_device_funcation_configuration,
+                            null,
+                            false
+                        ).let { binding ->
+                            binding.title =
+                                sku.name + com.lsy.framelib.utils.StringUtils.getString(R.string.price)
+                            binding.content =
+                                "${
+                                    String.format(
+                                        "%.2f",
+                                        sku.price
+                                    )
+                                }${com.lsy.framelib.utils.StringUtils.getString(if (1 == firstAttr.priceCalculateMode) R.string.unit_water_quantity_price_hint else R.string.unit_water_time_price_hint)}"
+                            binding.soldState = sku.soldState
+                            mBinding.llDeviceCreateSelectFunConfiguration.addView(
+                                binding.root,
+                                LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                            )
+                        }
+                    }
+                }
         }
     }
 
@@ -222,7 +370,7 @@ class DeviceCreateV2Activity :
                 ).apply {
                     putExtra(
                         DropperAddSettingActivity.SpuId,
-                        mViewModel.spuId
+                        mViewModel.spuId.value
                     )
                     mViewModel.createDeviceFunConfigure.value?.let { configs ->
                         putExtra(
@@ -239,7 +387,7 @@ class DeviceCreateV2Activity :
                     ).apply {
                         putExtras(
                             IntentParams.DeviceFunctionConfigurationParams.pack(
-                                spuId = mViewModel.spuId,
+                                spuId = mViewModel.spuId.value,
                                 categoryCode = mViewModel.categoryCode.value,
                                 oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
                             )
@@ -254,7 +402,7 @@ class DeviceCreateV2Activity :
                     ).apply {
                         putExtras(
                             IntentParams.DeviceFunctionConfigurationParams.pack(
-                                spuId = mViewModel.spuId,
+                                spuId = mViewModel.spuId.value,
                                 categoryCode = mViewModel.categoryCode.value,
                                 oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
                             )
@@ -268,7 +416,7 @@ class DeviceCreateV2Activity :
                 ).apply {
                     putExtras(
                         IntentParams.DeviceFunctionConfigurationParams.pack(
-                            spuId = mViewModel.spuId,
+                            spuId = mViewModel.spuId.value,
                             categoryCode = mViewModel.categoryCode.value,
                             communicationType = mViewModel.deviceCommunicationType,
                             oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value

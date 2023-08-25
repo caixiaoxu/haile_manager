@@ -50,8 +50,15 @@ class MultiTypeItemView @JvmOverloads constructor(
                 return
             }
             field = value
-            onItemContentChange?.onChange()
+            if (!dynamicValue){
+                onItemContentChange?.onChange()
+            } else {
+                dynamicValue = false
+            }
         }
+
+    var dynamicValue = false
+
     val contentView: AppCompatEditText by lazy {
         AppCompatEditText(context).apply {
             textSize = 16f

@@ -105,17 +105,7 @@ class DeviceCreateV2Activity :
             // binding双向绑定，会调用两次
             if (StringUtils.isImeiCode(it)) {
                 clearImeiEditFocus()
-                mViewModel.requestModelOfImei(it) { isSuccess ->
-                    if (isSuccess) {
-                        if (mViewModel.step.value != 2) {
-                            mViewModel.step.value = 2
-                        }
-                    } else {
-                        if (mViewModel.step.value != 1) {
-                            mViewModel.step.value = 1
-                        }
-                    }
-                }
+                mViewModel.requestModelOfImei(it)
             }
         }
     }
@@ -140,8 +130,13 @@ class DeviceCreateV2Activity :
     }
 
     private fun jumpPage(step: Int) {
-        refreshTitleBar(step)
-        refreshFragmentStep(step)
+        var stepTemp = step
+        // 如果查到绑定设备，跳过模式选择界面
+        if (1 == step && 0 < mViewModel.spuId && 0 < mViewModel.categoryId) {
+            stepTemp = 2
+        }
+        refreshTitleBar(stepTemp)
+        refreshFragmentStep(stepTemp)
     }
 
     private fun refreshTitleBar(step: Int) {
@@ -180,10 +175,14 @@ class DeviceCreateV2Activity :
             val curFragment = mViewModel.deviceCreateStepFragments[step]
             val name = curFragment.javaClass.simpleName
             if (null == supportFragmentManager.findFragmentByTag(name)) {
-                supportFragmentManager.beginTransaction()
-                    .add(R.id.fl_device_create_parent, curFragment, name)
-                    .addToBackStack(name)
-                    .commit()
+                try {
+                    supportFragmentManager.beginTransaction()
+                        .add(R.id.fl_device_create_parent, curFragment, name)
+                        .addToBackStack(name)
+                        .commit()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }

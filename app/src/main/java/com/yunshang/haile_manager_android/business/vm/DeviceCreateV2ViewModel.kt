@@ -1,17 +1,13 @@
 package com.yunshang.haile_manager_android.business.vm
 
 import androidx.lifecycle.MutableLiveData
-import com.lsy.framelib.network.exception.CommonCustomException
 import com.lsy.framelib.ui.base.BaseViewModel
-import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.ui.fragment.device.DeviceCreateStep1Fragment
 import com.yunshang.haile_manager_android.ui.fragment.device.DeviceCreateStep2Fragment
 import com.yunshang.haile_manager_android.ui.fragment.device.DeviceCreateStep3Fragment
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 /**
  * Title :
@@ -65,7 +61,7 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
     /**
      * 根据imei请求型号
      */
-    fun requestModelOfImei(imei: String, callBack: (hasBinding: Boolean) -> Unit) {
+    fun requestModelOfImei(imei: String) {
         launch({
             ApiRepository.dealApiResult(mRepo.deviceTypeOfImei(imei))?.let {
                 spuId = it.spu.id
@@ -73,18 +69,6 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
                 categoryId = it.category.id
                 categoryCode = it.category.code
                 deviceCommunicationType = it.spu.communicationType
-                withContext(Dispatchers.Main){
-                    callBack(true)
-                }
-            } ?:withContext(Dispatchers.Main){
-                callBack(false)
-            }
-        }, {
-            withContext(Dispatchers.Main) {
-                if (it is CommonCustomException) {
-                    it.message?.let { it1 -> SToast.showToast(msg = it1) }
-                }
-                callBack(false)
             }
         })
     }

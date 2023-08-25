@@ -3,22 +3,24 @@ package com.yunshang.haile_manager_android.ui.activity.device
 import android.content.Intent
 import android.graphics.Color
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.widget.AppCompatTextView
 import com.king.camera.scan.CameraScan
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.SystemPermissionHelper
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.DeviceCreateV2ViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceCreateV2Binding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.activity.common.WeChatQRCodeScanActivity
-import com.yunshang.haile_manager_android.ui.fragment.device.DeviceCreateStep1Fragment
 import com.yunshang.haile_manager_android.utils.StringUtils
 import timber.log.Timber
 
@@ -29,6 +31,7 @@ class DeviceCreateV2Activity :
     BaseBusinessActivity<ActivityDeviceCreateV2Binding, DeviceCreateV2ViewModel>(
         DeviceCreateV2ViewModel::class.java, BR.vm
     ) {
+    private var isAttrImei = false
 
     // 权限
     private val requestMultiplePermission =
@@ -52,7 +55,6 @@ class DeviceCreateV2Activity :
             })
     }
 
-
     // 二维码
     private val startQRCodeScan =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -60,20 +62,68 @@ class DeviceCreateV2Activity :
             if (result.resultCode == RESULT_OK) {
                 CameraScan.parseScanResult(result.data)?.let {
                     Timber.i("扫码:$it")
-                    StringUtils.getPayImeiCode(it)?.let { code ->
-                        mViewModel.payCode.value = code
-                        mViewModel.imeiCode.value = code
-                        mViewModel.codeStr.value = it
-                    } ?: run {
-                        val payCode = StringUtils.getPayCode(it)
-                        if (null != payCode) {
-                            mViewModel.payCode.value = payCode
-                        } else if (StringUtils.isImeiCode(it)) {
-                            mViewModel.imeiCode.value = it
-                        } else
-                            SToast.showToast(this, R.string.scan_code_error)
+                    if (isAttrImei) {
+                        Timber.i("IMEI:$it")
+                        if (StringUtils.isImeiCode(it)) mViewModel.washImeiCode.value = it
+                        else SToast.showToast(this, R.string.imei_code_error1)
+                    } else {
+                        mViewModel.codeStr = it
+                        StringUtils.getPayImeiCode(it)?.let { code ->
+                            mViewModel.payCode.value = code
+                            mViewModel.imeiCode.value = code
+                        } ?: run {
+                            val payCode = StringUtils.getPayCode(it)
+                            if (null != payCode) {
+                                mViewModel.payCode.value = payCode
+                            } else if (StringUtils.isImeiCode(it)) {
+                                mViewModel.imeiCode.value = it
+                                mBinding.itemDeviceCreateImei.clearFocus()
+                            } else
+                                SToast.showToast(this, R.string.scan_code_error)
+                        }
                     }
                 } ?: SToast.showToast(this, R.string.imei_code_error)
+            }
+        }
+
+
+    // 搜索型号界面
+    private val startNext =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                IntentParams.SearchSelectTypeParam.ShopResultCode -> {
+                    result.data?.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)
+                        ?.let { json ->
+                            GsonUtils.json2List(json, SearchSelectParam::class.java)
+                                ?.let { selected ->
+                                    if (selected.isNotEmpty()) {
+                                        mViewModel.createDeviceShop.value = selected[0]
+                                    }
+                                }
+                        }
+                }
+                IntentParams.DeviceCategoryModelParams.ResultCode -> {
+                    result.data?.let { intent ->
+                        mViewModel.initDeviceCategoryAndModel(
+                            IntentParams.DeviceCategoryModelParams.parseSpuId(intent),
+                            IntentParams.DeviceCategoryModelParams.parseCategoryName(intent),
+                            IntentParams.DeviceCategoryModelParams.parseDeviceFeature(intent),
+                            IntentParams.DeviceCategoryModelParams.parseCategoryId(intent),
+                            IntentParams.DeviceCategoryModelParams.parseCategoryCode(intent),
+                            IntentParams.DeviceCategoryModelParams.parseCommunicationType(intent),
+                            IntentParams.DeviceCategoryModelParams.parseIgnorePayCodeFlag(intent),
+                        )
+                    }
+                }
+                IntentParams.DeviceFunctionConfigurationParams.ResultCode -> {
+                    result.data?.let { intent ->
+                        IntentParams.DeviceFunctionConfigurationParams.parseSkuFuncConfiguration(
+                            intent
+                        )?.let {
+                            mViewModel.createDeviceFunConfigure.value = it
+                        }
+                    }
+                }
             }
         }
 
@@ -96,15 +146,10 @@ class DeviceCreateV2Activity :
     override fun initEvent() {
         super.initEvent()
 
-        mViewModel.step.observe(this) {
-            jumpPage(it)
-        }
-
         mViewModel.imeiCode.observe(this) {
             // 如果符合规则就查询型号
-            // binding双向绑定，会调用两次
             if (StringUtils.isImeiCode(it)) {
-                clearImeiEditFocus()
+                mBinding.itemDeviceCreateImei.clearFocus()
                 mViewModel.requestModelOfImei(it)
             }
         }
@@ -112,87 +157,147 @@ class DeviceCreateV2Activity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+        initRight()
 
-        mBinding.btnDeviceCreateNextOrSave.setOnClickListener {
-            if (mViewModel.step.value!! < (mViewModel.deviceCreateStepFragments.size - 1)) {
-                mViewModel.step.value = mViewModel.step.value!! + 1
+        // IMEI
+        mBinding.itemDeviceCreateImei.onSelectedEvent = {
+            isAttrImei = false
+            requestMultiplePermission.launch(
+                SystemPermissionHelper.cameraPermissions()
+                    .plus(SystemPermissionHelper.readWritePermissions())
+            )
+        }
+
+        // 付款码
+        mBinding.itemDeviceCreatePayCode.onSelectedEvent = {
+            isAttrImei = false
+            requestMultiplePermission.launch(
+                SystemPermissionHelper.cameraPermissions()
+                    .plus(SystemPermissionHelper.readWritePermissions())
+            )
+        }
+
+        // 所属门店
+        mBinding.itemDeviceCreateDepartment.onSelectedEvent = {
+            startNext.launch(Intent(
+                this,
+                SearchSelectRadioActivity::class.java
+            ).apply {
+                putExtras(putExtras(IntentParams.SearchSelectTypeParam.pack(IntentParams.SearchSelectTypeParam.SearchSelectTypeShop)))
+            })
+        }
+
+        // 设备型号
+        mBinding.itemDeviceCreateCategory.onSelectedEvent = {
+            startNext.launch(
+                Intent(
+                    this,
+                    DeviceModelActivity::class.java
+                )
+            )
+        }
+        mBinding.itemDeviceCreateModel.onSelectedEvent = {
+            startNext.launch(
+                Intent(
+                    this,
+                    DeviceModelActivity::class.java
+                )
+            )
+        }
+
+        // 洗衣机IMEI
+        mBinding.itemDeviceWashImei.onSelectedEvent = {
+            isAttrImei = true
+            requestMultiplePermission.launch(
+                SystemPermissionHelper.cameraPermissions()
+                    .plus(SystemPermissionHelper.readWritePermissions())
+            )
+        }
+
+        // 功能配置
+        mBinding.itemDeviceCreateFunConfigure.onSelectedEvent = {
+            if (mViewModel.isDispenser.value!!) {
+                startNext.launch(Intent(
+                    this, DropperAddSettingActivity::class.java
+                ).apply {
+                    putExtra(
+                        DropperAddSettingActivity.SpuId,
+                        mViewModel.spuId
+                    )
+                    mViewModel.createDeviceFunConfigure.value?.let { configs ->
+                        putExtra(
+                            DeviceFunctionConfigurationActivity.OldFuncConfiguration,
+                            GsonUtils.any2Json(configs)
+                        )
+                    }
+                })
+            } else if (DeviceCategory.isDrinking(mViewModel.categoryCode.value)) {
+                startNext.launch(
+                    Intent(
+                        this,
+                        DeviceDrinkingFunctionConfigurationActivity::class.java
+                    ).apply {
+                        putExtras(
+                            IntentParams.DeviceFunctionConfigurationParams.pack(
+                                spuId = mViewModel.spuId,
+                                categoryCode = mViewModel.categoryCode.value,
+                                oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
+                            )
+                        )
+                    }
+                )
+            } else if (DeviceCategory.isShower(mViewModel.categoryCode.value)) {
+                startNext.launch(
+                    Intent(
+                        this,
+                        DeviceShowerFunctionConfigurationActivity::class.java
+                    ).apply {
+                        putExtras(
+                            IntentParams.DeviceFunctionConfigurationParams.pack(
+                                spuId = mViewModel.spuId,
+                                categoryCode = mViewModel.categoryCode.value,
+                                oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
+                            )
+                        )
+                    }
+                )
             } else {
+                startNext.launch(Intent(
+                    this,
+                    DeviceFunctionConfigurationActivity::class.java
+                ).apply {
+                    putExtras(
+                        IntentParams.DeviceFunctionConfigurationParams.pack(
+                            spuId = mViewModel.spuId,
+                            categoryCode = mViewModel.categoryCode.value,
+                            communicationType = mViewModel.deviceCommunicationType,
+                            oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
+                        )
+                    )
+                })
+            }
+        }
+    }
+
+    private fun initRight() {
+        mBinding.barDeviceCreateV2Title.getRightBtn(true).run {
+            setText(R.string.scan_input)
+            textSize = 14f
+            setTextColor(Color.WHITE)
+            val pH = DimensionUtils.dip2px(this@DeviceCreateV2Activity, 12f)
+            val pV = DimensionUtils.dip2px(this@DeviceCreateV2Activity, 4f)
+            setPadding(pH, pV, pH, pV)
+            setCompoundDrawablesWithIntrinsicBounds(
+                R.mipmap.icon_device_create_scan, 0, 0, 0
+            )
+            compoundDrawablePadding = pV
+            setOnClickListener {
+                isAttrImei = false
                 requestMultiplePermission.launch(
                     SystemPermissionHelper.cameraPermissions()
                         .plus(SystemPermissionHelper.readWritePermissions())
                 )
             }
-        }
-    }
-
-    private fun clearImeiEditFocus() {
-        (mViewModel.deviceCreateStepFragments[0] as DeviceCreateStep1Fragment).clearImeiFocus()
-    }
-
-    private fun jumpPage(step: Int) {
-        var stepTemp = step
-        // 如果查到绑定设备，跳过模式选择界面
-        if (1 == step && 0 < mViewModel.spuId && 0 < mViewModel.categoryId) {
-            stepTemp = 2
-        }
-        refreshTitleBar(stepTemp)
-        refreshFragmentStep(stepTemp)
-    }
-
-    private fun refreshTitleBar(step: Int) {
-        when (step) {
-            0 -> mBinding.barDeviceCreateV2Title.getRightArea().run {
-                removeAllViews()
-                setPadding(0, 0, DimensionUtils.dip2px(this@DeviceCreateV2Activity, 16f), 0)
-                addView(AppCompatTextView(this@DeviceCreateV2Activity).apply {
-                    setText(R.string.scan_input)
-                    textSize = 14f
-                    setTextColor(Color.WHITE)
-                    val pH = DimensionUtils.dip2px(this@DeviceCreateV2Activity, 12f)
-                    val pV = DimensionUtils.dip2px(this@DeviceCreateV2Activity, 4f)
-                    setPadding(pH, pV, pH, pV)
-                    setCompoundDrawablesWithIntrinsicBounds(
-                        R.mipmap.icon_device_create_scan, 0, 0, 0
-                    )
-                    setBackgroundResource(R.drawable.shape_sf0a258_r14)
-                    compoundDrawablePadding = pV
-                    setOnClickListener {
-                        requestMultiplePermission.launch(
-                            SystemPermissionHelper.cameraPermissions()
-                                .plus(SystemPermissionHelper.readWritePermissions())
-                        )
-                    }
-                }, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            }
-            1, 2 -> mBinding.barDeviceCreateV2Title.getRightArea().run {
-                removeAllViews()
-            }
-        }
-    }
-
-    private fun refreshFragmentStep(step: Int) {
-        if (0 <= step && step < mViewModel.deviceCreateStepFragments.size) {
-            val curFragment = mViewModel.deviceCreateStepFragments[step]
-            val name = curFragment.javaClass.simpleName
-            if (null == supportFragmentManager.findFragmentByTag(name)) {
-                try {
-                    supportFragmentManager.beginTransaction()
-                        .add(R.id.fl_device_create_parent, curFragment, name)
-                        .addToBackStack(name)
-                        .commit()
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-        }
-    }
-
-    override fun onBackListener() {
-        if (supportFragmentManager.backStackEntryCount > 1) {
-            mViewModel.step.value = mViewModel.step.value!! - 1
-            supportFragmentManager.popBackStack()
-        } else {
-            super.onBackListener()
         }
     }
 

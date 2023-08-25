@@ -14,6 +14,7 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DeviceModelViewModel
 import com.yunshang.haile_manager_android.data.arguments.DeviceModelParam
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.Spu
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceModelBinding
@@ -41,12 +42,6 @@ class DeviceModelActivity :
         BR.vm
     ) {
 
-    companion object {
-        const val ResultCode = 0x90002
-        const val ResultDataName = "resultDataName"
-        const val ResultDataId = "resultDataId"
-    }
-
     private val mAdapter: CommonRecyclerAdapter<ItemDeviceModelBinding, DeviceModelParam> by lazy {
         CommonRecyclerAdapter(R.layout.item_device_model, BR.item) { mBinding, _, model ->
             // 嵌套RecyclerView
@@ -71,20 +66,21 @@ class DeviceModelActivity :
                             ).fitCenter().into(it)
                         }
                         itemBinding?.root?.setOnClickListener {
-                            setResult(ResultCode, Intent().apply {
-                                putExtra(ResultDataName, "${spu.name}${spu.feature}")
-                                putExtra(ResultDataId, spu.id)
-                                putExtra(
-                                    DeviceCategory.CategoryId,
-                                    mViewModel.selectCategory.value?.id
-                                )
-                                putExtra(
-                                    DeviceCategory.CategoryCode,
-                                    mViewModel.selectCategory.value?.code
-                                )
-                                putExtra(DeviceCategory.CommunicationType, spu.communicationType)
-                                putExtra(DeviceCategory.IgnorePayCodeFlag, spu.getIgnorePayCodeFlag())
-                            })
+                            setResult(
+                                IntentParams.DeviceCategoryModelParams.ResultCode,
+                                Intent().apply {
+                                    putExtras(
+                                        IntentParams.DeviceCategoryModelParams.packResult(
+                                            spu.id,
+                                            mViewModel.selectCategory.value?.name,
+                                            spu.name + spu.feature,
+                                            mViewModel.selectCategory.value?.id,
+                                            mViewModel.selectCategory.value?.code,
+                                            spu.communicationType,
+                                            spu.getIgnorePayCodeFlag()
+                                        )
+                                    )
+                                })
                             finish()
                         }
                     }

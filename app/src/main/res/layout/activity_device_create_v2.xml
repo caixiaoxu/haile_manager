@@ -13,6 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical"
         tools:context=".ui.activity.device.DeviceCreateV2Activity">
 
@@ -20,31 +21,190 @@
             android:id="@+id/bar_device_create_v2_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
-            android:background="@drawable/shape_bottom_stroke_dividing"
-            app:rightModel="area"
+            app:rightModel="text"
             app:title="@string/add_device" />
 
-        <FrameLayout
-            android:id="@+id/fl_device_create_parent"
+        <View style="@style/DividingStyle" />
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@color/white">
 
-        <View style="@style/DividingStyle"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_device_info_title"
+                    style="@style/Font_12_999999"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:gravity="center_vertical"
+                    android:layout_marginHorizontal="16dp"
+                    android:text="@string/device_info" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_device_create_imei"
+                    style="@style/MultiTypeItemStyle"
+                    android:hint="@string/scan_hint"
+                    app:itemContent="@={vm.imeiCode}"
+                    app:tailDrawable="@mipmap/icon_device_scan"
+                    app:title="@string/imei"
+                    app:titleDrawableEnd="@mipmap/icon_item_required"
+                    app:titleDrawablePadding="4dp"
+                    app:type="input" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_device_create_pay_code"
+                    style="@style/MultiTypeItemStyle"
+                    android:hint="@string/scan_hint"
+                    app:itemContent="@{vm.payCode}"
+                    app:tailDrawable="@mipmap/icon_device_scan"
+                    app:title="@string/pay_code"
+                    app:titleDrawableEnd="@mipmap/icon_item_required"
+                    app:titleDrawablePadding="4dp"
+                    app:type="info"
+                    app:visibility="@{!vm.isDispenser}" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp"
+                    app:visibility="@{!vm.isDispenser}" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_device_create_department"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.createDeviceShop.name}"
+                    app:showArrow="true"
+                    app:title="@string/department"
+                    app:type="info" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_device_create_category"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.categoryName}"
+                    app:showArrow="true"
+                    app:title="@string/device_category"
+                    app:type="info" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_device_create_model"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.modelName}"
+                    app:showArrow="true"
+                    app:title="@string/device_model"
+                    app:type="info" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/mtiv_device_create_name"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@={vm.deviceName}"
+                    app:title="@string/device_name"
+                    app:type="input" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_device_fun_configuration_single_pulse_quantity"
+                    style="@style/MultiTypeItemStyle"
+                    android:hint="@string/single_pulse_quantity_hint"
+                    android:inputType="numberDecimal"
+                    app:itemContent="@={vm.communicationVal}"
+                    app:title="@string/single_pulse_quantity"
+                    app:type="input"
+                    app:unitHint="@string/unit_quantity_hint"
+                    app:visibility="@{vm.isDrinking}" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp"
+                    app:visibility="@{vm.isDrinking}" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_device_wash_imei"
+                    style="@style/MultiTypeItemStyle"
+                    android:hint="@string/scan_hint"
+                    app:itemContent="@{vm.washImeiCode}"
+                    app:tailDrawable="@mipmap/icon_device_scan"
+                    app:title="@string/device_wash_title"
+                    app:type="info"
+                    app:visibility="@{vm.isDispenser}" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp"
+                    app:visibility="@{vm.isDispenser}" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_device_create_fun_configure"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{(null == vm.createDeviceFunConfigure || 0 == vm.createDeviceFunConfigure.size())?@string/no_configure:@string/configured}"
+                    app:showArrow="true"
+                    app:title="@string/fun_configure"
+                    app:type="info"
+                    app:visibility="@{vm.hasCategoryCode}" />
+
+                <LinearLayout
+                    android:id="@+id/ll_device_create_select_fun_configuration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shape_sf7f7f7_r8"
+                    android:divider="@drawable/divide_size12"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:showDividers="middle"
+                    app:visibility="@{vm.isFunConfigure}"
+                    tools:visibility="gone" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp"
+                    app:visibility="@{vm.hasCategoryCode || vm.isFunConfigure}" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <View style="@style/DividingStyle" />
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:background="@color/white">
+            android:layout_height="96dp">
 
             <com.yunshang.haile_manager_android.ui.view.CommonButton
-                android:id="@+id/btn_device_create_next_or_save"
+                android:id="@+id/btn_device_create_save"
                 style="@style/CommonMatchBtnStyle1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
                 android:layout_marginTop="8dp"
-                android:text="@{(vm.deviceCreateStepFragments.size - 1) == vm.step?@string/save:@string/next }" />
+                android:onClick="@{vm::save}"
+                android:text="@string/save" />
         </FrameLayout>
     </LinearLayout>
 </layout>

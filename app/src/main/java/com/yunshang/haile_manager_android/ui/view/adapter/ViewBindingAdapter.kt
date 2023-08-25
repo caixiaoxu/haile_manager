@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.ui.view.adapter
 
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -24,6 +25,12 @@ import com.yunshang.haile_manager_android.utils.StringUtils
  * 作者姓名 修改时间 版本号 描述
  */
 object ViewBindingAdapter {
+
+    @BindingAdapter("visibility")
+    @JvmStatic
+    fun View.visibility(show: Boolean?) {
+        visibility = if (true == show) View.VISIBLE else View.GONE
+    }
 
     @BindingAdapter("marginStart")
     @JvmStatic

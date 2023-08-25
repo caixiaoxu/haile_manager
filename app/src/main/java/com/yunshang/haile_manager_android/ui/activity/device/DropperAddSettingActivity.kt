@@ -12,6 +12,7 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DropperAddSettingViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.DosingConfigs
 import com.yunshang.haile_manager_android.data.entities.SkuEntity
 import com.yunshang.haile_manager_android.databinding.ActivityDropperAddSettingBinding
@@ -54,8 +55,8 @@ class DropperAddSettingActivity :
             finish()
         }
         mViewModel.resultData.observe(this) {
-            setResult(ResultCode, Intent().apply {
-                putExtra(ResultData, GsonUtils.any2Json(it))
+            setResult(IntentParams.DeviceFunctionConfigurationParams.ResultCode, Intent().apply {
+                putExtras(IntentParams.DeviceFunctionConfigurationParams.packResult(it))
             })
             finish()
         }

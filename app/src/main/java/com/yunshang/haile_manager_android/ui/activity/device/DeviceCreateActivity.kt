@@ -108,14 +108,14 @@ class DeviceCreateActivity :
                                 }
                         }
                 }
-                DeviceModelActivity.ResultCode -> {
+                IntentParams.DeviceCategoryModelParams.ResultCode -> {
                     result.data?.let { intent ->
                         mViewModel.changeDeviceModel(
-                            intent.getIntExtra(DeviceModelActivity.ResultDataId, -1),
-                            intent.getStringExtra(DeviceModelActivity.ResultDataName),
-                            intent.getIntExtra(DeviceCategory.CategoryId, -1),
-                            intent.getStringExtra(DeviceCategory.CategoryCode),
-                            intent.getIntExtra(DeviceCategory.CommunicationType, -1)
+                            IntentParams.DeviceCategoryModelParams.parseSpuId(intent),
+                            IntentParams.DeviceCategoryModelParams.parseCategoryName(intent),
+                            IntentParams.DeviceCategoryModelParams.parseCategoryId(intent),
+                            IntentParams.DeviceCategoryModelParams.parseCategoryCode(intent),
+                            IntentParams.DeviceCategoryModelParams.parseCommunicationType(intent),
                         )
                         mViewModel.isIgnorePayCodeFlag =
                             intent.getBooleanExtra(DeviceCategory.IgnorePayCodeFlag, false)
@@ -146,7 +146,6 @@ class DeviceCreateActivity :
                         }
                     }
                 }
-
             }
         }
 

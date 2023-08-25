@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.data.arguments
 import android.content.Intent
 import android.os.Bundle
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.*
 
 /**
@@ -225,6 +226,48 @@ object IntentParams {
         fun parseMustSelect(intent: Intent): Boolean = intent.getBooleanExtra(MustSelect, true)
         fun parseMoreSelect(intent: Intent): Boolean = intent.getBooleanExtra(MoreSelect, false)
         fun parseSelectList(intent: Intent): IntArray? = intent.getIntArrayExtra(SelectList)
+    }
+
+    object DeviceCategoryModelParams {
+        const val ResultCode = 0x90002
+        private const val SpuId = "SpuId"
+        private const val CategoryName = "categoryName"
+        private const val DeviceFeature = "DeviceFeature"
+        fun packResult(
+            sId: Int,
+            cName: String?,
+            feature: String,
+            cId: Int?,
+            code: String?,
+            communicationType: Int,
+            ignorePayCodeFlag: Boolean
+        ): Bundle = Bundle().apply {
+            putInt(SpuId, sId)
+            cName?.let {
+                putString(CategoryName, cName)
+            }
+            putString(DeviceFeature, feature)
+            cId?.let {
+                putInt(DeviceCategory.CategoryId, cId)
+            }
+            code?.let {
+                putString(DeviceCategory.CategoryCode, code)
+            }
+            putInt(DeviceCategory.CommunicationType, communicationType)
+            putBoolean(DeviceCategory.IgnorePayCodeFlag, ignorePayCodeFlag)
+        }
+
+        fun parseSpuId(intent: Intent): Int = intent.getIntExtra(SpuId, -1)
+        fun parseCategoryName(intent: Intent): String? = intent.getStringExtra(CategoryName)
+        fun parseDeviceFeature(intent: Intent): String? = intent.getStringExtra(DeviceFeature)
+        fun parseCategoryId(intent: Intent): Int = intent.getIntExtra(DeviceCategory.CategoryId, -1)
+        fun parseCategoryCode(intent: Intent): String? =
+            intent.getStringExtra(DeviceCategory.CategoryCode)
+
+        fun parseCommunicationType(intent: Intent): Int =
+            intent.getIntExtra(DeviceCategory.CommunicationType, -1)
+        fun parseIgnorePayCodeFlag(intent: Intent): Boolean =
+            intent.getBooleanExtra(DeviceCategory.IgnorePayCodeFlag, false)
     }
 
     object DeviceFunctionConfigurationParams {

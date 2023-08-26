@@ -242,6 +242,13 @@
     <string name="function_model">功能模式</string>
     <string name="coming_soon">敬请期待</string>
 
+    <string name="price_model">价格模式</string>
+    <string name="price_model_type1">固定</string>
+    <string name="price_model_type2">单价</string>
+    <string name="calculate_model">计费模式</string>
+    <string name="configure">配置</string>
+    <string name="c_app_default">C端默认选中</string>
+
     <string name="shop_manager">门店管理</string>
     <string name="pt_manager">点位管理</string>
     <string name="add_shop">新增门店</string>

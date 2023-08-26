@@ -74,38 +74,38 @@ class DropperAddSettingViewModel : BaseViewModel() {
     }
 
     fun useOldData(oldDataJson: String?) {
-        configurationList.postValue(
-            GsonUtils.json2List(
-                oldDataJson, SkuFuncConfigurationParam::class.java
-            )?.mapNotNull { item ->
-                GsonUtils.json2List(item.extAttr, DosingConfigs::class.java)?.let { configs ->
-                    SkuEntity(
-                        id = item.skuId,
-                        name = item.name,
-                        feature = "",
-                        price = 0.0,
-                        soldState = 1,
-                        extAttr = "",
-                        unit = 0,
-                        amount = 0,
-                        pulse = 0,
-                        dosingConfigs = configs,
-                        spuId = 0,
-                        code = "",
-                        items = "",
-                        chargeUnit = "",
-                        version = 0,
-                        lastEditor = 0,
-                        deleteFlag = 0,
-                        createTime = "",
-                        updateTime = "",
-                        specValues = emptyList(),
-                        functionId = "",
-                        functionName = ""
-                    )
-                }
-            }?.toMutableList()
-        )
+//        configurationList.postValue(
+//            GsonUtils.json2List(
+//                oldDataJson, SkuFuncConfigurationParam::class.java
+//            )?.mapNotNull { item ->
+//                GsonUtils.json2List(item.extAttr, DosingConfigs::class.java)?.let { configs ->
+//                    SkuEntity(
+//                        id = item.skuId,
+//                        name = item.name,
+//                        feature = "",
+//                        price = 0.0,
+//                        soldState = 1,
+//                        extAttr = "",
+//                        unit = 0,
+//                        amount = 0,
+//                        pulse = 0,
+//                        dosingConfigs = configs,
+//                        spuId = 0,
+//                        code = "",
+//                        items = "",
+//                        chargeUnit = "",
+//                        version = 0,
+//                        lastEditor = 0,
+//                        deleteFlag = 0,
+//                        createTime = "",
+//                        updateTime = "",
+//                        specValues = emptyList(),
+//                        functionId = "",
+//                        functionName = ""
+//                    )
+//                }
+//            }?.toMutableList()
+//        )
     }
 
 

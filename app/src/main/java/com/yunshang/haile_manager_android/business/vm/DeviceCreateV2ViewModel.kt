@@ -6,10 +6,12 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
+import com.yunshang.haile_manager_android.data.entities.SpuExtAttrDto
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 
 /**
@@ -84,6 +86,11 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
+    // 价格模式和计费模式
+    val extAttrDtoJson: MutableLiveData<String> by lazy {
+        MutableLiveData()
+    }
+
     // 投放器绑定的洗衣机imei
     val washImeiCode: MutableLiveData<String> by lazy {
         MutableLiveData()
@@ -155,7 +162,8 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
                     it.category.id,
                     it.category.code,
                     it.spu.communicationType,
-                    it.spu.getIgnorePayCodeFlag()
+                    it.spu.getIgnorePayCodeFlag(),
+                    GsonUtils.any2Json(it.spu.extAttrDto)
                 )
             }
         })
@@ -171,7 +179,8 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
         cId: Int,
         code: String?,
         communicationType: Int,
-        ignorePayCodeFlag: Boolean
+        ignorePayCodeFlag: Boolean,
+        extJson: String?
     ) {
         spuId.postValue(sId)
         categoryName.postValue(cName ?: "")
@@ -180,6 +189,7 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
         categoryCode.postValue(code ?: "")
         deviceCommunicationType = communicationType
         deviceIgnorePayCodeFlag = ignorePayCodeFlag
+        extAttrDtoJson.postValue(extJson)
     }
 
     fun save(view: View) {

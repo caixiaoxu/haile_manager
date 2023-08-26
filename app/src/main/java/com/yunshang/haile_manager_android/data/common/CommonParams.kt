@@ -47,6 +47,11 @@ object DeviceCategory {
     annotation class IDeviceCategoryType
 
     /**
+     * 是否是洗衣机
+     */
+    fun isWashing(categoryCode: String?) = Washing == categoryCode
+
+    /**
      * 是否是烘干机
      */
     fun isDryer(categoryCode: String?) = Dryer == categoryCode

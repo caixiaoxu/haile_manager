@@ -120,6 +120,7 @@ class DeviceCreateV2Activity :
                             IntentParams.DeviceCategoryModelParams.parseCategoryCode(intent),
                             IntentParams.DeviceCategoryModelParams.parseCommunicationType(intent),
                             IntentParams.DeviceCategoryModelParams.parseIgnorePayCodeFlag(intent),
+                            IntentParams.DeviceCategoryModelParams.parseExtAttrDtoJson(intent),
                         )
                     }
                 }
@@ -364,66 +365,20 @@ class DeviceCreateV2Activity :
 
         // 功能配置
         mBinding.itemDeviceCreateFunConfigure.onSelectedEvent = {
-            if (mViewModel.isDispenser.value!!) {
-                startNext.launch(Intent(
-                    this, DropperAddSettingActivity::class.java
-                ).apply {
-                    putExtra(
-                        DropperAddSettingActivity.SpuId,
-                        mViewModel.spuId.value
-                    )
-                    mViewModel.createDeviceFunConfigure.value?.let { configs ->
-                        putExtra(
-                            DeviceFunctionConfigurationActivity.OldFuncConfiguration,
-                            GsonUtils.any2Json(configs)
-                        )
-                    }
-                })
-            } else if (DeviceCategory.isDrinking(mViewModel.categoryCode.value)) {
-                startNext.launch(
-                    Intent(
-                        this,
-                        DeviceDrinkingFunctionConfigurationActivity::class.java
-                    ).apply {
-                        putExtras(
-                            IntentParams.DeviceFunctionConfigurationParams.pack(
-                                spuId = mViewModel.spuId.value,
-                                categoryCode = mViewModel.categoryCode.value,
-                                oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
-                            )
-                        )
-                    }
-                )
-            } else if (DeviceCategory.isShower(mViewModel.categoryCode.value)) {
-                startNext.launch(
-                    Intent(
-                        this,
-                        DeviceShowerFunctionConfigurationActivity::class.java
-                    ).apply {
-                        putExtras(
-                            IntentParams.DeviceFunctionConfigurationParams.pack(
-                                spuId = mViewModel.spuId.value,
-                                categoryCode = mViewModel.categoryCode.value,
-                                oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
-                            )
-                        )
-                    }
-                )
-            } else {
-                startNext.launch(Intent(
+            startNext.launch(
+                Intent(
                     this,
-                    DeviceFunctionConfigurationActivity::class.java
+                    DeviceFunConfigurationV2Activity::class.java
                 ).apply {
                     putExtras(
-                        IntentParams.DeviceFunctionConfigurationParams.pack(
-                            spuId = mViewModel.spuId.value,
-                            categoryCode = mViewModel.categoryCode.value,
-                            communicationType = mViewModel.deviceCommunicationType,
-                            oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
+                        IntentParams.DeviceFunConfigurationV2Params.pack(
+                            mViewModel.spuId.value,
+                            mViewModel.categoryCode.value,
+                            mViewModel.extAttrDtoJson.value
                         )
                     )
-                })
-            }
+                }
+            )
         }
     }
 

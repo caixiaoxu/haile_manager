@@ -77,7 +77,8 @@ class DeviceModelActivity :
                                             mViewModel.selectCategory.value?.id,
                                             mViewModel.selectCategory.value?.code,
                                             spu.communicationType,
-                                            spu.getIgnorePayCodeFlag()
+                                            spu.getIgnorePayCodeFlag(),
+                                            spu.extAttrDto
                                         )
                                     )
                                 })

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.DeviceFunConfigurationV2ViewModel" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        app:divider="@drawable/divder_efefef"
+        app:showDividers="middle"
+        tools:context=".ui.activity.device.DeviceFunConfigurationV2Activity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_device_func_configuration_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:visibility="@{vm.isDrinkingOrShower}"
+            android:orientation="vertical">
+
+            <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                android:id="@+id/item_device_fun_configuration_price_model"
+                style="@style/MultiTypeItemStyle"
+                android:inputType="numberDecimal"
+                app:itemContent="@{vm.priceModel.name}"
+                app:showArrow="true"
+                app:title="@string/price_model"
+                app:type="info" />
+
+            <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                android:id="@+id/item_device_fun_configuration_calculate_model"
+                style="@style/MultiTypeItemStyle"
+                android:inputType="numberDecimal"
+                app:itemContent="@{vm.calculateModel.name}"
+                app:showArrow="true"
+                app:title="@string/calculate_model"
+                app:type="info" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_device_fun_configuration_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
+            android:id="@+id/btn_device_create_submit"
+            style="@style/CommonMatchBtnStyle1"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="42dp"
+            android:text="@string/save" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

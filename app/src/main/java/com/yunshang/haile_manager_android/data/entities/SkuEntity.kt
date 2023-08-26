@@ -43,8 +43,17 @@ data class SkuEntity(
     var pulse: Int,
     val functionId: String,
     val functionName: String,
-    var dosingConfigs: List<DosingConfigs>
+    var dosingConfigs: List<DosingConfigs>,
+    val extAttrDto: ExtAttrDto
 ) {
+
+    /**
+     * 转换成请求参数
+     */
+    fun toFunConfigureV2Param(): SkuFunConfigurationV2Param = SkuFunConfigurationV2Param(
+        id, name, price, pulse, unit, extAttr, feature, soldState, extAttrDto
+    )
+
     var unitValue: String?
         get() = unit.toString()
         set(value) {
@@ -201,6 +210,36 @@ data class Ext(
     val minutes: Int,
     val price: String
 )
+
+data class ExtAttrDto(
+    val items: List<ExtAttrDtoItem>
+)
+
+data class ExtAttrDtoItem(
+    val functionType: Int,
+    val priceType: Int,
+    val priceCalculateMode: Int,
+    val sequence: Int,
+    val pulse: Int,
+    val unitAmount: Double,
+    val unitCode: Int,
+    val unitPrice: Double,
+    val description: String,
+    val isOn: Boolean,
+    val pulseVolumeFactor: Int,
+    val goodsType: Int,
+    val compatibleGoodsCategoryCode: List<String>
+) : BaseObservable(), IMultiSelectBottomItemEntity {
+    override var isCheck: Boolean = true
+
+    override fun getTitle(): String = if (1 == priceCalculateMode) {
+        // 流量
+        "${unitAmount}${if (1 == unitCode) "ml" else "l"}"
+    } else {
+        // 时间
+        "${unitAmount}${if (1 == unitCode) "秒" else "分钟"}"
+    }
+}
 
 data class ExtAttrBean(
     val minutes: Int,
@@ -367,4 +406,48 @@ data class SkuFuncConfigurationParam(
 
     fun getSoldStateValue() =
         StringUtils.getString(if (1 == soldState) R.string.in_use else R.string.out_of_service)
+}
+
+data class SkuFunConfigurationV2Param(
+//    val id: Int = -1,
+    val skuId: Int,
+    var _name: String,
+    val price: Double,
+    val pulse: Int,
+    val unit: Int,
+    val extAttr: String,
+    var _feature: String,
+    var _soldState: Int,
+    val extAttrDto: ExtAttrDto
+) : BaseObservable() {
+
+    @get:Bindable
+    var soldState: Boolean = (1 == _soldState)
+        set(value) {
+            field = value
+            _soldState = if (field) 1 else 2
+            notifyPropertyChanged(BR.soldState)
+        }
+
+    @get:Bindable
+    var name: String = _name
+        set(value) {
+            field = value
+            _name = value
+            notifyPropertyChanged(BR.name)
+        }
+
+    @get:Bindable
+    var feature: String = _feature
+        set(value) {
+            field = value
+            _feature = value
+            notifyPropertyChanged(BR.feature)
+        }
+
+    @get:Bindable
+    val selectAttrVal: String
+        get() = extAttrDto.items.count { item -> item.isCheck }.let {
+            if (it > 0) "已配置${it}项" else "未选择配置项"
+        }
 }

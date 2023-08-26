@@ -233,6 +233,7 @@ object IntentParams {
         private const val SpuId = "SpuId"
         private const val CategoryName = "categoryName"
         private const val DeviceFeature = "DeviceFeature"
+        private const val ExtAttrDto = "ExtAttrDto"
         fun packResult(
             sId: Int,
             cName: String?,
@@ -240,7 +241,8 @@ object IntentParams {
             cId: Int?,
             code: String?,
             communicationType: Int,
-            ignorePayCodeFlag: Boolean
+            ignorePayCodeFlag: Boolean,
+            extAttrDto: SpuExtAttrDto
         ): Bundle = Bundle().apply {
             putInt(SpuId, sId)
             cName?.let {
@@ -255,6 +257,7 @@ object IntentParams {
             }
             putInt(DeviceCategory.CommunicationType, communicationType)
             putBoolean(DeviceCategory.IgnorePayCodeFlag, ignorePayCodeFlag)
+            putString(ExtAttrDto, GsonUtils.any2Json(extAttrDto))
         }
 
         fun parseSpuId(intent: Intent): Int = intent.getIntExtra(SpuId, -1)
@@ -266,8 +269,14 @@ object IntentParams {
 
         fun parseCommunicationType(intent: Intent): Int =
             intent.getIntExtra(DeviceCategory.CommunicationType, -1)
+
         fun parseIgnorePayCodeFlag(intent: Intent): Boolean =
             intent.getBooleanExtra(DeviceCategory.IgnorePayCodeFlag, false)
+
+        fun parseExtAttrDtoJson(intent: Intent): String? = intent.getStringExtra(ExtAttrDto)
+
+        fun parseExtAttrDto(intent: Intent): SpuExtAttrDto? =
+            GsonUtils.json2Class(parseExtAttrDtoJson(intent), SpuExtAttrDto::class.java)
     }
 
     object DeviceFunctionConfigurationParams {
@@ -321,6 +330,40 @@ object IntentParams {
                 intent.getStringExtra(ResultData),
                 SkuFuncConfigurationParam::class.java
             )
+    }
+
+    object DeviceFunConfigurationV2Params {
+        private const val SpuId = "spuId"
+        private const val CategoryId = "CategoryId"
+        private const val ExtAttrDto = "SpuExtAttrDto"
+
+        /**
+         * 包装参数
+         */
+        fun pack(
+            spuId: Int? = -1,
+            categoryCode: String?,
+            extJson: String?
+        ): Bundle = Bundle().apply {
+            spuId?.let {
+                putInt(SpuId, spuId)
+            }
+            putAll(
+                DeviceParams.pack(
+                    categoryCode = categoryCode,
+                )
+            )
+            extJson?.let {
+                putString(ExtAttrDto, it)
+            }
+        }
+
+        fun parseSpuId(intent: Intent): Int = intent.getIntExtra(SpuId, -1)
+
+        fun parseExtAttrDtoJson(intent: Intent): String? = intent.getStringExtra(ExtAttrDto)
+
+        fun parseExtAttrDto(intent: Intent): SpuExtAttrDto? =
+            GsonUtils.json2Class(parseExtAttrDtoJson(intent), SpuExtAttrDto::class.java)
     }
 
     object DeviceManagerParams {

@@ -1,10 +1,7 @@
 package com.yunshang.haile_manager_android.data.entities
 
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
-import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.data.rule.SearchSelectRadioEntity
 
 /**
@@ -54,10 +51,11 @@ data class Spu(
     val lastEditor: Int,
     val payType: String,
     val specs: List<SpuSpec>,
-    val skus: List<SpuSku>,
+    val skus: List<SkuEntity>,
     val tagList: List<SpuTag>,
     val files: List<SpuFile>,
     val communicationType: Int,
+    val extAttrDto: SpuExtAttrDto,
 ) : SearchSelectRadioEntity {
     @Transient
     var shortFeature: String? = null
@@ -96,29 +94,7 @@ data class SpuSpec(
     val sort: Int,
     val status: Int,
     val updateTime: String,
-    val values: List<SpuSpecValue>
-)
-
-data class SpuSku(
-    val amount: Int,
-    val chargeUnit: String,
-    val code: String,
-    val createTime: String,
-    val deleteFlag: Int,
-    val extAttr: String,
-    val feature: String,
-    val id: Int,
-    val items: String,
-    val lastEditor: Int,
-    val name: String,
-    val price: Int,
-    val pulse: Int,
-    val soldState: Int,
-    val specValues: List<SpuSpecValue>,
-    val spuId: Int,
-    val unit: Int,
-    val updateTime: String,
-    val version: Int
+    val values: List<SpecValue>
 )
 
 data class SpuTag(
@@ -146,23 +122,11 @@ data class SpuFile(
     val url: String
 )
 
-data class SpuSpecValue(
-    val code: String,
-    val createTime: String,
-    val creatorId: Int,
-    val creatorName: String,
-    val description: String,
-    val ext: SpuSpecValueExt,
-    val id: Int,
-    val image: String,
-    val lastEditor: Int,
-    val name: String,
-    val specId: Int,
-    val specName: String,
-    val updateTime: String
-)
-
-data class SpuSpecValueExt(
-    val minutes: Int,
-    val price: String
+data class SpuExtAttrDto(
+    val communicationType: Int,
+    val ignorePayCodeFlag: Boolean,
+    val specValueIdList: List<Int>,
+    val functionType: Int,
+    val priceType: List<Int>,
+    val priceCalculateMode: List<Int>
 )

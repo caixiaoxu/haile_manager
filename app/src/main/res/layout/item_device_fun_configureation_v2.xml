@@ -4,9 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="vm"
-            type="com.yunshang.haile_manager_android.business.vm.DeviceFunConfigurationV2ViewModel" />
 
         <variable
             name="item"
@@ -40,59 +37,87 @@
                 android:id="@+id/switch_device_fun_configuration_open"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/transparent"
                 android:checked="@={item.soldState}"
                 android:thumb="@drawable/selector_default_switch_thumb"
                 app:track="@drawable/selector_default_switch_track" />
         </LinearLayout>
 
         <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-            android:id="@+id/mtiv_device_fun_configuration_name"
+            android:id="@+id/item_device_fun_configuration_name"
             style="@style/MultiTypeItemStyle"
             app:itemContent="@={item.name}"
             app:title="@string/model_name"
             app:type="input" />
 
         <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-            android:id="@+id/mtiv_device_fun_configuration_desc"
+            android:id="@+id/item_device_fun_configuration_desc"
             style="@style/MultiTypeItemStyle"
+            android:visibility="gone"
             app:itemContent="@={item.feature}"
             app:title="@string/desc"
-            app:visibility="@{vm.isWashingOrDryer}"
             app:titleDrawableEnd="@mipmap/icon_item_required"
             app:titleDrawablePadding="4dp"
             app:type="input" />
 
         <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-            android:id="@+id/mtiv_device_fun_configuration_dryer_time"
+            android:id="@+id/item_device_fun_configuration_attr"
             style="@style/MultiTypeItemStyle"
-            app:itemContent="@{item.selectAttrVal}"
             android:inputType="numberDecimal"
-            app:title="@string/configure"
+            app:itemContent="@{item.selectAttrVal}"
             app:showArrow="true"
+            app:title="@string/configure"
             app:type="info" />
 
+        <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+            android:id="@+id/ll_device_fun_configuration_attr_sku"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:divider="@color/dividing_line_color"
+            app:dividerPadding="16dp"
+            app:showDividers="middle" />
+
         <LinearLayout
+            android:id="@+id/ll_device_fun_configuration_attr_default"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingHorizontal="16dp">
+            android:paddingHorizontal="16dp"
+            app:visibility="@{item.isFixedPriceType}">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_device_fun_configuration_default"
-                style="@style/Font_16_333333_bold"
+                android:id="@+id/tv_device_fun_configuration_attr_default_title"
+                style="@style/Font_16_333333"
+                android:layout_width="104dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/default_use" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_device_fun_configuration_attr_default"
+                style="@style/Font_16_333333"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="@string/c_app_default" />
+                android:text="@{item.isDefaultUnitAmount}" />
 
             <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switch_device_fun_configuration_default_open"
+                android:id="@+id/switch_device_fun_configuration_attr_default"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="@={item.soldState}"
+                android:background="@color/transparent"
+                android:checked="@{item.isDefault}"
                 android:thumb="@drawable/selector_default_switch_thumb"
                 app:track="@drawable/selector_default_switch_track" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_device_fun_configuration_attr_default_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_arrow_right" />
         </LinearLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

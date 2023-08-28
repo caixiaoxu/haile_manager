@@ -52,6 +52,16 @@ object DeviceCategory {
     fun isWashing(categoryCode: String?) = Washing == categoryCode
 
     /**
+     * 是否是洗鞋机
+     */
+    fun isShoes(categoryCode: String?) = Shoes == categoryCode
+
+    /**
+     * 是否是洗衣机或洗鞋机
+     */
+    fun isWashingOrShoes(categoryCode: String?) = Washing == categoryCode || Shoes == categoryCode
+
+    /**
      * 是否是烘干机
      */
     fun isDryer(categoryCode: String?) = Dryer == categoryCode

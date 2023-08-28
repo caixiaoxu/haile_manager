@@ -764,7 +764,7 @@ class DeviceDetailActivity :
                             false
                         ).let { binding ->
                             binding.title =
-                                sku.name + StringUtils.getString(R.string.price)
+                                sku.name + StringUtils.getString(R.string.unit_price)
                             binding.content =
                                 "${sku.price}${StringUtils.getString(if (1 == firstAttr.priceCalculateMode) R.string.unit_water_quantity_price_hint else R.string.unit_water_time_price_hint)}"
                             binding.soldState = sku.soldState

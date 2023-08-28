@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.ExtAttrDtoItem" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        app:divider="@color/dividing_line_color"
+        app:dividerPadding="16dp"
+        app:showDividers="middle">
+
+        <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+            android:id="@+id/item_device_fun_configuration_wash_time"
+            style="@style/MultiTypeItemStyle"
+            android:inputType="numberDecimal"
+            app:itemContent="@={item.unitAmountVal}"
+            app:title="@string/time"
+            app:type="input"
+            app:unitHint="@string/unit_minute_hint"
+            app:visibility="@{1 != item.functionType}" />
+
+        <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+            android:id="@+id/item_device_fun_configuration_wash_time_select"
+            style="@style/MultiTypeItemStyle"
+            android:inputType="numberDecimal"
+            app:visibility="@{1 == item.functionType}"
+            app:itemContent="@{item.unitAmountVal}"
+            app:showArrow="true"
+            app:title="@string/time"
+            app:type="info" />
+
+        <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+            android:id="@+id/item_device_fun_configuration_wash_money"
+            style="@style/MultiTypeItemStyle"
+            android:inputType="numberDecimal"
+            app:itemContent="@={item.unitPriceVal}"
+            app:title="@string/price"
+            app:type="input"
+            android:hint="@string/amount_hint"
+            app:unitHint="@string/unit_yuan_hint" />
+
+        <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+            android:id="@+id/item_device_fun_configuration_pulse_count"
+            style="@style/MultiTypeItemStyle"
+            android:inputType="numberDecimal"
+            app:itemContent="@={item.pulseVal}"
+            app:title="@string/pulse_count"
+            app:type="input"
+            android:hint="@string/amount_hint"
+            app:unitHint="@string/unit_ge_hint" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

@@ -10,6 +10,7 @@ import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import com.bumptech.glide.Glide
 import com.lsy.framelib.utils.DimensionUtils
+import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.ui.view.*
 import com.yunshang.haile_manager_android.utils.GlideUtils
 import com.yunshang.haile_manager_android.utils.StringUtils
@@ -109,7 +110,10 @@ object ViewBindingAdapter {
      */
     @BindingAdapter("title", "android:enabled", requireAll = false)
     @JvmStatic
-    fun MultiTypeItemView.setItemAttr(title: String?, enabled: Boolean?) {
+    fun MultiTypeItemView.setItemAttr(
+        title: String?,
+        enabled: Boolean?
+    ) {
         title?.let {
             mTitleView.text = title
         }

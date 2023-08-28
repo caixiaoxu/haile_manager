@@ -282,7 +282,7 @@ class DeviceCreateV2Activity :
                             false
                         ).let { binding ->
                             binding.title =
-                                sku.name + com.lsy.framelib.utils.StringUtils.getString(R.string.price)
+                                sku.name + com.lsy.framelib.utils.StringUtils.getString(R.string.unit_price)
                             binding.content =
                                 "${
                                     String.format(
@@ -374,6 +374,7 @@ class DeviceCreateV2Activity :
                         IntentParams.DeviceFunConfigurationV2Params.pack(
                             mViewModel.spuId.value,
                             mViewModel.categoryCode.value,
+                            mViewModel.deviceCommunicationType,
                             mViewModel.extAttrDtoJson.value
                         )
                     )

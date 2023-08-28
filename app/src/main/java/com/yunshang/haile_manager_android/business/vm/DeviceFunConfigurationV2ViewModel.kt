@@ -34,9 +34,17 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
-    // 是否是洗衣机和烘干机
-    val isWashingOrDryer: LiveData<Boolean> = categoryCode.map {
-        DeviceCategory.isWashing(it) || DeviceCategory.isDryer(it)
+    // 10-串口 20-脉冲
+    var communicationType: Int = -1
+
+    // 是否是洗衣机和洗鞋机
+    val isWashingOrShoes: LiveData<Boolean> = categoryCode.map {
+        DeviceCategory.isWashingOrShoes(it)
+    }
+
+    // 是否是洗衣机、洗鞋机和烘干机
+    val isWashingOrShoesOrDryer: LiveData<Boolean> = categoryCode.map {
+        DeviceCategory.isWashingOrShoes(it) || DeviceCategory.isDryer(it)
     }
 
     val isDrinkingOrShower: LiveData<Boolean> = categoryCode.map {
@@ -72,8 +80,9 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
             oldConfigureList?.let { list ->
                 configureList.postValue(list)
             } ?: run {
+                val isWashingOrShoes = DeviceCategory.isWashingOrShoes(categoryCode.value)
                 ApiRepository.dealApiResult(mDeviceRepo.sku(spuId))?.let {
-                    configureList.postValue(it.map { sku -> sku.toFunConfigureV2Param() }
+                    configureList.postValue(it.map { sku -> sku.toFunConfigureV2Param(isWashingOrShoes) }
                         .toMutableList())
                 }
             }

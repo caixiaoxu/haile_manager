@@ -67,7 +67,7 @@ class DeviceFunctionConfigurationActivity :
                             DataBindingUtil.bind<ItemDeviceFuncConfigurationDryerTimeBinding>(
                                 dryerTimeView
                             )
-                        dryerTimeBinding?.item = ext
+//                        dryerTimeBinding?.item = ext
                         dryerTimeBinding?.etDryerPulse?.visibility =
                             if (DeviceCategory.isPulseDevice(mViewModel.communicationType))
                                 View.VISIBLE else View.GONE

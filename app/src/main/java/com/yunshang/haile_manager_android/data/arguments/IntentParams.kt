@@ -343,6 +343,7 @@ object IntentParams {
         fun pack(
             spuId: Int? = -1,
             categoryCode: String?,
+            communicationType: Int? = -1,
             extJson: String?
         ): Bundle = Bundle().apply {
             spuId?.let {
@@ -351,6 +352,7 @@ object IntentParams {
             putAll(
                 DeviceParams.pack(
                     categoryCode = categoryCode,
+                    communicationType = communicationType
                 )
             )
             extJson?.let {

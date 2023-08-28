@@ -50,9 +50,44 @@ data class SkuEntity(
     /**
      * 转换成请求参数
      */
-    fun toFunConfigureV2Param(): SkuFunConfigurationV2Param = SkuFunConfigurationV2Param(
-        id, name, price, pulse, unit, extAttr, feature, soldState, extAttrDto
-    )
+    fun toFunConfigureV2Param(isWashingOrShoes: Boolean): SkuFunConfigurationV2Param =
+        SkuFunConfigurationV2Param(
+            id,
+            name,
+            price,
+            pulse,
+            unit,
+            extAttr,
+            feature,
+            soldState,
+            if (isWashingOrShoes) {
+                extAttrDto.items.firstOrNull { item -> item.isOn }?.let {
+                    // 深拷贝
+                    GsonUtils.json2List(GsonUtils.any2Json(listOf(it)), ExtAttrDtoItem::class.java)
+                } ?: listOf()
+            } else {
+                GsonUtils.json2List(
+                    GsonUtils.any2Json(extAttrDto.items.filter { item -> item.isOn }),
+                    ExtAttrDtoItem::class.java
+                ) ?: listOf()
+            }.also { selectList ->
+                if (1 == selectList.size) {
+                    selectList.firstOrNull()?.isDefault = true
+                }
+            },
+            extAttrDto.apply {
+                // 默认全选，json转换不走构造函数，值为默认false，需要初始化
+                if (isWashingOrShoes) {
+                    items.firstOrNull { item -> item.isOn }?.isCheck = true
+                } else {
+                    items.forEach { item ->
+                        if (item.isOn) {
+                            item.isCheck = true
+                        }
+                    }
+                }
+            },
+        )
 
     var unitValue: String?
         get() = unit.toString()
@@ -220,16 +255,18 @@ data class ExtAttrDtoItem(
     val priceType: Int,
     val priceCalculateMode: Int,
     val sequence: Int,
-    val pulse: Int,
-    val unitAmount: Double,
+    var pulse: Int,
+    var unitAmount: String,
     val unitCode: Int,
-    val unitPrice: Double,
+    var unitPrice: Double,
     val description: String,
     val isOn: Boolean,
     val pulseVolumeFactor: Int,
     val goodsType: Int,
-    val compatibleGoodsCategoryCode: List<String>
+    val compatibleGoodsCategoryCode: List<String>,
+    var isDefault: Boolean = false
 ) : BaseObservable(), IMultiSelectBottomItemEntity {
+
     override var isCheck: Boolean = true
 
     override fun getTitle(): String = if (1 == priceCalculateMode) {
@@ -238,6 +275,65 @@ data class ExtAttrDtoItem(
     } else {
         // 时间
         "${unitAmount}${if (1 == unitCode) "秒" else "分钟"}"
+    }
+
+    fun getUnit(): String = if (1 == priceCalculateMode) {
+        // 流量
+        "${unitAmount}${if (1 == unitCode) "（ml）" else "（l）"}"
+    } else {
+        // 时间
+        "${unitAmount}${if (1 == unitCode) "（秒）" else "（分钟）"}"
+    }
+
+    @get:Bindable
+    var pulseVal: String = ""
+        get() = pulse.toString()
+        set(value) {
+            field = value
+            try {
+                pulse = value.toInt()
+                notifyPropertyChanged(BR.pulseVal)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    @get:Bindable
+    var unitAmountVal: String = ""
+        get() = unitAmount
+        set(value) {
+            field = value
+            try {
+                value.toDouble()
+                unitAmount = value
+                notifyPropertyChanged(BR.unitAmountVal)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    @get:Bindable
+    var unitPriceVal: String = ""
+        get() = unitPrice.toString()
+        set(value) {
+            field = value
+            try {
+                unitPrice = value.toDouble()
+                notifyPropertyChanged(BR.unitPriceVal)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    override fun hashCode(): Int {
+        return super.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ExtAttrDtoItem) return false
+        if (unitAmount == other.unitAmount) return true
+        return super.equals(other)
     }
 }
 
@@ -418,6 +514,7 @@ data class SkuFunConfigurationV2Param(
     val extAttr: String,
     var _feature: String,
     var _soldState: Int,
+    var selectExtAttr: List<ExtAttrDtoItem>,
     val extAttrDto: ExtAttrDto
 ) : BaseObservable() {
 
@@ -450,4 +547,16 @@ data class SkuFunConfigurationV2Param(
         get() = extAttrDto.items.count { item -> item.isCheck }.let {
             if (it > 0) "已配置${it}项" else "未选择配置项"
         }
+
+    val isDefaultAttr: ExtAttrDtoItem?
+        get() = selectExtAttr.find { item -> item.isDefault }
+
+    val isDefault: Boolean
+        get() = isDefaultAttr?.isDefault ?: false
+
+    val isDefaultUnitAmount: String
+        get() = isDefaultAttr?.getTitle() ?: ""
+
+    val isFixedPriceType
+        get() = 1 == selectExtAttr.firstOrNull()?.priceType
 }

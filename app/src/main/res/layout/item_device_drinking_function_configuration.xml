@@ -25,7 +25,7 @@
             style="@style/Font_16_333333"
             android:layout_width="104dp"
             android:layout_height="wrap_content"
-            android:text="@{item.title + @string/price}" />
+            android:text="@{item.title + @string/unit_price}" />
 
         <com.yunshang.haile_manager_android.ui.view.AmountEditText
             style="@style/Font_16_333333_cccccc"

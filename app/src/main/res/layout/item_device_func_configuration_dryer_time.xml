@@ -3,19 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <import type="com.yunshang.haile_manager_android.R" />
-
-        <import type="com.lsy.framelib.utils.StringUtils" />
-
         <variable
             name="item"
-            type="com.yunshang.haile_manager_android.data.entities.ExtAttrBean" />
+            type="com.yunshang.haile_manager_android.data.entities.ExtAttrDtoItem" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="54dp"
+        android:orientation="horizontal"
         android:paddingHorizontal="16dp"
         android:gravity="center_vertical">
 
@@ -23,17 +19,18 @@
             style="@style/Font_16_333333"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text='@{StringUtils.getString(R.string.unit_minute_num,item.minutes)}'
+            android:text='@{item.getTitle}'
             tools:text="30分钟" />
 
         <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_dryer_price"
             style="@style/Font_16_333333_cccccc"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@={item.priceValue}"
+            android:text="@={item.unitPriceVal}"
             android:background="@android:color/transparent"
-            android:hint="@string/money"
+            android:hint="@string/amount_hint"
             android:inputType="numberDecimal"
             android:maxLines="1" />
 
@@ -50,9 +47,9 @@
             android:layout_height="match_parent"
             android:layout_marginStart="23dp"
             android:layout_weight="1"
-            android:text="@={item.pulseValue}"
+            android:text="@={item.pulseVal}"
             android:background="@android:color/transparent"
-            android:hint="@string/please_input"
+            android:hint="@string/pulse_hint"
             android:inputType="numberDecimal"
             android:maxLines="1"
             android:visibility="gone" />

@@ -440,7 +440,7 @@ class DeviceCreateActivity :
                             false
                         ).let { binding ->
                             binding.title =
-                                sku.name + com.lsy.framelib.utils.StringUtils.getString(R.string.price)
+                                sku.name + com.lsy.framelib.utils.StringUtils.getString(R.string.unit_price)
                             binding.content =
                                 "${
                                     String.format(

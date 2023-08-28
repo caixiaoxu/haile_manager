@@ -149,7 +149,7 @@
     <string name="imei_code_error">该IMEI码无效</string>
     <string name="imei_code_error1">请扫描正确的IMEI</string>
     <string name="scan_code_error">无法识别该二维码</string>
-    <string name="device_func_configuration_title">功能配置%1$d</string>
+    <string name="device_func_configuration_title">功能%1$d</string>
     <string name="allow_starfish_refund">允许海星退款</string>
     <string name="compel_use_starfish">强制使用\n海星</string>
     <string name="compel_no_pwd_pay">强制使用\n免密支付</string>
@@ -171,7 +171,7 @@
     <string name="pause_time_hint1">输入范围5-60</string>
     <string name="single_pulse_quantity">单脉冲流量</string>
     <string name="single_pulse_quantity_hint">输入范围0.001-50.000</string>
-    <string name="price">单价</string>
+    <string name="unit_price">单价</string>
     <string name="desc">描述信息</string>
     <string name="money">金额</string>
     <string name="dryer_time_title">选择烘干时间（可多选）</string>
@@ -481,6 +481,7 @@
     <string name="business_name">业务名称</string>
     <string name="remark">备注</string>
     <string name="time">时间</string>
+    <string name="price">价格</string>
     <string name="sub_account_time">分账时间</string>
     <string name="sub_account_order_no">分账单号</string>
     <string name="withdraw_record">提现记录</string>
@@ -518,6 +519,7 @@
     <string name="recharge_amount">充值金额</string>
     <string name="reward_amount">赠送金额</string>
     <string name="amount_hint">请输入金额</string>
+    <string name="pulse_hint">请输入脉冲数</string>
     <string name="alipay">支付宝</string>
     <string name="wechat">微信</string>
     <string name="pay_now">立即支付</string>

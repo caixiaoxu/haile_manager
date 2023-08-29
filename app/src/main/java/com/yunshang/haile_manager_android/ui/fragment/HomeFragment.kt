@@ -81,7 +81,7 @@ class HomeFragment :
         }
 
         mBinding.ibHomeIncomeChange.setOnClickListener {
-            mViewModel.profitIncomeType = if (1 == mViewModel.profitIncomeType) 2 else 1
+            mViewModel.profitIncomeType.value = if (1 == mViewModel.profitIncomeType.value) 2 else 1
             mViewModel.requestHomeIncome()
         }
 
@@ -220,7 +220,7 @@ class HomeFragment :
                                         putExtra(IncomeActivity.SelectDay, it.date)
                                         putExtra(
                                             IncomeActivity.ProfitIncomeType,
-                                            mViewModel.profitIncomeType
+                                            mViewModel.profitIncomeType.value
                                         )
                                     })
                             }
@@ -256,8 +256,8 @@ class HomeFragment :
             }
 
             //判断
-            if (mViewModel.profitIncomeType != type) {
-                mViewModel.profitIncomeType = type
+            if (mViewModel.profitIncomeType.value != type) {
+                mViewModel.profitIncomeType.value = type
                 mViewModel.requestHomeIncome()
             }
         }

@@ -48,7 +48,7 @@ class HomeViewModel : BaseViewModel() {
     }
 
     // 1:个人收益；2:商家收益
-    var profitIncomeType: Int = 2
+    var profitIncomeType: MutableLiveData<Int> = MutableLiveData(2)
 
     // 总收入
     val inComeVal: MutableLiveData<String> = MutableLiveData()
@@ -176,7 +176,7 @@ class HomeViewModel : BaseViewModel() {
                 mCapitalRepo.totalIncomeToady(
                     ApiRepository.createRequestBody(
                         hashMapOf(
-                            "profitIncomeType" to profitIncomeType
+                            "profitIncomeType" to profitIncomeType.value
                         )
                     )
                 )
@@ -225,7 +225,7 @@ class HomeViewModel : BaseViewModel() {
                                 "endTime" to DateTimeUtils.formatDateTime(
                                     DateTimeUtils.getMonthLast(selectedDate.value)
                                 ),
-                                "profitIncomeType" to profitIncomeType
+                                "profitIncomeType" to profitIncomeType.value
                             ),
                         )
                     )

@@ -93,7 +93,7 @@
                         android:layout_height="wrap_content"
                         android:drawableStart="@mipmap/icon_home_income_title"
                         android:drawablePadding="5dp"
-                        android:text="@string/home_income_title"
+                        android:text="@{1 == vm.profitIncomeType?@string/personal_home_income_title:@string/merchant_home_income_title}"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/tv_home_income"
                         app:layout_constraintStart_toStartOf="parent"

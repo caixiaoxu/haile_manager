@@ -25,7 +25,7 @@ interface CapitalService {
      * 当日总收益接口
      */
     @POST("/profit/totalIncomeToday")
-    suspend fun totalIncomeToady(): ResponseWrapper<String>
+    suspend fun totalIncomeToady(@Body body: RequestBody): ResponseWrapper<String>
 
     /**
      * 总收益接口

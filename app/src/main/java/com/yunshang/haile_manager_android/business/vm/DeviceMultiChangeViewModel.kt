@@ -32,6 +32,7 @@ class DeviceMultiChangeViewModel : BaseViewModel() {
 
     companion object {
         const val Type = "Type"
+        const val OriginData = "OriginData"
 
         const val typeChangeModel = 0
         const val typeChangePayCode = 1

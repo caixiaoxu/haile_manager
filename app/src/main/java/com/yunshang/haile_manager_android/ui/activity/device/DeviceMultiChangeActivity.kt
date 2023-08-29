@@ -105,6 +105,11 @@ class DeviceMultiChangeActivity :
         mViewModel.goodId = intent.getIntExtra(GoodId, -1)
         mViewModel.type.value =
             intent.getIntExtra(DeviceMultiChangeViewModel.Type, 0)
+
+        if (DeviceMultiChangeViewModel.typeChangeName == mViewModel.type.value) {
+            mViewModel.content.value =
+                intent.getStringExtra(DeviceMultiChangeViewModel.OriginData) ?: ""
+        }
     }
 
     override fun initEvent() {

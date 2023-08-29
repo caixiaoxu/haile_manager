@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="type"
+            type="java.lang.Integer" />
+
+        <variable
+            name="title"
+            type="java.lang.String" />
+
+        <variable
+            name="value"
+            type="java.lang.String" />
+
+        <variable
+            name="isDefault"
+            type="java.lang.Boolean" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="76dp"
+            android:layout_height="wrap_content"
+            android:text="@{title}"
+            android:textSize="14sp"
+            app:textColor="@{0 == type?@color/common_txt_color:@color/common_sub_txt_color}"
+            tools:text="价格配置：" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@{value}"
+            android:textSize="14sp"
+            app:textColor="@{0 == type?@color/common_txt_color:@color/common_sub_txt_color}"
+            tools:text="30分钟/5元" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_10_f0a258"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/shape_s26f0a258_r4"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="2dp"
+            android:text="@string/default_select"
+            app:visibility="@{isDefault}" />
+    </LinearLayout>
+</layout>

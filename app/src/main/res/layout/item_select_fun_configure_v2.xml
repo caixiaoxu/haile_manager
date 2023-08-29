@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.SkuFunConfigurationV2Param" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_sf7f7f7_r8"
+        android:padding="12dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_select_fun_configure_name"
+            style="@style/Font_14_333333_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/shape_list_index"
+            android:drawablePadding="4dp"
+            android:text="@{item.name}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="低温烘干" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_select_fun_configure_statue"
+            style="@style/Font_14_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{1 == item.soldState?@string/enabled:@string/out_of_service}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_select_fun_configure_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_select_fun_configure_name"
+            tools:text="已启用" />
+
+        <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+            android:id="@+id/ll_select_fun_configure_attrs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical"
+            app:divider="@drawable/divide_size4"
+            app:itemLayout="@layout/item_select_fun_configure_attr_item_v2"
+            app:layout_constraintTop_toBottomOf="@id/tv_select_fun_configure_name"
+            app:showDividers="middle" />
+
+        <include
+            android:id="@+id/include_select_fun_configure_feature"
+            layout="@layout/item_select_fun_configure_attr_item_v2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/ll_select_fun_configure_attrs"
+            app:title='@{@string/desc+"："}'
+            app:type="@{1}"
+            app:value="@{item.feature}"
+            app:visibility="@{!(null == item.feature || 0 == item.feature.length())}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

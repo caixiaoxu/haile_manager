@@ -25,18 +25,7 @@
             app:itemContent="@={item.unitAmountVal}"
             app:title="@string/time"
             app:type="input"
-            app:unitHint="@string/unit_minute_hint"
-            app:visibility="@{1 != item.functionType}" />
-
-        <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-            android:id="@+id/item_device_fun_configuration_wash_time_select"
-            style="@style/MultiTypeItemStyle"
-            android:inputType="numberDecimal"
-            app:visibility="@{1 == item.functionType}"
-            app:itemContent="@{item.unitAmountVal}"
-            app:showArrow="true"
-            app:title="@string/time"
-            app:type="info" />
+            app:unitHint="@string/unit_minute_hint" />
 
         <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/item_device_fun_configuration_wash_money"

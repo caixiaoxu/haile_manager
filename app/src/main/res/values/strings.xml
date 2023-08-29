@@ -248,6 +248,8 @@
     <string name="calculate_model">计费模式</string>
     <string name="configure">配置</string>
     <string name="c_app_default">C端默认选中</string>
+    <string name="default_select">默认选中</string>
+    <string name="price_configure">价格配置</string>
 
     <string name="shop_manager">门店管理</string>
     <string name="pt_manager">点位管理</string>

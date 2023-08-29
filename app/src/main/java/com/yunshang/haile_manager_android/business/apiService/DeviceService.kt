@@ -70,6 +70,12 @@ interface DeviceService {
     suspend fun deviceCreate(@Body params: RequestBody): ResponseWrapper<DeviceDetailEntity>
 
     /**
+     * 设备创建接口（新版）
+     */
+    @POST("/goods/create/v2")
+    suspend fun deviceCreateV2(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
      * 设备编辑接口
      */
     @POST("/goods/edit")

@@ -5,14 +5,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
-import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
-import com.yunshang.haile_manager_android.data.entities.SpuExtAttrDto
+import com.yunshang.haile_manager_android.data.entities.SkuFunConfigurationV2Param
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * Title :
@@ -97,7 +101,7 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
     }
 
     // 功能配置
-    val createDeviceFunConfigure: MutableLiveData<List<SkuFuncConfigurationParam>> =
+    val createDeviceFunConfigure: MutableLiveData<MutableList<SkuFunConfigurationV2Param>?> =
         MutableLiveData()
 
     val isFunConfigure: LiveData<Boolean> = createDeviceFunConfigure.map {
@@ -145,7 +149,15 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
             && (null != categoryId.value && categoryId.value!! > 0)
             && (!deviceName.value.isNullOrEmpty())
             && (if (true == isDispenser.value) !washImeiCode.value.isNullOrEmpty() else true)
-            && (if (true == isDrinkingOrShower.value) !communicationVal.value.isNullOrEmpty() else true)
+            && (if (true == isDrinkingOrShower.value) {
+        try {
+            communicationVal.value?.toDouble()
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    } else true)
             && null != createDeviceFunConfigure.value)
 
 
@@ -190,8 +202,42 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
         deviceCommunicationType = communicationType
         deviceIgnorePayCodeFlag = ignorePayCodeFlag
         extAttrDtoJson.postValue(extJson)
+
+        createDeviceFunConfigure.value = null
     }
 
     fun save(view: View) {
+        launch({
+
+            if (true == isDrinkingOrShower.value) {
+                createDeviceFunConfigure.value?.forEach {
+                    it.extAttrDto.items.forEach { item ->
+                        item.pulseVolumeFactor = communicationVal.value ?: "0"
+                    }
+                }
+            }
+
+            ApiRepository.dealApiResult(
+                mRepo.deviceCreateV2(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "name" to deviceName.value,
+                            "shopId" to createDeviceShop.value?.id,
+                            "spuId" to spuId.value,
+                            "shopCategoryId" to categoryId.value,
+                            "imei" to imeiCode.value,
+                            "code" to payCode.value,
+                            "items" to createDeviceFunConfigure.value,
+                            "washerImei" to washImeiCode.value
+                        )
+                    )
+                )
+            )
+            withContext(Dispatchers.Main) {
+                SToast.showToast(view.context, "新增设备成功")
+            }
+            LiveDataBus.post(BusEvents.DEVICE_LIST_STATUS, true)
+            jump.postValue(0)
+        })
     }
 }

@@ -33,14 +33,18 @@ object ViewBindingAdapter {
         visibility = if (true == show) View.VISIBLE else View.GONE
     }
 
-    @BindingAdapter("marginStart")
+    @BindingAdapter("marginStart", "textColor", requireAll = false)
     @JvmStatic
-    fun TextView.marginStart(mS: Float?) {
+    fun TextView.marginStart(mS: Float?, txtColor: Int?) {
         if (layoutParams is ViewGroup.MarginLayoutParams)
             MarginLayoutParamsCompat.setMarginStart(
                 layoutParams as ViewGroup.MarginLayoutParams,
                 mS?.toInt() ?: 0
             )
+
+        txtColor?.let {
+            setTextColor(txtColor)
+        }
     }
 
     /**

@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:checked="@={item.soldState}"
+                android:checked="@={item.soldStateVal}"
                 android:thumb="@drawable/selector_default_switch_thumb"
                 app:track="@drawable/selector_default_switch_track" />
         </LinearLayout>
@@ -46,7 +46,7 @@
         <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/item_device_fun_configuration_name"
             style="@style/MultiTypeItemStyle"
-            app:itemContent="@={item.name}"
+            app:itemContent="@={item.nameVal}"
             app:title="@string/model_name"
             app:type="input" />
 
@@ -54,7 +54,7 @@
             android:id="@+id/item_device_fun_configuration_desc"
             style="@style/MultiTypeItemStyle"
             android:visibility="gone"
-            app:itemContent="@={item.feature}"
+            app:itemContent="@={item.featureVal}"
             app:title="@string/desc"
             app:titleDrawableEnd="@mipmap/icon_item_required"
             app:titleDrawablePadding="4dp"
@@ -84,8 +84,7 @@
             android:layout_height="56dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingHorizontal="16dp"
-            app:visibility="@{item.isFixedPriceType}">
+            android:paddingHorizontal="16dp">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_device_fun_configuration_attr_default_title"
@@ -93,7 +92,7 @@
                 android:layout_width="104dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@string/default_use" />
+                android:text="@string/c_app_default" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_device_fun_configuration_attr_default"
@@ -102,14 +101,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="@{item.isDefaultUnitAmount}" />
+                android:text="@{item.defaultUnitAmount}" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switch_device_fun_configuration_attr_default"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:checked="@{item.isDefault}"
+                android:checked="@{item.defaultOpen}"
                 android:thumb="@drawable/selector_default_switch_thumb"
                 app:track="@drawable/selector_default_switch_track" />
 

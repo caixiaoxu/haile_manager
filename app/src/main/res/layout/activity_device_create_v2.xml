@@ -169,17 +169,11 @@
                     app:type="info"
                     app:visibility="@{vm.hasCategoryCode}" />
 
-                <LinearLayout
-                    android:id="@+id/ll_device_create_select_fun_configuration"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_device_create_select_fun_configuration"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@drawable/shape_sf7f7f7_r8"
-                    android:divider="@drawable/divide_size12"
-                    android:orientation="vertical"
                     android:padding="12dp"
-                    android:showDividers="middle"
                     app:visibility="@{vm.isFunConfigure}"
                     tools:visibility="gone" />
 

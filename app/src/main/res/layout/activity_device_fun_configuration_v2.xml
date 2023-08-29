@@ -23,33 +23,39 @@
             android:id="@+id/bar_device_func_configuration_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
-            app:title="@string/add_device"/>
+            app:title="@string/add_device" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:visibility="@{vm.isDrinkingOrShower}"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:visibility="@{!vm.isSinglePriceModel || !vm.isSingleCalculateModel}">
 
             <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                 android:id="@+id/item_device_fun_configuration_price_model"
                 style="@style/MultiTypeItemStyle"
                 android:inputType="numberDecimal"
-                app:itemContent="@{vm.priceModel.name}"
+                app:itemContent="@{vm.selectPriceModel.name}"
                 app:showArrow="true"
                 app:title="@string/price_model"
-                app:type="info" />
+                app:type="info"
+                app:visibility="@{!vm.isSinglePriceModel}" />
 
             <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                 android:id="@+id/item_device_fun_configuration_calculate_model"
                 style="@style/MultiTypeItemStyle"
                 android:inputType="numberDecimal"
-                app:itemContent="@{vm.calculateModel.name}"
+                app:itemContent="@{vm.selectCalculateModel.name}"
                 app:showArrow="true"
                 app:title="@string/calculate_model"
-                app:type="info" />
+                app:type="info"
+                app:visibility="@{!vm.isSingleCalculateModel}" />
         </LinearLayout>
+
+        <View
+            style="@style/DividingStyle"
+            android:layout_height="8dp"
+            app:visibility="@{!vm.isSinglePriceModel || !vm.isSingleCalculateModel}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_device_fun_configuration_list"

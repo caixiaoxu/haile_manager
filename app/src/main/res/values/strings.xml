@@ -284,6 +284,7 @@
     <string name="appointment_setting">预约设置</string>
     <string name="copy_phone">复制手机号</string>
     <string name="call_phone">拨打电话</string>
+    <string name="executive_logging">执行记录</string>
     <string name="copy_success">已复制到贴粘板</string>
     <string name="search_shop_hint">请输入门店名称</string>
     <string name="shop_delete_hint">是否确定要删除该门店么？</string>

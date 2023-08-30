@@ -75,6 +75,12 @@ class OrderDetailActivity :
                         }
                 }
 
+                DateTimeUtils.formatDateFromString(orderDetail._createTime)?.let { date ->
+                    val day = (System.currentTimeMillis() - date.time) / (24 * 3600 * 1000)
+                    mBinding.tvOrderDetailExecutiveLogging.visibility =
+                        if (mViewModel.isAppoint || day > 7) View.GONE else View.VISIBLE
+                }
+
                 mBinding.llOrderDetailSkuList.removeAllViews()
                 mBinding.llOrderDetailSkuList.visibility =
                     if (orderDetail.skuList.isNullOrEmpty()) View.GONE else View.VISIBLE
@@ -138,6 +144,14 @@ class OrderDetailActivity :
                 R.color.colorPrimary
             )
         )
+
+        mBinding.tvOrderDetailExecutiveLogging.setOnClickListener {
+            mViewModel.orderDetail.value?.let { detail ->
+                startActivity(Intent(this, OrderExecutiveLoggingActivity::class.java).apply {
+                    putExtras(IntentParams.OrderParams.pack(detail.id, detail.orderNo))
+                })
+            }
+        }
 
         // 退款
         mBinding.tvOrderDetailRefund.setOnClickListener {

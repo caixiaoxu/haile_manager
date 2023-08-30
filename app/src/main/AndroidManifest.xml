@@ -42,10 +42,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.order.OrderExecutiveLoggingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.common.WeChatQRCodeScanActivity"
             android:exported="false"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.shop.ShopBusinessHoursActivity"
             android:exported="false" />

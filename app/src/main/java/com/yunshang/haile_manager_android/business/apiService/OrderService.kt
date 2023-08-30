@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.business.apiService
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.yunshang.haile_manager_android.data.entities.OrderDetailEntity
+import com.yunshang.haile_manager_android.data.entities.OrderExecutiveLoggingEntity
 import com.yunshang.haile_manager_android.data.entities.OrderListEntity
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -54,4 +55,11 @@ interface OrderService {
      */
     @POST("/appoint/cancelOrder")
     suspend fun cancelAppointmentOrder(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 订单历史列表接口
+     */
+    @GET("/order/run/history")
+    suspend fun requestOrderExecutiveLoggingList(@Query("orderId") orderId: Int): ResponseWrapper<MutableList<OrderExecutiveLoggingEntity>>
+
 }

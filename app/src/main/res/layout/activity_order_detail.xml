@@ -160,7 +160,7 @@
                         android:gravity="center_vertical"
                         android:paddingStart="16dp"
                         android:text="@{vm.orderDetail.orderNo}"
-                        app:layout_constraintEnd_toStartOf="@id/tv_order_detail_buyer_phone_copy"
+                        app:layout_constraintEnd_toStartOf="@id/tv_order_detail_executive_logging"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_order_detail_buyer_phone"
                         tools:ignore="RtlSymmetry"
@@ -178,6 +178,20 @@
                         android:text="@string/copy"
                         app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_order_no"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_order_detail_order_no" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_order_detail_executive_logging"
+                        style="@style/Font_14_f0a258"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="16dp"
+                        android:visibility="gone"
+                        android:text="@string/executive_logging"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_order_no"
+                        app:layout_constraintEnd_toStartOf="@id/tv_order_detail_order_no_copy"
                         app:layout_constraintTop_toTopOf="@id/tv_order_detail_order_no" />
 
                     <View

@@ -48,7 +48,9 @@ class HomeViewModel : BaseViewModel() {
     }
 
     // 1:个人收益；2:商家收益
-    var profitIncomeType: MutableLiveData<Int> = MutableLiveData(2)
+    val profitIncomeType: MutableLiveData<Int> by lazy {
+        MutableLiveData()
+    }
 
     // 总收入
     val inComeVal: MutableLiveData<String> = MutableLiveData()
@@ -171,17 +173,19 @@ class HomeViewModel : BaseViewModel() {
      * 今日总收益
      */
     private suspend fun requestIncomeToday() {
-        inComeVal.postValue(
-            ApiRepository.dealApiResult(
-                mCapitalRepo.totalIncomeToady(
-                    ApiRepository.createRequestBody(
-                        hashMapOf(
-                            "profitIncomeType" to profitIncomeType.value
+        profitIncomeType.value?.let { type ->
+            inComeVal.postValue(
+                ApiRepository.dealApiResult(
+                    mCapitalRepo.totalIncomeToady(
+                        ApiRepository.createRequestBody(
+                            hashMapOf(
+                                "profitIncomeType" to type
+                            )
                         )
                     )
                 )
             )
-        )
+        }
     }
 
     /**
@@ -215,24 +219,26 @@ class HomeViewModel : BaseViewModel() {
         launch(
             {
                 requestIncomeToday()
-                ApiRepository.dealApiResult(
-                    mCapitalRepo.homeInCome(
-                        ApiRepository.createRequestBody(
-                            hashMapOf(
-                                "startTime" to DateTimeUtils.formatDateTime(
-                                    DateTimeUtils.getMonthFirst(selectedDate.value)
+                profitIncomeType.value?.let { type ->
+                    ApiRepository.dealApiResult(
+                        mCapitalRepo.homeInCome(
+                            ApiRepository.createRequestBody(
+                                hashMapOf(
+                                    "startTime" to DateTimeUtils.formatDateTime(
+                                        DateTimeUtils.getMonthFirst(selectedDate.value)
+                                    ),
+                                    "endTime" to DateTimeUtils.formatDateTime(
+                                        DateTimeUtils.getMonthLast(selectedDate.value)
+                                    ),
+                                    "profitIncomeType" to type
                                 ),
-                                "endTime" to DateTimeUtils.formatDateTime(
-                                    DateTimeUtils.getMonthLast(selectedDate.value)
-                                ),
-                                "profitIncomeType" to profitIncomeType.value
-                            ),
+                            )
                         )
-                    )
-                )?.let { list ->
-                    homeIncomeList.postValue(list)
+                    )?.let { list ->
+                        homeIncomeList.postValue(list)
+                    }
                 }
-            })
+            }, {})
     }
 
     /**

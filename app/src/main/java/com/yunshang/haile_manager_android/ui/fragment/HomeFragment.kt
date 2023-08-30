@@ -248,18 +248,8 @@ class HomeFragment :
         super.initEvent()
 
         mSharedViewModel.hasUserPermission.observe(this) {
-            var type = 2
-            if (UserPermissionUtils.hasProfitMerchantPermission()) {
-                type = 2
-            } else if (UserPermissionUtils.hasProfitHomePermission()) {
-                type = 1
-            }
-
-            //判断
-            if (mViewModel.profitIncomeType.value != type) {
-                mViewModel.profitIncomeType.value = type
-                mViewModel.requestHomeIncome()
-            }
+            initProfitIncomeType()
+            mViewModel.requestHomeIncome()
         }
 
         // 消息列表 
@@ -506,7 +496,18 @@ class HomeFragment :
     }
 
     override fun initData() {
+        initProfitIncomeType()
         mViewModel.requestHomeData()
+    }
+
+    private fun initProfitIncomeType() {
+        if (UserPermissionUtils.hasProfitPermission()) {
+            if (UserPermissionUtils.hasProfitMerchantPermission()) {
+                mViewModel.profitIncomeType.value = 2
+            } else if (UserPermissionUtils.hasProfitHomePermission()) {
+                mViewModel.profitIncomeType.value = 1
+            }
+        }
     }
 
     override fun onHiddenChanged(hidden: Boolean) {

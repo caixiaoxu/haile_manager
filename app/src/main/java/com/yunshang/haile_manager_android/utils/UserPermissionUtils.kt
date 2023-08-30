@@ -53,6 +53,28 @@ object UserPermissionUtils {
     }
 
     /**
+     * 是否含有个人收益权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasProfitHomePermission(): Boolean {
+        return null != userPermissionsMap["league:profit:home"]
+    }
+
+    /**
+     * 是否含有商家收益权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasProfitMerchantPermission(): Boolean {
+        return null != userPermissionsMap["league:profit:merchant"]
+    }
+
+    /**
      * 是否含有消息权限
      *
      *

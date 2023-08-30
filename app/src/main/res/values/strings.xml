@@ -110,6 +110,8 @@
     <string name="message_empty">暂无消息</string>
 
     <string name="home_income_title">今日收益</string>
+    <string name="merchant_home_income_title">商家今日收益</string>
+    <string name="personal_home_income_title">个人今日收益</string>
     <string name="home_trend_title">收益趋势</string>
 
     <string name="home_func_title">功能管理</string>
@@ -295,6 +297,7 @@
     <string name="appointment_setting">预约设置</string>
     <string name="copy_phone">复制手机号</string>
     <string name="call_phone">拨打电话</string>
+    <string name="executive_logging">执行记录</string>
     <string name="copy_success">已复制到贴粘板</string>
     <string name="search_shop_hint">请输入门店名称</string>
     <string name="shop_delete_hint">是否确定要删除该门店么？</string>

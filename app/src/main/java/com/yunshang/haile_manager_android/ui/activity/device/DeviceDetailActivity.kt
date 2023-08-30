@@ -472,6 +472,10 @@ class DeviceDetailActivity :
                             DeviceMultiChangeViewModel.Type,
                             DeviceMultiChangeViewModel.typeChangeName
                         )
+                        putExtra(
+                            DeviceMultiChangeViewModel.OriginData,
+                            mViewModel.deviceDetail.value?.name
+                        )
                     }
                 )
                 // 生成付款码

@@ -47,6 +47,9 @@ class HomeViewModel : BaseViewModel() {
         DateTimeUtils.formatDateTime(it, "yyyy年MM月")
     }
 
+    // 1:个人收益；2:商家收益
+    var profitIncomeType: MutableLiveData<Int> = MutableLiveData(2)
+
     // 总收入
     val inComeVal: MutableLiveData<String> = MutableLiveData()
 
@@ -168,7 +171,17 @@ class HomeViewModel : BaseViewModel() {
      * 今日总收益
      */
     private suspend fun requestIncomeToday() {
-        inComeVal.postValue(ApiRepository.dealApiResult(mCapitalRepo.totalIncomeToady()))
+        inComeVal.postValue(
+            ApiRepository.dealApiResult(
+                mCapitalRepo.totalIncomeToady(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "profitIncomeType" to profitIncomeType.value
+                        )
+                    )
+                )
+            )
+        )
     }
 
     /**
@@ -201,6 +214,7 @@ class HomeViewModel : BaseViewModel() {
     fun requestHomeIncome() {
         launch(
             {
+                requestIncomeToday()
                 ApiRepository.dealApiResult(
                     mCapitalRepo.homeInCome(
                         ApiRepository.createRequestBody(
@@ -210,7 +224,8 @@ class HomeViewModel : BaseViewModel() {
                                 ),
                                 "endTime" to DateTimeUtils.formatDateTime(
                                     DateTimeUtils.getMonthLast(selectedDate.value)
-                                )
+                                ),
+                                "profitIncomeType" to profitIncomeType.value
                             ),
                         )
                     )
@@ -218,7 +233,6 @@ class HomeViewModel : BaseViewModel() {
                     homeIncomeList.postValue(list)
                 }
             })
-
     }
 
     /**

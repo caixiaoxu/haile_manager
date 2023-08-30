@@ -35,7 +35,10 @@ class IncomeViewModel : BaseViewModel() {
 
     var profitSearchId: Int = -1
 
-    var deviceName:String=""
+    var deviceName: String = ""
+
+    // 1:个人收益；2:商家收益
+    var profitIncomeType: Int = 2
 
     //选择的日期
     val selectDay: MutableLiveData<Date> = MutableLiveData(Date())
@@ -69,6 +72,7 @@ class IncomeViewModel : BaseViewModel() {
         hashMapOf<String, Any>(
             "dateType" to 1,//日期统计类型 ，1：天；2：月；3：年
             "profitType" to profitType, //收益类型 1:店铺；2：设备；3:收入明细
+            "profitIncomeType" to profitIncomeType
         ).also { params ->
             if (3 != profitType) {
                 if (-1 == profitSearchId) {

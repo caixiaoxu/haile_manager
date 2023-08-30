@@ -52,14 +52,6 @@ class MainActivity :
             mBinding.rbMainTabStatistics.visibility = if (it) View.VISIBLE else View.GONE
         }
 
-        // 如果用户信息为空，重新请求
-        if (null == SPRepository.userInfo) {
-            mSharedViewModel.requestUserInfoAsync()
-        }
-
-        // 如果权限数据为空，重新请求
-        mSharedViewModel.requestUserPermissionsAsync()
-
         mViewModel.checkId.observe(this) {
             showChildFragment(it)
         }
@@ -96,6 +88,15 @@ class MainActivity :
     }
 
     override fun initData() {
+        // 如果用户信息为空，重新请求
+        if (null == SPRepository.userInfo) {
+            mSharedViewModel.requestUserInfoAsync()
+        }
+
+        // 刷新权限
+        mSharedViewModel.requestUserPermissionsAsync()
+
+
         if (Constants.needHintServiceUpdate
             && ((System.currentTimeMillis() - SPRepository.serviceCheckTime) / (3600 * 1000 * 24)) > 0
         ) {

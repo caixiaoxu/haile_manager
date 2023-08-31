@@ -37,6 +37,11 @@ class DeviceFunConfigurationAddV2Activity :
         window.statusBarColor = Color.WHITE
         mBinding.btnDeviceFunConfigureAddV2Add.setOnClickListener {
             mViewModel.items.value?.let { items ->
+                if (items.filter { item -> item.canMerchantEdit }.size >= 5) {
+                    SToast.showToast(this@DeviceFunConfigurationAddV2Activity, "配置项最多添加5个")
+                    return@setOnClickListener
+                }
+
                 items.firstOrNull()?.let { first ->
                     items.add(
                         first.copy(

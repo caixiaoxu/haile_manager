@@ -25,6 +25,12 @@ interface DeviceService {
     suspend fun sku(@Path("spuId") spuId: Int): ResponseWrapper<MutableList<SkuEntity>>
 
     /**
+     * spu列表接口 (新版 替换sku)
+     */
+    @POST("/spu/sku/v2")
+    suspend fun skuV2(@Body params: RequestBody): ResponseWrapper<MutableList<SkuFunConfigurationV2Param>>
+
+    /**
      * 标准功能列表(并集)列表接口
      */
     @POST("/sku/function/union/list")

@@ -49,35 +49,6 @@ data class SkuEntity(
     val extAttrDto: ExtAttrDto
 ) {
 
-    /**
-     * 转换成请求参数
-     */
-    fun toFunConfigureV2Param(isWashingOrShoes: Boolean): SkuFunConfigurationV2Param =
-        SkuFunConfigurationV2Param(
-            id,
-            name,
-            price,
-            pulse,
-            unit,
-            extAttr,
-            feature,
-            soldState,
-            extAttrDto.apply {
-                // 默认全选，json转换不走构造函数，值为默认false，需要初始化
-                if (isWashingOrShoes) {
-                    items.firstOrNull { item -> item.isOn }?.isCheck = true
-                } else {
-                    items.forEach { item ->
-                        if (item.isOn) {
-                            item.isCheck = true
-                        }
-                    }
-                }
-            },
-        ).apply {
-            initSelectExtAttr(isWashingOrShoes)
-        }
-
     var unitValue: String?
         get() = unit.toString()
         set(value) {
@@ -236,7 +207,7 @@ data class Ext(
 )
 
 data class ExtAttrDto(
-    var items: List<ExtAttrDtoItem>
+    var items: MutableList<ExtAttrDtoItem>
 )
 
 data class ExtAttrDtoItem(
@@ -259,8 +230,11 @@ data class ExtAttrDtoItem(
 
     fun mergeExtAttr(same: ExtAttrDtoItem) {
         pulse = same.pulse
+        unitAmount = same.unitAmount
         unitPrice = same.unitPrice
         isDefault = same.isDefault
+        isCheck = same.isCheck
+        pulseVolumeFactor = same.pulseVolumeFactor
     }
 
     override var isCheck: Boolean = true
@@ -271,6 +245,14 @@ data class ExtAttrDtoItem(
     } else {
         // 时间
         "${unitAmount}${if (1 == unitCode) "秒" else "分钟"}"
+    }
+
+    fun getUnitTile(): String = if (1 == priceCalculateMode) {
+        // 流量
+        StringUtils.getString(R.string.quantity)
+    } else {
+        // 时间
+        StringUtils.getString(R.string.time)
     }
 
     fun getUnit(): String = if (1 == priceCalculateMode) {
@@ -510,43 +492,8 @@ data class SkuFunConfigurationV2Param(
     var feature: String,
     var soldState: Int,
     var extAttrDto: ExtAttrDto,
-    @Transient
-    var selectExtAttr: List<ExtAttrDtoItem> = listOf(),
     val id: Int? = null,
 ) : BaseObservable(), ICommonBottomItemEntity {
-
-    /**
-     * 初始化选择列表
-     */
-    fun initSelectExtAttr(
-        isWashingOrShoes: Boolean,
-        priceModel: Int? = null,
-        calculateModel: Int? = null,
-    ) {
-        // 过滤价格模式、计费模式和是否开启
-        selectExtAttr = if (isWashingOrShoes) {
-            extAttrDto.items.filter { item ->
-                (priceModel?.let { item.priceType == priceModel } ?: true)
-                        && (calculateModel?.let { item.priceCalculateMode == calculateModel }
-                    ?: true)
-            }.firstOrNull { item -> item.isOn }?.let {
-                // 深拷贝
-                GsonUtils.json2List(GsonUtils.any2Json(listOf(it)), ExtAttrDtoItem::class.java)
-            } ?: listOf()
-        } else {
-            GsonUtils.json2List(
-                GsonUtils.any2Json(extAttrDto.items.filter { item ->
-                    (priceModel?.let { item.priceType == priceModel } ?: true)
-                            && (calculateModel?.let { item.priceCalculateMode == calculateModel }
-                        ?: true)
-                }.filter { item -> item.isOn }),
-                ExtAttrDtoItem::class.java
-            ) ?: listOf()
-        }.also { selectList ->
-            // 默认选中第一个
-            selectList.firstOrNull()?.isDefault = true
-        }
-    }
 
     fun mergeSku(sameParam: SkuFunConfigurationV2Param) {
         name = sameParam.nameVal
@@ -573,17 +520,17 @@ data class SkuFunConfigurationV2Param(
         }
 
     @get:Bindable
-    var nameVal: String = name
+    var nameVal: String
+        get() = name
         set(value) {
-            field = value
             name = value
             notifyPropertyChanged(BR.nameVal)
         }
 
     @get:Bindable
-    var featureVal: String = feature
+    var featureVal: String
+        get() = feature
         set(value) {
-            field = value
             feature = value
             notifyPropertyChanged(BR.featureVal)
         }
@@ -594,13 +541,13 @@ data class SkuFunConfigurationV2Param(
         } ?: "未选择配置项"
 
     val isDefaultAttr: ExtAttrDtoItem?
-        get() = selectExtAttr.find { item -> item.isDefault }
+        get() = extAttrDto.items.find { item -> item.isDefault && item.isCheck }
 
     @get:Bindable
     var defaultOpen: Boolean
         get() = isDefaultAttr?.isDefault ?: false
         set(value) {
-            selectExtAttr.firstOrNull()?.let { first ->
+            extAttrDto.items.firstOrNull()?.let { first ->
                 first.isDefault = value
             }
             notifyPropertyChanged(BR.defaultOpen)

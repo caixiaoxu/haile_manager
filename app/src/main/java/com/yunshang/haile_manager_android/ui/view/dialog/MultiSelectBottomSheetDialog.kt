@@ -84,7 +84,13 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
             builder.onValueSureListener?.onValue(selectList, builder.list)
             dismiss()
         }
+        buildItem()
+    }
 
+    /**
+     * 刷新item布局
+     */
+    private fun buildItem() {
         val first = mBinding.clMultiSelectList.getChildAt(0)
         mBinding.clMultiSelectList.removeAllViews()
         mBinding.clMultiSelectList.addView(first)
@@ -123,8 +129,38 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
             )
         }
         // 设置id
-        val idList = IntArray(builder.list.size) { it + 1 }
+        val size = builder.list.size + if (builder.canAdd) 1 else 0
+        if (builder.canAdd) {
+            val itemBinding = ItemMultiSelectSheetDialogBinding.bind(
+                layoutInflater.inflate(
+                    R.layout.item_multi_select_sheet_dialog,
+                    null
+                )
+            )
+            itemBinding.root.id = size
+            mBinding.clMultiSelectList.addView(
+                itemBinding.root.apply {
+                    text = builder.addTitle
+                    setOnCheckClickListener {
+                        builder.onAddValueListener?.invoke()
+                        true
+                    }
+                }, ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    DimensionUtils.dip2px(requireContext(), 36f)
+                )
+            )
+        }
+        val idList = IntArray(size) { it + 1 }
         mBinding.flowMultiSelectList.referencedIds = idList
+    }
+
+    /**
+     * 刷新选项列表
+     */
+    fun refreshListView(list: List<D>){
+        builder.list = list
+        buildItem()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
@@ -143,7 +179,7 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
 
     internal class Builder<D : IMultiSelectBottomItemEntity>(
         val title: String,
-        val list: List<D>,
+        var list: List<D>,
     ) {
         var isCanSelectEmpty = false
 
@@ -158,6 +194,15 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
 
         // 支持单选
         var supportSingle: Boolean = false
+
+        // 是否可新增
+        var canAdd: Boolean = false
+
+        // 新增标题
+        var addTitle: String = "新增"
+
+        // 新增事件
+        var onAddValueListener: (() -> Unit)? = null
 
         /**
          * 构建

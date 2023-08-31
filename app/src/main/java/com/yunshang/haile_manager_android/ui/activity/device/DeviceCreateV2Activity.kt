@@ -152,7 +152,7 @@ class DeviceCreateV2Activity :
             R.layout.item_select_fun_configure_v2, BR.item
         ) { mItemBinding, pos, item ->
 
-            item.extAttrDto.items.let {
+            item.extAttrDto.items.filter { attr -> attr.isCheck }.let {
                 val isPulseDevice = DeviceCategory.isPulseDevice(mViewModel.deviceCommunicationType)
                 mItemBinding?.llSelectFunConfigureAttrs?.buildChild<ItemSelectFunConfigureAttrItemV2Binding, ExtAttrDtoItem>(
                     it

@@ -25,43 +25,54 @@
             android:layout_height="@dimen/title_action_bar_h"
             app:title="@string/add_device" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:visibility="@{!vm.isSinglePriceModel || !vm.isSingleCalculateModel}">
-
-            <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                android:id="@+id/item_device_fun_configuration_price_model"
-                style="@style/MultiTypeItemStyle"
-                android:inputType="numberDecimal"
-                app:itemContent="@{vm.selectPriceModel.name}"
-                app:showArrow="true"
-                app:title="@string/price_model"
-                app:type="info"
-                app:visibility="@{!vm.isSinglePriceModel}" />
-
-            <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                android:id="@+id/item_device_fun_configuration_calculate_model"
-                style="@style/MultiTypeItemStyle"
-                android:inputType="numberDecimal"
-                app:itemContent="@{vm.selectCalculateModel.name}"
-                app:showArrow="true"
-                app:title="@string/calculate_model"
-                app:type="info"
-                app:visibility="@{!vm.isSingleCalculateModel}" />
-        </LinearLayout>
-
-        <View
-            style="@style/DividingStyle"
-            android:layout_height="8dp"
-            app:visibility="@{!vm.isSinglePriceModel || !vm.isSingleCalculateModel}" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_device_fun_configuration_list"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:visibility="@{!vm.isSinglePriceModel || !vm.isSingleCalculateModel}">
+
+                    <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                        android:id="@+id/item_device_fun_configuration_price_model"
+                        style="@style/MultiTypeItemStyle"
+                        android:inputType="numberDecimal"
+                        app:itemContent="@{vm.selectPriceModel.name}"
+                        app:showArrow="true"
+                        app:title="@string/price_model"
+                        app:type="info"
+                        app:visibility="@{!vm.isSinglePriceModel}" />
+
+                    <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                        android:id="@+id/item_device_fun_configuration_calculate_model"
+                        style="@style/MultiTypeItemStyle"
+                        android:inputType="numberDecimal"
+                        app:itemContent="@{vm.selectCalculateModel.name}"
+                        app:showArrow="true"
+                        app:title="@string/calculate_model"
+                        app:type="info"
+                        app:visibility="@{!vm.isSingleCalculateModel}" />
+                </LinearLayout>
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_height="8dp"
+                    app:visibility="@{!vm.isSinglePriceModel || !vm.isSingleCalculateModel}" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_device_fun_configuration_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <com.yunshang.haile_manager_android.ui.view.CommonButton
             android:id="@+id/btn_device_create_submit"

@@ -23,7 +23,7 @@
             style="@style/MultiTypeItemStyle"
             android:inputType="numberDecimal"
             app:itemContent="@={item.unitAmountVal}"
-            app:title="@string/time"
+            app:title="@{item.unitTile}"
             app:type="input"
             app:unitHint="@string/unit_minute_hint" />
 

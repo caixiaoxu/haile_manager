@@ -1,10 +1,12 @@
 package com.yunshang.haile_manager_android.ui.activity.device
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -37,6 +39,36 @@ class DeviceFunConfigurationV2Activity :
         DeviceFunConfigurationV2ViewModel::class.java, BR.vm
     ) {
 
+    private var timeDialog: MultiSelectBottomSheetDialog<ExtAttrDtoItem>? = null
+
+    private val startAdd =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.let {
+                    mViewModel.configureList.value?.let { configureList ->
+                        val skuId = IntentParams.DeviceFunConfigurationAddV2Params.parseSkuId(it)
+                        IntentParams.DeviceFunConfigurationAddV2Params.parseSkuExtAttrDto(it)
+                            ?.let { list ->
+                                configureList.find { item -> item.skuId == skuId }?.let {
+                                    // 替换原数据
+                                    it.extAttrDto.items.forEach { attr ->
+                                        list.find { item -> item.id == attr.id }?.let { same ->
+                                            attr.mergeExtAttr(same)
+                                        }
+                                    }
+                                    // 把重复数据移除
+                                    list.removeAll(it.extAttrDto.items)
+                                    // 加入到尾部
+                                    it.extAttrDto.items.addAll(list)
+                                    // 刷新弹窗列表
+                                    timeDialog?.refreshListView(it.extAttrDto.items.filter { item -> item.isOn })
+                                }
+                            }
+                    }
+                }
+            }
+        }
+
     private val mAdapter by lazy {
         CommonRecyclerAdapter<ItemDeviceFunConfigureationV2Binding, SkuFunConfigurationV2Param>(
             R.layout.item_device_fun_configureation_v2, BR.item
@@ -54,13 +86,14 @@ class DeviceFunConfigurationV2Activity :
                 mItemBinding?.switchDeviceFunConfigurationAttrDefault?.visibility(true == it)
                 mItemBinding?.ivDeviceFunConfigurationAttrDefaultRight?.visibility(false == it)
                 val isPulseDevice = DeviceCategory.isPulseDevice(mViewModel.communicationType)
+                val list = item.extAttrDto.items.filter { attr -> attr.isCheck }
                 if (true == it) {
                     // 洗衣机或洗鞋机
                     mItemBinding?.llDeviceFunConfigurationAttrSku?.layoutId =
                         R.layout.item_device_func_configuration_washing
-                    if (item.selectExtAttr.isNotEmpty()) {
+                    if (list.isNotEmpty()) {
                         mItemBinding?.llDeviceFunConfigurationAttrSku?.buildChild<ItemDeviceFuncConfigurationWashingBinding, ExtAttrDtoItem>(
-                            item.selectExtAttr.subList(0, 1),
+                            list.subList(0, 1),
                             LinearLayoutCompat.LayoutParams(
                                 ViewGroup.LayoutParams.MATCH_PARENT,
                                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -84,21 +117,6 @@ class DeviceFunConfigurationV2Activity :
                             childBinding.itemDeviceFunConfigurationWashTime.mTailView.text =
                                 data.getUnit()
 
-                            // 固定价，不可输入
-                            (1 != data.priceType).let { canUpdate ->
-                                childBinding.itemDeviceFunConfigurationWashMoney.contentView.isFocusable =
-                                    canUpdate
-                                childBinding.itemDeviceFunConfigurationWashMoney.contentView.setTextColor(
-                                    ContextCompat.getColor(
-                                        this,
-                                        if (canUpdate) R.color.common_txt_color else R.color.common_txt_hint_color
-                                    )
-                                )
-                                childBinding.itemDeviceFunConfigurationWashMoney.contentView.setOnClickListener {
-                                    SToast.showToast(this, "固定配置不可修改")
-                                }
-                            }
-
                             childBinding.itemDeviceFunConfigurationWashTime.mTitleView.gravity =
                                 Gravity.START or Gravity.CENTER_VERTICAL
                             childBinding.itemDeviceFunConfigurationWashMoney.mTitleView.gravity =
@@ -112,7 +130,7 @@ class DeviceFunConfigurationV2Activity :
                     // 默认选中事件
                     mItemBinding?.switchDeviceFunConfigurationAttrDefault?.setOnCheckedChangeListener { _, isChecked ->
                         if (isChecked) {
-                            mViewModel.dealConfigureList.value?.let { list ->
+                            mViewModel.configureList.value?.let { list ->
                                 list.forEach { sku ->
                                     sku.defaultOpen = (sku.skuId == item.skuId)
                                 }
@@ -130,24 +148,12 @@ class DeviceFunConfigurationV2Activity :
                     mItemBinding?.llDeviceFunConfigurationAttrSku?.layoutId =
                         R.layout.item_device_func_configuration_dryer_time
                     mItemBinding?.llDeviceFunConfigurationAttrSku?.buildChild<ItemDeviceFuncConfigurationDryerTimeBinding, ExtAttrDtoItem>(
-                        item.selectExtAttr,
+                        list,
                         LinearLayoutCompat.LayoutParams(
                             ViewGroup.LayoutParams.MATCH_PARENT, itemDryerHeight
                         )
                     ) { _, childBinding, data ->
                         childBinding.item = data
-                        (1 != data.priceType).let { canUpdate ->
-                            childBinding.etDryerPrice.isFocusable = canUpdate
-                            childBinding.etDryerPrice.setTextColor(
-                                ContextCompat.getColor(
-                                    this,
-                                    if (canUpdate) R.color.common_txt_color else R.color.common_txt_hint_color
-                                )
-                            )
-                            childBinding.etDryerPrice.setOnClickListener {
-                                SToast.showToast(this, "固定配置不可修改")
-                            }
-                        }
                         childBinding.etDryerPulse.visibility(isPulseDevice)
                         childBinding.tvDryerPulseHint.visibility(isPulseDevice)
                     }
@@ -177,10 +183,15 @@ class DeviceFunConfigurationV2Activity :
         mViewModel.spuId = IntentParams.DeviceFunConfigurationV2Params.parseSpuId(intent)
         mViewModel.categoryCode.value = IntentParams.DeviceParams.parseCategoryCode(intent)
         mViewModel.communicationType = IntentParams.DeviceParams.parseCommunicationType(intent)
+
+        mViewModel.isFirstData =
+            IntentParams.DeviceFunConfigurationV2Params.parseSkuExtAttrDto(intent)?.let {
+                mViewModel.oldConfigureList = it
+                -1
+            } ?: 0
+
         mViewModel.spuExtAttrDto.value =
             IntentParams.DeviceFunConfigurationV2Params.parseExtAttrDto(intent)
-        mViewModel.oldConfigureList =
-            IntentParams.DeviceFunConfigurationV2Params.parseSkuExtAttrDto(intent)
     }
 
     override fun initEvent() {
@@ -188,9 +199,23 @@ class DeviceFunConfigurationV2Activity :
         mViewModel.spuExtAttrDto.observe(this) {
             mViewModel.initSelectPriceModel(it)
             mViewModel.initSelectCalculateModel(it)
+            if (!mViewModel.oldConfigureList.isNullOrEmpty()) {
+                mViewModel.configureList.postValue(mViewModel.oldConfigureList)
+            }
         }
 
-        mViewModel.dealConfigureList.observe(this) {
+        mViewModel.hasAllParams.observe(this) {
+            if (it) {
+                if (0 == mViewModel.isFirstData) {
+                    mViewModel.isFirstData = 1
+                    mViewModel.requestConfigureList()
+                } else if (2 == mViewModel.isFirstData) {
+                    mViewModel.requestConfigureList()
+                }
+            }
+        }
+
+        mViewModel.configureList.observe(this) {
             mAdapter.refreshList(it, true)
         }
     }
@@ -206,6 +231,7 @@ class DeviceFunConfigurationV2Activity :
                     CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
                     override fun onValue(data: SearchSelectParam?) {
                         data?.let {
+                            mViewModel.isFirstData = 2
                             mViewModel.selectPriceModel.value = data
                         }
                     }
@@ -220,6 +246,7 @@ class DeviceFunConfigurationV2Activity :
                     CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
                     override fun onValue(data: SearchSelectParam?) {
                         data?.let {
+                            mViewModel.isFirstData = 2
                             mViewModel.selectCalculateModel.value = data
                         }
                     }
@@ -262,14 +289,14 @@ class DeviceFunConfigurationV2Activity :
      * @param pos item position
      */
     private fun showTimeDialog(configure: SkuFunConfigurationV2Param, pos: Int) {
-        configure.extAttrDto.items?.let {
-            val list = it.filter { item -> item.isOn }
+        configure.extAttrDto.items.let { items ->
+            val list = items.filter { item -> item.isOn }
             if (1 == list.size) {
                 SToast.showToast(this, "当前仅有一个配置项")
                 return
             }
 
-            MultiSelectBottomSheetDialog.Builder(
+            timeDialog = MultiSelectBottomSheetDialog.Builder(
                 StringUtils.getString(R.string.configure) + "（可多选）",
                 list,
             ).apply {
@@ -279,11 +306,28 @@ class DeviceFunConfigurationV2Activity :
                         selectList: List<ExtAttrDtoItem>,
                         allSelectData: List<ExtAttrDtoItem>
                     ) {
-                        configure.selectExtAttr = allSelectData.intersect(selectList).toList()
+                        configure.defaultUnitAmount = ""
                         mAdapter.notifyItemChanged(pos)
                     }
                 }
-            }.build().show(supportFragmentManager)
+
+                canAdd = 1 != mViewModel.spuExtAttrDto.value?.functionType
+                addTitle = StringUtils.getString(R.string.add_manager)
+                onAddValueListener = {
+                    startAdd.launch(
+                        Intent(
+                            this@DeviceFunConfigurationV2Activity,
+                            DeviceFunConfigurationAddV2Activity::class.java
+                        ).apply {
+                            IntentParams.DeviceFunConfigurationAddV2Params.pack(
+                                configure.skuId,
+                                items.toMutableList()
+                            )
+                        }
+                    )
+                }
+            }.build()
+            timeDialog?.show(supportFragmentManager)
         }
     }
 
@@ -295,7 +339,7 @@ class DeviceFunConfigurationV2Activity :
     private fun showDefaultDialog(configure: SkuFunConfigurationV2Param) {
         // 避免数据污染
         val temp = GsonUtils.json2List(
-            GsonUtils.any2Json(configure.selectExtAttr),
+            GsonUtils.any2Json(configure.extAttrDto.items.filter { item -> item.isCheck }),
             ExtAttrDtoItem::class.java
         ) ?: listOf()
         temp.forEach { item -> item.isCheck = false }
@@ -312,7 +356,7 @@ class DeviceFunConfigurationV2Activity :
                     allSelectData: List<ExtAttrDtoItem>
                 ) {
                     selectList.firstOrNull()?.let { first ->
-                        configure.selectExtAttr.forEach { attr ->
+                        configure.extAttrDto.items.forEach { attr ->
                             if (first.id == attr.id) {
                                 attr.isDefault = true
                                 configure.defaultUnitAmount = attr.getUnit()

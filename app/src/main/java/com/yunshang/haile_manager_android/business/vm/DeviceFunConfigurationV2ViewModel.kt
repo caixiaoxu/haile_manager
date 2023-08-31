@@ -34,6 +34,9 @@ import kotlinx.coroutines.withContext
 class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
     private val mDeviceRepo = ApiRepository.apiClient(DeviceService::class.java)
 
+    // 第一次请求，防止开始时多次请求数据,-1不请求,0未请求，1请求中，2已请求
+    var isFirstData: Int = 0
+
     // goodId
     var goodId: Int = -1
 
@@ -84,11 +87,16 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
 
     // 初始化
     fun initSelectPriceModel(spuExtAttrDto: SpuExtAttrDto?) {
-        selectPriceModel.value = spuExtAttrDto?.let {
-            if (1 == it.priceType.size) {
-                priceModelList.find { item -> item.id == it.priceType.first() }
-            } else null
-        } ?: priceModelList[0]
+        selectPriceModel.value =
+            oldConfigureList?.firstOrNull()?.extAttrDto?.items?.firstOrNull()?.let { oldFirst ->
+                priceModelList.find { item -> item.id == oldFirst.priceType }
+            } ?: run {
+                spuExtAttrDto?.let {
+                    if (1 == it.priceType.size) {
+                        priceModelList.find { item -> item.id == it.priceType.first() }
+                    } else null
+                }
+            } ?: priceModelList[0]
     }
 
     // 计费模式
@@ -108,11 +116,16 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
     }
 
     fun initSelectCalculateModel(spuExtAttrDto: SpuExtAttrDto?) {
-        selectCalculateModel.value = spuExtAttrDto?.let {
-            if (1 == it.priceCalculateMode.size) {
-                calculateModelList.find { item -> item.id == it.priceCalculateMode.first() }
-            } else null
-        } ?: calculateModelList[0]
+        selectCalculateModel.value =
+            oldConfigureList?.firstOrNull()?.extAttrDto?.items?.firstOrNull()?.let { oldFirst ->
+                calculateModelList.find { item -> item.id == oldFirst.priceCalculateMode }
+            } ?: run {
+                spuExtAttrDto?.let {
+                    if (1 == it.priceCalculateMode.size) {
+                        calculateModelList.find { item -> item.id == it.priceCalculateMode.first() }
+                    } else null
+                }
+            } ?: calculateModelList[0]
     }
 
     // 模版配置
@@ -120,41 +133,21 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
-    // 过滤后的配置列表
-    val dealConfigureList: MediatorLiveData<MutableList<SkuFunConfigurationV2Param>> =
-        MediatorLiveData(mutableListOf<SkuFunConfigurationV2Param>()).apply {
-            addSource(configureList) {
-                value = filterConfigureList()
-            }
-            addSource(selectPriceModel) {
-                value = filterConfigureList()
-            }
-            addSource(selectCalculateModel) {
-                value = filterConfigureList()
-            }
+    // 参数齐全
+    val hasAllParams: MediatorLiveData<Boolean> = MediatorLiveData(false).apply {
+        addSource(selectPriceModel) {
+            value = filterConfigureList()
         }
+        addSource(selectCalculateModel) {
+            value = filterConfigureList()
+        }
+    }
 
     /**
      * 过滤价格模式和计费模式后的配置列表
      */
-    private fun filterConfigureList(): MutableList<SkuFunConfigurationV2Param> {
-        val list = configureList.value
-        val isWashingOrShoes = DeviceCategory.isWashingOrShoes(categoryCode.value)
-        return if (!list.isNullOrEmpty() && null != selectPriceModel.value && null != selectCalculateModel.value) {
-            list.forEach { param ->
-                // 如果有相同的配置，合并
-                oldConfigureList?.find { item -> item.skuId == param.skuId }?.let { sameParam ->
-                    param.mergeSku(sameParam)
-                }
-                // 初始化过滤列表
-                param.initSelectExtAttr(
-                    isWashingOrShoes,
-                    selectPriceModel.value!!.id,
-                    selectCalculateModel.value!!.id
-                )
-            }
-            list.filter { item -> !item.selectExtAttr.isNullOrEmpty() }.toMutableList()
-        } else mutableListOf()
+    private fun filterConfigureList(): Boolean {
+        return null != selectPriceModel.value && null != selectCalculateModel.value
     }
 
     fun requestData() {
@@ -169,41 +162,83 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
                     spuExtAttrDto.postValue(it.extAttrDto)
                 }
             }
+        }, showLoading = false)
+    }
 
+    fun requestConfigureList() {
+        launch({
             val isWashingOrShoes = DeviceCategory.isWashingOrShoes(categoryCode.value)
-            ApiRepository.dealApiResult(mDeviceRepo.sku(spuId))?.let {
-                // 转换数据
-                configureList.postValue(it.map { sku ->
-                    sku.toFunConfigureV2Param(
-                        isWashingOrShoes
+            ApiRepository.dealApiResult(
+                mDeviceRepo.skuV2(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "spuId" to spuId,
+                            "priceType" to selectPriceModel.value?.id,
+                            "priceCalculateMode" to selectCalculateModel.value?.id
+                        )
                     )
-                }.toMutableList())
+                )
+            )?.let {
+                // 转换数据
+                configureList.postValue(it.apply {
+                    it.forEach { param ->
+                        // 默认全选，json转换不走构造函数，值为默认false，需要初始化
+                        if (param.extAttrDto.items.all { item -> !item.isCheck }) {
+                            if (isWashingOrShoes) {
+                                param.extAttrDto.items.firstOrNull { item -> item.isOn }?.isCheck =
+                                    true
+                            } else {
+                                param.extAttrDto.items.forEach { item ->
+                                    if (item.isOn) {
+                                        item.isCheck = true
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // 如果没有默认选中，就选中第一个
+                    if (isWashingOrShoes) {
+                        if (it.all { item -> item.extAttrDto.items.firstOrNull()?.isDefault == false }) {
+                            it.firstOrNull()?.extAttrDto?.items?.firstOrNull() { item -> item.isCheck }?.isDefault =
+                                true
+                        }
+                    } else {
+                        it.forEach { param ->
+                            if (param.extAttrDto.items.all { item -> !item.isDefault }) {
+                                param.extAttrDto.items.firstOrNull() { item -> item.isCheck }?.isDefault =
+                                    true
+                            }
+                        }
+                    }
+                })
             }
+            isFirstData = 2
         })
     }
 
     fun save(context: Context, callBack: (json: String?) -> Unit) {
-        dealConfigureList.value?.let { configureList ->
+        configureList.value?.let { configureList ->
             var washDefaultOpen = false
             configureList.forEachIndexed { i, param ->
                 val index = i + 1
-                if (param.nameVal.isEmpty()) {
+                if (param.nameVal.trim().isEmpty()) {
                     SToast.showToast(context, "请输入功能${index}的模式名称")
                     return@let
                 }
                 if ((DeviceCategory.isWashingOrShoes(categoryCode.value) || DeviceCategory.isDryer(
                         categoryCode.value
-                    )) && param.featureVal.isEmpty()
+                    )) && param.featureVal.trim().isEmpty()
                 ) {
                     SToast.showToast(context, "请输入功能${index}的描述信息")
                     return@let
                 }
-                if (param.selectExtAttr.isEmpty()) {
+                if (param.extAttrDto.items.all { item -> !item.isCheck }) {
                     SToast.showToast(context, "请选择功能${index}的配置")
                     return@let
                 }
 
-                if (param.selectExtAttr.any { item -> item.unitAmount.isEmpty() }) {
+                if (param.extAttrDto.items.any { item -> item.unitAmount.isEmpty() }) {
                     SToast.showToast(
                         context,
                         "请输入功能${index}配置的时间"
@@ -211,7 +246,7 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
                     return@let
                 }
 
-                if (param.selectExtAttr.any { item -> item.unitPriceVal.isEmpty() }) {
+                if (param.extAttrDto.items.any { item -> item.unitPriceVal.isEmpty() }) {
                     SToast.showToast(
                         context,
                         "请${if (1 == selectPriceModel.value?.id) "选择" else "输入"}功能${index}配置的金额"
@@ -219,7 +254,7 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
                     return@let
                 }
 
-                if (param.selectExtAttr.any { item -> item.pulseVal.isEmpty() }) {
+                if (param.extAttrDto.items.any { item -> item.pulseVal.isEmpty() }) {
                     SToast.showToast(context, "请输入功能${index}配置的脉冲")
                     return@let
                 }
@@ -227,13 +262,13 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
                 // 只有固定价格才有默认选中
                 if (1 == selectPriceModel.value?.id) {
                     if (DeviceCategory.isWashingOrShoes(categoryCode.value)) {
-                        if (true == param.selectExtAttr.firstOrNull()?.isDefault) {
+                        if (true == param.extAttrDto.items.firstOrNull()?.isDefault) {
                             washDefaultOpen = true
                             return@forEachIndexed
                         }
                     } else {
                         washDefaultOpen = true
-                        if (!param.selectExtAttr.any { item -> item.isDefault }) {
+                        if (!param.extAttrDto.items.any { item -> item.isDefault && item.isCheck }) {
                             SToast.showToast(context, "请选择功能${index}的默认选中项")
                             return@let
                         }
@@ -246,12 +281,8 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
                 return@let
             }
 
-            configureList.forEach {
-                it.extAttrDto.items = it.selectExtAttr
-            }
-
             // 如果有goodId，就是修改
-            if (0 < goodId){
+            if (0 < goodId) {
                 launch({
                     ApiRepository.dealApiResult(
                         mDeviceRepo.deviceUpdateV2(

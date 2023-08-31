@@ -390,6 +390,24 @@ object IntentParams {
         fun parseGoodId(intent: Intent): Int = intent.getIntExtra(GoodId, -1)
     }
 
+    object DeviceFunConfigurationAddV2Params {
+        private const val SkuId = "skuId"
+        private const val SkuExtAttrDto = "SkuExtAttrDto"
+
+        fun pack(skuId: Int, skuExtAttrDto: MutableList<ExtAttrDtoItem>): Bundle = Bundle().apply {
+            putInt(SkuId, skuId)
+            putString(SkuExtAttrDto, GsonUtils.any2Json(skuExtAttrDto))
+        }
+
+        fun parseSkuId(intent: Intent): Int = intent.getIntExtra(SkuId, -1)
+
+        fun parseSkuExtAttrDto(intent: Intent): MutableList<ExtAttrDtoItem>? =
+            GsonUtils.json2List(
+                intent.getStringExtra(SkuExtAttrDto),
+                ExtAttrDtoItem::class.java
+            )
+    }
+
     object DeviceManagerParams {
         const val CategoryBigType_WashDryer = 0
         const val CategoryBigType_Hair = 1

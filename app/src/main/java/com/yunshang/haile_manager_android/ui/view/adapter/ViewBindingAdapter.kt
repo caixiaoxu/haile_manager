@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.ui.view.adapter
 
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -25,14 +26,24 @@ import com.yunshang.haile_manager_android.utils.StringUtils
  */
 object ViewBindingAdapter {
 
-    @BindingAdapter("marginStart")
+    @BindingAdapter("visibility")
     @JvmStatic
-    fun TextView.marginStart(mS: Float?) {
+    fun View.visibility(show: Boolean?) {
+        visibility = if (true == show) View.VISIBLE else View.GONE
+    }
+
+    @BindingAdapter("marginStart", "textColor", requireAll = false)
+    @JvmStatic
+    fun TextView.marginStart(mS: Float?, txtColor: Int?) {
         if (layoutParams is ViewGroup.MarginLayoutParams)
             MarginLayoutParamsCompat.setMarginStart(
                 layoutParams as ViewGroup.MarginLayoutParams,
                 mS?.toInt() ?: 0
             )
+
+        txtColor?.let {
+            setTextColor(txtColor)
+        }
     }
 
     /**
@@ -102,7 +113,10 @@ object ViewBindingAdapter {
      */
     @BindingAdapter("title", "android:enabled", requireAll = false)
     @JvmStatic
-    fun MultiTypeItemView.setItemAttr(title: String?, enabled: Boolean?) {
+    fun MultiTypeItemView.setItemAttr(
+        title: String?,
+        enabled: Boolean?
+    ) {
         title?.let {
             mTitleView.text = title
         }

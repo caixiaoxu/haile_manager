@@ -55,7 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingBottom="12dp"
-            android:text='@{@string/operator + "：" + item.operator}'
+            android:text='@{@string/operator + item.operator}'
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_order_executive_logging_status"

@@ -49,19 +49,14 @@ class DeviceFunConfigurationV2Activity :
                         val skuId = IntentParams.DeviceFunConfigurationAddV2Params.parseSkuId(it)
                         IntentParams.DeviceFunConfigurationAddV2Params.parseSkuExtAttrDto(it)
                             ?.let { list ->
-                                configureList.find { item -> item.skuId == skuId }?.let {
-                                    // 替换原数据
-                                    it.extAttrDto.items.forEach { attr ->
-                                        list.find { item -> item.id == attr.id }?.let { same ->
-                                            attr.mergeExtAttr(same)
-                                        }
+                                configureList.forEachIndexed { index, item ->
+                                    if (item.skuId == skuId) {
+                                        // 替换原数据
+                                        item.extAttrDto.items = list
+                                        mAdapter.notifyItemChanged(index)
+                                        // 刷新弹窗列表
+                                        timeDialog?.refreshListView(item.extAttrDto.items.filter { item -> item.isOn })
                                     }
-                                    // 把重复数据移除
-                                    list.removeAll(it.extAttrDto.items)
-                                    // 加入到尾部
-                                    it.extAttrDto.items.addAll(list)
-                                    // 刷新弹窗列表
-                                    timeDialog?.refreshListView(it.extAttrDto.items.filter { item -> item.isOn })
                                 }
                             }
                     }
@@ -290,15 +285,17 @@ class DeviceFunConfigurationV2Activity :
      */
     private fun showTimeDialog(configure: SkuFunConfigurationV2Param, pos: Int) {
         configure.extAttrDto.items.let { items ->
-            val list = items.filter { item -> item.isOn }
-            if (1 == list.size) {
+            val attrList = items.filter { item -> item.isOn }
+            if (attrList.isEmpty()) return@let
+
+            if (0 == mViewModel.spuExtAttrDto.value?.functionType && 1 == attrList.size) {
                 SToast.showToast(this, "当前仅有一个配置项")
                 return
             }
 
             timeDialog = MultiSelectBottomSheetDialog.Builder(
                 StringUtils.getString(R.string.configure) + "（可多选）",
-                list,
+                attrList,
             ).apply {
                 onValueSureListener = object :
                     MultiSelectBottomSheetDialog.OnValueSureListener<ExtAttrDtoItem> {
@@ -319,9 +316,11 @@ class DeviceFunConfigurationV2Activity :
                             this@DeviceFunConfigurationV2Activity,
                             DeviceFunConfigurationAddV2Activity::class.java
                         ).apply {
-                            IntentParams.DeviceFunConfigurationAddV2Params.pack(
-                                configure.skuId,
-                                items.toMutableList()
+                            putExtras(
+                                IntentParams.DeviceFunConfigurationAddV2Params.pack(
+                                    configure.skuId,
+                                    list.toMutableList()
+                                )
                             )
                         }
                     )
@@ -357,7 +356,7 @@ class DeviceFunConfigurationV2Activity :
                 ) {
                     selectList.firstOrNull()?.let { first ->
                         configure.extAttrDto.items.forEach { attr ->
-                            if (first.id == attr.id) {
+                            if ((first.id.isNullOrEmpty() && first.unitAmount == attr.unitAmount) || first.id == attr.id) {
                                 attr.isDefault = true
                                 configure.defaultUnitAmount = attr.getUnit()
                             } else {

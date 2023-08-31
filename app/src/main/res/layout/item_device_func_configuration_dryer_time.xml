@@ -19,7 +19,7 @@
             style="@style/Font_16_333333"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text='@{item.getTitle}'
+            android:text='@{item.unitAmountTitle}'
             tools:text="30分钟" />
 
         <androidx.appcompat.widget.AppCompatEditText

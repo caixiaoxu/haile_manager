@@ -3,14 +3,80 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".ui.activity.device.DeviceFunConfigurationAddV2Activity">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_device_fun_configure_add_v2_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            app:title="@string/add_manager_fun_configure" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+                android:id="@+id/ll_device_fun_configure_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:divider="@drawable/divder_efefef"
+                app:dividerPadding="16dp"
+                android:paddingHorizontal="16dp"
+                android:orientation="vertical"
+                app:itemLayout="@layout/item_device_fun_configuration_add_v2"
+                app:showDividers="middle">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_333333_bold"
+                        android:layout_width="0dp"
+                        android:text="@string/configure"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/btn_device_fun_configure_add_v2_add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        android:gravity="center"
+                        style="@style/Font_14_f0a258"
+                        android:text="@string/new_config"
+                        android:drawableStart="@mipmap/icon_device_fun_configure_add"
+                        android:background="@drawable/shape_strokef0a258_r4"/>
+
+                </LinearLayout>
+
+            </com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:background="@color/white"
+            android:paddingTop="8dp">
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_device_fun_configure_add_save"
+                style="@style/CommonMatchBtnStyle1"
+                android:layout_marginHorizontal="14dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="42dp"
+                android:text="@string/save" />
+        </FrameLayout>
+    </LinearLayout>
 </layout>

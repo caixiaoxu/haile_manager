@@ -211,7 +211,7 @@ data class ExtAttrDto(
 )
 
 data class ExtAttrDtoItem(
-    val id: String,
+    var id: String,
     val functionType: Int,
     val priceType: Int,
     val priceCalculateMode: Int,
@@ -225,7 +225,9 @@ data class ExtAttrDtoItem(
     var pulseVolumeFactor: String,
     val goodsType: Int,
     val compatibleGoodsCategoryCode: List<String>,
-    var isDefault: Boolean = false
+    var canMerchantEdit: Boolean,
+    val isNewFromSpu: Boolean,
+    var isDefault: Boolean = false,
 ) : BaseObservable(), IMultiSelectBottomItemEntity {
 
     fun mergeExtAttr(same: ExtAttrDtoItem) {
@@ -246,6 +248,7 @@ data class ExtAttrDtoItem(
         // 时间
         "${unitAmount}${if (1 == unitCode) "秒" else "分钟"}"
     }
+
 
     fun getUnitTile(): String = if (1 == priceCalculateMode) {
         // 流量
@@ -285,10 +288,15 @@ data class ExtAttrDtoItem(
                 value.toDouble()
                 unitAmount = value
                 notifyPropertyChanged(BR.unitAmountVal)
+                notifyPropertyChanged(BR.unitAmountTitle)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
+
+    @get:Bindable
+    var unitAmountTitle: String = ""
+        get() = getTitle()
 
     @get:Bindable
     var unitPriceVal: String = ""

@@ -2,13 +2,10 @@ package com.yunshang.haile_manager_android.ui.activity.personal
 
 import android.content.Intent
 import android.view.View
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.EarningsDetailViewModel
-import com.yunshang.haile_manager_android.business.vm.IncomeDetailViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.rule.IncomeDetailInfo
 import com.yunshang.haile_manager_android.databinding.ActivityIncomeDetailBinding

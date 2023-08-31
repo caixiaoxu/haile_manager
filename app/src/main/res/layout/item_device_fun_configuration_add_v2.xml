@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.ExtAttrDtoItem" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.yunshang.haile_manager_android.ui.view.BindingEditText
+            style="@style/Font_16_333333_cccccc"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:inputType="numberDecimal"
+            android:text="@={item.unitAmountVal}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_16_cccccc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.unit}"
+            tools:text="（分钟）" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_device_fun_configure_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:src="@mipmap/icon_shop_business_hours_del"
+            app:visibility="@{item.canMerchantEdit}" />
+    </LinearLayout>
+</layout>

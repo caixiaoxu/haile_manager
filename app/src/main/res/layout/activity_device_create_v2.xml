@@ -123,6 +123,8 @@
                     style="@style/MultiTypeItemStyle"
                     app:itemContent="@={vm.deviceName}"
                     app:title="@string/device_name"
+                    android:maxLength="20"
+                    android:hint="@string/device_name_hint"
                     app:type="input" />
 
                 <View

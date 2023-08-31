@@ -350,6 +350,7 @@ class DeviceDetailModel : BaseViewModel() {
                     }
                 }
             }
+            requestData(1)
             LiveDataBus.post(BusEvents.DEVICE_LIST_STATUS, true)
         })
     }
@@ -357,24 +358,31 @@ class DeviceDetailModel : BaseViewModel() {
     /**
      * 启动饮水设备
      */
-    fun startDrinkingDevice(itemId: Int, imei: String, categoryCode: String,callBack:()->Unit) {
-        launch({
-            ApiRepository.dealApiResult(
-                mDeviceRepo.deviceStart(
-                    ApiRepository.createRequestBody(
-                        hashMapOf(
-                            "itemId" to itemId,
-                            "imei" to imei,
-                            "categoryCode" to categoryCode,
+    fun startDrinkingDevice(
+        itemId: Int?,
+        imei: String,
+        categoryCode: String,
+        callBack: () -> Unit
+    ) {
+        itemId?.let {
+            launch({
+                ApiRepository.dealApiResult(
+                    mDeviceRepo.deviceStart(
+                        ApiRepository.createRequestBody(
+                            hashMapOf(
+                                "itemId" to itemId,
+                                "imei" to imei,
+                                "categoryCode" to categoryCode,
+                            )
                         )
                     )
                 )
-            )
-            LiveDataBus.post(BusEvents.DEVICE_LIST_STATUS, true)
-            withContext(Dispatchers.Main) {
-                callBack()
-            }
-        })
+                LiveDataBus.post(BusEvents.DEVICE_LIST_STATUS, true)
+                withContext(Dispatchers.Main) {
+                    callBack()
+                }
+            })
+        }
     }
 
     fun openOrCloseAppointment(isOpen: Boolean, callBack: () -> Unit) {

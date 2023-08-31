@@ -46,6 +46,12 @@ interface DeviceService {
     ): ResponseWrapper<MutableList<SpuEntity>>
 
     /**
+     * spu详情接口
+     */
+    @GET("/spu/detail")
+    suspend fun spuDetail(@Query("spuId") spuId: Int): ResponseWrapper<Spu>
+
+    /**
      * spu列表接口
      */
     @GET("/spu/deviceType")
@@ -70,7 +76,7 @@ interface DeviceService {
     suspend fun deviceCreate(@Body params: RequestBody): ResponseWrapper<DeviceDetailEntity>
 
     /**
-     * 设备创建接口（新版）
+     * 设备创建接口（新版，替换deviceCreate）
      */
     @POST("/goods/create/v2")
     suspend fun deviceCreateV2(@Body params: RequestBody): ResponseWrapper<Any>
@@ -80,6 +86,12 @@ interface DeviceService {
      */
     @POST("/goods/edit")
     suspend fun deviceUpdate(@Body params: RequestBody): ResponseWrapper<DeviceDetailEntity>
+
+    /**
+     * 设备编辑接口（新版，替换deviceUpdate）
+     */
+    @POST("/goods/edit/v2")
+    suspend fun deviceUpdateV2(@Body params: RequestBody): ResponseWrapper<Any>
 
     /**
      * 设备删除接口

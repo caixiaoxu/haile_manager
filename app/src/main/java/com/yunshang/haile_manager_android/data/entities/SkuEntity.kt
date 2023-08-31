@@ -9,7 +9,9 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
+import com.yunshang.haile_manager_android.data.rule.ICommonBottomItemEntity
 import com.yunshang.haile_manager_android.data.rule.IMultiSelectBottomItemEntity
+import java.text.DecimalFormat
 
 /**
  * Title :
@@ -63,9 +65,9 @@ data class SkuEntity(
             extAttrDto.apply {
                 // 默认全选，json转换不走构造函数，值为默认false，需要初始化
                 if (isWashingOrShoes) {
-                    items?.firstOrNull { item -> item.isOn }?.isCheck = true
+                    items.firstOrNull { item -> item.isOn }?.isCheck = true
                 } else {
-                    items?.forEach { item ->
+                    items.forEach { item ->
                         if (item.isOn) {
                             item.isCheck = true
                         }
@@ -238,6 +240,7 @@ data class ExtAttrDto(
 )
 
 data class ExtAttrDtoItem(
+    val id: String,
     val functionType: Int,
     val priceType: Int,
     val priceCalculateMode: Int,
@@ -253,6 +256,12 @@ data class ExtAttrDtoItem(
     val compatibleGoodsCategoryCode: List<String>,
     var isDefault: Boolean = false
 ) : BaseObservable(), IMultiSelectBottomItemEntity {
+
+    fun mergeExtAttr(same: ExtAttrDtoItem) {
+        pulse = same.pulse
+        unitPrice = same.unitPrice
+        isDefault = same.isDefault
+    }
 
     override var isCheck: Boolean = true
 
@@ -301,7 +310,7 @@ data class ExtAttrDtoItem(
 
     @get:Bindable
     var unitPriceVal: String = ""
-        get() = if (field.isNullOrEmpty()) unitPrice.toString() else field
+        get() = if (field.isNullOrEmpty()) DecimalFormat("0.######").format(unitPrice) else field
         set(value) {
             field = value
             try {
@@ -319,7 +328,7 @@ data class ExtAttrDtoItem(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is ExtAttrDtoItem) return false
-        if (unitAmount == other.unitAmount) return true
+        if (id == other.id) return true
         return super.equals(other)
     }
 }
@@ -492,7 +501,6 @@ data class SkuFuncConfigurationParam(
 }
 
 data class SkuFunConfigurationV2Param(
-//    val id: Int = -1,
     var skuId: Int,
     var name: String,
     var price: Double,
@@ -503,8 +511,9 @@ data class SkuFunConfigurationV2Param(
     var soldState: Int,
     var extAttrDto: ExtAttrDto,
     @Transient
-    var selectExtAttr: List<ExtAttrDtoItem> = listOf()
-) : BaseObservable() {
+    var selectExtAttr: List<ExtAttrDtoItem> = listOf(),
+    val id: Int? = null,
+) : BaseObservable(), ICommonBottomItemEntity {
 
     /**
      * 初始化选择列表
@@ -516,21 +525,21 @@ data class SkuFunConfigurationV2Param(
     ) {
         // 过滤价格模式、计费模式和是否开启
         selectExtAttr = if (isWashingOrShoes) {
-            extAttrDto.items?.filter { item ->
+            extAttrDto.items.filter { item ->
                 (priceModel?.let { item.priceType == priceModel } ?: true)
                         && (calculateModel?.let { item.priceCalculateMode == calculateModel }
                     ?: true)
-            }?.firstOrNull { item -> item.isOn }?.let {
+            }.firstOrNull { item -> item.isOn }?.let {
                 // 深拷贝
                 GsonUtils.json2List(GsonUtils.any2Json(listOf(it)), ExtAttrDtoItem::class.java)
             } ?: listOf()
         } else {
             GsonUtils.json2List(
-                GsonUtils.any2Json(extAttrDto.items?.filter { item ->
+                GsonUtils.any2Json(extAttrDto.items.filter { item ->
                     (priceModel?.let { item.priceType == priceModel } ?: true)
                             && (calculateModel?.let { item.priceCalculateMode == calculateModel }
                         ?: true)
-                }?.filter { item -> item.isOn }),
+                }.filter { item -> item.isOn }),
                 ExtAttrDtoItem::class.java
             ) ?: listOf()
         }.also { selectList ->
@@ -547,7 +556,12 @@ data class SkuFunConfigurationV2Param(
         extAttr = sameParam.extAttr
         feature = sameParam.feature
         soldState = sameParam.soldState
-        selectExtAttr = sameParam.extAttrDto.items
+        extAttrDto.items.forEach {
+            sameParam.extAttrDto.items.find { item -> it.id == item.id }
+                ?.let { same ->
+                    it.mergeExtAttr(same)
+                }
+        }
     }
 
     @get:Bindable
@@ -598,4 +612,6 @@ data class SkuFunConfigurationV2Param(
         set(value) {
             notifyPropertyChanged(BR.defaultUnitAmount)
         }
+
+    override fun getTitle(): String = name
 }

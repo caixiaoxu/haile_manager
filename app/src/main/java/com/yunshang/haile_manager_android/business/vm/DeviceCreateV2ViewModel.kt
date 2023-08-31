@@ -147,7 +147,7 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
             && (null != createDeviceShop.value && createDeviceShop.value!!.id > 0)
             && (null != spuId.value && spuId.value!! > 0)
             && (null != categoryId.value && categoryId.value!! > 0)
-            && (!deviceName.value.isNullOrEmpty())
+            && (!deviceName.value.isNullOrEmpty() && deviceName.value!!.length > 1)
             && (if (true == isDispenser.value) !washImeiCode.value.isNullOrEmpty() else true)
             && (if (true == isDrinkingOrShower.value) {
         try {

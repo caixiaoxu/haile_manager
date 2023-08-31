@@ -34,7 +34,7 @@ class DeviceStartViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
-    val selectTime: MutableLiveData<Int> by lazy { MutableLiveData() }
+    val selectTime: MutableLiveData<String> by lazy { MutableLiveData() }
 
     // 是否可提交
     val canSubmit: MediatorLiveData<Boolean> = MediatorLiveData(false).apply {
@@ -63,10 +63,10 @@ class DeviceStartViewModel : BaseViewModel() {
                 mDeviceRepo.deviceStart(
                     ApiRepository.createRequestBody(
                         hashMapOf(
-                            "itemId" to selectItem.value!!.id,
-                            "time" to selectTime.value!!,
-                            "imei" to imei!!,
-                            "categoryCode" to categoryCode!!,
+                            "itemId" to selectItem.value?.id,
+                            "time" to selectTime,
+                            "imei" to imei,
+                            "categoryCode" to categoryCode,
                         )
                     )
                 )

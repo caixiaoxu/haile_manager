@@ -48,7 +48,7 @@ data class DeviceDetailEntity(
     val organizationId: Int,
     val shopId: Int,
     val shopName: String,
-    val items: List<Item>,
+    val items: MutableList<SkuFunConfigurationV2Param>,
     var imei: String,
     val communicationType: Int,
     val company: String,
@@ -64,6 +64,7 @@ data class DeviceDetailEntity(
     val dosingVOS: List<DosingVOS>,
     val errorDeviceOrderId: Int,
     val errorDeviceOrderNo: String,
+    val spuDto: Spu?,
 ) {
 
     val isDispenser: Boolean

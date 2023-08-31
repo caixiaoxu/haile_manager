@@ -5,18 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatRadioButton
-import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
-import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.DeviceStartViewModel
 import com.yunshang.haile_manager_android.data.arguments.DeviceConfigSelectParams
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
-import com.yunshang.haile_manager_android.data.entities.ExtAttrBean
-import com.yunshang.haile_manager_android.data.entities.Item
+import com.yunshang.haile_manager_android.data.entities.SkuFunConfigurationV2Param
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceStartBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
@@ -42,36 +39,20 @@ class DeviceStartActivity :
         mViewModel.imei = intent.getStringExtra(Imei)
         mViewModel.categoryCode = intent.getStringExtra(DeviceCategory.CategoryCode)
         intent.getStringExtra(Items)?.let {
-            GsonUtils.json2List(it, Item::class.java)?.let { list ->
+            GsonUtils.json2List(it, SkuFunConfigurationV2Param::class.java)?.let { list ->
                 mViewModel.items = list.filter { item -> 1 == item.soldState }.map { item ->
-                    if (DeviceCategory.isDryerOrHair(mViewModel.categoryCode)) {
-                        val times =
-                            GsonUtils.json2List(item.extAttr, ExtAttrBean::class.java)?.map { ext ->
-                                ext.minutes
-                            }
-                        DeviceConfigSelectParams(item.id, item.name, times ?: arrayListOf())
-                    } else if (DeviceCategory.isDispenser(mViewModel.categoryCode)) {
+                    if (DeviceCategory.isWashingOrShoes(mViewModel.categoryCode)) {
+                        val attr = item.extAttrDto.items.firstOrNull()
+                        val times = attr?.unitAmount?.let { unit -> listOf(unit) } ?: listOf()
                         DeviceConfigSelectParams(
                             item.id,
-                            "${item.name}  ${item.unit}ml ${item.price}元",
-                            try {
-                                arrayListOf(item.unit.toInt())
-                            } catch (e: NumberFormatException) {
-                                e.printStackTrace()
-                                arrayListOf()
-                            }
-                        )
+                            "${item.name} ${attr?.getTitle() ?: ""} ${attr?.unitPriceVal?.let { price -> "${price}元" } ?: ""}",
+                            times)
                     } else {
                         DeviceConfigSelectParams(
                             item.id,
-                            "${item.name}  ${item.unit}分钟 ${item.price}元",
-                            try {
-                                arrayListOf(item.unit.toInt())
-                            } catch (e: NumberFormatException) {
-                                e.printStackTrace()
-                                arrayListOf()
-                            }
-                        )
+                            item.name,
+                            item.extAttrDto.items.map { ext -> ext.unitAmount })
                     }
                 }
             }
@@ -132,7 +113,7 @@ class DeviceStartActivity :
                         override fun onValue(data: DeviceConfigSelectParams?) {
                             mViewModel.selectItem.value = data
                             if (!DeviceCategory.isDryerOrHair(mViewModel.categoryCode)) {
-                                mViewModel.selectTime.value = data?.times?.get(0)
+                                mViewModel.selectTime.value = data?.times?.firstOrNull()
                             }
                         }
                     }

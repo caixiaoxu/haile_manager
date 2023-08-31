@@ -334,7 +334,7 @@ object IntentParams {
 
     object DeviceFunConfigurationV2Params {
         private const val SpuId = "spuId"
-        private const val CategoryId = "CategoryId"
+        private const val GoodId = "goodId"
         private const val ExtAttrDto = "SpuExtAttrDto"
         const val ResultCode = 0x90003
         private const val SkuExtAttrDto = "SkuExtAttrDto"
@@ -346,8 +346,9 @@ object IntentParams {
             spuId: Int? = -1,
             categoryCode: String?,
             communicationType: Int? = -1,
-            extJson: String?,
-            skuExtAttrDto: MutableList<SkuFunConfigurationV2Param>? = null
+            extJson: String? = null,
+            skuExtAttrDto: MutableList<SkuFunConfigurationV2Param>? = null,
+            goodId: Int? = null
         ): Bundle = Bundle().apply {
             spuId?.let {
                 putInt(SpuId, spuId)
@@ -363,6 +364,9 @@ object IntentParams {
             }
             skuExtAttrDto?.let {
                 putString(SkuExtAttrDto, GsonUtils.any2Json(it))
+            }
+            goodId?.let {
+                putInt(GoodId, goodId)
             }
         }
 
@@ -382,6 +386,8 @@ object IntentParams {
                 intent.getStringExtra(SkuExtAttrDto),
                 SkuFunConfigurationV2Param::class.java
             )
+
+        fun parseGoodId(intent: Intent): Int = intent.getIntExtra(GoodId, -1)
     }
 
     object DeviceManagerParams {

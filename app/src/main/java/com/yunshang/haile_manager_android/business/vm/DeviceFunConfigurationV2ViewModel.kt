@@ -5,17 +5,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.SkuFunConfigurationV2Param
 import com.yunshang.haile_manager_android.data.entities.SpuExtAttrDto
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * Title :
@@ -29,6 +33,9 @@ import com.yunshang.haile_manager_android.data.model.ApiRepository
  */
 class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
     private val mDeviceRepo = ApiRepository.apiClient(DeviceService::class.java)
+
+    // goodId
+    var goodId: Int = -1
 
     // spuid
     var spuId: Int = -1
@@ -135,9 +142,12 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
         val isWashingOrShoes = DeviceCategory.isWashingOrShoes(categoryCode.value)
         return if (!list.isNullOrEmpty() && null != selectPriceModel.value && null != selectCalculateModel.value) {
             list.forEach { param ->
+                // 如果有相同的配置，合并
                 oldConfigureList?.find { item -> item.skuId == param.skuId }?.let { sameParam ->
                     param.mergeSku(sameParam)
-                } ?: param.initSelectExtAttr(
+                }
+                // 初始化过滤列表
+                param.initSelectExtAttr(
                     isWashingOrShoes,
                     selectPriceModel.value!!.id,
                     selectCalculateModel.value!!.id
@@ -153,6 +163,13 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
         }
 
         launch({
+            // 如果没有spu数据，先请求
+            if (null == spuExtAttrDto.value) {
+                ApiRepository.dealApiResult(mDeviceRepo.spuDetail(spuId))?.let {
+                    spuExtAttrDto.postValue(it.extAttrDto)
+                }
+            }
+
             val isWashingOrShoes = DeviceCategory.isWashingOrShoes(categoryCode.value)
             ApiRepository.dealApiResult(mDeviceRepo.sku(spuId))?.let {
                 // 转换数据
@@ -165,7 +182,7 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
         })
     }
 
-    fun save(context: Context, callBack: (json: String) -> Unit) {
+    fun save(context: Context, callBack: (json: String?) -> Unit) {
         dealConfigureList.value?.let { configureList ->
             var washDefaultOpen = false
             configureList.forEachIndexed { i, param ->
@@ -232,7 +249,29 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
             configureList.forEach {
                 it.extAttrDto.items = it.selectExtAttr
             }
-            callBack(GsonUtils.any2Json(configureList))
+
+            // 如果有goodId，就是修改
+            if (0 < goodId){
+                launch({
+                    ApiRepository.dealApiResult(
+                        mDeviceRepo.deviceUpdateV2(
+                            ApiRepository.createRequestBody(
+                                hashMapOf(
+                                    "id" to goodId,
+                                    "items" to configureList
+                                )
+                            )
+                        )
+                    )
+                    withContext(Dispatchers.Main) {
+                        SToast.showToast(msgResId = R.string.update_success)
+                    }
+                    LiveDataBus.post(BusEvents.DEVICE_DETAILS_STATUS, true)
+                    callBack(null)
+                })
+            } else {
+                callBack(GsonUtils.any2Json(configureList))
+            }
         }
     }
 }

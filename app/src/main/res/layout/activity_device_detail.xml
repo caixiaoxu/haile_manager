@@ -313,17 +313,12 @@
                         style="@style/DividingStyle"
                         android:visibility="@{vm.showFuncPrice?View.VISIBLE:View.GONE}" />
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/ll_device_detail_func_price"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_device_detail_func_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="12dp"
-                        android:background="@drawable/shape_sf7f7f7_r8"
-                        android:orientation="vertical"
                         android:padding="12dp"
-                        android:visibility="@{vm.showFuncPrice?View.VISIBLE:View.GONE}"
-                        app:divider="@drawable/divide_size12"
-                        app:showDividers="middle"
+                        app:visibility="@{vm.showFuncPrice}"
                         tools:visibility="gone" />
 
                 </LinearLayout>

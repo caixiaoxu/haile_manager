@@ -13,9 +13,9 @@ import com.yunshang.haile_manager_android.data.rule.ICommonBottomItemEntity
  * 作者姓名 修改时间 版本号 描述
  */
 data class DeviceConfigSelectParams(
-    val id: Int,
+    val id: Int?,
     val name: String,
-    val times: List<Int>
+    val times: List<String>
 ) :
     ICommonBottomItemEntity {
     override fun getTitle(): String = name

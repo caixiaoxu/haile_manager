@@ -154,7 +154,7 @@ class DeviceFunConfigurationV2Activity :
 
                     // 默认选中事件
                     mItemBinding?.llDeviceFunConfigurationAttrDefault?.setOnClickListener {
-                        showDefaultDialog(item, pos)
+                        showDefaultDialog(item)
                     }
                     mItemBinding?.tvDeviceFunConfigurationAttrDefault?.visibility = View.VISIBLE
                 }
@@ -173,6 +173,7 @@ class DeviceFunConfigurationV2Activity :
 
     override fun initIntent() {
         super.initIntent()
+        mViewModel.goodId = IntentParams.DeviceFunConfigurationV2Params.parseGoodId(intent)
         mViewModel.spuId = IntentParams.DeviceFunConfigurationV2Params.parseSpuId(intent)
         mViewModel.categoryCode.value = IntentParams.DeviceParams.parseCategoryCode(intent)
         mViewModel.communicationType = IntentParams.DeviceParams.parseCommunicationType(intent)
@@ -241,13 +242,15 @@ class DeviceFunConfigurationV2Activity :
         // 保存
         mBinding.btnDeviceCreateSubmit.setOnClickListener {
             SoftKeyboardUtils.hideShowKeyboard(it)
-            mViewModel.save(this) {
-                setResult(
-                    IntentParams.DeviceFunConfigurationV2Params.ResultCode,
-                    Intent().apply {
-                        putExtras(IntentParams.DeviceFunConfigurationV2Params.packResult(it))
-                    }
-                )
+            mViewModel.save(this) { json ->
+                json?.let {
+                    setResult(
+                        IntentParams.DeviceFunConfigurationV2Params.ResultCode,
+                        Intent().apply {
+                            putExtras(IntentParams.DeviceFunConfigurationV2Params.packResult(it))
+                        }
+                    )
+                }
                 finish()
             }
         }
@@ -259,7 +262,7 @@ class DeviceFunConfigurationV2Activity :
      * @param pos item position
      */
     private fun showTimeDialog(configure: SkuFunConfigurationV2Param, pos: Int) {
-        configure.extAttrDto?.items?.let {
+        configure.extAttrDto.items?.let {
             val list = it.filter { item -> item.isOn }
             if (1 == list.size) {
                 SToast.showToast(this, "当前仅有一个配置项")
@@ -289,7 +292,7 @@ class DeviceFunConfigurationV2Activity :
      * @param exts 时间列表
      * @param pos item position
      */
-    private fun showDefaultDialog(configure: SkuFunConfigurationV2Param, pos: Int) {
+    private fun showDefaultDialog(configure: SkuFunConfigurationV2Param) {
         // 避免数据污染
         val temp = GsonUtils.json2List(
             GsonUtils.any2Json(configure.selectExtAttr),
@@ -310,7 +313,7 @@ class DeviceFunConfigurationV2Activity :
                 ) {
                     selectList.firstOrNull()?.let { first ->
                         configure.selectExtAttr.forEach { attr ->
-                            if (first.unitAmount == attr.unitAmount) {
+                            if (first.id == attr.id) {
                                 attr.isDefault = true
                                 configure.defaultUnitAmount = attr.getUnit()
                             } else {

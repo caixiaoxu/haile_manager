@@ -11,6 +11,8 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.king.camera.scan.CameraScan
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.SToast
@@ -25,15 +27,13 @@ import com.yunshang.haile_manager_android.business.vm.DeviceDetailModel
 import com.yunshang.haile_manager_android.business.vm.DeviceMultiChangeViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
-import com.yunshang.haile_manager_android.data.entities.DosingConfigs
-import com.yunshang.haile_manager_android.data.entities.ExtAttrDrinkBean
-import com.yunshang.haile_manager_android.data.entities.Item
-import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
+import com.yunshang.haile_manager_android.data.entities.ExtAttrDtoItem
+import com.yunshang.haile_manager_android.data.entities.SkuFunConfigurationV2Param
 import com.yunshang.haile_manager_android.databinding.*
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.WeChatQRCodeScanActivity
-import com.yunshang.haile_manager_android.ui.activity.device.DropperAddSettingActivity.Companion.OldFuncConfiguration
 import com.yunshang.haile_manager_android.ui.activity.order.OrderDetailActivity
+import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 import timber.log.Timber
@@ -109,6 +109,29 @@ class DeviceDetailActivity :
                 } ?: SToast.showToast(this, R.string.imei_code_error)
             }
         }
+
+
+    private val mFunAdapter by lazy {
+        CommonRecyclerAdapter<ItemSelectFunConfigureV2Binding, SkuFunConfigurationV2Param>(
+            R.layout.item_select_fun_configure_v2, BR.item
+        ) { mItemBinding, pos, item ->
+
+            item.extAttrDto.items.let {
+                val isPulseDevice =
+                    DeviceCategory.isPulseDevice(mViewModel.deviceDetail.value?.communicationType)
+                mItemBinding?.llSelectFunConfigureAttrs?.buildChild<ItemSelectFunConfigureAttrItemV2Binding, ExtAttrDtoItem>(
+                    it
+                ) { index, childBinding, data ->
+                    childBinding.type = 0
+                    childBinding.title =
+                        if (0 == index) StringUtils.getString(R.string.price_configure) + "：" else ""
+                    childBinding.value =
+                        "${data.getTitle()}/${data.unitPriceVal}元${if (isPulseDevice) "/${data.pulse}个" else ""}"
+                    childBinding.isDefault = data.isDefault
+                }
+            }
+        }
+    }
 
     override fun layoutId(): Int = R.layout.activity_device_detail
 
@@ -227,58 +250,12 @@ class DeviceDetailActivity :
             mBinding.glDeviceDetailFunc.visibility = View.VISIBLE
 
             // 功能配置
-            mBinding.llDeviceDetailFuncPrice.removeAllViews()
-            val inflater = LayoutInflater.from(this@DeviceDetailActivity)
-            if (DeviceCategory.isDispenser(detail.categoryCode)) {
-                detail?.dosingVOS?.flatMap { item -> item.configs }?.forEachIndexed { _, item ->
-                    val itemBinding = DataBindingUtil.inflate<ItemDeviceDetailDisposeMinBinding>(
-                        inflater,
-                        R.layout.item_device_detail_dispose_min,
-                        null,
-                        false
-                    )
-                    itemBinding.item = item
-                    mBinding.llDeviceDetailFuncPrice.addView(
-                        itemBinding.root,
-                        LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT,
-                        )
-                    )
-                }
-            } else {
-                detail?.items?.let { items ->
-                    if (DeviceCategory.isDrinkingOrShower(detail.categoryCode)) {
-                        buildDrinkingConfigureItemView(items, inflater)
-                    } else {
-                        items.forEachIndexed { _, item ->
-                            val itemBinding =
-                                DataBindingUtil.inflate<ItemDeviceDetailFuncPriceBinding>(
-                                    inflater,
-                                    R.layout.item_device_detail_func_price,
-                                    null,
-                                    false
-                                )
-                            itemBinding.item = item
-                            itemBinding.isDryer = DeviceCategory.isDryerOrHair(detail.categoryCode)
-                            itemBinding.deviceCommunicationType =
-                                detail.communicationType
-                            itemBinding.tvFunPriceDesc.visibility =
-                                if (DeviceCategory.isHair(detail.categoryCode)) View.GONE else View.VISIBLE
-                            mBinding.llDeviceDetailFuncPrice.addView(
-                                itemBinding.root, LinearLayout.LayoutParams(
-                                    LinearLayout.LayoutParams.MATCH_PARENT,
-                                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                                )
-                            )
-                        }
-                    }
-                }
-            }
+            mFunAdapter.refreshList(detail.items, true)
 
             // 关联设备的
             mBinding.llDeviceDetailFuncRelated.removeAllViews()
             if (mViewModel.deviceDetail.value?.showRelated()!!) {
+                val inflater = LayoutInflater.from(this)
                 detail?.relatedGoodsDetailVo?.dosingVOS?.flatMap { item -> item.configs }
                     ?.forEachIndexed { _, item ->
                         val itemBinding =
@@ -313,80 +290,23 @@ class DeviceDetailActivity :
                 // 修改功能价格
                 1 ->
                     mViewModel.deviceDetail.value?.let { detail ->
-                        startActivity(if (DeviceCategory.isDispenser(detail.categoryCode)) {
+                        startActivity(
                             Intent(
-                                this@DeviceDetailActivity,
-                                DropperAddSettingActivity::class.java
-                            ).apply {
-                                putExtra(
-                                    DropperAddSettingActivity.SpuId,
-                                    detail.spuId
-                                )
-                                putExtra(
-                                    DropperAddSettingActivity.Deviceid,
-                                    detail.id
-                                )
-                                putExtra(
-                                    OldFuncConfiguration,
-                                    GsonUtils.any2Json(detail.items.map { item ->
-                                        SkuFuncConfigurationParam(
-                                            item.skuId,
-                                            item.name,
-                                            item.price.toDouble(),
-                                            (if (item.pulse.isNullOrEmpty()) 0 else item.pulse.toInt()),
-                                            item.unit.toInt(),
-                                            item.extAttr,
-                                            item.feature,
-                                            item.soldState,
-                                            ""
-                                        )
-                                    })
-                                )
-                            }
-                        } else if (DeviceCategory.isDrinking(detail.categoryCode)) {
-                            Intent(
-                                this@DeviceDetailActivity,
-                                DeviceDrinkingFunctionConfigurationActivity::class.java
+                                this,
+                                DeviceFunConfigurationV2Activity::class.java
                             ).apply {
                                 putExtras(
-                                    IntentParams.DeviceFunctionConfigurationParams.pack(
-                                        goodId = mViewModel.goodsId,
-                                        spuId = detail.spuId,
-                                        categoryCode = detail.categoryCode,
-                                        oldFuncConfiguration = detail.items.mapNotNull { item -> item.changeConfigurationParam() }
+                                    IntentParams.DeviceFunConfigurationV2Params.pack(
+                                        detail.spuId,
+                                        detail.categoryCode,
+                                        detail.communicationType,
+                                        GsonUtils.any2Json(detail.spuDto?.extAttrDto),
+                                        detail.items,
+                                        mViewModel.goodsId,
                                     )
                                 )
                             }
-                        } else if (DeviceCategory.isShower(detail.categoryCode)) {
-                            Intent(
-                                this@DeviceDetailActivity,
-                                DeviceShowerFunctionConfigurationActivity::class.java
-                            ).apply {
-                                putExtras(
-                                    IntentParams.DeviceFunctionConfigurationParams.pack(
-                                        goodId = mViewModel.goodsId,
-                                        spuId = detail.spuId,
-                                        categoryCode = detail.categoryCode,
-                                        oldFuncConfiguration = detail.items.mapNotNull { item -> item.changeConfigurationParam() }
-                                    )
-                                )
-                            }
-                        } else {
-                            Intent(
-                                this@DeviceDetailActivity,
-                                DeviceFunctionConfigurationActivity::class.java
-                            ).apply {
-                                putExtras(
-                                    IntentParams.DeviceFunctionConfigurationParams.pack(
-                                        goodId = mViewModel.goodsId,
-                                        spuId = detail.spuId,
-                                        categoryCode = detail.categoryCode,
-                                        communicationType = detail.communicationType,
-                                        oldFuncConfiguration = detail.items.mapNotNull { item -> item.changeConfigurationParam() }
-                                    )
-                                )
-                            }
-                        })
+                        )
                     }
                 // 启动
                 2 -> mViewModel.deviceDetail.value?.let { detail ->
@@ -397,33 +317,10 @@ class DeviceDetailActivity :
                         ).apply {
                             putExtra(DeviceStartActivity.Imei, detail.imei)
                             putExtra(DeviceCategory.CategoryCode, detail.categoryCode)
-                            if (DeviceCategory.isDispenser(detail.categoryCode)) {
-                                val newItems = detail.items.flatMap { item ->
-                                    GsonUtils.json2List(item.extAttr, DosingConfigs::class.java)
-                                        ?.map { config ->
-                                            Item(
-                                                item.id,
-                                                item.skuId,
-                                                item.name,
-                                                config.price.toString(),
-                                                item.pulse,
-                                                config.amount.toString(),
-                                                GsonUtils.any2Json(config),
-                                                item.feature,
-                                                item.soldState
-                                            )
-                                        } ?: listOf()
-                                }
-                                putExtra(
-                                    DeviceStartActivity.Items,
-                                    GsonUtils.any2Json(newItems)
-                                )
-                            } else {
-                                putExtra(
-                                    DeviceStartActivity.Items,
-                                    GsonUtils.any2Json(detail.items)
-                                )
-                            }
+                            putExtra(
+                                DeviceStartActivity.Items,
+                                GsonUtils.any2Json(detail.items)
+                            )
                         })
                 }
                 // 更换模块
@@ -521,8 +418,9 @@ class DeviceDetailActivity :
                             detail.items.filter { item -> 1 == item.soldState }
                         ).apply {
                             onValueSureListener =
-                                object : CommonBottomSheetDialog.OnValueSureListener<Item> {
-                                    override fun onValue(data: Item?) {
+                                object :
+                                    CommonBottomSheetDialog.OnValueSureListener<SkuFunConfigurationV2Param> {
+                                    override fun onValue(data: SkuFunConfigurationV2Param?) {
                                         mViewModel.deviceOperate(0, data?.id)
                                     }
                                 }
@@ -704,85 +602,19 @@ class DeviceDetailActivity :
             })
         }
 
-    }
-
-    /**
-     * 构建饮水配置界面
-     */
-    private fun buildDrinkingConfigureItemView(
-        list: List<Item>,
-        inflater: LayoutInflater,
-    ) {
-        list.firstOrNull()?.let { first ->
-            GsonUtils.json2Class(first.extAttr, ExtAttrDrinkBean::class.java)
-                ?.let { firstAttr ->
-                    // 计价界面
-                    DataBindingUtil.inflate<ItemSelectedDrinkDeviceFuncationConfigurationBinding>(
-                        inflater,
-                        R.layout.item_selected_drink_device_funcation_configuration,
-                        null,
-                        false
-                    ).let { binding ->
-                        binding.title =
-                            StringUtils.getString(
-                                if (1 == firstAttr.priceCalculateMode) R.string.for_quantity
-                                else R.string.for_time
-                            ) + "计价"
-                        binding.content = "${
-                            StringUtils.getString(R.string.over_time) +
-                                    StringUtils.getString(
-                                        R.string.unit_minute_num_str,
-                                        firstAttr.overTime
-                                    )
-                        }\n${
-                            StringUtils.getString(R.string.pause_time) +
-                                    StringUtils.getString(
-                                        R.string.unit_minute_num_str,
-                                        firstAttr.pauseTime
-                                    )
-                        }${
-                            if (1 == firstAttr.priceCalculateMode) {
-                                "\n" + StringUtils.getString(R.string.single_pulse_quantity) +
-                                        StringUtils.getString(
-                                            R.string.unit_quantity_num_str,
-                                            firstAttr.singlePulseQuantity
-                                        )
-                            } else ""
-                        }"
-                        binding.soldState = 0
-                        mBinding.llDeviceDetailFuncPrice.addView(
-                            binding.root,
-                            LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT
-                            )
-                        )
-                    }
-
-                    // 单价界面
-                    list.forEach { sku ->
-                        DataBindingUtil.inflate<ItemSelectedDrinkDeviceFuncationConfigurationBinding>(
-                            inflater,
-                            R.layout.item_selected_drink_device_funcation_configuration,
-                            null,
-                            false
-                        ).let { binding ->
-                            binding.title =
-                                sku.name + StringUtils.getString(R.string.unit_price)
-                            binding.content =
-                                "${sku.price}${StringUtils.getString(if (1 == firstAttr.priceCalculateMode) R.string.unit_water_quantity_price_hint else R.string.unit_water_time_price_hint)}"
-                            binding.soldState = sku.soldState
-                            mBinding.llDeviceDetailFuncPrice.addView(
-                                binding.root,
-                                LinearLayout.LayoutParams(
-                                    LinearLayout.LayoutParams.MATCH_PARENT,
-                                    LinearLayout.LayoutParams.WRAP_CONTENT
-                                )
-                            )
-                        }
-                    }
-                }
+        // 功能配置
+        mBinding.rvDeviceDetailFuncPrice.layoutManager = LinearLayoutManager(this)
+        ContextCompat.getDrawable(
+            this,
+            R.drawable.divide_size8
+        )?.let {
+            mBinding.rvDeviceDetailFuncPrice.addItemDecoration(
+                DividerItemDecoration(
+                    this,
+                    DividerItemDecoration.VERTICAL
+                ).apply { setDrawable(it) })
         }
+        mBinding.rvDeviceDetailFuncPrice.adapter = mFunAdapter
     }
 
     override fun initData() {

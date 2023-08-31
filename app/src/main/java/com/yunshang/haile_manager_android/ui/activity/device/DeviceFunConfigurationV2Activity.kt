@@ -356,13 +356,13 @@ class DeviceFunConfigurationV2Activity :
                 ) {
                     selectList.firstOrNull()?.let { first ->
                         configure.extAttrDto.items.forEach { attr ->
-                            if ((first.id.isNullOrEmpty() && first.unitAmount == attr.unitAmount) || first.id == attr.id) {
+                            attr.isDefault = false
+                        }
+                        configure.extAttrDto.items.find { item -> if (first.id.isNullOrEmpty()) first.unitAmount == item.unitAmount else first.id == item.id }
+                            ?.let { attr ->
                                 attr.isDefault = true
                                 configure.defaultUnitAmount = attr.getUnit()
-                            } else {
-                                attr.isDefault = false
                             }
-                        }
                     }
                 }
             }

@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.ui.activity.device
 
 import android.content.Intent
 import android.graphics.Color
+import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DeviceFunConfigurationAddV2ViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
@@ -54,6 +55,14 @@ class DeviceFunConfigurationAddV2Activity :
         }
         mBinding.btnDeviceFunConfigureAddSave.setOnClickListener {
             mViewModel.items.value?.let {
+                val temp = hashSetOf<String>()
+                it.forEach { attr ->
+                    if (!temp.add(attr.unitAmount)) {
+                        SToast.showToast(this@DeviceFunConfigurationAddV2Activity, "配置项有重复")
+                        return@setOnClickListener
+                    }
+                }
+
                 setResult(RESULT_OK, Intent().apply {
                     putExtras(
                         IntentParams.DeviceFunConfigurationAddV2Params.pack(
@@ -74,7 +83,7 @@ class DeviceFunConfigurationAddV2Activity :
             childBinding.item = data
             childBinding.ibDeviceFunConfigureDelete.setOnClickListener {
                 mViewModel.items.value?.let { list ->
-                    if (list.size > index){
+                    if (list.size > index) {
                         list.removeAt(index)
                         mViewModel.items.value = list
                     }

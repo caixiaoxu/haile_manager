@@ -71,7 +71,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:text="@{vm.isAppoint?OrderParam.getAppointStateName(vm.orderDetail.appointmentInfo.appointmentState):OrderParam.orderStatusList.get(vm.orderDetail.state)}"
+                        android:text="@{vm.isAppoint?OrderParam.getAppointStateName(vm.orderDetail.appointmentInfo.appointmentState):OrderParam.orderStatusList(vm.orderDetail.state)}"
                         app:layout_constraintBottom_toTopOf="@id/tv_order_detail_desc"
                         app:layout_constraintStart_toEndOf="@id/iv_order_detail_main"
                         app:layout_constraintTop_toTopOf="@id/iv_order_detail_main"
@@ -83,7 +83,7 @@
                         style="@style/Font_12_333333"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{OrderParam.orderStatusList.get(vm.orderDetail.state)}"
+                        android:text="@{OrderParam.orderStatusList(vm.orderDetail.state)}"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@id/iv_order_detail_main"
                         app:layout_constraintStart_toStartOf="@id/tv_order_detail_statas"
@@ -188,8 +188,8 @@
                         android:gravity="center_vertical"
                         android:paddingStart="10dp"
                         android:paddingEnd="16dp"
-                        android:visibility="gone"
                         android:text="@string/executive_logging"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_order_no"
                         app:layout_constraintEnd_toStartOf="@id/tv_order_detail_order_no_copy"
                         app:layout_constraintTop_toTopOf="@id/tv_order_detail_order_no" />
@@ -389,13 +389,15 @@
                         layout="@layout/item_order_detail_item"
                         app:mStart="@{@dimen/dimen_2}"
                         app:title='@{@string/no_of_payment +"："}'
-                        app:value='@{vm.orderDetail.payNo}' />
+                        app:value='@{vm.orderDetail.payNo}'
+                        app:visibility="@{vm.orderDetail.state >= 500 }" />
 
                     <include
                         layout="@layout/item_order_detail_item"
                         app:mStart="@{@dimen/dimen_2}"
                         app:title='@{@string/time_of_payment +"："}'
-                        app:value='@{vm.orderDetail.payTime}' />
+                        app:value='@{vm.orderDetail.payTime}'
+                        app:visibility="@{vm.orderDetail.state >= 500 }" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>

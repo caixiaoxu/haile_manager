@@ -55,7 +55,7 @@ interface CapitalService {
     /**
      * 首页收益趋势接口
      */
-    @POST("/homePage/homeIncome")
+    @POST("/profit/homeIncome")
     suspend fun homeInCome(@Body body: RequestBody): ResponseWrapper<List<HomeIncomeEntity>>
 
     /**

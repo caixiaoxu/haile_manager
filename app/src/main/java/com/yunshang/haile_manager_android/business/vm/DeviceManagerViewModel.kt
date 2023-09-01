@@ -171,7 +171,11 @@ class DeviceManagerViewModel : BaseViewModel() {
         ApiRepository.dealApiResult(
             mDeviceRepo.deviceErrorStatusTotals(
                 ApiRepository.createRequestBody(
-                    getDeviceRequestParams()
+                    getDeviceRequestParams().also { params ->
+                        selectDeviceCategory.value?.map { it.id }?.let {
+                            params["categoryIdList"] = it
+                        }
+                    }
                 )
             )
         )?.let { total ->
@@ -199,12 +203,20 @@ class DeviceManagerViewModel : BaseViewModel() {
                 requestDeviceErrorStatusTotals()
             }
 
-            val params = getDeviceRequestParams()
-            params["page"] = page
-            params["pageSize"] = pageSize
-
             val deviceList = ApiRepository.dealApiResult(
-                mDeviceRepo.deviceList(params)
+                mDeviceRepo.deviceList(getDeviceRequestParams().also { params ->
+                    params["page"] = page
+                    params["pageSize"] = pageSize
+                    // 异常状态
+                    selectErrorStatus.value?.let {
+                        params["errorStatus"] = it
+                    }
+                    // 设备类型
+                    selectDeviceCategory.value?.joinToString(",") { item -> item.id.toString() }
+                        ?.let {
+                            params["categoryIdList"] = it
+                        }
+                })
             )
             mDeviceCountStr.postValue(
                 StringUtils.getString(R.string.device_num_hint, deviceList?.total ?: 0),
@@ -223,16 +235,32 @@ class DeviceManagerViewModel : BaseViewModel() {
         }, null, 1 == page)
     }
 
-    private fun getDeviceRequestParams(): HashMap<String, Any?> {
-        return hashMapOf(
-            "workStatus" to curWorkStatus.value, //状态
-            "keywords" to searchKey.value?.trim(),// 关键字
-            "shopId" to selectDepartment.value?.id,// 店铺
-            "categoryIdList" to selectDeviceCategory.value?.joinToString(",") { item -> item.id.toString() },// 设备类型
-            "spuId" to selectDeviceModel.value?.id,// 设备模型
-            "iotStatus" to selectNetworkStatus.value?.id,// 网络状态
-            "soldState" to selectDeviceStatus.value?.id,// 设备状态
-            "errorStatus" to selectErrorStatus.value,// 异常状态
-        )
+    private fun getDeviceRequestParams(): HashMap<String, Any> {
+        return hashMapOf<String, Any>().also { params ->
+            //状态
+            curWorkStatus.value?.let {
+                params["workStatus"] = it
+            }
+            // 关键字
+            searchKey.value?.trim()?.let {
+                params["keywords"] = it
+            }
+            // 店铺
+            selectDepartment.value?.let {
+                params["shopId"] = it.id
+            }
+            // 设备模型
+            selectDeviceModel.value?.let {
+                params["spuId"] = it.id
+            }
+            // 网络状态
+            selectNetworkStatus.value?.let {
+                params["iotStatus"] = it.id
+            }
+            // 设备状态
+            selectDeviceStatus.value?.let {
+                params["soldState"] = it.id
+            }
+        }
     }
 }

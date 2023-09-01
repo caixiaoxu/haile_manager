@@ -262,20 +262,14 @@ class DeviceManagerActivity :
                                 )
                         }
                         rb.setOnRadioClickListener {
-                            mBinding.rgDeviceErrorStatusList.children.forEach { child ->
-                                if (child == it) {
-                                    if (rb.isChecked) {
-                                        rb.isChecked = false
-                                        mViewModel.selectErrorStatus.value = null
-                                    } else {
-                                        rb.isChecked = true
-                                        mViewModel.selectErrorStatus.value = errorStatus.value
-                                    }
-                                } else {
-                                    rb.isChecked = false
-                                }
+                            if (rb.isChecked) {
+                                rb.isChecked = false
+                                mViewModel.selectErrorStatus.value = null
+                                true
+                            } else {
+                                mViewModel.selectErrorStatus.value = errorStatus.value
+                                false
                             }
-                            true
                         }
                     }
                 }, LayoutParams(LayoutParams.WRAP_CONTENT, itemH).apply {

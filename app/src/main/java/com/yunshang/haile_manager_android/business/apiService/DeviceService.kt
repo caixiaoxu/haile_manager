@@ -79,7 +79,7 @@ interface DeviceService {
      * 设备列表接口
      */
     @GET("/goods/list")
-    suspend fun deviceList(@QueryMap params: HashMap<String, Any?>): ResponseWrapper<ResponseList<DeviceEntity>>
+    suspend fun deviceList(@QueryMap params: HashMap<String, Any>): ResponseWrapper<ResponseList<DeviceEntity>>
 
     /**
      * 设备创建接口

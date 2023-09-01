@@ -149,10 +149,14 @@
                         android:scrollbars="none"
                         app:layout_constraintTop_toBottomOf="@id/indicator_device_status">
 
-                        <RadioGroup
-                            android:id="@+id/rg_device_error_status_list"
+                        <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+                            android:id="@+id/ll_device_error_status_list"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            app:divider="@drawable/divide_size4"
+                            app:showDividers="middle"
+                            app:itemLayout="@layout/item_device_manager_error_status"
+                            android:paddingHorizontal="16dp"
                             android:gravity="center_vertical"
                             android:orientation="horizontal"/>
                     </HorizontalScrollView>

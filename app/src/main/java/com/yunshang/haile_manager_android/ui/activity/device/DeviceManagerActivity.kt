@@ -8,7 +8,6 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.RadioGroup.LayoutParams
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
@@ -26,17 +25,19 @@ import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.DeviceManagerViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceEntity
+import com.yunshang.haile_manager_android.data.rule.DeviceIndicatorEntity
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceManagerBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceListBinding
+import com.yunshang.haile_manager_android.databinding.ItemDeviceManagerErrorStatusBinding
 import com.yunshang.haile_manager_android.databinding.PopupDeviceOperateManagerBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
-import com.yunshang.haile_manager_android.ui.view.ClickRadioButton
 import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
@@ -236,47 +237,6 @@ class DeviceManagerActivity :
                 })
         }
 
-        // 异常状态
-        val itemH = DimensionUtils.dip2px(this, 25f)
-        val space = DimensionUtils.dip2px(this, 4f)
-        val mH = DimensionUtils.dip2px(this, 16f)
-        val count = mViewModel.errorStatus.size - 1
-        val inflater = LayoutInflater.from(this)
-        mViewModel.errorStatus.forEachIndexed { index, errorStatus ->
-            mBinding.rgDeviceErrorStatusList.addView(
-                inflater.inflate(
-                    R.layout.item_device_manager_error_status,
-                    null
-                ).also { view ->
-                    (view as ClickRadioButton).let { rb ->
-                        errorStatus.num.observe(this@DeviceManagerActivity) {
-                            rb.text =
-                                com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
-                                    errorStatus.title + if (it > 0) " $it" else "",
-                                    arrayOf(
-                                        ForegroundColorSpan(
-                                            ContextCompat.getColor(this, R.color.common_txt_color)
-                                        )
-                                    ), 0, errorStatus.title.length
-                                )
-                        }
-                        rb.setOnRadioClickListener {
-                            if (rb.isChecked) {
-                                rb.isChecked = false
-                                mViewModel.selectErrorStatus.value = null
-                                true
-                            } else {
-                                mViewModel.selectErrorStatus.value = errorStatus.value
-                                false
-                            }
-                        }
-                    }
-                }, LayoutParams(LayoutParams.WRAP_CONTENT, itemH).apply {
-                    marginStart = if (0 == index) mH else space
-                    marginEnd = if (index == count) mH else 0
-                })
-        }
-
         // 所属门店
         mBinding.tvDeviceCategoryDepartment.setOnClickListener {
             startSearchSelect.launch(
@@ -433,6 +393,52 @@ class DeviceManagerActivity :
             }
     }
 
+    private fun buildErrorStatus() {
+        mBinding.llDeviceErrorStatusList.buildChild<ItemDeviceManagerErrorStatusBinding, DeviceIndicatorEntity<Int>>(
+            mViewModel.errorStatus.filter { item ->
+                // 出水故障、免费设备,淋浴特有的
+                val drinking = if (mViewModel.selectDeviceCategory.value?.any() { category ->
+                        DeviceCategory.isDrinking(category.code)
+                    } == false) {
+                    item.value != 3 && item.value != 4
+                } else true
+
+                // 电磁阀异常,淋浴特有的
+                val shower = if (mViewModel.selectDeviceCategory.value?.any { category ->
+                        DeviceCategory.isShower(category.code)
+                    } == false) {
+                    item.value != 5
+                } else {
+                    true
+                }
+                drinking && shower
+            }
+        ) { _, childBinding, data ->
+            data.num.observe(this@DeviceManagerActivity) {
+                childBinding.tvDeviceManagerErrorStatus.text =
+                    com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
+                        data.title + if (it > 0) " $it" else "",
+                        arrayOf(
+                            ForegroundColorSpan(
+                                ContextCompat.getColor(this, R.color.common_txt_color)
+                            )
+                        ), 0, data.title.length
+                    )
+            }
+
+            mViewModel.selectErrorStatus.observe(this) {
+                childBinding.tvDeviceManagerErrorStatus.setBackgroundResource(if (data.value == it) R.drawable.shape_device_manager_error_status_selected_bg else R.drawable.shape_device_manager_error_status_bg)
+            }
+
+            childBinding.tvDeviceManagerErrorStatus.setOnClickListener {
+                if (mViewModel.selectErrorStatus.value == data.value)
+                    mViewModel.selectErrorStatus.value = null
+                else
+                    mViewModel.selectErrorStatus.value = data.value
+            }
+        }
+    }
+
     override fun initEvent() {
         super.initEvent()
         mSharedViewModel.hasDeviceAddPermission.observe(this) {
@@ -450,6 +456,16 @@ class DeviceManagerActivity :
         mViewModel.selectDeviceCategory.observe(this) {
             mBinding.tvDeviceCategoryCategory.text =
                 if (1 == (it?.size ?: 0)) it?.firstOrNull()?.name ?: "" else ""
+            buildErrorStatus()
+
+            // 切换设备类型后，重置异常状态
+            if ((it?.any() { category -> DeviceCategory.isDrinking(category.code) } == false
+                        && (3 == mViewModel.selectErrorStatus.value || 4 == mViewModel.selectErrorStatus.value))
+                || it?.any() { category -> DeviceCategory.isShower(category.code) } == false
+                && 5 == mViewModel.selectErrorStatus.value) {
+                mViewModel.selectErrorStatus.value = null
+            }
+
             mBinding.rvDeviceManagerList.requestRefresh()
         }
 

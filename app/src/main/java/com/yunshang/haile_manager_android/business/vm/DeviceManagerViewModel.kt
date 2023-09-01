@@ -75,15 +75,26 @@ class DeviceManagerViewModel : BaseViewModel() {
     // 状态的工作状态
     val curWorkStatus: MutableLiveData<String> = MutableLiveData("")
 
-    val deviceStatus: List<DeviceIndicatorEntity<String>> =
+    val deviceStatus: List<DeviceIndicatorEntity<Int?>> =
         arrayListOf(
-            DeviceIndicatorEntity("全部", MutableLiveData(0), ""),
-            DeviceIndicatorEntity("运行", MutableLiveData(0), "20"),
-            DeviceIndicatorEntity("空闲", MutableLiveData(0), "10"),
-            DeviceIndicatorEntity("故障", MutableLiveData(0), "30"),
-//            IndicatorEntity("停用", 0, "40"),
+            DeviceIndicatorEntity("全部", MutableLiveData(0), null),
+            DeviceIndicatorEntity("运行", MutableLiveData(0), 20),
+            DeviceIndicatorEntity("空闲", MutableLiveData(0), 10),
+            DeviceIndicatorEntity("故障", MutableLiveData(0), 30),
+//            IndicatorEntity("停用", 0, 40),
         )
 
+    val selectErrorStatus: MutableLiveData<Int> by lazy {
+        MutableLiveData()
+    }
+    val errorStatus: List<DeviceIndicatorEntity<Int>> =
+        arrayListOf(
+            DeviceIndicatorEntity("长时间离线", MutableLiveData(0), 1),
+            DeviceIndicatorEntity("7天未使用", MutableLiveData(0), 2),
+            DeviceIndicatorEntity("出水故障", MutableLiveData(0), 3),
+            DeviceIndicatorEntity("免费设备", MutableLiveData(0), 4),
+            DeviceIndicatorEntity("电磁阀异常", MutableLiveData(0), 5),
+        )
 
     /**
      * 请求准备数据
@@ -93,7 +104,10 @@ class DeviceManagerViewModel : BaseViewModel() {
             {
                 when (type) {
                     1 -> requestDeviceCategory()
-                    4 -> requestDeviceStatusTotals()
+                    4 -> {
+                        requestDeviceStatusTotals()
+                        requestDeviceErrorStatusTotals()
+                    }
                 }
             }, showLoading = false
         )
@@ -153,6 +167,24 @@ class DeviceManagerViewModel : BaseViewModel() {
         }
     }
 
+    private suspend fun requestDeviceErrorStatusTotals() {
+        ApiRepository.dealApiResult(
+            mDeviceRepo.deviceErrorStatusTotals(
+                ApiRepository.createRequestBody(
+                    getDeviceRequestParams()
+                )
+            )
+        )?.let { total ->
+            errorStatus.let { status ->
+                status[0].num.postValue(total.offlineCount)
+                status[1].num.postValue(total.unusedCount)
+                status[2].num.postValue(total.waterErrorCount)
+                status[3].num.postValue(total.freeWaterCount)
+                status[4].num.postValue(total.solenoidValveErrorCount)
+            }
+        }
+    }
+
     /**
      * 刷新设备列表
      */
@@ -164,34 +196,12 @@ class DeviceManagerViewModel : BaseViewModel() {
         launch({
             if (1 == page) {
                 requestDeviceStatusTotals()
+                requestDeviceErrorStatusTotals()
             }
 
-            val params: HashMap<String, Any> = hashMapOf(
-                "page" to page,
-                "pageSize" to pageSize,
-                "workStatus" to (curWorkStatus.value ?: ""),
-                "keywords" to (searchKey.value?.trim() ?: "")
-            )
-            // 店铺
-            selectDepartment.value?.let {
-                params["shopId"] = it.id
-            }
-            // 设备类型
-            selectDeviceCategory.value?.let {
-                params["categoryIdList"] = it.joinToString(",") { item -> item.id.toString() }
-            }
-            // 设备模型
-            selectDeviceModel.value?.let {
-                params["spuId"] = it.id
-            }
-            // 网络状态
-            selectNetworkStatus.value?.let {
-                params["iotStatus"] = it.id
-            }
-            // 设备状态
-            selectDeviceStatus.value?.let {
-                params["soldState"] = it.id
-            }
+            val params = getDeviceRequestParams()
+            params["page"] = page
+            params["pageSize"] = pageSize
 
             val deviceList = ApiRepository.dealApiResult(
                 mDeviceRepo.deviceList(params)
@@ -211,5 +221,18 @@ class DeviceManagerViewModel : BaseViewModel() {
                 result.invoke(null)
             }
         }, null, 1 == page)
+    }
+
+    private fun getDeviceRequestParams(): HashMap<String, Any?> {
+        return hashMapOf(
+            "workStatus" to curWorkStatus.value, //状态
+            "keywords" to searchKey.value?.trim(),// 关键字
+            "shopId" to selectDepartment.value?.id,// 店铺
+            "categoryIdList" to selectDeviceCategory.value?.joinToString(",") { item -> item.id.toString() },// 设备类型
+            "spuId" to selectDeviceModel.value?.id,// 设备模型
+            "iotStatus" to selectNetworkStatus.value?.id,// 网络状态
+            "soldState" to selectDeviceStatus.value?.id,// 设备状态
+            "errorStatus" to selectErrorStatus.value,// 异常状态
+        )
     }
 }

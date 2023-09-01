@@ -8,10 +8,12 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.RadioGroup.LayoutParams
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.children
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.async.LiveDataBus
@@ -35,6 +37,7 @@ import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
+import com.yunshang.haile_manager_android.ui.view.ClickRadioButton
 import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
@@ -231,6 +234,53 @@ class DeviceManagerActivity :
                     SearchActivity::class.java
                 ).apply {
                     putExtra(SearchType.SearchType, SearchType.Device)
+                })
+        }
+
+        // 异常状态
+        val itemH = DimensionUtils.dip2px(this, 25f)
+        val space = DimensionUtils.dip2px(this, 4f)
+        val mH = DimensionUtils.dip2px(this, 16f)
+        val count = mViewModel.errorStatus.size - 1
+        val inflater = LayoutInflater.from(this)
+        mViewModel.errorStatus.forEachIndexed { index, errorStatus ->
+            mBinding.rgDeviceErrorStatusList.addView(
+                inflater.inflate(
+                    R.layout.item_device_manager_error_status,
+                    null
+                ).also { view ->
+                    (view as ClickRadioButton).let { rb ->
+                        errorStatus.num.observe(this@DeviceManagerActivity) {
+                            rb.text =
+                                com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
+                                    errorStatus.title + if (it > 0) " $it" else "",
+                                    arrayOf(
+                                        ForegroundColorSpan(
+                                            ContextCompat.getColor(this, R.color.common_txt_color)
+                                        )
+                                    ), 0, errorStatus.title.length
+                                )
+                        }
+                        rb.setOnRadioClickListener {
+                            mBinding.rgDeviceErrorStatusList.children.forEach { child ->
+                                if (child == it) {
+                                    if (rb.isChecked) {
+                                        rb.isChecked = false
+                                        mViewModel.selectErrorStatus.value = null
+                                    } else {
+                                        rb.isChecked = true
+                                        mViewModel.selectErrorStatus.value = errorStatus.value
+                                    }
+                                } else {
+                                    rb.isChecked = false
+                                }
+                            }
+                            true
+                        }
+                    }
+                }, LayoutParams(LayoutParams.WRAP_CONTENT, itemH).apply {
+                    marginStart = if (0 == index) mH else space
+                    marginEnd = if (index == count) mH else 0
                 })
         }
 
@@ -433,6 +483,11 @@ class DeviceManagerActivity :
             if (-1 == mViewModel.bigCategoryType || null != mViewModel.selectDeviceCategory.value) {
                 mBinding.rvDeviceManagerList.requestRefresh()
             }
+        }
+
+        //切换异常状态
+        mViewModel.selectErrorStatus.observe(this) {
+            mBinding.rvDeviceManagerList.requestRefresh()
         }
 
         // 监听刷新

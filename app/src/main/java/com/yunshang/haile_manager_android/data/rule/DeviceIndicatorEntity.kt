@@ -17,3 +17,4 @@ data class DeviceIndicatorEntity<T>(
     var num: MutableLiveData<Int> = MutableLiveData(0),
     val value: T,
 )
+

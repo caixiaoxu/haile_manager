@@ -49,7 +49,10 @@ data class DeviceEntity(
     val iotStatus: Int,//网络状态(1-在线；2-离线；4-故障)
     val signals: Int,//信号值
     val income: Double,//总收益
-    val qrId: Long // 设备编号
+    val qrId: Long, // 设备编号
+    val faultFlag: Boolean,//是否故障
+    val faultReason: String,//故障原因
+    val freeFlag: Boolean,//是否免费
 ) : ISearchSelectEntity, IMultiTypeEntity {
 
     fun getDeviceCategoryAndNo() = if (id > 0)

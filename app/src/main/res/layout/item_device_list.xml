@@ -150,14 +150,27 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_item_device_shop"
             style="@style/Font_14_999999"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:drawableStart="@mipmap/icon_device_manager_shop"
             android:gravity="center_vertical"
+            android:drawablePadding="4dp"
             android:text="@{item.shopName}"
+            app:layout_constraintEnd_toStartOf="@id/tv_item_device_error_status"
             app:layout_constraintStart_toStartOf="@id/tv_item_device_name"
             app:layout_constraintTop_toBottomOf="@id/tv_item_device_name"
             tools:text="1号店铺" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_item_device_error_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:visibility="@{item.faultFlag}"
+            android:text="@{item.faultReason}"
+            app:layout_constraintTop_toTopOf="@id/tv_item_device_shop"
+            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/font_12_ff3b30"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_item_device_total_income"

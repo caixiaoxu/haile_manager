@@ -417,7 +417,7 @@ class DeviceManagerActivity :
             data.num.observe(this@DeviceManagerActivity) {
                 childBinding.tvDeviceManagerErrorStatus.text =
                     com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
-                        data.title + if (it > 0) " $it" else "",
+                        data.title + if (it > 0) " $it" else " 0",
                         arrayOf(
                             ForegroundColorSpan(
                                 ContextCompat.getColor(this, R.color.common_txt_color)

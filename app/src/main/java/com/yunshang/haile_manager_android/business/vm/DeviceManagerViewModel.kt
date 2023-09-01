@@ -73,7 +73,7 @@ class DeviceManagerViewModel : BaseViewModel() {
     }
 
     // 状态的工作状态
-    val curWorkStatus: MutableLiveData<String> = MutableLiveData("")
+    val curWorkStatus: MutableLiveData<Int?> = MutableLiveData()
 
     val deviceStatus: List<DeviceIndicatorEntity<Int?>> =
         arrayListOf(

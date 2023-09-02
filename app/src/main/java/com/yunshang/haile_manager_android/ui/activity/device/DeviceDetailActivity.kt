@@ -116,7 +116,7 @@ class DeviceDetailActivity :
             R.layout.item_select_fun_configure_v2, BR.item
         ) { mItemBinding, pos, item ->
 
-            item.extAttrDto.items.let {
+            item.extAttrDto.items.filter { item -> item.isEnabled }.let {
                 val isPulseDevice =
                     DeviceCategory.isPulseDevice(mViewModel.deviceDetail.value?.communicationType)
                 mItemBinding?.llSelectFunConfigureAttrs?.buildChild<ItemSelectFunConfigureAttrItemV2Binding, ExtAttrDtoItem>(
@@ -250,7 +250,8 @@ class DeviceDetailActivity :
             mBinding.glDeviceDetailFunc.visibility = View.VISIBLE
 
             // 功能配置
-            mFunAdapter.refreshList(detail.items, true)
+            mFunAdapter.refreshList(detail.items.filter { item -> 1 == item.soldState }
+                .toMutableList(), true)
 
             // 关联设备的
             mBinding.llDeviceDetailFuncRelated.removeAllViews()
@@ -324,57 +325,63 @@ class DeviceDetailActivity :
                         })
                 }
                 // 更换模块
-                3 -> startNext.launch(
-                    Intent(
-                        this@DeviceDetailActivity,
-                        DeviceMultiChangeActivity::class.java
-                    ).apply {
-                        putExtra(
-                            DeviceMultiChangeActivity.GoodId,
-                            mViewModel.goodsId
-                        )
-                        putExtra(
-                            DeviceMultiChangeViewModel.Type,
-                            DeviceMultiChangeViewModel.typeChangeModel
-                        )
-                    }
-                )
+                3 -> mViewModel.deviceDetail.value?.let { detail ->
+                    startNext.launch(
+                        Intent(
+                            this@DeviceDetailActivity,
+                            DeviceMultiChangeActivity::class.java
+                        ).apply {
+                            putExtra(
+                                DeviceMultiChangeActivity.UpdateParams,
+                                GsonUtils.any2Json(detail.toUpdateParams())
+                            )
+                            putExtra(
+                                DeviceMultiChangeViewModel.Type,
+                                DeviceMultiChangeViewModel.typeChangeModel
+                            )
+                        }
+                    )
+                }
                 // 更换付款码
-                4 -> startNext.launch(
-                    Intent(
-                        this@DeviceDetailActivity,
-                        DeviceMultiChangeActivity::class.java
-                    ).apply {
-                        putExtra(
-                            DeviceMultiChangeActivity.GoodId,
-                            mViewModel.goodsId
-                        )
-                        putExtra(
-                            DeviceMultiChangeViewModel.Type,
-                            DeviceMultiChangeViewModel.typeChangePayCode
-                        )
-                    }
-                )
+                4 -> mViewModel.deviceDetail.value?.let { detail ->
+                    startNext.launch(
+                        Intent(
+                            this@DeviceDetailActivity,
+                            DeviceMultiChangeActivity::class.java
+                        ).apply {
+                            putExtra(
+                                DeviceMultiChangeActivity.UpdateParams,
+                                GsonUtils.any2Json(detail.toUpdateParams())
+                            )
+                            putExtra(
+                                DeviceMultiChangeViewModel.Type,
+                                DeviceMultiChangeViewModel.typeChangePayCode
+                            )
+                        }
+                    )
+                }
                 // 更换名称
-                5 -> startNext.launch(
-                    Intent(
-                        this@DeviceDetailActivity,
-                        DeviceMultiChangeActivity::class.java
-                    ).apply {
-                        putExtra(
-                            DeviceMultiChangeActivity.GoodId,
-                            mViewModel.goodsId
-                        )
-                        putExtra(
-                            DeviceMultiChangeViewModel.Type,
-                            DeviceMultiChangeViewModel.typeChangeName
-                        )
-                        putExtra(
-                            DeviceMultiChangeViewModel.OriginData,
-                            mViewModel.deviceDetail.value?.name
-                        )
-                    }
-                )
+                5 -> mViewModel.deviceDetail.value?.let { detail ->
+                    startNext.launch(
+                        Intent(
+                            this@DeviceDetailActivity,
+                            DeviceMultiChangeActivity::class.java
+                        ).apply {
+                            putExtra(
+                                DeviceMultiChangeActivity.UpdateParams,
+                                GsonUtils.any2Json(detail.toUpdateParams())
+                            )
+                            putExtra(
+                                DeviceMultiChangeViewModel.Type,
+                                DeviceMultiChangeViewModel.typeChangeName
+                            )
+                            putExtra(
+                                DeviceMultiChangeViewModel.OriginData,
+                                mViewModel.deviceDetail.value?.name
+                            )
+                        }
+                    )
+                }
                 // 生成付款码
                 6 -> mViewModel.deviceDetail.value?.let { detail ->
                     startActivity(

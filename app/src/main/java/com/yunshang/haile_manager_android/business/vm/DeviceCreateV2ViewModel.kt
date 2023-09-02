@@ -226,7 +226,7 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
                             "spuId" to spuId.value,
                             "shopCategoryId" to categoryId.value,
                             "imei" to imeiCode.value,
-                            "code" to payCode.value,
+                            "code" to if (true == isDispenser.value) null else payCode.value,//投放器没有付款码
                             "items" to createDeviceFunConfigure.value,
                             "washerImei" to washImeiCode.value
                         )

@@ -55,7 +55,7 @@ class DeviceFunConfigurationV2Activity :
                                         item.extAttrDto.items = list
                                         mAdapter.notifyItemChanged(index)
                                         // 刷新弹窗列表
-                                        timeDialog?.refreshListView(item.extAttrDto.items.filter { item -> item.isOn })
+                                        timeDialog?.refreshListView(item.extAttrDto.items)
                                     }
                                 }
                             }
@@ -285,17 +285,16 @@ class DeviceFunConfigurationV2Activity :
      */
     private fun showTimeDialog(configure: SkuFunConfigurationV2Param, pos: Int) {
         configure.extAttrDto.items.let { items ->
-            val attrList = items.filter { item -> item.isOn }
-            if (attrList.isEmpty()) return@let
+            if (items.isEmpty()) return@let
 
-            if (0 == mViewModel.spuExtAttrDto.value?.functionType && 1 == attrList.size) {
+            if (0 == mViewModel.spuExtAttrDto.value?.functionType && 1 == items.size) {
                 SToast.showToast(this, "当前仅有一个配置项")
                 return
             }
 
             timeDialog = MultiSelectBottomSheetDialog.Builder(
                 StringUtils.getString(R.string.configure) + "（可多选）",
-                attrList,
+                items,
             ).apply {
                 onValueSureListener = object :
                     MultiSelectBottomSheetDialog.OnValueSureListener<ExtAttrDtoItem> {
@@ -319,7 +318,8 @@ class DeviceFunConfigurationV2Activity :
                             putExtras(
                                 IntentParams.DeviceFunConfigurationAddV2Params.pack(
                                     configure.skuId,
-                                    list.toMutableList()
+                                    list.toMutableList(),
+                                    3 == mViewModel.spuExtAttrDto.value?.functionType,
                                 )
                             )
                         }

@@ -88,6 +88,7 @@ data class DeviceDetailEntity(
     fun getAssociationNameTitle(): String = StringUtils.getString(R.string.device_name)
     fun getDeviceStateTitle(): String = StringUtils.getString(R.string.device_status)
     fun getDeviceOrderTitle(): String = StringUtils.getString(R.string.device_order)
+    fun getDeviceSinglePulseTitle(): String = StringUtils.getString(R.string.single_pulse_quantity)
     fun getAssociationTypeTitle(): String = StringUtils.getString(R.string.device_category)
     fun getAssociationImeiTitle(): String = StringUtils.getString(R.string.imei)
     fun showOrderNo(): Boolean = errorDeviceOrderNo.isNullOrEmpty()
@@ -158,6 +159,8 @@ data class DeviceDetailEntity(
         return true
     }
 
+    fun getSinglePulseQuantity() =
+        items.firstOrNull()?.extAttrDto?.items?.firstOrNull()?.pulseVolumeFactor ?: ""
 
     fun hasQrId(): Boolean = 0 < id
 
@@ -211,6 +214,16 @@ data class DeviceDetailEntity(
         40 -> "停用"
         else -> ""
     }
+
+    fun toUpdateParams() = hashMapOf(
+        "id" to id,
+        "name" to name,
+        "imei" to imei,
+        "code" to code,
+        "extAttr" to extAttr,
+        "soldState" to soldState,
+        "items" to items,
+    )
 }
 
 data class Item(

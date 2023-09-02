@@ -15,6 +15,7 @@ import com.yunshang.haile_manager_android.data.entities.ExtAttrDtoItem
  * 作者姓名 修改时间 版本号 描述
  */
 class DeviceFunConfigurationAddV2ViewModel : BaseViewModel() {
+    var canAdd:Boolean = false
 
     val items: MutableLiveData<MutableList<ExtAttrDtoItem>> by lazy {
         MutableLiveData()

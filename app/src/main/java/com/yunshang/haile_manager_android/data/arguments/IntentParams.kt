@@ -392,14 +392,22 @@ object IntentParams {
 
     object DeviceFunConfigurationAddV2Params {
         private const val SkuId = "skuId"
+        private const val CanAdd = "canAdd"
         private const val SkuExtAttrDto = "SkuExtAttrDto"
 
-        fun pack(skuId: Int, skuExtAttrDto: MutableList<ExtAttrDtoItem>): Bundle = Bundle().apply {
-            putInt(SkuId, skuId)
-            putString(SkuExtAttrDto, GsonUtils.any2Json(skuExtAttrDto))
-        }
+        fun pack(
+            skuId: Int,
+            skuExtAttrDto: MutableList<ExtAttrDtoItem>,
+            canAdd: Boolean = false,
+        ): Bundle =
+            Bundle().apply {
+                putInt(SkuId, skuId)
+                putBoolean(CanAdd, canAdd)
+                putString(SkuExtAttrDto, GsonUtils.any2Json(skuExtAttrDto))
+            }
 
         fun parseSkuId(intent: Intent): Int = intent.getIntExtra(SkuId, -1)
+        fun parseCanAdd(intent: Intent): Boolean = intent.getBooleanExtra(CanAdd, false)
 
         fun parseSkuExtAttrDto(intent: Intent): MutableList<ExtAttrDtoItem>? =
             GsonUtils.json2List(

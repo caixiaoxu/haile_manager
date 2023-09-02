@@ -1,7 +1,9 @@
 package com.yunshang.haile_manager_android.business.vm
 
 import android.view.View
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
@@ -10,6 +12,7 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.ItemShowParam
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.DeviceAdvancedSettingEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
@@ -34,6 +37,10 @@ class DeviceDetailModel : BaseViewModel() {
 
     val deviceDetail: MutableLiveData<DeviceDetailEntity> by lazy {
         MutableLiveData()
+    }
+
+    val isDrinkingOrShower: LiveData<Boolean> = deviceDetail.map {
+        DeviceCategory.isDrinkingOrShower(it.categoryCode)
     }
 
     val isOpen: MutableLiveData<Boolean> by lazy {
@@ -269,7 +276,7 @@ class DeviceDetailModel : BaseViewModel() {
 
         launch({
             ApiRepository.dealApiResult(
-                mDeviceRepo.deviceUpdate(
+                mDeviceRepo.deviceUpdateV2(
                     ApiRepository.createRequestBody(
                         hashMapOf(
                             "id" to goodsId,

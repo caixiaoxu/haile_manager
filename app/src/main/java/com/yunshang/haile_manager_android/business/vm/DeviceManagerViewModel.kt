@@ -133,6 +133,7 @@ class DeviceManagerViewModel : BaseViewModel() {
                     selectDeviceCategory.postValue(it.filter { e -> e.code == DeviceCategory.Dispenser })
                 IntentParams.DeviceManagerParams.CategoryBigType_Drink ->
                     selectDeviceCategory.postValue(it.filter { e -> e.code == DeviceCategory.Water })
+                -1 -> selectDeviceCategory.postValue(null)
             }
         }
     }

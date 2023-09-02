@@ -28,7 +28,7 @@ import kotlinx.coroutines.withContext
  */
 class DeviceMultiChangeViewModel : BaseViewModel() {
     private val mDeviceRepo = ApiRepository.apiClient(DeviceService::class.java)
-    var goodId = -1
+    var updateParams: HashMap<String, Any?>? = null
 
     companion object {
         const val Type = "Type"
@@ -87,25 +87,23 @@ class DeviceMultiChangeViewModel : BaseViewModel() {
     }
 
     fun submit(view: View) {
-        if (-1 == goodId) {
+        if (null == updateParams) {
             return
         }
 
         launch({
-            val params = HashMap<String, Any?>()
-            params["id"] = goodId
             when (type.value) {
-                typeChangeModel -> params["imei"] = content.value!!
+                typeChangeModel -> updateParams!!["imei"] = content.value!!
                 typeChangePayCode -> {
-                    params["code"] = content.value!!
-                    params["codeStr"] = originCode
+                    updateParams!!["code"] = content.value!!
+                    updateParams!!["codeStr"] = originCode
                 }
-                typeChangeName -> params["name"] = content.value!!
+                typeChangeName -> updateParams!!["name"] = content.value!!
             }
 
             ApiRepository.dealApiResult(
-                mDeviceRepo.deviceUpdate(
-                    ApiRepository.createRequestBody(params)
+                mDeviceRepo.deviceUpdateV2(
+                    ApiRepository.createRequestBody(updateParams!!)
                 )
             )
             withContext(Dispatchers.Main) {

@@ -10,6 +10,7 @@ import com.yunshang.haile_manager_android.data.entities.ExtAttrDtoItem
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceFunConfigurationAddV2Binding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceFunConfigurationAddV2Binding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 
 class DeviceFunConfigurationAddV2Activity :
     BaseBusinessActivity<ActivityDeviceFunConfigurationAddV2Binding, DeviceFunConfigurationAddV2ViewModel>(
@@ -18,6 +19,7 @@ class DeviceFunConfigurationAddV2Activity :
 
     override fun initIntent() {
         super.initIntent()
+        mViewModel.canAdd = IntentParams.DeviceFunConfigurationAddV2Params.parseCanAdd(intent)
         mViewModel.items.value =
             IntentParams.DeviceFunConfigurationAddV2Params.parseSkuExtAttrDto(intent)
                 ?: mutableListOf()
@@ -35,6 +37,7 @@ class DeviceFunConfigurationAddV2Activity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+        mBinding.btnDeviceFunConfigureAddV2Add.visibility(mViewModel.canAdd)
         mBinding.btnDeviceFunConfigureAddV2Add.setOnClickListener {
             mViewModel.items.value?.let { items ->
                 if (items.filter { item -> item.canMerchantEdit }.size >= 5) {
@@ -49,7 +52,7 @@ class DeviceFunConfigurationAddV2Activity :
                             pulse = 0,
                             unitAmount = "",
                             unitPrice = 0.0,
-                            isOn = true,
+//                            isOn = true,
                             canMerchantEdit = true,
                             isDefault = false,
                         )

@@ -64,7 +64,7 @@ class DeviceStartViewModel : BaseViewModel() {
                     ApiRepository.createRequestBody(
                         hashMapOf(
                             "itemId" to selectItem.value?.id,
-                            "time" to selectTime,
+                            "time" to selectTime.value,
                             "imei" to imei,
                             "categoryCode" to categoryCode,
                         )

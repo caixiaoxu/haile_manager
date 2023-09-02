@@ -4,10 +4,12 @@ import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.gson.reflect.TypeToken
 import com.king.camera.scan.CameraScan
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.SystemPermissionHelper
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
@@ -16,6 +18,8 @@ import com.yunshang.haile_manager_android.databinding.ActivityDeviceMultiChangeB
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.WeChatQRCodeScanActivity
 import com.yunshang.haile_manager_android.utils.StringUtils
+import com.yunshang.haile_manager_android.web.bean.JsRequestBean
+import com.yunshang.haile_manager_android.web.bean.JsScanRequestBean
 import timber.log.Timber
 
 class DeviceMultiChangeActivity :
@@ -25,7 +29,7 @@ class DeviceMultiChangeActivity :
     ) {
 
     companion object {
-        const val GoodId = "goodId"
+        const val UpdateParams = "UpdateParams"
         const val ResultCode = 0x70001
         const val ResultData = "ResultData"
     }
@@ -102,7 +106,10 @@ class DeviceMultiChangeActivity :
 
     override fun initIntent() {
         super.initIntent()
-        mViewModel.goodId = intent.getIntExtra(GoodId, -1)
+        mViewModel.updateParams = GsonUtils.json2ClassType<HashMap<String, Any?>>(
+            intent.getStringExtra(UpdateParams),
+            object : TypeToken<HashMap<String, Any?>>() {}.type
+        )
         mViewModel.type.value =
             intent.getIntExtra(DeviceMultiChangeViewModel.Type, 0)
 

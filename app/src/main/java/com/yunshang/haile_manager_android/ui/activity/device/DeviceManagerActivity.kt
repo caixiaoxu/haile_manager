@@ -40,6 +40,7 @@ import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioAc
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
 import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.NumberUtils
@@ -393,26 +394,32 @@ class DeviceManagerActivity :
             }
     }
 
+    /**
+     * 构建异常状态界面
+     */
     private fun buildErrorStatus() {
-        mBinding.llDeviceErrorStatusList.buildChild<ItemDeviceManagerErrorStatusBinding, DeviceIndicatorEntity<Int>>(
-            mViewModel.errorStatus.filter { item ->
-                // 出水故障、免费设备,淋浴特有的
-                val drinking = if (mViewModel.selectDeviceCategory.value?.any() { category ->
-                        DeviceCategory.isDrinking(category.code)
-                    } == false) {
-                    item.value != 3 && item.value != 4
-                } else true
+        val list = mViewModel.errorStatus.filter { item ->
+            // 出水故障、免费设备,淋浴特有的
+            val drinking = if (mViewModel.selectDeviceCategory.value?.any() { category ->
+                    DeviceCategory.isDrinking(category.code)
+                } != true) {
+                item.value != 3 && item.value != 4
+            } else true
 
-                // 电磁阀异常,淋浴特有的
-                val shower = if (mViewModel.selectDeviceCategory.value?.any { category ->
-                        DeviceCategory.isShower(category.code)
-                    } == false) {
-                    item.value != 5
-                } else {
-                    true
-                }
-                drinking && shower
+            // 电磁阀异常,淋浴特有的
+            val shower = if (mViewModel.selectDeviceCategory.value?.any { category ->
+                    DeviceCategory.isShower(category.code)
+                } != true) {
+                item.value != 5
+            } else {
+                true
             }
+            drinking && shower
+        }
+
+        mBinding.svDeviceErrorStatusList.visibility(list.isNotEmpty())
+        mBinding.llDeviceErrorStatusList.buildChild<ItemDeviceManagerErrorStatusBinding, DeviceIndicatorEntity<Int>>(
+            list
         ) { _, childBinding, data ->
             data.num.observe(this@DeviceManagerActivity) {
                 childBinding.tvDeviceManagerErrorStatus.text =
@@ -454,9 +461,10 @@ class DeviceManagerActivity :
 
         // 选择设备类型
         mViewModel.selectDeviceCategory.observe(this) {
+            buildErrorStatus()
+
             mBinding.tvDeviceCategoryCategory.text =
                 if (1 == (it?.size ?: 0)) it?.firstOrNull()?.name ?: "" else ""
-            buildErrorStatus()
 
             // 切换设备类型后，重置异常状态
             if ((it?.any() { category -> DeviceCategory.isDrinking(category.code) } == false

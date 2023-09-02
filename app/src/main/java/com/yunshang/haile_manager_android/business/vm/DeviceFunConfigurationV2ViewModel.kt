@@ -185,13 +185,11 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
                         // 默认全选，json转换不走构造函数，值为默认false，需要初始化
                         if (param.extAttrDto.items.all { item -> !item.isCheck }) {
                             if (isWashingOrShoes) {
-                                param.extAttrDto.items.firstOrNull { item -> item.isOn }?.isCheck =
+                                param.extAttrDto.items.firstOrNull()?.isCheck =
                                     true
                             } else {
                                 param.extAttrDto.items.forEach { item ->
-                                    if (item.isOn) {
-                                        item.isCheck = true
-                                    }
+                                    item.isCheck = true
                                 }
                             }
                         }

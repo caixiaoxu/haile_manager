@@ -184,6 +184,7 @@
     <string name="device_detail">设备详情</string>
     <string name="advanced_setup">高级设置</string>
     <string name="advanced_params_setup">高级参数设置</string>
+    <string name="params_setup">参数设置</string>
     <string name="func_operate">功能操作</string>
     <string name="restart">复位</string>
     <string name="restart_dialog_title">请选择复位的通道</string>

@@ -221,12 +221,13 @@ data class ExtAttrDtoItem(
     val unitCode: Int,
     var unitPrice: Double,
     val description: String,
-    val isOn: Boolean,
+//    val isOn: Boolean,
     var pulseVolumeFactor: String,
     val goodsType: Int,
     val compatibleGoodsCategoryCode: List<String>,
     var canMerchantEdit: Boolean,
     val isNewFromSpu: Boolean,
+    var isEnabled: Boolean = true,
     var isDefault: Boolean = false,
 ) : BaseObservable(), IMultiSelectBottomItemEntity {
 
@@ -235,11 +236,15 @@ data class ExtAttrDtoItem(
         unitAmount = same.unitAmount
         unitPrice = same.unitPrice
         isDefault = same.isDefault
-        isCheck = same.isCheck
+        isEnabled = same.isEnabled
         pulseVolumeFactor = same.pulseVolumeFactor
     }
 
-    override var isCheck: Boolean = true
+    override var isCheck: Boolean
+        get() = isEnabled
+        set(value) {
+            isEnabled = value
+        }
 
     override fun getTitle(): String = if (1 == priceCalculateMode) {
         // 流量

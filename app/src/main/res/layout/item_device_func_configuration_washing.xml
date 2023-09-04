@@ -21,7 +21,7 @@
         <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/item_device_fun_configuration_wash_time"
             style="@style/MultiTypeItemStyle"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             app:itemContent="@={item.unitAmountVal}"
             app:title="@{item.unitTile}"
             app:type="input"

@@ -14,12 +14,11 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.DeviceMultiChangeViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceMultiChangeBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.WeChatQRCodeScanActivity
 import com.yunshang.haile_manager_android.utils.StringUtils
-import com.yunshang.haile_manager_android.web.bean.JsRequestBean
-import com.yunshang.haile_manager_android.web.bean.JsScanRequestBean
 import timber.log.Timber
 
 class DeviceMultiChangeActivity :
@@ -27,12 +26,6 @@ class DeviceMultiChangeActivity :
         DeviceMultiChangeViewModel::class.java,
         BR.vm
     ) {
-
-    companion object {
-        const val UpdateParams = "UpdateParams"
-        const val ResultCode = 0x70001
-        const val ResultData = "ResultData"
-    }
 
     // 权限
     private val requestMultiplePermission =
@@ -61,7 +54,7 @@ class DeviceMultiChangeActivity :
             // 扫码结果
             if (result.resultCode == RESULT_OK) {
                 when (mViewModel.type.value) {
-                    DeviceMultiChangeViewModel.typeChangePayCode -> {
+                    IntentParams.DeviceParamsUpdateParams.typeChangePayCode -> {
                         CameraScan.parseScanResult(result.data)?.let {
                             Timber.i("扫码:$it")
                             val payCode = StringUtils.getPayCode(it)
@@ -71,7 +64,7 @@ class DeviceMultiChangeActivity :
                             } ?: SToast.showToast(this, R.string.pay_code_error)
                         }
                     }
-                    DeviceMultiChangeViewModel.typeChangeModel -> {
+                    IntentParams.DeviceParamsUpdateParams.typeChangeModel -> {
                         CameraScan.parseScanResult(result.data)?.let {
                             Timber.i("扫码:$it")
 
@@ -107,15 +100,14 @@ class DeviceMultiChangeActivity :
     override fun initIntent() {
         super.initIntent()
         mViewModel.updateParams = GsonUtils.json2ClassType<HashMap<String, Any?>>(
-            intent.getStringExtra(UpdateParams),
+            IntentParams.DeviceParamsUpdateParams.parseUpdateParamsJson(intent),
             object : TypeToken<HashMap<String, Any?>>() {}.type
         )
-        mViewModel.type.value =
-            intent.getIntExtra(DeviceMultiChangeViewModel.Type, 0)
+        mViewModel.type.value = IntentParams.DeviceParamsUpdateParams.parseUpdateParamsType(intent)
 
-        if (DeviceMultiChangeViewModel.typeChangeName == mViewModel.type.value) {
+        if (IntentParams.DeviceParamsUpdateParams.typeChangeName == mViewModel.type.value) {
             mViewModel.content.value =
-                intent.getStringExtra(DeviceMultiChangeViewModel.OriginData) ?: ""
+                IntentParams.DeviceParamsUpdateParams.parseUpdateParamsOriginData(intent) ?: ""
         }
     }
 
@@ -123,9 +115,13 @@ class DeviceMultiChangeActivity :
         super.initEvent()
 
         mViewModel.jump.observe(this) {
-            setResult(ResultCode, Intent().apply {
-                putExtra(DeviceMultiChangeViewModel.Type, mViewModel.type.value)
-                putExtra(ResultData, mViewModel.content.value)
+            setResult(IntentParams.DeviceParamsUpdateParams.ResultCode, Intent().apply {
+                putExtras(
+                    IntentParams.DeviceParamsUpdateParams.packResult(
+                        mViewModel.type.value,
+                        mViewModel.content.value
+                    )
+                )
             })
             finish()
         }

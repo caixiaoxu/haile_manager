@@ -38,7 +38,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:paddingStart="8dp"
             android:text="@{value}"
             android:textSize="14sp"
             app:textColor="@{0 == type?@color/common_txt_color:@color/common_sub_txt_color}"

@@ -39,6 +39,7 @@
         <attr name="android:enabled" />
         <attr name="android:textColor" />
         <attr name="android:textSize" />
+        <attr name="android:digits" />
         <attr name="showArrow" format="boolean" />
         <attr name="tailDrawable" format="reference" />
         <attr name="unitHint" format="string" />

@@ -247,6 +247,8 @@
     <string name="function_select">功能选择</string>
     <string name="function_model">功能模式</string>
     <string name="coming_soon">敬请期待</string>
+    <string name="update_params">修改参数</string>
+    <string name="params_info">参数信息</string>
 
     <string name="price_model">价格模式</string>
     <string name="price_model_type1">固定</string>
@@ -257,6 +259,7 @@
     <string name="default_select">默认选中</string>
     <string name="price_configure">价格配置</string>
     <string name="add_manager">新增管理</string>
+    <string name="free_device">免费设备</string>
 
     <string name="shop_manager">门店管理</string>
     <string name="pt_manager">点位管理</string>
@@ -306,6 +309,9 @@
     <string name="copy_success">已复制到贴粘板</string>
     <string name="search_shop_hint">请输入门店名称</string>
     <string name="shop_delete_hint">是否确定要删除该门店么？</string>
+
+    <string name="operation_setting">运营设置</string>
+    <string name="setting_title1">按流量收费，用户订单显示用量</string>
 
     <string name="order_manager">订单管理</string>
     <string name="order_search_hint">搜索手机号或订单编号</string>

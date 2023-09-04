@@ -322,6 +322,7 @@
                         android:orientation="vertical">
 
                         <include
+                            android:id="@+id/include_device_detail_single_pulse_quantity"
                             layout="@layout/item_device_detail_base_info_find"
                             app:content="@{vm.deviceDetail.getSinglePulseQuantity}"
                             app:show="@{true}"

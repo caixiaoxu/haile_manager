@@ -8,15 +8,13 @@ import androidx.lifecycle.map
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
-import com.lsy.framelib.utils.StringUtils
-import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CategoryService
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
-import com.yunshang.haile_manager_android.data.entities.ExtAttrBean
+import com.yunshang.haile_manager_android.data.entities.ExtAttrDtoItem
 import com.yunshang.haile_manager_android.data.entities.SkuUnionIntersectionEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
@@ -105,15 +103,12 @@ class DeviceBatchStartViewModel : BaseViewModel() {
             sku.getTitle()
         } ?: ""
     }
-    var selectAttrList: List<ExtAttrBean>? = null
 
-    val selectAttr: MutableLiveData<Int?> by lazy {
+    val selectAttr: MutableLiveData<ExtAttrDtoItem?> by lazy {
         MutableLiveData()
     }
     val selectAttrVal: LiveData<String> = selectAttr.map {
-        it?.let {
-            StringUtils.getString(R.string.unit_minute_num, it)
-        } ?: ""
+        it?.let { it.getTitle() } ?: ""
     }
 
     fun clearSelectFunc() {
@@ -194,7 +189,7 @@ class DeviceBatchStartViewModel : BaseViewModel() {
                                 item.id
                             },
                             "functionId" to selectFunc.value?.id,
-                            "time" to selectAttr.value
+                            "time" to selectAttr.value?.unitAmount
                         )
                     )
                 )

@@ -10,9 +10,8 @@ import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.business.apiService.CategoryService
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
-import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
-import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
+import com.yunshang.haile_manager_android.data.entities.SkuFunConfigurationV2Param
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -37,10 +36,11 @@ class DeviceBatchUpdateViewModel : BaseViewModel() {
     }
 
     val selectDepartmentsVal: LiveData<String> = selectDepartments.map {
-        val count: Int = it.size
-        if (0 == count) ""
-        else if (1 == count) it[0].name
-        else "已选中${count}个门店"
+        when (val count: Int = it.size) {
+            0 -> ""
+            1 -> it[0].name
+            else -> "已选中${count}个门店"
+        }
     }
 
     // 设备类型列表
@@ -59,8 +59,11 @@ class DeviceBatchUpdateViewModel : BaseViewModel() {
     val selectDeviceModelVal: LiveData<String> = selectDeviceModel.map { it?.name ?: "" }
 
     // 功能配置
-    val createDeviceFunConfigure: MutableLiveData<List<SkuFuncConfigurationParam>> by lazy {
+    val createDeviceFunConfigure: MutableLiveData<MutableList<SkuFunConfigurationV2Param>?> =
         MutableLiveData()
+
+    val isFunConfigure: LiveData<Boolean> = createDeviceFunConfigure.map {
+        !it.isNullOrEmpty()
     }
 
     // 是否显示设备型号
@@ -146,7 +149,7 @@ class DeviceBatchUpdateViewModel : BaseViewModel() {
                     )
                 )
             )?.let {
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     SToast.showToast(v.context, "提交成功")
                 }
                 jump.postValue(0)

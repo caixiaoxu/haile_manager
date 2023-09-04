@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@id/ll_select_fun_configure_attrs"
-            app:title='@{@string/desc+"："}'
+            app:title='@{@string/desc + "："}'
             app:type="@{1}"
             app:value="@{item.feature}"
             app:visibility="@{!(null == item.feature || 0 == item.feature.length())}" />

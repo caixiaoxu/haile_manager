@@ -12,6 +12,7 @@ import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.event.BusEvents
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -29,15 +30,6 @@ import kotlinx.coroutines.withContext
 class DeviceMultiChangeViewModel : BaseViewModel() {
     private val mDeviceRepo = ApiRepository.apiClient(DeviceService::class.java)
     var updateParams: HashMap<String, Any?>? = null
-
-    companion object {
-        const val Type = "Type"
-        const val OriginData = "OriginData"
-
-        const val typeChangeModel = 0
-        const val typeChangePayCode = 1
-        const val typeChangeName = 2
-    }
 
     val type: MutableLiveData<Int> by lazy {
         MutableLiveData()
@@ -93,12 +85,12 @@ class DeviceMultiChangeViewModel : BaseViewModel() {
 
         launch({
             when (type.value) {
-                typeChangeModel -> updateParams!!["imei"] = content.value!!
-                typeChangePayCode -> {
+                IntentParams.DeviceParamsUpdateParams.typeChangeModel -> updateParams!!["imei"] = content.value!!
+                IntentParams.DeviceParamsUpdateParams.typeChangePayCode -> {
                     updateParams!!["code"] = content.value!!
                     updateParams!!["codeStr"] = originCode
                 }
-                typeChangeName -> updateParams!!["name"] = content.value!!
+                IntentParams.DeviceParamsUpdateParams.typeChangeName -> updateParams!!["name"] = content.value!!
             }
 
             ApiRepository.dealApiResult(

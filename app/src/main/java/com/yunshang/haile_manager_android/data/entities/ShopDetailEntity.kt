@@ -5,6 +5,7 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.arguments.BusinessHourEntity
 import com.yunshang.haile_manager_android.data.arguments.BusinessHourParams
+import com.yunshang.haile_manager_android.data.arguments.OperationSettings
 import com.yunshang.haile_manager_android.data.arguments.ShopParam
 
 /**
@@ -44,7 +45,8 @@ data class ShopDetailEntity(
     val businessName: List<ShopBusinessTypeEntity>,// 店铺业务名称
     val attribute: Int,// 店铺属性1联营店,0非联营
     val appointSettingList: List<AppointSetting>?,//预约开关
-    val paymentSettings: ShopPaySettingsEntity? //
+    val paymentSettings: ShopPaySettingsEntity?, //
+    val operationSettings: OperationSettings
 ) {
     fun getRealAddress(): String = if (1 == shopType) area else address
     fun hasSchoolName(): Boolean = 0 != schoolId && !schoolName.isNullOrEmpty()

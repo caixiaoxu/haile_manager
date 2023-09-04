@@ -168,9 +168,24 @@
             android:layout_height="wrap_content"
             app:visibility="@{item.faultFlag}"
             android:text="@{item.faultReason}"
+            android:maxLength="7"
             app:layout_constraintTop_toTopOf="@id/tv_item_device_shop"
             app:layout_constraintEnd_toEndOf="parent"
             style="@style/font_12_ff3b30"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_device_list_free"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:layout_marginTop="8dp"
+            style="@style/Font_10_333333"
+            app:visibility="@{item.freeFlag}"
+            android:background="@drawable/shape_sf7f7f7_r8"
+            app:layout_constraintStart_toStartOf="@id/tv_item_device_shop"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_device_shop"
+            android:text="@string/free_device"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_item_device_total_income"
@@ -182,7 +197,7 @@
             android:gravity="center"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="@id/tv_item_device_shop"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_device_shop"
+            app:layout_constraintTop_toBottomOf="@id/tv_device_list_free"
             tools:text="总收益：856420.00" />
 
         <View

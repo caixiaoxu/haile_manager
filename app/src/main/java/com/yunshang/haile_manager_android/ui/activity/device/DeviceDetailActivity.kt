@@ -24,7 +24,6 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.DeviceDetailModel
-import com.yunshang.haile_manager_android.business.vm.DeviceMultiChangeViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.ExtAttrDtoItem
@@ -52,24 +51,27 @@ class DeviceDetailActivity :
     private val startNext =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
-                DeviceMultiChangeActivity.ResultCode -> {
+                IntentParams.DeviceParamsUpdateParams.ResultCode -> {
                     result.data?.let { intent ->
-                        intent.getStringExtra(DeviceMultiChangeActivity.ResultData)?.let {
-                            when (intent.getIntExtra(DeviceMultiChangeViewModel.Type, -1)) {
-                                DeviceMultiChangeViewModel.typeChangeModel -> {
-                                    mViewModel.deviceDetail.value?.imei = it
-                                    mViewModel.imei.value = it
-                                }
-                                DeviceMultiChangeViewModel.typeChangePayCode -> {
-                                    mViewModel.deviceDetail.value?.code = it
-                                    mViewModel.code.value = it
-                                }
-                                DeviceMultiChangeViewModel.typeChangeName -> {
-                                    mViewModel.deviceDetail.value?.name = it
-                                    mViewModel.name.value = it
+                        intent.getStringExtra(IntentParams.DeviceParamsUpdateParams.ResultData)
+                            ?.let {
+                                when (IntentParams.DeviceParamsUpdateParams.parseUpdateParamsType(
+                                    intent
+                                )) {
+                                    IntentParams.DeviceParamsUpdateParams.typeChangeModel -> {
+                                        mViewModel.deviceDetail.value?.imei = it
+                                        mViewModel.imei.value = it
+                                    }
+                                    IntentParams.DeviceParamsUpdateParams.typeChangePayCode -> {
+                                        mViewModel.deviceDetail.value?.code = it
+                                        mViewModel.code.value = it
+                                    }
+                                    IntentParams.DeviceParamsUpdateParams.typeChangeName -> {
+                                        mViewModel.deviceDetail.value?.name = it
+                                        mViewModel.name.value = it
+                                    }
                                 }
                             }
-                        }
                     }
                 }
             }
@@ -331,13 +333,11 @@ class DeviceDetailActivity :
                             this@DeviceDetailActivity,
                             DeviceMultiChangeActivity::class.java
                         ).apply {
-                            putExtra(
-                                DeviceMultiChangeActivity.UpdateParams,
-                                GsonUtils.any2Json(detail.toUpdateParams())
-                            )
-                            putExtra(
-                                DeviceMultiChangeViewModel.Type,
-                                DeviceMultiChangeViewModel.typeChangeModel
+                            putExtras(
+                                IntentParams.DeviceParamsUpdateParams.pack(
+                                    GsonUtils.any2Json(detail.toUpdateParams()),
+                                    IntentParams.DeviceParamsUpdateParams.typeChangeModel,
+                                )
                             )
                         }
                     )
@@ -349,13 +349,11 @@ class DeviceDetailActivity :
                             this@DeviceDetailActivity,
                             DeviceMultiChangeActivity::class.java
                         ).apply {
-                            putExtra(
-                                DeviceMultiChangeActivity.UpdateParams,
-                                GsonUtils.any2Json(detail.toUpdateParams())
-                            )
-                            putExtra(
-                                DeviceMultiChangeViewModel.Type,
-                                DeviceMultiChangeViewModel.typeChangePayCode
+                            putExtras(
+                                IntentParams.DeviceParamsUpdateParams.pack(
+                                    GsonUtils.any2Json(detail.toUpdateParams()),
+                                    IntentParams.DeviceParamsUpdateParams.typeChangePayCode,
+                                )
                             )
                         }
                     )
@@ -367,17 +365,12 @@ class DeviceDetailActivity :
                             this@DeviceDetailActivity,
                             DeviceMultiChangeActivity::class.java
                         ).apply {
-                            putExtra(
-                                DeviceMultiChangeActivity.UpdateParams,
-                                GsonUtils.any2Json(detail.toUpdateParams())
-                            )
-                            putExtra(
-                                DeviceMultiChangeViewModel.Type,
-                                DeviceMultiChangeViewModel.typeChangeName
-                            )
-                            putExtra(
-                                DeviceMultiChangeViewModel.OriginData,
-                                mViewModel.deviceDetail.value?.name
+                            putExtras(
+                                IntentParams.DeviceParamsUpdateParams.pack(
+                                    GsonUtils.any2Json(detail.toUpdateParams()),
+                                    IntentParams.DeviceParamsUpdateParams.typeChangeName,
+                                    mViewModel.deviceDetail.value?.name
+                                )
                             )
                         }
                     )
@@ -607,6 +600,21 @@ class DeviceDetailActivity :
                     )
                 )
             })
+        }
+
+        mBinding.includeDeviceDetailSinglePulseQuantity.root.setOnClickListener {
+            mViewModel.deviceDetail.value?.let { detail ->
+                startActivity(Intent(
+                    this@DeviceDetailActivity,
+                    DeviceOtherParamsUpdateActivity::class.java
+                ).apply {
+                    putExtras(
+                        IntentParams.DeviceParamsUpdateParams.pack(
+                            GsonUtils.any2Json(detail.toUpdateParams()),
+                        )
+                    )
+                })
+            }
         }
 
         // 功能配置

@@ -290,7 +290,7 @@ data class ExtAttrDtoItem(
         set(value) {
             field = value
             try {
-                value.toDouble()
+                value.toInt()
                 unitAmount = value
                 notifyPropertyChanged(BR.unitAmountVal)
                 notifyPropertyChanged(BR.unitAmountTitle)
@@ -505,6 +505,9 @@ data class SkuFunConfigurationV2Param(
     var feature: String,
     var soldState: Int,
     var extAttrDto: ExtAttrDto,
+    val isNewFromSpu: Boolean,
+    val functionId: String,
+    val functionName: String,
     val id: Int? = null,
 ) : BaseObservable(), ICommonBottomItemEntity {
 

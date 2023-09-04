@@ -77,6 +77,8 @@ data class Sku(
     val skuName: String,
     val skuPrice: Double,
     val skuUnit: String,
+    val unitCode: Int,
+    val priceCalculateMode: Int,
     val state: Int,
     val discountPrice: String,
     val goodsCategoryCode: String,
@@ -93,13 +95,13 @@ data class Sku(
         get() = GsonUtils.json2Class(_goodsItemInfo, GoodsItemInfoEntity::class.java)
 
     val unitValue: String
-        get() = if (DeviceCategory.isDrinking(goodsCategoryCode)) {
-            if (1 == goodsItemInfo?.priceCalculateMode) "${skuUnit}ml" else "${skuUnit}s"
-        } else if (DeviceCategory.isShower(goodsCategoryCode)) {
-            if (1 == goodsItemInfo?.priceCalculateMode) "${skuUnit}ml" else "${skuUnit}s"
-        } else if (DeviceCategory.isDispenser(goodsCategoryCode)) {
-            "${skuUnit}ml"
-        } else "${skuUnit}分钟"
+        get() = skuUnit + if (1 == priceCalculateMode) {
+            // 流量
+            if (1 == unitCode) "ml" else "L"
+        } else {
+            //时间
+            if (1 == unitCode) "秒" else "分钟"
+        }
 }
 
 data class GoodsItemInfoEntity(

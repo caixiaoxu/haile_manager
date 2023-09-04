@@ -136,6 +136,14 @@
                     app:showArrow="true"
                     app:title="@string/shop_pay_config"
                     app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_shop_create_operation_setting"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{null == vm.volumeVisibleState?@string/no_configure:@string/configured}"
+                    app:showArrow="true"
+                    app:title="@string/operation_setting"
+                    app:type="info" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
 

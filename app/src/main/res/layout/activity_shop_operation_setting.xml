@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.ShopOperationSettingViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.shop.ShopOperationSettingActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_operation_setting_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            app:title="@string/operation_setting" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:padding="16dp"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_shop_operation_setting_title1"
+                android:layout_width="wrap_content"
+                style="@style/Font_16_333333_bold"
+                android:text="@string/setting_title1"
+                app:layout_constraintHorizontal_bias="0"
+                android:drawablePadding="6dp"
+                android:drawableEnd="@mipmap/icon_item_required"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/switch_shop_operation_setting1"
+                android:layout_height="wrap_content" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="@id/tv_shop_operation_setting_title1"
+                app:layout_constraintEnd_toStartOf="@id/switch_shop_operation_setting1"
+                app:layout_constraintTop_toBottomOf="@id/tv_shop_operation_setting_title1"
+                android:text="饮水和淋浴有该设置，只针对用户看到的订单内容" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_shop_operation_setting1"
+                style="@style/CustomSwitchStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@{vm.openSetting1}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:background="@color/white"
+            android:paddingTop="8dp">
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_shop_params_setting_save"
+                style="@style/CommonMatchBtnStyle1"
+                android:layout_marginHorizontal="14dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="42dp"
+                android:text="@string/save" />
+        </FrameLayout>
+    </LinearLayout>
+</layout>

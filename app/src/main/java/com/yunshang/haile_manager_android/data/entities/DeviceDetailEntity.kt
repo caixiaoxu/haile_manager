@@ -160,7 +160,8 @@ data class DeviceDetailEntity(
     }
 
     fun getSinglePulseQuantity() =
-        items.firstOrNull()?.extAttrDto?.items?.firstOrNull()?.pulseVolumeFactor ?: ""
+        items.firstOrNull()?.extAttrDto?.items?.firstOrNull()?.pulseVolumeFactor?.let { it + "ml" }
+            ?: ""
 
     fun hasQrId(): Boolean = 0 < id
 

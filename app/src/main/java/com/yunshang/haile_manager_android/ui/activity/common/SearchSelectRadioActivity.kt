@@ -94,7 +94,7 @@ class SearchSelectRadioActivity :
                                             SearchSelectParam(
                                                 it.getSelectId(),
                                                 it.getSelectName(),
-                                                it
+                                                GsonUtils.any2Json(it)
                                             )
                                         }
                                     )

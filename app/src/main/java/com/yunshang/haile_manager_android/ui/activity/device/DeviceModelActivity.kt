@@ -15,7 +15,6 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DeviceModelViewModel
 import com.yunshang.haile_manager_android.data.arguments.DeviceModelParam
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
-import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.Spu
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceModelBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceCategoryBinding

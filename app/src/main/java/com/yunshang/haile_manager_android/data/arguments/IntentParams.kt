@@ -139,6 +139,25 @@ object IntentParams {
             )
     }
 
+    object ShopOperationSettingParams {
+        private const val VolumeVisibleState = "VolumeVisibleState"
+        const val ResultCode = 0x71001
+
+        /**
+         * 包装参数
+         */
+        fun pack(
+            volumeVisibleState: Int? = null
+        ): Bundle =
+            Bundle().apply {
+                volumeVisibleState?.let {
+                    putInt(VolumeVisibleState, volumeVisibleState)
+                }
+            }
+
+        fun parseVolumeVisibleState(intent: Intent): Int = intent.getIntExtra(VolumeVisibleState, 0)
+    }
+
     object ShopPaySettingsParams {
         private const val ShopIds = "shopIds"
         private const val ShopPaySettings = "shopPaySettings"
@@ -388,6 +407,51 @@ object IntentParams {
             )
 
         fun parseGoodId(intent: Intent): Int = intent.getIntExtra(GoodId, -1)
+    }
+
+    object DeviceParamsUpdateParams {
+        private val UpdateParams = "UpdateParams"
+        private val Type = "Type"
+        private val OriginData = "OriginData"
+
+        const val typeChangeModel = 0
+        const val typeChangePayCode = 1
+        const val typeChangeName = 2
+
+        const val ResultCode = 0x70001
+        const val ResultData = "ResultData"
+
+        fun pack(
+            updateParams: String,
+            type: Int? = null,
+            originData: String? = null,
+        ): Bundle =
+            Bundle().apply {
+                putString(UpdateParams, updateParams)
+                type?.let {
+                    putInt(Type, type)
+                }
+                originData?.let {
+                    putString(OriginData, originData)
+                }
+            }
+
+        fun parseUpdateParamsJson(intent: Intent): String? = intent.getStringExtra(UpdateParams)
+        fun parseUpdateParamsType(intent: Intent): Int = intent.getIntExtra(Type, 0)
+        fun parseUpdateParamsOriginData(intent: Intent): String? = intent.getStringExtra(OriginData)
+
+        fun packResult(
+            type: Int?,
+            updateVal: String?,
+        ): Bundle =
+            Bundle().apply {
+                type?.let {
+                    putInt(Type, type)
+                }
+                updateVal?.let {
+                    putString(ResultData, updateVal)
+                }
+            }
     }
 
     object DeviceFunConfigurationAddV2Params {

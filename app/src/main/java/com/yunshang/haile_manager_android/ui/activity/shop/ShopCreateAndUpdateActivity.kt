@@ -88,6 +88,12 @@ class ShopCreateAndUpdateActivity :
                             }
                     }
                 }
+                IntentParams.ShopOperationSettingParams.ResultCode -> {
+                    it.data?.let { intent ->
+                        mViewModel.volumeVisibleState.value =
+                            IntentParams.ShopOperationSettingParams.parseVolumeVisibleState(intent)
+                    }
+                }
             }
         }
 
@@ -216,6 +222,7 @@ class ShopCreateAndUpdateActivity :
             }
         }
 
+        // 支付设置
         mBinding.itemShopCreatePaySetting.onSelectedEvent = {
             startSearchSelect.launch(
                 Intent(
@@ -225,6 +232,18 @@ class ShopCreateAndUpdateActivity :
                     mViewModel.createAndUpdateEntity.value?.paymentSettings?.let { settings ->
                         putExtras(IntentParams.ShopPaySettingsParams.pack(shopPaySettings = settings))
                     }
+                }
+            )
+        }
+
+        // 运营设置
+        mBinding.itemShopCreateOperationSetting.onSelectedEvent = {
+            startSearchSelect.launch(
+                Intent(
+                    this@ShopCreateAndUpdateActivity,
+                    ShopOperationSettingActivity::class.java
+                ).apply {
+                    putExtras(IntentParams.ShopOperationSettingParams.pack(mViewModel.volumeVisibleState.value))
                 }
             )
         }

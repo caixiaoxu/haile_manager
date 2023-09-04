@@ -22,7 +22,7 @@
             android:layout_height="54dp"
             android:layout_weight="1"
             android:background="@color/transparent"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             android:text="@={item.unitAmountVal}" />
 
         <androidx.appcompat.widget.AppCompatTextView

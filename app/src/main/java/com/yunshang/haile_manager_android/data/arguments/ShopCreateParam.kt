@@ -34,7 +34,8 @@ data class ShopCreateParam(
     var shopBusiness: String = "",
     var schoolId: Int = -1,
     @SerializedName("paymentSettings")
-    var _paymentSettings: ShopPaySettingsEntity? = null
+    var _paymentSettings: ShopPaySettingsEntity? = null,
+    var operationSettings: OperationSettings = OperationSettings(0)
 ) : BaseObservable() {
 
     @get:Bindable
@@ -92,4 +93,8 @@ data class BusinessHourEntity(
 data class BusinessHourParams(
     val weekDays: List<Int>,
     val workTime: String
+)
+
+data class OperationSettings(
+    val volumeVisibleState: Int
 )

@@ -12,7 +12,7 @@ import com.yunshang.haile_manager_android.business.vm.DeviceBatchStartViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
-import com.yunshang.haile_manager_android.data.entities.ExtAttrBean
+import com.yunshang.haile_manager_android.data.entities.ExtAttrDtoItem
 import com.yunshang.haile_manager_android.data.entities.SkuUnionIntersectionEntity
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceBatchStartBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -73,15 +73,6 @@ class DeviceBatchStartActivity :
             mViewModel.requestDeviceSku()
         }
 
-        mViewModel.selectFunc.observe(this) {
-            mViewModel.selectAttrList = it?.let {
-                mViewModel.isDryerOrHair.value?.let { isDryerOrHair ->
-                    if (isDryerOrHair) {
-                        GsonUtils.json2List(it.extAttr, ExtAttrBean::class.java)
-                    } else null
-                }
-            }
-        }
         mViewModel.jump.observe(this) {
             finish()
         }
@@ -165,19 +156,19 @@ class DeviceBatchStartActivity :
         }
         // 烘干时间选择
         mBinding.itemDeviceBatchStartAttr.onSelectedEvent = {
-            mViewModel.selectAttrList?.let { attrs ->
+            mViewModel.selectFunc.value?.extAttrDto?.items?.let { attrs ->
                 MultiSelectBottomSheetDialog.Builder(
                     StringUtils.getString(R.string.dryer_time), attrs
                 ).apply {
                     supportSingle = true
                     onValueSureListener = object :
-                        MultiSelectBottomSheetDialog.OnValueSureListener<ExtAttrBean> {
+                        MultiSelectBottomSheetDialog.OnValueSureListener<ExtAttrDtoItem> {
                         override fun onValue(
-                            datas: List<ExtAttrBean>,
-                            allSelectData: List<ExtAttrBean>
+                            datas: List<ExtAttrDtoItem>,
+                            allSelectData: List<ExtAttrDtoItem>
                         ) {
                             datas.firstOrNull()?.let {
-                                mViewModel.selectAttr.value = it.minutes
+                                mViewModel.selectAttr.value = it
                             }
                         }
                     }

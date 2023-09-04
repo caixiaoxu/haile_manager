@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.DeviceOtherParamsUpdateViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.device.DeviceOtherParamsUpdateActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_device_other_params_update_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            app:title="@string/update_params" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_12_999999"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:text="@string/params_info" />
+
+        <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+            android:id="@+id/item_device_single_pulse_quantity"
+            style="@style/MultiTypeItemStyle"
+            android:background="@color/white"
+            android:hint="@string/single_pulse_quantity_hint"
+            android:inputType="numberDecimal"
+            app:itemContent="@={vm.singlePulseQuantityVal}"
+            app:showArrow="true"
+            app:title="@string/single_pulse_quantity"
+            app:type="input" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:background="@color/white"
+            android:paddingTop="8dp">
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_device_update_params_save"
+                style="@style/CommonMatchBtnStyle1"
+                android:layout_marginHorizontal="14dp"
+                android:layout_marginTop="8dp"
+                android:onClick="@{vm::save}"
+                android:layout_marginBottom="42dp"
+                android:text="@string/save" />
+        </FrameLayout>
+    </LinearLayout>
+</layout>

@@ -2,11 +2,12 @@ package com.yunshang.haile_manager_android.ui.activity.device
 
 import android.content.Intent
 import android.graphics.Color
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.databinding.DataBindingUtil
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -15,20 +16,44 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
-import com.yunshang.haile_manager_android.data.entities.ExtAttrDrinkBean
-import com.yunshang.haile_manager_android.data.entities.SkuFuncConfigurationParam
+import com.yunshang.haile_manager_android.data.entities.ExtAttrDtoItem
+import com.yunshang.haile_manager_android.data.entities.SkuFunConfigurationV2Param
 import com.yunshang.haile_manager_android.data.entities.Spu
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceBatchUpdateBinding
-import com.yunshang.haile_manager_android.databinding.ItemSelectedDeviceFuncationConfigurationBinding
-import com.yunshang.haile_manager_android.databinding.ItemSelectedDrinkDeviceFuncationConfigurationBinding
+import com.yunshang.haile_manager_android.databinding.ItemSelectFunConfigureAttrItemV2Binding
+import com.yunshang.haile_manager_android.databinding.ItemSelectFunConfigureV2Binding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 
 class DeviceBatchUpdateActivity :
     BaseBusinessActivity<ActivityDeviceBatchUpdateBinding, DeviceBatchUpdateViewModel>(
         DeviceBatchUpdateViewModel::class.java, BR.vm
     ) {
+
+    private val mFunAdapter by lazy {
+        CommonRecyclerAdapter<ItemSelectFunConfigureV2Binding, SkuFunConfigurationV2Param>(
+            R.layout.item_select_fun_configure_v2, BR.item
+        ) { mItemBinding, pos, item ->
+
+            item.extAttrDto.items.filter { attr -> attr.isEnabled }.let {
+                // 是否是脉冲设备
+                val isPulseDevice =
+                    DeviceCategory.isPulseDevice(GsonUtils.json2Class(mViewModel.selectDeviceModel.value?.origin, Spu::class.java)?.communicationType)
+                mItemBinding?.llSelectFunConfigureAttrs?.buildChild<ItemSelectFunConfigureAttrItemV2Binding, ExtAttrDtoItem>(
+                    it
+                ) { index, childBinding, data ->
+                    childBinding.type = 0
+                    childBinding.title =
+                        if (0 == index) StringUtils.getString(R.string.price_configure) + "：" else ""
+                    childBinding.value =
+                        "${data.getTitle()}/${data.unitPriceVal}元${if (isPulseDevice) "/${data.pulse}个" else ""}"
+                    childBinding.isDefault = data.isDefault
+                }
+            }
+        }
+    }
 
     // 跳转回调界面
     private val startNext =
@@ -57,12 +82,13 @@ class DeviceBatchUpdateActivity :
                                             selected.firstOrNull()
                                     }
                             }
+
                     }
                 }
                 // 配置
-                IntentParams.DeviceFunctionConfigurationParams.ResultCode -> {
+                IntentParams.DeviceFunConfigurationV2Params.ResultCode -> {
                     it.data?.let { intent ->
-                        IntentParams.DeviceFunctionConfigurationParams.parseSkuFuncConfiguration(
+                        IntentParams.DeviceFunConfigurationV2Params.parseSkuExtAttrDto(
                             intent
                         )?.let { configures ->
                             mViewModel.createDeviceFunConfigure.value = configures
@@ -85,42 +111,7 @@ class DeviceBatchUpdateActivity :
 
         // 功能配置
         mViewModel.createDeviceFunConfigure.observe(this) {
-            it?.let { list ->
-                mBinding.llDeviceBatchUpdateSelectFunConfiguration.removeAllViews()
-                val inflater = LayoutInflater.from(this@DeviceBatchUpdateActivity)
-                if (DeviceCategory.isDrinkingOrShower(mViewModel.selectCategory.value?.code)) {
-                    buildDrinkingConfigureItemView(list, inflater)
-                } else {
-                    list.forEachIndexed { _, config ->
-                        val mFuncConfigBinding =
-                            DataBindingUtil.inflate<ItemSelectedDeviceFuncationConfigurationBinding>(
-                                inflater,
-                                R.layout.item_selected_device_funcation_configuration,
-                                null,
-                                false
-                            )
-                        val categoryCode = mViewModel.selectCategory.value?.code
-                        mFuncConfigBinding.item = config
-                        mFuncConfigBinding.isDryer =
-                            DeviceCategory.isDryerOrHair(categoryCode)
-                        mFuncConfigBinding.deviceCommunicationType =
-                            mViewModel.selectDeviceModel.value?.origin?.let { origin ->
-                                if (origin is Spu) {
-                                    origin.communicationType
-                                } else -1
-                            } ?: -1
-                        mFuncConfigBinding.tvSelectFuncConfigurationFeature.visibility =
-                            if (DeviceCategory.isHair(categoryCode)) View.GONE else View.VISIBLE
-                        mBinding.llDeviceBatchUpdateSelectFunConfiguration.addView(
-                            mFuncConfigBinding.root,
-                            LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT
-                            )
-                        )
-                    }
-                }
-            }
+            mFunAdapter.refreshList(it, true)
         }
     }
 
@@ -176,139 +167,41 @@ class DeviceBatchUpdateActivity :
 
         // 功能配置
         mBinding.itemDeviceBatchUpdateFunConfigure.onSelectedEvent = {
-            startNext.launch(
-                if (DeviceCategory.isDrinking(mViewModel.selectCategory.value?.code))
-                    Intent(
-                        this@DeviceBatchUpdateActivity,
-                        DeviceDrinkingFunctionConfigurationActivity::class.java
-                    ).apply {
-                        putExtras(
-                            IntentParams.DeviceFunctionConfigurationParams.pack(
-                                spuId = mViewModel.selectDeviceModel.value?.id,
-                                categoryCode = mViewModel.selectCategory.value?.code,
-                                oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
-                            )
-                        )
-                    }
-                else if (DeviceCategory.isDrinking(mViewModel.selectCategory.value?.code))
-                    Intent(
-                        this@DeviceBatchUpdateActivity,
-                        DeviceShowerFunctionConfigurationActivity::class.java
-                    ).apply {
-                        putExtras(
-                            IntentParams.DeviceFunctionConfigurationParams.pack(
-                                spuId = mViewModel.selectDeviceModel.value?.id,
-                                categoryCode = mViewModel.selectCategory.value?.code,
-                                oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
-                            )
-                        )
-                    }
-                else
-                    Intent(
-                        this@DeviceBatchUpdateActivity,
-                        DeviceFunctionConfigurationActivity::class.java
-                    ).apply {
-                        putExtras(
-                            IntentParams.DeviceFunctionConfigurationParams.pack(
-                                spuId = mViewModel.selectDeviceModel.value?.id,
-                                categoryCode = mViewModel.selectCategory.value?.code,
-                                communicationType = mViewModel.selectDeviceModel.value?.origin?.let { origin ->
-                                    if (origin is Spu) {
-                                        origin.communicationType
-                                    } else -1
-                                } ?: -1,
-                                oldFuncConfiguration = mViewModel.createDeviceFunConfigure.value
-                            )
-                        )
-                    }
-            )
-        }
-        mViewModel.jump.observe(this) {
-            finish()
-        }
-    }
-
-    /**
-     * 构建饮水配置界面
-     */
-    private fun buildDrinkingConfigureItemView(
-        list: List<SkuFuncConfigurationParam>,
-        inflater: LayoutInflater,
-    ) {
-        list.firstOrNull()?.let { first ->
-            GsonUtils.json2Class(first.extAttr, ExtAttrDrinkBean::class.java)
-                ?.let { firstAttr ->
-                    // 计价界面
-                    DataBindingUtil.inflate<ItemSelectedDrinkDeviceFuncationConfigurationBinding>(
-                        inflater,
-                        R.layout.item_selected_drink_device_funcation_configuration,
-                        null,
-                        false
-                    ).let { binding ->
-                        binding.title =
-                            com.lsy.framelib.utils.StringUtils.getString(
-                                if (1 == firstAttr.priceCalculateMode) R.string.for_quantity
-                                else R.string.for_time
-                            ) + "计价"
-                        binding.content = "${
-                            com.lsy.framelib.utils.StringUtils.getString(R.string.over_time) +
-                                    com.lsy.framelib.utils.StringUtils.getString(
-                                        R.string.unit_minute_num_str,
-                                        firstAttr.overTime
-                                    )
-                        }\n${
-                            com.lsy.framelib.utils.StringUtils.getString(R.string.pause_time) +
-                                    com.lsy.framelib.utils.StringUtils.getString(
-                                        R.string.unit_minute_num_str,
-                                        firstAttr.pauseTime
-                                    )
-                        }${
-                            if (1 == firstAttr.priceCalculateMode) {
-                                "\n" + com.lsy.framelib.utils.StringUtils.getString(R.string.single_pulse_quantity) +
-                                        com.lsy.framelib.utils.StringUtils.getString(
-                                            R.string.unit_quantity_num_str,
-                                            firstAttr.singlePulseQuantity
-                                        )
-                            } else ""
-                        }"
-                        binding.soldState = 0
-                        mBinding.llDeviceBatchUpdateSelectFunConfiguration.addView(
-                            binding.root,
-                            LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT
-                            )
-                        )
-                    }
-
-                    // 单价界面
-                    list.forEach { sku ->
-                        DataBindingUtil.inflate<ItemSelectedDrinkDeviceFuncationConfigurationBinding>(
-                            inflater,
-                            R.layout.item_selected_drink_device_funcation_configuration,
-                            null,
-                            false
-                        ).let { binding ->
-                            binding.title =
-                                sku.name + com.lsy.framelib.utils.StringUtils.getString(R.string.unit_price)
-                            binding.content =
-                                "${
-                                    String.format(
-                                        "%.2f",
-                                        sku.price
-                                    )
-                                }${com.lsy.framelib.utils.StringUtils.getString(if (1 == firstAttr.priceCalculateMode) R.string.unit_water_quantity_price_hint else R.string.unit_water_time_price_hint)}"
-                            binding.soldState = sku.soldState
-                            mBinding.llDeviceBatchUpdateSelectFunConfiguration.addView(
-                                binding.root,
-                                LinearLayout.LayoutParams(
-                                    LinearLayout.LayoutParams.MATCH_PARENT,
-                                    LinearLayout.LayoutParams.WRAP_CONTENT
+            GsonUtils.json2Class(mViewModel.selectDeviceModel.value?.origin, Spu::class.java)
+                ?.let { spu ->
+                    startNext.launch(
+                        Intent(
+                            this,
+                            DeviceFunConfigurationV2Activity::class.java
+                        ).apply {
+                            putExtras(
+                                IntentParams.DeviceFunConfigurationV2Params.pack(
+                                    mViewModel.selectDeviceModel.value?.id,
+                                    mViewModel.selectCategory.value?.code,
+                                    spu.communicationType,
+                                    GsonUtils.any2Json(spu.extAttrDto),
+                                    mViewModel.createDeviceFunConfigure.value
                                 )
                             )
                         }
-                    }
+                    )
                 }
+        }
+        // 功能配置
+        mBinding.rvDeviceBatchUpdateSelectFunConfiguration.layoutManager = LinearLayoutManager(this)
+        ContextCompat.getDrawable(
+            this,
+            R.drawable.divide_size8
+        )?.let {
+            mBinding.rvDeviceBatchUpdateSelectFunConfiguration.addItemDecoration(
+                DividerItemDecoration(
+                    this,
+                    DividerItemDecoration.VERTICAL
+                ).apply { setDrawable(it) })
+        }
+        mBinding.rvDeviceBatchUpdateSelectFunConfiguration.adapter = mFunAdapter
+        mViewModel.jump.observe(this) {
+            finish()
         }
     }
 

@@ -11,6 +11,7 @@ import com.yunshang.haile_manager_android.business.apiService.ShopService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.BusinessHourEntity
 import com.yunshang.haile_manager_android.data.arguments.BusinessHourParams
+import com.yunshang.haile_manager_android.data.arguments.OperationSettings
 import com.yunshang.haile_manager_android.data.arguments.ShopCreateParam
 import com.yunshang.haile_manager_android.data.entities.SchoolSelectEntity
 import com.yunshang.haile_manager_android.data.entities.ShopBusinessTypeEntity
@@ -67,6 +68,11 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
 
     // 业务类型
     val businessTypeValue: MutableLiveData<String> = MutableLiveData()
+
+    // 运营设置
+    val volumeVisibleState: MutableLiveData<Int> by lazy {
+        MutableLiveData()
+    }
 
     /**
      * 初始化数据
@@ -259,6 +265,9 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                 return
             }
 
+            // 运营设置
+            params.operationSettings = OperationSettings(volumeVisibleState.value ?:0)
+
             launch({
                 ApiRepository.dealApiResult(
                     if (null == params.id) {
@@ -297,7 +306,8 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                     name = shopDetailEntity.name,
                     address = if (1 == shopDetailEntity.shopType) shopDetailEntity.area else shopDetailEntity.address,
                     serviceTelephone = shopDetailEntity.serviceTelephone,
-                    _paymentSettings = shopDetailEntity.paymentSettings
+                    _paymentSettings = shopDetailEntity.paymentSettings,
+                    operationSettings = shopDetailEntity.operationSettings
                 )
 
             // 店铺类型

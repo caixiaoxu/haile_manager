@@ -15,7 +15,7 @@ import com.yunshang.haile_manager_android.data.rule.ICommonBottomItemEntity
 data class SearchSelectParam(
     val id: Int,
     val name: String,
-    val origin: Any? = null,
+    val origin: String? = null,
 ) : ICommonBottomItemEntity {
     override fun getTitle(): String = name
 }

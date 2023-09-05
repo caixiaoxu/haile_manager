@@ -157,4 +157,12 @@ interface CapitalService {
      */
     @POST("/pay/sync")
     suspend fun paySync(@Body body: RequestBody): ResponseWrapper<PaySyncEntity>
+
+    /**
+     * 银行卡列表接口
+     */
+    @POST("/candyPay/bankCard/list")
+    suspend fun requestBankCardList(@Body body: RequestBody): ResponseWrapper<ResponseList<BankCardEntity>>
+
+
 }

@@ -5,12 +5,102 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.BankCardViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".ui.activity.personal.BankCardActivity">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_bank_card_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            app:rightModel="text"
+            app:title="@string/bank_card" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_bank_card_add"
+            style="@style/Font_16_333333"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_ffffff_r8"
+            android:drawableStart="@mipmap/icon_bank_card_add"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:text="@string/add_bank_card"
+            app:visibility="@{null == vm.bankCard}" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_ffffff_r8"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="19dp"
+            app:visibility="@{null != vm.bankCard}">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_bank_card_main"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:imgUrl="@{vm.bankCard.bankImage}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_bank_card_name"
+                style="@style/Font_18_333333_bold"
+                android:layout_width="0dp"
+                android:text="@{vm.bankCard.nameVal}"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                app:layout_constraintEnd_toStartOf="@id/tv_bank_card_status"
+                app:layout_constraintStart_toEndOf="@id/iv_bank_card_main"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="中国银行（1234）" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_bank_card_status"
+                style="@style/Font_14_333333"
+                android:text="@{vm.bankCard.stateVal}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="绑定成功" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_bank_card_type"
+                style="@style/Font_14_999999"
+                android:layout_width="0dp"
+                android:text="@{vm.bankCard.bankCardTypeName}"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/tv_bank_card_name"
+                app:layout_constraintStart_toStartOf="@id/tv_bank_card_name"
+                app:layout_constraintTop_toBottomOf="@id/tv_bank_card_name"
+                tools:text="储蓄卡" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_bank_card_no"
+                style="@style/Font_24_333333_bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{vm.bankCard.bankCardNo}"
+                app:layout_constraintEnd_toEndOf="@id/tv_bank_card_name"
+                app:layout_constraintStart_toStartOf="@id/tv_bank_card_name"
+                app:layout_constraintTop_toBottomOf="@id/tv_bank_card_type"
+                tools:text="•••• •••• •••• 6979" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

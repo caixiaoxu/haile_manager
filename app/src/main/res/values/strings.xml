@@ -545,6 +545,11 @@
     <string name="pay_success_hint">恭喜您支付成功，请前往钱包余额查看</string>
 
     <string name="bank_card">银行卡</string>
+    <string name="add_bank_card">添加银行卡</string>
+    <string name="add_bank_card_no_real_name">您未进行实名认证，暂不支持绑定银行卡。</string>
+    <string name="settlement_explain">结算说明</string>
+    <string name="settlement_explain_content">结算时间\nT+1结算，如遇节假日顺延（当天收益，将于第二天14:00结算打款至您绑定的银行卡内）。\n\n手续费\n每笔交易手续费0.6%，结算至银行卡将自动扣除。\n\n非银行卡结算\n平台补贴、用户通过余额支付的收益，将结算至您的钱包余额。</string>
+
     <string name="real_name">实名认证</string>
     <string name="auth_info">认证信息</string>
     <string name="id_card">身份证</string>
@@ -578,6 +583,15 @@
     <string-array name="indate_type_arr">
         <item>短期有效</item>
         <item>长期有效</item>
+    </string-array>
+
+    <string-array name="bank_card_state_arr">
+        <item></item>
+        <item>待审核</item>
+        <item>审核失败</item>
+        <item></item>
+        <item></item>
+        <item>绑定成功</item>
     </string-array>
 
     <string name="setting">设置</string>

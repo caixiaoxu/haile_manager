@@ -9,10 +9,7 @@ import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.business.apiService.LoginUserService
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.model.ApiRepository
-import com.yunshang.haile_manager_android.ui.activity.personal.SettingActivity
-import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
-import com.yunshang.haile_manager_android.ui.activity.personal.RealNameAuthActivity
-import com.yunshang.haile_manager_android.ui.activity.personal.WalletActivity
+import com.yunshang.haile_manager_android.ui.activity.personal.*
 
 /**
  * Title :
@@ -46,13 +43,13 @@ class PersonalViewModel : BaseViewModel() {
             }
         ),
         null,
-//        PersonalItem(
-//            R.mipmap.icon_personal_bank_card,
-//            R.string.bank_card,
-//            null,
-//            null,
-//            BankCardActivity::class.java
-//        ),
+        PersonalItem(
+            R.mipmap.icon_personal_bank_card,
+            R.string.bank_card,
+            null,
+            null,
+            BankCardActivity::class.java
+        ),
         PersonalItem(
             R.mipmap.icon_personal_real_name,
             R.string.real_name,
@@ -118,6 +115,9 @@ class PersonalViewModel : BaseViewModel() {
             }
             personalItems.find { item -> item?.title == R.string.wallet }?.run {
                 bundle = IntentParams.WalletParams.pack(it)
+            }
+            personalItems.find { item -> item?.title == R.string.bank_card }?.run {
+                bundle = IntentParams.RealNameAuthParams.pack(it)
             }
         }
     }

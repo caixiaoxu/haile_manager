@@ -1,8 +1,6 @@
 package com.yunshang.haile_manager_android.ui.activity.personal
 
-import android.graphics.Color
 import android.view.View
-import androidx.core.content.ContextCompat
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.WithdrawBindAlipayViewModel
@@ -21,29 +19,11 @@ class WithdrawBindAlipayActivity :
     override fun initIntent() {
         super.initIntent()
         mViewModel.id = IntentParams.CommonParams.parseId(intent)
+        mViewModel.authCode = IntentParams.WithdrawBindAlipayParams.parseAuthCode(intent)
     }
 
     override fun initEvent() {
         super.initEvent()
-        mViewModel.authCode.observe(this) {
-            if (it.isNullOrEmpty()) {
-                window.statusBarColor = Color.WHITE
-                mBinding.root.setBackgroundColor(Color.WHITE)
-            } else {
-                window.statusBarColor = Color.TRANSPARENT
-                mBinding.root.setBackgroundColor(
-                    ContextCompat.getColor(
-                        this@WithdrawBindAlipayActivity,
-                        R.color.page_bg
-                    )
-                )
-            }
-        }
-        mViewModel.verifyCode.observe(this) {
-            if (!it.isNullOrEmpty() && 6 == it.length) {
-                mViewModel.checkSms()
-            }
-        }
         mViewModel.jump.observe(this) {
             finish()
         }

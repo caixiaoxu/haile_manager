@@ -550,6 +550,38 @@ object IntentParams {
         fun parseTotalBalance(intent: Intent): String? = intent.getStringExtra(TotalBalance)
     }
 
+    object BindSmsVerifyParams {
+        private const val VerifyType = "VerifyType"
+
+        /**
+         * 包装参数
+         */
+        fun pack(verifyType: Int): Bundle = Bundle().apply {
+            putInt(VerifyType, verifyType)
+        }
+
+        /**
+         * 解析VerifyType
+         */
+        fun parseAuthCode(intent: Intent): Int = intent.getIntExtra(VerifyType, 0)
+    }
+
+    object WithdrawBindAlipayParams {
+        private const val AuthCode = "authCode"
+
+        /**
+         * 包装参数
+         */
+        fun pack(authCode: String): Bundle = Bundle().apply {
+            putString(AuthCode, authCode)
+        }
+
+        /**
+         * 解析AuthCode
+         */
+        fun parseAuthCode(intent: Intent): String? = intent.getStringExtra(AuthCode)
+    }
+
     object RealNameAuthParams {
         private const val AuthInfo = "authInfo"
 

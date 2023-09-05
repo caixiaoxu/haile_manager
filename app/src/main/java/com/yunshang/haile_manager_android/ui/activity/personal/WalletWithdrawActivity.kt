@@ -93,7 +93,7 @@ class WalletWithdrawActivity :
                     startActivity(
                         Intent(
                             this@WalletWithdrawActivity,
-                            WithdrawBindAlipayActivity::class.java
+                            BindSmsVerifyActivity::class.java
                         ).apply {
                             mViewModel.withdrawAccount.value?.id?.let { id ->
                                 putExtras(IntentParams.CommonParams.pack(id))

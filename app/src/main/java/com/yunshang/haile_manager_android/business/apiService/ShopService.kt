@@ -110,4 +110,10 @@ interface ShopService {
      */
     @POST("/pay/batchCreateSettings")
     suspend fun batchShopPaySettings(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 保存店铺运营设置
+     */
+    @POST("shop/saveOperationSetting")
+    suspend fun saveOperationSetting(@Body body: RequestBody): ResponseWrapper<Any>
 }

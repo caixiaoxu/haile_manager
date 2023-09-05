@@ -58,4 +58,12 @@
     <declare-styleable name="SearchEditText">
         <attr name="autoSearch" format="boolean" />
     </declare-styleable>
+    <declare-styleable name="UpTriangleBackgroundLinearLayout">
+        <attr name="triangle_lr" format="enum">
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+        </attr>
+        <attr name="triangle_margin" format="dimension" />
+        <attr name="triangle_shadow_w" format="dimension" />
+    </declare-styleable>
 </resources>

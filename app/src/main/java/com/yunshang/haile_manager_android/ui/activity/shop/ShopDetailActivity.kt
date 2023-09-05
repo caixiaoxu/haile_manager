@@ -16,6 +16,7 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.ShopDetailViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.AppointSetting
 import com.yunshang.haile_manager_android.data.entities.GoodsSetting
 import com.yunshang.haile_manager_android.databinding.ActivityShopDetailBinding
@@ -87,6 +88,23 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
                 )
             }
             SToast.showToast(this@ShopDetailActivity, "已复制到剪切板")
+        }
+
+        // 运营设置
+        mBinding.btnShopDetailOperationSetting.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@ShopDetailActivity,
+                    ShopOperationSettingActivity::class.java
+                ).apply {
+                    putExtras(
+                        IntentParams.ShopOperationSettingParams.pack(
+                            mViewModel.shopDetail.value?.operationSettings?.volumeVisibleState,
+                            mViewModel.shopId
+                        )
+                    )
+                }
+            )
         }
 
         // 预约

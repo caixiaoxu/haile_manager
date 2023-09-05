@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.business.vm
 
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
@@ -27,6 +28,12 @@ class ShopDetailViewModel : BaseViewModel() {
 
     val shopDetail: MutableLiveData<ShopDetailEntity> by lazy {
         MutableLiveData()
+    }
+
+    val showOperationSetting: MutableLiveData<Boolean> = MutableLiveData(true)
+
+    fun changeShowOperationSetting(v:View){
+        showOperationSetting.value = !(showOperationSetting.value ?: false)
     }
 
     /**

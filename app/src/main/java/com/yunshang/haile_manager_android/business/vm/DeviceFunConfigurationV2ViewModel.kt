@@ -196,18 +196,9 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
                     }
 
                     // 如果没有默认选中，就选中第一个
-                    if (isWashingOrShoes) {
-                        if (it.all { item -> item.extAttrDto.items.firstOrNull()?.isDefault == false }) {
-                            it.firstOrNull()?.extAttrDto?.items?.firstOrNull() { item -> item.isCheck }?.isDefault =
-                                true
-                        }
-                    } else {
-                        it.forEach { param ->
-                            if (param.extAttrDto.items.all { item -> !item.isDefault }) {
-                                param.extAttrDto.items.firstOrNull() { item -> item.isCheck }?.isDefault =
-                                    true
-                            }
-                        }
+                    if (it.all { item -> item.extAttrDto.items.firstOrNull()?.isDefault == false }) {
+                        it.firstOrNull()?.extAttrDto?.items?.firstOrNull() { item -> item.isCheck }?.isDefault =
+                            true
                     }
                 })
             }
@@ -259,19 +250,13 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
 
                 // 只有固定价格才有默认选中
                 if (1 == selectPriceModel.value?.id) {
-                    if (DeviceCategory.isWashingOrShoes(categoryCode.value)) {
-                        if (true == param.extAttrDto.items.firstOrNull()?.isDefault) {
-                            washDefaultOpen = true
-                            return@forEachIndexed
-                        }
-                    } else {
+                    if (param.extAttrDto.items.any { item -> item.isDefault && item.isCheck }) {
                         washDefaultOpen = true
-                        if (!param.extAttrDto.items.any { item -> item.isDefault && item.isCheck }) {
-                            SToast.showToast(context, "请选择功能${index}的默认选中项")
-                            return@let
-                        }
                     }
-                } else washDefaultOpen = true
+                } else {
+                    washDefaultOpen = true
+                    param.extAttrDto.items.forEach { item -> item.isDefault = false }
+                }
             }
 
             if (!washDefaultOpen) {

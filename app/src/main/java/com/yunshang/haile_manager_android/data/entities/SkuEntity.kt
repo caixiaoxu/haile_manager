@@ -532,6 +532,14 @@ data class SkuFunConfigurationV2Param(
         get() = (1 == soldState)
         set(value) {
             soldState = if (value) 1 else 2
+            if (2 == soldState){
+                // 下架后取消默认
+                extAttrDto.items.forEach {attr->
+                    attr.isDefault = false
+                }
+                notifyPropertyChanged(BR.defaultOpen)
+                notifyPropertyChanged(BR.defaultUnitAmount)
+            }
             notifyPropertyChanged(BR.soldStateVal)
         }
 

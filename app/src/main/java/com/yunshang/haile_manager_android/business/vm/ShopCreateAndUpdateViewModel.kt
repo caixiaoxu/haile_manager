@@ -353,6 +353,8 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
             changeWorkTime(shopDetailEntity.workTimeArr(), shopDetailEntity.workTime)
             // 业务类型
             changeBusinessType(shopDetailEntity.businessName)
+            // 运营设置
+            volumeVisibleState.postValue(shopDetailEntity.operationSettings.volumeVisibleState)
         }
     }
 }

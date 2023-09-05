@@ -108,9 +108,11 @@ object IntentParams {
         /**
          * 包装参数
          */
-        fun pack(shopId: Int, shopName: String): Bundle = Bundle().apply {
+        fun pack(shopId: Int, shopName: String? = null): Bundle = Bundle().apply {
             putInt(ShopId, shopId)
-            putString(ShopName, shopName)
+            shopName?.let {
+                putString(ShopName, shopName)
+            }
         }
 
         fun parseShopId(intent: Intent): Int = intent.getIntExtra(ShopId, -1)
@@ -147,11 +149,15 @@ object IntentParams {
          * 包装参数
          */
         fun pack(
-            volumeVisibleState: Int? = null
+            volumeVisibleState: Int? = null,
+            shopId: Int? = null
         ): Bundle =
             Bundle().apply {
                 volumeVisibleState?.let {
                     putInt(VolumeVisibleState, volumeVisibleState)
+                }
+                shopId?.let {
+                    putAll(ShopParams.pack(shopId))
                 }
             }
 

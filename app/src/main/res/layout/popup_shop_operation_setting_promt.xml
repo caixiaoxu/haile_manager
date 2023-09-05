@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yunshang.haile_manager_android.ui.view.UpTriangleBackgroundLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="277dp"
+    android:layout_height="wrap_content"
+    app:triangle_lr="right"
+    app:triangle_shadow_w="30dp"
+    android:orientation="horizontal"
+    app:triangle_margin="70dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:src="@mipmap/icon_shop_operation_setting_promt" />
+</com.yunshang.haile_manager_android.ui.view.UpTriangleBackgroundLinearLayout>

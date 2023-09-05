@@ -71,8 +71,14 @@ class DeviceDetailModel : BaseViewModel() {
 
     val showLiquid: MutableLiveData<Boolean> = MutableLiveData(true)
 
+    val showParamsSetting: MutableLiveData<Boolean> = MutableLiveData(true)
+
     fun changeShowErrorOrder(view: View) {
         showErrorOrder.value = !(showErrorOrder.value ?: false)
+    }
+
+    fun changeShowShowParamsSetting(view: View) {
+        showParamsSetting.value = !(showParamsSetting.value ?: false)
     }
 
     fun changeShowFuncPrice(view: View) {

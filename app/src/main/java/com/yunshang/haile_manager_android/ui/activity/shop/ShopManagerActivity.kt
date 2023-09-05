@@ -51,7 +51,7 @@ class ShopManagerActivity :
      */
     private fun initRightBtn() {
         mBinding.shopTitleBar.getRightBtn(true).run {
-            setText(R.string.operate_manager)
+            setText(R.string.manager)
             setCompoundDrawablesRelativeWithIntrinsicBounds(
                 R.mipmap.icon_add, 0, 0, 0
             )

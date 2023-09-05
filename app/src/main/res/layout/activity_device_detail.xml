@@ -305,19 +305,20 @@
                         android:background="@color/white"
                         android:drawableEnd="@{vm.showErrorOrder?@drawable/icon_arrow_down_with_padding:@drawable/icon_arrow_right_with_padding}"
                         android:gravity="center_vertical"
-                        android:onClick="@{vm::changeShowErrorOrder}"
+                        android:onClick="@{vm::changeShowShowParamsSetting}"
                         android:paddingStart="16dp"
                         android:paddingEnd="8dp"
                         android:text="@string/params_setup" />
 
                     <View
                         style="@style/DividingStyle"
-                        android:visibility="@{vm.showErrorOrder?View.VISIBLE:View.GONE}" />
+                        app:visibility="@{vm.showParamsSetting}" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="12dp"
+                        app:visibility="@{vm.showParamsSetting}"
                         android:background="@drawable/shape_sf7f7f7_r8"
                         android:orientation="vertical">
 

@@ -123,6 +123,13 @@ class DeviceFunConfigurationV2Activity :
                     }
 
                     // 默认选中事件
+                    mItemBinding?.switchDeviceFunConfigurationAttrDefault?.setOnSwitchClickListener {
+                        val isOpen = 1 == item.soldState
+                        if (!isOpen) {
+                            SToast.showToast(this@DeviceFunConfigurationV2Activity, "未上架配置不能开启默认")
+                        }
+                        !isOpen
+                    }
                     mItemBinding?.switchDeviceFunConfigurationAttrDefault?.setOnCheckedChangeListener { _, isChecked ->
                         if (isChecked) {
                             mViewModel.configureList.value?.let { list ->
@@ -155,7 +162,9 @@ class DeviceFunConfigurationV2Activity :
 
                     // 默认选中事件
                     mItemBinding?.llDeviceFunConfigurationAttrDefault?.setOnClickListener {
-                        showDefaultDialog(item)
+                        if (1 == item.soldState) {
+                            showDefaultDialog(item)
+                        }
                     }
                     mItemBinding?.tvDeviceFunConfigurationAttrDefault?.visibility = View.VISIBLE
                 }
@@ -355,8 +364,12 @@ class DeviceFunConfigurationV2Activity :
                     allSelectData: List<ExtAttrDtoItem>
                 ) {
                     selectList.firstOrNull()?.let { first ->
-                        configure.extAttrDto.items.forEach { attr ->
-                            attr.isDefault = false
+                        mViewModel.configureList.value?.forEach { item ->
+                            item.extAttrDto.items.forEach { attr ->
+                                attr.isDefault = false
+                            }
+                            if (item.skuId != configure.skuId)
+                                item.defaultUnitAmount = ""
                         }
                         configure.extAttrDto.items.find { item -> if (first.id.isNullOrEmpty()) first.unitAmount == item.unitAmount else first.id == item.id }
                             ?.let { attr ->

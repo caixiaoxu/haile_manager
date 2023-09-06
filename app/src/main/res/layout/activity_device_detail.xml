@@ -296,7 +296,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@color/white"
                     android:orientation="vertical"
-                    app:visibility="@{vm.isDrinkingOrShower}">
+                    app:visibility="@{vm.hasSinglePulseQuantity}">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Font_14_333333_bold"

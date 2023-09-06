@@ -39,8 +39,8 @@ class DeviceDetailModel : BaseViewModel() {
         MutableLiveData()
     }
 
-    val isDrinkingOrShower: LiveData<Boolean> = deviceDetail.map {
-        DeviceCategory.isDrinkingOrShower(it.categoryCode)
+    val hasSinglePulseQuantity: LiveData<Boolean> = deviceDetail.map {
+        !DeviceCategory.isDispenser(it.categoryCode) && 1 == it?.items?.firstOrNull()?.extAttrDto?.items?.firstOrNull()?.priceCalculateMode
     }
 
     val isOpen: MutableLiveData<Boolean> by lazy {

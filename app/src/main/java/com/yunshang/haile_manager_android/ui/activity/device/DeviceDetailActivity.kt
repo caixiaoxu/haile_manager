@@ -214,12 +214,25 @@ class DeviceDetailActivity :
                 }.forEach { item ->
                     item.show.value = false
                 }
-            } else if (DeviceCategory.isDrinkingOrShower(detail.categoryCode)) {// 饮水机
+            } else if (DeviceCategory.isDrinking(detail.categoryCode)) {// 饮水机
                 mBinding.glDeviceDetailFunc.children.find { view -> view.tag == R.mipmap.icon_device_unlock }
                     ?.findViewById<AppCompatTextView>(R.id.tv_device_detail_func)?.text =
                     StringUtils.getString(R.string.unlock1)
                 mViewModel.deviceDetailFunOperate.filter { item ->
                     item.icon != R.mipmap.icon_device_unlock
+                            && item.icon != R.mipmap.icon_device_create_pay_code
+                            && item.icon != R.mipmap.icon_device_update
+                }
+                    .forEach { item ->
+                        item.show.value = false
+                    }
+            } else if (DeviceCategory.isShower(detail.categoryCode)) {// 饮水机
+                mBinding.glDeviceDetailFunc.children.find { view -> view.tag == R.mipmap.icon_device_unlock }
+                    ?.findViewById<AppCompatTextView>(R.id.tv_device_detail_func)?.text =
+                    StringUtils.getString(R.string.unlock1)
+                mViewModel.deviceDetailFunOperate.filter { item ->
+                    item.icon != R.mipmap.icon_device_unlock
+                            && item.icon != R.mipmap.icon_device_restart
                             && item.icon != R.mipmap.icon_device_create_pay_code
                             && item.icon != R.mipmap.icon_device_update
                 }

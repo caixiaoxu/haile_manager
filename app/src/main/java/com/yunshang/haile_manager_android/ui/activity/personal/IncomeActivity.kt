@@ -102,7 +102,7 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
         mViewModel.profitType = intent.getIntExtra(ProfitType, 3)
         mViewModel.profitSearchId = intent.getIntExtra(ProfitSearchId, -1)
         mViewModel.deviceName = intent.getStringExtra(DeviceName) ?: ""
-        mViewModel.profitIncomeType = intent.getIntExtra(ProfitIncomeType, 2)
+        mViewModel.profitIncomeType = intent.getIntExtra(ProfitIncomeType, 1)
 
         DateTimeUtils.formatDateFromString(intent.getStringExtra(SelectDay))?.let {
             mViewModel.selectDay.postValue(it)

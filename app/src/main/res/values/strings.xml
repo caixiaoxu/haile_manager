@@ -549,6 +549,10 @@
     <string name="add_bank_card_no_real_name">您未进行实名认证，暂不支持绑定银行卡。</string>
     <string name="settlement_explain">结算说明</string>
     <string name="settlement_explain_content">结算时间\nT+1结算，如遇节假日顺延（当天收益，将于第二天14:00结算打款至您绑定的银行卡内）。\n\n手续费\n每笔交易手续费0.6%，结算至银行卡将自动扣除。\n\n非银行卡结算\n平台补贴、用户通过余额支付的收益，将结算至您的钱包余额。</string>
+    <string name="account_type">账户类型</string>
+    <string name="bank_account_name">银行账户户名</string>
+
+    <string name="shop_simple_name">商户简称</string>
 
     <string name="real_name">实名认证</string>
     <string name="auth_info">认证信息</string>

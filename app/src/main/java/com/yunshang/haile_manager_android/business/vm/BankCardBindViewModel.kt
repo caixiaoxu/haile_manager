@@ -3,6 +3,9 @@ package com.yunshang.haile_manager_android.business.vm
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.yunshang.haile_manager_android.data.entities.BankCardDetailEntity
+import com.yunshang.haile_manager_android.ui.fragment.BankCardBindCardInfoFragment
+import com.yunshang.haile_manager_android.ui.fragment.BankCardBindShopInfoFragment
 
 /**
  * Title :
@@ -16,11 +19,19 @@ import com.lsy.framelib.ui.base.BaseViewModel
  */
 class BankCardBindViewModel : BaseViewModel() {
 
-    val bindPage:MutableLiveData<Int> = MutableLiveData(0)
+    val fragments = listOf(
+        BankCardBindCardInfoFragment(),
+        BankCardBindShopInfoFragment(),
+    )
 
+    val bindPage: MutableLiveData<Int> = MutableLiveData(0)
+
+    val bankCardParams: MutableLiveData<BankCardDetailEntity> by lazy {
+        MutableLiveData()
+    }
 
     fun nextOrSubmit(v: View) {
-        if (0 == bindPage.value){
+        if (0 == bindPage.value) {
             bindPage.value = 1
         } else {
 

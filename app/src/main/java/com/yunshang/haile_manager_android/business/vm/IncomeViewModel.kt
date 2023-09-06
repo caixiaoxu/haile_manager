@@ -38,7 +38,7 @@ class IncomeViewModel : BaseViewModel() {
     var deviceName: String = ""
 
     // 1:个人收益；2:商家收益
-    var profitIncomeType: Int = 2
+    var profitIncomeType: Int = 1
 
     //选择的日期
     val selectDay: MutableLiveData<Date> = MutableLiveData(Date())

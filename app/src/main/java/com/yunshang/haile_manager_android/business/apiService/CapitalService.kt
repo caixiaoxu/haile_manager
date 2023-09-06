@@ -102,6 +102,18 @@ interface CapitalService {
     suspend fun checkCashOutOperateSms(@Body body: RequestBody): ResponseWrapper<AuthCodeEntity>
 
     /**
+     * 绑定银行卡短信发送接口
+     */
+    @POST("/candyPay/bank/operateSms")
+    suspend fun sendBankOperateSms(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 绑定银行卡短信校验接口
+     */
+    @POST("/candyPay/bank/authCode")
+    suspend fun checkBankOperateSms(@Body body: RequestBody): ResponseWrapper<AuthCodeEntity>
+
+    /**
      * 支付宝提现账号绑定接口
      */
     @POST("/wallet/cashOutAccount/create")

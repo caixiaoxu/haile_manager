@@ -20,7 +20,9 @@ import com.yunshang.haile_manager_android.data.model.ApiRepository
 class BindSmsVerifyViewModel : BaseViewModel() {
     private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
 
-    var verifyType: Int = 0
+    val verifyType: MutableLiveData<Int> by lazy {
+        MutableLiveData()
+    }
 
     val authCode: MutableLiveData<String> by lazy {
         MutableLiveData()
@@ -53,16 +55,42 @@ class BindSmsVerifyViewModel : BaseViewModel() {
         if (!it.isNullOrEmpty() && it.length > 5) it[5].toString() else ""
     }
 
+    fun sendOperateSms() {
+        launch({
+            ApiRepository.dealApiResult(
+                if (0 == verifyType.value){
+                    mCapitalRepo.sendCashOutOperateSms(
+                        ApiRepository.createRequestBody("")
+                    )
+                } else {
+                    mCapitalRepo.sendBankOperateSms(
+                        ApiRepository.createRequestBody("")
+                    )
+                }
+            )
+        })
+    }
+
     fun checkSms() {
         launch({
             ApiRepository.dealApiResult(
-                mCapitalRepo.checkCashOutOperateSms(
-                    ApiRepository.createRequestBody(
-                        hashMapOf(
-                            "verifyCode" to verifyCode.value!!
+                if (0 == verifyType.value){
+                    mCapitalRepo.checkCashOutOperateSms(
+                        ApiRepository.createRequestBody(
+                            hashMapOf(
+                                "verifyCode" to verifyCode.value!!
+                            )
                         )
                     )
-                )
+                } else {
+                    mCapitalRepo.checkBankOperateSms(
+                        ApiRepository.createRequestBody(
+                            hashMapOf(
+                                "verifyCode" to verifyCode.value!!
+                            )
+                        )
+                    )
+                }
             )?.let {
                 authCode.postValue(it.authCode)
             }

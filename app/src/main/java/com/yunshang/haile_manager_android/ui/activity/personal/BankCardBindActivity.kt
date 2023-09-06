@@ -16,6 +16,12 @@ class BankCardBindActivity :
 
     override fun backBtn(): View = mBinding.barBankCardBindTitle.getBackBtn()
 
+    override fun initEvent() {
+        super.initEvent()
+
+
+    }
+
     override fun initView() {
     }
 

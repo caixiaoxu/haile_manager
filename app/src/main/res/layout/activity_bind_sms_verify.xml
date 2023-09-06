@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/bind_alipay_account" />
+            app:title="@{0 == vm.verifyType?@string/bind_alipay_account:@string/add_bank_card}" />
 
         <View
             style="@style/DividingStyle"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="82dp"
             android:gravity="center"
-            android:text="@string/bind_alipay"
+            android:text="@{0 == vm.verifyType?@string/bind_alipay:@string/add_bank_card}"
             app:layout_constraintTop_toBottomOf="@id/bar_bind_alipay_title" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -58,8 +58,11 @@
             android:cursorVisible="false"
             android:inputType="numberDecimal"
             android:maxLength="6"
+            android:selectAllOnFocus="false"
             android:text="@={vm.verifyCode}"
+            android:textSize="1sp"
             android:textColor="@android:color/transparent"
+            android:textIsSelectable="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_bind_alipay_hint" />

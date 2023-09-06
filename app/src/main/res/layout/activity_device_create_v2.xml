@@ -140,12 +140,12 @@
                     app:title="@string/single_pulse_quantity"
                     app:type="input"
                     app:unitHint="@string/unit_quantity_hint"
-                    app:visibility="@{vm.isDrinkingOrShower}" />
+                    app:visibility="@{vm.showSinglePulseQuantity}" />
 
                 <View
                     style="@style/DividingStyle"
                     android:layout_marginHorizontal="16dp"
-                    app:visibility="@{vm.isDrinkingOrShower}" />
+                    app:visibility="@{vm.showSinglePulseQuantity}" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_wash_imei"

@@ -29,6 +29,7 @@ import com.yunshang.haile_manager_android.databinding.ItemDeviceFunConfigureatio
 import com.yunshang.haile_manager_android.databinding.ItemDeviceFuncConfigurationDryerTimeBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceFuncConfigurationWashingBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
@@ -77,49 +78,21 @@ class DeviceFunConfigurationV2Activity :
                 mItemBinding?.itemDeviceFunConfigurationDesc?.visibility(true == it)
             }
             mViewModel.isWashingOrShoes.observe(this) {
-                mItemBinding?.itemDeviceFunConfigurationAttr?.visibility(true != it)
                 mItemBinding?.switchDeviceFunConfigurationAttrDefault?.visibility(true == it)
                 mItemBinding?.ivDeviceFunConfigurationAttrDefaultRight?.visibility(false == it)
                 val isPulseDevice = DeviceCategory.isPulseDevice(mViewModel.communicationType)
                 val list = item.extAttrDto.items.filter { attr -> attr.isCheck }
                 if (true == it) {
+                    mItemBinding?.itemDeviceFunConfigurationAttr?.visibility(false)
                     // 洗衣机或洗鞋机
                     mItemBinding?.llDeviceFunConfigurationAttrSku?.layoutId =
                         R.layout.item_device_func_configuration_washing
                     if (list.isNotEmpty()) {
-                        mItemBinding?.llDeviceFunConfigurationAttrSku?.buildChild<ItemDeviceFuncConfigurationWashingBinding, ExtAttrDtoItem>(
+                        buildOnlyOnConfigure(
+                            mItemBinding?.llDeviceFunConfigurationAttrSku,
                             list.subList(0, 1),
-                            LinearLayoutCompat.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT,
-                            )
-                        ) { _, childBinding, data ->
-                            childBinding.item = data
-                            // 修改单位
-                            (1 != data.functionType).let { canUpdate ->
-                                childBinding.itemDeviceFunConfigurationWashTime.contentView.isFocusable =
-                                    canUpdate
-                                childBinding.itemDeviceFunConfigurationWashTime.contentView.setTextColor(
-                                    ContextCompat.getColor(
-                                        this,
-                                        if (canUpdate) R.color.common_txt_color else R.color.common_txt_hint_color
-                                    )
-                                )
-                                childBinding.itemDeviceFunConfigurationWashTime.contentView.setOnClickListener {
-                                    SToast.showToast(this, "固定配置不可修改")
-                                }
-                            }
-                            childBinding.itemDeviceFunConfigurationWashTime.mTailView.text =
-                                data.getUnit()
-
-                            childBinding.itemDeviceFunConfigurationWashTime.mTitleView.gravity =
-                                Gravity.START or Gravity.CENTER_VERTICAL
-                            childBinding.itemDeviceFunConfigurationWashMoney.mTitleView.gravity =
-                                Gravity.START or Gravity.CENTER_VERTICAL
-                            childBinding.itemDeviceFunConfigurationPulseCount.visibility(
-                                isPulseDevice
-                            )
-                        }
+                            isPulseDevice
+                        )
                     }
 
                     // 默认选中事件
@@ -141,23 +114,36 @@ class DeviceFunConfigurationV2Activity :
                     }
                     mItemBinding?.tvDeviceFunConfigurationAttrDefault?.visibility = View.INVISIBLE
                 } else {
-                    mItemBinding?.itemDeviceFunConfigurationAttr?.onSelectedEvent = {
-                        showTimeDialog(
-                            item,
-                            pos
+                    // 只有一个配置，固定和可改
+                    if (1 == list.size && 3 != mViewModel.spuExtAttrDto.value?.functionType) {
+                        mItemBinding?.llDeviceFunConfigurationAttrSku?.layoutId =
+                            R.layout.item_device_func_configuration_washing
+                        mItemBinding?.itemDeviceFunConfigurationAttr?.visibility(false)
+                        buildOnlyOnConfigure(
+                            mItemBinding?.llDeviceFunConfigurationAttrSku,
+                            list.subList(0, 1),
+                            isPulseDevice
                         )
-                    }
-                    mItemBinding?.llDeviceFunConfigurationAttrSku?.layoutId =
-                        R.layout.item_device_func_configuration_dryer_time
-                    mItemBinding?.llDeviceFunConfigurationAttrSku?.buildChild<ItemDeviceFuncConfigurationDryerTimeBinding, ExtAttrDtoItem>(
-                        list,
-                        LinearLayoutCompat.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT, itemDryerHeight
-                        )
-                    ) { _, childBinding, data ->
-                        childBinding.item = data
-                        childBinding.etDryerPulse.visibility(isPulseDevice)
-                        childBinding.tvDryerPulseHint.visibility(isPulseDevice)
+                    } else {
+                        mItemBinding?.llDeviceFunConfigurationAttrSku?.layoutId =
+                            R.layout.item_device_func_configuration_dryer_time
+                        mItemBinding?.itemDeviceFunConfigurationAttr?.visibility(true)
+                        mItemBinding?.itemDeviceFunConfigurationAttr?.onSelectedEvent = {
+                            showTimeDialog(
+                                item,
+                                pos
+                            )
+                        }
+                        mItemBinding?.llDeviceFunConfigurationAttrSku?.buildChild<ItemDeviceFuncConfigurationDryerTimeBinding, ExtAttrDtoItem>(
+                            list,
+                            LinearLayoutCompat.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT, itemDryerHeight
+                            )
+                        ) { _, childBinding, data ->
+                            childBinding.item = data
+                            childBinding.etDryerPulse.visibility(isPulseDevice)
+                            childBinding.tvDryerPulseHint.visibility(isPulseDevice)
+                        }
                     }
 
                     // 默认选中事件
@@ -174,6 +160,46 @@ class DeviceFunConfigurationV2Activity :
             mViewModel.selectPriceModel.observe(this) {
                 mItemBinding?.llDeviceFunConfigurationAttrDefault?.visibility(1 == it.id)
             }
+        }
+    }
+
+    private fun buildOnlyOnConfigure(
+        llDeviceFunConfigurationAttrSku: CustomChildListLinearLayout?,
+        subList: List<ExtAttrDtoItem>,
+        isPulseDevice: Boolean
+    ) {
+        llDeviceFunConfigurationAttrSku?.buildChild<ItemDeviceFuncConfigurationWashingBinding, ExtAttrDtoItem>(
+            subList,
+            LinearLayoutCompat.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+            )
+        ) { _, childBinding, data ->
+            childBinding.item = data
+            // 修改单位
+            (1 != data.functionType).let { canUpdate ->
+                childBinding.itemDeviceFunConfigurationWashTime.contentView.isFocusable =
+                    canUpdate
+                childBinding.itemDeviceFunConfigurationWashTime.contentView.setTextColor(
+                    ContextCompat.getColor(
+                        this,
+                        if (canUpdate) R.color.common_txt_color else R.color.common_txt_hint_color
+                    )
+                )
+                childBinding.itemDeviceFunConfigurationWashTime.contentView.setOnClickListener {
+                    SToast.showToast(this, "固定配置不可修改")
+                }
+            }
+            childBinding.itemDeviceFunConfigurationWashTime.mTailView.text =
+                data.getUnit()
+
+            childBinding.itemDeviceFunConfigurationWashTime.mTitleView.gravity =
+                Gravity.START or Gravity.CENTER_VERTICAL
+            childBinding.itemDeviceFunConfigurationWashMoney.mTitleView.gravity =
+                Gravity.START or Gravity.CENTER_VERTICAL
+            childBinding.itemDeviceFunConfigurationPulseCount.visibility(
+                isPulseDevice
+            )
         }
     }
 

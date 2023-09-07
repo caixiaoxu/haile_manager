@@ -168,7 +168,7 @@
     <string name="pricing_manner">计价方式</string>
     <string name="for_time">按时间</string>
     <string name="for_quantity">按流量</string>
-    <string name="quantity">流量</string>
+    <string name="quantity">用量</string>
     <string name="over_time">过流时间</string>
     <string name="over_time_hint">输入范围10-600</string>
     <string name="over_time_hint1">输入范围10-60</string>

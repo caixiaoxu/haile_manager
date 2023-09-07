@@ -56,9 +56,9 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
         DeviceCategory.isWashingOrShoes(it)
     }
 
-    // 是否是洗衣机、洗鞋机和烘干机
-    val isWashingOrShoesOrDryer: LiveData<Boolean> = categoryCode.map {
-        DeviceCategory.isWashingOrShoes(it) || DeviceCategory.isDryer(it)
+    // 是否是投放器
+    val isDispenser: LiveData<Boolean> = categoryCode.map {
+        DeviceCategory.isDispenser(it)
     }
 
     // spu配置

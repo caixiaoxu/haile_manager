@@ -53,7 +53,6 @@
         <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/item_device_fun_configuration_desc"
             style="@style/MultiTypeItemStyle"
-            android:visibility="gone"
             app:itemContent="@={item.featureVal}"
             app:title="@string/desc"
             app:titleDrawableEnd="@mipmap/icon_item_required"

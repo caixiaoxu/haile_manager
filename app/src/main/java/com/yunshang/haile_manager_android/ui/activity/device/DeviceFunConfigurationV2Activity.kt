@@ -74,8 +74,8 @@ class DeviceFunConfigurationV2Activity :
             mItemBinding?.tvDeviceFunConfigurationIndex?.text =
                 StringUtils.getString(R.string.device_func_configuration_title, pos + 1)
 
-            mViewModel.isWashingOrShoesOrDryer.observe(this) {
-                mItemBinding?.itemDeviceFunConfigurationDesc?.visibility(true == it)
+            mViewModel.isDispenser.observe(this) {
+                mItemBinding?.itemDeviceFunConfigurationDesc?.visibility(true != it)
             }
             mViewModel.isWashingOrShoes.observe(this) {
                 mItemBinding?.switchDeviceFunConfigurationAttrDefault?.visibility(true == it)

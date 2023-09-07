@@ -196,10 +196,10 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
                     }
 
                     // 如果没有默认选中，就选中第一个
-                    if (it.all { item -> item.extAttrDto.items.firstOrNull()?.isDefault == false }) {
-                        it.firstOrNull()?.extAttrDto?.items?.firstOrNull() { item -> item.isCheck }?.isDefault =
-                            true
-                    }
+//                    if (it.all { item -> item.extAttrDto.items.firstOrNull()?.isDefault == false }) {
+//                        it.firstOrNull()?.extAttrDto?.items?.firstOrNull() { item -> item.isCheck }?.isDefault =
+//                            true
+//                    }
                 })
             }
             isFirstData = 2

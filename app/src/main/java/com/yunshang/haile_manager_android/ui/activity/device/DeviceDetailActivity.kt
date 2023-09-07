@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
-import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -116,9 +114,9 @@ class DeviceDetailActivity :
     private val mFunAdapter by lazy {
         CommonRecyclerAdapter<ItemSelectFunConfigureV2Binding, SkuFunConfigurationV2Param>(
             R.layout.item_select_fun_configure_v2, BR.item
-        ) { mItemBinding, pos, item ->
+        ) { mItemBinding, _, item ->
 
-            item.extAttrDto.items.filter { item -> item.isEnabled }.let {
+            item.extAttrDto.items.filter { attr -> attr.isEnabled }.let {
                 val isPulseDevice =
                     DeviceCategory.isPulseDevice(mViewModel.deviceDetail.value?.communicationType)
                 mItemBinding?.llSelectFunConfigureAttrs?.buildChild<ItemSelectFunConfigureAttrItemV2Binding, ExtAttrDtoItem>(
@@ -195,70 +193,39 @@ class DeviceDetailActivity :
         super.initEvent()
 
         mViewModel.deviceDetail.observe(this) { detail ->
-            if (!detail.shopAppointmentEnabled) {
-                mBinding.glDeviceDetailFunc.children.find {
-                    it.tag == R.mipmap.icon_device_device_appointment_setting
-                }?.let {
-                    mBinding.glDeviceDetailFunc.removeView(it)
-                }
-            }
-
-            // 吹风机不显示桶自洁
-            if (DeviceCategory.isHair(detail.categoryCode)) {
-                mViewModel.deviceDetailFunOperate.filter { item ->
-                    item.icon == R.mipmap.icon_device_device_selfclean
-                            || item.icon == R.mipmap.icon_device_self_clean
-                            || item.icon == R.mipmap.icon_device_unlock
-                            || item.icon == R.mipmap.icon_device_device_voice
-                            || item.icon == R.mipmap.icon_device_device_drain
-                }.forEach { item ->
-                    item.show.value = false
-                }
-            } else if (DeviceCategory.isDrinking(detail.categoryCode)) {// 饮水机
-                mBinding.glDeviceDetailFunc.children.find { view -> view.tag == R.mipmap.icon_device_unlock }
-                    ?.findViewById<AppCompatTextView>(R.id.tv_device_detail_func)?.text =
-                    StringUtils.getString(R.string.unlock1)
-                mViewModel.deviceDetailFunOperate.filter { item ->
-                    item.icon != R.mipmap.icon_device_unlock
-                            && item.icon != R.mipmap.icon_device_create_pay_code
-                            && item.icon != R.mipmap.icon_device_update
-                }
-                    .forEach { item ->
-                        item.show.value = false
-                    }
-            } else if (DeviceCategory.isShower(detail.categoryCode)) {// 饮水机
-                mBinding.glDeviceDetailFunc.children.find { view -> view.tag == R.mipmap.icon_device_unlock }
-                    ?.findViewById<AppCompatTextView>(R.id.tv_device_detail_func)?.text =
-                    StringUtils.getString(R.string.unlock1)
-                mViewModel.deviceDetailFunOperate.filter { item ->
-                    item.icon != R.mipmap.icon_device_unlock
-                            && item.icon != R.mipmap.icon_device_restart
-                            && item.icon != R.mipmap.icon_device_create_pay_code
-                            && item.icon != R.mipmap.icon_device_update
-                }
-                    .forEach { item ->
-                        item.show.value = false
-                    }
-            } else if (DeviceCategory.isDispenser(detail.categoryCode)) {// 投放器不显示部分icon
-                mViewModel.deviceDetailFunOperate.forEach { item ->
-                    if (item.icon == R.mipmap.icon_device_self_clean
-                        || item.icon == R.mipmap.icon_device_change_model
-                        || item.icon == R.mipmap.icon_device_change_pay_code
-                        || item.icon == R.mipmap.icon_device_create_pay_code
-                        || item.icon == R.mipmap.icon_device_device_appointment_setting
-                    ) {
-                        item.show.value = false
-                    }
-                }
-            } else {
-                mViewModel.deviceDetailFunOperate.forEach { item ->
-                    if (item.icon == R.mipmap.icon_device_device_selfclean
-                        || item.icon == R.mipmap.icon_device_device_drain
-                        || item.icon == R.mipmap.icon_device_device_voice
-                        || item.icon == R.mipmap.icon_device_unlock
-                    ) {
-                        item.show.value = false
-                    }
+            mViewModel.deviceDetailFunOperate.forEach { item ->
+                item.show.value = when (item.title) {
+                    // 复位
+                    R.string.restart -> !DeviceCategory.isDrinking(detail.categoryCode)
+                    // 启动
+                    R.string.start -> !DeviceCategory.isDrinkingOrShower(detail.categoryCode)
+                    // 自清洁
+                    R.string.devices_self_clean -> DeviceCategory.isDispenser(detail.categoryCode)
+                    // 桶自洁
+                    R.string.self_clean -> DeviceCategory.isWashingOrShoes(detail.categoryCode)
+                    // 更换模块
+                    R.string.change_model -> !DeviceCategory.isDispenser(detail.categoryCode)
+                            && !DeviceCategory.isDrinkingOrShower(detail.categoryCode)
+                    // 解锁
+                    R.string.unlock1 -> DeviceCategory.isDrinkingOrShower(detail.categoryCode)
+                    // 开锁
+                    R.string.unlock -> DeviceCategory.isDispenser(detail.categoryCode)
+                    // 更换付款码
+                    R.string.change_pay_code -> !DeviceCategory.isDispenser(detail.categoryCode)
+                            && !DeviceCategory.isDrinkingOrShower(detail.categoryCode)
+                    // 生成付款码
+                    R.string.create_pay_code -> !DeviceCategory.isDispenser(detail.categoryCode)
+                    // 修改功能配置
+                    R.string.update_func_price -> true
+                    // 修改设备名称
+                    R.string.update_device_name -> true
+                    // 修改参数设置
+                    R.string.update_params_setting -> mViewModel.checkSinglePulseQuantity(detail)
+                    // 预约设置
+                    R.string.device_appointment_setting -> detail.shopAppointmentEnabled
+                    // 排空
+                    R.string.device_drain -> DeviceCategory.isDispenser(detail.categoryCode)
+                    else -> false
                 }
             }
 
@@ -507,6 +474,18 @@ class DeviceDetailActivity :
                 12 -> mViewModel.deviceDetail.value?.let { detail ->
                     mViewModel.deviceSetting(30, detail.imei)
                 }
+                13 -> mViewModel.deviceDetail.value?.let { detail ->
+                    startActivity(Intent(
+                        this@DeviceDetailActivity,
+                        DeviceOtherParamsUpdateActivity::class.java
+                    ).apply {
+                        putExtras(
+                            IntentParams.DeviceParamsUpdateParams.pack(
+                                GsonUtils.any2Json(detail.toUpdateParams()),
+                            )
+                        )
+                    })
+                }
             }
         }
 
@@ -535,7 +514,7 @@ class DeviceDetailActivity :
         val inflater = LayoutInflater.from(this@DeviceDetailActivity)
         mViewModel.deviceDetailFunOperate.forEachIndexed { _, config ->
             ItemDeviceDetailFuncBinding.inflate(inflater).also { childBinding ->
-                childBinding.tvDeviceDetailFunc.text = config.title
+                childBinding.tvDeviceDetailFunc.text = StringUtils.getString(config.title)
                 childBinding.root.tag = config.icon
                 childBinding.tvDeviceDetailFunc.setCompoundDrawablesWithIntrinsicBounds(
                     0,
@@ -613,21 +592,6 @@ class DeviceDetailActivity :
                     )
                 )
             })
-        }
-
-        mBinding.includeDeviceDetailSinglePulseQuantity.root.setOnClickListener {
-            mViewModel.deviceDetail.value?.let { detail ->
-                startActivity(Intent(
-                    this@DeviceDetailActivity,
-                    DeviceOtherParamsUpdateActivity::class.java
-                ).apply {
-                    putExtras(
-                        IntentParams.DeviceParamsUpdateParams.pack(
-                            GsonUtils.any2Json(detail.toUpdateParams()),
-                        )
-                    )
-                })
-            }
         }
 
         // 功能配置

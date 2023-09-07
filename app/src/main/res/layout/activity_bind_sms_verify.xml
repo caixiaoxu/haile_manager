@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{0 == vm.verifyType?@string/bind_alipay_account:@string/add_bank_card}" />
+            app:title="@{vm.titleVal}" />
 
         <View
             style="@style/DividingStyle"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="82dp"
             android:gravity="center"
-            android:text="@{0 == vm.verifyType?@string/bind_alipay:@string/add_bank_card}"
+            android:text="@{vm.contentVal}"
             app:layout_constraintTop_toBottomOf="@id/bar_bind_alipay_title" />
 
         <androidx.appcompat.widget.AppCompatTextView

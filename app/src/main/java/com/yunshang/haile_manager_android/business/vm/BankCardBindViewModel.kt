@@ -4,6 +4,7 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.yunshang.haile_manager_android.data.entities.BankCardDetailEntity
+import com.yunshang.haile_manager_android.data.entities.RealNameAuthDetailEntity
 import com.yunshang.haile_manager_android.ui.fragment.BankCardBindCardInfoFragment
 import com.yunshang.haile_manager_android.ui.fragment.BankCardBindShopInfoFragment
 
@@ -18,6 +19,12 @@ import com.yunshang.haile_manager_android.ui.fragment.BankCardBindShopInfoFragme
  * 作者姓名 修改时间 版本号 描述
  */
 class BankCardBindViewModel : BaseViewModel() {
+
+    var authCode: String? = null
+
+    val authInfo: MutableLiveData<RealNameAuthDetailEntity> by lazy {
+        MutableLiveData()
+    }
 
     val fragments = listOf(
         BankCardBindCardInfoFragment(),

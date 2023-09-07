@@ -34,7 +34,7 @@
 
         <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/item_device_single_pulse_quantity"
-            style="@style/MultiTypeItemStyle"
+            style="@style/MultiTypePaddingHItemStyle"
             android:background="@color/white"
             android:hint="@string/single_pulse_quantity_hint"
             android:inputType="numberDecimal"

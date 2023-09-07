@@ -52,7 +52,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_batch_start_department"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{vm.selectDepartmentsVal}"
                     app:showArrow="true"
                     app:title="@string/department"
@@ -64,7 +64,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_batch_start_category"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{vm.selectCategoryVal}"
                     app:showArrow="true"
                     app:title="@string/device_category"
@@ -76,7 +76,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_batch_start_model"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:visibility="@{vm.modelShow?View.VISIBLE:View.GONE}"
                     app:itemContent="@{vm.selectDeviceModelVal}"
                     app:showArrow="true"
@@ -90,7 +90,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_batch_start_func"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:visibility="@{null != vm.selectDeviceModel?View.VISIBLE:View.GONE}"
                     app:itemContent="@{vm.selectFuncVal}"
                     app:showArrow="true"
@@ -104,7 +104,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_batch_start_attr"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:visibility="@{(null != vm.selectFunc &amp;&amp; vm.isDryerOrHair)?View.VISIBLE:View.GONE}"
                     app:itemContent="@{vm.selectAttrVal}"
                     app:showArrow="true"

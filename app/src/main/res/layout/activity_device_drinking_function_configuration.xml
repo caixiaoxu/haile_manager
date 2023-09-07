@@ -42,7 +42,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_fun_configuration_calculate_model"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{1 == vm.drinkAttrConfigure.priceCalculateMode?@string/for_quantity:@string/for_time}"
                     app:showArrow="true"
                     app:title="@string/pricing_manner"
@@ -50,7 +50,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_fun_configuration_overtime"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:hint="@string/over_time_hint"
                     app:itemContent="@={vm.drinkAttrConfigure.overTime}"
                     app:title="@string/over_time"
@@ -62,7 +62,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_fun_configuration_pause_time"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:hint="@string/pause_time_hint"
                     app:itemContent="@={vm.drinkAttrConfigure.pauseTime}"
                     app:title="@string/pause_time"
@@ -74,7 +74,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_fun_configuration_single_pulse_quantity"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:hint="@string/single_pulse_quantity_hint"
                     android:visibility="@{1 == vm.drinkAttrConfigure.priceCalculateMode?View.VISIBLE:View.GONE}"
                     app:itemContent="@={vm.drinkAttrConfigure.singlePulseQuantity}"

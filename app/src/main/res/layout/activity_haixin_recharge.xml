@@ -55,7 +55,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_haixin_recharge_phone"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@={vm.userPhone }"
                     app:layout_constraintTop_toBottomOf="@id/tv_haixin_recharge_title"
                     app:title="@string/user_phone"
@@ -71,7 +71,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_haixin_recharge_shop"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{vm.selectShop.name}"
                     app:layout_constraintTop_toBottomOf="@id/item_haixin_recharge_phone"
                     app:showArrow="true"

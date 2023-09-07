@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.lsy.framelib.utils.StringUtils
+import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 
@@ -22,6 +24,24 @@ class BindSmsVerifyViewModel : BaseViewModel() {
 
     val verifyType: MutableLiveData<Int> by lazy {
         MutableLiveData()
+    }
+
+    val titleVal: LiveData<String> = verifyType.map {
+        when (it) {
+            0 -> StringUtils.getString(R.string.bind_alipay_account)
+            1 -> StringUtils.getString(R.string.add_bank_card)
+            2 -> StringUtils.getString(R.string.real_name)
+            else -> ""
+        }
+    }
+
+    val contentVal: LiveData<String> = verifyType.map {
+        when (it) {
+            0 -> StringUtils.getString(R.string.bind_alipay)
+            1 -> StringUtils.getString(R.string.add_bank_card)
+            2 -> StringUtils.getString(R.string.real_name)
+            else -> ""
+        }
     }
 
     val authCode: MutableLiveData<String> by lazy {
@@ -57,15 +77,12 @@ class BindSmsVerifyViewModel : BaseViewModel() {
 
     fun sendOperateSms() {
         launch({
+            val body = ApiRepository.createRequestBody("")
             ApiRepository.dealApiResult(
-                if (0 == verifyType.value){
-                    mCapitalRepo.sendCashOutOperateSms(
-                        ApiRepository.createRequestBody("")
-                    )
-                } else {
-                    mCapitalRepo.sendBankOperateSms(
-                        ApiRepository.createRequestBody("")
-                    )
+                when (verifyType.value) {
+                    0 -> mCapitalRepo.sendCashOutOperateSms(body)
+                    1 -> mCapitalRepo.sendBankOperateSms(body)
+                    else -> mCapitalRepo.sendRealNameOperateSms(body)
                 }
             )
         })
@@ -73,23 +90,16 @@ class BindSmsVerifyViewModel : BaseViewModel() {
 
     fun checkSms() {
         launch({
+            val body = ApiRepository.createRequestBody(
+                hashMapOf(
+                    "verifyCode" to verifyCode.value!!
+                )
+            )
             ApiRepository.dealApiResult(
-                if (0 == verifyType.value){
-                    mCapitalRepo.checkCashOutOperateSms(
-                        ApiRepository.createRequestBody(
-                            hashMapOf(
-                                "verifyCode" to verifyCode.value!!
-                            )
-                        )
-                    )
-                } else {
-                    mCapitalRepo.checkBankOperateSms(
-                        ApiRepository.createRequestBody(
-                            hashMapOf(
-                                "verifyCode" to verifyCode.value!!
-                            )
-                        )
-                    )
+                when (verifyType.value) {
+                    0 -> mCapitalRepo.checkCashOutOperateSms(body)
+                    1 -> mCapitalRepo.checkBankOperateSms(body)
+                    else -> mCapitalRepo.checkRealNameOperateSms(body)
                 }
             )?.let {
                 authCode.postValue(it.authCode)

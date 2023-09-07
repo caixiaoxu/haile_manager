@@ -4,6 +4,7 @@ import android.view.View
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.BankCardBindViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.databinding.ActivityBankCardBindBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 
@@ -15,6 +16,12 @@ class BankCardBindActivity :
     override fun layoutId(): Int = R.layout.activity_bank_card_bind
 
     override fun backBtn(): View = mBinding.barBankCardBindTitle.getBackBtn()
+
+    override fun initIntent() {
+        super.initIntent()
+        mViewModel.authCode = IntentParams.WithdrawBindAlipayParams.parseAuthCode(intent)
+        mViewModel.authInfo.value = IntentParams.RealNameAuthParams.parseAuthInfo(intent)
+    }
 
     override fun initEvent() {
         super.initEvent()

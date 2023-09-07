@@ -43,7 +43,7 @@
 
                     <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                         android:id="@+id/item_device_fun_configuration_price_model"
-                        style="@style/MultiTypeItemStyle"
+                        style="@style/MultiTypePaddingHItemStyle"
                         android:inputType="numberDecimal"
                         app:itemContent="@{vm.selectPriceModel.name}"
                         app:showArrow="true"
@@ -53,7 +53,7 @@
 
                     <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                         android:id="@+id/item_device_fun_configuration_calculate_model"
-                        style="@style/MultiTypeItemStyle"
+                        style="@style/MultiTypePaddingHItemStyle"
                         android:inputType="numberDecimal"
                         app:itemContent="@{vm.selectCalculateModel.name}"
                         app:showArrow="true"

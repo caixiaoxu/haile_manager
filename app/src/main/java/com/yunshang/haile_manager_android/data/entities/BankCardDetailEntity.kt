@@ -1,6 +1,8 @@
 package com.yunshang.haile_manager_android.data.entities
 
 import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import com.yunshang.haile_manager_android.BR
 
 /**
  * Title :
@@ -38,10 +40,57 @@ data class BankCardDetailEntity(
     var subBankCode: String,
     var subBankName: String,
 
-    val area: String? = null,
-    val bankArea: String? = null,
+    var area: String? = null,
+    var bankArea: String? = null,
     val id: Int? = null,
     val state: Int? = null,
-): BaseObservable() {
+) : BaseObservable() {
 
+    @get:Bindable
+    var bankAccountNoVal: String
+        get() = bankAccountNo
+        set(value) {
+            bankAccountNo = value
+            notifyPropertyChanged(BR.bankAccountNoVal)
+        }
+
+    @get:Bindable
+    var areaVal: String
+        get() = area ?:""
+        set(value) {
+            area = value
+            notifyPropertyChanged(BR.areaVal)
+        }
+
+    @get:Bindable
+    var bankNameVal: String
+        get() = bankName
+        set(value) {
+            bankName = value
+            notifyPropertyChanged(BR.bankNameVal)
+        }
+
+    @get:Bindable
+    var subBankNameVal: String
+        get() = subBankName
+        set(value) {
+            subBankName = value
+            notifyPropertyChanged(BR.subBankNameVal)
+        }
+
+    @get:Bindable
+    var subBankCodeVal: String
+        get() = subBankCode
+        set(value) {
+            subBankCode = value
+            notifyPropertyChanged(BR.subBankCodeVal)
+        }
+
+    @get:Bindable
+    var bankMobileNoVal: String
+        get() = bankMobileNo
+        set(value) {
+            bankMobileNo = value
+            notifyPropertyChanged(BR.bankMobileNoVal)
+        }
 }

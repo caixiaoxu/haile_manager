@@ -17,18 +17,82 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_ffffff_r8"
             android:orientation="vertical"
+            android:paddingHorizontal="12dp"
+            android:paddingBottom="16dp"
             app:divider="@drawable/divder_efefef"
             app:showDividers="middle">
 
             <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                android:id="@+id/item_device_fun_configuration_price_model"
+                android:id="@+id/item_bank_card_bind_shop_info_simple_name"
+                style="@style/MultiTypeItemStyle"
+                android:inputType="numberDecimal"
+                app:itemContent="@{parentVm.bankCardParams.merchantNameAlias}"
+                app:title="@string/shop_simple_name"
+                app:type="input"/>
+
+            <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                android:id="@+id/item_bank_card_bind_shop_info_area"
                 style="@style/MultiTypeItemStyle"
                 android:inputType="numberDecimal"
                 app:itemContent="@{parentVm.bankCardParams.merchantNameAlias}"
                 app:showArrow="true"
-                app:title="@string/shop_simple_name"
+                app:title="@string/shop_area"
                 app:type="info"/>
 
+            <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                android:id="@+id/item_bank_card_bind_shop_info_location_detail"
+                style="@style/MultiTypeItemStyle"
+                android:inputType="numberDecimal"
+                app:itemContent="@{parentVm.bankCardParams.merchantNameAlias}"
+                app:title="@string/shop_location_detail"
+                app:type="input"/>
+
+            <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                android:id="@+id/item_bank_card_bind_shop_info_manager"
+                style="@style/MultiTypeItemStyle"
+                android:inputType="numberDecimal"
+                app:itemContent="@{parentVm.bankCardParams.merchantNameAlias}"
+                app:title="@string/shop_manager"
+                app:type="input"/>
+
+            <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                android:id="@+id/item_bank_card_bind_shop_info_manager_phone"
+                style="@style/MultiTypeItemStyle"
+                android:inputType="numberDecimal"
+                app:itemContent="@{parentVm.bankCardParams.merchantNameAlias}"
+                app:title="@string/shop_manager_phone"
+                app:type="input"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                style="@style/Font_16_333333"
+                android:text="@string/shop_sit_and_device_pic"
+                android:gravity="center_vertical"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="144dp"
+                    android:layout_height="93dp"
+                    android:background="@mipmap/icon_bind_bank_shop_sit_pic"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="144dp"
+                    android:layout_height="93dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@mipmap/icon_bind_bank_shop_deivce_pic"/>
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/shop_sit_and_device_pic_promt"
+                style="@style/Font_12_999999"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
 </layout>

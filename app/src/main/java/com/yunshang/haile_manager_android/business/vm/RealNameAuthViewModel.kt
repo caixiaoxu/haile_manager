@@ -34,6 +34,8 @@ class RealNameAuthViewModel : BaseViewModel() {
     private val mCommonService = ApiRepository.apiClient(CommonService::class.java)
     private val mUserRepo = ApiRepository.apiClient(LoginUserService::class.java)
 
+    var authCode: String? = null
+
     val isSubmit: MutableLiveData<Boolean> = MutableLiveData(true)
 
     // 上传图片缓存
@@ -88,6 +90,12 @@ class RealNameAuthViewModel : BaseViewModel() {
     }
 
     fun submit(v: View) {
+        if (authCode.isNullOrEmpty()) {
+            Timber.i("authCode为空")
+            SToast.showToast(v.context, R.string.empty_params)
+            return
+        }
+
         if (null == authInfo.value?.verifyType) {
             SToast.showToast(v.context, R.string.empty_params)
             return
@@ -136,6 +144,8 @@ class RealNameAuthViewModel : BaseViewModel() {
                 return
             }
         }
+        // 验证码
+        authInfo.value?.authCode = authCode
 
         launch({
             ApiRepository.dealApiResult(

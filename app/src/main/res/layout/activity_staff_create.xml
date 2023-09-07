@@ -49,7 +49,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_staff_create_name"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     app:itemContent="@={vm.name}"
                     app:showArrow="false"
@@ -58,7 +58,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_staff_create_phone"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:inputType="phone"
                     android:maxLength="11"
@@ -70,7 +70,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_staff_create_role"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     app:itemContent="@{vm.role.role}"
                     app:showArrow="true"
@@ -79,7 +79,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_staff_create_take_charge_shop"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:visibility="@{vm.needShopAndPermission?View.VISIBLE:View.GONE}"
                     app:itemContent="@{vm.takeChargeShopStr}"
@@ -89,7 +89,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_staff_create_permission"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:visibility="@{vm.needShopAndPermission?View.VISIBLE:View.GONE}"
                     app:itemContent="@{vm.permissionStr}"

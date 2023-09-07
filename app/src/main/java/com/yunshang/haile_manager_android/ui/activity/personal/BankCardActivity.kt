@@ -58,7 +58,7 @@ class BankCardActivity : BaseBusinessActivity<ActivityBankCardBinding, BankCardV
                     this@BankCardActivity,
                     BindSmsVerifyActivity::class.java
                 ).apply {
-//                    putExtras(IntentParams.CommonParams.pack(id))
+                    putExtras(intent)
                     putExtras(IntentParams.BindSmsVerifyParams.pack(1))
                 }
             )

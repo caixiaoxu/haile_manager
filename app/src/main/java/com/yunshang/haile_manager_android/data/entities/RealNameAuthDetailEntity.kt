@@ -37,7 +37,8 @@ data class RealNameAuthDetailEntity(
     var reason: String? = null,
     var status: Int? = null,
     @SerializedName("verifyType")
-    var _verifyType: Int? = null
+    var _verifyType: Int? = null,
+    var authCode: String? = null
 ) : BaseObservable() {
 
     @get:Bindable
@@ -100,9 +101,17 @@ data class RealNameAuthDetailEntity(
             date.split(" - ").let { arr ->
                 if (arr.size >= 2) {
                     val startIndate =
-                        DateTimeUtils.formatDateTimeForStr(arr[0].trim(), "yyyy/MM/dd", "yyyy-MM-dd")
+                        DateTimeUtils.formatDateTimeForStr(
+                            arr[0].trim(),
+                            "yyyy/MM/dd",
+                            "yyyy-MM-dd"
+                        )
                     val endIndate =
-                        DateTimeUtils.formatDateTimeForStr(arr[1].trim(), "yyyy/MM/dd", "yyyy-MM-dd")
+                        DateTimeUtils.formatDateTimeForStr(
+                            arr[1].trim(),
+                            "yyyy/MM/dd",
+                            "yyyy-MM-dd"
+                        )
 
                     "$startIndate 至 $endIndate"
                 } else ""

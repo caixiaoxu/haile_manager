@@ -49,7 +49,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_sub_account_create_account"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:visibility="@{-1 != vm.userId?View.GONE:View.VISIBLE}"
                     app:itemContent="@{vm.subAccount.realName}"
@@ -60,7 +60,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_sub_account_create_business_type"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:visibility="@{-1 != vm.userId?View.GONE:View.VISIBLE}"
                     app:itemContent="@{vm.businessType.title}"
@@ -71,7 +71,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_sub_account_create_device_category"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:visibility="@{(null == vm.businessType || -1 != vm.userId)?View.GONE:View.VISIBLE}"
                     app:itemContent="@{vm.deviceCategoryVal}"
@@ -82,7 +82,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_sub_account_create_shop"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:visibility="@{-1 != vm.userId?View.GONE:View.VISIBLE}"
                     app:itemContent="@{vm.subAccountShopsVal}"
@@ -93,7 +93,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_sub_account_create_radio"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:inputType="numberDecimal"
                     android:maxLength="3"
@@ -105,7 +105,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_sub_account_create_active_date"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     app:itemContent="@{vm.effectiveDateVal}"
                     app:showArrow="true"

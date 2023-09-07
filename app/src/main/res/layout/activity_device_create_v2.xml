@@ -52,7 +52,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_create_imei"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:hint="@string/scan_hint"
                     app:itemContent="@={vm.imeiCode}"
                     app:tailDrawable="@mipmap/icon_device_scan"
@@ -67,7 +67,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_create_pay_code"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:hint="@string/scan_hint"
                     app:itemContent="@{vm.payCode}"
                     app:tailDrawable="@mipmap/icon_device_scan"
@@ -84,7 +84,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_create_department"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{vm.createDeviceShop.name}"
                     app:showArrow="true"
                     app:title="@string/department"
@@ -96,7 +96,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_create_category"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{vm.categoryName}"
                     app:showArrow="true"
                     app:title="@string/device_category"
@@ -108,7 +108,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_create_model"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{vm.modelName}"
                     app:showArrow="true"
                     app:title="@string/device_model"
@@ -120,7 +120,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_device_create_name"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@={vm.deviceName}"
                     app:title="@string/device_name"
                     android:maxLength="20"
@@ -133,7 +133,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_fun_configuration_single_pulse_quantity"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:hint="@string/single_pulse_quantity_hint"
                     android:inputType="numberDecimal"
                     app:itemContent="@={vm.communicationVal}"
@@ -149,7 +149,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_wash_imei"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:hint="@string/scan_hint"
                     app:itemContent="@{vm.washImeiCode}"
                     app:tailDrawable="@mipmap/icon_device_scan"
@@ -164,7 +164,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_create_fun_configure"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{(null == vm.createDeviceFunConfigure || 0 == vm.createDeviceFunConfigure.size())?@string/no_configure:@string/configured}"
                     app:showArrow="true"
                     app:title="@string/fun_configure"

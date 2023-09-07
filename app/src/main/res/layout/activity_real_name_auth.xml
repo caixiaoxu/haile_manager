@@ -86,7 +86,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_real_name_auth_type"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="@{vm.isSubmit}"
@@ -160,7 +160,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/tv_real_name_auth_company_name"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="@{vm.isSubmit}"
@@ -173,7 +173,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/tv_real_name_auth_company_id"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="@{vm.isSubmit}"
@@ -187,7 +187,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/tv_real_name_auth_name"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="@{vm.isSubmit}"
@@ -200,7 +200,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/tv_real_name_auth_id_card_number"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="0123456789Xx"
@@ -215,7 +215,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/tv_real_name_auth_id_card_indate_type"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="@{vm.isSubmit}"
@@ -229,7 +229,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/tv_real_name_auth_id_card_indate"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="@{vm.isSubmit}"

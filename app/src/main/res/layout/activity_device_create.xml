@@ -54,7 +54,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_device_create_pay_code"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:hint="@string/scan_hint"
                     android:visibility="@{vm.isDispenser?View.GONE:View.VISIBLE}"
                     app:itemContent="@{vm.payCode}"
@@ -69,7 +69,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_device_create_imei"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:hint="@string/scan_hint"
                     app:itemContent="@={vm.imeiCode}"
                     app:tailDrawable="@mipmap/icon_device_scan"
@@ -82,7 +82,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_device_create_model"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{vm.createDeviceModelName}"
                     app:showArrow="true"
                     app:title="@string/device_model"
@@ -94,7 +94,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_device_create_name"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@={vm.deviceName}"
                     app:title="@string/device_name"
                     app:type="input" />
@@ -105,7 +105,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_device_create_department"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{vm.createDeviceShop.name}"
                     app:showArrow="true"
                     app:title="@string/department"
@@ -117,7 +117,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_device_wash_imei"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:hint="@string/scan_hint"
                     android:visibility="@{vm.isDispenser?View.VISIBLE:View.GONE}"
                     app:itemContent="@{vm.washimeiCode}"
@@ -132,7 +132,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_device_create_fun_configure"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:visibility='@{vm.isSelectedModel?View.VISIBLE:View.GONE}'
                     app:itemContent="@{(null == vm.createDeviceFunConfigure || 0 == vm.createDeviceFunConfigure.size())?@string/no_configure:@string/configured}"
                     app:showArrow="true"

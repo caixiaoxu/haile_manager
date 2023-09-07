@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="parentVm"
+            type="com.yunshang.haile_manager_android.business.vm.BankCardBindViewModel" />
+    </data>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -37,6 +43,7 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@{parentVm.authInfo.verifyTypeName}"
                         tools:text="个人"
                         style="@style/Font_16_333333"/>
 
@@ -59,13 +66,83 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="张三"
+                        android:text="@{parentVm.authInfo.idCardName}"
                         style="@style/Font_16_333333"/>
 
                 </LinearLayout>
-
             </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="12dp"
+                android:layout_marginTop="8dp"
+                app:divider="@drawable/divder_efefef"
+                app:showDividers="middle"
+                android:paddingBottom="16dp"
+                android:background="@drawable/shape_ffffff_r8">
 
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_bank_card_bind_card_no"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@={parentVm.bankCardParams.bankAccountNoVal}"
+                    app:title="@string/card_no"
+                    android:hint="@string/card_no_hint"
+                    app:tailDrawable="@mipmap/icon_card_no_take"
+                    app:type="input" />
 
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_bank_card_bind_card_open_bank_area"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{parentVm.bankCardParams.area}"
+                    app:title="@string/open_bank_area"
+                    app:showArrow="true"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_bank_card_bind_card_open_bank"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{parentVm.bankCardParams.bankNameVal}"
+                    app:title="@string/open_bank"
+                    app:showArrow="true"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_bank_card_bind_card_open_bank_sub_branch"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{parentVm.bankCardParams.subBankNameVal}"
+                    app:title="@string/open_bank_sub_branch"
+                    app:showArrow="true"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_bank_card_bind_card_bank_sub_branch_lines_no"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{parentVm.bankCardParams.subBankCodeVal}"
+                    app:title="@string/bank_sub_branch_lines_no"
+                    app:showArrow="true"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_bank_card_bind_card_open_bank_phone"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@={parentVm.bankCardParams.bankMobileNoVal}"
+                    app:title="@string/open_bank_phone"
+                    app:type="input" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    style="@style/Font_16_333333"
+                    android:text="@string/open_bank_licence"
+                    android:gravity="center_vertical"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_open_bank_licence"
+                    android:layout_width="314dp"
+                    android:layout_height="168dp"
+                    android:background="@mipmap/icon_open_bank_licence"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

@@ -1,8 +1,10 @@
 package com.yunshang.haile_manager_android.ui.activity.personal
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.databinding.library.baseAdapters.BR
 import com.lsy.framelib.utils.SToast
@@ -23,12 +25,26 @@ class RealNameAuthActivity :
         RealNameAuthViewModel::class.java,
         BR.vm
     ) {
+
+    // 跳转短信验证界面
+    private val startSms =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+                it.data?.let { resultData ->
+                    mViewModel.authCode =
+                        IntentParams.WithdrawBindAlipayParams.parseAuthCode(resultData)
+                    mViewModel.isSubmit.postValue(true)
+                }
+            }
+        }
+
     override fun layoutId(): Int = R.layout.activity_real_name_auth
 
     override fun backBtn(): View = mBinding.barRealNameAuthTitle.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()
+        mViewModel.authCode = IntentParams.WithdrawBindAlipayParams.parseAuthCode(intent)
         val oldAuthInfo = IntentParams.RealNameAuthParams.parseAuthInfo(intent)
         if (null != oldAuthInfo) {
             mViewModel.isSubmit.value = (null == oldAuthInfo.status || 1 == oldAuthInfo.status)
@@ -56,7 +72,16 @@ class RealNameAuthActivity :
             setTextColor(ContextCompat.getColor(this@RealNameAuthActivity, R.color.colorPrimary))
             typeface = Typeface.DEFAULT_BOLD
             setOnClickListener {
-                mViewModel.isSubmit.postValue(true)
+                mViewModel.authInfo.value?.let {
+                    startSms.launch(
+                        Intent(
+                            this@RealNameAuthActivity,
+                            BindSmsVerifyActivity::class.java
+                        ).apply {
+                            putExtras(IntentParams.RealNameAuthParams.pack(it))
+                            putExtras(IntentParams.BindSmsVerifyParams.pack(2, true))
+                        })
+                }
             }
         }
     }

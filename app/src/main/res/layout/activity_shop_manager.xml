@@ -22,7 +22,7 @@
             android:background="@color/white"
             app:rightModel="text"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/shop_manager" />
+            app:title="@string/shop_manage" />
 
         <View
             android:id="@+id/view_shop_manager_search_parent_bg"

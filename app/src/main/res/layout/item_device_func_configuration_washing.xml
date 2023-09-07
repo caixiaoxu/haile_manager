@@ -20,7 +20,7 @@
 
         <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/item_device_fun_configuration_wash_time"
-            style="@style/MultiTypeItemStyle"
+            style="@style/MultiTypePaddingHItemStyle"
             android:inputType="number"
             app:itemContent="@={item.unitAmountVal}"
             app:title="@{item.unitTile}"
@@ -29,7 +29,7 @@
 
         <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/item_device_fun_configuration_wash_money"
-            style="@style/MultiTypeItemStyle"
+            style="@style/MultiTypePaddingHItemStyle"
             android:inputType="numberDecimal"
             app:itemContent="@={item.unitPriceVal}"
             app:title="@string/price"
@@ -39,7 +39,7 @@
 
         <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/item_device_fun_configuration_pulse_count"
-            style="@style/MultiTypeItemStyle"
+            style="@style/MultiTypePaddingHItemStyle"
             android:inputType="numberDecimal"
             app:itemContent="@={item.pulseVal}"
             app:title="@string/pulse_count"

@@ -50,7 +50,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_order_compensate_coupon_amount"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:paddingHorizontal="16dp"
                     app:canUpdate="false"
                     app:divider="@drawable/divide_size8"
@@ -62,7 +62,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_order_compensate_coupon_type"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:canUpdate="false"
                     app:divider="@drawable/divide_size8"
                     app:itemContent='@{@string/full_discount_coupon}'
@@ -73,7 +73,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_order_compensate_coupon_condition"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:canUpdate="false"
                     app:divider="@drawable/divide_size8"
                     app:itemContent='@{@string/full_discount_coupon_default}'
@@ -84,7 +84,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_order_compensate_coupon_shop"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:canUpdate="false"
                     app:divider="@drawable/divide_size8"
                     app:itemContent='@{vm.couponShopName}'
@@ -95,7 +95,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_order_compensate_coupon_device_type"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:canUpdate="false"
                     app:divider="@drawable/divide_size8"
                     app:itemContent='@{vm.couponDeviceTypeName}'
@@ -106,7 +106,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_order_compensate_coupon_indate"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:inputType="numberDecimal"
                     android:maxLength="4"
                     android:maxLines="1"
@@ -120,7 +120,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_order_compensate_coupon_num"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:inputType="numberDecimal"
                     android:maxLength="8"
                     android:maxLines="1"

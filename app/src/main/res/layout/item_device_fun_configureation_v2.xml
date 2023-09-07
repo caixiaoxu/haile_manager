@@ -45,14 +45,14 @@
 
         <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/item_device_fun_configuration_name"
-            style="@style/MultiTypeItemStyle"
+            style="@style/MultiTypePaddingHItemStyle"
             app:itemContent="@={item.nameVal}"
             app:title="@string/model_name"
             app:type="input" />
 
         <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/item_device_fun_configuration_desc"
-            style="@style/MultiTypeItemStyle"
+            style="@style/MultiTypePaddingHItemStyle"
             android:visibility="gone"
             app:itemContent="@={item.featureVal}"
             app:title="@string/desc"
@@ -62,7 +62,7 @@
 
         <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
             android:id="@+id/item_device_fun_configuration_attr"
-            style="@style/MultiTypeItemStyle"
+            style="@style/MultiTypePaddingHItemStyle"
             android:inputType="numberDecimal"
             app:itemContent="@{item.selectAttrVal}"
             app:showArrow="true"

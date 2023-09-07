@@ -50,7 +50,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_shop"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{vm.createDiscountsShopNames}"
                     app:showArrow="true"
                     app:title="@string/department"
@@ -59,7 +59,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_business_type"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{vm.selectBusinessType.name}"
                     app:showArrow="true"
                     app:title="@string/business_type"
@@ -68,7 +68,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_device_category"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:visibility="@{(null == vm.createDiscountsShop || 0 == vm.createDiscountsShop.size() || null == vm.selectBusinessType)?View.GONE:View.VISIBLE}"
                     app:itemContent="@{vm.selectDeviceCategoryVal}"
                     app:showArrow="true"
@@ -78,7 +78,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_start_time"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{vm.startDateTimeVal}"
                     app:showArrow="true"
                     app:title="@string/start_time"
@@ -87,7 +87,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_end_time"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:visibility="@{null == vm.startDateTime?View.GONE:View.VISIBLE}"
                     app:itemContent="@{vm.endDateTimeVal}"
                     app:showArrow="true"
@@ -97,7 +97,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_active_day_model"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{vm.selectActiveModel.name}"
                     app:showArrow="true"
                     app:title="@{2 == vm.selectActiveModel.id?@string/active_day_model:@string/active_day}"
@@ -106,7 +106,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_active_day"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:visibility="@{2 == vm.selectActiveModel.id?View.VISIBLE:View.GONE}"
                     app:itemContent="@{vm.selectActiveDayVal}"
                     app:showArrow="true"
@@ -116,7 +116,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_active_time_frame"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{vm.activeTimeFrame}"
                     app:showArrow="true"
                     app:title="@string/active_time_frame"
@@ -125,7 +125,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_discounts_create_value"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:inputType="numberDecimal"
                     android:maxLines="1"
                     app:itemContent="@={vm.discounts}"

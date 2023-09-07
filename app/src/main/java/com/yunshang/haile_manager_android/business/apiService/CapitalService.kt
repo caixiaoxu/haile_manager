@@ -112,6 +112,17 @@ interface CapitalService {
      */
     @POST("/candyPay/bank/authCode")
     suspend fun checkBankOperateSms(@Body body: RequestBody): ResponseWrapper<AuthCodeEntity>
+    /**
+     * 实名认证短信发送接口
+     */
+    @POST("/user/userVerify/operateSms")
+    suspend fun sendRealNameOperateSms(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 实名认证短信校验接口
+     */
+    @POST("/user/userVerify/authCode")
+    suspend fun checkRealNameOperateSms(@Body body: RequestBody): ResponseWrapper<AuthCodeEntity>
 
     /**
      * 支付宝提现账号绑定接口

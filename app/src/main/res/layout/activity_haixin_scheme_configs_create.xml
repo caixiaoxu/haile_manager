@@ -64,7 +64,7 @@
 
                     <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                         android:id="@+id/item_scheme_name"
-                        style="@style/MultiTypeItemStyle"
+                        style="@style/MultiTypePaddingHItemStyle"
                         app:itemContent="@={vm.createUpdateParams.configName}"
                         app:layout_constraintTop_toBottomOf="@id/tv_scheme_configs_create_title"
                         app:title="@string/scheme_name"
@@ -80,7 +80,7 @@
 
                     <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                         android:id="@+id/item_scheme_shop"
-                        style="@style/MultiTypeItemStyle"
+                        style="@style/MultiTypePaddingHItemStyle"
                         app:itemContent="@{vm.selectShop.name}"
                         app:layout_constraintTop_toBottomOf="@id/item_scheme_name"
                         app:showArrow="true"

@@ -43,7 +43,7 @@
                 android:layout_marginHorizontal="18dp"
                 android:layout_marginTop="8dp"
                 android:onClick="@{vm::nextOrSubmit}"
-                android:text="@string/save" />
+                android:text="@{1 == vm.bindPage?@string/save:@string/next}" />
 
         </FrameLayout>
     </LinearLayout>

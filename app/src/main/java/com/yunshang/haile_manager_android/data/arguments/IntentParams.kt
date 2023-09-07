@@ -552,18 +552,25 @@ object IntentParams {
 
     object BindSmsVerifyParams {
         private const val VerifyType = "VerifyType"
+        private const val NeedBack = "NeedBack"
 
         /**
          * 包装参数
          */
-        fun pack(verifyType: Int): Bundle = Bundle().apply {
+        fun pack(verifyType: Int, needBack: Boolean = false): Bundle = Bundle().apply {
             putInt(VerifyType, verifyType)
+            putBoolean(NeedBack, needBack)
         }
 
         /**
          * 解析VerifyType
          */
-        fun parseAuthCode(intent: Intent): Int = intent.getIntExtra(VerifyType, 0)
+        fun parseVerifyType(intent: Intent): Int = intent.getIntExtra(VerifyType, 0)
+
+        /**
+         * 解析NeedBack
+         */
+        fun parseNeedBack(intent: Intent): Boolean = intent.getBooleanExtra(NeedBack, false)
     }
 
     object WithdrawBindAlipayParams {

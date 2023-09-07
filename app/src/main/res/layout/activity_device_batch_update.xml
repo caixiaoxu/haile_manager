@@ -52,7 +52,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_batch_update_department"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{vm.selectDepartmentsVal}"
                     app:showArrow="true"
                     app:title="@string/department"
@@ -64,7 +64,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_batch_update_category"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{vm.selectCategoryVal}"
                     app:showArrow="true"
                     app:title="@string/device_category"
@@ -76,7 +76,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_batch_update_model"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:visibility="@{vm.modelShow?View.VISIBLE:View.GONE}"
                     app:itemContent="@{vm.selectDeviceModelVal}"
                     app:showArrow="true"
@@ -90,7 +90,7 @@
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_batch_update_fun_configure"
-                    style="@style/MultiTypeItemStyle"
+                    style="@style/MultiTypePaddingHItemStyle"
                     android:visibility="@{vm.configShow?View.VISIBLE:View.GONE}"
                     app:itemContent="@{(null == vm.createDeviceFunConfigure || 0 == vm.createDeviceFunConfigure.size())?@string/no_configure:@string/configured}"
                     app:showArrow="true"

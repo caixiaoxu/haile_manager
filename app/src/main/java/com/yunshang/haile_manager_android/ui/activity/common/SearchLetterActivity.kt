@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.ui.activity.common
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,6 +47,7 @@ class SearchLetterActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(mSearchLetterBinding.root)
+        window.statusBarColor = Color.WHITE
 
         searchLetterType = IntentParams.SearchLetterParams.parseSearchLetterType(intent)
         bankCode = IntentParams.SearchLetterParams.parseBankCode(intent)
@@ -65,10 +67,11 @@ class SearchLetterActivity : BaseActivity() {
         }
 
         mSearchLetterBinding.rvSearchLetterList.adapter = mAdapter
+
+        mSearchLetterBinding.rvSearchLetterList.requestRefresh(true)
     }
 
     override fun backBtn(): View = mSearchLetterBinding.barSearchLetterTitle.getBackBtn()
-
 
     private fun requestDataList(
         page: Int,

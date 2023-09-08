@@ -158,8 +158,11 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
      * @param isRefresh 是否刷新
      */
     private fun refreshDate(it: ResponseList<out D>, isRefresh: Boolean = false) {
-        //判断 当前页 数量不为0，页数加1
-        if (0 < it.items.size) {
+        // 判断 当前页 数量不为0，页数加1
+        // 多次刷新问题
+        if (isRefresh) {
+            page = 2
+        } else if (0 < it.items.size) {
             page++
         }
 

@@ -172,4 +172,6 @@ interface DeviceService {
     @POST("/dosing/openCap/finish")
     suspend fun deviceOpenCapFinish(@Body params: RequestBody): ResponseWrapper<Any>
 
+    @POST("/goods/scan")
+    suspend fun requestGoodsScan(@Body params: RequestBody): ResponseWrapper<Int>
 }

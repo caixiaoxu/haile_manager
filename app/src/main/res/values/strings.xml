@@ -147,6 +147,7 @@
     <string name="imei_code_error">该IMEI码无效</string>
     <string name="imei_code_error1">请扫描正确的IMEI</string>
     <string name="scan_code_error">无法识别该二维码</string>
+    <string name="invalid_error">无效码</string>
     <string name="device_func_configuration_title">功能配置%1$d</string>
     <string name="allow_starfish_refund">允许海星退款</string>
     <string name="compel_use_starfish">强制使用\n海星</string>

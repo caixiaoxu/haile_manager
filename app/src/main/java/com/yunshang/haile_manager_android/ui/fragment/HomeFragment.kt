@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.ui.fragment
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Rect
@@ -9,6 +10,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.GridLayout
 import android.widget.LinearLayout
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import com.github.mikephil.charting.animation.ChartAnimator
@@ -24,10 +26,9 @@ import com.github.mikephil.charting.listener.ChartTouchListener.ChartGesture
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.utils.MPPointF
 import com.github.mikephil.charting.utils.ViewPortHandler
+import com.king.camera.scan.CameraScan
 import com.lsy.framelib.async.LiveDataBus
-import com.lsy.framelib.utils.DimensionUtils
-import com.lsy.framelib.utils.ScreenUtils
-import com.lsy.framelib.utils.StatusBarUtils
+import com.lsy.framelib.utils.*
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -39,6 +40,8 @@ import com.yunshang.haile_manager_android.data.entities.MessageContentEntity
 import com.yunshang.haile_manager_android.databinding.FragmentHomeBinding
 import com.yunshang.haile_manager_android.databinding.IncludeHomeFuncItemBinding
 import com.yunshang.haile_manager_android.databinding.IncludeHomeLastMsgItemBinding
+import com.yunshang.haile_manager_android.ui.activity.common.WeChatQRCodeScanActivity
+import com.yunshang.haile_manager_android.ui.activity.device.DeviceDetailActivity
 import com.yunshang.haile_manager_android.ui.activity.message.MessageCenterActivity
 import com.yunshang.haile_manager_android.ui.activity.message.MessageListActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
@@ -47,6 +50,7 @@ import com.yunshang.haile_manager_android.ui.view.chart.CustomMarkerView
 import com.yunshang.haile_manager_android.ui.view.dialog.DeviceCategoryDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
+import com.yunshang.haile_manager_android.utils.StringUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import timber.log.Timber
 import java.lang.reflect.Field
@@ -65,6 +69,62 @@ import java.util.*
 class HomeFragment :
     BaseBusinessFragment<FragmentHomeBinding, HomeViewModel>(HomeViewModel::class.java, BR.vm) {
 
+    // 权限
+    private val requestMultiplePermission =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result: Map<String, Boolean> ->
+            if (result.values.any { it }) {
+                // 授权权限成功
+                startQRActivity(false)
+            } else {
+                // 授权失败
+                SToast.showToast(requireContext(), R.string.empty_permission)
+            }
+        }
+
+    private fun startQRActivity(isOne: Boolean) {
+        startQRCodeScan.launch(Intent(
+            requireContext(),
+            WeChatQRCodeScanActivity::class.java
+        ).apply {
+            putExtra("isOne", isOne)
+        })
+    }
+
+    // 二维码
+    private val startQRCodeScan =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                CameraScan.parseScanResult(result.data)?.let { origin ->
+                    Timber.i("扫码:$origin")
+                    StringUtils.getPayCode(origin)?.let { code ->
+                        checkScanCode(code)
+                    } ?: run {
+                        (StringUtils.getPayImeiCode(origin) ?: run {
+                            if (StringUtils.isImeiCode(origin)) origin else null
+                        })?.let { imei ->
+                            checkScanCode(imei = imei)
+                        } ?: SToast.showToast(requireContext(), R.string.invalid_error)
+                    }
+                } ?: SToast.showToast(requireContext(), R.string.invalid_error)
+            }
+        }
+
+    private fun checkScanCode(code: String? = null, imei: String? = null) {
+        mViewModel.checkScanCode(code, imei) { deviceId ->
+            if (UserPermissionUtils.hasDeviceInfoPermission()) {
+                // 设备详情
+                startActivity(
+                    Intent(
+                        requireContext(),
+                        DeviceDetailActivity::class.java
+                    ).apply {
+                        putExtra(DeviceDetailActivity.GoodsId, deviceId)
+                    }
+                )
+            }
+        }
+    }
+
     private val lastHighlight: Highlight? = null
 
     override fun layoutId(): Int = R.layout.fragment_home
@@ -78,6 +138,13 @@ class HomeFragment :
 
         mBinding.ibHomeMsg.setOnClickListener {
             startActivity(Intent(requireContext(), MessageCenterActivity::class.java))
+        }
+
+        mBinding.ibHomeScan.setOnClickListener {
+            requestMultiplePermission.launch(
+                SystemPermissionHelper.cameraPermissions()
+                    .plus(SystemPermissionHelper.readWritePermissions())
+            )
         }
 
         mBinding.ibHomeIncomeChange.setOnClickListener {
@@ -99,6 +166,18 @@ class HomeFragment :
             }.build()
             dailog.show(childFragmentManager)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LiveDataBus.with(BusEvents.SCAN_CHANGE_STATUS, Boolean::class.java)?.observe(this) {
+            startQRActivity(it)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        LiveDataBus.remove(BusEvents.SCAN_CHANGE_STATUS)
     }
 
     /**

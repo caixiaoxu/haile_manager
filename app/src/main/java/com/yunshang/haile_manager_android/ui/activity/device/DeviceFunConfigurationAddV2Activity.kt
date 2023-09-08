@@ -55,6 +55,7 @@ class DeviceFunConfigurationAddV2Activity :
 //                            isOn = true,
                             canMerchantEdit = true,
                             isDefault = false,
+                            isEnabled = true
                         )
                     )
                     mViewModel.items.value = items

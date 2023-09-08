@@ -8,6 +8,7 @@ import com.yunshang.haile_manager_android.business.vm.BankCardBindCardInfoViewMo
 import com.yunshang.haile_manager_android.business.vm.BankCardBindViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.databinding.FragmentBankCardBindCardInfoBinding
+import com.yunshang.haile_manager_android.ui.activity.common.SearchLetterActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.AreaSelectDialog
 import com.yunshang.haile_manager_android.utils.DialogUtils
 import com.yunshang.haile_manager_android.utils.GlideUtils
@@ -71,7 +72,9 @@ class BankCardBindCardInfoFragment :
         }
         // 开户银行
         mBinding.itemBankCardBindCardOpenBank.onSelectedEvent = {
-            startBankAndSubNext.launch(Intent().apply {
+            startBankAndSubNext.launch(Intent(
+                requireContext(), SearchLetterActivity::class.java
+            ).apply {
                 putExtras(IntentParams.SearchLetterParams.pack(0))
             })
         }

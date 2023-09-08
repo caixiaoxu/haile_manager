@@ -35,7 +35,6 @@ class SearchLetterActivity : BaseActivity() {
             R.layout.item_search_letter,
             BR.item
         ) { mBinding, _, item ->
-
             mBinding?.root?.setOnClickListener {
                 if (item.getType() == 1){
 

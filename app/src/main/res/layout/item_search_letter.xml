@@ -1,18 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="item"
             type="com.yunshang.haile_manager_android.data.rule.ISearchLetterEntity" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:background="@color/white"
+        android:paddingStart="16dp">
 
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_14_999999"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:gravity="center_vertical"
+            android:text="@{item.title}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:visibility="@{0 == item.type}" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_item_search_letter"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:imgUrl="@{item.icon}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_item_search_letter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_item_search_letter"
+            app:visibility="@{null != item.icon &amp;&amp; item.icon.length() > 0}" />
 
-    </LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_item_search_letter"
+            style="@style/Font_16_333333_bold"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            android:gravity="center_vertical"
+            android:text="@{item.title}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_item_search_letter"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="@{1 == item.type?View.VISIBLE:View.GONE}"
+            app:constraint_referenced_ids="iv_item_search_letter,tv_item_search_letter" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

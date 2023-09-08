@@ -56,6 +56,8 @@ data class OrderListEntity(
         "$deviceName ${if (skuList.isNullOrEmpty()) "" else skuList.first().skuName}",
         orderNo
     )
+
+    fun getConfigureTitle(): String = skuList.joinToString("+") { sku -> sku.configureTitle }
 }
 
 data class Promotion(
@@ -102,6 +104,9 @@ data class Sku(
             //时间
             if (1 == unitCode) "秒" else "分钟"
         }
+
+    val configureTitle: String
+        get() = skuName + unitValue
 }
 
 data class GoodsItemInfoEntity(

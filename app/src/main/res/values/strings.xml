@@ -324,6 +324,7 @@
     <string name="order_detail">订单详情</string>
     <string name="compensate">补偿</string>
     <string name="refund">退款</string>
+    <string name="order_user">下单用户</string>
     <string name="copy_order_no">复制订单号</string>
     <string name="total_amount">总金额：</string>
     <string name="need_pay">需支付：</string>

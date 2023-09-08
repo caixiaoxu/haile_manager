@@ -15,30 +15,30 @@ import com.yunshang.haile_manager_android.BR
  * 作者姓名 修改时间 版本号 描述
  */
 data class BankCardDetailEntity(
-    var address: String,
-    var authCode: String,
-    var bankAccountName: String,
-    var bankAccountNo: String,
-    var bankCardImage: String,
-    var bankCityId: Int,
-    var bankCode: String,
-    var bankDistrictId: Int,
-    var bankMobileNo: String,
-    var bankName: String,
-    var bankProvinceId: Int,
-    var checkKey: String,
-    var cityId: Int,
-    var contactName: String,
-    var contactPhone: String,
-    var deviceImage: String,
-    var districtId: Int,
-    var doorImage: String,
-    var licenceForOpeningAccountImage: String,
-    var merchantNameAlias: String,
-    var merchantType: Int,
-    var provinceId: Int,
-    var subBankCode: String,
-    var subBankName: String,
+    var address: String? = null,
+    var authCode: String? = null,
+    var bankAccountName: String? = null,
+    var bankAccountNo: String? = null,
+    var bankCardImage: String? = null,
+    var bankCityId: Int? = null,
+    var bankCode: String? = null,
+    var bankDistrictId: Int? = null,
+    var bankMobileNo: String? = null,
+    var bankName: String? = null,
+    var bankProvinceId: Int? = null,
+    var checkKey: String? = null,
+    var cityId: Int? = null,
+    var contactName: String? = null,
+    var contactPhone: String? = null,
+    var deviceImage: String? = null,
+    var districtId: Int? = null,
+    var doorImage: String? = null,
+    var licenceForOpeningAccountImage: String? = null,
+    var merchantNameAlias: String? = null,
+    var merchantType: Int? = null,
+    var provinceId: Int? = null,
+    var subBankCode: String? = null,
+    var subBankName: String? = null,
 
     var area: String? = null,
     var bankArea: String? = null,
@@ -48,7 +48,7 @@ data class BankCardDetailEntity(
 
     @get:Bindable
     var bankAccountNoVal: String
-        get() = bankAccountNo
+        get() = bankAccountNo ?: ""
         set(value) {
             bankAccountNo = value
             notifyPropertyChanged(BR.bankAccountNoVal)
@@ -56,7 +56,7 @@ data class BankCardDetailEntity(
 
     @get:Bindable
     var areaVal: String
-        get() = area ?:""
+        get() = area ?: ""
         set(value) {
             area = value
             notifyPropertyChanged(BR.areaVal)
@@ -64,7 +64,7 @@ data class BankCardDetailEntity(
 
     @get:Bindable
     var bankNameVal: String
-        get() = bankName
+        get() = bankName ?: ""
         set(value) {
             bankName = value
             notifyPropertyChanged(BR.bankNameVal)
@@ -72,7 +72,7 @@ data class BankCardDetailEntity(
 
     @get:Bindable
     var subBankNameVal: String
-        get() = subBankName
+        get() = subBankName ?: ""
         set(value) {
             subBankName = value
             notifyPropertyChanged(BR.subBankNameVal)
@@ -80,7 +80,7 @@ data class BankCardDetailEntity(
 
     @get:Bindable
     var subBankCodeVal: String
-        get() = subBankCode
+        get() = subBankCode ?: ""
         set(value) {
             subBankCode = value
             notifyPropertyChanged(BR.subBankCodeVal)
@@ -88,7 +88,7 @@ data class BankCardDetailEntity(
 
     @get:Bindable
     var bankMobileNoVal: String
-        get() = bankMobileNo
+        get() = bankMobileNo ?: ""
         set(value) {
             bankMobileNo = value
             notifyPropertyChanged(BR.bankMobileNoVal)

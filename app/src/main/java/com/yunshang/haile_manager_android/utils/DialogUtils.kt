@@ -1,6 +1,6 @@
 package com.yunshang.haile_manager_android.utils
 
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import com.lsy.framelib.utils.StringUtils
 import com.luck.picture.lib.entity.LocalMedia
 import com.yunshang.haile_manager_android.R
@@ -23,7 +23,7 @@ object DialogUtils {
      * 显示图片选择弹窗
      */
     fun showImgSelectorDialog(
-        activity: AppCompatActivity,
+        activity: FragmentActivity,
         maxNum: Int,
         showTake: Boolean = true,
         showAlbum: Boolean = true,

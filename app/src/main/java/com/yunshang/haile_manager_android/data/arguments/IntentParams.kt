@@ -589,6 +589,51 @@ object IntentParams {
         fun parseAuthCode(intent: Intent): String? = intent.getStringExtra(AuthCode)
     }
 
+    object BinkCardBindParams {
+        private const val BankCardDetail = "BankCardDetail"
+
+        /**
+         * 包装参数
+         */
+        fun pack(bankCardDetail: BankCardDetailEntity? = null): Bundle = Bundle().apply {
+            putString(BankCardDetail, GsonUtils.any2Json(bankCardDetail))
+        }
+
+        /**
+         * 解析BankCardDetail
+         */
+        fun parseBankCardDetail(intent: Intent): BankCardDetailEntity? = GsonUtils.json2Class(
+            intent.getStringExtra(BankCardDetail),
+            BankCardDetailEntity::class.java
+        )
+    }
+
+    object SearchLetterParams {
+        private const val SearchLetterType = "SearchLetterType"
+        private const val BankCode = "BankCode"
+
+        /**
+         * 包装参数
+         * @param bankCode 银行联行号
+         */
+        fun pack(searchLetterType: Int = -1, bankCode: String? = null): Bundle = Bundle().apply {
+            putInt(SearchLetterType, searchLetterType)
+            bankCode?.let {
+                putString(BankCode, bankCode)
+            }
+        }
+
+        /**
+         * 解析SearchLetterType
+         */
+        fun parseSearchLetterType(intent: Intent): Int = intent.getIntExtra(SearchLetterType, -1)
+
+        /**
+         * 解析BankCode
+         */
+        fun parseBankCode(intent: Intent): String? = intent.getStringExtra(BankCode)
+    }
+
     object RealNameAuthParams {
         private const val AuthInfo = "authInfo"
 

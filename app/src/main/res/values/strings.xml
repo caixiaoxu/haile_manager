@@ -54,6 +54,7 @@
     <string name="disEnable">停用</string>
     <string name="tip">提示</string>
     <string name="search_history">搜索历史</string>
+    <string name="search_keyword">搜索关键字</string>
     <string name="scan">扫一扫</string>
     <string name="opened">已开启</string>
     <string name="closed">已关闭</string>
@@ -559,6 +560,7 @@
     <string name="bank_sub_branch_lines_no">支行联行号</string>
     <string name="open_bank_phone">开户手机号</string>
     <string name="open_bank_licence">开户许可证</string>
+    <string name="bank_card_pic">银行卡照片</string>
     <string name="shop_simple_name">商户简称</string>
     <string name="shop_area">所在地区</string>
     <string name="shop_location_detail">详细地址</string>

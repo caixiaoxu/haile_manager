@@ -1,10 +1,11 @@
 package com.yunshang.haile_manager_android.business.apiService
 
+import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.yunshang.haile_manager_android.BuildConfig
-import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
-import com.yunshang.haile_manager_android.data.entities.AreaEntity
+import com.yunshang.haile_manager_android.data.entities.*
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 /**
@@ -40,4 +41,17 @@ interface CommonService {
 
     @GET(BuildConfig.SERVICE_CHECK)
     suspend fun checkService(): Int
+
+    /**
+     * 银行列表
+     */
+    @POST("/bank/bank/list")
+    suspend fun bankList(@Body params: RequestBody): ResponseWrapper<ResponseList<BankEntity>>
+
+    /**
+     * 支行列表
+     */
+    @POST("/bank/subBank/list")
+    suspend fun subBankList(@Body params: RequestBody): ResponseWrapper<ResponseList<SubBankEntity>>
+
 }

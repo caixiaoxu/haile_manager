@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="parentVm"
             type="com.yunshang.haile_manager_android.business.vm.BankCardBindViewModel" />
@@ -21,12 +22,12 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/shape_ffffff_r8"
                 android:orientation="vertical"
                 android:paddingHorizontal="12dp"
                 app:divider="@drawable/divder_efefef"
-                app:showDividers="middle"
-                android:background="@drawable/shape_ffffff_r8">
-                
+                app:showDividers="middle">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="54dp"
@@ -34,18 +35,18 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_333333"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:text="@string/account_type"
-                        style="@style/Font_16_333333"/>
+                        android:layout_weight="1"
+                        android:text="@string/account_type" />
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_333333"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{parentVm.authInfo.verifyTypeName}"
-                        tools:text="个人"
-                        style="@style/Font_16_333333"/>
+                        tools:text="个人" />
 
                 </LinearLayout>
 
@@ -56,71 +57,74 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_333333"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:text="@string/bank_account_name"
-                        style="@style/Font_16_333333"/>
+                        android:layout_weight="1"
+                        android:text="@string/bank_account_name" />
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_333333"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="张三"
                         android:text="@{parentVm.authInfo.idCardName}"
-                        style="@style/Font_16_333333"/>
+                        tools:text="张三" />
 
                 </LinearLayout>
             </androidx.appcompat.widget.LinearLayoutCompat>
+
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_ffffff_r8"
                 android:orientation="vertical"
                 android:paddingHorizontal="12dp"
-                android:layout_marginTop="8dp"
-                app:divider="@drawable/divder_efefef"
-                app:showDividers="middle"
                 android:paddingBottom="16dp"
-                android:background="@drawable/shape_ffffff_r8">
+                app:divider="@drawable/divder_efefef"
+                app:showDividers="middle">
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_bank_card_bind_card_no"
                     style="@style/MultiTypeItemStyle"
-                    app:itemContent="@={parentVm.bankCardParams.bankAccountNoVal}"
-                    app:title="@string/card_no"
                     android:hint="@string/card_no_hint"
+                    android:inputType="number"
+                    android:maxLength="19"
+                    app:itemContent="@={parentVm.bankCardParams.bankAccountNoVal}"
                     app:tailDrawable="@mipmap/icon_card_no_take"
+                    app:title="@string/card_no"
                     app:type="input" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_bank_card_bind_card_open_bank_area"
                     style="@style/MultiTypeItemStyle"
                     app:itemContent="@{parentVm.bankCardParams.area}"
-                    app:title="@string/open_bank_area"
                     app:showArrow="true"
+                    app:title="@string/open_bank_area"
                     app:type="info" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_bank_card_bind_card_open_bank"
                     style="@style/MultiTypeItemStyle"
                     app:itemContent="@{parentVm.bankCardParams.bankNameVal}"
-                    app:title="@string/open_bank"
                     app:showArrow="true"
+                    app:title="@string/open_bank"
                     app:type="info" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_bank_card_bind_card_open_bank_sub_branch"
                     style="@style/MultiTypeItemStyle"
                     app:itemContent="@{parentVm.bankCardParams.subBankNameVal}"
-                    app:title="@string/open_bank_sub_branch"
                     app:showArrow="true"
+                    app:title="@string/open_bank_sub_branch"
                     app:type="info" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_bank_card_bind_card_bank_sub_branch_lines_no"
                     style="@style/MultiTypeItemStyle"
                     app:itemContent="@{parentVm.bankCardParams.subBankCodeVal}"
-                    app:title="@string/bank_sub_branch_lines_no"
                     app:showArrow="true"
+                    app:title="@string/bank_sub_branch_lines_no"
                     app:type="info" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
@@ -130,18 +134,24 @@
                     app:title="@string/open_bank_phone"
                     app:type="input" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="54dp"
-                    style="@style/Font_16_333333"
-                    android:text="@string/open_bank_licence"
-                    android:gravity="center_vertical"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/iv_open_bank_licence"
-                    android:layout_width="314dp"
-                    android:layout_height="168dp"
-                    android:background="@mipmap/icon_open_bank_licence"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_333333"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:gravity="center_vertical"
+                        android:text="@{2==parentVm.authInfo.verifyType?@string/open_bank_licence:@string/bank_card_pic}" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_open_bank_licence"
+                        android:layout_width="314dp"
+                        android:layout_height="168dp"
+                        tools:background="@mipmap/icon_open_bank_licence" />
+                </LinearLayout>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

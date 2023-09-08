@@ -5,6 +5,7 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.BankCardBindViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.entities.BankCardDetailEntity
 import com.yunshang.haile_manager_android.databinding.ActivityBankCardBindBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 
@@ -21,6 +22,9 @@ class BankCardBindActivity :
         super.initIntent()
         mViewModel.authCode = IntentParams.WithdrawBindAlipayParams.parseAuthCode(intent)
         mViewModel.authInfo.value = IntentParams.RealNameAuthParams.parseAuthInfo(intent)
+        mViewModel.bankCardParams.value =
+            IntentParams.BinkCardBindParams.parseBankCardDetail(intent) ?: BankCardDetailEntity()
+
     }
 
     override fun initEvent() {

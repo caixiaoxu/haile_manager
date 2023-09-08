@@ -39,9 +39,12 @@ class DeviceDetailModel : BaseViewModel() {
         MutableLiveData()
     }
 
-    val isDrinkingOrShower: LiveData<Boolean> = deviceDetail.map {
-        DeviceCategory.isDrinkingOrShower(it.categoryCode)
+    val hasSinglePulseQuantity: LiveData<Boolean> = deviceDetail.map {
+        checkSinglePulseQuantity(it)
     }
+
+    fun checkSinglePulseQuantity(detail: DeviceDetailEntity?): Boolean =
+        !DeviceCategory.isDispenser(detail?.categoryCode) && 1 == detail?.items?.firstOrNull()?.extAttrDto?.items?.firstOrNull()?.priceCalculateMode
 
     val isOpen: MutableLiveData<Boolean> by lazy {
         MutableLiveData()
@@ -124,7 +127,7 @@ class DeviceDetailModel : BaseViewModel() {
      */
     val deviceDetailFunOperate: ArrayList<ItemShowParam> = arrayListOf(
         ItemShowParam(
-            StringUtils.getString(R.string.restart),
+            R.string.restart,
             R.mipmap.icon_device_restart,
             MutableLiveData(UserPermissionUtils.hasDeviceResetPermission())
         ) {
@@ -132,7 +135,7 @@ class DeviceDetailModel : BaseViewModel() {
             jump.postValue(8)
         },
         ItemShowParam(
-            StringUtils.getString(R.string.start),
+            R.string.start,
             R.mipmap.icon_device_start,
             MutableLiveData(UserPermissionUtils.hasDeviceStartPermission())
         ) {
@@ -140,7 +143,7 @@ class DeviceDetailModel : BaseViewModel() {
             jump.postValue(2)
         },
         ItemShowParam(
-            StringUtils.getString(R.string.devices_self_clean),
+            R.string.devices_self_clean,
             R.mipmap.icon_device_device_selfclean,
             MutableLiveData(UserPermissionUtils.hasDeviceAppointmentPermission())
         ) {
@@ -148,7 +151,7 @@ class DeviceDetailModel : BaseViewModel() {
             jump.postValue(12)
         },
         ItemShowParam(
-            StringUtils.getString(R.string.self_clean),
+            R.string.self_clean,
             R.mipmap.icon_device_self_clean,
             MutableLiveData(UserPermissionUtils.hasDeviceCleanPermission())
         ) {
@@ -156,7 +159,7 @@ class DeviceDetailModel : BaseViewModel() {
             deviceOperate(1)
         },
         ItemShowParam(
-            StringUtils.getString(R.string.unlock),
+            R.string.unlock,
             R.mipmap.icon_device_unlock,
             MutableLiveData(UserPermissionUtils.hasDeviceStartPermission())
         ) {
@@ -164,7 +167,15 @@ class DeviceDetailModel : BaseViewModel() {
             jump.postValue(9)
         },
         ItemShowParam(
-            StringUtils.getString(R.string.change_model),
+            R.string.unlock1,
+            R.mipmap.icon_device_unlock,
+            MutableLiveData(UserPermissionUtils.hasDeviceStartPermission())
+        ) {
+            //启动事件
+            jump.postValue(9)
+        },
+        ItemShowParam(
+            R.string.change_model,
             R.mipmap.icon_device_change_model,
             MutableLiveData(true)
         ) {
@@ -172,7 +183,7 @@ class DeviceDetailModel : BaseViewModel() {
             jump.postValue(3)
         },
         ItemShowParam(
-            StringUtils.getString(R.string.change_pay_code),
+            R.string.change_pay_code,
             R.mipmap.icon_device_change_pay_code,
             MutableLiveData(UserPermissionUtils.hasDeviceQrcodePermission())
         ) {
@@ -180,7 +191,7 @@ class DeviceDetailModel : BaseViewModel() {
             jump.postValue(4)
         },
         ItemShowParam(
-            StringUtils.getString(R.string.create_pay_code),
+            R.string.create_pay_code,
             R.mipmap.icon_device_create_pay_code,
             MutableLiveData(UserPermissionUtils.hasDeviceQrcodePermission())
         ) {
@@ -188,7 +199,7 @@ class DeviceDetailModel : BaseViewModel() {
             jump.postValue(6)
         },
         ItemShowParam(
-            StringUtils.getString(R.string.update_func_price),
+            R.string.update_func_price,
             R.mipmap.icon_device_update,
             MutableLiveData(UserPermissionUtils.hasDeviceUpdatePermission())
         ) {
@@ -196,12 +207,20 @@ class DeviceDetailModel : BaseViewModel() {
             jump.postValue(1)
         },
         ItemShowParam(
-            StringUtils.getString(R.string.update_device_name),
+            R.string.update_device_name,
             R.mipmap.icon_device_update,
             MutableLiveData(UserPermissionUtils.hasDeviceUpdatePermission())
         ) {
             //修改设备名称事件
             jump.postValue(5)
+        },
+        ItemShowParam(
+            R.string.update_params_setting,
+            R.mipmap.icon_device_update,
+            MutableLiveData(UserPermissionUtils.hasDeviceUpdatePermission())
+        ) {
+            //修改设备名称事件
+            jump.postValue(13)
         },
 //        ItemShowParam(
 //            StringUtils.getString(R.string.device_transfer),
@@ -211,7 +230,7 @@ class DeviceDetailModel : BaseViewModel() {
 //            //设备转移事件
 //        },
         ItemShowParam(
-            StringUtils.getString(R.string.device_appointment_setting),
+            R.string.device_appointment_setting,
             R.mipmap.icon_device_device_appointment_setting,
             MutableLiveData(UserPermissionUtils.hasDeviceAppointmentPermission())
         ) {
@@ -220,7 +239,7 @@ class DeviceDetailModel : BaseViewModel() {
         },
 
         ItemShowParam(
-            StringUtils.getString(R.string.device_voice),
+            R.string.device_voice,
             R.mipmap.icon_device_device_voice,
             MutableLiveData(UserPermissionUtils.hasDeviceAppointmentPermission())
         ) {
@@ -228,16 +247,14 @@ class DeviceDetailModel : BaseViewModel() {
             jump.postValue(10)
         },
         ItemShowParam(
-            StringUtils.getString(R.string.device_drain),
+            R.string.device_drain,
             R.mipmap.icon_device_device_drain,
             MutableLiveData(UserPermissionUtils.hasDeviceAppointmentPermission())
         ) {
             //排空设置事件
             jump.postValue(11)
         },
-
-
-        )
+    )
 
     fun requestData(type: Int = 0) {
         if (-1 == goodsId) {

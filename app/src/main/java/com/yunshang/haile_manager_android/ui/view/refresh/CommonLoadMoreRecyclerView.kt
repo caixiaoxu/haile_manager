@@ -120,7 +120,10 @@ class CommonLoadMoreRecyclerView<D> @JvmOverloads constructor(
      */
     private fun refreshDate(it: MutableList<out D>, isRefresh: Boolean) {
         //判断 当前页 数量不为0，页数加1
-        if (0 < it.size) {
+        // 多次刷新问题
+        if (isRefresh) {
+            page = 2
+        } else if (0 < it.size) {
             page++
         }
 

@@ -169,7 +169,7 @@
     <string name="pricing_manner">计价方式</string>
     <string name="for_time">按时间</string>
     <string name="for_quantity">按流量</string>
-    <string name="quantity">流量</string>
+    <string name="quantity">用量</string>
     <string name="over_time">过流时间</string>
     <string name="over_time_hint">输入范围10-600</string>
     <string name="over_time_hint1">输入范围10-60</string>
@@ -250,6 +250,7 @@
     <string name="function_model">功能模式</string>
     <string name="coming_soon">敬请期待</string>
     <string name="update_params">修改参数</string>
+    <string name="update_params_setting">修改参数设置</string>
     <string name="params_info">参数信息</string>
 
     <string name="price_model">价格模式</string>

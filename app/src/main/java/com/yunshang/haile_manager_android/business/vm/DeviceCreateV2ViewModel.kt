@@ -70,9 +70,6 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
     val isDispenser: LiveData<Boolean> = categoryCode.map {
         DeviceCategory.isDispenser(it)
     }
-    val isDrinkingOrShower: LiveData<Boolean> = categoryCode.map {
-        DeviceCategory.isDrinkingOrShower(it)
-    }
 
     // 脉冲
     var deviceCommunicationType: Int = -1
@@ -107,6 +104,19 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
     val isFunConfigure: LiveData<Boolean> = createDeviceFunConfigure.map {
         !it.isNullOrEmpty()
     }
+
+    // 是否显示单脉冲流量
+    val showSinglePulseQuantity: MediatorLiveData<Boolean> = MediatorLiveData(false).apply {
+        addSource(categoryCode) {
+            value = checkSinglePulseQuantity()
+        }
+        addSource(createDeviceFunConfigure) {
+            value = checkSinglePulseQuantity()
+        }
+    }
+
+    private fun checkSinglePulseQuantity():Boolean = !DeviceCategory.isDispenser(categoryCode.value) && 1 == createDeviceFunConfigure.value?.firstOrNull()?.extAttrDto?.items?.firstOrNull()?.priceCalculateMode
+
 
     // 是否可提交
     val canSubmit: MediatorLiveData<Boolean> = MediatorLiveData(false).apply {
@@ -149,7 +159,7 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
             && (null != categoryId.value && categoryId.value!! > 0)
             && (!deviceName.value.isNullOrEmpty() && deviceName.value!!.length > 1)
             && (if (true == isDispenser.value) !washImeiCode.value.isNullOrEmpty() else true)
-            && (if (true == isDrinkingOrShower.value) {
+            && (if (true == showSinglePulseQuantity.value) {
         try {
             communicationVal.value?.toDouble()
             true
@@ -209,7 +219,7 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
     fun save(view: View) {
         launch({
 
-            if (true == isDrinkingOrShower.value) {
+            if (true == showSinglePulseQuantity.value) {
                 createDeviceFunConfigure.value?.forEach {
                     it.extAttrDto.items.forEach { item ->
                         item.pulseVolumeFactor = communicationVal.value ?: "0"

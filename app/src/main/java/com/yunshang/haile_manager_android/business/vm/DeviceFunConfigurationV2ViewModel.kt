@@ -56,9 +56,9 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
         DeviceCategory.isWashingOrShoes(it)
     }
 
-    // 是否是洗衣机、洗鞋机和烘干机
-    val isWashingOrShoesOrDryer: LiveData<Boolean> = categoryCode.map {
-        DeviceCategory.isWashingOrShoes(it) || DeviceCategory.isDryer(it)
+    // 是否是投放器
+    val isDispenser: LiveData<Boolean> = categoryCode.map {
+        DeviceCategory.isDispenser(it)
     }
 
     // spu配置
@@ -196,10 +196,10 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
                     }
 
                     // 如果没有默认选中，就选中第一个
-                    if (it.all { item -> item.extAttrDto.items.firstOrNull()?.isDefault == false }) {
-                        it.firstOrNull()?.extAttrDto?.items?.firstOrNull() { item -> item.isCheck }?.isDefault =
-                            true
-                    }
+//                    if (it.all { item -> item.extAttrDto.items.firstOrNull()?.isDefault == false }) {
+//                        it.firstOrNull()?.extAttrDto?.items?.firstOrNull() { item -> item.isCheck }?.isDefault =
+//                            true
+//                    }
                 })
             }
             isFirstData = 2

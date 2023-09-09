@@ -57,7 +57,9 @@ data class OrderListEntity(
         orderNo
     )
 
-    fun getConfigureTitle(): String = skuList.joinToString("+") { sku -> sku.configureTitle }
+    fun getConfigureTitle(): String =
+        skuList.sortedBy { item -> DeviceCategory.isDispenser(item.goodsCategoryCode) }
+            .joinToString("+") { sku -> sku.configureTitle }
 }
 
 data class Promotion(

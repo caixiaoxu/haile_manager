@@ -63,6 +63,14 @@ data class BankCardDetailEntity(
         }
 
     @get:Bindable
+    var bankCodeVal: String
+        get() = bankCode ?: ""
+        set(value) {
+            bankCode = value
+            notifyPropertyChanged(BR.bankCodeVal)
+        }
+
+    @get:Bindable
     var bankNameVal: String
         get() = bankName ?: ""
         set(value) {

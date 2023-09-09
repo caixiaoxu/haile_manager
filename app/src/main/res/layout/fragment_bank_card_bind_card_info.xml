@@ -117,7 +117,8 @@
                     app:itemContent="@{parentVm.bankCardParams.subBankNameVal}"
                     app:showArrow="true"
                     app:title="@string/open_bank_sub_branch"
-                    app:type="info" />
+                    app:type="info"
+                    app:visibility="@{null != parentVm.bankCardParams.bankCodeVal &amp;&amp; parentVm.bankCardParams.bankCodeVal.length() > 0}" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_bank_card_bind_card_bank_sub_branch_lines_no"
@@ -125,7 +126,8 @@
                     app:itemContent="@{parentVm.bankCardParams.subBankCodeVal}"
                     app:showArrow="true"
                     app:title="@string/bank_sub_branch_lines_no"
-                    app:type="info" />
+                    app:type="info"
+                    app:visibility="@{null != parentVm.bankCardParams.bankCodeVal &amp;&amp; parentVm.bankCardParams.bankCodeVal.length() > 0}" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_bank_card_bind_card_open_bank_phone"

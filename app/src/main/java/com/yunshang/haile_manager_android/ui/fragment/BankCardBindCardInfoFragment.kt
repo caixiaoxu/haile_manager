@@ -2,11 +2,15 @@ package com.yunshang.haile_manager_android.ui.fragment
 
 import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.BankCardBindCardInfoViewModel
 import com.yunshang.haile_manager_android.business.vm.BankCardBindViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.entities.BankEntity
+import com.yunshang.haile_manager_android.data.entities.SubBankEntity
 import com.yunshang.haile_manager_android.databinding.FragmentBankCardBindCardInfoBinding
 import com.yunshang.haile_manager_android.ui.activity.common.SearchLetterActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.AreaSelectDialog
@@ -47,8 +51,27 @@ class BankCardBindCardInfoFragment :
     // 跳转银行和支行
     private val startBankAndSubNext =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            when (it.resultCode) {
+            if (it.resultCode == AppCompatActivity.RESULT_OK) {
+                it.data?.let {intent->
+                    val type = IntentParams.SearchLetterParams.parseSearchLetterType(intent)
+                    if (0 == type){
+                        GsonUtils.json2Class(IntentParams.SearchLetterParams.parseResultData(intent),
+                            BankEntity::class.java
+                        )?.let {bank->
+                            mActivityViewModel.bankCardParams.value?.bankCodeVal = bank.bankCode
+                            mActivityViewModel.bankCardParams.value?.bankNameVal = bank.bankName
+                        }
+                    } else if (1 == type){
+                        GsonUtils.json2Class(IntentParams.SearchLetterParams.parseResultData(intent),
+                            SubBankEntity::class.java
+                        )?.let {subBank->
+                            mActivityViewModel.bankCardParams.value?.subBankCodeVal = subBank.subBankCode
+                            mActivityViewModel.bankCardParams.value?.subBankNameVal = subBank.subBankName
+                        }
+                    } else {
 
+                    }
+                }
             }
         }
 
@@ -76,6 +99,22 @@ class BankCardBindCardInfoFragment :
                 requireContext(), SearchLetterActivity::class.java
             ).apply {
                 putExtras(IntentParams.SearchLetterParams.pack(0))
+            })
+        }
+        // 开户支行
+        mBinding.itemBankCardBindCardOpenBankSubBranch.onSelectedEvent = {
+            startBankAndSubNext.launch(Intent(
+                requireContext(), SearchLetterActivity::class.java
+            ).apply {
+                putExtras(IntentParams.SearchLetterParams.pack(1))
+            })
+        }
+        // 开户支行联行号
+        mBinding.itemBankCardBindCardBankSubBranchLinesNo.onSelectedEvent = {
+            startBankAndSubNext.launch(Intent(
+                requireContext(), SearchLetterActivity::class.java
+            ).apply {
+                putExtras(IntentParams.SearchLetterParams.pack(1))
             })
         }
 

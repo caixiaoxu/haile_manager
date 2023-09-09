@@ -611,6 +611,7 @@ object IntentParams {
     object SearchLetterParams {
         private const val SearchLetterType = "SearchLetterType"
         private const val BankCode = "BankCode"
+        private const val ResultData = "ResultData"
 
         /**
          * 包装参数
@@ -632,6 +633,20 @@ object IntentParams {
          * 解析BankCode
          */
         fun parseBankCode(intent: Intent): String? = intent.getStringExtra(BankCode)
+
+        /**
+         * 包装返回参数
+         * @param bankCode 银行联行号
+         */
+        fun packResult(resultData: String): Bundle = Bundle().apply {
+            putString(ResultData, resultData)
+        }
+
+        /**
+         * 解析ResultData
+         */
+        fun parseResultData(intent: Intent): String? = intent.getStringExtra(ResultData)
+
     }
 
     object RealNameAuthParams {

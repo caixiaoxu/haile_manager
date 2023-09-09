@@ -558,7 +558,9 @@
     <string name="card_no_hint">请输入卡号</string>
     <string name="open_bank_area">开户行区域</string>
     <string name="open_bank">开户银行</string>
+    <string name="select_bank">选择银行</string>
     <string name="open_bank_sub_branch">开户支行</string>
+    <string name="select_open_bank_sub_branch">选择开户支行</string>
     <string name="bank_sub_branch_lines_no">支行联行号</string>
     <string name="open_bank_phone">开户手机号</string>
     <string name="open_bank_licence">开户许可证</string>

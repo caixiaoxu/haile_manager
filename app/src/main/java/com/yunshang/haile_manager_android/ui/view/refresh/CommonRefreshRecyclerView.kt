@@ -95,6 +95,8 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
         }
     }
 
+    fun recyclerView() = mBinding.rvRefreshList
+
     /**
      * 请求数据
      */

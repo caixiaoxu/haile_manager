@@ -52,21 +52,25 @@ class BankCardBindCardInfoFragment :
     private val startBankAndSubNext =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == AppCompatActivity.RESULT_OK) {
-                it.data?.let {intent->
+                it.data?.let { intent ->
                     val type = IntentParams.SearchLetterParams.parseSearchLetterType(intent)
-                    if (0 == type){
-                        GsonUtils.json2Class(IntentParams.SearchLetterParams.parseResultData(intent),
+                    if (0 == type) {
+                        GsonUtils.json2Class(
+                            IntentParams.SearchLetterParams.parseResultData(intent),
                             BankEntity::class.java
-                        )?.let {bank->
+                        )?.let { bank ->
                             mActivityViewModel.bankCardParams.value?.bankCodeVal = bank.bankCode
                             mActivityViewModel.bankCardParams.value?.bankNameVal = bank.bankName
                         }
-                    } else if (1 == type){
-                        GsonUtils.json2Class(IntentParams.SearchLetterParams.parseResultData(intent),
+                    } else if (1 == type) {
+                        GsonUtils.json2Class(
+                            IntentParams.SearchLetterParams.parseResultData(intent),
                             SubBankEntity::class.java
-                        )?.let {subBank->
-                            mActivityViewModel.bankCardParams.value?.subBankCodeVal = subBank.subBankCode
-                            mActivityViewModel.bankCardParams.value?.subBankNameVal = subBank.subBankName
+                        )?.let { subBank ->
+                            mActivityViewModel.bankCardParams.value?.subBankCodeVal =
+                                subBank.subBankCode
+                            mActivityViewModel.bankCardParams.value?.subBankNameVal =
+                                subBank.subBankName
                         }
                     } else {
 
@@ -106,7 +110,12 @@ class BankCardBindCardInfoFragment :
             startBankAndSubNext.launch(Intent(
                 requireContext(), SearchLetterActivity::class.java
             ).apply {
-                putExtras(IntentParams.SearchLetterParams.pack(1))
+                putExtras(
+                    IntentParams.SearchLetterParams.pack(
+                        1,
+                        mActivityViewModel.bankCardParams.value?.bankCode
+                    )
+                )
             })
         }
         // 开户支行联行号
@@ -114,7 +123,12 @@ class BankCardBindCardInfoFragment :
             startBankAndSubNext.launch(Intent(
                 requireContext(), SearchLetterActivity::class.java
             ).apply {
-                putExtras(IntentParams.SearchLetterParams.pack(1))
+                putExtras(
+                    IntentParams.SearchLetterParams.pack(
+                        1,
+                        mActivityViewModel.bankCardParams.value?.bankCode
+                    )
+                )
             })
         }
 

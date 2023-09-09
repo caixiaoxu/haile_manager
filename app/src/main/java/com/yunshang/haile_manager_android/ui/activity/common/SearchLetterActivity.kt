@@ -82,6 +82,11 @@ class SearchLetterActivity : BaseActivity() {
             if (1 == searchLetterType) R.string.select_open_bank_sub_branch else R.string.select_bank
         )
 
+        // 搜索关键字
+        mSearchLetterBinding.etSearchLetterKeyword.onTextChange = {
+            mSearchLetterBinding.rvSearchLetterList.requestRefresh(true)
+        }
+
         // 银行和支行列表
         mSearchLetterBinding.rvSearchLetterList.layoutManager = LinearLayoutManager(this)
         mSearchLetterBinding.rvSearchLetterList.requestData = object :
@@ -120,7 +125,7 @@ class SearchLetterActivity : BaseActivity() {
     ) {
         val keyword = mSearchLetterBinding.etSearchLetterKeyword.text.toString().trim()
         launch({
-            val params = hashMapOf(
+            val params = hashMapOf<String, Any?>(
                 "page" to page,
                 "pageSize" to pageSize,
             )
@@ -129,9 +134,9 @@ class SearchLetterActivity : BaseActivity() {
                 if (0 == searchLetterType) {
                     mCommonRepo.bankList(
                         ApiRepository.createRequestBody(
-                            params.apply {
+                            params.also { params ->
                                 if (!keyword.isNullOrEmpty()) {
-                                    "bankName" to keyword
+                                    params["bankName"] = keyword
                                 }
                             }
                         )
@@ -139,10 +144,10 @@ class SearchLetterActivity : BaseActivity() {
                 } else {
                     mCommonRepo.subBankList(
                         ApiRepository.createRequestBody(
-                            params.apply {
-                                "bankCode" to bankCode
+                            params.also { params ->
+                                params["bankCode"] = bankCode
                                 if (!keyword.isNullOrEmpty()) {
-                                    "subBankName" to keyword
+                                    params["subBankName"] = keyword
                                 }
                             }
                         )

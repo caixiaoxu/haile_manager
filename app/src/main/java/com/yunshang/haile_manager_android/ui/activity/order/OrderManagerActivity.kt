@@ -73,23 +73,6 @@ class OrderManagerActivity :
             R.layout.item_order_list,
             BR.item
         ) { mItemBinding, _, item ->
-            mItemBinding?.llOrderListSpecs?.removeAllViews()
-            item.skuList.forEach { sku ->
-                mItemBinding?.llOrderListSpecs?.addView(
-                    TextView(this@OrderManagerActivity).apply {
-                        setTextColor(
-                            ContextCompat.getColor(
-                                this@OrderManagerActivity,
-                                R.color.colorPrimary
-                            )
-                        )
-                        text = "${sku.skuName} ${sku.unitValue} ￥${NumberUtils.keepTwoDecimals(sku.originUnitPrice)}"
-                    }, ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                    )
-                )
-            }
             mItemBinding?.root?.setOnClickListener {
                 if (UserPermissionUtils.hasOrderInfoPermission()) {
                     startActivity(

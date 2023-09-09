@@ -161,7 +161,7 @@ class DeviceCreateV2Activity :
                     childBinding.title =
                         if (0 == index) com.lsy.framelib.utils.StringUtils.getString(R.string.price_configure) + "：" else ""
                     childBinding.value =
-                        "${data.getTitle()}/${data.unitPriceVal}元${if (isPulseDevice) "/${data.pulse}个" else ""}"
+                        "${data.unitPriceVal}元/${data.getTitle()}${if (isPulseDevice) "/${data.pulse}个" else ""}"
                     childBinding.isDefault = data.isDefault
                 }
             }

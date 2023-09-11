@@ -15,6 +15,7 @@ import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.SkuFunConfigurationV2Param
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import com.yunshang.haile_manager_android.utils.StringUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -115,7 +116,8 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
         }
     }
 
-    private fun checkSinglePulseQuantity():Boolean = !DeviceCategory.isDispenser(categoryCode.value) && 1 == createDeviceFunConfigure.value?.firstOrNull()?.extAttrDto?.items?.firstOrNull()?.priceCalculateMode
+    private fun checkSinglePulseQuantity(): Boolean =
+        !DeviceCategory.isDispenser(categoryCode.value) && 1 == createDeviceFunConfigure.value?.firstOrNull()?.extAttrDto?.items?.firstOrNull()?.priceCalculateMode
 
 
     // 是否可提交
@@ -152,23 +154,24 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
     /**
      * 检测是否可提交
      */
-    private fun checkSubmit(): Boolean = (!imeiCode.value.isNullOrEmpty()
-            && (if (true != isDispenser.value) !payCode.value.isNullOrEmpty() else true)
-            && (null != createDeviceShop.value && createDeviceShop.value!!.id > 0)
-            && (null != spuId.value && spuId.value!! > 0)
-            && (null != categoryId.value && categoryId.value!! > 0)
-            && (!deviceName.value.isNullOrEmpty() && deviceName.value!!.length > 1)
-            && (if (true == isDispenser.value) !washImeiCode.value.isNullOrEmpty() else true)
-            && (if (true == showSinglePulseQuantity.value) {
-        try {
-            communicationVal.value?.toDouble()
-            true
-        } catch (e: Exception) {
-            e.printStackTrace()
-            false
-        }
-    } else true)
-            && null != createDeviceFunConfigure.value)
+    private fun checkSubmit(): Boolean =
+        ((!imeiCode.value.isNullOrEmpty() && StringUtils.isImeiCode(imeiCode.value))
+                && (if (true != isDispenser.value) !payCode.value.isNullOrEmpty() else true)
+                && (null != createDeviceShop.value && createDeviceShop.value!!.id > 0)
+                && (null != spuId.value && spuId.value!! > 0)
+                && (null != categoryId.value && categoryId.value!! > 0)
+                && (!deviceName.value.isNullOrEmpty() && deviceName.value!!.length > 1)
+                && (if (true == isDispenser.value) !washImeiCode.value.isNullOrEmpty() else true)
+                && (if (true == showSinglePulseQuantity.value) {
+            try {
+                communicationVal.value?.toDouble()
+                true
+            } catch (e: Exception) {
+                e.printStackTrace()
+                false
+            }
+        } else true)
+                && null != createDeviceFunConfigure.value)
 
 
     /**

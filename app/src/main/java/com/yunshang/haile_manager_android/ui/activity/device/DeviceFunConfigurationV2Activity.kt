@@ -115,7 +115,7 @@ class DeviceFunConfigurationV2Activity :
                     mItemBinding?.tvDeviceFunConfigurationAttrDefault?.visibility = View.INVISIBLE
                 } else {
                     // 只有一个配置，固定和可改
-                    if (1 == list.size && 3 != mViewModel.spuExtAttrDto.value?.functionType) {
+                    if (1 == item.extAttrDto.items.size && 3 != mViewModel.spuExtAttrDto.value?.functionType) {
                         mItemBinding?.llDeviceFunConfigurationAttrSku?.layoutId =
                             R.layout.item_device_func_configuration_washing
                         mItemBinding?.itemDeviceFunConfigurationAttr?.visibility(false)

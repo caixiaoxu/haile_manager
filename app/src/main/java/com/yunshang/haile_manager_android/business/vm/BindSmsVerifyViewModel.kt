@@ -32,7 +32,7 @@ class BindSmsVerifyViewModel : BaseViewModel() {
     val titleVal: LiveData<String> = verifyType.map {
         when (it) {
             0 -> StringUtils.getString(R.string.bind_alipay_account)
-            1 -> StringUtils.getString(R.string.add_bank_card)
+            1, 3, 4, 5 -> StringUtils.getString(R.string.add_bank_card)
             2 -> StringUtils.getString(R.string.real_name)
             else -> ""
         }
@@ -41,7 +41,7 @@ class BindSmsVerifyViewModel : BaseViewModel() {
     val contentVal: LiveData<String> = verifyType.map {
         when (it) {
             0 -> StringUtils.getString(R.string.bind_alipay)
-            1 -> StringUtils.getString(R.string.add_bank_card)
+            1, 3, 4, 5 -> StringUtils.getString(R.string.add_bank_card)
             2 -> StringUtils.getString(R.string.real_name)
             else -> ""
         }
@@ -78,21 +78,21 @@ class BindSmsVerifyViewModel : BaseViewModel() {
         if (!it.isNullOrEmpty() && it.length > 5) it[5].toString() else ""
     }
 
-    fun sendOperateSms(callback:(isSuccess:Boolean)->Unit) {
+    fun sendOperateSms(callback: (isSuccess: Boolean) -> Unit) {
         launch({
             val body = ApiRepository.createRequestBody("")
             ApiRepository.dealApiResult(
                 when (verifyType.value) {
                     0 -> mCapitalRepo.sendCashOutOperateSms(body)
-                    1 -> mCapitalRepo.sendBankOperateSms(body)
+                    1, 3, 4, 5 -> mCapitalRepo.sendBankOperateSms(body)
                     else -> mCapitalRepo.sendRealNameOperateSms(body)
                 }
             )
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 callback(true)
             }
-        },{
-            withContext(Dispatchers.Main){
+        }, {
+            withContext(Dispatchers.Main) {
                 callback(false)
             }
         })
@@ -108,7 +108,7 @@ class BindSmsVerifyViewModel : BaseViewModel() {
             ApiRepository.dealApiResult(
                 when (verifyType.value) {
                     0 -> mCapitalRepo.checkCashOutOperateSms(body)
-                    1 -> mCapitalRepo.checkBankOperateSms(body)
+                    1,3,4,5 -> mCapitalRepo.checkBankOperateSms(body)
                     else -> mCapitalRepo.checkRealNameOperateSms(body)
                 }
             )?.let {

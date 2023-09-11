@@ -107,7 +107,7 @@ class BankCardBindViewModel : BaseViewModel() {
                 return
             }
 
-            if (2 == authInfo.value?.verifyType) {
+            if (2 == merchantType) {
                 if (bankCardParams.value?.licenceForOpeningAccountImage.isNullOrEmpty()) {
                     SToast.showToast(v.context, "请先上传开户许可证")
                     return
@@ -149,21 +149,47 @@ class BankCardBindViewModel : BaseViewModel() {
                 return
             }
             bankCardParams.value?.authCode = authCode
-            bankCardParams.value?.merchantType = authInfo.value?.verifyType
-            bankCardParams.value?.bankAccountName = authInfo.value?.idCardName
-            bankCardParams.value?.authCode = authCode
             launch({
-                ApiRepository.dealApiResult(
-                    mCapitalService.createBankCard(
-                        ApiRepository.createRequestBody(
-                            GsonUtils.any2Json(bankCardParams.value)
+                bankCardParams.value?.id?.let {
+                    // 修改
+                    ApiRepository.dealApiResult(
+                        mCapitalService.updateBankCardDetail(
+                            ApiRepository.createRequestBody(
+                                GsonUtils.any2Json(bankCardParams.value)
+                            )
                         )
                     )
-                )
 
-                LiveDataBus.post(BusEvents.BANK_LIST_STATUS, true)
-                jump.postValue(0)
+                    LiveDataBus.post(BusEvents.BANK_LIST_DETAIL_STATUS, true)
+                } ?: run {
+                    // 绑定
+                    authInfo.value?.verifyType?.let {
+                        bankCardParams.value?.merchantType = it
+                    }
+                    authInfo.value?.idCardName?.let {
+                        bankCardParams.value?.bankAccountName = it
+                    }
+                    ApiRepository.dealApiResult(
+                        mCapitalService.createBankCard(
+                            ApiRepository.createRequestBody(
+                                GsonUtils.any2Json(bankCardParams.value)
+                            )
+                        )
+                    )
+                }
             })
+
+            LiveDataBus.post(BusEvents.BANK_LIST_STATUS, true)
+            jump.postValue(0)
         }
     }
+
+    val merchantType: Int?
+        get() = (authInfo.value?.verifyType ?: bankCardParams.value?.merchantType)
+
+    val verifyTypeName: String?
+        get() = (authInfo.value?.verifyTypeName ?: bankCardParams.value?.typeVal)
+
+    val realName: String?
+        get() = (authInfo.value?.idCardName ?: bankCardParams.value?.bankAccountName)
 }

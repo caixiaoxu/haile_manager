@@ -1,5 +1,8 @@
 package com.yunshang.haile_manager_android.ui.fragment
 
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.BankCardBindShopInfoViewModel
@@ -42,6 +45,16 @@ class BankCardBindShopInfoFragment :
 
     override fun layoutId(): Int = R.layout.fragment_bank_card_bind_shop_info
 
+    override fun initEvent() {
+        super.initEvent()
+        mActivityViewModel.bankCardParams.observe(this) {
+            it?.let {
+                loadShopSignPic()
+                loadShopDevicePic()
+            }
+        }
+    }
+
     override fun initView() {
         mBinding.parentVm = mActivityViewModel
 
@@ -56,11 +69,7 @@ class BankCardBindShopInfoFragment :
                     mActivityViewModel.uploadBankPhoto(result[0].cutPath) { isTrue, url ->
                         if (isTrue) {
                             mActivityViewModel.bankCardParams.value?.doorImage = url
-                            GlideUtils.glideDefaultFactory(
-                                mBinding.ivBankCardShopInfoSign,
-                                url,
-                                R.mipmap.icon_open_bank_licence
-                            ).into(mBinding.ivBankCardShopInfoSign)
+                            loadShopSignPic()
                         } else SToast.showToast(requireActivity(), R.string.upload_failure)
                     }
                 }
@@ -74,16 +83,34 @@ class BankCardBindShopInfoFragment :
                     mActivityViewModel.uploadBankPhoto(result[0].cutPath) { isTrue, url ->
                         if (isTrue) {
                             mActivityViewModel.bankCardParams.value?.deviceImage = url
-                            GlideUtils.glideDefaultFactory(
-                                mBinding.ivBankCardShopInfoDevice,
-                                url,
-                                R.mipmap.icon_open_bank_licence
-                            ).into(mBinding.ivBankCardShopInfoDevice)
+                            loadShopDevicePic()
                         } else SToast.showToast(requireActivity(), R.string.upload_failure)
                     }
                 }
             }
         }
+    }
+
+    private fun loadShopSignPic() {
+        GlideUtils.glideDefaultFactory(
+            mBinding.ivBankCardShopInfoSign,
+            mActivityViewModel.bankCardParams.value?.doorImage,
+            R.mipmap.icon_bank_card_shop_sign
+        ).transform(
+            CenterCrop(),
+            RoundedCorners(DimensionUtils.dip2px(requireContext(), 8f))
+        ).into(mBinding.ivBankCardShopInfoSign)
+    }
+
+    private fun loadShopDevicePic() {
+        GlideUtils.glideDefaultFactory(
+            mBinding.ivBankCardShopInfoDevice,
+            mActivityViewModel.bankCardParams.value?.deviceImage,
+            R.mipmap.icon_bank_card_shop_device
+        ).transform(
+            CenterCrop(),
+            RoundedCorners(DimensionUtils.dip2px(requireContext(), 8f))
+        ).into(mBinding.ivBankCardShopInfoDevice)
     }
 
     override fun initData() {

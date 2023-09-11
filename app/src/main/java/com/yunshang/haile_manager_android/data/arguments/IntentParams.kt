@@ -595,9 +595,11 @@ object IntentParams {
         /**
          * 包装参数
          */
-        fun pack(bankCardDetail: BankCardDetailEntity? = null): Bundle = Bundle().apply {
-            putString(BankCardDetail, GsonUtils.any2Json(bankCardDetail))
-        }
+        fun pack(authCode: String, bankCardDetail: BankCardDetailEntity? = null): Bundle =
+            Bundle().apply {
+                putAll(WithdrawBindAlipayParams.pack(authCode))
+                putString(BankCardDetail, GsonUtils.any2Json(bankCardDetail))
+            }
 
         /**
          * 解析BankCardDetail

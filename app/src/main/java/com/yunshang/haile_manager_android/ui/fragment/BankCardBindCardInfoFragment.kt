@@ -3,6 +3,9 @@ package com.yunshang.haile_manager_android.ui.fragment
 import android.content.Intent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
@@ -138,8 +141,9 @@ class BankCardBindCardInfoFragment :
                 if (isSuccess && !result.isNullOrEmpty()) {
                     mActivityViewModel.uploadBankPhoto(result[0].cutPath) { isTrue, url ->
                         if (isTrue) {
-                            if (2 == mActivityViewModel.authInfo.value?.verifyType){
-                                mActivityViewModel.bankCardParams.value?.licenceForOpeningAccountImage = url
+                            if (2 == mActivityViewModel.merchantType) {
+                                mActivityViewModel.bankCardParams.value?.licenceForOpeningAccountImage =
+                                    url
                             } else {
                                 mActivityViewModel.bankCardParams.value?.bankCardImage = url
                             }
@@ -154,20 +158,20 @@ class BankCardBindCardInfoFragment :
     private fun loadBankLicence() {
         mActivityViewModel.bankCardParams.value?.let { bankCard ->
             mBinding.ivOpenBankLicence.let { imageView ->
-                mActivityViewModel.authInfo.value?.let {
-                    if (2 == it.verifyType) {
-                        GlideUtils.glideDefaultFactory(
-                            imageView,
-                            bankCard.licenceForOpeningAccountImage,
-                            R.mipmap.icon_open_bank_licence
-                        ).into(imageView)
-                    } else {
-                        GlideUtils.glideDefaultFactory(
-                            imageView,
-                            bankCard.bankCardImage,
-                            R.mipmap.icon_open_bank_card_pic
-                        ).into(imageView)
-                    }
+                if (2 == mActivityViewModel.merchantType) {
+                    GlideUtils.glideDefaultFactory(
+                        imageView,
+                        bankCard.licenceForOpeningAccountImage,
+                        R.mipmap.icon_open_bank_licence
+                    ).transform(CenterCrop(), RoundedCorners(DimensionUtils.dip2px(requireContext(), 8f)))
+                        .into(imageView)
+                } else {
+                    GlideUtils.glideDefaultFactory(
+                        imageView,
+                        bankCard.bankCardImage,
+                        R.mipmap.icon_open_bank_card_pic
+                    ).transform(CenterCrop(), RoundedCorners(DimensionUtils.dip2px(requireContext(), 8f)))
+                        .into(imageView)
                 }
             }
         }

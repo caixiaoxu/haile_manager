@@ -208,7 +208,6 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
 
     fun save(context: Context, callBack: (json: String?) -> Unit) {
         configureList.value?.let { configureList ->
-            var washDefaultOpen = false
             configureList.forEachIndexed { i, param ->
                 val index = i + 1
                 if (param.nameVal.trim().isEmpty()) {
@@ -247,21 +246,6 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
                     SToast.showToast(context, "请输入功能${index}配置的脉冲")
                     return@let
                 }
-
-                // 只有固定价格才有默认选中
-                if (1 == selectPriceModel.value?.id) {
-                    if (param.extAttrDto.items.any { item -> item.isDefault && item.isCheck }) {
-                        washDefaultOpen = true
-                    }
-                } else {
-                    washDefaultOpen = true
-                    param.extAttrDto.items.forEach { item -> item.isDefault = false }
-                }
-            }
-
-            if (!washDefaultOpen) {
-                SToast.showToast(context, "请选择至少开启一个默认选中项")
-                return@let
             }
 
             // 如果有goodId，就是修改

@@ -45,5 +45,6 @@ object BusEvents {
     const val SCAN_CHANGE_STATUS = "scan_change_status"
 
     const val BANK_LIST_STATUS = "bank_list_status"
+    const val BANK_LIST_DETAIL_STATUS = "bank_list_detail_status"
     const val BANK_LIST_DELETE_STATUS = "bank_list_delete_status"
 }

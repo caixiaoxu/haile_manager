@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.BankCardDetailViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.personal.BankCardDetailActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_bank_card_detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            app:title="@string/bank_card" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingHorizontal="16dp"
+                    android:paddingTop="24dp"
+                    android:paddingBottom="16dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_bank_card_icon"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:src="@mipmap/icon_bank_card"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_bank_card_status"
+                        style="@style/Font_16_333333_bold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="@{vm.bankCardDetail.stateVal}"
+                        app:layout_constraintBottom_toTopOf="@id/tv_bank_card_reason"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/iv_bank_card_icon"
+                        app:layout_constraintTop_toTopOf="@id/iv_bank_card_icon"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        tools:text="绑定成功" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_bank_card_reason"
+                        style="@style/Font_12_999999"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@{vm.bankCardDetail.stateTip}"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_bank_card_icon"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/tv_bank_card_status"
+                        app:layout_constraintTop_toBottomOf="@id/tv_bank_card_status"
+                        app:visibility="@{2 == vm.bankCardDetail.state}"
+                        tools:text="失败原因具体字段显示区域" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    app:divider="@drawable/divder_efefef"
+                    app:dividerPadding="12dp"
+                    app:showDividers="middle">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_14_333333_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="16dp"
+                        android:text="@string/auth_info" />
+
+                    <include
+                        layout="@layout/item_bank_detail_info"
+                        app:content="@{vm.bankCardDetail.typeVal}"
+                        app:title="@{vm.bankCardDetail.typeTitle}" />
+
+                    <include
+                        layout="@layout/item_bank_detail_info"
+                        app:content="@{vm.bankCardDetail.bankAccountNoVal}"
+                        app:title="@{vm.bankCardDetail.bankAccountTitle}" />
+
+                    <include
+                        layout="@layout/item_bank_detail_info"
+                        app:content="@{vm.bankCardDetail.accountNameVal}"
+                        app:title="@{vm.bankCardDetail.accountNameTitle}" />
+
+                    <include
+                        layout="@layout/item_bank_detail_info"
+                        app:content="@{vm.bankCardDetail.bankAreaVal}"
+                        app:title="@{vm.bankCardDetail.openBankAreaTitle}" />
+
+                    <include
+                        layout="@layout/item_bank_detail_info"
+                        app:content="@{vm.bankCardDetail.subBankNameVal}"
+                        app:title="@{vm.bankCardDetail.openBankSubBranchTitle}" />
+
+                    <include
+                        layout="@layout/item_bank_detail_info"
+                        app:content="@{vm.bankCardDetail.subBankCodeVal}"
+                        app:title="@{vm.bankCardDetail.bankSubBranchLinesNoTitle}" />
+
+                    <include
+                        layout="@layout/item_bank_detail_info"
+                        app:content="@{vm.bankCardDetail.bankMobileNoVal}"
+                        app:title="@{vm.bankCardDetail.openBankReservedPhoneTitle}" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:paddingHorizontal="16dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_bank_card_detail_bank_pic"
+                            style="@style/Font_14_999999"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:gravity="center_vertical"
+                            android:text="@{2 == vm.bankCardDetail.merchantType?@string/open_bank_licence:@string/bank_card_pic}"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_bank_card_detail_bank_pic"
+                            android:layout_width="166dp"
+                            android:layout_height="106dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_bank_card_detail_bank_pic" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_14_ffffff"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shape_s88000000_rb8"
+                            android:gravity="center"
+                            android:text="@{2 == vm.bankCardDetail.merchantType?@string/open_bank_licence:@string/bank_card_pic}"
+                            app:layout_constraintBottom_toBottomOf="@id/iv_bank_card_detail_bank_pic"
+                            app:layout_constraintEnd_toEndOf="@id/iv_bank_card_detail_bank_pic"
+                            app:layout_constraintStart_toStartOf="@id/iv_bank_card_detail_bank_pic" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="30dp"
+                    app:divider="@drawable/divder_efefef"
+                    app:dividerPadding="12dp"
+                    app:showDividers="middle">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_14_333333_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="16dp"
+                        android:text="@string/business_info" />
+
+                    <include
+                        layout="@layout/item_bank_detail_info"
+                        app:content="@{vm.bankCardDetail.merchantNameAliasVal}"
+                        app:title="@{vm.bankCardDetail.shopSimpleNameTitle}" />
+
+                    <include
+                        layout="@layout/item_bank_detail_info"
+                        app:content="@{vm.bankCardDetail.areaVal}"
+                        app:title="@{vm.bankCardDetail.areaTitle}" />
+
+                    <include
+                        layout="@layout/item_bank_detail_info"
+                        app:content="@{vm.bankCardDetail.addressVal}"
+                        app:title="@{vm.bankCardDetail.addressTitle}" />
+
+                    <include
+                        layout="@layout/item_bank_detail_info"
+                        app:content="@{vm.bankCardDetail.contactNameVal}"
+                        app:title="@{vm.bankCardDetail.managerTitle}" />
+
+                    <include
+                        layout="@layout/item_bank_detail_info"
+                        app:content="@{vm.bankCardDetail.contactPhoneVal}"
+                        app:title="@{vm.bankCardDetail.managerPhoneTitle}" />
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:paddingHorizontal="16dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_bank_card_detail_shop_pic"
+                            style="@style/Font_14_999999"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/shop_sit_and_device_pic"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_bank_card_detail_shop_sign_pic"
+                            android:layout_width="166dp"
+                            android:layout_height="106dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_bank_card_detail_shop_pic" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_14_ffffff"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shape_s88000000_rb8"
+                            android:gravity="center"
+                            android:text="@string/shop_sign_pic"
+                            app:layout_constraintBottom_toBottomOf="@id/iv_bank_card_detail_shop_sign_pic"
+                            app:layout_constraintEnd_toEndOf="@id/iv_bank_card_detail_shop_sign_pic"
+                            app:layout_constraintStart_toStartOf="@id/iv_bank_card_detail_shop_sign_pic" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_bank_card_detail_shop_device_pic"
+                            android:layout_width="166dp"
+                            android:layout_height="106dp"
+                            android:layout_marginStart="12dp"
+                            app:layout_constraintStart_toEndOf="@id/iv_bank_card_detail_shop_sign_pic"
+                            app:layout_constraintTop_toBottomOf="@id/tv_bank_card_detail_shop_pic" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_14_ffffff"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shape_s88000000_rb8"
+                            android:gravity="center"
+                            android:text="@string/shop_device_pic"
+                            app:layout_constraintBottom_toBottomOf="@id/iv_bank_card_detail_shop_device_pic"
+                            app:layout_constraintEnd_toEndOf="@id/iv_bank_card_detail_shop_device_pic"
+                            app:layout_constraintStart_toStartOf="@id/iv_bank_card_detail_shop_device_pic" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:background="@drawable/shape_top_stroke_dividing"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="8dp"
+            app:visibility="@{2 == vm.bankCardDetail.state || 5 == vm.bankCardDetail.state}">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_bank_card_delete"
+                style="@style/CommonStrokeTxtBtnStyle"
+                android:layout_marginEnd="8dp"
+                android:text="@string/delete"
+                app:visibility="@{2 == vm.bankCardDetail.state}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_bank_card_unBind"
+                style="@style/CommonStrokeTxtBtnStyle"
+                android:layout_marginEnd="8dp"
+                android:text="@string/unBind"
+                app:visibility="@{5 == vm.bankCardDetail.merchantType}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_bank_card_rebinding"
+                style="@style/CommonStrokeTxtBtnStyle"
+                android:text="@string/rebinding"
+                app:visibility="@{1 != vm.bankCardDetail.state}" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

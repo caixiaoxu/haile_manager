@@ -30,6 +30,7 @@ class BindSmsVerifyActivity :
         mViewModel.authCode.observe(this) {
             if (IntentParams.BindSmsVerifyParams.parseNeedBack(intent)) {
                 setResult(RESULT_OK, Intent().apply {
+                    putExtras(intent)
                     putExtras(IntentParams.WithdrawBindAlipayParams.pack(it))
                 })
             } else {

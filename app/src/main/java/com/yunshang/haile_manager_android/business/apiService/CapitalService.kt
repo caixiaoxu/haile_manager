@@ -194,4 +194,28 @@ interface CapitalService {
     @POST("/candyPay/bankCard/create")
     suspend fun createBankCard(@Body body: RequestBody): ResponseWrapper<Any>
 
+    /**
+     * 银行卡修改接口
+     */
+    @POST("/candyPay/bankCard/modify")
+    suspend fun updateBankCardDetail(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 银行卡详情接口
+     */
+    @POST("/candyPay/bankCard/detail")
+    suspend fun requestBankCardDetail(@Body body: RequestBody): ResponseWrapper<BankCardDetailEntity>
+
+    /**
+     * 银行卡解绑接口
+     */
+    @POST("/candyPay/bankCard/release")
+    suspend fun requestBankCardRelease(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 银行卡删除接口
+     */
+    @POST("/candyPay/bankCard/delete")
+    suspend fun requestBankCardDelete(@Body body: RequestBody): ResponseWrapper<Any>
+
 }

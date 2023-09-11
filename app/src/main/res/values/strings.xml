@@ -554,6 +554,8 @@
     <string name="settlement_explain_content">结算时间\nT+1结算，如遇节假日顺延（当天收益，将于第二天14:00结算打款至您绑定的银行卡内）。\n\n手续费\n每笔交易手续费0.6%，结算至银行卡将自动扣除。\n\n非银行卡结算\n平台补贴、用户通过余额支付的收益，将结算至您的钱包余额。</string>
     <string name="account_type">账户类型</string>
     <string name="bank_account_name">银行账户户名</string>
+    <string name="bank_account">银行账号</string>
+    <string name="account_name">账户户名</string>
     <string name="card_no">卡号</string>
     <string name="card_no_hint">请输入卡号</string>
     <string name="open_bank_area">开户行区域</string>
@@ -563,6 +565,7 @@
     <string name="select_open_bank_sub_branch">选择开户支行</string>
     <string name="bank_sub_branch_lines_no">支行联行号</string>
     <string name="open_bank_phone">开户手机号</string>
+    <string name="open_bank_reserved_phone">开户预留手机号</string>
     <string name="open_bank_licence">开户许可证</string>
     <string name="bank_card_pic">银行卡照片</string>
     <string name="shop_simple_name">商户简称</string>
@@ -571,10 +574,14 @@
     <string name="shop_manager">负责人</string>
     <string name="shop_manager_phone">负责人手机号</string>
     <string name="shop_sit_and_device_pic">场地和设备照片</string>
+    <string name="shop_sign_pic">门店招牌照</string>
+    <string name="shop_device_pic">设备场景照</string>
     <string name="shop_sit_and_device_pic_promt">图片格式支持bmp、jpg、jpeg、png、gif，最大为10MB</string>
+    <string name="rebinding">重新绑定</string>
 
     <string name="real_name">实名认证</string>
     <string name="auth_info">认证信息</string>
+    <string name="business_info">经营信息</string>
     <string name="id_card">身份证</string>
     <string name="company_name">公司名称</string>
     <string name="company_id">社会信用代码</string>

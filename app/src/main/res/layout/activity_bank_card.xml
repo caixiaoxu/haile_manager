@@ -39,6 +39,7 @@
             app:visibility="@{null == vm.bankCard}" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_bank_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
@@ -92,12 +93,11 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_bank_card_no"
-                style="@style/Font_24_333333_bold"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@{vm.bankCard.bankCardNo}"
-                app:layout_constraintEnd_toEndOf="@id/tv_bank_card_name"
+                android:textColor="@color/common_txt_color"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/tv_bank_card_name"
                 app:layout_constraintTop_toBottomOf="@id/tv_bank_card_type"
                 tools:text="•••• •••• •••• 6979" />

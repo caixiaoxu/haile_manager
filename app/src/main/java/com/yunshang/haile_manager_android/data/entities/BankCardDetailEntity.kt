@@ -2,7 +2,9 @@ package com.yunshang.haile_manager_android.data.entities
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
+import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
+import com.yunshang.haile_manager_android.R
 
 /**
  * Title :
@@ -44,6 +46,7 @@ data class BankCardDetailEntity(
     var bankArea: String? = null,
     val id: Int? = null,
     val state: Int? = null,
+    val stateTip: String? = null,
 ) : BaseObservable() {
 
     @get:Bindable
@@ -141,4 +144,52 @@ data class BankCardDetailEntity(
             contactPhone = value
             notifyPropertyChanged(BR.contactPhoneVal)
         }
+
+    val stateVal: String
+        get() = state?.let { StringUtils.getStringArray(R.array.bank_card_state_arr)[state] } ?: ""
+
+    val typeTitle: String
+        get() = StringUtils.getString(R.string.type)
+
+    val typeVal: String
+        get() = if (null != merchantType && merchantType!! > 0) StringUtils.getStringArray(R.array.verify_type_arr)[merchantType!! - 1] else ""
+
+    val bankAccountTitle: String
+        get() = StringUtils.getString(R.string.bank_account)
+
+    val accountNameTitle: String
+        get() = StringUtils.getString(R.string.account_name)
+
+    val accountNameVal: String
+        get() = bankAccountName ?: ""
+
+    val openBankAreaTitle: String
+        get() = StringUtils.getString(R.string.open_bank_area)
+
+    val openBankSubBranchTitle: String
+        get() = StringUtils.getString(R.string.open_bank_sub_branch)
+
+    val bankSubBranchLinesNoTitle: String
+        get() = StringUtils.getString(R.string.bank_sub_branch_lines_no)
+
+    val openBankReservedPhoneTitle: String
+        get() = StringUtils.getString(R.string.open_bank_reserved_phone)
+
+    val bankCardPic: String
+        get() = (if (2 == merchantType) licenceForOpeningAccountImage else bankCardImage) ?: ""
+
+    val shopSimpleNameTitle: String
+        get() = StringUtils.getString(R.string.shop_simple_name)
+
+    val areaTitle: String
+        get() = StringUtils.getString(R.string.shop_area)
+
+    val addressTitle: String
+        get() = StringUtils.getString(R.string.shop_location_detail)
+
+    val managerTitle: String
+        get() = StringUtils.getString(R.string.shop_manager)
+
+    val managerPhoneTitle: String
+        get() = StringUtils.getString(R.string.shop_manager_phone)
 }

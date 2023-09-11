@@ -45,7 +45,7 @@
                         style="@style/Font_16_333333"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{parentVm.authInfo.verifyTypeName}"
+                        android:text="@{parentVm.verifyTypeName}"
                         tools:text="个人" />
 
                 </LinearLayout>
@@ -67,7 +67,7 @@
                         style="@style/Font_16_333333"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{parentVm.authInfo.idCardName}"
+                        android:text="@{parentVm.realName}"
                         tools:text="张三" />
 
                 </LinearLayout>
@@ -147,7 +147,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="54dp"
                         android:gravity="center_vertical"
-                        android:text="@{2==parentVm.authInfo.verifyType?@string/open_bank_licence:@string/bank_card_pic}" />
+                        android:text="@{2==parentVm.merchantType?@string/open_bank_licence:@string/bank_card_pic}" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/iv_open_bank_licence"

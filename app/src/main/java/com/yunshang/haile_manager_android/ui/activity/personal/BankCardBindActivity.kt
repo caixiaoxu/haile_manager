@@ -35,6 +35,9 @@ class BankCardBindActivity :
                 changePage(it)
             }
         }
+        mViewModel.jump.observe(this) {
+            finish()
+        }
     }
 
     private fun changePage(page: Int) {

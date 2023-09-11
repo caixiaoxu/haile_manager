@@ -4,10 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * Title :
@@ -75,7 +78,7 @@ class BindSmsVerifyViewModel : BaseViewModel() {
         if (!it.isNullOrEmpty() && it.length > 5) it[5].toString() else ""
     }
 
-    fun sendOperateSms() {
+    fun sendOperateSms(callback:(isSuccess:Boolean)->Unit) {
         launch({
             val body = ApiRepository.createRequestBody("")
             ApiRepository.dealApiResult(
@@ -85,6 +88,13 @@ class BindSmsVerifyViewModel : BaseViewModel() {
                     else -> mCapitalRepo.sendRealNameOperateSms(body)
                 }
             )
+            withContext(Dispatchers.Main){
+                callback(true)
+            }
+        },{
+            withContext(Dispatchers.Main){
+                callback(false)
+            }
         })
     }
 

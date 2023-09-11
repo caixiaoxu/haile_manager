@@ -42,7 +42,7 @@ class BankCardBindCardInfoFragment :
                 mActivityViewModel.bankCardParams.value?.bankProvinceId = province.areaId
                 mActivityViewModel.bankCardParams.value?.bankCityId = city.areaId
                 mActivityViewModel.bankCardParams.value?.bankDistrictId = distract.areaId
-                mActivityViewModel.bankCardParams.value?.areaVal =
+                mActivityViewModel.bankCardParams.value?.bankAreaVal =
                     province.areaName + city.areaName + distract.areaName
             }
         }.build()
@@ -138,6 +138,11 @@ class BankCardBindCardInfoFragment :
                 if (isSuccess && !result.isNullOrEmpty()) {
                     mActivityViewModel.uploadBankPhoto(result[0].cutPath) { isTrue, url ->
                         if (isTrue) {
+                            if (2 == mActivityViewModel.authInfo.value?.verifyType){
+                                mActivityViewModel.bankCardParams.value?.licenceForOpeningAccountImage = url
+                            } else {
+                                mActivityViewModel.bankCardParams.value?.bankCardImage = url
+                            }
                             loadBankLicence()
                         } else SToast.showToast(requireActivity(), R.string.upload_failure)
                     }

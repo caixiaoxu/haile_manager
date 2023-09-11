@@ -2,9 +2,13 @@ package com.yunshang.haile_manager_android.business.vm
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.gson.GsonUtils
+import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.business.apiService.CommonService
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.entities.BankCardDetailEntity
 import com.yunshang.haile_manager_android.data.entities.RealNameAuthDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
@@ -26,6 +30,7 @@ import timber.log.Timber
  */
 class BankCardBindViewModel : BaseViewModel() {
     private val mCommonService = ApiRepository.apiClient(CommonService::class.java)
+    private val mCapitalService = ApiRepository.apiClient(CapitalService::class.java)
 
     var authCode: String? = null
 
@@ -62,13 +67,6 @@ class BankCardBindViewModel : BaseViewModel() {
                 )?.let {
                     Timber.i("图片上传成功：$it")
                     imageCache[path] = it
-
-                    if (2 == authInfo.value?.verifyType){
-                        bankCardParams.value?.licenceForOpeningAccountImage = it
-                    } else {
-                        bankCardParams.value?.bankCardImage = it
-                    }
-
                     withContext(Dispatchers.Main) {
                         callback(true, it)
                     }
@@ -84,45 +82,88 @@ class BankCardBindViewModel : BaseViewModel() {
 
     fun nextOrSubmit(v: View) {
         if (0 == bindPage.value) {
-            if(bankCardParams.value?.bankAccountNoVal.isNullOrEmpty()){
-                SToast.showToast(v.context,"请先输入卡号")
+            if (bankCardParams.value?.bankAccountNoVal.isNullOrEmpty()) {
+                SToast.showToast(v.context, "请先输入卡号")
                 return
             }
-            if(bankCardParams.value?.areaVal.isNullOrEmpty()){
-                SToast.showToast(v.context,"请先选择开户行区域")
+            if (bankCardParams.value?.bankAreaVal.isNullOrEmpty()) {
+                SToast.showToast(v.context, "请先选择开户行区域")
                 return
             }
-            if(bankCardParams.value?.bankNameVal.isNullOrEmpty()){
-                SToast.showToast(v.context,"请先选择开户银行")
+            if (bankCardParams.value?.bankNameVal.isNullOrEmpty()) {
+                SToast.showToast(v.context, "请先选择开户银行")
                 return
             }
-            if(bankCardParams.value?.subBankNameVal.isNullOrEmpty()){
-                SToast.showToast(v.context,"请先选择开户支行")
+            if (bankCardParams.value?.subBankNameVal.isNullOrEmpty()) {
+                SToast.showToast(v.context, "请先选择开户支行")
                 return
             }
-            if(bankCardParams.value?.subBankCodeVal.isNullOrEmpty()){
-                SToast.showToast(v.context,"请先选择支行联行号")
+            if (bankCardParams.value?.subBankCodeVal.isNullOrEmpty()) {
+                SToast.showToast(v.context, "请先选择支行联行号")
                 return
             }
-            if(bankCardParams.value?.bankMobileNoVal.isNullOrEmpty()){
-                SToast.showToast(v.context,"请先输入开户手机号")
+            if (bankCardParams.value?.bankMobileNoVal.isNullOrEmpty()) {
+                SToast.showToast(v.context, "请先输入开户手机号")
                 return
             }
 
-            if (2 == authInfo.value?.verifyType){
-                if(bankCardParams.value?.licenceForOpeningAccountImage.isNullOrEmpty()){
-                    SToast.showToast(v.context,"请先上传开户许可证")
+            if (2 == authInfo.value?.verifyType) {
+                if (bankCardParams.value?.licenceForOpeningAccountImage.isNullOrEmpty()) {
+                    SToast.showToast(v.context, "请先上传开户许可证")
                     return
                 }
             } else {
-                if(bankCardParams.value?.bankCardImage.isNullOrEmpty()){
-                    SToast.showToast(v.context,"请先上传银行卡照片")
+                if (bankCardParams.value?.bankCardImage.isNullOrEmpty()) {
+                    SToast.showToast(v.context, "请先上传银行卡照片")
                     return
                 }
             }
             bindPage.value = 1
         } else {
+            if (bankCardParams.value?.merchantNameAlias.isNullOrEmpty()) {
+                SToast.showToast(v.context, "请先输入商户简称")
+                return
+            }
+            if (bankCardParams.value?.area.isNullOrEmpty()) {
+                SToast.showToast(v.context, "请先输入所在地区")
+                return
+            }
+            if (bankCardParams.value?.address.isNullOrEmpty()) {
+                SToast.showToast(v.context, "请先输入详细地址")
+                return
+            }
+            if (bankCardParams.value?.contactName.isNullOrEmpty()) {
+                SToast.showToast(v.context, "请先输入负责人")
+                return
+            }
+            if (bankCardParams.value?.contactPhone.isNullOrEmpty()) {
+                SToast.showToast(v.context, "请先输入负责人手机号")
+                return
+            }
+            if (bankCardParams.value?.doorImage.isNullOrEmpty()) {
+                SToast.showToast(v.context, "请先上传门店招牌照片")
+                return
+            }
+            if (bankCardParams.value?.deviceImage.isNullOrEmpty()) {
+                SToast.showToast(v.context, "请先上传设备场景照片")
+                return
+            }
+            bankCardParams.value?.authCode = authCode
+            bankCardParams.value?.merchantType = authInfo.value?.verifyType
+            bankCardParams.value?.bankAccountName = authInfo.value?.idCardName
+            bankCardParams.value?.authCode = authCode
+            launch({
+                ApiRepository.dealApiResult(
+                    mCapitalService.createBankCard(
+                        ApiRepository.createRequestBody(
+                            GsonUtils.any2Json(bankCardParams.value)
+                        )
+                    )
+                )
 
+                LiveDataBus.post(BusEvents.BANK_LIST_STATUS, true)
+                jump.postValue(0)
+            })
         }
     }
 }

@@ -3,13 +3,13 @@ package com.yunshang.haile_manager_android.ui.activity.personal
 import android.content.Intent
 import android.graphics.Color
 import android.view.View
-import com.lsy.framelib.utils.SoftKeyboardUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.BindSmsVerifyViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.databinding.ActivityBindSmsVerifyBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+
 
 class BindSmsVerifyActivity :
     BaseBusinessActivity<ActivityBindSmsVerifyBinding, BindSmsVerifyViewModel>(
@@ -81,11 +81,13 @@ class BindSmsVerifyActivity :
     override fun initView() {
         window.statusBarColor = Color.WHITE
         mBinding.etBindAlipaySms.isLongClickable = false
-        mBinding.etBindAlipaySms.isFocusable = true
-        SoftKeyboardUtils.showKeyboard(mBinding.etBindAlipaySms)
     }
 
     override fun initData() {
-        mViewModel.sendOperateSms()
+        mViewModel.sendOperateSms() {
+            if (!it) {
+                finish()
+            }
+        }
     }
 }

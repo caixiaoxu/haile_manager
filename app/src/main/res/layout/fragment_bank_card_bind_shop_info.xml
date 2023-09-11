@@ -25,16 +25,14 @@
             <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                 android:id="@+id/item_bank_card_bind_shop_info_simple_name"
                 style="@style/MultiTypeItemStyle"
-                android:inputType="numberDecimal"
-                app:itemContent="@{parentVm.bankCardParams.merchantNameAlias}"
+                app:itemContent="@={parentVm.bankCardParams.merchantNameAliasVal}"
                 app:title="@string/shop_simple_name"
                 app:type="input"/>
 
             <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                 android:id="@+id/item_bank_card_bind_shop_info_area"
                 style="@style/MultiTypeItemStyle"
-                android:inputType="numberDecimal"
-                app:itemContent="@{parentVm.bankCardParams.merchantNameAlias}"
+                app:itemContent="@{parentVm.bankCardParams.areaVal}"
                 app:showArrow="true"
                 app:title="@string/shop_area"
                 app:type="info"/>
@@ -42,24 +40,22 @@
             <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                 android:id="@+id/item_bank_card_bind_shop_info_location_detail"
                 style="@style/MultiTypeItemStyle"
-                android:inputType="numberDecimal"
-                app:itemContent="@{parentVm.bankCardParams.merchantNameAlias}"
+                app:itemContent="@={parentVm.bankCardParams.addressVal}"
                 app:title="@string/shop_location_detail"
                 app:type="input"/>
 
             <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                 android:id="@+id/item_bank_card_bind_shop_info_manager"
                 style="@style/MultiTypeItemStyle"
-                android:inputType="numberDecimal"
-                app:itemContent="@{parentVm.bankCardParams.merchantNameAlias}"
+                app:itemContent="@={parentVm.bankCardParams.contactNameVal}"
                 app:title="@string/shop_manager"
                 app:type="input"/>
 
             <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                 android:id="@+id/item_bank_card_bind_shop_info_manager_phone"
                 style="@style/MultiTypeItemStyle"
-                android:inputType="numberDecimal"
-                app:itemContent="@{parentVm.bankCardParams.merchantNameAlias}"
+                android:inputType="phone"
+                app:itemContent="@={parentVm.bankCardParams.contactPhoneVal}"
                 app:title="@string/shop_manager_phone"
                 app:type="input"/>
 
@@ -76,11 +72,13 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_bank_card_shop_info_sign"
                     android:layout_width="144dp"
                     android:layout_height="93dp"
                     android:background="@mipmap/icon_bind_bank_shop_sit_pic"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_bank_card_shop_info_device"
                     android:layout_width="144dp"
                     android:layout_height="93dp"
                     android:layout_marginStart="8dp"

@@ -55,11 +55,11 @@ data class BankCardDetailEntity(
         }
 
     @get:Bindable
-    var areaVal: String
-        get() = area ?: ""
+    var bankAreaVal: String
+        get() = bankArea ?: ""
         set(value) {
-            area = value
-            notifyPropertyChanged(BR.areaVal)
+            bankArea = value
+            notifyPropertyChanged(BR.bankAreaVal)
         }
 
     @get:Bindable
@@ -100,5 +100,45 @@ data class BankCardDetailEntity(
         set(value) {
             bankMobileNo = value
             notifyPropertyChanged(BR.bankMobileNoVal)
+        }
+
+    @get:Bindable
+    var merchantNameAliasVal: String
+        get() = merchantNameAlias ?: ""
+        set(value) {
+            merchantNameAlias = value
+            notifyPropertyChanged(BR.merchantNameAliasVal)
+        }
+
+    @get:Bindable
+    var areaVal: String
+        get() = area ?: ""
+        set(value) {
+            area = value
+            notifyPropertyChanged(BR.areaVal)
+        }
+
+    @get:Bindable
+    var addressVal: String
+        get() = address ?: ""
+        set(value) {
+            address = value
+            notifyPropertyChanged(BR.addressVal)
+        }
+
+    @get:Bindable
+    var contactNameVal: String
+        get() = contactName ?: ""
+        set(value) {
+            contactName = value
+            notifyPropertyChanged(BR.contactNameVal)
+        }
+
+    @get:Bindable
+    var contactPhoneVal: String
+        get() = contactPhone ?: ""
+        set(value) {
+            contactPhone = value
+            notifyPropertyChanged(BR.contactPhoneVal)
         }
 }

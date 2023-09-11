@@ -98,7 +98,7 @@
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_bank_card_bind_card_open_bank_area"
                     style="@style/MultiTypeItemStyle"
-                    app:itemContent="@{parentVm.bankCardParams.area}"
+                    app:itemContent="@{parentVm.bankCardParams.bankAreaVal}"
                     app:showArrow="true"
                     app:title="@string/open_bank_area"
                     app:type="info" />
@@ -132,6 +132,7 @@
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_bank_card_bind_card_open_bank_phone"
                     style="@style/MultiTypeItemStyle"
+                    android:inputType="phone"
                     app:itemContent="@={parentVm.bankCardParams.bankMobileNoVal}"
                     app:title="@string/open_bank_phone"
                     app:type="input" />

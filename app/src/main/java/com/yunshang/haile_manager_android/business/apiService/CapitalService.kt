@@ -112,6 +112,7 @@ interface CapitalService {
      */
     @POST("/candyPay/bank/authCode")
     suspend fun checkBankOperateSms(@Body body: RequestBody): ResponseWrapper<AuthCodeEntity>
+
     /**
      * 实名认证短信发送接口
      */
@@ -187,5 +188,10 @@ interface CapitalService {
     @POST("/candyPay/bankCard/list")
     suspend fun requestBankCardList(@Body body: RequestBody): ResponseWrapper<ResponseList<BankCardEntity>>
 
+    /**
+     * 银行卡添加接口
+     */
+    @POST("/candyPay/bankCard/create")
+    suspend fun createBankCard(@Body body: RequestBody): ResponseWrapper<Any>
 
 }

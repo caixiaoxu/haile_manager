@@ -3,9 +3,11 @@ package com.yunshang.haile_manager_android.ui.activity.personal
 import android.content.Intent
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.BankCardViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.databinding.ActivityBankCardBinding
@@ -19,6 +21,20 @@ class BankCardActivity : BaseBusinessActivity<ActivityBankCardBinding, BankCardV
     override fun layoutId(): Int = R.layout.activity_bank_card
 
     override fun backBtn(): View = mBinding.barBankCardTitle.getBackBtn()
+
+    override fun initEvent() {
+        super.initEvent()
+
+        // 监听刷新
+        LiveDataBus.with(BusEvents.BANK_LIST_STATUS)?.observe(this) {
+            mViewModel.requestData()
+        }
+
+        // 监听删除
+        LiveDataBus.with(BusEvents.BANK_LIST_DELETE_STATUS)?.observe(this) {
+            mViewModel.bankCard.postValue(null)
+        }
+    }
 
     override fun initView() {
         mBinding.barBankCardTitle.getRightBtn(false).run {

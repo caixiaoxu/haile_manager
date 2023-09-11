@@ -37,14 +37,19 @@ data class BankCardEntity(
         get() {
             val sb = StringBuilder()
             val len = bankAccountNo.length
-            for (i in 0 until len - 4) {
-                if (!bankAccountNo[i].equals(" ")) {
-                    sb.append("•")
-                } else {
-                    sb.append(" ")
-                }
+//            for (i in 0 until len - 4) {
+//                if (!bankAccountNo[i].equals(" ")) {
+//                    sb.append("•")
+//                } else {
+//                    sb.append(" ")
+//                }
+//            }
+//            sb.append(bankAccountNo.substring(len - 4))
+
+            if (len >= 4){
+                sb.append("•••• •••• ••••")
+                sb.append(bankAccountNo.substring(len - 4))
             }
-            sb.append(bankAccountNo.substring(len - 4))
             return sb.toString()
         }
 }

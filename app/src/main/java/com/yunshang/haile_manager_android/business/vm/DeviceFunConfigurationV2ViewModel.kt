@@ -242,7 +242,7 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
                     return@let
                 }
 
-                if (param.extAttrDto.items.any { item -> item.pulseVal.isEmpty() }) {
+                if (20 == communicationType && param.extAttrDto.items.any { item -> item.pulseVal.isEmpty() }) {
                     SToast.showToast(context, "请输入功能${index}配置的脉冲")
                     return@let
                 }

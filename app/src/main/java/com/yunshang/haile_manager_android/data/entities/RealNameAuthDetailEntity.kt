@@ -38,7 +38,7 @@ data class RealNameAuthDetailEntity(
     var status: Int? = null,
     @SerializedName("verifyType")
     var _verifyType: Int? = null,
-    var authCode: String? = null
+    var authCode: String? = null,
 ) : BaseObservable() {
 
     @get:Bindable

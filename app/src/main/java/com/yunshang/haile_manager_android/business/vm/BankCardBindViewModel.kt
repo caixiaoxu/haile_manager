@@ -6,6 +6,7 @@ import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.business.apiService.CommonService
 import com.yunshang.haile_manager_android.business.event.BusEvents
@@ -177,10 +178,14 @@ class BankCardBindViewModel : BaseViewModel() {
                         )
                     )
                 }
-            })
 
-            LiveDataBus.post(BusEvents.BANK_LIST_STATUS, true)
-            jump.postValue(0)
+                withContext(Dispatchers.Main){
+                    SToast.showToast(v.context, R.string.submit_success)
+                }
+
+                LiveDataBus.post(BusEvents.BANK_LIST_STATUS, true)
+                jump.postValue(0)
+            })
         }
     }
 

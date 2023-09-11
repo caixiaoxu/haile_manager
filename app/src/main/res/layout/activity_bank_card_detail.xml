@@ -292,7 +292,7 @@
                 style="@style/CommonStrokeTxtBtnStyle"
                 android:layout_marginEnd="8dp"
                 android:text="@string/unBind"
-                app:visibility="@{5 == vm.bankCardDetail.merchantType}" />
+                app:visibility="@{5 == vm.bankCardDetail.state}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btn_bank_card_rebinding"

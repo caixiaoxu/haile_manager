@@ -7,6 +7,8 @@ import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.entities.BankCardDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * Title :
@@ -47,7 +49,7 @@ class BankCardDetailViewModel : BaseViewModel() {
     /**
      * 删除银行卡
      */
-    fun deleteBankCard(authCode: String) {
+    fun deleteBankCard(authCode: String, callBack: () -> Unit) {
         launch({
             ApiRepository.dealApiResult(
                 mCapitalService.requestBankCardDelete(
@@ -61,14 +63,16 @@ class BankCardDetailViewModel : BaseViewModel() {
             )
 
             LiveDataBus.post(BusEvents.BANK_LIST_DELETE_STATUS, true)
-            jump.postValue(0)
+            withContext(Dispatchers.Main) {
+                callBack()
+            }
         })
     }
 
     /**
-     * 删除银行卡
+     * 解绑银行卡
      */
-    fun releaseBankCard(authCode: String) {
+    fun releaseBankCard(authCode: String, callBack: () -> Unit) {
         launch({
             ApiRepository.dealApiResult(
                 mCapitalService.requestBankCardRelease(
@@ -82,7 +86,9 @@ class BankCardDetailViewModel : BaseViewModel() {
             )
 
             LiveDataBus.post(BusEvents.BANK_LIST_DELETE_STATUS, true)
-            jump.postValue(0)
+            withContext(Dispatchers.Main) {
+                callBack()
+            }
         })
     }
 }

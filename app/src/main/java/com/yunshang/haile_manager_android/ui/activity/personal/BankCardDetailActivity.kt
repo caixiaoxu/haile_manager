@@ -6,10 +6,13 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.BankCardDetailViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.databinding.ActivityBankCardDetailBinding
@@ -31,10 +34,22 @@ class BankCardDetailActivity :
                         ?.let { authCode ->
                             when (IntentParams.BindSmsVerifyParams.parseVerifyType(resultData)) {
                                 3 -> {
-                                    mViewModel.deleteBankCard(authCode)
+                                    mViewModel.deleteBankCard(authCode) {
+                                        SToast.showToast(
+                                            this@BankCardDetailActivity,
+                                            R.string.delete_success
+                                        )
+                                        finish()
+                                    }
                                 }
                                 4 -> {
-                                    mViewModel.releaseBankCard(authCode)
+                                    mViewModel.releaseBankCard(authCode) {
+                                        SToast.showToast(
+                                            this@BankCardDetailActivity,
+                                            R.string.unBind_success
+                                        )
+                                        finish()
+                                    }
                                 }
                                 5 -> {
                                     mViewModel.bankCardDetail.value?.let { detail ->
@@ -71,6 +86,11 @@ class BankCardDetailActivity :
     override fun initEvent() {
         super.initEvent()
 
+        // 监听刷新
+        LiveDataBus.with(BusEvents.BANK_LIST_DETAIL_STATUS)?.observe(this) {
+            mViewModel.requestData()
+        }
+
         mViewModel.bankCardDetail.observe(this) { detail ->
             detail?.let {
                 // 银行卡或许可证照片
@@ -94,10 +114,6 @@ class BankCardDetailActivity :
                 ).transform(CenterCrop(), RoundedCorners(DimensionUtils.dip2px(this, 8f)))
                     .into(mBinding.ivBankCardDetailShopDevicePic)
             }
-        }
-
-        mViewModel.jump.observe(this) {
-            finish()
         }
     }
 

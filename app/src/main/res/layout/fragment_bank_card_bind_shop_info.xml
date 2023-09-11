@@ -55,6 +55,7 @@
                 android:id="@+id/item_bank_card_bind_shop_info_manager_phone"
                 style="@style/MultiTypeItemStyle"
                 android:inputType="phone"
+                android:maxLength="11"
                 app:itemContent="@={parentVm.bankCardParams.contactPhoneVal}"
                 app:title="@string/shop_manager_phone"
                 app:type="input"/>

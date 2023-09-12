@@ -32,34 +32,15 @@ import timber.log.Timber
  */
 class RealNameAuthBindingViewModel : BaseViewModel() {
     private val mCommonService = ApiRepository.apiClient(CommonService::class.java)
-    private val mUserRepo = ApiRepository.apiClient(LoginUserService::class.java)
 
     var authCode: String? = null
-
-    val isSubmit: MutableLiveData<Boolean> = MutableLiveData(true)
-
-    // 上传图片缓存
-    private val imageCache: MutableMap<String, String> = mutableMapOf()
 
     val authInfo: MutableLiveData<RealNameAuthDetailEntity> by lazy {
         MutableLiveData()
     }
 
-    val verifyStatusValue: LiveData<String> = authInfo.map {
-        if (null != it.status) {
-            StringUtils.getStringArray(R.array.verify_status_arr)[it.status!! - 1]
-        } else ""
-    }
-
-    val verifyTypeList =
-        StringUtils.getStringArray(R.array.verify_type_arr).mapIndexed { index, s ->
-            RealNameAuthVerifyType(index + 1, s)
-        }
-
-    val inDateTypeList =
-        StringUtils.getStringArray(R.array.indate_type_arr).mapIndexed { index, s ->
-            RealNameAuthVerifyType(index + 1, s)
-        }
+    // 上传图片缓存
+    private val imageCache: MutableMap<String, String> = mutableMapOf()
 
     /**
      * 上传证件照
@@ -87,88 +68,5 @@ class RealNameAuthBindingViewModel : BaseViewModel() {
                 }
             })
         }
-    }
-
-    fun submit(v: View) {
-        if (authCode.isNullOrEmpty()) {
-            Timber.i("authCode为空")
-            SToast.showToast(v.context, R.string.empty_params)
-            return
-        }
-
-        if (null == authInfo.value?.verifyType) {
-            SToast.showToast(v.context, R.string.empty_params)
-            return
-        }
-
-        if (1 == authInfo.value?.verifyType) {
-            if (authInfo.value?.idCardFont.isNullOrEmpty()) {
-                SToast.showToast(v.context, R.string.empty_id_card_front)
-                return
-            }
-            if (authInfo.value?.idCardReverse.isNullOrEmpty()) {
-                SToast.showToast(v.context, R.string.empty_id_card_back)
-                return
-            }
-            if (authInfo.value?.idCardName.isNullOrEmpty()) {
-                SToast.showToast(v.context, R.string.empty_id_card_name)
-                return
-            }
-            if (authInfo.value?.idCardNo.isNullOrEmpty()) {
-                SToast.showToast(v.context, R.string.empty_id_card_no)
-                return
-            }
-
-            if (null == authInfo.value?.idCardExpirationType) {
-                SToast.showToast(v.context, R.string.empty_id_card_indate_type)
-                return
-            }
-
-            if (1 == authInfo.value?.idCardExpirationType
-                && authInfo.value?.idCardExpirationDate.isNullOrEmpty()
-            ) {
-                SToast.showToast(v.context, R.string.empty_id_card_indate)
-                return
-            }
-        } else {
-            if (authInfo.value?.companyLicense.isNullOrEmpty()) {
-                SToast.showToast(v.context, R.string.empty_company_license)
-                return
-            }
-            if (authInfo.value?.companyName.isNullOrEmpty()) {
-                SToast.showToast(v.context, R.string.empty_company_name)
-                return
-            }
-            if (authInfo.value?.companyUsci.isNullOrEmpty()) {
-                SToast.showToast(v.context, R.string.empty_company_usci)
-                return
-            }
-        }
-        // 验证码
-        authInfo.value?.authCode = authCode
-
-        launch({
-            ApiRepository.dealApiResult(
-                mUserRepo.verifyRealNameAuth(
-                    ApiRepository.createRequestBody(GsonUtils.any2Json(authInfo.value))
-                )
-            )
-            LiveDataBus.post(BusEvents.REAL_NAME_AUTH_STATUS, true)
-            requestRealNameAuth()
-        })
-    }
-
-    private suspend fun requestRealNameAuth() {
-        ApiRepository.dealApiResult(mUserRepo.requestRealNameAuthDetail())?.let {
-            isSubmit.postValue(false)
-            authInfo.postValue(it)
-        }
-    }
-
-    data class RealNameAuthVerifyType(
-        val id: Int,
-        val name: String,
-    ) : ICommonBottomItemEntity {
-        override fun getTitle(): String = name
     }
 }

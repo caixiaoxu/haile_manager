@@ -1,9 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.activity.personal.RealNameAuthBindingActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.RealNameAuthBindingViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context=".ui.activity.personal.RealNameAuthBindingActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_real_name_auth_binding_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            app:title="@string/real_name" />
+
+        <View style="@style/DividingStyle" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                app:divider="@drawable/divder_efefef"
+                app:dividerPadding="16dp"
+                app:showDividers="middle">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Font_12_999999"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/auth_info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_real_name_auth_binding_type"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.authInfo.verifyTypeName}"
+                    app:showArrow="true"
+                    app:title="@string/type"
+                    app:type="info" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingBottom="16dp"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_333333"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/company_license"
+                        app:visibility="@{1 != vm.authInfo.verifyType}" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_real_name_auth_binding_licence"
+                        android:layout_width="314dp"
+                        android:layout_height="168dp"
+                        app:visibility="@{1 != vm.authInfo.verifyType}"
+                        tools:background="@mipmap/bg_business_license" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_333333"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:gravity="center_vertical"
+                        android:text="@{2 == vm.authInfo.verifyType?@string/legal_person_idcard:@string/operator_idcard}" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_real_name_auth_binding_id_card_front"
+                        android:layout_width="314dp"
+                        android:layout_height="168dp"
+                        tools:background="@mipmap/bg_id_card_front" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_real_name_auth_binding_id_card_back"
+                        android:layout_width="314dp"
+                        android:layout_height="168dp"
+                        android:layout_marginTop="12dp"
+                        tools:background="@mipmap/bg_id_card_back" />
+                </LinearLayout>
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/tv_real_name_auth_name"
+                    style="@style/MultiTypePaddingHItemStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:itemContent="@={vm.authInfo.idCardName}"
+                    app:title="@{2 == vm.authInfo.verifyType?@string/legal_person_name:@string/name}"
+                    app:titleContentSpace="40dp"
+                    app:titleW="64dp"
+                    app:type="input" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/tv_real_name_auth_id_card_number"
+                    style="@style/MultiTypePaddingHItemStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="0123456789Xx"
+                    android:maxLength="18"
+                    app:itemContent="@={vm.authInfo.idCardNo}"
+                    app:title="@string/id_card_number"
+                    app:titleContentSpace="40dp"
+                    app:titleW="64dp"
+                    app:type="input" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/tv_real_name_auth_id_card_indate_type"
+                    style="@style/MultiTypePaddingHItemStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:itemContent="@{vm.authInfo.idCardExpirationTypeName}"
+                    app:showArrow="true"
+                    app:title="@string/indate_type"
+                    app:titleContentSpace="40dp"
+                    app:titleW="64dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/tv_real_name_auth_id_card_indate"
+                    style="@style/MultiTypePaddingHItemStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:itemContent="@{vm.authInfo.idCardExpirationDateValue}"
+                    app:showArrow="true"
+                    app:title="@string/id_card_indate"
+                    app:titleContentSpace="40dp"
+                    app:titleW="64dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/tv_real_name_auth_company_name"
+                    style="@style/MultiTypePaddingHItemStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:itemContent="@={vm.authInfo.idCardName}"
+                    app:title="@string/company_name"
+                    app:titleContentSpace="40dp"
+                    app:titleW="64dp"
+                    app:type="input" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/tv_real_name_auth_company_id"
+                    style="@style/MultiTypePaddingHItemStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="18"
+                    app:itemContent="@={vm.authInfo.companyUsci}"
+                    app:title="@string/company_id"
+                    app:titleContentSpace="40dp"
+                    app:titleW="64dp"
+                    app:type="input" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
+            android:id="@+id/btn_real_name_auth_binding_submit"
+            style="@style/CommonMatchBtnStyle1"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="42dp"
+            android:text="@string/submit_data" />
+    </LinearLayout>
+</layout>

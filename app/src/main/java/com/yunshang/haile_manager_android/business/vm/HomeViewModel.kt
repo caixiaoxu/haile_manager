@@ -9,6 +9,7 @@ import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
+import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.apiService.MessageService
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.HomeIncomeEntity
@@ -39,6 +40,7 @@ import java.util.*
  */
 class HomeViewModel : BaseViewModel() {
     private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
+    private val mDeviceRepo = ApiRepository.apiClient(DeviceService::class.java)
     private val mMessageRepo = ApiRepository.apiClient(MessageService::class.java)
 
     //选择的时间
@@ -268,6 +270,30 @@ class HomeViewModel : BaseViewModel() {
 //        )
     }
 
+    /**
+     * 检测
+     */
+    fun checkScanCode(code: String? = null, imei: String? = null, callback: (id: Int) -> Unit) {
+        launch({
+            ApiRepository.dealApiResult(
+                mDeviceRepo.requestGoodsScan(
+                    ApiRepository.createRequestBody(
+                        hashMapOf<String, Any?>().also { params ->
+                            code?.let {
+                                params["code"] = code
+                            }
+                            imei?.let {
+                                params["imei"] = imei
+                            }
+                        }
+                    )
+                )
+            )?.let {
+                callback(it)
+            }
+        })
+    }
+
     data class FunItem(
         val name: String,
         val icon: Int,
@@ -275,4 +301,5 @@ class HomeViewModel : BaseViewModel() {
         var isShow: Boolean = true,
         val bundle: Bundle? = null
     )
+
 }

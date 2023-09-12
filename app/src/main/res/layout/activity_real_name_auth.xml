@@ -123,7 +123,7 @@
 
                     <include
                         layout="@layout/item_bank_detail_info"
-                        app:content="@{vm.authInfo.idCardExpirationDate}"
+                        app:content="@{vm.authInfo.idCardExpirationDateValue}"
                         app:visibility="@{2 != vm.authInfo.idCardExpirationType}"
                         app:title="@{vm.authInfo.idCardIndateTitle}" />
 

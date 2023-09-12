@@ -151,6 +151,7 @@
                     style="@style/MultiTypePaddingHItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:visibility="@{2 == vm.authInfo.verifyType}"
                     app:itemContent="@={vm.authInfo.idCardName}"
                     app:title="@string/company_name"
                     app:titleContentSpace="40dp"
@@ -163,6 +164,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="18"
+                    app:visibility="@{1 != vm.authInfo.verifyType}"
                     app:itemContent="@={vm.authInfo.companyUsci}"
                     app:title="@string/company_id"
                     app:titleContentSpace="40dp"
@@ -170,6 +172,10 @@
                     app:type="input" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.core.widget.NestedScrollView>
+
+        <View
+            android:layout_marginTop="24dp"
+            style="@style/DividingStyle"/>
 
         <com.yunshang.haile_manager_android.ui.view.CommonButton
             android:id="@+id/btn_real_name_auth_binding_submit"

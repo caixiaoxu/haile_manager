@@ -601,6 +601,7 @@
     <string name="empty_id_card_front">请上传身份证人像面照片</string>
     <string name="empty_id_card_back">请上传身份证国徽面照片</string>
     <string name="company_license">营业执照</string>
+    <string name="company_license_promt">营业执照正面照片</string>
     <string name="empty_company_license">请上传营业执照照片</string>
     <string name="empty_id_card_indate_type">请选择身份证有效时间类型</string>
     <string name="empty_id_card_indate">请选择身份证有效时间</string>

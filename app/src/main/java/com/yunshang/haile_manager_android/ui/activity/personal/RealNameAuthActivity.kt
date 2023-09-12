@@ -67,7 +67,7 @@ class RealNameAuthActivity :
 
     private fun initRightBtn() {
         mBinding.barRealNameAuthTitle.getRightBtn().run {
-            setText(R.string.update_data)
+            setText(R.string.edit)
             textSize = 14f
             setTextColor(ContextCompat.getColor(this@RealNameAuthActivity, R.color.colorPrimary))
             typeface = Typeface.DEFAULT_BOLD

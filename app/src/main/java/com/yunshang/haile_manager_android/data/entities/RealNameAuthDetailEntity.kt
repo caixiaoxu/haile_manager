@@ -41,6 +41,11 @@ data class RealNameAuthDetailEntity(
     var authCode: String? = null,
 ) : BaseObservable() {
 
+    val verifyStatusValue: String
+        get() = status?.let {
+            StringUtils.getStringArray(R.array.verify_status_arr)[status!! - 1]
+        } ?: ""
+
     @get:Bindable
     val verifyTypeName: String
         get() = if (null != verifyType && verifyType!! > 0)
@@ -127,4 +132,25 @@ data class RealNameAuthDetailEntity(
             _idCardExpirationDate = value
             idCardExpirationDateValue = ""
         }
+
+    val typeTitle: String
+        get() = StringUtils.getString(R.string.type)
+
+    val nameTitle: String
+        get() = StringUtils.getString(if (2 == verifyType) R.string.legal_person_name else R.string.name)
+
+    val idCardTitle: String
+        get() = StringUtils.getString(R.string.id_card)
+
+    val indateTypeTitle: String
+        get() = StringUtils.getString(R.string.indate_type)
+
+    val idCardIndateTitle: String
+        get() = StringUtils.getString(R.string.id_card_indate)
+
+    val companyNameTitle: String
+        get() = StringUtils.getString(R.string.company_name)
+
+    val companyUsciTitle: String
+        get() = StringUtils.getString(R.string.company_id)
 }

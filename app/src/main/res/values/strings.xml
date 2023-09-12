@@ -456,6 +456,35 @@
     <string name="sub_account_person">分账人员</string>
     <string name="item_sub_account_shop_title">分账门店：%1$s（%2$s）</string>
 
+    <string name="issue_coupons">发券</string>
+    <string name="issue_coupons_user">发券用户</string>
+    <string-array name="coupon_type">
+        <item></item>
+        <item>满减券</item>
+        <item></item>
+        <item>折扣券</item>
+        <item>兑换券</item>
+    </string-array>
+    <string name="coupon_price">券金额</string>
+    <string name="coupon_price_hint">输入范围0.01-100.00</string>
+    <string name="experiential_price">体验价</string>
+    <string name="experiential_price_hint">输入范围0-100.00</string>
+    <string name="coupon_discount">券折扣</string>
+    <string name="coupon_discount_hint">输入范围0.1-9.9</string>
+    <string name="relief_ceiling">减免上限</string>
+    <string name="relief_ceiling_hint">输入范围0.01-100.00</string>
+    <string name="service_conditions">使用条件</string>
+    <string name="full">满</string>
+    <string name="service_conditions_hint">范围0-100.00</string>
+    <string name="available">可用</string>
+    <string name="issue_coupon_num">发券数量</string>
+    <string name="issue_coupon_num_hint">范围1-10</string>
+    <string name="validity_to">有效期至</string>
+    <string name="coupon_device">适用设备</string>
+    <string name="sure_issue_coupons">确认发券</string>
+
+    <string name="coupon_manage">券管理</string>
+
     <string name="home_msg_title">最近消息</string>
     <string name="home_msg_num">条新消息</string>
     <string name="search_order_hint">请输入订单编号或手机号</string>
@@ -672,6 +701,7 @@
     <string name="num_folds">%1$s折</string>
     <string name="unit_minute_hint">（分）</string>
     <string name="unit_yuan_hint">（元）</string>
+    <string name="unit_folds_hint">（折）</string>
     <string name="unit_ge_hint">（个）</string>
     <string name="unit_second_hint">（秒）</string>
     <string name="unit_minute_hint1">（分钟）</string>

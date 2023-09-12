@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.IssueCouponsViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.coupon.IssueCouponsActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_issue_coupons_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            app:title="@string/issue_coupons" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                app:divider="@drawable/divder_efefef"
+                app:dividerPadding="16dp"
+                app:showDividers="middle">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Font_12_999999"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/coupon_info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_issue_coupons_user"
+                    style="@style/MultiTypeItemStyle"
+                    android:hint="@string/login_phone_hint"
+                    android:inputType="phone"
+                    android:maxLength="11"
+                    app:itemContent="@={vm.coupon.issueCouponsUser}"
+                    app:title="@string/issue_coupons_user"
+                    app:titleW="88dp"
+                    app:type="input" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_issue_coupons_type"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.coupon.couponTypeName}"
+                    app:showArrow="true"
+                    app:title="@string/coupon_type"
+                    app:titleW="88dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_issue_coupons_price"
+                    style="@style/MultiTypeItemStyle"
+                    android:hint="@string/coupon_price_hint"
+                    android:inputType="numberDecimal"
+                    app:itemContent="@={vm.coupon.reduceVal}"
+                    app:title="@string/coupon_price"
+                    app:titleW="88dp"
+                    app:type="input"
+                    app:unitHint="@string/unit_yuan_hint"
+                    app:visibility="@{1 == vm.coupon.couponTypeVal}" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_issue_coupons_experiential_price"
+                    style="@style/MultiTypeItemStyle"
+                    android:hint="@string/experiential_price_hint"
+                    android:inputType="numberDecimal"
+                    app:itemContent="@={vm.coupon.reduceVal}"
+                    app:title="@string/experiential_price"
+                    app:titleW="88dp"
+                    app:type="input"
+                    app:unitHint="@string/unit_yuan_hint"
+                    app:visibility="@{4 == vm.coupon.couponTypeVal}" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_issue_coupons_percentage"
+                    style="@style/MultiTypeItemStyle"
+                    android:hint="@string/coupon_discount_hint"
+                    android:inputType="numberDecimal"
+                    app:itemContent="@={vm.coupon.percentageVal}"
+                    app:title="@string/coupon_discount"
+                    app:titleW="88dp"
+                    app:type="input"
+                    app:unitHint="@string/unit_folds_hint"
+                    app:visibility="@{3 == vm.coupon.couponTypeVal}" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_issue_coupons_max_price"
+                    style="@style/MultiTypeItemStyle"
+                    android:hint="@string/relief_ceiling_hint"
+                    android:inputType="numberDecimal"
+                    app:itemContent="@={vm.coupon.maxDiscountPriceVal}"
+                    app:title="@string/relief_ceiling"
+                    app:titleW="88dp"
+                    app:type="input"
+                    app:unitHint="@string/unit_yuan_hint"
+                    app:visibility="@{3 == vm.coupon.couponTypeVal}" />
+
+                <LinearLayout
+                    style="@style/MultiTypeItemStyle"
+                    android:orientation="horizontal"
+                    app:visibility="@{1 == vm.coupon.couponTypeVal || 3 == vm.coupon.couponTypeVal}">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_333333"
+                        android:layout_width="88dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/service_conditions" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_333333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/full" />
+
+                    <com.yunshang.haile_manager_android.ui.view.BindingEditText
+                        android:id="@+id/et_issue_coupons_reach_price"
+                        style="@style/Font_16_333333_cccccc"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="8dp"
+                        android:layout_weight="1"
+                        android:background="@color/transparent"
+                        android:hint="@string/service_conditions_hint"
+                        android:inputType="numberDecimal"
+                        android:text="@={vm.coupon.orderReachPriceVal}" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_cccccc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/unit_yuan_hint" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_333333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/available" />
+
+                </LinearLayout>
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_issue_coupons_num"
+                    style="@style/MultiTypeItemStyle"
+                    android:inputType="number"
+                    app:itemContent="@={vm.coupon.issueCouponsNum}"
+                    app:title="@string/issue_coupon_num"
+                    android:hint="@string/issue_coupon_num_hint"
+                    android:maxLength="2"
+                    app:titleW="88dp"
+                    app:type="input" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_issue_coupons_validity"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@={vm.coupon.validityVal}"
+                    app:showArrow="true"
+                    app:title="@string/validity_to"
+                    app:titleW="88dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_issue_coupons_shop"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@={vm.coupon.endAt}"
+                    app:showArrow="true"
+                    app:title="@string/coupon_shop"
+                    app:titleW="88dp"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_issue_coupons_device"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@={vm.coupon.endAt}"
+                    app:showArrow="true"
+                    app:title="@string/coupon_device"
+                    app:titleW="88dp"
+                    app:type="info" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:background="@color/white"
+            android:paddingTop="8dp">
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_issue_coupons_submit"
+                style="@style/CommonMatchBtnStyle1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="8dp"
+                android:onClick="@{vm::sureIssueCoupon}"
+                android:text="@string/sure_issue_coupons" />
+
+        </FrameLayout>
+    </LinearLayout>
+</layout>

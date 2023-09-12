@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.CouponManageViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.coupon.CouponManageActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_coupon_manage_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            app:title="@string/coupon_manage" />
+    </LinearLayout>
+</layout>

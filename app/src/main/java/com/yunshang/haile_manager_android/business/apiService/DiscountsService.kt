@@ -67,4 +67,11 @@ interface DiscountsService {
      */
     @GET("/timeMarket/timeMarketDetail")
     suspend fun requestDiscountsDetail(@Query("id") id: Int): ResponseWrapper<DiscountsDetailEntity>
+
+    /**
+     * 发券
+     */
+    @POST("/coupon/subject/activate/app")
+    suspend fun submitIssueCoupon(@Body body: RequestBody): ResponseWrapper<Any>
+
 }

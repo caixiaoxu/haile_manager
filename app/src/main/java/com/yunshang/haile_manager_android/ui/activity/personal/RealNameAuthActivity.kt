@@ -7,8 +7,13 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.databinding.library.baseAdapters.BR
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.lsy.framelib.async.LiveDataBus
+import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.RealNameAuthViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.RealNameAuthDetailEntity
@@ -18,6 +23,7 @@ import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.DialogUtils
+import com.yunshang.haile_manager_android.utils.GlideUtils
 import java.util.*
 
 class RealNameAuthActivity :
@@ -26,42 +32,25 @@ class RealNameAuthActivity :
         BR.vm
     ) {
 
-    // 跳转短信验证界面
-    private val startSms =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == RESULT_OK) {
-                it.data?.let { resultData ->
-                    mViewModel.authCode =
-                        IntentParams.WithdrawBindAlipayParams.parseAuthCode(resultData)
-                    mViewModel.isSubmit.postValue(true)
-                }
-            }
-        }
-
     override fun layoutId(): Int = R.layout.activity_real_name_auth
 
     override fun backBtn(): View = mBinding.barRealNameAuthTitle.getBackBtn()
 
-    override fun initIntent() {
-        super.initIntent()
-        mViewModel.authCode = IntentParams.WithdrawBindAlipayParams.parseAuthCode(intent)
-        val oldAuthInfo = IntentParams.RealNameAuthParams.parseAuthInfo(intent)
-        if (null != oldAuthInfo) {
-            mViewModel.isSubmit.value = (null == oldAuthInfo.status || 1 == oldAuthInfo.status)
-            mViewModel.authInfo.value = oldAuthInfo
-        } else {
-            mViewModel.isSubmit.value = true
-            mViewModel.authInfo.value =
-                RealNameAuthDetailEntity(_verifyType = mViewModel.verifyTypeList[0].id)
-        }
-    }
-
     override fun initEvent() {
         super.initEvent()
 
-        mViewModel.isSubmit.observe(this) {
-            mBinding.barRealNameAuthTitle.getRightArea().visibility =
-                if (it) View.GONE else View.VISIBLE
+        mViewModel.authInfo.observe(this) {
+            it?.let {
+                if (1 != it.verifyType) {
+                    loadRealNameAuthLicence()
+                }
+                loadRealNameAuthIdCardFront()
+                loadRealNameAuthIdCardBack()
+            }
+        }
+
+        LiveDataBus.with(BusEvents.REAL_NAME_AUTH_STATUS)?.observe(this){
+            mViewModel.requestRealNameAuth()
         }
     }
 
@@ -73,14 +62,13 @@ class RealNameAuthActivity :
             typeface = Typeface.DEFAULT_BOLD
             setOnClickListener {
                 mViewModel.authInfo.value?.let {
-                    startSms.launch(
-                        Intent(
-                            this@RealNameAuthActivity,
-                            BindSmsVerifyActivity::class.java
-                        ).apply {
-                            putExtras(IntentParams.RealNameAuthParams.pack(it))
-                            putExtras(IntentParams.BindSmsVerifyParams.pack(2, true))
-                        })
+                    startActivity(Intent(
+                        this@RealNameAuthActivity,
+                        BindSmsVerifyActivity::class.java
+                    ).apply {
+                        putExtras(IntentParams.RealNameAuthParams.pack(it))
+                        putExtras(IntentParams.BindSmsVerifyParams.pack(2))
+                    })
                 }
             }
         }
@@ -89,110 +77,51 @@ class RealNameAuthActivity :
     override fun initView() {
         window.statusBarColor = Color.WHITE
         initRightBtn()
+    }
 
-        mBinding.itemRealNameAuthType.onSelectedEvent = {
-            CommonBottomSheetDialog.Builder(
-                getString(
-                    R.string.type
-                ), mViewModel.verifyTypeList
-            ).apply {
-                onValueSureListener = object :
-                    CommonBottomSheetDialog.OnValueSureListener<RealNameAuthViewModel.RealNameAuthVerifyType> {
-                    override fun onValue(data: RealNameAuthViewModel.RealNameAuthVerifyType?) {
-                        mViewModel.authInfo.value?.let {
-                            it.verifyType = data?.id
-                        }
-                    }
-                }
-            }.build().show(supportFragmentManager)
-        }
 
-        // 身份证正面
-        mBinding.ivIdCardFront.setOnClickListener {
-            DialogUtils.showImgSelectorDialog(this@RealNameAuthActivity, 1) { isSuccess, result ->
-                if (isSuccess && !result.isNullOrEmpty()) {
-                    mViewModel.uploadIdPhoto(result[0].cutPath) { isTrue, url ->
-                        if (isTrue) {
-                            mViewModel.authInfo.value?.idCardFont = url
-                        } else {
-                            SToast.showToast(this@RealNameAuthActivity, R.string.upload_failure)
-                        }
-                    }
-                }
-            }
-        }
-
-        // 身份证反面
-        mBinding.ivIdCardBack.setOnClickListener {
-            DialogUtils.showImgSelectorDialog(this@RealNameAuthActivity, 1) { isSuccess, result ->
-                if (isSuccess && !result.isNullOrEmpty()) {
-
-                    mViewModel.uploadIdPhoto(result[0].cutPath) { isTrue, url ->
-                        if (isTrue) {
-                            mViewModel.authInfo.value?.idCardReverse = url
-                        } else {
-                            SToast.showToast(this@RealNameAuthActivity, R.string.upload_failure)
-                        }
-                    }
-                }
-            }
-        }
-
-        // 营业执照
-        mBinding.ivBusinessLicense.setOnClickListener {
-            DialogUtils.showImgSelectorDialog(this@RealNameAuthActivity, 1) { isSuccess, result ->
-                if (isSuccess && !result.isNullOrEmpty()) {
-                    mViewModel.uploadIdPhoto(result[0].cutPath) { isTrue, url ->
-                        if (isTrue) {
-                            mViewModel.authInfo.value?.companyLicense = url
-                        } else {
-                            SToast.showToast(this@RealNameAuthActivity, R.string.upload_failure)
-                        }
-                    }
-                }
-            }
-        }
-
-        mBinding.tvRealNameAuthIdCardIndateType.onSelectedEvent = {
-            CommonBottomSheetDialog.Builder(
-                getString(
-                    R.string.indate_type
-                ), mViewModel.inDateTypeList
-            ).apply {
-                onValueSureListener = object :
-                    CommonBottomSheetDialog.OnValueSureListener<RealNameAuthViewModel.RealNameAuthVerifyType> {
-                    override fun onValue(data: RealNameAuthViewModel.RealNameAuthVerifyType?) {
-                        mViewModel.authInfo.value?.let {
-                            it.idCardExpirationType = data?.id
-                        }
-                    }
-                }
-            }.build().show(supportFragmentManager)
-        }
-        mBinding.tvRealNameAuthIdCardIndate.onSelectedEvent = {
-            DateSelectorDialog.Builder().apply {
-                selectModel = 1
-                onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
-                    override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
-                        date2?.let {
-                            mViewModel.authInfo.value?.idCardExpirationDate =
-                                "${DateTimeUtils.formatDateTime(date1, "yyyy-MM-dd")} - " +
-                                        "${DateTimeUtils.formatDateTime(date2, "yyyy-MM-dd")}"
-                        }
-                    }
-                }
-            }.build().show(supportFragmentManager)
+    /**
+     * 加载营业执照
+     */
+    private fun loadRealNameAuthLicence() {
+        mViewModel.authInfo.value?.let { authInfo ->
+            GlideUtils.glideDefaultFactory(
+                mBinding.ivRealNameAuthCompanyLicensePic,
+                authInfo.companyLicense
+            ).transform(CenterCrop(), RoundedCorners(DimensionUtils.dip2px(this, 8f)))
+                .into(mBinding.ivRealNameAuthCompanyLicensePic)
         }
     }
 
-    override fun onBackListener() {
-        mViewModel.authInfo.value?.status?.let { status ->
-            if (status > 1 && mViewModel.isSubmit.value!!) {
-                mViewModel.isSubmit.postValue(false)
-            } else super.onBackListener()
-        } ?: super.onBackListener()
+    /**
+     * 加载身份证正面
+     */
+    private fun loadRealNameAuthIdCardFront() {
+        mViewModel.authInfo.value?.let { authInfo ->
+            GlideUtils.glideDefaultFactory(
+                mBinding.ivRealNameAuthIdCardFront,
+                authInfo.idCardFont
+            ).transform(CenterCrop(), RoundedCorners(DimensionUtils.dip2px(this, 8f)))
+                .into(mBinding.ivRealNameAuthIdCardFront)
+        }
+    }
+
+    /**
+     * 加载身份证反面
+     */
+    private fun loadRealNameAuthIdCardBack() {
+        mViewModel.authInfo.value?.let { authInfo ->
+            GlideUtils.glideDefaultFactory(
+                mBinding.ivRealNameAuthIdCardBack,
+                authInfo.idCardReverse
+            ).transform(CenterCrop(), RoundedCorners(DimensionUtils.dip2px(this, 8f)))
+                .into(mBinding.ivRealNameAuthIdCardBack)
+        }
     }
 
     override fun initData() {
+        IntentParams.RealNameAuthParams.parseAuthInfo(intent)?.let {
+            mViewModel.authInfo.value = it
+        } ?: mViewModel.requestRealNameAuth()
     }
 }

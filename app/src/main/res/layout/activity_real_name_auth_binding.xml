@@ -99,7 +99,7 @@
                 </LinearLayout>
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/tv_real_name_auth_name"
+                    android:id="@+id/item_real_name_auth_name"
                     style="@style/MultiTypePaddingHItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
                     app:type="input" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/tv_real_name_auth_id_card_number"
+                    android:id="@+id/item_real_name_auth_id_card_number"
                     style="@style/MultiTypePaddingHItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
                     app:type="input" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/tv_real_name_auth_id_card_indate_type"
+                    android:id="@+id/item_real_name_auth_id_card_indate_type"
                     style="@style/MultiTypePaddingHItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -135,10 +135,11 @@
                     app:type="info" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/tv_real_name_auth_id_card_indate"
+                    android:id="@+id/item_real_name_auth_id_card_indate"
                     style="@style/MultiTypePaddingHItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:visibility="@{1 == vm.authInfo.idCardExpirationType}"
                     app:itemContent="@{vm.authInfo.idCardExpirationDateValue}"
                     app:showArrow="true"
                     app:title="@string/id_card_indate"
@@ -147,19 +148,19 @@
                     app:type="info" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/tv_real_name_auth_company_name"
+                    android:id="@+id/item_real_name_auth_company_name"
                     style="@style/MultiTypePaddingHItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:visibility="@{2 == vm.authInfo.verifyType}"
-                    app:itemContent="@={vm.authInfo.idCardName}"
+                    app:itemContent="@={vm.authInfo.companyName}"
                     app:title="@string/company_name"
                     app:titleContentSpace="40dp"
                     app:titleW="64dp"
                     app:type="input" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/tv_real_name_auth_company_id"
+                    android:id="@+id/item_real_name_auth_company_id"
                     style="@style/MultiTypePaddingHItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -183,6 +184,7 @@
             android:layout_marginHorizontal="14dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="42dp"
+            android:onClick="@{vm::submit}"
             android:text="@string/submit_data" />
     </LinearLayout>
 </layout>

@@ -61,7 +61,7 @@ class BindSmsVerifyActivity :
                         startActivity(
                             Intent(
                                 this@BindSmsVerifyActivity,
-                                RealNameAuthActivity::class.java
+                                RealNameAuthBindingActivity::class.java
                             ).apply {
                                 putExtras(intent)
                                 putExtras(IntentParams.WithdrawBindAlipayParams.pack(it))

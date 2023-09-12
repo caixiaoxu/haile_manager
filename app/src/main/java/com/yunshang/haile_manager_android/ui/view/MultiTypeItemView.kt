@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.ui.view
 
 import android.content.Context
 import android.text.InputFilter.LengthFilter
+import android.text.method.DigitsKeyListener
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
@@ -50,7 +51,7 @@ class MultiTypeItemView @JvmOverloads constructor(
                 return
             }
             field = value
-            if (!dynamicValue){
+            if (!dynamicValue) {
                 onItemContentChange?.onChange()
             } else {
                 dynamicValue = false
@@ -117,6 +118,7 @@ class MultiTypeItemView @JvmOverloads constructor(
 
         type = array.getInt(R.styleable.MultiTypeItemView_type, 0)
         val inputType = array.getInt(R.styleable.MultiTypeItemView_android_inputType, -1)
+        val digits = array.getString(R.styleable.MultiTypeItemView_android_digits)
         val hint = array.getString(R.styleable.MultiTypeItemView_android_hint)
         val maxLength = array.getInt(R.styleable.MultiTypeItemView_android_maxLength, 0)
         val maxLines = array.getInt(R.styleable.MultiTypeItemView_android_maxLines, 0)
@@ -145,6 +147,7 @@ class MultiTypeItemView @JvmOverloads constructor(
         //添加内容
         addContent(
             inputType,
+            digits,
             hint,
             maxLength,
             maxLines,
@@ -206,6 +209,7 @@ class MultiTypeItemView @JvmOverloads constructor(
      */
     private fun addContent(
         inputType: Int,
+        digits: String?,
         hint: String?,
         maxLength: Int,
         maxLines: Int,
@@ -217,6 +221,9 @@ class MultiTypeItemView @JvmOverloads constructor(
         addView(
             contentView.also {
                 isEnabled = enabled
+                if (!digits.isNullOrEmpty()) {
+                    it.keyListener = DigitsKeyListener.getInstance(digits)
+                }
                 it.hint = hint
                     ?: if (1 == type) resources.getString(R.string.please_input) else resources.getString(
                         R.string.please_select

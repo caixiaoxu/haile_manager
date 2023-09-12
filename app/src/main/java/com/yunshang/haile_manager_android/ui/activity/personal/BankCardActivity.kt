@@ -70,12 +70,21 @@ class BankCardActivity : BaseBusinessActivity<ActivityBankCardBinding, BankCardV
                         negativeTxt = StringUtils.getString(R.string.i_know)
                         setPositiveButton("去认证") {
                             startActivity(
-                                Intent(
-                                    this@BankCardActivity,
-                                    RealNameAuthActivity::class.java
-                                ).apply {
-                                    authInfo?.let {
-                                        putExtras(IntentParams.RealNameAuthParams.pack(it))
+                                if (1 == authInfo?.status) {
+                                    Intent(
+                                        this@BankCardActivity,
+                                        BindSmsVerifyActivity::class.java
+                                    ).apply {
+                                        putExtras(IntentParams.BindSmsVerifyParams.pack(2))
+                                    }
+                                } else {
+                                    Intent(
+                                        this@BankCardActivity,
+                                        RealNameAuthActivity::class.java
+                                    ).apply {
+                                        authInfo?.let {
+                                            putExtras(IntentParams.RealNameAuthParams.pack(it))
+                                        }
                                     }
                                 }
                             )

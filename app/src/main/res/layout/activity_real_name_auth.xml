@@ -124,6 +124,7 @@
                     <include
                         layout="@layout/item_bank_detail_info"
                         app:content="@{vm.authInfo.idCardExpirationDate}"
+                        app:visibility="@{2 != vm.authInfo.idCardExpirationType}"
                         app:title="@{vm.authInfo.idCardIndateTitle}" />
 
                     <include
@@ -167,13 +168,66 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/shape_s88000000_rb8"
                             android:gravity="center"
-                            android:text="@string/company_license"
+                            android:text="@string/company_license_prompt"
                             app:layout_constraintBottom_toBottomOf="@id/iv_real_name_auth_company_license_pic"
                             app:layout_constraintEnd_toEndOf="@id/iv_real_name_auth_company_license_pic"
                             app:layout_constraintStart_toStartOf="@id/iv_real_name_auth_company_license_pic" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:paddingHorizontal="16dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_real_name_auth_id_card"
+                            style="@style/Font_14_999999"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/id_card"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_real_name_auth_id_card_front"
+                            android:layout_width="166dp"
+                            android:layout_height="106dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_real_name_auth_id_card" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_14_ffffff"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shape_s88000000_rb8"
+                            android:gravity="center"
+                            android:text="@string/id_card_front"
+                            app:layout_constraintBottom_toBottomOf="@id/iv_real_name_auth_id_card_front"
+                            app:layout_constraintEnd_toEndOf="@id/iv_real_name_auth_id_card_front"
+                            app:layout_constraintStart_toStartOf="@id/iv_real_name_auth_id_card_front" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_real_name_auth_id_card_back"
+                            android:layout_width="166dp"
+                            android:layout_height="106dp"
+                            android:layout_marginStart="12dp"
+                            app:layout_constraintStart_toEndOf="@id/iv_real_name_auth_id_card_front"
+                            app:layout_constraintTop_toTopOf="@id/iv_real_name_auth_id_card_front" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_14_ffffff"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shape_s88000000_rb8"
+                            android:gravity="center"
+                            android:text="@string/id_card_back"
+                            app:layout_constraintBottom_toBottomOf="@id/iv_real_name_auth_id_card_back"
+                            app:layout_constraintEnd_toEndOf="@id/iv_real_name_auth_id_card_back"
+                            app:layout_constraintStart_toStartOf="@id/iv_real_name_auth_id_card_back" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

@@ -597,11 +597,14 @@
     <string name="update_data">修改资料</string>
     <string name="submit_data">提交资料</string>
     <string name="empty_id_card_name">请输入身份证姓名</string>
+    <string name="empty_legal_person_name">请输入法人姓名</string>
     <string name="empty_id_card_no">请输入身份证号码</string>
     <string name="empty_id_card_front">请上传身份证人像面照片</string>
+    <string name="id_card_front">身份证人像面</string>
     <string name="empty_id_card_back">请上传身份证国徽面照片</string>
+    <string name="id_card_back">身份证国徽面</string>
     <string name="company_license">营业执照</string>
-    <string name="company_license_promt">营业执照正面照片</string>
+    <string name="company_license_prompt">营业执照正面照片</string>
     <string name="empty_company_license">请上传营业执照照片</string>
     <string name="empty_id_card_indate_type">请选择身份证有效时间类型</string>
     <string name="empty_id_card_indate">请选择身份证有效时间</string>

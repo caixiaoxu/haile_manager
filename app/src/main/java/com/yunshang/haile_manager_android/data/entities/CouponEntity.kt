@@ -59,52 +59,56 @@ data class CouponEntity(
             notifyPropertyChanged(BR.couponTypeName)
         }
 
+    @Transient
     @get:Bindable
     var reduceVal: String = ""
         get() = if (field.isNullOrEmpty()) reduce?.toString() ?: "" else field
         set(value) {
             try {
                 field = value
-                reduce = value.toDouble()
+                reduce = if (value.isEmpty()) null else value.toDouble()
                 notifyPropertyChanged(BR.reduceVal)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
 
+    @Transient
     @get:Bindable
     var percentageVal: String = ""
         get() = if (field.isNullOrEmpty()) percentage?.toString() ?: "" else field
         set(value) {
             try {
                 field = value
-                percentage = value.toDouble()
+                percentage = if (value.isEmpty()) null else value.toDouble()
                 notifyPropertyChanged(BR.percentageVal)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
 
+    @Transient
     @get:Bindable
     var maxDiscountPriceVal: String = ""
         get() = if (field.isNullOrEmpty()) maxDiscountPrice?.toString() ?: "" else field
         set(value) {
             try {
                 field = value
-                maxDiscountPrice = value.toDouble()
+                maxDiscountPrice = if (value.isEmpty()) null else value.toDouble()
                 notifyPropertyChanged(BR.maxDiscountPriceVal)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
 
+    @Transient
     @get:Bindable
     var orderReachPriceVal: String = ""
         get() = if (field.isNullOrEmpty()) orderReachPrice?.toString() ?: "" else field
         set(value) {
             try {
                 field = value
-                orderReachPrice = value.toDouble()
+                orderReachPrice = if (value.isEmpty()) null else value.toDouble()
                 notifyPropertyChanged(BR.orderReachPriceVal)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -129,7 +133,6 @@ data class CouponEntity(
                 e.printStackTrace()
             }
         }
-
 
     @get:Bindable
     var validityVal: String

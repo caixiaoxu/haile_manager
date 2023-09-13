@@ -10,10 +10,12 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.IssueCouponsViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
+import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.databinding.ActivityIssueCouponsBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
+import com.yunshang.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.ViewUtils
@@ -126,8 +128,32 @@ class IssueCouponsActivity :
                 }
             )
         }
+
+        // 设备
+        mBinding.itemIssueCouponsDevice.onSelectedEvent = {
+            MultiSelectBottomSheetDialog.Builder(
+                getString(R.string.coupon_device_dialog_title),
+                mViewModel.categoryList.value ?: listOf()
+            ).apply {
+                onValueSureListener =
+                    object :
+                        MultiSelectBottomSheetDialog.OnValueSureListener<CategoryEntity> {
+                        override fun onValue(
+                            selectData: List<CategoryEntity>,
+                            allSelectData: List<CategoryEntity>
+                        ) {
+                            mViewModel.coupon.value?.goodsCategoryIds =
+                                selectData.map { item -> item.id }
+                            mBinding.itemIssueCouponsDevice.contentView.setText(
+                                selectData.joinToString(",") { item -> item.name }
+                            )
+                        }
+                    }
+            }.build().show(supportFragmentManager)
+        }
     }
 
     override fun initData() {
+        mViewModel.requestDeviceCategory()
     }
 }

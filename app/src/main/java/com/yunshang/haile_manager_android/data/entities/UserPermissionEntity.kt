@@ -34,6 +34,8 @@ data class UserPermissionEntity(
 
     override var isCheck: Boolean = false
 
+    override var onlyOne: Boolean = false
+
     override fun getTitle(): String = name
 
     override fun equals(other: Any?): Boolean {

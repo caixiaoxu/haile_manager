@@ -14,24 +14,26 @@ import com.yunshang.haile_manager_android.data.rule.IMultiSelectBottomItemEntity
  * 作者姓名 修改时间 版本号 描述
  */
 data class CategoryEntity(
-    val id: Int,
-    val parentId: Int,
-    val parent: CategoryEntity,
-    val code: String,
-    val platform: Int,
-    val type: Int,
-    val name: String,
-    val icon: String,
-    val picUrl: String,
-    val description: String,
-    val creatorId: Int,
-    val creatorName: String,
-    val lastEditor: Int,
-    val children: List<CategoryChildren>,
-    val brands: List<CategoryBrand>,
-    val specs: List<CategorySpec>
+    var id: Int,
+    val parentId: Int? = null,
+    val parent: CategoryEntity? = null,
+    val code: String? = null,
+    val platform: Int? = null,
+    val type: Int? = null,
+    var name: String,
+    val icon: String? = null,
+    val picUrl: String? = null,
+    val description: String? = null,
+    val creatorId: Int? = null,
+    val creatorName: String? = null,
+    val lastEditor: Int? = null,
+    val children: List<CategoryChildren>? = null,
+    val brands: List<CategoryBrand>? = null,
+    val specs: List<CategorySpec>? = null
 ) : ICommonBottomItemEntity, IMultiSelectBottomItemEntity {
     override var isCheck: Boolean = false
+
+    override var onlyOne: Boolean = false
 
     override fun getTitle(): String = name
 

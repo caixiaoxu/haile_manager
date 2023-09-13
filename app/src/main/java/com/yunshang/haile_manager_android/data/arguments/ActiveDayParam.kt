@@ -16,6 +16,7 @@ import com.yunshang.haile_manager_android.data.rule.IMultiSelectBottomItemEntity
 data class ActiveDayParam(val name: String, val id: Int) : ICommonBottomItemEntity,
     IMultiSelectBottomItemEntity {
     override var isCheck: Boolean = false
+    override var onlyOne: Boolean = false
 
     override fun getTitle(): String = name
 

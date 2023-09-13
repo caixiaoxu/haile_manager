@@ -7,9 +7,10 @@ import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.apiService.CategoryService
 import com.yunshang.haile_manager_android.business.apiService.DiscountsService
-import com.yunshang.haile_manager_android.business.apiService.HaiXinService
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
+import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.CouponEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +27,8 @@ import kotlinx.coroutines.withContext
  * 作者姓名 修改时间 版本号 描述
  */
 class IssueCouponsViewModel : BaseViewModel() {
-    val mDiscountsRepo = ApiRepository.apiClient(DiscountsService::class.java)
+    private val mDiscountsRepo = ApiRepository.apiClient(DiscountsService::class.java)
+    private val mCategoryRepo = ApiRepository.apiClient(CategoryService::class.java)
 
     val coupon: MutableLiveData<CouponEntity> = MutableLiveData(CouponEntity())
 
@@ -34,6 +36,33 @@ class IssueCouponsViewModel : BaseViewModel() {
         StringUtils.getStringArray(R.array.coupon_type).mapIndexed { index, s ->
             SearchSelectParam(index, s)
         }.filter { item -> !item.name.isNullOrEmpty() }
+
+
+    // 设备类型
+    val categoryList: MutableLiveData<MutableList<CategoryEntity>> by lazy {
+        MutableLiveData()
+    }
+
+    /**
+     * 请求设备类型
+     */
+    fun requestDeviceCategory() {
+        launch({
+            ApiRepository.dealApiResult(
+                mCategoryRepo.category(1)
+            )?.let {
+                it.add(
+                    0,
+                    CategoryEntity(
+                        id = 0,
+                        name = StringUtils.getString(R.string.all_device)
+                    ).apply {
+                        onlyOne = true
+                    })
+                categoryList.postValue(it)
+            }
+        })
+    }
 
     /**
      * 确认发券
@@ -61,7 +90,7 @@ class IssueCouponsViewModel : BaseViewModel() {
                 return
             }
             if (0 > coupon.value!!.orderReachPrice!! || 100 < coupon.value!!.orderReachPrice!!) {
-                SToast.showToast(v.context, "请使用条件范围为0.01-100.00")
+                SToast.showToast(v.context, "请使用条件范围为0-100.00")
                 return
             }
         } else if (3 == coupon.value?.couponType) {
@@ -86,7 +115,7 @@ class IssueCouponsViewModel : BaseViewModel() {
                 return
             }
             if (0 > coupon.value!!.orderReachPrice!! || 100 < coupon.value!!.orderReachPrice!!) {
-                SToast.showToast(v.context, "请使用条件范围为0.01-100.00")
+                SToast.showToast(v.context, "请使用条件范围为0-100.00")
                 return
             }
         } else if (4 == coupon.value?.couponType) {

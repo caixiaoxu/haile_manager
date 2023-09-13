@@ -135,7 +135,7 @@ class DataStatisticsDetailViewModel : BaseViewModel() {
     }
 
     private fun commonParams() =
-        hashMapOf<String, Any>("dateType" to dateType.value!!).also { params ->
+        hashMapOf<String, Any?>("dateType" to dateType.value!!).also { params ->
             when (dateType.value) {
                 1 -> {
                     params["startTime"] = DateTimeUtils.formatDateTimeStartParam(startTime.value)

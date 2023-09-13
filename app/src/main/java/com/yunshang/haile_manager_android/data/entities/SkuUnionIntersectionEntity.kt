@@ -21,5 +21,7 @@ data class SkuUnionIntersectionEntity(
 
     override var isCheck: Boolean = false
 
+    override var onlyOne: Boolean = false
+
     override fun getTitle(): String = name
 }

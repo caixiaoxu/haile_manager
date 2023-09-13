@@ -481,6 +481,8 @@
     <string name="issue_coupon_num_hint">范围1-10</string>
     <string name="validity_to">有效期至</string>
     <string name="coupon_device">适用设备</string>
+    <string name="coupon_device_dialog_title">适用设备（可多选）</string>
+    <string name="all_device">全部设备</string>
     <string name="sure_issue_coupons">确认发券</string>
 
     <string name="coupon_manage">券管理</string>

@@ -13,5 +13,6 @@ package com.yunshang.haile_manager_android.data.rule
 interface IMultiSelectBottomItemEntity {
     var isCheck: Boolean
 
+    var onlyOne:Boolean
     fun getTitle(): String
 }

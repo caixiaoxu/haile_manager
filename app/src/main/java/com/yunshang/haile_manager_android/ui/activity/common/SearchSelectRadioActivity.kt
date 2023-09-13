@@ -50,7 +50,7 @@ class SearchSelectRadioActivity :
             )
             setOnClickListener {
                 mViewModel.selectList.value?.let { list ->
-                    val selected = list.filter { select -> select.getCheck()?.value ?: false }
+                    val selected = list.filter { select -> select.getCheck }
 
                     if (SearchSelectTypeParam.SearchSelectTypePaySettingsShop == mViewModel.searchSelectType.value) {
                         // 支付设置
@@ -73,7 +73,7 @@ class SearchSelectRadioActivity :
                             selected
                         )
                     } else {
-                        if (mViewModel.mustSelect && selected.isEmpty()) {
+                        if (mViewModel.mustSelect && selected.isEmpty() && !mViewModel.allSelect.getCheck) {
                             SToast.showToast(
                                 this@SearchSelectRadioActivity,
                                 if (mViewModel.searchSelectType.value == SearchSelectTypeParam.SearchSelectTypeDeviceModel) R.string.device_model_empty else R.string.department_empty
@@ -82,23 +82,40 @@ class SearchSelectRadioActivity :
                         }
                         setResult(
                             when (mViewModel.searchSelectType.value) {
-                                SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop, SearchSelectTypeParam.SearchSelectTypeRechargeShop -> SearchSelectTypeParam.ShopResultCode
+                                SearchSelectTypeParam.SearchSelectTypeShop,
+                                SearchSelectTypeParam.SearchSelectTypeTakeChargeShop,
+                                SearchSelectTypeParam.SearchSelectTypeRechargeShop,
+                                SearchSelectTypeParam.SearchSelectTypeCouponShop -> SearchSelectTypeParam.ShopResultCode
                                 SearchSelectTypeParam.SearchSelectTypeDeviceModel -> SearchSelectTypeParam.DeviceModelResultCode
                                 else -> RESULT_OK
                             },
                             Intent().apply {
-                                putExtra(
-                                    SearchSelectTypeParam.ResultData,
-                                    GsonUtils.any2Json(
-                                        selected.map {
-                                            SearchSelectParam(
-                                                it.getSelectId(),
-                                                it.getSelectName(),
-                                                GsonUtils.any2Json(it)
+                                if (mViewModel.allSelect.getCheck) {
+                                    putExtra(
+                                        SearchSelectTypeParam.ResultData,
+                                        GsonUtils.any2Json(
+                                            listOf(
+                                                SearchSelectParam(
+                                                    mViewModel.allSelect.getSelectId(),
+                                                    mViewModel.allSelect.getSelectName(),
+                                                )
                                             )
-                                        }
+                                        )
                                     )
-                                )
+                                } else {
+                                    putExtra(
+                                        SearchSelectTypeParam.ResultData,
+                                        GsonUtils.any2Json(
+                                            selected.map {
+                                                SearchSelectParam(
+                                                    it.getSelectId(),
+                                                    it.getSelectName(),
+                                                    GsonUtils.any2Json(it)
+                                                )
+                                            }
+                                        )
+                                    )
+                                }
                             })
                         finish()
                     }
@@ -118,6 +135,7 @@ class SearchSelectRadioActivity :
         mViewModel.staffId = SearchSelectTypeParam.parseStaffId(intent)
         mViewModel.mustSelect = SearchSelectTypeParam.parseMustSelect(intent)
         mViewModel.moreSelect = SearchSelectTypeParam.parseMoreSelect(intent)
+        mViewModel.hasAll = SearchSelectTypeParam.parseHasAll(intent)
         mViewModel.selectArr = SearchSelectTypeParam.parseSelectList(intent) ?: intArrayOf()
     }
 
@@ -134,6 +152,16 @@ class SearchSelectRadioActivity :
                     }
                 }
                 mViewModel.isAllSelect.value = isAll
+            }
+        }
+
+        mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.setBackgroundResource(R.drawable.shape_bottom_stroke_dividing_mlr16)
+        mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.setOnCheckedChangeListener { _, isCheck ->
+            mViewModel.allSelect.getCheck = isCheck
+            if (isCheck) {
+                mViewModel.selectList.value?.forEach {
+                    it.getCheck = false
+                }
             }
         }
     }
@@ -192,7 +220,10 @@ class SearchSelectRadioActivity :
                         }
 
                         (binding.root as AppCompatCheckBox).setOnCheckedChangeListener { _, isCheck ->
-                            item.getCheck()?.value = isCheck
+                            if (isCheck) {
+                                mViewModel.allSelect.getCheck = false
+                            }
+                            item.getCheck = isCheck
                             mViewModel.checkSelectAll()
                         }
                         (mBinding.svDepartmentSelectList.getChildAt(0) as LinearLayout).addView(

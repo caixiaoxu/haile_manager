@@ -609,6 +609,7 @@
     <string name="shop_sign_pic">门店招牌照</string>
     <string name="shop_device_pic">设备场景照</string>
     <string name="shop_sit_and_device_pic_promt">图片格式支持bmp、jpg、jpeg、png、gif，最大为10MB</string>
+    <string name="search_shop">搜索门店</string>
     <string name="rebinding">重新绑定</string>
 
     <string name="real_name">实名认证</string>

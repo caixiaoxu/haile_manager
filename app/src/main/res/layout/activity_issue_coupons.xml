@@ -179,7 +179,6 @@
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_issue_coupons_shop"
                     style="@style/MultiTypeItemStyle"
-                    app:itemContent="@={vm.coupon.endAt}"
                     app:showArrow="true"
                     app:title="@string/coupon_shop"
                     app:titleW="88dp"

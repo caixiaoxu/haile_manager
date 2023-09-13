@@ -207,6 +207,7 @@ object IntentParams {
         const val ShopIdList = "shopIdList"
         const val MustSelect = "mustSelect"
         const val MoreSelect = "moreSelect"
+        const val HasAll = "hasAll"
         const val SelectList = "selectList"
         const val ShopResultCode = 0x90001
         const val DeviceModelResultCode = 0x90002
@@ -217,6 +218,7 @@ object IntentParams {
         const val SearchSelectTypeTakeChargeShop = 2
         const val SearchSelectTypeRechargeShop = 4
         const val SearchSelectTypePaySettingsShop = 5
+        const val SearchSelectTypeCouponShop = 6
 
         fun pack(
             searchSelectType: Int? = null,
@@ -225,6 +227,7 @@ object IntentParams {
             shopIdList: IntArray? = null,
             mustSelect: Boolean = true,
             moreSelect: Boolean = false,
+            hasAll: Boolean = false,
             selectArr: IntArray = intArrayOf()
         ): Bundle = Bundle().apply {
             searchSelectType?.let {
@@ -241,6 +244,7 @@ object IntentParams {
             }
             putBoolean(MustSelect, mustSelect)
             putBoolean(MoreSelect, moreSelect)
+            putBoolean(HasAll, hasAll)
             putIntArray(SelectList, selectArr)
         }
 
@@ -250,6 +254,7 @@ object IntentParams {
         fun parseShopIdList(intent: Intent): IntArray? = intent.getIntArrayExtra(ShopIdList)
         fun parseMustSelect(intent: Intent): Boolean = intent.getBooleanExtra(MustSelect, true)
         fun parseMoreSelect(intent: Intent): Boolean = intent.getBooleanExtra(MoreSelect, false)
+        fun parseHasAll(intent: Intent): Boolean = intent.getBooleanExtra(HasAll, false)
         fun parseSelectList(intent: Intent): IntArray? = intent.getIntArrayExtra(SelectList)
     }
 

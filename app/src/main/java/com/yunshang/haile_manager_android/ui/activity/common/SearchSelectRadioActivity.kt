@@ -49,77 +49,84 @@ class SearchSelectRadioActivity :
                 )
             )
             setOnClickListener {
-                mViewModel.selectList.value?.let { list ->
-                    val selected = list.filter { select -> select.getCheck }
+                backAndResult()
+            }
+        }
+    }
 
-                    if (SearchSelectTypeParam.SearchSelectTypePaySettingsShop == mViewModel.searchSelectType.value) {
-                        // 支付设置
-                        startActivity(Intent(
-                            this@SearchSelectRadioActivity,
-                            ShopPaySettingsActivity::class.java
-                        ).apply {
-                            putExtras(
-                                IntentParams.ShopPaySettingsParams.pack(selected.map { item ->
-                                    item.getSelectId()
-                                }.toIntArray())
-                            )
-                        })
-                        finish()
-                    } else if (SearchSelectTypeParam.SearchSelectTypeTakeChargeShop == mViewModel.searchSelectType.value
-                        && -1 != mViewModel.staffId
-                    ) {
-                        mViewModel.updateStaffShop(
-                            this@SearchSelectRadioActivity,
-                            selected
-                        )
-                    } else {
-                        if (mViewModel.mustSelect && selected.isEmpty() && !mViewModel.allSelect.getCheck) {
-                            SToast.showToast(
-                                this@SearchSelectRadioActivity,
-                                if (mViewModel.searchSelectType.value == SearchSelectTypeParam.SearchSelectTypeDeviceModel) R.string.device_model_empty else R.string.department_empty
-                            )
-                            return@setOnClickListener
-                        }
-                        setResult(
-                            when (mViewModel.searchSelectType.value) {
-                                SearchSelectTypeParam.SearchSelectTypeShop,
-                                SearchSelectTypeParam.SearchSelectTypeTakeChargeShop,
-                                SearchSelectTypeParam.SearchSelectTypeRechargeShop,
-                                SearchSelectTypeParam.SearchSelectTypeCouponShop -> SearchSelectTypeParam.ShopResultCode
-                                SearchSelectTypeParam.SearchSelectTypeDeviceModel -> SearchSelectTypeParam.DeviceModelResultCode
-                                else -> RESULT_OK
-                            },
-                            Intent().apply {
-                                if (mViewModel.allSelect.getCheck) {
-                                    putExtra(
-                                        SearchSelectTypeParam.ResultData,
-                                        GsonUtils.any2Json(
-                                            listOf(
-                                                SearchSelectParam(
-                                                    mViewModel.allSelect.getSelectId(),
-                                                    mViewModel.allSelect.getSelectName(),
-                                                )
-                                            )
-                                        )
-                                    )
-                                } else {
-                                    putExtra(
-                                        SearchSelectTypeParam.ResultData,
-                                        GsonUtils.any2Json(
-                                            selected.map {
-                                                SearchSelectParam(
-                                                    it.getSelectId(),
-                                                    it.getSelectName(),
-                                                    GsonUtils.any2Json(it)
-                                                )
-                                            }
-                                        )
-                                    )
-                                }
-                            })
-                        finish()
-                    }
+    /**
+     * 关闭并返回数据
+     */
+    private fun backAndResult(){
+        mViewModel.selectList.value?.let { list ->
+            val selected = list.filter { select -> select.getCheck }
+
+            if (SearchSelectTypeParam.SearchSelectTypePaySettingsShop == mViewModel.searchSelectType.value) {
+                // 支付设置
+                startActivity(Intent(
+                    this@SearchSelectRadioActivity,
+                    ShopPaySettingsActivity::class.java
+                ).apply {
+                    putExtras(
+                        IntentParams.ShopPaySettingsParams.pack(selected.map { item ->
+                            item.getSelectId()
+                        }.toIntArray())
+                    )
+                })
+                finish()
+            } else if (SearchSelectTypeParam.SearchSelectTypeTakeChargeShop == mViewModel.searchSelectType.value
+                && -1 != mViewModel.staffId
+            ) {
+                mViewModel.updateStaffShop(
+                    this@SearchSelectRadioActivity,
+                    selected
+                )
+            } else {
+                if (mViewModel.mustSelect && selected.isEmpty() && !mViewModel.allSelect.getCheck) {
+                    SToast.showToast(
+                        this@SearchSelectRadioActivity,
+                        if (mViewModel.searchSelectType.value == SearchSelectTypeParam.SearchSelectTypeDeviceModel) R.string.device_model_empty else R.string.department_empty
+                    )
+                    return
                 }
+                setResult(
+                    when (mViewModel.searchSelectType.value) {
+                        SearchSelectTypeParam.SearchSelectTypeShop,
+                        SearchSelectTypeParam.SearchSelectTypeTakeChargeShop,
+                        SearchSelectTypeParam.SearchSelectTypeRechargeShop,
+                        SearchSelectTypeParam.SearchSelectTypeCouponShop -> SearchSelectTypeParam.ShopResultCode
+                        SearchSelectTypeParam.SearchSelectTypeDeviceModel -> SearchSelectTypeParam.DeviceModelResultCode
+                        else -> RESULT_OK
+                    },
+                    Intent().apply {
+                        if (mViewModel.allSelect.getCheck) {
+                            putExtra(
+                                SearchSelectTypeParam.ResultData,
+                                GsonUtils.any2Json(
+                                    listOf(
+                                        SearchSelectParam(
+                                            mViewModel.allSelect.getSelectId(),
+                                            mViewModel.allSelect.getSelectName(),
+                                        )
+                                    )
+                                )
+                            )
+                        } else {
+                            putExtra(
+                                SearchSelectTypeParam.ResultData,
+                                GsonUtils.any2Json(
+                                    selected.map {
+                                        SearchSelectParam(
+                                            it.getSelectId(),
+                                            it.getSelectName(),
+                                            GsonUtils.any2Json(it)
+                                        )
+                                    }
+                                )
+                            )
+                        }
+                    })
+                finish()
             }
         }
     }
@@ -162,6 +169,7 @@ class SearchSelectRadioActivity :
                 mViewModel.selectList.value?.forEach {
                     it.getCheck = false
                 }
+                backAndResult()
             }
         }
     }

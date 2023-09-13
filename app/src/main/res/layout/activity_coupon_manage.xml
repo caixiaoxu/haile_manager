@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="com.yunshang.haile_manager_android.business.vm.CouponManageViewModel" />
@@ -21,5 +22,90 @@
             android:layout_height="@dimen/title_action_bar_h"
             android:background="@drawable/shape_bottom_stroke_dividing"
             app:title="@string/coupon_manage" />
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/page_bg"
+                app:elevation="0dp">
+
+                <net.lucode.hackware.magicindicator.MagicIndicator
+                    android:id="@+id/indicator_coupon_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:background="@drawable/shape_bottom_stroke_dividing"
+                    android:paddingHorizontal="16dp"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <HorizontalScrollView
+                    android:id="@+id/bg_device_manager_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:background="@drawable/shape_bottom_stroke_dividing"
+                    android:paddingHorizontal="16dp"
+                    android:scrollbars="none"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_coupon_type"
+                            style="@style/DeviceManagerCategoryBtnStyle"
+                            android:hint="@string/all_coupon" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_coupon_department"
+                            style="@style/DeviceManagerCategoryBtnStyle"
+                            android:hint="@string/all_shop" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_coupon_category"
+                            style="@style/DeviceManagerCategoryBtnStyle"
+                            android:hint="@string/all_device" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_coupon_list_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="8dp"
+                        android:layout_marginStart="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_coupon_list_refresh"
+                        tools:text="全部8台设备" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_coupon_list_refresh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@mipmap/icon_refresh"
+                        android:drawablePadding="4dp"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="8dp"
+                        android:text="@string/refresh_list"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+                android:id="@+id/rv_coupon_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </LinearLayout>
 </layout>

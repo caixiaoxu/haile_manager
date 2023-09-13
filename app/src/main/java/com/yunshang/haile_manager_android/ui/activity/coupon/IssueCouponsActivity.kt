@@ -45,7 +45,7 @@ class IssueCouponsActivity :
                                     }
                                     mBinding.itemIssueCouponsShop.contentView.setText(
                                         selected.joinToString(
-                                            ","
+                                            "、"
                                         ) { item ->
                                             item.name
                                         })
@@ -60,6 +60,13 @@ class IssueCouponsActivity :
     override fun layoutId(): Int = R.layout.activity_issue_coupons
 
     override fun backBtn(): View = mBinding.barIssueCouponsTitle.getBackBtn()
+
+    override fun initEvent() {
+        super.initEvent()
+        mViewModel.jump.observe(this) {
+            finish()
+        }
+    }
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
@@ -97,11 +104,11 @@ class IssueCouponsActivity :
         mBinding.itemIssueCouponsValidity.onSelectedEvent = {
             DateSelectorDialog.Builder().apply {
                 selectModel = 0
+                minDate = Calendar.getInstance().apply { time = Date() }
                 onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
-                        DateTimeUtils.formatDateTime(date1, "yyyy-MM-dd").let {
-                            mViewModel.coupon.value?.validityVal = it
-                        }
+                        mViewModel.coupon.value?.validityVal =
+                            DateTimeUtils.formatDateTimeEndParam(date1)
                     }
                 }
             }.build().show(supportFragmentManager)
@@ -145,7 +152,7 @@ class IssueCouponsActivity :
                             mViewModel.coupon.value?.goodsCategoryIds =
                                 selectData.map { item -> item.id }
                             mBinding.itemIssueCouponsDevice.contentView.setText(
-                                selectData.joinToString(",") { item -> item.name }
+                                selectData.joinToString("、") { item -> item.name }
                             )
                         }
                     }

@@ -2,10 +2,7 @@ package com.yunshang.haile_manager_android.business.apiService
 
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
-import com.yunshang.haile_manager_android.data.entities.DiscountsBusinessTypeEntity
-import com.yunshang.haile_manager_android.data.entities.DiscountsDetailEntity
-import com.yunshang.haile_manager_android.data.entities.DiscountsDeviceTypeEntity
-import com.yunshang.haile_manager_android.data.entities.DiscountsEntity
+import com.yunshang.haile_manager_android.data.entities.*
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.FieldMap
@@ -73,5 +70,17 @@ interface DiscountsService {
      */
     @POST("/coupon/subject/activate/app")
     suspend fun submitIssueCoupon(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 券列表
+     */
+    @POST("/coupon/assetSearch")
+    suspend fun requestCouponList(@Body body: RequestBody): ResponseWrapper<ResponseList<CouponEntity>>
+
+    /**
+     * 券数量
+     */
+    @POST("/coupon/assetSearch/count")
+    suspend fun requestCouponNum(@Body body: RequestBody): ResponseWrapper<MutableList<CouponNumEntity>>
 
 }

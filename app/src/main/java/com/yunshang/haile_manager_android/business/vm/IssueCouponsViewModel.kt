@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.business.vm
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
@@ -9,9 +10,10 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CategoryService
 import com.yunshang.haile_manager_android.business.apiService.DiscountsService
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
-import com.yunshang.haile_manager_android.data.entities.CouponEntity
+import com.yunshang.haile_manager_android.data.entities.IssueCouponEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -30,7 +32,7 @@ class IssueCouponsViewModel : BaseViewModel() {
     private val mDiscountsRepo = ApiRepository.apiClient(DiscountsService::class.java)
     private val mCategoryRepo = ApiRepository.apiClient(CategoryService::class.java)
 
-    val coupon: MutableLiveData<CouponEntity> = MutableLiveData(CouponEntity())
+    val coupon: MutableLiveData<IssueCouponEntity> = MutableLiveData(IssueCouponEntity())
 
     val couponTypeList =
         StringUtils.getStringArray(R.array.coupon_type).mapIndexed { index, s ->
@@ -166,6 +168,8 @@ class IssueCouponsViewModel : BaseViewModel() {
             withContext(Dispatchers.Main) {
                 SToast.showToast(v.context, "发券成功")
             }
+            coupon.value?.issueCouponsUser=""
+            LiveDataBus.post(BusEvents.COUPON_LIST_STATUS, true)
         })
     }
 }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="item"
             type="com.yunshang.haile_manager_android.data.entities.CouponEntity" />
@@ -12,6 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:paddingHorizontal="16dp"
         android:paddingVertical="12dp">
 
@@ -21,8 +23,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{item.title}"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tv_item_coupon_list_state"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="折扣券 8.8折" />
 
@@ -34,9 +36,9 @@
             android:drawableEnd="@drawable/icon_arrow_right"
             android:drawablePadding="8dp"
             android:text="@{item.stateVal}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_item_coupon_list_type_price"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_item_coupon_list_type_price"
-            app:layout_constraintBottom_toBottomOf="@id/tv_item_coupon_list_type_price"
             tools:text="未使用" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -53,9 +55,9 @@
             android:id="@+id/tv_item_coupon_list_validity"
             style="@style/Font_14_999999"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="@{item.validity}"
-            android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/tv_item_coupon_list_user"
             tools:text="有效期：2023-10-11至2023-11-11" />
 

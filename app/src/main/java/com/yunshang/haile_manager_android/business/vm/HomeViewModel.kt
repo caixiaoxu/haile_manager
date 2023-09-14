@@ -134,13 +134,13 @@ class HomeViewModel : BaseViewModel() {
                 StringUtils.getString(R.string.issue_coupons),
                 R.mipmap.icon_issue_coupons,
                 IssueCouponsActivity::class.java,
-                true
+                UserPermissionUtils.hasSendCouponPermission()
             ),
             FunItem(
                 StringUtils.getString(R.string.coupon_manage),
                 R.mipmap.icon_coupon_manage,
                 CouponManageActivity::class.java,
-                true
+                UserPermissionUtils.hasCouponListPermission()
             ),
         )
     )

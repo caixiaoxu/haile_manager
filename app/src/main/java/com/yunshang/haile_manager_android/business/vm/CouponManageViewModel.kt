@@ -71,13 +71,21 @@ class CouponManageViewModel : BaseViewModel() {
     /**
      * 请求设备类型
      */
-    fun requestData(type:Int = 0) {
+    fun requestData(type: Int = 0) {
         launch({
             requestCouponNum()
-            if (0 == type){
+            if (0 == type) {
                 ApiRepository.dealApiResult(
                     mCategoryRepo.category(1)
                 )?.let {
+                    it.add(
+                        0,
+                        CategoryEntity(
+                            id = 0,
+                            name = StringUtils.getString(R.string.all_device)
+                        ).apply {
+                            onlyOne = true
+                        })
                     categoryList.postValue(it)
                 }
             }
@@ -124,7 +132,11 @@ class CouponManageViewModel : BaseViewModel() {
                     ApiRepository.createRequestBody(
                         hashMapOf(
                             "page" to page,
-                            "pageSize" to pageSize
+                            "pageSize" to pageSize,
+                            "status" to curCouponStatus.value,
+                            "couponType" to selectCouponType.value,
+                            "shopId" to selectShop.value,
+                            "categoryId" to selectCategory.value,
                         )
                     )
                 )

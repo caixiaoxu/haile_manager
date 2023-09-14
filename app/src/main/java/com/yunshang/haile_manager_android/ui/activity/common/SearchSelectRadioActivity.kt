@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RadioGroup
 import androidx.appcompat.widget.AppCompatCheckBox
+import androidx.appcompat.widget.AppCompatRadioButton
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
@@ -273,6 +274,12 @@ class SearchSelectRadioActivity :
                             binding.root.setBackgroundResource(R.drawable.shape_top_stroke_dividing_mlr16)
                         } else {
                             binding.root.setBackgroundColor(Color.WHITE)
+                        }
+                        (binding.root as AppCompatRadioButton).setOnCheckedChangeListener { _, isCheck ->
+                            if (isCheck) {
+                                mViewModel.allSelect.getCheck = false
+                            }
+                            item.getCheck = isCheck
                         }
                         (mBinding.svDepartmentSelectList.getChildAt(0) as RadioGroup).addView(
                             binding.root,

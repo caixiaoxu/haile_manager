@@ -84,9 +84,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="8dp"
                         android:layout_marginStart="16dp"
+                        android:text="@{vm.mCouponCountStr}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tv_coupon_list_refresh"
-                        tools:text="全部8台设备" />
+                        tools:text="全部8张券" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_coupon_list_refresh"

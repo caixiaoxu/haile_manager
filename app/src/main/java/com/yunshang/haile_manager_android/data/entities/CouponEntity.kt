@@ -68,9 +68,10 @@ data class CouponEntity(
 
     val user: String
         get() = StringUtils.getString(R.string.user_phone) + "：" + shopVOs?.firstOrNull()?.operatorPhone
+            ?: ""
 
     val validity: String
-        get() = DateTimeUtils.formatDateTimeForStr(
+        get() = StringUtils.getString(R.string.validity_to) + "：" + DateTimeUtils.formatDateTimeForStr(
             startAt,
             "yyyy-MM-dd"
         ) + "至" + DateTimeUtils.formatDateTimeForStr(endAt, "yyyy-MM-dd")

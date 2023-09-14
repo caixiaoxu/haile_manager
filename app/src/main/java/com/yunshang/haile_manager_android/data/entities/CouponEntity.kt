@@ -39,7 +39,7 @@ data class CouponEntity(
     val reduce: String,
     val shopIds: List<Int>,
     val shopNames: List<String>,
-    val shopVOs: List<ShopVO>?,
+    val shopVOs: List<CouponShopVO>?,
     val specifiedPrice: String,
     val startAt: String,
     val state: Int,
@@ -77,7 +77,7 @@ data class CouponEntity(
         ) + "至" + DateTimeUtils.formatDateTimeForStr(endAt, "yyyy-MM-dd")
 }
 
-data class ShopVO(
+data class CouponShopVO(
     val operatorPhone: String,
     val shopAddress: String,
     val shopId: Int,

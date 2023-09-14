@@ -69,7 +69,13 @@ class CouponManageActivity :
             BR.item
         ) { mItemBinding, _, item ->
             mItemBinding?.root?.setOnClickListener {
-
+                startActivity(
+                    Intent(
+                        this@CouponManageActivity,
+                        CouponDetailActivity::class.java
+                    ).apply {
+                        putExtras(IntentParams.CommonParams.pack(item.id))
+                    })
             }
         }
     }

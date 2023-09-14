@@ -9,6 +9,7 @@ import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
@@ -82,5 +83,10 @@ interface DiscountsService {
      */
     @POST("/coupon/assetSearch/count")
     suspend fun requestCouponNum(@Body body: RequestBody): ResponseWrapper<CouponNumEntity>
+    /**
+     * 券详情接口
+     */
+    @GET("/coupon/asset/{id}")
+    suspend fun requestCouponDetail(@Path("id") id:Int): ResponseWrapper<CouponDetailEntity>
 
 }

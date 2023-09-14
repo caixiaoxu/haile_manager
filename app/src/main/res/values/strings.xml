@@ -484,11 +484,15 @@
     <string name="coupon_device_dialog_title">适用设备（可多选）</string>
     <string name="all_device">全部设备</string>
     <string name="sure_issue_coupons">确认发券</string>
+    <string name="coupon_base_info">券基础信息</string>
 
     <string name="coupon_manage">券管理</string>
     <string name="all_coupon">全部券</string>
     <string name="all_shop">全部门店</string>
     <string name="coupon_num_prompt">全部%1$d张券</string>
+    <string name="coupon_detail">券详情</string>
+    <string name="cancellation">作废</string>
+    <string name="send_user">发送用户</string>
 
     <string name="home_msg_title">最近消息</string>
     <string name="home_msg_num">条新消息</string>

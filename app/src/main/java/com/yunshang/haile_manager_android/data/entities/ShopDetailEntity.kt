@@ -67,9 +67,18 @@ data class ShopDetailEntity(
                 formatData(it.weekDays, it.workTime)
             }
         }?.toMutableList() ?: run {
-            mutableListOf(
-                BusinessHourEntity(ShopParam.businessDay, workTime)
-            )
+            try {
+                GsonUtils.json2List(workTime, String::class.java)?.mapIndexed { index, s ->
+                    BusinessHourEntity(listOf(ShopParam.businessDay[index]), s.replace(",", " "))
+                }?.filter { item -> item._workTime.isNotEmpty() }?.toMutableList()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            } ?: run {
+                mutableListOf(
+                    BusinessHourEntity(ShopParam.businessDay, workTime)
+                )
+            }
         }
 
     fun workTimeVal(): String = workTimeArr().let {

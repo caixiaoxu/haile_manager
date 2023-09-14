@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.ui.activity.device
 
 import android.content.Intent
 import android.graphics.Color
+import android.view.View
 import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DeviceFunConfigurationAddV2ViewModel
@@ -27,6 +28,7 @@ class DeviceFunConfigurationAddV2Activity :
 
     override fun layoutId(): Int = R.layout.activity_device_fun_configuration_add_v2
 
+    override fun backBtn(): View = mBinding.barDeviceFunConfigureAddV2Title.getBackBtn()
 
     override fun initEvent() {
         super.initEvent()

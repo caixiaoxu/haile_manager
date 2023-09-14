@@ -39,7 +39,6 @@
             android:hint="@string/single_pulse_quantity_hint"
             android:inputType="numberDecimal"
             app:itemContent="@={vm.singlePulseQuantityVal}"
-            app:showArrow="true"
             app:title="@string/single_pulse_quantity"
             app:type="input" />
 

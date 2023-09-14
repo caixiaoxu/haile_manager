@@ -142,7 +142,7 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
                 itemBinding.root.apply {
                     text = builder.addTitle
                     setCompoundDrawablesWithIntrinsicBounds(
-                        R.mipmap.icon_device_fun_configure_add, 0, 0, 0
+                        R.mipmap.icon_device_operate_add, 0, 0, 0
                     )
                     setOnCheckClickListener {
                         builder.onAddValueListener?.invoke()

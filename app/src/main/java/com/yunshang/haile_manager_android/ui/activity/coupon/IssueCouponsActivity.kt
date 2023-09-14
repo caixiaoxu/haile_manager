@@ -37,7 +37,7 @@ class IssueCouponsActivity :
                                 if (selected.isNotEmpty()) {
                                     if (selected.any { item -> 0 == item.id }) {
                                         mViewModel.coupon.value?.organizationType = 2
-                                        mViewModel.coupon.value?.shopIds = listOf()
+                                        mViewModel.coupon.value?.shopIds = null
                                     } else {
                                         mViewModel.coupon.value?.organizationType = 3
                                         mViewModel.coupon.value?.shopIds =

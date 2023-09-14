@@ -57,7 +57,7 @@ class SearchSelectRadioActivity :
     /**
      * 关闭并返回数据
      */
-    private fun backAndResult(){
+    private fun backAndResult() {
         mViewModel.selectList.value?.let { list ->
             val selected = list.filter { select -> select.getCheck }
 
@@ -163,14 +163,15 @@ class SearchSelectRadioActivity :
         }
 
         mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.setBackgroundResource(R.drawable.shape_bottom_stroke_dividing_mlr16)
-        mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.setOnCheckedChangeListener { _, isCheck ->
-            mViewModel.allSelect.getCheck = isCheck
-            if (isCheck) {
+        mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.setOnCheckClickListener {
+            mViewModel.allSelect.getCheck = !mViewModel.allSelect.getCheck
+            if (mViewModel.allSelect.getCheck) {
                 mViewModel.selectList.value?.forEach {
                     it.getCheck = false
                 }
                 backAndResult()
-            }
+                true
+            } else false
         }
     }
 

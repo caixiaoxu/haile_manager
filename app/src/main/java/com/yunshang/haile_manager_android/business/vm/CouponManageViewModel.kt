@@ -71,36 +71,39 @@ class CouponManageViewModel : BaseViewModel() {
     /**
      * 请求设备类型
      */
-    fun requestDeviceCategory() {
+    fun requestData(type:Int = 0) {
         launch({
-            ApiRepository.dealApiResult(
-                mCategoryRepo.category(1)
-            )?.let {
-                categoryList.postValue(it)
+            requestCouponNum()
+            if (0 == type){
+                ApiRepository.dealApiResult(
+                    mCategoryRepo.category(1)
+                )?.let {
+                    categoryList.postValue(it)
+                }
             }
         })
     }
 
     private suspend fun requestCouponNum() {
         ApiRepository.dealApiResult(
-            mDiscountsRepo.requestCouponNum(ApiRepository.createRequestBody(""))
+            mDiscountsRepo.requestCouponNum(ApiRepository.createRequestBody("{}"))
         )?.let {
-            it.forEach { num ->
+            it.couponStatusCountDTOS.forEach { num ->
                 when (num.status) {
                     null, 0 -> {
-                        couponStatus[0].num.value = num.count
+                        couponStatus[0].num.postValue(num.count)
                     }
                     1 -> {
-                        couponStatus[1].num.value = num.count
+                        couponStatus[1].num.postValue(num.count)
                     }
                     30 -> {
-                        couponStatus[2].num.value = num.count
+                        couponStatus[2].num.postValue(num.count)
                     }
                     31 -> {
-                        couponStatus[3].num.value = num.count
+                        couponStatus[3].num.postValue(num.count)
                     }
                     32 -> {
-                        couponStatus[3].num.value = num.count
+                        couponStatus[3].num.postValue(num.count)
                     }
                 }
             }
@@ -116,10 +119,6 @@ class CouponManageViewModel : BaseViewModel() {
         result: (listWrapper: ResponseList<CouponEntity>?) -> Unit
     ) {
         launch({
-            if (1 == page) {
-                requestCouponNum()
-            }
-
             val couponList = ApiRepository.dealApiResult(
                 mDiscountsRepo.requestCouponList(
                     ApiRepository.createRequestBody(

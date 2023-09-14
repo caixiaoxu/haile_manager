@@ -20,6 +20,7 @@
             android:id="@+id/bar_coupon_manage_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
+            app:rightModel="text"
             android:background="@drawable/shape_bottom_stroke_dividing"
             app:title="@string/coupon_manage" />
 

@@ -81,6 +81,6 @@ interface DiscountsService {
      * 券数量
      */
     @POST("/coupon/assetSearch/count")
-    suspend fun requestCouponNum(@Body body: RequestBody): ResponseWrapper<MutableList<CouponNumEntity>>
+    suspend fun requestCouponNum(@Body body: RequestBody): ResponseWrapper<CouponNumEntity>
 
 }

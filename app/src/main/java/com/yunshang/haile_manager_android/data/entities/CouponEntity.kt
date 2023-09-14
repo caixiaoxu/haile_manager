@@ -39,7 +39,7 @@ data class CouponEntity(
     val reduce: String,
     val shopIds: List<Int>,
     val shopNames: List<String>,
-    val shopVOs: List<ShopVO>,
+    val shopVOs: List<ShopVO>?,
     val specifiedPrice: String,
     val startAt: String,
     val state: Int,
@@ -67,7 +67,7 @@ data class CouponEntity(
         }"
 
     val user: String
-        get() = StringUtils.getString(R.string.user_phone) + "：" + shopVOs.firstOrNull()?.operatorPhone
+        get() = StringUtils.getString(R.string.user_phone) + "：" + shopVOs?.firstOrNull()?.operatorPhone
 
     val validity: String
         get() = DateTimeUtils.formatDateTimeForStr(

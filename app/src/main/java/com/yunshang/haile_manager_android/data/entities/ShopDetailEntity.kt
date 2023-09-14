@@ -67,9 +67,18 @@ data class ShopDetailEntity(
                 formatData(it.weekDays, it.workTime)
             }
         }?.toMutableList() ?: run {
-            mutableListOf(
-                BusinessHourEntity(ShopParam.businessDay, workTime)
-            )
+            try {
+                GsonUtils.json2List(workTime, String::class.java)?.mapIndexed { index, s ->
+                    BusinessHourEntity(listOf(ShopParam.businessDay[index]), s.replace(",", " "))
+                }?.toMutableList()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            } ?: run {
+                mutableListOf(
+                    BusinessHourEntity(ShopParam.businessDay, workTime)
+                )
+            }
         }
 
     fun workTimeVal(): String = workTimeArr().let {
@@ -83,7 +92,6 @@ data class ShopDetailEntity(
     fun getCreatorTitle(): String = StringUtils.getString(R.string.creator)
     fun hasCreateTime(): Boolean = !createTime.isNullOrEmpty()
     fun getCreateTimeTitle(): String = StringUtils.getString(R.string.create_time)
-
 }
 
 data class AppointSetting(

@@ -8,14 +8,17 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.CouponManageViewModel
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.CouponEntity
 import com.yunshang.haile_manager_android.databinding.ActivityCouponManageBinding
+import com.yunshang.haile_manager_android.databinding.ItemCouponListBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceListBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
@@ -34,8 +37,8 @@ class CouponManageActivity :
     ) {
 
     private val mAdapter by lazy {
-        CommonRecyclerAdapter<ItemDeviceListBinding, CouponEntity>(
-            R.layout.item_device_list,
+        CommonRecyclerAdapter<ItemCouponListBinding, CouponEntity>(
+            R.layout.item_coupon_list,
             BR.item
         ) { mItemBinding, _, item ->
             mItemBinding?.root?.setOnClickListener {
@@ -61,6 +64,15 @@ class CouponManageActivity :
             setOnClickListener {
                 startActivity(Intent(this@CouponManageActivity, IssueCouponsActivity::class.java))
             }
+        }
+    }
+
+    override fun initEvent() {
+        super.initEvent()
+
+        LiveDataBus.with(BusEvents.COUPON_LIST_STATUS)?.observe(this) {
+            mViewModel.requestData(1)
+            mBinding.rvCouponList.requestRefresh()
         }
     }
 
@@ -155,5 +167,7 @@ class CouponManageActivity :
     }
 
     override fun initData() {
+        mViewModel.requestData()
+        mBinding.rvCouponList.requestRefresh(true)
     }
 }

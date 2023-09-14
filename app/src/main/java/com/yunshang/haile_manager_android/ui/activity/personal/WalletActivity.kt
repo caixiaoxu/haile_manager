@@ -110,7 +110,7 @@ class WalletActivity : BaseBindingActivity<ActivityWalletBinding>() {
                     mBinding.tvWalletMoneyAvailableAmount.text =
                         StringUtils.getString(R.string.unit_money) + it.availableAmount
                     mBinding.tvWalletMoneyCandyPayAmount.text =
-                        StringUtils.getString(R.string.unit_money) + it.availableAmount
+                        StringUtils.getString(R.string.unit_money) + it.candyPayAmount
                 }
             }
         })

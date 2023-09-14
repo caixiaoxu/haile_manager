@@ -11,5 +11,7 @@ package com.yunshang.haile_manager_android.data.entities
  * 作者姓名 修改时间 版本号 描述
  */
 data class BalanceTotalEntity(
-    val totalAmount: String
+    val totalAmount: String,
+    val availableAmount: String,
+    val candyPayAmount: String,
 )

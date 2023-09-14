@@ -38,6 +38,16 @@ class WalletActivity : BaseBindingActivity<ActivityWalletBinding>() {
             }
         }
 
+        mBinding.tvWalletTitle.setOnClickListener {
+            CommonDialog.Builder(
+                "我的余额=实时总收益-历史提现\n\n可提现余额：绑卡前，所有的支付都进入该余额。绑卡后，app支付支付和免密支付进入该余额。\n\n自动转卡余额：绑卡后，除app支付和免密支付之外的支付进入该余额。该余额会每天定时转到银行卡无需提现。"
+            ).apply {
+                title = "说明"
+                isNegativeShow = false
+                positiveTxt = StringUtils.getString(R.string.i_know)
+            }.build().show(supportFragmentManager)
+        }
+
         val authInfo = IntentParams.WalletParams.parseRealNameAuthStatus(intent)
         mBinding.btnWalletWithdraw.setOnClickListener {
             if (3 != authInfo?.status) {
@@ -97,6 +107,10 @@ class WalletActivity : BaseBindingActivity<ActivityWalletBinding>() {
                 balanceTotal = it
                 withContext(Dispatchers.Main) {
                     mBinding.tvWalletMoney.text = it.totalAmount
+                    mBinding.tvWalletMoneyAvailableAmount.text =
+                        StringUtils.getString(R.string.unit_money) + it.availableAmount
+                    mBinding.tvWalletMoneyCandyPayAmount.text =
+                        StringUtils.getString(R.string.unit_money) + it.candyPayAmount
                 }
             }
         })

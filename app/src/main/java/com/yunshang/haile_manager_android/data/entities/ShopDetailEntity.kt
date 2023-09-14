@@ -70,7 +70,7 @@ data class ShopDetailEntity(
             try {
                 GsonUtils.json2List(workTime, String::class.java)?.mapIndexed { index, s ->
                     BusinessHourEntity(listOf(ShopParam.businessDay[index]), s.replace(",", " "))
-                }?.toMutableList()
+                }?.filter { item -> item._workTime.isNotEmpty() }?.toMutableList()
             } catch (e: Exception) {
                 e.printStackTrace()
                 null

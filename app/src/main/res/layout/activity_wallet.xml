@@ -23,7 +23,7 @@
         <View
             android:id="@+id/view_wallet_parent"
             android:layout_width="match_parent"
-            android:layout_height="363dp"
+            android:layout_height="498dp"
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="3dp"
             android:background="@drawable/shape_sffffff_r8"
@@ -33,8 +33,8 @@
             android:id="@+id/iv_wallet_main"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_marginTop="44dp"
             android:src="@mipmap/icon_wallet_rmb"
-            app:layout_constraintBottom_toTopOf="@id/tv_wallet_title"
             app:layout_constraintEnd_toEndOf="@id/view_wallet_parent"
             app:layout_constraintStart_toStartOf="@id/view_wallet_parent"
             app:layout_constraintTop_toTopOf="@id/view_wallet_parent"
@@ -46,8 +46,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:drawableEnd="@mipmap/icon_wallet_money_prompt"
             android:text="@string/my_change"
-            app:layout_constraintBottom_toTopOf="@id/tv_wallet_money"
             app:layout_constraintEnd_toEndOf="@id/view_wallet_parent"
             app:layout_constraintStart_toStartOf="@id/view_wallet_parent"
             app:layout_constraintTop_toBottomOf="@id/iv_wallet_main" />
@@ -73,24 +73,96 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/money"
-            app:layout_constraintBottom_toTopOf="@id/btn_wallet_withdraw"
             app:layout_constraintEnd_toEndOf="@id/view_wallet_parent"
             app:layout_constraintStart_toEndOf="@id/tv_wallet_money_unit"
             app:layout_constraintTop_toBottomOf="@id/tv_wallet_title"
             tools:text="80.00" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_wallet_money_other"
+            android:layout_width="0dp"
+            android:layout_height="94dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/shape_sf7f7f7_r8"
+            app:layout_constraintEnd_toEndOf="@id/view_wallet_parent"
+            app:layout_constraintStart_toStartOf="@id/view_wallet_parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_wallet_money">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_wallet_money_available"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/Font_14_999999"
+                android:gravity="center"
+                android:text="@string/available_balance"
+                app:layout_constraintBottom_toTopOf="@id/tv_wallet_money_available_amount"
+                app:layout_constraintEnd_toStartOf="@id/view_wallet_money_other_center"
+                app:layout_constraintStart_toStartOf="@id/cl_wallet_money_other"
+                app:layout_constraintTop_toTopOf="@id/cl_wallet_money_other"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_wallet_money_available_amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                style="@style/Font_20_333333"
+                android:gravity="center"
+                android:fontFamily="@font/money"
+                app:layout_constraintBottom_toBottomOf="@id/cl_wallet_money_other"
+                app:layout_constraintEnd_toEndOf="@id/tv_wallet_money_available"
+                app:layout_constraintStart_toStartOf="@id/tv_wallet_money_available"
+                app:layout_constraintTop_toBottomOf="@id/tv_wallet_money_available" />
+
+            <View
+                android:id="@+id/view_wallet_money_other_center"
+                android:layout_width="2dp"
+                android:layout_height="55dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_wallet_money_candyPay"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/Font_14_999999"
+                android:gravity="center"
+                android:text="@string/available_balance"
+                app:layout_constraintBottom_toTopOf="@id/tv_wallet_money_candyPay_amount"
+                app:layout_constraintStart_toEndOf="@id/view_wallet_money_other_center"
+                app:layout_constraintEnd_toEndOf="@id/cl_wallet_money_other"
+                app:layout_constraintTop_toTopOf="@id/cl_wallet_money_other"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_wallet_money_candyPay_amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                style="@style/Font_20_333333"
+                android:gravity="center"
+                android:fontFamily="@font/money"
+                app:layout_constraintBottom_toBottomOf="@id/cl_wallet_money_other"
+                app:layout_constraintEnd_toEndOf="@id/tv_wallet_money_candyPay"
+                app:layout_constraintStart_toStartOf="@id/tv_wallet_money_candyPay"
+                app:layout_constraintTop_toBottomOf="@id/tv_wallet_money_candyPay" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.lsy.framelib.ui.weight.SingleTapButton
             android:id="@+id/btn_wallet_withdraw"
             style="@style/Font_14_ffffff_bold"
             android:layout_width="200dp"
             android:layout_height="@dimen/common_btn_h"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="44dp"
             android:background="@drawable/shape_sf0a258_r22"
             android:text="@string/withdraw"
-            app:layout_constraintBottom_toTopOf="@id/btn_wallet_charge"
             app:layout_constraintEnd_toEndOf="@id/view_wallet_parent"
             app:layout_constraintStart_toStartOf="@id/view_wallet_parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_wallet_money" />
+            app:layout_constraintTop_toBottomOf="@id/cl_wallet_money_other" />
 
         <com.lsy.framelib.ui.weight.SingleTapButton
             android:id="@+id/btn_wallet_charge"
@@ -100,7 +172,6 @@
             android:layout_marginTop="12dp"
             android:background="@drawable/shape_stroke_333333_r22"
             android:text="@string/recharge"
-            app:layout_constraintBottom_toBottomOf="@id/view_wallet_parent"
             app:layout_constraintEnd_toEndOf="@id/btn_wallet_withdraw"
             app:layout_constraintStart_toStartOf="@id/btn_wallet_withdraw"
             app:layout_constraintTop_toBottomOf="@id/btn_wallet_withdraw" />

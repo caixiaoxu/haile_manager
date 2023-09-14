@@ -77,7 +77,6 @@ class LoginForPasswordViewModel : BaseViewModel() {
 
         launch(
             {
-                mRepo
                 sharedView.loginForPassword(phone.value!!, password.value!!)
                 LiveDataBus.post(BusEvents.LOGIN_STATUS, true)
                 jump.postValue(1)

@@ -173,7 +173,7 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
             createAndUpdateEntity.value?.workTimeStr = GsonUtils.any2Json(timeList.map { item ->
                 BusinessHourParams(
                     item._weekDays.map { day -> day.id },
-                    item._workTime
+                    item._workTime.split(" ")[0]
                 )
             })
             workTimeValue.value = timeList.joinToString("\n") { item ->
@@ -185,7 +185,7 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                     arr[index] =
                         timeList.filter { item -> null != item.weekDays.find { day -> day.id == (index + 1) } }
                             .joinToString(",") { item ->
-                                item.workTime
+                                item.workTime.split(" ")[0]
                             }
                 }
                 GsonUtils.any2Json(arr)
@@ -266,7 +266,7 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
             }
 
             // 运营设置
-            params.operationSettings = OperationSettings(volumeVisibleState.value ?:0)
+            params.operationSettings = OperationSettings(volumeVisibleState.value ?: 0)
 
             launch({
                 ApiRepository.dealApiResult(

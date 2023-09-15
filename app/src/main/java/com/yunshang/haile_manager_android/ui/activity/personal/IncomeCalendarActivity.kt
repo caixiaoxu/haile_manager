@@ -132,9 +132,9 @@ class IncomeCalendarActivity : BaseBusinessActivity<ActivityIncomeCalendarBindin
         window.statusBarColor = Color.WHITE
         mBinding.barIncomeTitle.setTitle(
             when (mViewModel.profitType) {
-                1 -> R.string.shop_income
-                2 -> R.string.device_income
-                else -> R.string.income
+                1 -> R.string.shop_income_calendar
+                2 -> R.string.device_income_calendar
+                else -> R.string.income_calendar
             }
         )
 

@@ -476,8 +476,8 @@
     <string name="balance">余额</string>
     <string name="available_balance">可提现余额</string>
     <string name="balance_detail">余额明细</string>
-    <string name="shop_income">门店收入</string>
-    <string name="device_income">设备收入</string>
+    <string name="shop_income_calendar">门店收益日历</string>
+    <string name="device_income_calendar">设备收益日历</string>
     <string name="income">收入明细</string>
     <string name="earnings">收益</string>
     <string name="earning">收入</string>

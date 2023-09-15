@@ -46,6 +46,12 @@ interface CapitalService {
     suspend fun incomeListByDay(@Body body: RequestBody): ResponseWrapper<ResponseList<IncomeListByDayEntity>>
 
     /**
+     * 获取收支明细列表接口
+     */
+    @POST("/profitStatistics/getProfitStatisticsListVO")
+    suspend fun requestProfitStatisticsList(@Body body: RequestBody): ResponseWrapper<ResponseList<ProfitStatisticsEntity>>
+
+    /**
      * 收益明细详情接口
      */
     @GET("/profit/profitDetail")

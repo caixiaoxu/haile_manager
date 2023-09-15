@@ -130,39 +130,35 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_income_date_total_amount"
                         style="@style/Font_16_f0a258"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:fontFamily="@font/money"
                         android:text="@{vm.totalIncomeForDay}"
                         tools:text="+2000.00" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_income_list_for_date_of_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Font_12_333333"
+                        android:text="@string/all"
+                        android:gravity="center"
+                        android:drawablePadding="4dp"
+                        android:drawableEnd="@mipmap/icon_triangle_down"
+                        android:background="@drawable/shape_sf7f7f7_r14"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="4dp"/>
                 </LinearLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="16dp">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/Font_12_CCCCCC"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/order_no"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/Font_12_CCCCCC"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/money"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                <View style="@style/DividingStyle"/>
 
                 <com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
                     android:id="@+id/rv_income_list_for_date"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:background="@color/white"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>

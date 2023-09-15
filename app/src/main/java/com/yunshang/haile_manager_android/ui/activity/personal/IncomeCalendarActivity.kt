@@ -17,12 +17,15 @@ import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.IncomeCalendarViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.IncomeListByDayEntity
+import com.yunshang.haile_manager_android.data.entities.ProfitStatisticsEntity
 import com.yunshang.haile_manager_android.data.rule.ICalendarEntity
 import com.yunshang.haile_manager_android.databinding.ActivityIncomeCalendarBinding
 import com.yunshang.haile_manager_android.databinding.ItemIncomeCalendarBinding
 import com.yunshang.haile_manager_android.databinding.ItemIncomeListByDayBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.activity.order.OrderDetailActivity
 import com.yunshang.haile_manager_android.ui.view.GridSpaceItemDecoration
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
@@ -76,7 +79,7 @@ class IncomeCalendarActivity : BaseBusinessActivity<ActivityIncomeCalendarBindin
             }
         }
     }
-    private val mIncomeListAdapter: CommonRecyclerAdapter<ItemIncomeListByDayBinding, IncomeListByDayEntity> by lazy {
+    private val mIncomeListAdapter: CommonRecyclerAdapter<ItemIncomeListByDayBinding, ProfitStatisticsEntity> by lazy {
         CommonRecyclerAdapter(
             R.layout.item_income_list_by_day,
             BR.item
@@ -85,9 +88,9 @@ class IncomeCalendarActivity : BaseBusinessActivity<ActivityIncomeCalendarBindin
                 startActivity(
                     Intent(
                         this@IncomeCalendarActivity,
-                        EarningsDetailActivity::class.java
+                        OrderDetailActivity::class.java
                     ).apply {
-                        putExtra(EarningsDetailActivity.IncomeId, item.id)
+                        putExtras(IntentParams.OrderDetailParams.pack(item.orderId))
                     })
             }
         }
@@ -195,12 +198,12 @@ class IncomeCalendarActivity : BaseBusinessActivity<ActivityIncomeCalendarBindin
         }
         mBinding.rvIncomeListForDate.adapter = mIncomeListAdapter
         mBinding.rvIncomeListForDate.requestData =
-            object : CommonRefreshRecyclerView.OnRequestDataListener<IncomeListByDayEntity>() {
+            object : CommonRefreshRecyclerView.OnRequestDataListener<ProfitStatisticsEntity>() {
                 override fun requestData(
                     isRefresh: Boolean,
                     page: Int,
                     pageSize: Int,
-                    callBack: (responseList: ResponseList<out IncomeListByDayEntity>?) -> Unit
+                    callBack: (responseList: ResponseList<out ProfitStatisticsEntity>?) -> Unit
                 ) {
                     mViewModel.requestIncomeListForDay(page, pageSize, callBack)
                 }

@@ -9,7 +9,7 @@ import com.lsy.framelib.ui.base.BaseViewModel
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.data.arguments.CalendarEntity
 import com.yunshang.haile_manager_android.data.entities.IncomeCalendarEntity
-import com.yunshang.haile_manager_android.data.entities.IncomeListByDayEntity
+import com.yunshang.haile_manager_android.data.entities.ProfitStatisticsEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.StringUtils
@@ -211,14 +211,14 @@ class IncomeCalendarViewModel : BaseViewModel() {
      */
     fun requestIncomeListForDay(
         page: Int, pageSize: Int,
-        callBack: (responseList: ResponseList<out IncomeListByDayEntity>?) -> Unit
+        callBack: (responseList: ResponseList<out ProfitStatisticsEntity>?) -> Unit
     ) {
         val params = getCommonParams(false) ?: return
         params["page"] = page
         params["pageSize"] = pageSize
         launch({
             ApiRepository.dealApiResult(
-                mCapitalRepo.incomeListByDay(
+                mCapitalRepo.requestProfitStatisticsList(
                     ApiRepository.createRequestBody(
                         params
                     )

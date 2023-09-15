@@ -44,7 +44,7 @@ import com.yunshang.haile_manager_android.ui.activity.common.WeChatQRCodeScanAct
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceDetailActivity
 import com.yunshang.haile_manager_android.ui.activity.message.MessageCenterActivity
 import com.yunshang.haile_manager_android.ui.activity.message.MessageListActivity
-import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
+import com.yunshang.haile_manager_android.ui.activity.personal.IncomeCalendarActivity
 import com.yunshang.haile_manager_android.ui.view.chart.BarChartRenderer
 import com.yunshang.haile_manager_android.ui.view.chart.CustomMarkerView
 import com.yunshang.haile_manager_android.ui.view.dialog.DeviceCategoryDialog
@@ -293,12 +293,12 @@ class HomeFragment :
                                 startActivity(
                                     Intent(
                                         requireContext(),
-                                        IncomeActivity::class.java
+                                        IncomeCalendarActivity::class.java
                                     ).apply {
-                                        putExtra(IncomeActivity.ProfitType, 3)
-                                        putExtra(IncomeActivity.SelectDay, it.date)
+                                        putExtra(IncomeCalendarActivity.ProfitType, 3)
+                                        putExtra(IncomeCalendarActivity.SelectDay, it.date)
                                         putExtra(
-                                            IncomeActivity.ProfitIncomeType,
+                                            IncomeCalendarActivity.ProfitIncomeType,
                                             mViewModel.profitIncomeType.value
                                         )
                                     })

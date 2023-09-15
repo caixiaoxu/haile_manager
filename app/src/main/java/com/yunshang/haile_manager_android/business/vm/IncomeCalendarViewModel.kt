@@ -28,7 +28,7 @@ import java.util.*
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class IncomeViewModel : BaseViewModel() {
+class IncomeCalendarViewModel : BaseViewModel() {
     private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
 
     var profitType: Int = 3

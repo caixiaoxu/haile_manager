@@ -37,7 +37,7 @@ import com.yunshang.haile_manager_android.databinding.PopupDeviceOperateManagerB
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
-import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
+import com.yunshang.haile_manager_android.ui.activity.personal.IncomeCalendarActivity
 import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
@@ -121,11 +121,11 @@ class DeviceManagerActivity :
                     startActivity(
                         Intent(
                             this@DeviceManagerActivity,
-                            IncomeActivity::class.java
+                            IncomeCalendarActivity::class.java
                         ).apply {
-                            putExtra(IncomeActivity.ProfitType, 2)
-                            putExtra(IncomeActivity.ProfitSearchId, item.id)
-                            putExtra(IncomeActivity.DeviceName, item.name)
+                            putExtra(IncomeCalendarActivity.ProfitType, 2)
+                            putExtra(IncomeCalendarActivity.ProfitSearchId, item.id)
+                            putExtra(IncomeCalendarActivity.DeviceName, item.name)
                         })
                 }
             }

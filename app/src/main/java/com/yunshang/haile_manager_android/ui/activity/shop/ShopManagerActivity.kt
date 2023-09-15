@@ -30,7 +30,7 @@ import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivity
-import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
+import com.yunshang.haile_manager_android.ui.activity.personal.IncomeCalendarActivity
 import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
@@ -121,10 +121,10 @@ class ShopManagerActivity :
                     startActivity(
                         Intent(
                             this@ShopManagerActivity,
-                            IncomeActivity::class.java
+                            IncomeCalendarActivity::class.java
                         ).apply {
-                            putExtra(IncomeActivity.ProfitType, 1)
-                            putExtra(IncomeActivity.ProfitSearchId, item.id)
+                            putExtra(IncomeCalendarActivity.ProfitType, 1)
+                            putExtra(IncomeCalendarActivity.ProfitSearchId, item.id)
                         })
                 }
             }

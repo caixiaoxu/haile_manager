@@ -16,10 +16,10 @@ import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
-import com.yunshang.haile_manager_android.business.vm.IncomeViewModel
+import com.yunshang.haile_manager_android.business.vm.IncomeCalendarViewModel
 import com.yunshang.haile_manager_android.data.entities.IncomeListByDayEntity
 import com.yunshang.haile_manager_android.data.rule.ICalendarEntity
-import com.yunshang.haile_manager_android.databinding.ActivityIncomeBinding
+import com.yunshang.haile_manager_android.databinding.ActivityIncomeCalendarBinding
 import com.yunshang.haile_manager_android.databinding.ItemIncomeCalendarBinding
 import com.yunshang.haile_manager_android.databinding.ItemIncomeListByDayBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -32,8 +32,8 @@ import com.yunshang.haile_manager_android.utils.ViewUtils
 import timber.log.Timber
 import java.util.*
 
-class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewModel>(
-    IncomeViewModel::class.java,
+class IncomeCalendarActivity : BaseBusinessActivity<ActivityIncomeCalendarBinding, IncomeCalendarViewModel>(
+    IncomeCalendarViewModel::class.java,
     BR.vm
 ) {
 
@@ -60,13 +60,13 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
                 val isSelect = item.isSelect(day)
                 mItemBinding?.root?.setBackgroundColor(
                     if (isSelect) item.curTypeBGColor else ContextCompat.getColor(
-                        this@IncomeActivity,
+                        this@IncomeCalendarActivity,
                         R.color.white
                     )
                 )
                 mItemBinding?.tvIncomeCalendarDayNum?.setTextColor(
                     ContextCompat.getColor(
-                        this@IncomeActivity,
+                        this@IncomeCalendarActivity,
                         if (isSelect) R.color.white else if (isAfterToday) R.color.common_txt_hint_color else R.color.common_txt_color
                     )
                 )
@@ -84,7 +84,7 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
             mItemBinding?.root?.setOnClickListener {
                 startActivity(
                     Intent(
-                        this@IncomeActivity,
+                        this@IncomeCalendarActivity,
                         EarningsDetailActivity::class.java
                     ).apply {
                         putExtra(EarningsDetailActivity.IncomeId, item.id)
@@ -93,7 +93,7 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
         }
     }
 
-    override fun layoutId(): Int = R.layout.activity_income
+    override fun layoutId(): Int = R.layout.activity_income_calendar
 
     override fun backBtn(): View = mBinding.barIncomeTitle.getBackBtn()
 
@@ -176,8 +176,8 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
         mBinding.rvIncomeCalendar.layoutManager = GridLayoutManager(this, arr.size)
         mBinding.rvIncomeCalendar.addItemDecoration(
             GridSpaceItemDecoration(
-                DimensionUtils.dip2px(this@IncomeActivity, 1f),
-                DimensionUtils.dip2px(this@IncomeActivity, 1f),
+                DimensionUtils.dip2px(this@IncomeCalendarActivity, 1f),
+                DimensionUtils.dip2px(this@IncomeCalendarActivity, 1f),
             )
         )
         mBinding.rvIncomeCalendar.adapter = mIncomeAdapter
@@ -187,7 +187,7 @@ class IncomeActivity : BaseBusinessActivity<ActivityIncomeBinding, IncomeViewMod
         ResourcesCompat.getDrawable(resources, R.drawable.divder_efefef, null)?.let {
             mBinding.rvIncomeListForDate.addItemDecoration(
                 DividerItemDecoration(
-                    this@IncomeActivity,
+                    this@IncomeCalendarActivity,
                     DividerItemDecoration.VERTICAL
                 ).apply {
                     setDrawable(it)

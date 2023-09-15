@@ -275,7 +275,7 @@
     <string name="shop_pay_config">支付配置</string>
     <string name="shop_search_hint">搜索门店名称</string>
     <string name="shop_num_hint">全部%1$d家门店</string>
-    <string name="total_income">总收入</string>
+    <string name="total_income">总收益</string>
     <string name="total_earnings">总收益</string>
     <string name="device_num">设备数</string>
     <string name="shop_info">门店信息</string>
@@ -479,11 +479,12 @@
     <string name="shop_income">门店收入</string>
     <string name="device_income">设备收入</string>
     <string name="income">收入明细</string>
+    <string name="earnings">收益</string>
     <string name="earning">收入</string>
     <string name="expend">支出</string>
     <string name="shop">门店</string>
     <string name="order_no">订单编号</string>
-    <string name="total_income_for_day">%1$s总收入：</string>
+    <string name="total_income_for_day">%1$s总收益：</string>
     <string name="earnings_detail">收益详情</string>
     <string name="check_order_detail">查看订单详情</string>
     <string name="pay_time">支付时间</string>
@@ -550,6 +551,9 @@
     <string name="result_fellback">结果反馈</string>
     <string name="pay_success">支付成功</string>
     <string name="pay_success_hint">恭喜您支付成功，请前往钱包余额查看</string>
+
+    <string name="income_calendar">收益日历</string>
+    <string name="income_statistics">收益统计</string>
 
     <string name="bank_card">银行卡</string>
     <string name="add_bank_card">添加银行卡</string>

@@ -33,23 +33,30 @@ class PersonalViewModel : BaseViewModel() {
         ),
         null,
         PersonalItem(
-            R.mipmap.icon_personal_income,
-            R.string.income,
+            R.mipmap.icon_personal_income_calendar,
+            R.string.income_calendar,
             null,
             null,
-            IncomeActivity::class.java,
+            IncomeCalendarActivity::class.java,
             Bundle().apply {
-                putInt(IncomeActivity.ProfitType, 3)
+                putInt(IncomeCalendarActivity.ProfitType, 3)
             }
         ),
-        null,
         PersonalItem(
-            R.mipmap.icon_personal_bank_card,
-            R.string.bank_card,
+            R.mipmap.icon_personal_income,
+            R.string.income_statistics,
             null,
             null,
-            BankCardActivity::class.java
+            IncomeStatisticsActivity::class.java,
         ),
+        null,
+//        PersonalItem(
+//            R.mipmap.icon_personal_bank_card,
+//            R.string.bank_card,
+//            null,
+//            null,
+//            BankCardActivity::class.java
+//        ),
         PersonalItem(
             R.mipmap.icon_personal_real_name,
             R.string.real_name,

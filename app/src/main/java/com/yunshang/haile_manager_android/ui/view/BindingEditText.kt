@@ -14,7 +14,7 @@ import androidx.appcompat.widget.AppCompatEditText
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class BindingEditText @JvmOverloads constructor(
+open class BindingEditText @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : AppCompatEditText(context, attrs) {
 

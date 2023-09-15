@@ -55,8 +55,6 @@
             style="@style/MultiTypePaddingHItemStyle"
             app:itemContent="@={item.featureVal}"
             app:title="@string/desc"
-            app:titleDrawableEnd="@mipmap/icon_item_required"
-            app:titleDrawablePadding="4dp"
             app:type="input" />
 
         <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView

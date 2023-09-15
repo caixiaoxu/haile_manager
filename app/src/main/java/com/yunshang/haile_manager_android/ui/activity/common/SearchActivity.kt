@@ -3,12 +3,18 @@ package com.yunshang.haile_manager_android.ui.activity.common
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.king.camera.scan.CameraScan
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.SoftKeyboardUtils
+import com.lsy.framelib.utils.SystemPermissionHelper
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.SearchViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchParam
@@ -33,12 +39,45 @@ import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonLoadMoreRecyclerView
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
+import timber.log.Timber
 
-class SearchActivity :
-    BaseBusinessActivity<ActivitySearchBinding, SearchViewModel>(
-        SearchViewModel::class.java,
-        BR.vm
-    ) {
+class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewModel>(
+    SearchViewModel::class.java, BR.vm
+) {
+
+    // 权限
+    private val requestMultiplePermission =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result: Map<String, Boolean> ->
+            if (result.values.any { it }) {
+                // 授权权限成功
+                startQRActivity(false)
+            } else {
+                // 授权失败
+                SToast.showToast(this, R.string.empty_permission)
+            }
+        }
+
+    private fun startQRActivity(isOne: Boolean) {
+        startQRCodeScan.launch(
+            Intent(
+                this,
+                WeChatQRCodeScanActivity::class.java
+            ).apply {
+                putExtra("isOne", isOne)
+            })
+    }
+
+    // 二维码
+    private val startQRCodeScan =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            // 扫码结果
+            if (result.resultCode == RESULT_OK) {
+                CameraScan.parseScanResult(result.data)?.let {
+                    Timber.i("扫码:$it")
+                    mViewModel.searchKey.value = it
+                } ?: SToast.showToast(this, R.string.imei_code_error)
+            }
+        }
 
     private val mAdapter: CommonRecyclerAdapter<ItemSearchSelectBinding, ISearchSelectEntity> by lazy {
         CommonRecyclerAdapter(
@@ -115,6 +154,18 @@ class SearchActivity :
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        LiveDataBus.with(BusEvents.SCAN_CHANGE_STATUS, Boolean::class.java)?.observe(this) {
+            startQRActivity(it)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        LiveDataBus.remove(BusEvents.SCAN_CHANGE_STATUS)
+    }
+
     override fun initView() {
         mBinding.ibSearchBack.setOnClickListener {
             onBackListener()
@@ -123,6 +174,13 @@ class SearchActivity :
             if (SearchType.Device == mViewModel.searchType) {
                 search(true)
             }
+        }
+        // 扫码
+        mBinding.ibSearchScan.setOnClickListener {
+            requestMultiplePermission.launch(
+                SystemPermissionHelper.cameraPermissions()
+                    .plus(SystemPermissionHelper.readWritePermissions())
+            )
         }
         mBinding.tvSearchSearch.setOnClickListener {
             search()

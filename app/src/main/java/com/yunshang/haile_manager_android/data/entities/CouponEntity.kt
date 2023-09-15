@@ -34,7 +34,7 @@ data class CouponEntity(
     val orgIds: List<Int>,
     val organizationType: Int,
     val percentage: String,
-    val phone: String,
+    val phone: String?,
     val promotionId: Int,
     val reduce: String,
     val shopIds: List<Int>,
@@ -67,8 +67,7 @@ data class CouponEntity(
         }"
 
     val user: String
-        get() = StringUtils.getString(R.string.user_phone) + "：" + shopVOs?.firstOrNull()?.operatorPhone
-            ?: ""
+        get() = StringUtils.getString(R.string.user_phone) + "：" + (phone ?: "")
 
     val validity: String
         get() = StringUtils.getString(R.string.validity_to) + "：" + DateTimeUtils.formatDateTimeForStr(

@@ -141,6 +141,9 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
             mBinding.clMultiSelectList.addView(
                 itemBinding.root.apply {
                     text = builder.addTitle
+                    setCompoundDrawablesWithIntrinsicBounds(
+                        R.mipmap.icon_device_operate_add, 0, 0, 0
+                    )
                     setOnCheckClickListener {
                         builder.onAddValueListener?.invoke()
                         true
@@ -158,7 +161,7 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
     /**
      * 刷新选项列表
      */
-    fun refreshListView(list: List<D>){
+    fun refreshListView(list: List<D>) {
         builder.list = list
         buildItem()
     }

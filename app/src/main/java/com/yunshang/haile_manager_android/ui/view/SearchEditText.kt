@@ -5,7 +5,6 @@ import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
 import android.view.inputmethod.EditorInfo
-import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.widget.addTextChangedListener
 import com.yunshang.haile_manager_android.R
 
@@ -21,7 +20,7 @@ import com.yunshang.haile_manager_android.R
  */
 class SearchEditText @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
-) : AppCompatEditText(context, attrs) {
+) : BindingEditText(context, attrs) {
     var onTextChange: (() -> Unit)? = null
 
     private val mHandler = Handler(Looper.getMainLooper()) {

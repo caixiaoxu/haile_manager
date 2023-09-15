@@ -138,10 +138,9 @@
 
                 <include
                     layout="@layout/item_bank_detail_info"
-                    app:content="@{vm.couponDetail.invalidUserName}"
+                    app:content="@{vm.couponDetail.invalidUserNameVal}"
                     app:title="@{@string/cancellation_operator}"
                     app:visibility="@{32 == vm.couponDetail.state}" />
-
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

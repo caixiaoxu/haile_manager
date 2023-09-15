@@ -30,6 +30,7 @@ data class CouponDetailEntity(
     val id: Int,
     val invalidTime: String,
     val invalidUserId: Int,
+    val invalidUserAccount: String,
     val invalidUserName: String,
     val lastEditor: String,
     val maxDiscountPrice: String,
@@ -52,7 +53,10 @@ data class CouponDetailEntity(
     val usedShopName: String,
     val usedTime: String,
     val usedTradeNo: String,
-    val value: String
+    val value: String,
+    val createUserAccount: String,
+    val createUserId: Int,
+    val createUserName: String
 ) {
     val stateVal: String
         get() = when (state) {
@@ -87,5 +91,8 @@ data class CouponDetailEntity(
         else goodsCategoryNames.joinToString("、")
 
     val userVal: String
-        get() = phone
+        get() = "$createUserName $createUserAccount"
+
+    val invalidUserNameVal: String
+        get() = "$invalidUserName $invalidUserAccount"
 }

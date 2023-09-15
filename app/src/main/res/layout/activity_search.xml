@@ -58,13 +58,26 @@
             app:layout_constraintTop_toTopOf="@id/view_search_bg" />
 
         <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_search_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:onClick="@{vm::clear}"
-            android:padding="10dp"
+            android:padding="8dp"
             android:src="@mipmap/icon_input_clear"
             android:visibility="@{0 == vm.searchKey.length()?View.GONE:View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@id/view_search_bg"
+            app:layout_constraintEnd_toStartOf="@id/ib_search_scan"
+            app:layout_constraintTop_toTopOf="@id/view_search_bg" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_search_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:src="@mipmap/icon_search_scan"
+            android:layout_marginEnd="10dp"
+            app:visibility="@{0 == vm.searchType}"
             app:layout_constraintBottom_toBottomOf="@id/view_search_bg"
             app:layout_constraintEnd_toEndOf="@id/view_search_bg"
             app:layout_constraintTop_toTopOf="@id/view_search_bg" />

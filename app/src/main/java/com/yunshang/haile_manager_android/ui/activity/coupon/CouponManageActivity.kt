@@ -62,7 +62,6 @@ class CouponManageActivity :
             }
         }
 
-
     private val mAdapter by lazy {
         CommonRecyclerAdapter<ItemCouponListBinding, CouponEntity>(
             R.layout.item_coupon_list,
@@ -112,22 +111,22 @@ class CouponManageActivity :
 
         // 状态监听
         mViewModel.curCouponStatus.observe(this) {
-            mBinding.rvCouponList.requestRefresh(true)
+            mBinding.rvCouponList.requestRefresh()
         }
 
         // 券类型监听
         mViewModel.selectCouponType.observe(this) {
-            mBinding.rvCouponList.requestRefresh(true)
+            mBinding.rvCouponList.requestRefresh()
         }
 
         // 店铺监听
         mViewModel.selectShop.observe(this) {
-            mBinding.rvCouponList.requestRefresh(true)
+            mBinding.rvCouponList.requestRefresh()
         }
 
         // 设备类型监听
         mViewModel.selectCategory.observe(this) {
-            mBinding.rvCouponList.requestRefresh(true)
+            mBinding.rvCouponList.requestRefresh()
         }
 
         LiveDataBus.with(BusEvents.COUPON_LIST_STATUS)?.observe(this) {

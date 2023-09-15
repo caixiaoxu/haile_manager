@@ -83,10 +83,17 @@ interface DiscountsService {
      */
     @POST("/coupon/assetSearch/count")
     suspend fun requestCouponNum(@Body body: RequestBody): ResponseWrapper<CouponNumEntity>
+
     /**
      * 券详情接口
      */
     @GET("/coupon/asset/{id}")
-    suspend fun requestCouponDetail(@Path("id") id:Int): ResponseWrapper<CouponDetailEntity>
+    suspend fun requestCouponDetail(@Path("id") id: Int): ResponseWrapper<CouponDetailEntity>
+
+    /**
+     * 废弃券接口
+     */
+    @POST("/coupon/batchInvalidActivateAsset")
+    suspend fun abandonCoupon(@Body body: RequestBody): ResponseWrapper<Any>
 
 }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -43,12 +44,9 @@ class IssueCouponsActivity :
                                         mViewModel.coupon.value?.shopIds =
                                             selected.map { item -> item.id }
                                     }
-                                    mBinding.itemIssueCouponsShop.contentView.setText(
-                                        selected.joinToString(
-                                            "、"
-                                        ) { item ->
-                                            item.name
-                                        })
+                                    mViewModel.coupon.value?.shopNameVal =
+                                        selected.joinToString("、") { item -> item.name }
+                                    refreshShopName()
                                 }
                             }
                         }
@@ -94,6 +92,8 @@ class IssueCouponsActivity :
                     override fun onValue(data: SearchSelectParam?) {
                         data?.id?.let {
                             mViewModel.coupon.value?.couponTypeVal = it
+                            mViewModel.coupon.value?.goodsCategoryIds = null
+                            refreshCategoryName()
                         }
                     }
                 }
@@ -135,13 +135,28 @@ class IssueCouponsActivity :
                 }
             )
         }
+        refreshShopName()
 
         // 设备
         mBinding.itemIssueCouponsDevice.onSelectedEvent = {
+            val list = mutableListOf<CategoryEntity>()
+            // 体验券没有全部设备
+            if (4 != mViewModel.coupon.value?.couponType) {
+                list.add(
+                    0,
+                    CategoryEntity(
+                        id = 0,
+                        name = StringUtils.getString(R.string.all_device)
+                    ).apply { onlyOne = true })
+            }
+            mViewModel.categoryList.value?.let {
+                list.addAll(it)
+            }
+
             MultiSelectBottomSheetDialog.Builder(
-                getString(R.string.coupon_device_dialog_title),
-                mViewModel.categoryList.value ?: listOf()
+                getString(R.string.coupon_device_dialog_title), list
             ).apply {
+                supportSingle = 4 == mViewModel.coupon.value?.couponType
                 onValueSureListener =
                     object :
                         MultiSelectBottomSheetDialog.OnValueSureListener<CategoryEntity> {
@@ -151,13 +166,26 @@ class IssueCouponsActivity :
                         ) {
                             mViewModel.coupon.value?.goodsCategoryIds =
                                 selectData.map { item -> item.id }
-                            mBinding.itemIssueCouponsDevice.contentView.setText(
+                            mViewModel.coupon.value?.categoryNameVal =
                                 selectData.joinToString("、") { item -> item.name }
-                            )
+                            refreshCategoryName()
                         }
                     }
             }.build().show(supportFragmentManager)
         }
+        refreshCategoryName()
+    }
+
+    private fun refreshShopName() {
+        mBinding.itemIssueCouponsShop.contentView.setText(
+            mViewModel.coupon.value?.shopNameVal ?: ""
+        )
+    }
+
+    private fun refreshCategoryName() {
+        mBinding.itemIssueCouponsDevice.contentView.setText(
+            mViewModel.coupon.value?.categoryNameVal ?: ""
+        )
     }
 
     override fun initData() {

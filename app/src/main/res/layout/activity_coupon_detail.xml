@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="com.yunshang.haile_manager_android.business.vm.CouponDetailViewModel" />
@@ -18,10 +19,10 @@
         <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_coupon_detail_title"
             android:layout_width="match_parent"
-            android:background="@drawable/shape_bottom_stroke_dividing"
             android:layout_height="@dimen/title_action_bar_h"
-            app:title="@string/coupon_detail"/>
-        
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            app:title="@string/coupon_detail" />
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -33,42 +34,114 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical">
+
                 <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Font_16_333333_bold"
                     android:layout_width="match_parent"
                     android:layout_height="82dp"
+                    android:background="@color/white"
+                    android:drawableStart="@mipmap/icon_coupon_detail_main"
+                    android:drawablePadding="12dp"
                     android:gravity="center_vertical"
                     android:paddingHorizontal="16dp"
-                    android:drawablePadding="12dp"
-                    android:text="@{vm.couponDetail.stateVal}"
-                    android:drawableStart="@mipmap/icon_coupon_detail_main"
-                    android:background="@color/white"/>
-                
+                    android:text="@{vm.couponDetail.stateVal}" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="8dp"
-                    android:background="@drawable/divder_efefef"/>
+                    android:background="@drawable/divder_efefef" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Font_14_333333_bold"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
                     android:gravity="center_vertical"
-                    android:text="@string/coupon_base_info"
-                    style="@style/Font_14_333333_bold"
-                    android:paddingHorizontal="16dp"/>
+                    android:paddingHorizontal="16dp"
+                    android:text="@string/coupon_base_info" />
 
                 <include
                     layout="@layout/item_bank_detail_info"
                     app:content="@{vm.couponDetail.phone}"
-                    app:title="@string/send_user" />
+                    app:title="@{@string/send_user}" />
 
-                <View style="@style/DividingStyleM12"/>
+                <View style="@style/DividingStyleM12" />
 
                 <include
                     layout="@layout/item_bank_detail_info"
                     app:content="@{vm.couponDetail.couponTypeVal}"
-                    app:title="@string/coupon_type" />
+                    app:title="@{@string/coupon_type}" />
 
-                <View style="@style/DividingStyleM12"/>
+                <View style="@style/DividingStyleM12" />
+
+                <include
+                    layout="@layout/item_bank_detail_info"
+                    app:content="@{vm.couponDetail.reduceVal}"
+                    app:title="@{@string/coupon_price}"
+                    app:visibility="@{1 == vm.couponDetail.couponType || 4 == vm.couponDetail.couponType}" />
+
+                <View style="@style/DividingStyleM12" />
+
+                <include
+                    layout="@layout/item_bank_detail_info"
+                    app:content="@{vm.couponDetail.orderReachPriceVal}"
+                    app:title="@{@string/service_conditions}"
+                    app:visibility="@{1 == vm.couponDetail.couponType || 3 == vm.couponDetail.couponType}" />
+
+                <View style="@style/DividingStyleM12" />
+
+                <include
+                    layout="@layout/item_bank_detail_info"
+                    app:content="@{vm.couponDetail.indateVal}"
+                    app:title="@{@string/indate}" />
+
+                <View style="@style/DividingStyleM12" />
+
+                <include
+                    layout="@layout/item_bank_detail_info"
+                    app:content="@{vm.couponDetail.shopVal}"
+                    app:title="@{@string/coupon_shop}" />
+
+                <View style="@style/DividingStyleM12" />
+
+                <include
+                    layout="@layout/item_bank_detail_info"
+                    app:content="@{vm.couponDetail.categoryVal}"
+                    app:title="@{@string/coupon_device}" />
+
+                <View style="@style/DividingStyleM12" />
+
+                <include
+                    layout="@layout/item_bank_detail_info"
+                    app:content="@{vm.couponDetail.createTime}"
+                    app:title="@{@string/send_time}" />
+
+                <View style="@style/DividingStyleM12" />
+
+                <include
+                    layout="@layout/item_bank_detail_info"
+                    app:content="@{vm.couponDetail.userVal}"
+                    app:title="@{@string/send_operator}" />
+
+                <View
+                    style="@style/DividingStyleM12"
+                    app:visibility="@{32 == vm.couponDetail.state}" />
+
+                <include
+                    layout="@layout/item_bank_detail_info"
+                    app:content="@{vm.couponDetail.invalidTime}"
+                    app:title="@{@string/cancellation_time}"
+                    app:visibility="@{32 == vm.couponDetail.state}" />
+
+                <View
+                    style="@style/DividingStyleM12"
+                    app:visibility="@{32 == vm.couponDetail.state}" />
+
+                <include
+                    layout="@layout/item_bank_detail_info"
+                    app:content="@{vm.couponDetail.invalidUserName}"
+                    app:title="@{@string/cancellation_operator}"
+                    app:visibility="@{32 == vm.couponDetail.state}" />
+
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
@@ -77,13 +150,15 @@
             android:layout_width="match_parent"
             android:layout_height="96dp"
             android:background="@color/white"
-            android:paddingTop="12dp">
+            android:paddingTop="12dp"
+            app:visibility="@{1 == vm.couponDetail.state}">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/btn_coupon_detail_delete"
                 style="@style/CommonStrokeTxtBtnStyle"
-                android:layout_marginEnd="16dp"
                 android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:onClick="@{vm::abandonCoupon}"
                 android:text="@string/cancellation"
                 app:layout_constraintEnd_toEndOf="@id/view_device_detail_bottom"
                 app:layout_constraintTop_toTopOf="@id/view_device_detail_bottom" />

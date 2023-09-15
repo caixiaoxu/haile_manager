@@ -6,6 +6,7 @@ import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
+import java.util.*
 
 /**
  * Title :
@@ -19,11 +20,11 @@ import com.yunshang.haile_manager_android.utils.DateTimeUtils
  */
 data class IssueCouponEntity(
     var couponType: Int = 1,
-    var endAt: String? = null,
+    var endAt: String = DateTimeUtils.formatDateTimeEndParam(Date()),
     var goodsCategoryIds: List<Int>? = null,
     var maxDiscountPrice: Double? = null,
     var orderReachPrice: Double? = null,
-    var organizationType: Int? = null,
+    var organizationType: Int = 2,
     var percentage: Double? = null,
     var reduce: Double? = null,
     var shopIds: List<Int>? = null,
@@ -137,9 +138,23 @@ data class IssueCouponEntity(
 
     @get:Bindable
     var validityVal: String
-        get() = DateTimeUtils.formatDateTimeForStr(endAt,"yyyy-MM-dd")
+        get() = DateTimeUtils.formatDateTimeForStr(endAt, "yyyy-MM-dd")
         set(value) {
             endAt = value
+            notifyPropertyChanged(BR.validityVal)
+        }
+
+    var shopNameVal: String = ""
+        get() = if (2 == organizationType) StringUtils.getString(R.string.all_shop) else field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.validityVal)
+        }
+
+    var categoryNameVal: String = ""
+        get() = if (2 == organizationType) StringUtils.getString(R.string.all_device) else field
+        set(value) {
+            field = value
             notifyPropertyChanged(BR.validityVal)
         }
 }

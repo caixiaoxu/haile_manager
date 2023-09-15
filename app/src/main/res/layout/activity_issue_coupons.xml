@@ -159,11 +159,11 @@
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_issue_coupons_num"
                     style="@style/MultiTypeItemStyle"
+                    android:hint="@string/issue_coupon_num_hint"
                     android:inputType="number"
+                    android:maxLength="2"
                     app:itemContent="@={vm.coupon.issueCouponsNum}"
                     app:title="@string/issue_coupon_num"
-                    android:hint="@string/issue_coupon_num_hint"
-                    android:maxLength="2"
                     app:titleW="88dp"
                     app:type="input" />
 

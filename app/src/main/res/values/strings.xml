@@ -350,6 +350,7 @@
     <string name="coupon_amount">券面额</string>
     <string name="coupon_type">券类型</string>
     <string name="coupon_condition">满减条件</string>
+    <string name="coupon_condition_value">满%1$s元，可使用</string>
     <string name="coupon_shop">适用门店</string>
     <string name="coupon_device_type">适用设备类型</string>
     <string name="indate">有效期</string>
@@ -493,6 +494,10 @@
     <string name="coupon_detail">券详情</string>
     <string name="cancellation">作废</string>
     <string name="send_user">发送用户</string>
+    <string name="send_time">发券时间</string>
+    <string name="send_operator">发券人</string>
+    <string name="cancellation_time">作废时间</string>
+    <string name="cancellation_operator">作废人</string>
 
     <string name="home_msg_title">最近消息</string>
     <string name="home_msg_num">条新消息</string>

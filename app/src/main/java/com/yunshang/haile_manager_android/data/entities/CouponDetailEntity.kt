@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.data.entities
 
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.utils.DateTimeUtils
 
 /**
  * Title :
@@ -23,7 +24,7 @@ data class CouponDetailEntity(
     val createTime: String,
     val endAt: String,
     val goodsCategoryIds: List<Any>,
-    val goodsCategoryNames: List<Any>,
+    val goodsCategoryNames: List<String>,
     val hourMinuteEndTime: String,
     val hourMinuteStartTime: String,
     val id: Int,
@@ -31,27 +32,27 @@ data class CouponDetailEntity(
     val invalidUserId: Int,
     val invalidUserName: String,
     val lastEditor: String,
-    val maxDiscountPrice: Int,
-    val orderReachPrice: Int,
+    val maxDiscountPrice: String,
+    val orderReachPrice: String,
     val orgIds: List<Any>,
     val organizationType: Int,
-    val percentage: Int,
+    val percentage: String,
     val phone: String,
     val promotionId: Int,
-    val reduce: Int,
+    val reduce: String,
     val shopIds: List<Any>,
-    val shopNames: List<Any>,
+    val shopNames: List<String>,
     val shopVOs: List<CouponShopVO>,
     val specifiedPrice: Int,
     val startAt: String,
     val state: Int,
     val subjectId: Int,
     val subjectTitle: String,
-    val usedReduce: Int,
+    val usedReduce: String,
     val usedShopName: String,
     val usedTime: String,
     val usedTradeNo: String,
-    val value: Int
+    val value: String
 ) {
     val stateVal: String
         get() = when (state) {
@@ -64,4 +65,27 @@ data class CouponDetailEntity(
 
     val couponTypeVal: String
         get() = StringUtils.getStringArray(R.array.coupon_type)[couponType]
+
+    val reduceVal: String
+        get() = reduce + StringUtils.getString(R.string.unit_yuan)
+
+    val orderReachPriceVal: String
+        get() = StringUtils.getString(R.string.coupon_condition_value, orderReachPrice)
+
+    val indateVal: String
+        get() = DateTimeUtils.formatDateTimeForStr(
+            startAt,
+            "yyyy-MM-dd"
+        ) + "至" + DateTimeUtils.formatDateTimeForStr(endAt, "yyyy-MM-dd")
+
+    val shopVal: String
+        get() = if (2 == organizationType) StringUtils.getString(R.string.all_shop)
+        else shopNames.joinToString("、")
+
+    val categoryVal: String
+        get() = if (2 == organizationType) StringUtils.getString(R.string.all_device)
+        else goodsCategoryNames.joinToString("、")
+
+    val userVal: String
+        get() = phone
 }

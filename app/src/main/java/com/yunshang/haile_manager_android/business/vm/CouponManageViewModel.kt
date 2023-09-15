@@ -155,6 +155,6 @@ class CouponManageViewModel : BaseViewModel() {
                 it.message?.let { it1 -> SToast.showToast(msg = it1) }
                 result.invoke(null)
             }
-        }, null, 1 == page)
+        }, null)
     }
 }

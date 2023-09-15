@@ -53,14 +53,6 @@ class IssueCouponsViewModel : BaseViewModel() {
             ApiRepository.dealApiResult(
                 mCategoryRepo.category(1)
             )?.let {
-                it.add(
-                    0,
-                    CategoryEntity(
-                        id = 0,
-                        name = StringUtils.getString(R.string.all_device)
-                    ).apply {
-                        onlyOne = true
-                    })
                 categoryList.postValue(it)
             }
         })
@@ -70,8 +62,8 @@ class IssueCouponsViewModel : BaseViewModel() {
      * 确认发券
      */
     fun sureIssueCoupon(v: View) {
-        if (coupon.value?.issueCouponsUser.isNullOrEmpty()) {
-            SToast.showToast(v.context, "请输入发送用户的手机号")
+        if (coupon.value?.issueCouponsUser.isNullOrEmpty() || coupon.value!!.issueCouponsUser.length != 11) {
+            SToast.showToast(v.context, "请输入正确的手机号")
             return
         }
         if (null == coupon.value?.couponType || coupon.value!!.couponType!! <= 0) {

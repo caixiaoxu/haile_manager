@@ -40,6 +40,7 @@
                     android:layout_height="52dp"
                     android:background="@drawable/shape_bottom_stroke_dividing"
                     android:paddingHorizontal="16dp"
+                    app:layout_scrollFlags="scroll"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <HorizontalScrollView

@@ -82,7 +82,7 @@
                     style="@style/MultiTypeItemStyle"
                     android:hint="@string/experiential_price_hint"
                     android:inputType="numberDecimal"
-                    app:itemContent="@={vm.coupon.reduceVal}"
+                    app:itemContent="@={vm.coupon.specifiedPriceVal}"
                     app:title="@string/experiential_price"
                     app:titleW="88dp"
                     app:type="input"

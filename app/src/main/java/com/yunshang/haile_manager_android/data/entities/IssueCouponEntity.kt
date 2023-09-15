@@ -20,11 +20,11 @@ import java.util.*
  */
 data class IssueCouponEntity(
     var couponType: Int = 1,
-    var endAt: String = DateTimeUtils.formatDateTimeEndParam(Date()),
-    var goodsCategoryIds: List<Int>? = null,
+    var endAt: String = DateTimeUtils.formatDateTimeEndParam(DateTimeUtils.addDay(Date(), 1)),
+    var goodsCategoryIds: List<Int>? = listOf(0),
     var maxDiscountPrice: Double? = null,
     var orderReachPrice: Double? = null,
-    var organizationType: Int = 2,
+    var organizationType: Int = 1,
     var percentage: Double? = null,
     var reduce: Double? = null,
     var shopIds: List<Int>? = null,
@@ -64,7 +64,7 @@ data class IssueCouponEntity(
     @Transient
     @get:Bindable
     var reduceVal: String = ""
-        get() = if (field.isNullOrEmpty()) reduce?.toString() ?: "" else field
+        get() = field.ifEmpty { reduce?.toString() ?: "" }
         set(value) {
             try {
                 field = value
@@ -77,8 +77,22 @@ data class IssueCouponEntity(
 
     @Transient
     @get:Bindable
+    var specifiedPriceVal: String = ""
+        get() = field.ifEmpty { specifiedPrice?.toString() ?: "" }
+        set(value) {
+            try {
+                field = value
+                specifiedPrice = if (value.isEmpty()) null else value.toDouble()
+                notifyPropertyChanged(BR.specifiedPriceVal)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+    @Transient
+    @get:Bindable
     var percentageVal: String = ""
-        get() = if (field.isNullOrEmpty()) percentage?.toString() ?: "" else field
+        get() = field.ifEmpty { percentage?.toString() ?: "" }
         set(value) {
             try {
                 field = value
@@ -92,7 +106,7 @@ data class IssueCouponEntity(
     @Transient
     @get:Bindable
     var maxDiscountPriceVal: String = ""
-        get() = if (field.isNullOrEmpty()) maxDiscountPrice?.toString() ?: "" else field
+        get() = field.ifEmpty { maxDiscountPrice?.toString() ?: "" }
         set(value) {
             try {
                 field = value
@@ -106,7 +120,7 @@ data class IssueCouponEntity(
     @Transient
     @get:Bindable
     var orderReachPriceVal: String = ""
-        get() = if (field.isNullOrEmpty()) orderReachPrice?.toString() ?: "" else field
+        get() = field.ifEmpty { orderReachPrice?.toString() ?: "" }
         set(value) {
             try {
                 field = value
@@ -144,15 +158,19 @@ data class IssueCouponEntity(
             notifyPropertyChanged(BR.validityVal)
         }
 
+    @Transient
     var shopNameVal: String = ""
-        get() = if (2 == organizationType) StringUtils.getString(R.string.all_shop) else field
+        get() = if (1 == organizationType) StringUtils.getString(R.string.all_shop) else field
         set(value) {
             field = value
             notifyPropertyChanged(BR.validityVal)
         }
 
+    @Transient
     var categoryNameVal: String = ""
-        get() = if (2 == organizationType) StringUtils.getString(R.string.all_device) else field
+        get() = if (null == goodsCategoryIds) "" else if (goodsCategoryIds?.contains(0) == true) StringUtils.getString(
+            R.string.all_device
+        ) else field
         set(value) {
             field = value
             notifyPropertyChanged(BR.validityVal)

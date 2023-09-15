@@ -37,7 +37,7 @@ class IssueCouponsActivity :
                             IntentParams.SearchSelectTypeParam.ShopResultCode -> {
                                 if (selected.isNotEmpty()) {
                                     if (selected.any { item -> 0 == item.id }) {
-                                        mViewModel.coupon.value?.organizationType = 2
+                                        mViewModel.coupon.value?.organizationType = 1
                                         mViewModel.coupon.value?.shopIds = null
                                     } else {
                                         mViewModel.coupon.value?.organizationType = 3
@@ -92,8 +92,18 @@ class IssueCouponsActivity :
                     override fun onValue(data: SearchSelectParam?) {
                         data?.id?.let {
                             mViewModel.coupon.value?.couponTypeVal = it
-                            mViewModel.coupon.value?.goodsCategoryIds = null
-                            refreshCategoryName()
+                            // 体验券，没有全部设备，单选
+                            if (4 == mViewModel.coupon.value?.couponTypeVal
+                                && (null != mViewModel.coupon.value!!.goodsCategoryIds
+                                        && (mViewModel.coupon.value!!.goodsCategoryIds!!.contains(0)
+                                        || mViewModel.coupon.value!!.goodsCategoryIds!!.size > 1))
+                            ) {
+                                mViewModel.coupon.value?.goodsCategoryIds = null
+                                mViewModel.categoryList.value?.forEach { category ->
+                                    category.isCheck = false
+                                }
+                                refreshCategoryName()
+                            }
                         }
                     }
                 }
@@ -127,7 +137,7 @@ class IssueCouponsActivity :
                             mustSelect = true,
                             moreSelect = true,
                             hasAll = true,
-                            selectArr = if (2 == mViewModel.coupon.value?.organizationType)
+                            selectArr = if (1 == mViewModel.coupon.value?.organizationType)
                                 intArrayOf(0)
                             else mViewModel.coupon.value?.shopIds?.toIntArray() ?: intArrayOf()
                         )
@@ -147,7 +157,10 @@ class IssueCouponsActivity :
                     CategoryEntity(
                         id = 0,
                         name = StringUtils.getString(R.string.all_device)
-                    ).apply { onlyOne = true })
+                    ).apply {
+                        onlyOne = true
+                        isCheck = true == mViewModel.coupon.value?.goodsCategoryIds?.contains(0)
+                    })
             }
             mViewModel.categoryList.value?.let {
                 list.addAll(it)

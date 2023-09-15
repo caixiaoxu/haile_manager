@@ -23,7 +23,7 @@ data class CouponDetailEntity(
     val couponType: Int,
     val createTime: String,
     val endAt: String,
-    val goodsCategoryIds: List<Any>,
+    val goodsCategoryIds: List<Int>,
     val goodsCategoryNames: List<String>,
     val hourMinuteEndTime: String,
     val hourMinuteStartTime: String,
@@ -83,11 +83,11 @@ data class CouponDetailEntity(
         ) + "至" + DateTimeUtils.formatDateTimeForStr(endAt, "yyyy-MM-dd")
 
     val shopVal: String
-        get() = if (2 == organizationType) StringUtils.getString(R.string.all_shop)
+        get() = if (1 == organizationType) StringUtils.getString(R.string.all_shop)
         else shopNames.joinToString("、")
 
     val categoryVal: String
-        get() = if (2 == organizationType) StringUtils.getString(R.string.all_device)
+        get() = if (goodsCategoryIds.contains(0)) StringUtils.getString(R.string.all_device)
         else goodsCategoryNames.joinToString("、")
 
     val userVal: String

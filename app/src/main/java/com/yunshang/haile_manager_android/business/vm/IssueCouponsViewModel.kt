@@ -113,11 +113,11 @@ class IssueCouponsViewModel : BaseViewModel() {
                 return
             }
         } else if (4 == coupon.value?.couponType) {
-            if (null == coupon.value?.reduce) {
+            if (null == coupon.value?.specifiedPrice) {
                 SToast.showToast(v.context, "请输入体验价")
                 return
             }
-            if (0 > coupon.value!!.reduce!! || 100 < coupon.value!!.reduce!!) {
+            if (0 > coupon.value!!.specifiedPrice!! || 100 < coupon.value!!.specifiedPrice!!) {
                 SToast.showToast(v.context, "请体验价范围为0-100.00")
                 return
             }
@@ -138,7 +138,7 @@ class IssueCouponsViewModel : BaseViewModel() {
             return
         }
 
-        if (2 != coupon.value?.organizationType && coupon.value?.shopIds.isNullOrEmpty()) {
+        if (1 != coupon.value?.organizationType && coupon.value?.shopIds.isNullOrEmpty()) {
             SToast.showToast(v.context, "请选择门店")
             return
         }

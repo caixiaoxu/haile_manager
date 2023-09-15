@@ -44,7 +44,7 @@ data class CouponDetailEntity(
     val shopIds: List<Any>,
     val shopNames: List<String>,
     val shopVOs: List<CouponShopVO>,
-    val specifiedPrice: Int,
+    val specifiedPrice: String,
     val startAt: String,
     val state: Int,
     val subjectId: Int,
@@ -72,6 +72,15 @@ data class CouponDetailEntity(
 
     val reduceVal: String
         get() = reduce + StringUtils.getString(R.string.unit_yuan)
+
+    val percentageVal: String
+        get() = percentage + StringUtils.getString(R.string.unit_folds)
+
+    val specifiedPriceVal: String
+        get() = specifiedPrice + StringUtils.getString(R.string.unit_yuan)
+
+    val maxDiscountPriceVal: String
+        get() = maxDiscountPrice + StringUtils.getString(R.string.unit_yuan)
 
     val orderReachPriceVal: String
         get() = StringUtils.getString(R.string.coupon_condition_value, orderReachPrice)

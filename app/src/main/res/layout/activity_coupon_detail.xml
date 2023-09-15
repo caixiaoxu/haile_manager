@@ -71,15 +71,45 @@
                     app:content="@{vm.couponDetail.couponTypeVal}"
                     app:title="@{@string/coupon_type}" />
 
-                <View style="@style/DividingStyleM12" />
+                <View
+                    style="@style/DividingStyleM12"
+                    app:visibility="@{1 == vm.couponDetail.couponType}" />
 
                 <include
                     layout="@layout/item_bank_detail_info"
                     app:content="@{vm.couponDetail.reduceVal}"
                     app:title="@{@string/coupon_price}"
-                    app:visibility="@{1 == vm.couponDetail.couponType || 4 == vm.couponDetail.couponType}" />
+                    app:visibility="@{1 == vm.couponDetail.couponType}" />
 
-                <View style="@style/DividingStyleM12" />
+                <View style="@style/DividingStyleM12"
+                    app:visibility="@{3 == vm.couponDetail.couponType}"/>
+
+                <include
+                    layout="@layout/item_bank_detail_info"
+                    app:content="@{vm.couponDetail.percentageVal}"
+                    app:title="@{@string/coupon_discount}"
+                    app:visibility="@{3 == vm.couponDetail.couponType}" />
+
+                <View style="@style/DividingStyleM12"
+                    app:visibility="@{4 == vm.couponDetail.couponType}"/>
+
+                <include
+                    layout="@layout/item_bank_detail_info"
+                    app:content="@{vm.couponDetail.specifiedPriceVal}"
+                    app:title="@{@string/experiential_price}"
+                    app:visibility="@{4 == vm.couponDetail.couponType}" />
+
+                <View style="@style/DividingStyleM12"
+                    app:visibility="@{3 == vm.couponDetail.couponType}"/>
+
+                <include
+                    layout="@layout/item_bank_detail_info"
+                    app:content="@{vm.couponDetail.maxDiscountPriceVal}"
+                    app:title="@{@string/relief_ceiling}"
+                    app:visibility="@{3 == vm.couponDetail.couponType}" />
+
+                <View style="@style/DividingStyleM12"
+                    app:visibility="@{1 == vm.couponDetail.couponType || 3 == vm.couponDetail.couponType}"/>
 
                 <include
                     layout="@layout/item_bank_detail_info"

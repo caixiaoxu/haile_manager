@@ -63,7 +63,7 @@ data class CouponEntity(
 
     val title: String
         get() = "${StringUtils.getStringArray(R.array.coupon_type)[couponType]} ${
-            if (3 == couponType) percentage + "折" else reduce + "元"
+            if (3 == couponType) percentage + "折" else if (4 == couponType) specifiedPrice + "元" else reduce + "元"
         }"
 
     val user: String

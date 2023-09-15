@@ -98,10 +98,10 @@ class IssueCouponsActivity :
                                         && (mViewModel.coupon.value!!.goodsCategoryIds!!.contains(0)
                                         || mViewModel.coupon.value!!.goodsCategoryIds!!.size > 1))
                             ) {
-                                mViewModel.coupon.value?.goodsCategoryIds = null
                                 mViewModel.categoryList.value?.forEach { category ->
                                     category.isCheck = false
                                 }
+                                mViewModel.coupon.value?.goodsCategoryIds = null
                                 refreshCategoryName()
                             }
                         }

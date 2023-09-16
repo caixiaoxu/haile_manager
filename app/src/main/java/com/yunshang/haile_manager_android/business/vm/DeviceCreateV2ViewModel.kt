@@ -241,7 +241,8 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
                             "imei" to imeiCode.value,
                             "code" to if (true == isDispenser.value) null else payCode.value,//投放器没有付款码
                             "items" to createDeviceFunConfigure.value,
-                            "washerImei" to washImeiCode.value
+                            "washerImei" to washImeiCode.value,
+                            "codeStr" to codeStr
                         )
                     )
                 )

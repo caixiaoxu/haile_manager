@@ -18,7 +18,7 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.IncomeCalendarViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
-import com.yunshang.haile_manager_android.data.entities.IncomeListByDayEntity
+import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.ProfitStatisticsEntity
 import com.yunshang.haile_manager_android.data.rule.ICalendarEntity
 import com.yunshang.haile_manager_android.databinding.ActivityIncomeCalendarBinding
@@ -28,6 +28,7 @@ import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.order.OrderDetailActivity
 import com.yunshang.haile_manager_android.ui.view.GridSpaceItemDecoration
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
@@ -35,10 +36,11 @@ import com.yunshang.haile_manager_android.utils.ViewUtils
 import timber.log.Timber
 import java.util.*
 
-class IncomeCalendarActivity : BaseBusinessActivity<ActivityIncomeCalendarBinding, IncomeCalendarViewModel>(
-    IncomeCalendarViewModel::class.java,
-    BR.vm
-) {
+class IncomeCalendarActivity :
+    BaseBusinessActivity<ActivityIncomeCalendarBinding, IncomeCalendarViewModel>(
+        IncomeCalendarViewModel::class.java,
+        BR.vm
+    ) {
 
     companion object {
         const val ProfitType = "profitType"
@@ -185,6 +187,29 @@ class IncomeCalendarActivity : BaseBusinessActivity<ActivityIncomeCalendarBindin
         )
         mBinding.rvIncomeCalendar.adapter = mIncomeAdapter
 
+        // 收支切换
+        mBinding.tvIncomeListForDateOfType.setOnClickListener {
+            CommonBottomSheetDialog.Builder(
+                "", listOf(
+                    SearchSelectParam(0, getString(R.string.all)),
+                    SearchSelectParam(1, getString(R.string.earning)),
+                    SearchSelectParam(2, getString(R.string.expend)),
+                )
+            ).apply {
+                onValueSureListener = object :
+                    CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
+                    override fun onValue(data: SearchSelectParam?) {
+                        data?.let {
+                            mViewModel.transactionType = if (0 == data.id) null else data.id
+                            mBinding.tvIncomeListForDateOfType.text = data.name
+                            mBinding.rvIncomeListForDate.requestRefresh()
+                        }
+                    }
+                }
+            }.build().show(supportFragmentManager)
+        }
+
+        // 收支列表
         mBinding.rvIncomeListForDate.layoutManager = LinearLayoutManager(this)
         mBinding.rvIncomeListForDate.enableRefresh = false
         ResourcesCompat.getDrawable(resources, R.drawable.divder_efefef, null)?.let {

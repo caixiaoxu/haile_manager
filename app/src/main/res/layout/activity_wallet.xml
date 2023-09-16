@@ -130,7 +130,7 @@
                 android:layout_height="wrap_content"
                 style="@style/Font_14_999999"
                 android:gravity="center"
-                android:text="@string/available_balance"
+                android:text="@string/auto_to_bank_balance"
                 app:layout_constraintBottom_toTopOf="@id/tv_wallet_money_candyPay_amount"
                 app:layout_constraintStart_toEndOf="@id/view_wallet_money_other_center"
                 app:layout_constraintEnd_toEndOf="@id/cl_wallet_money_other"

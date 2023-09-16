@@ -472,9 +472,10 @@
 
     <string name="wallet">钱包余额</string>
     <string name="wallet_withdraw">余额提现</string>
-    <string name="my_change">我的零钱</string>
+    <string name="my_change">我的余额</string>
     <string name="balance">余额</string>
     <string name="available_balance">可提现余额</string>
+    <string name="auto_to_bank_balance">自动转卡余额</string>
     <string name="balance_detail">余额明细</string>
     <string name="shop_income_calendar">门店收益日历</string>
     <string name="device_income_calendar">设备收益日历</string>

@@ -108,9 +108,9 @@ class WalletActivity : BaseBindingActivity<ActivityWalletBinding>() {
                 withContext(Dispatchers.Main) {
                     mBinding.tvWalletMoney.text = it.totalAmount
                     mBinding.tvWalletMoneyAvailableAmount.text =
-                        StringUtils.getString(R.string.unit_money) + it.availableAmount
+                        StringUtils.getString(R.string.unit_money) + (it.availableAmount ?: "0")
                     mBinding.tvWalletMoneyCandyPayAmount.text =
-                        StringUtils.getString(R.string.unit_money) + it.candyPayAmount
+                        StringUtils.getString(R.string.unit_money) + (it.candyPayAmount ?: "0")
                 }
             }
         })

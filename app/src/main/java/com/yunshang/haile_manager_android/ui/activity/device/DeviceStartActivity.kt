@@ -64,7 +64,9 @@ class DeviceStartActivity :
         super.initEvent()
         mViewModel.selectItem.observe(this) {
             it?.let { item ->
-                if (DeviceCategory.isDryerOrHair(mViewModel.categoryCode)) {
+                if (DeviceCategory.isDryerOrHair(mViewModel.categoryCode)
+                    || DeviceCategory.isDispenser(mViewModel.categoryCode)
+                ) {
                     mBinding.rgDeviceStartTimeList.removeAllViews()
                     val timeW = DimensionUtils.dip2px(dipValue = 70f)
                     val timeH = DimensionUtils.dip2px(dipValue = 28f)
@@ -73,7 +75,6 @@ class DeviceStartActivity :
                         mBinding.rgDeviceStartTimeList.addView(
                             LayoutInflater.from(this@DeviceStartActivity)
                                 .inflate(R.layout.item_device_start, null, false).apply {
-                                    id = index
                                     (this as AppCompatRadioButton).run {
                                         text = "${time}分钟"
                                         setOnCheckedChangeListener { _, isChecked ->
@@ -113,7 +114,9 @@ class DeviceStartActivity :
                     object : CommonBottomSheetDialog.OnValueSureListener<DeviceConfigSelectParams> {
                         override fun onValue(data: DeviceConfigSelectParams?) {
                             mViewModel.selectItem.value = data
-                            if (!DeviceCategory.isDryerOrHair(mViewModel.categoryCode)) {
+                            if (!(DeviceCategory.isDryerOrHair(mViewModel.categoryCode)
+                                        || DeviceCategory.isDispenser(mViewModel.categoryCode))
+                            ) {
                                 mViewModel.selectTime.value = data?.times?.firstOrNull()
                             }
                         }

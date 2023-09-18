@@ -76,7 +76,8 @@ class DeviceStartActivity :
                             LayoutInflater.from(this@DeviceStartActivity)
                                 .inflate(R.layout.item_device_start, null, false).apply {
                                     (this as AppCompatRadioButton).run {
-                                        text = "${time}分钟"
+                                        text =
+                                            "${time}${if (DeviceCategory.isDispenser(mViewModel.categoryCode)) "ml" else "分钟"}"
                                         setOnCheckedChangeListener { _, isChecked ->
                                             if (isChecked) {
                                                 mViewModel.selectTime.value = time

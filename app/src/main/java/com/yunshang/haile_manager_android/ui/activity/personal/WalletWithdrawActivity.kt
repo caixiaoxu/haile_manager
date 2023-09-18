@@ -51,7 +51,7 @@ class WalletWithdrawActivity :
             if (null != calculate) {
                 WithdrawDialog.Builder(calculate).apply {
                     positiveClickListener = OnClickListener {
-                        mViewModel.withdraw(calculate.totalAmount) { isTrue ->
+                        mViewModel.withdraw(calculate.realAmount) { isTrue ->
                             if (isTrue) {
                                 SToast.showToast(
                                     this@WalletWithdrawActivity,

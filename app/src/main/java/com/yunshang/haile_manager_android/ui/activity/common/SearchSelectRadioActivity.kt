@@ -165,16 +165,18 @@ class SearchSelectRadioActivity :
         }
 
         mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.visibility(mViewModel.hasAll)
-        mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.setBackgroundResource(R.drawable.shape_bottom_stroke_dividing_mlr16)
-        mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.setOnCheckClickListener {
-            mViewModel.allSelect.getCheck = !mViewModel.allSelect.getCheck
-            if (mViewModel.allSelect.getCheck) {
-                mViewModel.selectList.value?.forEach {
-                    it.getCheck = false
-                }
-                backAndResult()
-                true
-            } else false
+        if (mViewModel.hasAll){
+            mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.setBackgroundResource(R.drawable.shape_bottom_stroke_dividing_mlr16)
+            mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.setOnCheckClickListener {
+                mViewModel.allSelect.getCheck = !mViewModel.allSelect.getCheck
+                if (mViewModel.allSelect.getCheck) {
+                    mViewModel.selectList.value?.forEach {
+                        it.getCheck = false
+                    }
+                    backAndResult()
+                    true
+                } else false
+            }
         }
     }
 

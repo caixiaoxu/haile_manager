@@ -555,6 +555,7 @@
 
     <string name="income_calendar">收益日历</string>
     <string name="income_statistics">收益统计</string>
+    <string name="income_expenses_detail">收支明细</string>
 
     <string name="bank_card">银行卡</string>
     <string name="add_bank_card">添加银行卡</string>

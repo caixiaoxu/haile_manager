@@ -26,9 +26,11 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="1231231231231231" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.yunshang.haile_manager_android.ui.view.MultiTypeTextView
             android:id="@+id/tv_income_list_amount"
             style="@style/Font_14_333333"
+            txtColors="@{item.multiTypeTxtColors}"
+            type="@{item.multiType}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/icon_arrow_right"

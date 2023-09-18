@@ -224,4 +224,34 @@ interface CapitalService {
     @POST("/candyPay/bankCard/delete")
     suspend fun requestBankCardDelete(@Body body: RequestBody): ResponseWrapper<Any>
 
+    /**
+     * 收益明细总收益接口
+     */
+    @POST("/profitStatistics/getTotalRevenue")
+    suspend fun requestTotalRevenue(@Body body: RequestBody): ResponseWrapper<TotalRevenueEntity>
+
+    /**
+     * 收益店铺列表接口
+     */
+    @POST("/profitStatistics/getShopRevenueList")
+    suspend fun requestShopRevenueList(@Body body: RequestBody): ResponseWrapper<ResponseList<ShopRevenueEntity>>
+
+    /**
+     * 收益店铺详情接口
+     */
+    @POST("/profitStatistics/getShopDetailStatistics")
+    suspend fun requestShopRevenueDetail(@Body body: RequestBody): ResponseWrapper<MutableList<ShopRevenueDetailEntity>>
+
+    /**
+     * 收益总收支接口
+     */
+    @POST("/profitStatistics/getProfitStatisticsVO")
+    suspend fun requestTotalIncomeExpenses(@Body body: RequestBody): ResponseWrapper<TotalIncomeExpensesEntity>
+
+    /**
+     * 收益收支明细列表接口
+     */
+    @POST("/profitStatistics/getProfitStatisticsListVO")
+    suspend fun requestIncomeExpensesDetailList(@Body body: RequestBody): ResponseWrapper<ResponseList<IncomeExpensesDetailEntity>>
+
 }

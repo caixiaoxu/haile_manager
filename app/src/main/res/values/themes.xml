@@ -428,6 +428,11 @@
         <item name="android:textColor">@color/common_txt_color</item>
     </style>
 
+    <style name="Font_36_333333">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textColor">@color/common_txt_color</item>
+    </style>
+
     <style name="Font_44_333333">
         <item name="android:textSize">44sp</item>
         <item name="android:textColor">@color/common_txt_color</item>

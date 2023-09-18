@@ -10,10 +10,136 @@
             type="com.yunshang.haile_manager_android.business.vm.IncomeStatisticsViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".ui.activity.personal.IncomeStatisticsActivity">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="126dp"
+            android:background="@mipmap/bg_income_statistics"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+                android:id="@+id/bar_income_statistics_title"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_action_bar_h"
+                app:rightModel="text"
+                app:title="@string/income_statistics" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:paddingHorizontal="16dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_income_statistics_date"
+                        style="@style/Font_14_333333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@mipmap/icon_triangle_down"
+                        android:drawablePadding="4dp"
+                        android:text="@{vm.dateSpace}"
+                        tools:text="05-14 至 06-24" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_income_statistics_shop"
+                        style="@style/Font_14_333333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:drawableEnd="@mipmap/icon_triangle_down"
+                        android:drawablePadding="4dp"
+                        tools:text="全部门店" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_income_statistics_category"
+                        style="@style/Font_14_333333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:drawableEnd="@mipmap/icon_triangle_down"
+                        android:drawablePadding="4dp"
+                        tools:text="全部设备" />
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.scwang.smart.refresh.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:paddingVertical="16dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_14_333333_bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@mipmap/icon_home_income_title"
+                            android:drawablePadding="8dp"
+                            android:text="@string/total_income" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_income_statistics_revenue"
+                            style="@style/Font_36_333333"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="bottom"
+                            android:fontFamily="@font/money"
+                            tools:text="200.00" />
+
+                    </LinearLayout>
+
+                    <include
+                        android:id="@+id/include_income_statistics_sub_account"
+                        android:visibility="gone"
+                        tools:visibility="visible"
+                        layout="@layout/item_income_statistics_sub_account" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_income_statistics_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:overScrollMode="never"
+                        android:scrollbars="none" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <com.scwang.smart.refresh.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+    </LinearLayout>
 </layout>

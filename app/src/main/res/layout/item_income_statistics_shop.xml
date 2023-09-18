@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.ShopRevenueEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_income_statistics_shop_name"
+            style="@style/Font_16_333333_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:layout_marginStart="16dp"
+            android:gravity="center_vertical"
+            android:text="@{item.shopName}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="浙大紫金港1号店铺" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_18_f0a258"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:drawableEnd="@drawable/icon_arrow_right_with_padding"
+            android:fontFamily="@font/money"
+            android:text='@{@string/unit_money + item.revenue}'
+            app:layout_constraintBottom_toBottomOf="@id/tv_income_statistics_shop_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_income_statistics_shop_name"
+            tools:text="¥50.00" />
+
+        <include
+            android:id="@+id/include_item_income_statistics_sub_account"
+            layout="@layout/item_income_statistics_sub_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/tv_income_statistics_shop_name"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

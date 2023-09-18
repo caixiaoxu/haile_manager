@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RadioGroup
 import androidx.appcompat.widget.AppCompatCheckBox
+import androidx.appcompat.widget.AppCompatRadioButton
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
@@ -49,60 +50,84 @@ class SearchSelectRadioActivity :
                 )
             )
             setOnClickListener {
-                mViewModel.selectList.value?.let { list ->
-                    val selected = list.filter { select -> select.getCheck()?.value ?: false }
+                backAndResult()
+            }
+        }
+    }
 
-                    if (SearchSelectTypeParam.SearchSelectTypePaySettingsShop == mViewModel.searchSelectType.value) {
-                        // 支付设置
-                        startActivity(Intent(
-                            this@SearchSelectRadioActivity,
-                            ShopPaySettingsActivity::class.java
-                        ).apply {
-                            putExtras(
-                                IntentParams.ShopPaySettingsParams.pack(selected.map { item ->
-                                    item.getSelectId()
-                                }.toIntArray())
-                            )
-                        })
-                        finish()
-                    } else if (SearchSelectTypeParam.SearchSelectTypeTakeChargeShop == mViewModel.searchSelectType.value
-                        && -1 != mViewModel.staffId
-                    ) {
-                        mViewModel.updateStaffShop(
-                            this@SearchSelectRadioActivity,
-                            selected
-                        )
-                    } else {
-                        if (mViewModel.mustSelect && selected.isEmpty()) {
-                            SToast.showToast(
-                                this@SearchSelectRadioActivity,
-                                if (mViewModel.searchSelectType.value == SearchSelectTypeParam.SearchSelectTypeDeviceModel) R.string.device_model_empty else R.string.department_empty
-                            )
-                            return@setOnClickListener
-                        }
-                        setResult(
-                            when (mViewModel.searchSelectType.value) {
-                                SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop, SearchSelectTypeParam.SearchSelectTypeRechargeShop -> SearchSelectTypeParam.ShopResultCode
-                                SearchSelectTypeParam.SearchSelectTypeDeviceModel -> SearchSelectTypeParam.DeviceModelResultCode
-                                else -> RESULT_OK
-                            },
-                            Intent().apply {
-                                putExtra(
-                                    SearchSelectTypeParam.ResultData,
-                                    GsonUtils.any2Json(
-                                        selected.map {
-                                            SearchSelectParam(
-                                                it.getSelectId(),
-                                                it.getSelectName(),
-                                                GsonUtils.any2Json(it)
-                                            )
-                                        }
+    /**
+     * 关闭并返回数据
+     */
+    private fun backAndResult() {
+        mViewModel.selectList.value?.let { list ->
+            val selected = list.filter { select -> select.getCheck }
+
+            if (SearchSelectTypeParam.SearchSelectTypePaySettingsShop == mViewModel.searchSelectType.value) {
+                // 支付设置
+                startActivity(Intent(
+                    this@SearchSelectRadioActivity,
+                    ShopPaySettingsActivity::class.java
+                ).apply {
+                    putExtras(
+                        IntentParams.ShopPaySettingsParams.pack(selected.map { item ->
+                            item.getSelectId()
+                        }.toIntArray())
+                    )
+                })
+                finish()
+            } else if (SearchSelectTypeParam.SearchSelectTypeTakeChargeShop == mViewModel.searchSelectType.value
+                && -1 != mViewModel.staffId
+            ) {
+                mViewModel.updateStaffShop(
+                    this@SearchSelectRadioActivity,
+                    selected
+                )
+            } else {
+                if (mViewModel.mustSelect && selected.isEmpty() && !mViewModel.allSelect.getCheck) {
+                    SToast.showToast(
+                        this@SearchSelectRadioActivity,
+                        if (mViewModel.searchSelectType.value == SearchSelectTypeParam.SearchSelectTypeDeviceModel) R.string.device_model_empty else R.string.department_empty
+                    )
+                    return
+                }
+                setResult(
+                    when (mViewModel.searchSelectType.value) {
+                        SearchSelectTypeParam.SearchSelectTypeShop,
+                        SearchSelectTypeParam.SearchSelectTypeTakeChargeShop,
+                        SearchSelectTypeParam.SearchSelectTypeRechargeShop,
+                        SearchSelectTypeParam.SearchSelectTypeCouponShop -> SearchSelectTypeParam.ShopResultCode
+                        SearchSelectTypeParam.SearchSelectTypeDeviceModel -> SearchSelectTypeParam.DeviceModelResultCode
+                        else -> RESULT_OK
+                    },
+                    Intent().apply {
+                        if (mViewModel.allSelect.getCheck) {
+                            putExtra(
+                                SearchSelectTypeParam.ResultData,
+                                GsonUtils.any2Json(
+                                    listOf(
+                                        SearchSelectParam(
+                                            mViewModel.allSelect.getSelectId(),
+                                            mViewModel.allSelect.getSelectName(),
+                                        )
                                     )
                                 )
-                            })
-                        finish()
-                    }
-                }
+                            )
+                        } else {
+                            putExtra(
+                                SearchSelectTypeParam.ResultData,
+                                GsonUtils.any2Json(
+                                    selected.map {
+                                        SearchSelectParam(
+                                            it.getSelectId(),
+                                            it.getSelectName(),
+                                            GsonUtils.any2Json(it)
+                                        )
+                                    }
+                                )
+                            )
+                        }
+                    })
+                finish()
             }
         }
     }
@@ -118,6 +143,7 @@ class SearchSelectRadioActivity :
         mViewModel.staffId = SearchSelectTypeParam.parseStaffId(intent)
         mViewModel.mustSelect = SearchSelectTypeParam.parseMustSelect(intent)
         mViewModel.moreSelect = SearchSelectTypeParam.parseMoreSelect(intent)
+        mViewModel.hasAll = SearchSelectTypeParam.parseHasAll(intent)
         mViewModel.selectArr = SearchSelectTypeParam.parseSelectList(intent) ?: intArrayOf()
     }
 
@@ -135,6 +161,18 @@ class SearchSelectRadioActivity :
                 }
                 mViewModel.isAllSelect.value = isAll
             }
+        }
+
+        mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.setBackgroundResource(R.drawable.shape_bottom_stroke_dividing_mlr16)
+        mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.setOnCheckClickListener {
+            mViewModel.allSelect.getCheck = !mViewModel.allSelect.getCheck
+            if (mViewModel.allSelect.getCheck) {
+                mViewModel.selectList.value?.forEach {
+                    it.getCheck = false
+                }
+                backAndResult()
+                true
+            } else false
         }
     }
 
@@ -192,7 +230,10 @@ class SearchSelectRadioActivity :
                         }
 
                         (binding.root as AppCompatCheckBox).setOnCheckedChangeListener { _, isCheck ->
-                            item.getCheck()?.value = isCheck
+                            if (isCheck) {
+                                mViewModel.allSelect.getCheck = false
+                            }
+                            item.getCheck = isCheck
                             mViewModel.checkSelectAll()
                         }
                         (mBinding.svDepartmentSelectList.getChildAt(0) as LinearLayout).addView(
@@ -233,6 +274,12 @@ class SearchSelectRadioActivity :
                             binding.root.setBackgroundResource(R.drawable.shape_top_stroke_dividing_mlr16)
                         } else {
                             binding.root.setBackgroundColor(Color.WHITE)
+                        }
+                        (binding.root as AppCompatRadioButton).setOnCheckedChangeListener { _, isCheck ->
+                            if (isCheck) {
+                                mViewModel.allSelect.getCheck = false
+                            }
+                            item.getCheck = isCheck
                         }
                         (mBinding.svDepartmentSelectList.getChildAt(0) as RadioGroup).addView(
                             binding.root,

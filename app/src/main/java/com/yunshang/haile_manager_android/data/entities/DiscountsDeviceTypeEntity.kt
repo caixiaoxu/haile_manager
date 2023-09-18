@@ -20,6 +20,8 @@ data class DiscountsDeviceTypeEntity(
 ) : IMultiSelectBottomItemEntity {
     override var isCheck: Boolean = false
 
+    override var onlyOne: Boolean = false
+
     override fun getTitle(): String = name
 
     override fun hashCode(): Int {

@@ -1,6 +1,5 @@
 package com.yunshang.haile_manager_android.data.entities
 
-import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonParser
 import com.yunshang.haile_manager_android.data.rule.SearchSelectRadioEntity
 
@@ -56,24 +55,13 @@ data class Spu(
     val files: List<SpuFile>,
     val communicationType: Int,
     val extAttrDto: SpuExtAttrDto,
-) : SearchSelectRadioEntity {
+) : SearchSelectRadioEntity() {
     @Transient
     var shortFeature: String? = null
-
-    @Transient
-    var isSelect: MutableLiveData<Boolean>? = null
-        get() {
-            if (null == field) {
-                field = MutableLiveData(false)
-            }
-            return field
-        }
 
     override fun getSelectId(): Int = id
 
     override fun getSelectName(): String = name
-
-    override fun getCheck(): MutableLiveData<Boolean>? = isSelect
 
     fun getIgnorePayCodeFlag(): Boolean = try {
         JsonParser.parseString(extAttr).asJsonObject["ignorePayCodeFlag"].asBoolean

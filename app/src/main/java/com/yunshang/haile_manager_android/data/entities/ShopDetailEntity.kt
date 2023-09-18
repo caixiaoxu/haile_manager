@@ -92,7 +92,6 @@ data class ShopDetailEntity(
     fun getCreatorTitle(): String = StringUtils.getString(R.string.creator)
     fun hasCreateTime(): Boolean = !createTime.isNullOrEmpty()
     fun getCreateTimeTitle(): String = StringUtils.getString(R.string.create_time)
-
 }
 
 data class AppointSetting(

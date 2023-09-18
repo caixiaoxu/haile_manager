@@ -758,4 +758,29 @@ object UserPermissionUtils {
         return null != userPermissionsMap["league:data:list"]
     }
     /** ------------------------数据统计权限------------------------  */
+    /** ------------------------发券权限------------------------  */
+
+    /**
+     * 是否含有发券权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasSendCouponPermission(): Boolean {
+        return null != userPermissionsMap["league:coupon:send"]
+    }
+
+    /**
+     * 是否含有券列表权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasCouponListPermission(): Boolean {
+        return null != userPermissionsMap["league:couponuser:list"]
+    }
+
+    /** ------------------------发券权限------------------------  */
 }

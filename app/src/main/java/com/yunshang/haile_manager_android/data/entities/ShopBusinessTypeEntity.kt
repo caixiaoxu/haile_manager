@@ -16,6 +16,8 @@ import com.yunshang.haile_manager_android.data.rule.IMultiSelectBottomItemEntity
 data class ShopBusinessTypeEntity(val type: Int, val businessName: String) :ICommonBottomItemEntity,
     IMultiSelectBottomItemEntity {
     override var isCheck: Boolean = false
+
+    override var onlyOne: Boolean = false
     override fun getTitle(): String = businessName
 
     override fun hashCode(): Int {

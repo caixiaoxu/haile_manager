@@ -10,13 +10,15 @@
 
     </data>
 
-    <androidx.appcompat.widget.AppCompatCheckBox
+    <com.yunshang.haile_life.ui.view.ClickCheckBox
+        android:id="@+id/cb_multi_select_item"
         android:layout_width="match_parent"
         android:paddingHorizontal="16dp"
         android:gravity="center_vertical"
         android:button="@null"
         android:text="@{item.selectName}"
         android:checked="@{item.getCheck}"
+        android:background="@color/transparent"
         android:drawableEnd="@drawable/selector_login_agreement"
         style="@style/Font_16_333333"
         tools:text="店铺名称"

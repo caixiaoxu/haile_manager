@@ -89,8 +89,8 @@
             android:background="@color/white"
             android:gravity="center"
             android:paddingHorizontal="16dp"
-            android:text="@{vm.isAllSelect()?@string/no_select_all:@string/select_all}"
-            android:visibility="@{vm.moreSelect?View.VISIBLE:View.GONE}"
+            android:text="@{vm.isAllSelect?@string/no_select_all:@string/select_all}"
+            android:visibility="@{(vm.moreSelect &amp;&amp; !vm.hasAll)?View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/tv_department_select_list_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_department_select_list_title" />
@@ -100,11 +100,19 @@
             app:layout_constraintBottom_toBottomOf="@id/tv_department_select_list_title"
             tools:ignore="MissingConstraints" />
 
+        <include
+            android:id="@+id/include_search_select_radio_all"
+            layout="@layout/item_department_multi_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:item="@{vm.allSelect}"
+            app:layout_constraintTop_toBottomOf="@id/tv_department_select_list_title" />
+
         <androidx.core.widget.NestedScrollView
             android:id="@+id/sv_department_select_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
-            app:layout_constraintTop_toBottomOf="@id/tv_department_select_list_title" />
+            app:layout_constraintTop_toBottomOf="@id/include_search_select_radio_all" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

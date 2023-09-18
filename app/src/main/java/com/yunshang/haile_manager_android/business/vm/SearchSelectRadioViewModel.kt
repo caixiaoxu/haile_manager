@@ -46,6 +46,7 @@ class SearchSelectRadioViewModel : BaseViewModel() {
             )
             SearchSelectTypeParam.SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model))
             SearchSelectTypeParam.SearchSelectTypeTakeChargeShop -> StringUtils.getString(R.string.take_charge_shop)
+            SearchSelectTypeParam.SearchSelectTypeCouponShop -> StringUtils.getString(R.string.coupon_shop)
             else -> ""
         }
     }
@@ -55,14 +56,15 @@ class SearchSelectRadioViewModel : BaseViewModel() {
             SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop, SearchSelectTypeParam.SearchSelectTypeRechargeShop, SearchSelectTypeParam.SearchSelectTypePaySettingsShop -> StringUtils.getString(
                 R.string.shop_search_hint
             )
-            SearchSelectTypeParam.SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model_search_hint))
+            SearchSelectTypeParam.SearchSelectTypeDeviceModel -> StringUtils.getString(R.string.device_model_search_hint)
+            SearchSelectTypeParam.SearchSelectTypeCouponShop -> StringUtils.getString(R.string.search_shop)
             else -> ""
         }
     }
 
     val searchSelectListHint: LiveData<String> = searchSelectType.map {
         when (it) {
-            SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop, SearchSelectTypeParam.SearchSelectTypeRechargeShop, SearchSelectTypeParam.SearchSelectTypePaySettingsShop -> StringUtils.getString(
+            SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop, SearchSelectTypeParam.SearchSelectTypeRechargeShop, SearchSelectTypeParam.SearchSelectTypePaySettingsShop, SearchSelectTypeParam.SearchSelectTypeCouponShop -> StringUtils.getString(
                 R.string.shop_info
             )
             SearchSelectTypeParam.SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model))
@@ -80,6 +82,9 @@ class SearchSelectRadioViewModel : BaseViewModel() {
     var mustSelect = true
 
     var moreSelect = false
+
+    // 是否有全部选项
+    var hasAll = false
 
     var selectArr = intArrayOf()
 
@@ -99,6 +104,22 @@ class SearchSelectRadioViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
+    val allSelect = object : SearchSelectRadioEntity() {
+        override fun getSelectId(): Int = 0
+
+        override fun getSelectName(): String = "全部${
+            when (searchSelectType.value) {
+                SearchSelectTypeParam.SearchSelectTypeShop,
+                SearchSelectTypeParam.SearchSelectTypeTakeChargeShop,
+                SearchSelectTypeParam.SearchSelectTypePaySettingsShop,
+                SearchSelectTypeParam.SearchSelectTypeRechargeShop,
+                SearchSelectTypeParam.SearchSelectTypeCouponShop -> "门店"
+                SearchSelectTypeParam.SearchSelectTypeDeviceModel -> "设备"
+                else -> ""
+            }
+        }"
+    }
+
     /**
      * 请求数据
      */
@@ -106,7 +127,7 @@ class SearchSelectRadioViewModel : BaseViewModel() {
         launch({
             val list: MutableList<out SearchSelectRadioEntity> =
                 when (searchSelectType.value) {
-                    SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop, SearchSelectTypeParam.SearchSelectTypePaySettingsShop -> ApiRepository.dealApiResult(
+                    SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop, SearchSelectTypeParam.SearchSelectTypePaySettingsShop, SearchSelectTypeParam.SearchSelectTypeCouponShop -> ApiRepository.dealApiResult(
                         mShopRepo.shopSelectList(
                             ApiRepository.createRequestBody(
                                 hashMapOf(
@@ -147,8 +168,13 @@ class SearchSelectRadioViewModel : BaseViewModel() {
                     )
                     else -> null
                 } ?: mutableListOf()
-            list.forEach {
-                it.getCheck()?.postValue(it.getSelectId() in selectArr)
+
+            if (selectArr.contains(0)) {
+                allSelect.getCheck = true
+            } else {
+                list.forEach {
+                    it.getCheck = (it.getSelectId() in selectArr)
+                }
             }
             selectList.postValue(list)
         })
@@ -157,7 +183,7 @@ class SearchSelectRadioViewModel : BaseViewModel() {
     fun checkSelectAll() {
         viewModelScope.launch(Dispatchers.IO) {
             selectList.value?.let { list ->
-                isAllSelect.postValue(list.all { true == it.getCheck()?.value })
+                isAllSelect.postValue(list.all { it.getCheck })
             }
         }
     }

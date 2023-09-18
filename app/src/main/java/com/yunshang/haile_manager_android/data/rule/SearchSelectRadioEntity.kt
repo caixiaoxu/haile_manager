@@ -1,6 +1,9 @@
 package com.yunshang.haile_manager_android.data.rule
 
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
+import com.yunshang.haile_manager_android.BR
 
 /**
  * Title :
@@ -12,17 +15,22 @@ import androidx.lifecycle.MutableLiveData
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-interface SearchSelectRadioEntity {
+abstract class SearchSelectRadioEntity : BaseObservable() {
 
-    fun getSelectId():Int
+    abstract fun getSelectId(): Int
 
     /**
      * 获取名称
      */
-    fun getSelectName():String
+    abstract fun getSelectName(): String
 
     /**
      * 选中参数
      */
-    fun getCheck(): MutableLiveData<Boolean>?
+    @get:Bindable
+    var getCheck: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.getCheck)
+        }
 }

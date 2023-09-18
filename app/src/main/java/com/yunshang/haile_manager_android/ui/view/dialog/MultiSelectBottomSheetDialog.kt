@@ -106,6 +106,7 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
                 itemBinding.root.apply {
                     text = data.getTitle()
                     isChecked = data.isCheck
+                    tag = data.onlyOne
 
                     setOnCheckClickListener {
                         if (builder.supportSingle) {
@@ -121,6 +122,20 @@ class MultiSelectBottomSheetDialog<D : IMultiSelectBottomItemEntity> private con
 
                     setOnCheckedChangeListener { _, isChecked ->
                         data.isCheck = isChecked
+                        if (isChecked) {
+                            if (data.onlyOne) {
+                                mBinding.clMultiSelectList.children.forEach { child ->
+                                    if (child is AppCompatCheckBox && false == (child.tag as? Boolean)) {
+                                        child.isChecked = false
+                                    }
+                                }
+                            } else {
+                                mBinding.clMultiSelectList.children.find { child -> child is AppCompatCheckBox && true == (child.tag as? Boolean) }
+                                    ?.let { child ->
+                                        (child as AppCompatCheckBox).isChecked = false
+                                    }
+                            }
+                        }
                     }
                 }, ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,

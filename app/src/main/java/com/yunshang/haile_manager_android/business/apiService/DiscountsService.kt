@@ -2,16 +2,14 @@ package com.yunshang.haile_manager_android.business.apiService
 
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
-import com.yunshang.haile_manager_android.data.entities.DiscountsBusinessTypeEntity
-import com.yunshang.haile_manager_android.data.entities.DiscountsDetailEntity
-import com.yunshang.haile_manager_android.data.entities.DiscountsDeviceTypeEntity
-import com.yunshang.haile_manager_android.data.entities.DiscountsEntity
+import com.yunshang.haile_manager_android.data.entities.*
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
@@ -67,4 +65,35 @@ interface DiscountsService {
      */
     @GET("/timeMarket/timeMarketDetail")
     suspend fun requestDiscountsDetail(@Query("id") id: Int): ResponseWrapper<DiscountsDetailEntity>
+
+    /**
+     * 发券
+     */
+    @POST("/coupon/subject/activate/app")
+    suspend fun submitIssueCoupon(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 券列表
+     */
+    @POST("/coupon/assetSearch")
+    suspend fun requestCouponList(@Body body: RequestBody): ResponseWrapper<ResponseList<CouponEntity>>
+
+    /**
+     * 券数量
+     */
+    @POST("/coupon/assetSearch/count")
+    suspend fun requestCouponNum(@Body body: RequestBody): ResponseWrapper<CouponNumEntity>
+
+    /**
+     * 券详情接口
+     */
+    @GET("/coupon/asset/{id}")
+    suspend fun requestCouponDetail(@Path("id") id: Int): ResponseWrapper<CouponDetailEntity>
+
+    /**
+     * 废弃券接口
+     */
+    @POST("/coupon/batchInvalidActivateAsset")
+    suspend fun abandonCoupon(@Body body: RequestBody): ResponseWrapper<Any>
+
 }

@@ -15,6 +15,8 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.HomeIncomeEntity
 import com.yunshang.haile_manager_android.data.entities.MessageEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import com.yunshang.haile_manager_android.ui.activity.coupon.CouponManageActivity
+import com.yunshang.haile_manager_android.ui.activity.coupon.IssueCouponsActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.discounts.DiscountsManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.notice.NoticeManagerActivity
@@ -127,6 +129,18 @@ class HomeViewModel : BaseViewModel() {
                 R.mipmap.icon_haixin_manager,
                 HaiXinRechargeConfigsActivity::class.java,
                 true
+            ),
+            FunItem(
+                StringUtils.getString(R.string.issue_coupons),
+                R.mipmap.icon_issue_coupons,
+                IssueCouponsActivity::class.java,
+                UserPermissionUtils.hasSendCouponPermission()
+            ),
+            FunItem(
+                StringUtils.getString(R.string.coupon_manage),
+                R.mipmap.icon_coupon_manage,
+                CouponManageActivity::class.java,
+                UserPermissionUtils.hasCouponListPermission()
             ),
         )
     )

@@ -350,6 +350,7 @@
     <string name="coupon_amount">券面额</string>
     <string name="coupon_type">券类型</string>
     <string name="coupon_condition">满减条件</string>
+    <string name="coupon_condition_value">满%1$s元，可使用</string>
     <string name="coupon_shop">适用门店</string>
     <string name="coupon_device_type">适用设备类型</string>
     <string name="indate">有效期</string>
@@ -455,6 +456,48 @@
     <string name="sub_account_detail">分账详情</string>
     <string name="sub_account_person">分账人员</string>
     <string name="item_sub_account_shop_title">分账门店：%1$s（%2$s）</string>
+
+    <string name="issue_coupons">发券</string>
+    <string name="issue_coupons_user">发券用户</string>
+    <string-array name="coupon_type">
+        <item></item>
+        <item>满减券</item>
+        <item></item>
+        <item>折扣券</item>
+        <item>兑换券</item>
+    </string-array>
+    <string name="coupon_price">券金额</string>
+    <string name="coupon_price_hint">输入范围0.01-100.00</string>
+    <string name="experiential_price">体验价</string>
+    <string name="experiential_price_hint">输入范围0-100.00</string>
+    <string name="coupon_discount">券折扣</string>
+    <string name="coupon_discount_hint">输入范围0.1-9.9</string>
+    <string name="relief_ceiling">减免上限</string>
+    <string name="relief_ceiling_hint">输入范围0.01-100.00</string>
+    <string name="service_conditions">使用条件</string>
+    <string name="full">满</string>
+    <string name="service_conditions_hint">范围0-100.00</string>
+    <string name="available">可用</string>
+    <string name="issue_coupon_num">发券数量</string>
+    <string name="issue_coupon_num_hint">范围1-10</string>
+    <string name="validity_to">有效期至</string>
+    <string name="coupon_device">适用设备</string>
+    <string name="coupon_device_dialog_title">适用设备（可多选）</string>
+    <string name="all_device">全部设备</string>
+    <string name="sure_issue_coupons">确认发券</string>
+    <string name="coupon_base_info">券基础信息</string>
+
+    <string name="coupon_manage">券管理</string>
+    <string name="all_coupon">全部券</string>
+    <string name="all_shop">全部门店</string>
+    <string name="coupon_num_prompt">全部%1$d张券</string>
+    <string name="coupon_detail">券详情</string>
+    <string name="cancellation">作废</string>
+    <string name="send_user">发送用户</string>
+    <string name="send_time">发券时间</string>
+    <string name="send_operator">发券人</string>
+    <string name="cancellation_time">作废时间</string>
+    <string name="cancellation_operator">作废人</string>
 
     <string name="home_msg_title">最近消息</string>
     <string name="home_msg_num">条新消息</string>
@@ -587,6 +630,7 @@
     <string name="shop_sign_pic">门店招牌照</string>
     <string name="shop_device_pic">设备场景照</string>
     <string name="shop_sit_and_device_pic_promt">图片格式支持bmp、jpg、jpeg、png、gif，最大为10MB</string>
+    <string name="search_shop">搜索门店</string>
     <string name="rebinding">重新绑定</string>
 
     <string name="real_name">实名认证</string>
@@ -679,6 +723,7 @@
     <string name="num_folds">%1$s折</string>
     <string name="unit_minute_hint">（分）</string>
     <string name="unit_yuan_hint">（元）</string>
+    <string name="unit_folds_hint">（折）</string>
     <string name="unit_ge_hint">（个）</string>
     <string name="unit_second_hint">（秒）</string>
     <string name="unit_minute_hint1">（分钟）</string>

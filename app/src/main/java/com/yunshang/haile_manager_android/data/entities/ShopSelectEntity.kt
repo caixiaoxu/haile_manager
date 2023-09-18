@@ -1,6 +1,5 @@
 package com.yunshang.haile_manager_android.data.entities
 
-import androidx.lifecycle.MutableLiveData
 import com.yunshang.haile_manager_android.data.rule.SearchSelectRadioEntity
 
 /**
@@ -16,19 +15,9 @@ import com.yunshang.haile_manager_android.data.rule.SearchSelectRadioEntity
 data class ShopSelectEntity(
     val id: Int,
     val name: String
-) : SearchSelectRadioEntity {
-    @Transient
-    var isSelect: MutableLiveData<Boolean>? = null
-        get() {
-            if (null == field) {
-                field = MutableLiveData(false)
-            }
-            return field
-        }
+) : SearchSelectRadioEntity() {
 
     override fun getSelectId(): Int = id
 
     override fun getSelectName(): String = name
-
-    override fun getCheck(): MutableLiveData<Boolean>? = isSelect
 }

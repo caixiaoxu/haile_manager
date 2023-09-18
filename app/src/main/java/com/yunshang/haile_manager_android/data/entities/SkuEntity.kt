@@ -245,6 +245,7 @@ data class ExtAttrDtoItem(
         set(value) {
             isEnabled = value
         }
+    override var onlyOne: Boolean = false
 
     override fun getTitle(): String = if (1 == priceCalculateMode) {
         // 流量
@@ -336,6 +337,8 @@ data class ExtAttrBean(
 
     @Transient
     override var isCheck: Boolean = false
+
+    override var onlyOne: Boolean = false
 
     override fun getTitle(): String = StringUtils.getString(R.string.unit_minute_num, minutes)
 
@@ -532,9 +535,9 @@ data class SkuFunConfigurationV2Param(
         get() = (1 == soldState)
         set(value) {
             soldState = if (value) 1 else 2
-            if (2 == soldState){
+            if (2 == soldState) {
                 // 下架后取消默认
-                extAttrDto.items.forEach {attr->
+                extAttrDto.items.forEach { attr ->
                     attr.isDefault = false
                 }
                 notifyPropertyChanged(BR.defaultOpen)

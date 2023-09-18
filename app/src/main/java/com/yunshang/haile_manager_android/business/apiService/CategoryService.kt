@@ -21,6 +21,6 @@ interface CategoryService {
      * 分类接口
      */
     @GET("/category/list")
-    suspend fun category(@Query("parentId") parentId: Int): ResponseWrapper<List<CategoryEntity>>
+    suspend fun category(@Query("parentId") parentId: Int): ResponseWrapper<MutableList<CategoryEntity>>
 
 }

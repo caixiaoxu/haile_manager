@@ -49,7 +49,7 @@ class WithdrawDialog private constructor(private val builder: Builder) : AppComp
         super.onViewCreated(view, savedInstanceState)
 
         //内容
-        mBinding.tvWithdrawDialogAmount.text = builder.withdrawCalculate.totalAmount
+        mBinding.tvWithdrawDialogAmount.text = builder.withdrawCalculate.realAmount
         mBinding.tvWithdrawDialogServiceCharge.text = builder.withdrawCalculate.feeAmount
         mBinding.tvWithdrawDialogRate.text = "${builder.withdrawCalculate.cashOutRate * 1.0 / 100}%"
 

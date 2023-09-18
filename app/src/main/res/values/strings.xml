@@ -464,7 +464,7 @@
         <item>满减券</item>
         <item></item>
         <item>折扣券</item>
-        <item>兑换券</item>
+        <item>体验券</item>
     </string-array>
     <string name="coupon_price">券金额</string>
     <string name="coupon_price_hint">输入范围0.01-100.00</string>

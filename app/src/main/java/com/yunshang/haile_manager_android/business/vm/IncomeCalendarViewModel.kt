@@ -72,7 +72,7 @@ class IncomeCalendarViewModel : BaseViewModel() {
     private fun getCommonParams(isMonth: Boolean = true): HashMap<String, Any?>? =
         hashMapOf<String, Any?>(
             "dateType" to 1,//日期统计类型 ，1：天；2：月；3：年
-            "profitType" to profitType, //收益类型 1:店铺；2：设备；3:收入明细
+            "profitType" to profitType, //收益类型 1:店铺；2：设备；3:收入明细 4:所有店铺
             "profitIncomeType" to profitIncomeType
         ).also { params ->
             if (3 != profitType) {

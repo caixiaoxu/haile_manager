@@ -295,7 +295,7 @@ class HomeFragment :
                                         requireContext(),
                                         IncomeCalendarActivity::class.java
                                     ).apply {
-                                        putExtra(IncomeCalendarActivity.ProfitType, 3)
+                                        putExtra(IncomeCalendarActivity.ProfitType, 4)
                                         putExtra(IncomeCalendarActivity.SelectDay, it.date)
                                         putExtra(
                                             IncomeCalendarActivity.ProfitIncomeType,

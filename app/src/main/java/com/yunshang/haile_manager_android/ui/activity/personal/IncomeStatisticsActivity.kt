@@ -1,35 +1,71 @@
 package com.yunshang.haile_manager_android.ui.activity.personal
 
-import android.text.style.AbsoluteSizeSpan
+import android.content.Intent
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.IncomeStatisticsViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
+import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.ShopRevenueEntity
 import com.yunshang.haile_manager_android.data.entities.UserFund
 import com.yunshang.haile_manager_android.databinding.ActivityIncomeStatisticsBinding
 import com.yunshang.haile_manager_android.databinding.ItemIncomeStatisticsShopBinding
 import com.yunshang.haile_manager_android.databinding.ItemIncomeStatisticsSubAccountInfoBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
+import com.yunshang.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
+import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.utils.StringUtils
+import com.yunshang.haile_manager_android.utils.span.VerticalBottomSpan
+import java.util.*
 
 class IncomeStatisticsActivity :
     BaseBusinessActivity<ActivityIncomeStatisticsBinding, IncomeStatisticsViewModel>(
         IncomeStatisticsViewModel::class.java, BR.vm
     ) {
+
+    // 搜索选择界面
+    private val startSearchSelect =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            it.data?.let { intent ->
+                intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)?.let { json ->
+                    GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
+                        when (it.resultCode) {
+                            IntentParams.SearchSelectTypeParam.ShopResultCode -> {
+                                if (selected.isNotEmpty()) {
+                                    if (selected.any { item -> 0 == item.id }) {
+                                        mViewModel.shopIds = null
+                                        mBinding.tvIncomeStatisticsShop.text = ""
+                                    } else {
+                                        mViewModel.shopIds = selected.map { item -> item.id }
+                                        mBinding.tvIncomeStatisticsShop.text =
+                                            if (1 == selected.size) selected.first().name else "${selected.size}家门店"
+                                    }
+                                    requestData(true)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     private val mAdapter: CommonRecyclerAdapter<ItemIncomeStatisticsShopBinding, ShopRevenueEntity> by lazy {
         CommonRecyclerAdapter(
             R.layout.item_income_statistics_shop,
             BR.item
         ) { mItemBinding, _, item ->
-
-            if (item.userFundList.isNotEmpty()) {
+            if (!item.userFundList.isNullOrEmpty()) {
                 mItemBinding?.includeItemIncomeStatisticsSubAccount?.root?.visibility(true)
                 mItemBinding?.includeItemIncomeStatisticsSubAccount?.llSubAccountInfo?.buildChild<ItemIncomeStatisticsSubAccountInfoBinding, UserFund>(
                     item.userFundList
@@ -53,11 +89,11 @@ class IncomeStatisticsActivity :
         mViewModel.totalRevenue.observe(this) {
             it?.let { total ->
                 mBinding.tvIncomeStatisticsRevenue.text = StringUtils.formatMultiStyleStr(
-                    "¥${total.revenue}", arrayOf(
-                        AbsoluteSizeSpan(DimensionUtils.sp2px(24f))
-                    ), 0, 1
+                    "¥ ${total.revenue}", arrayOf(
+                        VerticalBottomSpan(DimensionUtils.sp2px(24f).toFloat(), -3f)
+                    ), 0, 2
                 )
-                if (total.userFundList.isNotEmpty()) {
+                if (!total.userFundList.isNullOrEmpty()) {
                     mBinding.includeIncomeStatisticsSubAccount.root.visibility(true)
                     mBinding.includeIncomeStatisticsSubAccount.llSubAccountInfo.buildChild<ItemIncomeStatisticsSubAccountInfoBinding, UserFund>(
                         total.userFundList
@@ -79,8 +115,71 @@ class IncomeStatisticsActivity :
                 )
             )
             setOnClickListener {
-
+                startActivity(
+                    Intent(
+                        this@IncomeStatisticsActivity,
+                        IncomeExpensesDetailActivity::class.java
+                    )
+                )
             }
+        }
+
+        // 日期
+        mBinding.tvIncomeStatisticsDate.setOnClickListener {
+            DateSelectorDialog.Builder().apply {
+                selectModel = 1
+                limitSpace = 31
+                maxDate = Calendar.getInstance().apply { time = Date() }
+                onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
+                    override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
+                        mViewModel.startDate.value = date1
+                        mViewModel.endDate.value = date1
+                        requestData(true)
+                    }
+                }
+            }.build().show(supportFragmentManager)
+        }
+
+        // 店铺
+        mBinding.tvIncomeStatisticsShop.setOnClickListener {
+            startSearchSelect.launch(
+                Intent(
+                    this@IncomeStatisticsActivity,
+                    SearchSelectRadioActivity::class.java
+                ).apply {
+                    putExtras(
+                        IntentParams.SearchSelectTypeParam.pack(
+                            IntentParams.SearchSelectTypeParam.SearchSelectTypeCouponShop,
+                            mustSelect = true,
+                            moreSelect = true,
+                            hasAll = true,
+                            selectArr = mViewModel.shopIds?.toIntArray() ?: intArrayOf(0)
+                        )
+                    )
+                }
+            )
+        }
+
+        // 设备
+        mBinding.tvIncomeStatisticsCategory.setOnClickListener {
+            MultiSelectBottomSheetDialog.Builder(
+                getString(R.string.coupon_device_dialog_title),
+                mViewModel.categoryList.value ?: listOf()
+            ).apply {
+                onValueSureListener =
+                    object :
+                        MultiSelectBottomSheetDialog.OnValueSureListener<CategoryEntity> {
+                        override fun onValue(
+                            selectData: List<CategoryEntity>,
+                            allSelectData: List<CategoryEntity>
+                        ) {
+                            mViewModel.categoryCodes = selectData.mapNotNull { item -> item.code }
+                            mBinding.tvIncomeStatisticsCategory.text =
+                                if (1 == selectData.size) selectData.first().name else "${selectData.size}种设备"
+                            requestData(true)
+                        }
+                    }
+            }.build().show(supportFragmentManager)
         }
 
         // 刷新加载
@@ -106,15 +205,15 @@ class IncomeStatisticsActivity :
     }
 
     override fun initData() {
-        requestData(true)
+        requestData(true, 0)
     }
 
-    private fun requestData(isRefresh: Boolean = false) {
+    private fun requestData(isRefresh: Boolean = false, type: Int = 1) {
         if (isRefresh) {
             mBinding.refreshLayout.setEnableLoadMore(true)
         }
 
-        mViewModel.requestData(isRefresh) { shopDataList ->
+        mViewModel.requestData(type, isRefresh) { shopDataList ->
             mBinding.refreshLayout.finishRefresh()
             mBinding.refreshLayout.finishLoadMore()
             if (shopDataList.isEmpty()) {

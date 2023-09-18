@@ -26,6 +26,7 @@ import com.yunshang.haile_manager_android.databinding.ItemDepartmentMultiSelectB
 import com.yunshang.haile_manager_android.databinding.ItemDepartmentSelectBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.shop.ShopPaySettingsActivity
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 
 class SearchSelectRadioActivity :
     BaseBusinessActivity<ActivitySearchSelectRadioBinding, SearchSelectRadioViewModel>(
@@ -163,16 +164,19 @@ class SearchSelectRadioActivity :
             }
         }
 
-        mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.setBackgroundResource(R.drawable.shape_bottom_stroke_dividing_mlr16)
-        mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.setOnCheckClickListener {
-            mViewModel.allSelect.getCheck = !mViewModel.allSelect.getCheck
-            if (mViewModel.allSelect.getCheck) {
-                mViewModel.selectList.value?.forEach {
-                    it.getCheck = false
-                }
-                backAndResult()
-                true
-            } else false
+        mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.visibility(mViewModel.hasAll)
+        if (mViewModel.hasAll){
+            mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.setBackgroundResource(R.drawable.shape_bottom_stroke_dividing_mlr16)
+            mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.setOnCheckClickListener {
+                mViewModel.allSelect.getCheck = !mViewModel.allSelect.getCheck
+                if (mViewModel.allSelect.getCheck) {
+                    mViewModel.selectList.value?.forEach {
+                        it.getCheck = false
+                    }
+                    backAndResult()
+                    true
+                } else false
+            }
         }
     }
 

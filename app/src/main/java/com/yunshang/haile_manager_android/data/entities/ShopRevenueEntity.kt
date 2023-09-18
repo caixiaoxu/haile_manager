@@ -14,5 +14,5 @@ data class ShopRevenueEntity(
     val revenue: Double,
     val shopId: Int,
     val shopName: String,
-    val userFundList: List<UserFund>
+    val userFundList: List<UserFund>?
 )

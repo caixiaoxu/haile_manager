@@ -12,7 +12,7 @@ package com.yunshang.haile_manager_android.data.entities
  */
 data class TotalRevenueEntity(
     val revenue: Double,
-    val userFundList: List<UserFund>
+    val userFundList: List<UserFund>?
 )
 
 data class UserFund(

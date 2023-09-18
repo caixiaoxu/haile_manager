@@ -24,7 +24,7 @@ interface CapitalService {
     /**
      * 当日总收益接口
      */
-    @POST("/profit/totalIncomeToday")
+    @POST("/profit/totalIncomeToday/v2")
     suspend fun totalIncomeToady(@Body body: RequestBody): ResponseWrapper<String>
 
     /**
@@ -61,7 +61,7 @@ interface CapitalService {
     /**
      * 首页收益趋势接口
      */
-    @POST("/profit/homeIncome")
+    @POST("/profit/homeIncome/v2")
     suspend fun homeInCome(@Body body: RequestBody): ResponseWrapper<List<HomeIncomeEntity>>
 
     /**

@@ -3,8 +3,11 @@ package com.yunshang.haile_manager_android.business.vm
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.lsy.framelib.utils.StringUtils
+import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
-import com.yunshang.haile_manager_android.data.entities.DataStatisticsShopListEntity
+import com.yunshang.haile_manager_android.business.apiService.CategoryService
+import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.ShopRevenueEntity
 import com.yunshang.haile_manager_android.data.entities.TotalRevenueEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
@@ -25,12 +28,13 @@ import java.util.*
  */
 class IncomeStatisticsViewModel : BaseViewModel() {
     private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
+    private val mCategoryRepo = ApiRepository.apiClient(CategoryService::class.java)
 
     private var page = 1
 
     // 开始和结束日期
+    val startDate: MutableLiveData<Date> = MutableLiveData(Date())
     val endDate: MutableLiveData<Date> = MutableLiveData(Date())
-    val startDate: MutableLiveData<Date> = MutableLiveData(DateTimeUtils.beforeMonth(Date()))
     val dateSpace: MediatorLiveData<String> = MediatorLiveData("").apply {
         addSource(startDate) {
             value = mergeDate()
@@ -40,10 +44,17 @@ class IncomeStatisticsViewModel : BaseViewModel() {
         }
     }
 
-    private fun mergeDate(): String {
+    private fun mergeDate(): String = if (DateTimeUtils.isSameDay(startDate.value, endDate.value)) {
+        "${DateTimeUtils.formatDateTime(startDate.value, "MM-dd")}"
+    } else {
         val formatStr =
-            if (DateTimeUtils.isSameYear(startDate.value, endDate.value)) "MM-dd" else "yyyy-MM-dd"
-        return "${DateTimeUtils.formatDateTime(startDate.value, formatStr)} 至 ${
+            if (DateTimeUtils.isSameYear(
+                    startDate.value,
+                    endDate.value
+                )
+            ) "MM-dd" else "yyyy-MM-dd"
+
+        "${DateTimeUtils.formatDateTime(startDate.value, formatStr)} 至 ${
             DateTimeUtils.formatDateTime(
                 endDate.value,
                 formatStr
@@ -55,18 +66,40 @@ class IncomeStatisticsViewModel : BaseViewModel() {
     var shopIds: List<Int>? = null
 
     // 设备类型
-    var categoryIds: List<Int>? = null
+    var categoryCodes: List<String>? = null
+
+    // 设备类型
+    val categoryList: MutableLiveData<MutableList<CategoryEntity>> by lazy {
+        MutableLiveData()
+    }
 
     val totalRevenue: MutableLiveData<TotalRevenueEntity> by lazy {
         MutableLiveData()
     }
 
     fun requestData(
+        type: Int,
         isRefresh: Boolean,
         callBack: (MutableList<ShopRevenueEntity>) -> Unit
     ) {
         launch({
             if (isRefresh) {
+                if (0 == type) {
+                    ApiRepository.dealApiResult(
+                        mCategoryRepo.category(1)
+                    )?.let {
+                        it.add(
+                            0,
+                            CategoryEntity(
+                                id = 0,
+                                name = StringUtils.getString(R.string.all_device)
+                            ).apply {
+                                onlyOne = true
+                            })
+                        categoryList.postValue(it)
+                    }
+                }
+
                 // 请求总收益
                 ApiRepository.dealApiResult(
                     mCapitalRepo.requestTotalRevenue(
@@ -96,7 +129,7 @@ class IncomeStatisticsViewModel : BaseViewModel() {
     private fun getCommonParams(needPage: Boolean = false) = ApiRepository.createRequestBody(
         hashMapOf(
             "shopIdList" to shopIds,
-            "categoryCodeList" to categoryIds,
+            "categoryCodeList" to categoryCodes,
             "startTime" to DateTimeUtils.formatDateTimeStartParam(startDate.value),
             "endTime" to DateTimeUtils.formatDateTimeEndParam(endDate.value),
         ).also { params ->

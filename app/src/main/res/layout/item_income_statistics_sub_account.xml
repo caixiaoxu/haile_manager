@@ -7,8 +7,6 @@
     android:background="@drawable/shape_top_stroke_dividing_mlr16"
     android:orientation="vertical"
     android:paddingHorizontal="12dp"
-    android:visibility="gone"
-    tools:visibility="visible"
     tools:showIn="@layout/activity_income_statistics">
 
     <androidx.appcompat.widget.AppCompatTextView

@@ -54,23 +54,23 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_income_statistics_shop"
-                        style="@style/Font_14_333333"
+                        style="@style/Font_14_333333_333333"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:drawableEnd="@mipmap/icon_triangle_down"
                         android:drawablePadding="4dp"
-                        tools:text="全部门店" />
+                        android:hint="@string/all_shop" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_income_statistics_category"
-                        style="@style/Font_14_333333"
+                        style="@style/Font_14_333333_333333"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:drawableEnd="@mipmap/icon_triangle_down"
                         android:drawablePadding="4dp"
-                        tools:text="全部设备" />
+                        android:hint="@string/all_device" />
                 </LinearLayout>
             </HorizontalScrollView>
         </LinearLayout>
@@ -115,7 +115,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:gravity="bottom"
                             android:fontFamily="@font/money"
                             tools:text="200.00" />
 

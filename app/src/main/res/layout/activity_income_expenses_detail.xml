@@ -42,23 +42,23 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_income_expenses_detail_shop"
-                    style="@style/Font_14_333333"
+                    style="@style/Font_14_333333_333333"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:drawableEnd="@mipmap/icon_triangle_down"
                     android:drawablePadding="4dp"
-                    tools:text="全部门店" />
+                    android:hint="@string/all_shop" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_income_expenses_detail_category"
-                    style="@style/Font_14_333333"
+                    style="@style/Font_14_333333_333333"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:drawableEnd="@mipmap/icon_triangle_down"
                     android:drawablePadding="4dp"
-                    tools:text="全部设备" />
+                    android:hint="@string/all_device" />
             </LinearLayout>
         </HorizontalScrollView>
 
@@ -120,35 +120,50 @@
                         android:layout_height="53dp"
                         android:layout_marginTop="8dp"
                         android:background="@drawable/shape_sffffff_rt12"
-                        android:orientation="horizontal">
+                        android:checkedButton="@id/rb_income_expenses_detail_type_all"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="16dp">
 
                         <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/rb_income_expenses_detail_type_all"
                             android:layout_width="53dp"
                             android:layout_height="28dp"
                             android:background="@drawable/selector_income_expenses_detail_type_bg"
-                            android:checkedButton="@null"
-                            android:text="@string/all" />
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/all"
+                            android:textColor="@color/selector_ffffff_333333"
+                            android:textSize="14sp" />
 
                         <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/rb_income_expenses_detail_type_earning"
                             android:layout_width="53dp"
                             android:layout_height="28dp"
                             android:background="@drawable/selector_income_expenses_detail_type_bg"
-                            android:checkedButton="@null"
-                            android:text="@string/income" />
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/earning"
+                            android:textColor="@color/selector_ffffff_333333"
+                            android:textSize="14sp" />
 
                         <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/rb_income_expenses_detail_type_expend"
                             android:layout_width="53dp"
                             android:layout_height="28dp"
                             android:background="@drawable/selector_income_expenses_detail_type_bg"
-                            android:checkedButton="@null"
-                            android:text="@string/expend" />
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/expend"
+                            android:textColor="@color/selector_ffffff_333333"
+                            android:textSize="14sp" />
                     </RadioGroup>
 
-                    <View style="@style/DividingStyle"/>
+                    <View style="@style/DividingStyle" />
                 </com.google.android.material.appbar.AppBarLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_data_statistics_list"
+                    android:id="@+id/rv_income_expenses_detail_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:overScrollMode="never"

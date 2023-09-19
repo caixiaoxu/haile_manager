@@ -2,19 +2,14 @@ package com.yunshang.haile_manager_android.business.vm
 
 import android.os.CountDownTimer
 import android.view.View
-import android.widget.Button
-import android.widget.Toast
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.business.apiService.LoginUserService
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.ActivityManagerUtils
 import com.yunshang.haile_manager_android.utils.StringUtils
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
@@ -65,7 +60,7 @@ class UpdatePasswordViewModel : BaseViewModel() {
             return
         }
 
-        if (!StringUtils.checkPassword(oldPwd.value)) {
+        if (!StringUtils.checkPassword(newPwd.value)) {
             SToast.showToast(view.context, "密码必须包含6-12位大小写字母和数字")
             return
         }

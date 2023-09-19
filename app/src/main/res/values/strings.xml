@@ -37,6 +37,7 @@
     <string name="send_to_wechat">发送到微信</string>
     <string name="status">状态</string>
     <string name="operate">操作</string>
+    <string name="operate_success">操作成功</string>
     <string name="for_take">拍照</string>
     <string name="for_album">相册</string>
     <string name="capture_light">补光</string>

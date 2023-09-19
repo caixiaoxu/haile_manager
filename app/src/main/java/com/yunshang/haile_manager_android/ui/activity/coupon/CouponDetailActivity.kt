@@ -32,7 +32,7 @@ class CouponDetailActivity :
             CommonDialog.Builder("是否作废").apply {
                 negativeTxt = StringUtils.getString(R.string.cancel)
                 setPositiveButton(StringUtils.getString(R.string.cancellation)) {
-                    mViewModel.abandonCoupon()
+                    mViewModel.abandonCoupon(this@CouponDetailActivity)
                 }
             }.build().show(supportFragmentManager)
         }

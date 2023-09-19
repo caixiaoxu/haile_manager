@@ -1,6 +1,5 @@
 package com.yunshang.haile_manager_android.business.vm
 
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
@@ -47,7 +46,7 @@ class CouponDetailViewModel : BaseViewModel() {
     /**
      * 废弃优惠券
      */
-    fun abandonCoupon(v: View) {
+    fun abandonCoupon() {
         if (couponId <= 0) return
         launch({
             ApiRepository.dealApiResult(

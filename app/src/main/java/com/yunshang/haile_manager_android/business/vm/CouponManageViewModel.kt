@@ -111,7 +111,7 @@ class CouponManageViewModel : BaseViewModel() {
                         couponStatus[3].num.postValue(num.count)
                     }
                     32 -> {
-                        couponStatus[3].num.postValue(num.count)
+                        couponStatus[4].num.postValue(num.count)
                     }
                 }
             }

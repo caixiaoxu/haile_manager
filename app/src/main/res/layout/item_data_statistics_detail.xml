@@ -30,7 +30,7 @@
 
     <include
         android:id="@+id/include_data_statistics_detail_items"
-        layout="@layout/layout_data_statistics_items"
+        layout="@layout/layout_data_statistics_detail_items"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_detail_item_title" />

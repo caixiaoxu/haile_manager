@@ -193,11 +193,7 @@ class HomeViewModel : BaseViewModel() {
             inComeVal.postValue(
                 ApiRepository.dealApiResult(
                     mCapitalRepo.totalIncomeToady(
-                        ApiRepository.createRequestBody(
-                            hashMapOf(
-                                "profitIncomeType" to type
-                            )
-                        )
+                        ApiRepository.createRequestBody("")
                     )
                 )
             )
@@ -246,7 +242,6 @@ class HomeViewModel : BaseViewModel() {
                                     "endTime" to DateTimeUtils.formatDateTime(
                                         DateTimeUtils.getMonthLast(selectedDate.value)
                                     ),
-                                    "profitIncomeType" to type
                                 ),
                             )
                         )

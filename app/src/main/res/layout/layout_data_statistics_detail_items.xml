@@ -27,15 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.33"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_row2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.66"
+        app:layout_constraintGuide_percent="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <View
@@ -66,7 +58,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginBottom="24dp"
         android:background="@color/dividing_line_color"
-        app:layout_constraintBottom_toBottomOf="@id/gl_row2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/gl_column1"
         app:layout_constraintTop_toBottomOf="@id/view_column1" />
 
@@ -74,138 +66,14 @@
         android:id="@+id/view_column4"
         android:layout_width="1dp"
         android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         android:background="@color/dividing_line_color"
         app:layout_constraintBottom_toBottomOf="@id/view_column3"
         app:layout_constraintStart_toStartOf="@id/gl_column2"
         app:layout_constraintTop_toTopOf="@id/view_column3" />
 
-    <View
-        android:id="@+id/view_column5"
-        android:layout_width="1dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="24dp"
-        android:background="@color/dividing_line_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/gl_column1"
-        app:layout_constraintTop_toBottomOf="@id/gl_row2" />
-
-    <View
-        android:id="@+id/view_column6"
-        android:layout_width="1dp"
-        android:layout_height="0dp"
-        android:background="@color/dividing_line_color"
-        app:layout_constraintBottom_toBottomOf="@id/view_column5"
-        app:layout_constraintStart_toStartOf="@id/gl_column2"
-        app:layout_constraintTop_toTopOf="@id/view_column5" />
-
     <!--  第一行  -->
-    <!--  第一列  -->
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_data_statistics_total_revenue_title"
-        style="@style/Font_14_333333"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/total_income"
-        app:layout_constraintBottom_toTopOf="@id/tv_data_statistics_total_revenue"
-        app:layout_constraintEnd_toEndOf="@id/tv_data_statistics_total_revenue_trend"
-        app:layout_constraintStart_toStartOf="@id/tv_data_statistics_total_revenue_trend"
-        app:layout_constraintTop_toTopOf="@id/view_column1"
-        app:layout_constraintVertical_chainStyle="spread_inside" />
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_data_statistics_total_revenue"
-        style="@style/Font_18_333333"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/money"
-        app:layout_constraintBottom_toTopOf="@id/tv_data_statistics_total_revenue_trend"
-        app:layout_constraintEnd_toEndOf="@id/tv_data_statistics_total_revenue_trend"
-        app:layout_constraintStart_toStartOf="@id/tv_data_statistics_total_revenue_trend"
-        app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_total_revenue_title"
-        tools:text="10000" />
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_data_statistics_total_revenue_trend"
-        style="@style/Font_12_999999"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@id/view_column1"
-        app:layout_constraintEnd_toEndOf="@id/gl_column1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_total_revenue"
-        tools:text="较昨日+20%" />
-
-    <!--  第二列  -->
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_data_statistics_total_earnings_title"
-        style="@style/Font_14_333333"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/total_earnings"
-        app:layout_constraintBottom_toTopOf="@id/tv_data_statistics_total_earnings"
-        app:layout_constraintEnd_toEndOf="@id/tv_data_statistics_total_earnings_trend"
-        app:layout_constraintStart_toStartOf="@id/tv_data_statistics_total_earnings_trend"
-        app:layout_constraintTop_toTopOf="@id/view_column1"
-        app:layout_constraintVertical_chainStyle="spread_inside" />
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_data_statistics_total_earnings"
-        style="@style/Font_18_333333"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/money"
-        app:layout_constraintBottom_toTopOf="@id/tv_data_statistics_total_earnings_trend"
-        app:layout_constraintEnd_toEndOf="@id/tv_data_statistics_total_earnings_trend"
-        app:layout_constraintStart_toStartOf="@id/tv_data_statistics_total_earnings_trend"
-        app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_total_earnings_title"
-        tools:text="10000.00" />
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_data_statistics_total_earnings_trend"
-        style="@style/Font_12_999999"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@id/view_column1"
-        app:layout_constraintEnd_toEndOf="@id/gl_column2"
-        app:layout_constraintStart_toStartOf="@id/gl_column1"
-        app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_total_earnings"
-        tools:text="较昨日+20%" />
-
-    <!--  第三列  -->
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_data_statistics_total_expend_title"
-        style="@style/Font_14_333333"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/total_expend"
-        app:layout_constraintBottom_toTopOf="@id/tv_data_statistics_total_expend"
-        app:layout_constraintEnd_toEndOf="@id/tv_data_statistics_total_expend_trend"
-        app:layout_constraintStart_toStartOf="@id/tv_data_statistics_total_expend_trend"
-        app:layout_constraintTop_toTopOf="@id/view_column1"
-        app:layout_constraintVertical_chainStyle="spread_inside" />
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_data_statistics_total_expend"
-        style="@style/Font_18_333333"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/money"
-        app:layout_constraintBottom_toTopOf="@id/tv_data_statistics_total_expend_trend"
-        app:layout_constraintEnd_toEndOf="@id/tv_data_statistics_total_expend_trend"
-        app:layout_constraintStart_toStartOf="@id/tv_data_statistics_total_expend_trend"
-        app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_total_expend_title"
-        tools:text="10000.00" />
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_data_statistics_total_expend_trend"
-        style="@style/Font_12_999999"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@id/view_column1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/gl_column2"
-        app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_total_expend"
-        tools:text="较昨日+20%" />
-
-    <!--  第二行  -->
     <!--  第一列  -->
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_data_statistics_order_num_title"
@@ -216,8 +84,9 @@
         app:layout_constraintBottom_toTopOf="@id/tv_data_statistics_order_num"
         app:layout_constraintEnd_toEndOf="@id/tv_data_statistics_order_num_trend"
         app:layout_constraintStart_toStartOf="@id/tv_data_statistics_order_num_trend"
-        app:layout_constraintTop_toTopOf="@id/view_column3"
+        app:layout_constraintTop_toTopOf="@id/view_column1"
         app:layout_constraintVertical_chainStyle="spread_inside" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_data_statistics_order_num"
         style="@style/Font_18_333333"
@@ -229,52 +98,68 @@
         app:layout_constraintStart_toStartOf="@id/tv_data_statistics_order_num_trend"
         app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_order_num_title"
         tools:text="10000" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_data_statistics_order_num_trend"
         style="@style/Font_12_999999"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@id/view_column3"
+        app:layout_constraintBottom_toBottomOf="@id/view_column1"
         app:layout_constraintEnd_toEndOf="@id/gl_column1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_order_num"
         tools:text="较昨日+20%" />
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_data_statistics_order_num"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:constraint_referenced_ids="tv_data_statistics_order_num_title,tv_data_statistics_order_num,tv_data_statistics_order_num_trend" />
+
 
     <!--  第二列  -->
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_data_statistics_start_order_title"
+        android:id="@+id/tv_data_statistics_revenue_title"
         style="@style/Font_14_333333"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/start_order"
-        app:layout_constraintBottom_toTopOf="@id/tv_data_statistics_start_order"
-        app:layout_constraintEnd_toEndOf="@id/tv_data_statistics_start_order_trend"
-        app:layout_constraintStart_toStartOf="@id/tv_data_statistics_start_order_trend"
-        app:layout_constraintTop_toTopOf="@id/view_column3"
+        android:text="@string/data_revenue"
+        app:layout_constraintBottom_toTopOf="@id/tv_data_statistics_revenue"
+        app:layout_constraintEnd_toEndOf="@id/tv_data_statistics_revenue_trend"
+        app:layout_constraintStart_toStartOf="@id/tv_data_statistics_revenue_trend"
+        app:layout_constraintTop_toTopOf="@id/view_column1"
         app:layout_constraintVertical_chainStyle="spread_inside" />
+
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_data_statistics_start_order"
+        android:id="@+id/tv_data_statistics_revenue"
         style="@style/Font_18_333333"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/money"
-        app:layout_constraintBottom_toTopOf="@id/tv_data_statistics_start_order_trend"
-        app:layout_constraintEnd_toEndOf="@id/tv_data_statistics_start_order_trend"
-        app:layout_constraintStart_toStartOf="@id/tv_data_statistics_start_order_trend"
-        app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_start_order_title"
+        app:layout_constraintBottom_toTopOf="@id/tv_data_statistics_revenue"
+        app:layout_constraintEnd_toEndOf="@id/tv_data_statistics_revenue_trend"
+        app:layout_constraintStart_toStartOf="@id/tv_data_statistics_revenue_trend"
+        app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_revenue_title"
         tools:text="10000.00" />
+
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_data_statistics_start_order_trend"
+        android:id="@+id/tv_data_statistics_revenue_trend"
         style="@style/Font_12_999999"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@id/view_column3"
+        app:layout_constraintBottom_toBottomOf="@id/view_column1"
         app:layout_constraintEnd_toEndOf="@id/gl_column2"
         app:layout_constraintStart_toStartOf="@id/gl_column1"
-        app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_start_order"
+        app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_revenue"
         tools:text="较昨日+20%" />
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_data_statistics_revenue"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:constraint_referenced_ids="tv_data_statistics_revenue_title,tv_data_statistics_revenue,tv_data_statistics_revenue_trend" />
 
     <!--  第三列  -->
     <androidx.appcompat.widget.AppCompatTextView
@@ -286,8 +171,9 @@
         app:layout_constraintBottom_toTopOf="@id/tv_data_statistics_active_user"
         app:layout_constraintEnd_toEndOf="@id/tv_data_statistics_active_user_trend"
         app:layout_constraintStart_toStartOf="@id/tv_data_statistics_active_user_trend"
-        app:layout_constraintTop_toTopOf="@id/view_column3"
+        app:layout_constraintTop_toTopOf="@id/view_column1"
         app:layout_constraintVertical_chainStyle="spread_inside" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_data_statistics_active_user"
         style="@style/Font_18_333333"
@@ -299,19 +185,27 @@
         app:layout_constraintStart_toStartOf="@id/tv_data_statistics_active_user_trend"
         app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_active_user_title"
         tools:text="10000.00" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_data_statistics_active_user_trend"
         style="@style/Font_12_999999"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@id/view_column3"
+        app:layout_constraintBottom_toBottomOf="@id/view_column1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/gl_column2"
         app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_active_user"
         tools:text="较昨日+20%" />
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_data_statistics_active_user"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:constraint_referenced_ids="tv_data_statistics_active_user_title,tv_data_statistics_active_user,tv_data_statistics_active_user_trend" />
 
-    <!--  第三行  -->
+
+    <!--  第二行  -->
     <!--  第一列  -->
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_data_statistics_add_user_title"
@@ -322,8 +216,9 @@
         app:layout_constraintBottom_toTopOf="@id/tv_data_statistics_add_user"
         app:layout_constraintEnd_toEndOf="@id/tv_data_statistics_add_user_trend"
         app:layout_constraintStart_toStartOf="@id/tv_data_statistics_add_user_trend"
-        app:layout_constraintTop_toTopOf="@id/view_column5"
+        app:layout_constraintTop_toTopOf="@id/view_column3"
         app:layout_constraintVertical_chainStyle="spread_inside" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_data_statistics_add_user"
         style="@style/Font_18_333333"
@@ -335,17 +230,24 @@
         app:layout_constraintStart_toStartOf="@id/tv_data_statistics_add_user_trend"
         app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_add_user_title"
         tools:text="10000.00" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_data_statistics_add_user_trend"
         style="@style/Font_12_999999"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@id/view_column5"
+        app:layout_constraintBottom_toBottomOf="@id/view_column3"
         app:layout_constraintEnd_toEndOf="@id/gl_column1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_add_user"
         tools:text="较昨日+20%" />
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_data_statistics_add_user"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:constraint_referenced_ids="tv_data_statistics_add_user_title,tv_data_statistics_add_user,tv_data_statistics_add_user_trend" />
 
     <!--  第二列  -->
     <androidx.appcompat.widget.AppCompatTextView
@@ -357,8 +259,9 @@
         app:layout_constraintBottom_toTopOf="@id/tv_data_statistics_active_device"
         app:layout_constraintEnd_toEndOf="@id/tv_data_statistics_active_device_trend"
         app:layout_constraintStart_toStartOf="@id/tv_data_statistics_active_device_trend"
-        app:layout_constraintTop_toTopOf="@id/view_column5"
+        app:layout_constraintTop_toTopOf="@id/view_column3"
         app:layout_constraintVertical_chainStyle="spread_inside" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_data_statistics_active_device"
         style="@style/Font_18_333333"
@@ -370,17 +273,24 @@
         app:layout_constraintStart_toStartOf="@id/tv_data_statistics_active_device_trend"
         app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_active_device_title"
         tools:text="200" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_data_statistics_active_device_trend"
         style="@style/Font_12_999999"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@id/view_column5"
+        app:layout_constraintBottom_toBottomOf="@id/view_column3"
         app:layout_constraintEnd_toEndOf="@id/gl_column2"
         app:layout_constraintStart_toStartOf="@id/gl_column1"
         app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_active_device"
         tools:text="较昨日+20%" />
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_data_statistics_active_device"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:constraint_referenced_ids="tv_data_statistics_active_device_title,tv_data_statistics_active_device,tv_data_statistics_active_device_trend" />
 
     <!--  第三列  -->
     <androidx.appcompat.widget.AppCompatTextView
@@ -392,8 +302,9 @@
         app:layout_constraintBottom_toTopOf="@id/tv_data_statistics_device_frequency"
         app:layout_constraintEnd_toEndOf="@id/tv_data_statistics_device_frequency_trend"
         app:layout_constraintStart_toStartOf="@id/tv_data_statistics_device_frequency_trend"
-        app:layout_constraintTop_toTopOf="@id/view_column5"
+        app:layout_constraintTop_toTopOf="@id/view_column3"
         app:layout_constraintVertical_chainStyle="spread_inside" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_data_statistics_device_frequency"
         style="@style/Font_18_333333"
@@ -405,15 +316,23 @@
         app:layout_constraintStart_toStartOf="@id/tv_data_statistics_device_frequency_trend"
         app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_device_frequency_title"
         tools:text="200" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_data_statistics_device_frequency_trend"
         style="@style/Font_12_999999"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@id/view_column5"
+        app:layout_constraintBottom_toBottomOf="@id/view_column3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/gl_column2"
         app:layout_constraintTop_toBottomOf="@id/tv_data_statistics_device_frequency"
         tools:text="较昨日+20%" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_data_statistics_device_frequency"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:constraint_referenced_ids="tv_data_statistics_device_frequency_title,tv_data_statistics_device_frequency,tv_data_statistics_device_frequency_trend" />
 </androidx.constraintlayout.widget.ConstraintLayout>

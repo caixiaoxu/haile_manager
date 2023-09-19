@@ -147,10 +147,10 @@ class HomeFragment :
             )
         }
 
-        mBinding.ibHomeIncomeChange.setOnClickListener {
-            mViewModel.profitIncomeType.value = if (1 == mViewModel.profitIncomeType.value) 2 else 1
-            mViewModel.requestHomeIncome()
-        }
+//        mBinding.ibHomeIncomeChange.setOnClickListener {
+//            mViewModel.profitIncomeType.value = if (1 == mViewModel.profitIncomeType.value) 2 else 1
+//            mViewModel.requestHomeIncome()
+//        }
 
         initBarChart()
 

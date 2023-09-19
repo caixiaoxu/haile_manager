@@ -25,5 +25,15 @@ data class DataStatisticsShopListEntity(
     val userActiveCount: String,
     val userActiveCountCompare: Double,
     val userAddCount: String,
-    val userAddCountCompare: Double
+    val userAddCountCompare: Double,
+
+    val expend: String,
+    val expendCompare: Double,
+    val income: String,
+    val incomeCompare: Double,
+    val orderRevenueAmountInt: String,
+    val revenue: String,
+    val revenueCompare: Double,
+    val deviceOrderCount: String,
+    val deviceOrderCountCompare: Double
 )

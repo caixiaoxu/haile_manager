@@ -6,6 +6,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -14,20 +15,16 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.IncomeExpensesDetailEntity
-import com.yunshang.haile_manager_android.data.entities.ShopRevenueEntity
-import com.yunshang.haile_manager_android.data.entities.UserFund
 import com.yunshang.haile_manager_android.databinding.ActivityIncomeExpensesDetailBinding
 import com.yunshang.haile_manager_android.databinding.ItemIncomeExpensesDetailBinding
-import com.yunshang.haile_manager_android.databinding.ItemIncomeListByDayBinding
-import com.yunshang.haile_manager_android.databinding.ItemIncomeStatisticsShopBinding
-import com.yunshang.haile_manager_android.databinding.ItemIncomeStatisticsSubAccountInfoBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.activity.order.OrderDetailActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
-import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 import com.yunshang.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
+import com.yunshang.haile_manager_android.utils.StringUtils
+import com.yunshang.haile_manager_android.utils.span.VerticalBottomSpan
 import java.util.*
 
 class IncomeExpensesDetailActivity :
@@ -81,6 +78,29 @@ class IncomeExpensesDetailActivity :
     override fun layoutId(): Int = R.layout.activity_income_expenses_detail
 
     override fun backBtn(): View = mBinding.barIncomeExpensesDetailTitle.getBackBtn()
+
+    override fun initIntent() {
+        super.initIntent()
+        mViewModel.shopIds = IntentParams.ShopParams.parseShopIds(intent)?.toList()
+        mBinding.tvIncomeExpensesDetailShop.text =
+            IntentParams.ShopParams.parseShopName(intent) ?: ""
+    }
+
+    override fun initEvent() {
+        super.initEvent()
+
+        mViewModel.totalRevenue.observe(this) {
+            it?.let { total ->
+                mBinding.tvIncomeExpensesDetailTotal.text = StringUtils.formatMultiStyleStr(
+                    "¥ ${total.revenue}", arrayOf(
+                        VerticalBottomSpan(DimensionUtils.sp2px(24f).toFloat(), -3f)
+                    ), 0, 2
+                )
+                mBinding.tvIncomeExpensesDetailTotalCategory.text =
+                    "总收入 ¥${total.income}      总收支出 ¥${total.expend}"
+            }
+        }
+    }
 
     override fun initView() {
 
@@ -140,6 +160,16 @@ class IncomeExpensesDetailActivity :
                         }
                     }
             }.build().show(supportFragmentManager)
+        }
+
+        // 收支类型
+        mBinding.rgIncomeExpensesDetailType.setOnCheckedChangeListener { _, id ->
+            when (id) {
+                R.id.rb_income_expenses_detail_type_all -> mViewModel.transactionType = null
+                R.id.rb_income_expenses_detail_type_earning -> mViewModel.transactionType = 1
+                R.id.rb_income_expenses_detail_type_expend -> mViewModel.transactionType = 2
+            }
+            requestData(true)
         }
 
         // 刷新加载

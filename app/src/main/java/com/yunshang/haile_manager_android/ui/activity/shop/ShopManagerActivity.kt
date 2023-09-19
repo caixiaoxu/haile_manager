@@ -93,7 +93,7 @@ class ShopManagerActivity :
         ) { mBinding, _, item ->
             mBinding?.share = mSharedViewModel
             var title =
-                StringUtils.getString(R.string.total_earnings)
+                StringUtils.getString(R.string.total_income)
             var value =
                 StringUtils.getString(R.string.unit_money) + NumberUtils.keepTwoDecimals(item.income)
             var start = title.length + 1

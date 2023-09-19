@@ -11,14 +11,14 @@ import com.lsy.framelib.utils.StatusBarUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
-import com.yunshang.haile_manager_android.business.vm.IncomeStatisticsViewModel
+import com.yunshang.haile_manager_android.business.vm.IncomeShopStatisticsViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
-import com.yunshang.haile_manager_android.data.entities.ShopRevenueEntity
+import com.yunshang.haile_manager_android.data.entities.ShopRevenueDetailEntity
 import com.yunshang.haile_manager_android.data.entities.UserFund
-import com.yunshang.haile_manager_android.databinding.ActivityIncomeStatisticsBinding
-import com.yunshang.haile_manager_android.databinding.ItemIncomeStatisticsShopBinding
+import com.yunshang.haile_manager_android.databinding.ActivityIncomeShopStatisticsBinding
+import com.yunshang.haile_manager_android.databinding.ItemIncomeShopStatisticsListBinding
 import com.yunshang.haile_manager_android.databinding.ItemIncomeStatisticsSubAccountInfoBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
@@ -30,9 +30,9 @@ import com.yunshang.haile_manager_android.utils.StringUtils
 import com.yunshang.haile_manager_android.utils.span.VerticalBottomSpan
 import java.util.*
 
-class IncomeStatisticsActivity :
-    BaseBusinessActivity<ActivityIncomeStatisticsBinding, IncomeStatisticsViewModel>(
-        IncomeStatisticsViewModel::class.java, BR.vm
+class IncomeShopStatisticsActivity :
+    BaseBusinessActivity<ActivityIncomeShopStatisticsBinding, IncomeShopStatisticsViewModel>(
+        IncomeShopStatisticsViewModel::class.java, BR.vm
     ) {
 
     // 搜索选择界面
@@ -46,13 +46,13 @@ class IncomeStatisticsActivity :
                                 if (selected.isNotEmpty()) {
                                     if (selected.any { item -> 0 == item.id }) {
                                         mViewModel.shopIds = null
-                                        mBinding.tvIncomeStatisticsShop.text = ""
+                                        mBinding.tvIncomeShopStatisticsShop.text = ""
                                     } else {
                                         mViewModel.shopIds = selected.map { item -> item.id }
-                                        mBinding.tvIncomeStatisticsShop.text =
+                                        mBinding.tvIncomeShopStatisticsShop.text =
                                             if (1 == selected.size) selected.first().name else "${selected.size}家门店"
                                     }
-                                    requestData(true)
+                                    requestData()
                                 }
                             }
                         }
@@ -61,42 +61,34 @@ class IncomeStatisticsActivity :
             }
         }
 
-    private val mAdapter: CommonRecyclerAdapter<ItemIncomeStatisticsShopBinding, ShopRevenueEntity> by lazy {
+    private val mAdapter: CommonRecyclerAdapter<ItemIncomeShopStatisticsListBinding, ShopRevenueDetailEntity> by lazy {
         CommonRecyclerAdapter(
-            R.layout.item_income_statistics_shop,
+            R.layout.item_income_shop_statistics_list,
             BR.item
         ) { mItemBinding, _, item ->
             if (!item.userFundList.isNullOrEmpty()) {
-                mItemBinding?.includeItemIncomeStatisticsSubAccount?.root?.visibility(true)
-                mItemBinding?.includeItemIncomeStatisticsSubAccount?.llSubAccountInfo?.buildChild<ItemIncomeStatisticsSubAccountInfoBinding, UserFund>(
+                mItemBinding?.includeItemIncomeShopStatisticsSubAccount?.root?.visibility(true)
+                mItemBinding?.includeItemIncomeShopStatisticsSubAccount?.llSubAccountInfo?.buildChild<ItemIncomeStatisticsSubAccountInfoBinding, UserFund>(
                     item.userFundList
                 ) { _, childBinding, data ->
                     childBinding.child = data
                 }
-            } else mItemBinding?.includeItemIncomeStatisticsSubAccount?.root?.visibility(false)
-
-            mItemBinding?.root?.setOnClickListener {
-                startActivity(
-                    Intent(
-                        this@IncomeStatisticsActivity,
-                        IncomeShopStatisticsActivity::class.java
-                    ).apply {
-                        putExtras(
-                            IntentParams.ShopParams.packShops(
-                                intArrayOf(item.shopId),
-                                item.shopName
-                            )
-                        )
-                    })
-            }
+            } else mItemBinding?.includeItemIncomeShopStatisticsSubAccount?.root?.visibility(false)
         }
     }
 
     override fun isFullScreen(): Boolean = true
 
-    override fun layoutId(): Int = R.layout.activity_income_statistics
+    override fun layoutId(): Int = R.layout.activity_income_shop_statistics
 
-    override fun backBtn(): View = mBinding.barIncomeStatisticsTitle.getBackBtn()
+    override fun backBtn(): View = mBinding.barIncomeShopStatisticsTitle.getBackBtn()
+
+    override fun initIntent() {
+        super.initIntent()
+        mViewModel.shopIds = IntentParams.ShopParams.parseShopIds(intent)?.toList()
+        mBinding.tvIncomeShopStatisticsShop.text =
+            IntentParams.ShopParams.parseShopName(intent) ?: ""
+    }
 
     override fun initEvent() {
         super.initEvent()
@@ -104,46 +96,53 @@ class IncomeStatisticsActivity :
         // 总收益
         mViewModel.totalRevenue.observe(this) {
             it?.let { total ->
-                mBinding.tvIncomeStatisticsRevenue.text = StringUtils.formatMultiStyleStr(
+                mBinding.tvIncomeShopStatisticsRevenue.text = StringUtils.formatMultiStyleStr(
                     "¥ ${total.revenue}", arrayOf(
                         VerticalBottomSpan(DimensionUtils.sp2px(24f).toFloat(), -3f)
                     ), 0, 2
                 )
                 if (!total.userFundList.isNullOrEmpty()) {
-                    mBinding.includeIncomeStatisticsSubAccount.root.visibility(true)
-                    mBinding.includeIncomeStatisticsSubAccount.llSubAccountInfo.buildChild<ItemIncomeStatisticsSubAccountInfoBinding, UserFund>(
+                    mBinding.includeIncomeShopStatisticsSubAccount.root.visibility(true)
+                    mBinding.includeIncomeShopStatisticsSubAccount.llSubAccountInfo.buildChild<ItemIncomeStatisticsSubAccountInfoBinding, UserFund>(
                         total.userFundList
                     ) { _, childBinding, data ->
                         childBinding.child = data
                     }
-                } else mBinding.includeIncomeStatisticsSubAccount.root.visibility(false)
+                } else mBinding.includeIncomeShopStatisticsSubAccount.root.visibility(false)
             }
         }
     }
 
     override fun initView() {
-        mBinding.llIncomeStatisticsTop.setPadding(0, StatusBarUtils.getStatusBarHeight(),0,0)
+        mBinding.llIncomeShopStatisticsTop.setPadding(0, StatusBarUtils.getStatusBarHeight(),0,0)
 
-        mBinding.barIncomeStatisticsTitle.getRightBtn().run {
+        mBinding.barIncomeShopStatisticsTitle.getRightBtn().run {
             setText(R.string.income_expenses_detail)
             setTextColor(
                 ContextCompat.getColor(
-                    this@IncomeStatisticsActivity,
+                    this@IncomeShopStatisticsActivity,
                     R.color.colorPrimary
                 )
             )
             setOnClickListener {
                 startActivity(
                     Intent(
-                        this@IncomeStatisticsActivity,
+                        this@IncomeShopStatisticsActivity,
                         IncomeExpensesDetailActivity::class.java
-                    )
+                    ).apply {
+                        putExtras(
+                            IntentParams.ShopParams.packShops(
+                                mViewModel.shopIds?.toIntArray(),
+                                mBinding.tvIncomeShopStatisticsShop.text.toString()
+                            )
+                        )
+                    }
                 )
             }
         }
 
         // 日期
-        mBinding.tvIncomeStatisticsDate.setOnClickListener {
+        mBinding.tvIncomeShopStatisticsDate.setOnClickListener {
             DateSelectorDialog.Builder().apply {
                 selectModel = 1
                 limitSpace = 31
@@ -152,25 +151,23 @@ class IncomeStatisticsActivity :
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
                         mViewModel.startDate.value = date1
                         mViewModel.endDate.value = date1
-                        requestData(true)
+                        requestData()
                     }
                 }
             }.build().show(supportFragmentManager)
         }
 
         // 店铺
-        mBinding.tvIncomeStatisticsShop.setOnClickListener {
+        mBinding.tvIncomeShopStatisticsShop.setOnClickListener {
             startSearchSelect.launch(
                 Intent(
-                    this@IncomeStatisticsActivity,
+                    this@IncomeShopStatisticsActivity,
                     SearchSelectRadioActivity::class.java
                 ).apply {
                     putExtras(
                         IntentParams.SearchSelectTypeParam.pack(
                             IntentParams.SearchSelectTypeParam.SearchSelectTypeCouponShop,
                             mustSelect = true,
-                            moreSelect = true,
-                            hasAll = true,
                             selectArr = mViewModel.shopIds?.toIntArray() ?: intArrayOf(0)
                         )
                     )
@@ -179,7 +176,7 @@ class IncomeStatisticsActivity :
         }
 
         // 设备
-        mBinding.tvIncomeStatisticsCategory.setOnClickListener {
+        mBinding.tvIncomeShopStatisticsCategory.setOnClickListener {
             MultiSelectBottomSheetDialog.Builder(
                 getString(R.string.coupon_device_dialog_title),
                 mViewModel.categoryList.value ?: listOf()
@@ -192,9 +189,9 @@ class IncomeStatisticsActivity :
                             allSelectData: List<CategoryEntity>
                         ) {
                             mViewModel.categoryCodes = selectData.mapNotNull { item -> item.code }
-                            mBinding.tvIncomeStatisticsCategory.text =
+                            mBinding.tvIncomeShopStatisticsCategory.text =
                                 if (1 == selectData.size) selectData.first().name else "${selectData.size}种设备"
-                            requestData(true)
+                            requestData()
                         }
                     }
             }.build().show(supportFragmentManager)
@@ -202,43 +199,32 @@ class IncomeStatisticsActivity :
 
         // 刷新加载
         mBinding.refreshLayout.setOnRefreshListener {
-            requestData(true)
-        }
-        mBinding.refreshLayout.setOnLoadMoreListener {
             requestData()
         }
+        mBinding.refreshLayout.setEnableLoadMore(false)
 
         // 店铺列表
-        mBinding.rvIncomeStatisticsList.layoutManager = LinearLayoutManager(this)
+        mBinding.rvIncomeShopStatisticsList.layoutManager = LinearLayoutManager(this)
         ContextCompat.getDrawable(this, R.drawable.divide_size8)?.let {
-            mBinding.rvIncomeStatisticsList.addItemDecoration(
+            mBinding.rvIncomeShopStatisticsList.addItemDecoration(
                 DividerItemDecoration(
-                    this@IncomeStatisticsActivity,
+                    this@IncomeShopStatisticsActivity,
                     DividerItemDecoration.VERTICAL
                 ).apply {
                     setDrawable(it)
                 })
         }
-        mBinding.rvIncomeStatisticsList.adapter = mAdapter
+        mBinding.rvIncomeShopStatisticsList.adapter = mAdapter
     }
 
     override fun initData() {
-        requestData(true, 0)
+        requestData(0)
     }
 
-    private fun requestData(isRefresh: Boolean = false, type: Int = 1) {
-        if (isRefresh) {
-            mBinding.refreshLayout.setEnableLoadMore(true)
-        }
-
-        mViewModel.requestData(type, isRefresh) { shopDataList ->
+    private fun requestData(type: Int = 1) {
+        mViewModel.requestData(type) { shopDataList ->
             mBinding.refreshLayout.finishRefresh()
-            mBinding.refreshLayout.finishLoadMore()
-            if (shopDataList.isEmpty()) {
-                mBinding.refreshLayout.setEnableLoadMore(false)
-            } else {
-                mAdapter.refreshList(shopDataList, isRefresh)
-            }
+            mAdapter.refreshList(shopDataList, true)
         }
     }
 }

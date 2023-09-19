@@ -104,6 +104,8 @@ object IntentParams {
     object ShopParams {
         private const val ShopId = "shopId"
         private const val ShopName = "shopName"
+        private const val ShopIds = "shopIds"
+        private const val ShopNames = "shopNames"
 
         /**
          * 包装参数
@@ -115,9 +117,22 @@ object IntentParams {
             }
         }
 
-        fun parseShopId(intent: Intent): Int = intent.getIntExtra(ShopId, -1)
+        /**
+         * 包装参数
+         */
+        fun packShops(shopIds: IntArray? = null, shopName: String? = null): Bundle =
+            Bundle().apply {
+                shopIds?.let {
+                    putIntArray(ShopIds, shopIds)
+                }
+                shopName?.let {
+                    putString(ShopName, shopName)
+                }
+            }
 
+        fun parseShopId(intent: Intent): Int = intent.getIntExtra(ShopId, -1)
         fun parseShopName(intent: Intent): String? = intent.getStringExtra(ShopName)
+        fun parseShopIds(intent: Intent): IntArray? = intent.getIntArrayExtra(ShopId)
     }
 
     object ShopBusinessHoursParams {

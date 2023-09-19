@@ -8,8 +8,8 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.business.apiService.CategoryService
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
-import com.yunshang.haile_manager_android.data.entities.IncomeExpensesDetailEntity
-import com.yunshang.haile_manager_android.data.entities.TotalIncomeExpensesEntity
+import com.yunshang.haile_manager_android.data.entities.ShopRevenueDetailEntity
+import com.yunshang.haile_manager_android.data.entities.TotalRevenueEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import kotlinx.coroutines.Dispatchers
@@ -19,18 +19,16 @@ import java.util.*
 /**
  * Title :
  * Author: Lsy
- * Date: 2023/9/18 11:40
+ * Date: 2023/9/15 15:36
  * Version: 1
  * Description:
  * History:
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class IncomeExpensesDetailViewModel : BaseViewModel() {
+class IncomeShopStatisticsViewModel : BaseViewModel() {
     private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
     private val mCategoryRepo = ApiRepository.apiClient(CategoryService::class.java)
-
-    private var page = 1
 
     // 开始和结束日期
     val startDate: MutableLiveData<Date> = MutableLiveData(Date())
@@ -73,76 +71,57 @@ class IncomeExpensesDetailViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
-    // 收支类型
-    var transactionType: Int? = null
-
-    val totalRevenue: MutableLiveData<TotalIncomeExpensesEntity> by lazy {
+    val totalRevenue: MutableLiveData<TotalRevenueEntity> by lazy {
         MutableLiveData()
     }
 
     fun requestData(
         type: Int,
-        isRefresh: Boolean,
-        callBack: (MutableList<IncomeExpensesDetailEntity>) -> Unit
+        callBack: (MutableList<ShopRevenueDetailEntity>) -> Unit
     ) {
         launch({
-            if (isRefresh) {
-                if (0 == type) {
-                    ApiRepository.dealApiResult(
-                        mCategoryRepo.category(1)
-                    )?.let {
-                        it.add(
-                            0,
-                            CategoryEntity(
-                                id = 0,
-                                name = StringUtils.getString(R.string.all_device)
-                            ).apply {
-                                onlyOne = true
-                            })
-                        categoryList.postValue(it)
-                    }
-                }
-
-                // 请求总收益
+            if (0 == type) {
                 ApiRepository.dealApiResult(
-                    mCapitalRepo.requestTotalIncomeExpenses(
-                        getCommonParams()
-                    )
+                    mCategoryRepo.category(1)
                 )?.let {
-                    totalRevenue.postValue(it)
+                    it.add(
+                        0,
+                        CategoryEntity(
+                            id = 0,
+                            name = StringUtils.getString(R.string.all_device)
+                        ).apply {
+                            onlyOne = true
+                        })
+                    categoryList.postValue(it)
                 }
-                page = 1
+            }
+            // 请求总收益
+            ApiRepository.dealApiResult(
+                mCapitalRepo.requestTotalRevenue(
+                    getCommonParams()
+                )
+            )?.let {
+                totalRevenue.postValue(it)
             }
             // 请求店铺列表数据
             ApiRepository.dealApiResult(
-                mCapitalRepo.requestIncomeExpensesDetailList(
-                    getCommonParams(true)
+                mCapitalRepo.requestShopRevenueDetail(
+                    getCommonParams()
                 )
             )?.let {
                 withContext(Dispatchers.Main) {
-                    callBack(it.items)
-                }
-                if (it.items.isNotEmpty()) {
-                    page++
+                    callBack(it)
                 }
             }
         })
     }
 
-    private fun getCommonParams(needPage: Boolean = false) = ApiRepository.createRequestBody(
+    private fun getCommonParams() = ApiRepository.createRequestBody(
         hashMapOf(
             "shopIdList" to shopIds,
             "categoryCodeList" to categoryCodes,
             "startTime" to DateTimeUtils.formatDateTimeStartParam(startDate.value),
             "endTime" to DateTimeUtils.formatDateTimeEndParam(endDate.value),
-        ).also { params ->
-            if (needPage) {
-                params["page"] = page
-                params["pageSize"] = 20
-                params["transactionType"] = transactionType
-            }
-        }
+        )
     )
-
-
 }

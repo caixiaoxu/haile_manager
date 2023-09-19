@@ -94,7 +94,7 @@ class DeviceManagerActivity :
         ) { mBinding, _, item ->
 
             val title =
-                StringUtils.getString(R.string.total_earnings)
+                StringUtils.getString(R.string.total_income)
             val value =
                 StringUtils.getString(R.string.unit_money) + NumberUtils.keepTwoDecimals(item.income)
             val start = title.length + 1

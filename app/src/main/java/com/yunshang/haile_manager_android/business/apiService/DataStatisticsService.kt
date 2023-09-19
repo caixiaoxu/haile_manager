@@ -21,18 +21,18 @@ interface DataStatisticsService {
     /**
      * 请求数据统计总额接口
      */
-    @POST("/statistics/getStatisticsTotalVO")
+    @POST("/statistics/getStatisticsTotalVO/v2")
     suspend fun requestStatisticsTotal(@Body params: RequestBody): ResponseWrapper<DataStatisticsShopListEntity>
 
     /**
      * 请求数据统计店铺总额接口
      */
-    @POST("/statistics/getShopStatisticsTotalVOPage")
+    @POST("/statistics/getShopStatisticsTotalVOPage/v2")
     suspend fun requestStatisticsShopTotal(@Body params: RequestBody): ResponseWrapper<ResponseList<DataStatisticsShopListEntity>>
 
     /**
      * 请求数据统计店铺详情接口
      */
-    @POST("/statistics/getStatisticsDetailVO")
+    @POST("/statistics/getStatisticsDetailVO/v2")
     suspend fun requestStatisticsShopDetail(@Body params: RequestBody): ResponseWrapper<DataStatisticsShopDetailEntity>
 }

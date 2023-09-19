@@ -23,7 +23,7 @@ data class UserPermissionEntity(
     val kind: String,
     val icon: String,
     val shareType: Int,
-    val childList: List<UserPermissionEntity>
+    val childList: List<UserPermissionEntity>?
 ) : IMultiSelectBottomItemEntity {
 
     override fun hashCode(): Int {

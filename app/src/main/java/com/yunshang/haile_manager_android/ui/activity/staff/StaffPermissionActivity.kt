@@ -7,9 +7,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.StaffPermissionViewModel
+import com.yunshang.haile_manager_android.data.arguments.StaffPermission
 import com.yunshang.haile_manager_android.data.arguments.StaffPermissionParams
 import com.yunshang.haile_manager_android.data.entities.UserPermissionEntity
 import com.yunshang.haile_manager_android.databinding.ActivityStaffPermissionBinding
@@ -72,7 +74,8 @@ class StaffPermissionActivity :
 
         mViewModel.staffId = intent.getIntExtra(StaffId, -1)
         mViewModel.selectList =
-            intent.getIntArrayExtra(PermissionIds) ?: intArrayOf()
+            GsonUtils.json2List(intent.getStringExtra(PermissionIds), StaffPermission::class.java)
+                ?: mutableListOf()
     }
 
     override fun initEvent() {
@@ -112,7 +115,10 @@ class StaffPermissionActivity :
             setOnClickListener {
                 if (-1 == mViewModel.staffId) {
                     setResult(PermissionResultCode, Intent().apply {
-                        putExtra(PermissionIds, mViewModel.getSelectPermissionIds())
+                        putExtra(
+                            PermissionIds,
+                            GsonUtils.any2Json(mViewModel.getSelectPermissionIds())
+                        )
                     })
                     finish()
                 } else {

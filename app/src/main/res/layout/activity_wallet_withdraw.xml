@@ -157,6 +157,16 @@
             app:layout_constraintStart_toStartOf="@id/view_wallet_withdraw_amount"
             app:layout_constraintTop_toBottomOf="@id/et_wallet_withdraw_amount" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_withdraw_prompt"
+            style="@style/Font_12_999999"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="12dp"
+            android:text="提示：可在账户上保留部分余额，避免余额不足导致的退款失败"
+            app:layout_constraintTop_toBottomOf="@id/view_wallet_withdraw_amount" />
+
         <com.yunshang.haile_manager_android.ui.view.CommonButton
             android:id="@+id/btn_withdraw_submit"
             style="@style/CommonMatchBtnStyle1"
@@ -165,7 +175,7 @@
             android:enabled="@{vm.canSubmit}"
             android:onClick="@{vm::submitWithdraw}"
             android:text="@string/submit"
-            app:layout_constraintTop_toBottomOf="@id/view_wallet_withdraw_amount"
+            app:layout_constraintTop_toBottomOf="@id/tv_withdraw_prompt"
             tools:ignore="MissingConstraints" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

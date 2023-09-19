@@ -27,6 +27,7 @@ import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.vis
 import com.yunshang.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.utils.StringUtils
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import com.yunshang.haile_manager_android.utils.span.VerticalBottomSpan
 import java.util.*
 
@@ -72,6 +73,15 @@ class IncomeStatisticsActivity :
                     item.userFundList
                 ) { _, childBinding, data ->
                     childBinding.child = data
+                }
+                mItemBinding?.includeItemIncomeStatisticsSubAccount?.llSubAccountInfo?.visibility(
+                    item.fold
+                )
+                mItemBinding?.includeItemIncomeStatisticsSubAccount?.tvSubAccountInfo?.setOnClickListener {
+                    item.fold = !item.fold
+                    mItemBinding.includeItemIncomeStatisticsSubAccount.llSubAccountInfo.visibility(
+                        item.fold
+                    )
                 }
             } else mItemBinding?.includeItemIncomeStatisticsSubAccount?.root?.visibility(false)
 
@@ -122,23 +132,25 @@ class IncomeStatisticsActivity :
     }
 
     override fun initView() {
-        mBinding.llIncomeStatisticsTop.setPadding(0, StatusBarUtils.getStatusBarHeight(),0,0)
+        mBinding.llIncomeStatisticsTop.setPadding(0, StatusBarUtils.getStatusBarHeight(), 0, 0)
 
-        mBinding.barIncomeStatisticsTitle.getRightBtn().run {
-            setText(R.string.income_expenses_detail)
-            setTextColor(
-                ContextCompat.getColor(
-                    this@IncomeStatisticsActivity,
-                    R.color.colorPrimary
-                )
-            )
-            setOnClickListener {
-                startActivity(
-                    Intent(
+        if (UserPermissionUtils.hasProfitDetailPermission()){
+            mBinding.barIncomeStatisticsTitle.getRightBtn().run {
+                setText(R.string.income_expenses_detail)
+                setTextColor(
+                    ContextCompat.getColor(
                         this@IncomeStatisticsActivity,
-                        IncomeExpensesDetailActivity::class.java
+                        R.color.colorPrimary
                     )
                 )
+                setOnClickListener {
+                    startActivity(
+                        Intent(
+                            this@IncomeStatisticsActivity,
+                            IncomeExpensesDetailActivity::class.java
+                        )
+                    )
+                }
             }
         }
 

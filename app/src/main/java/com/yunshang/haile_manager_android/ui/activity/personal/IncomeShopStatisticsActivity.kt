@@ -27,6 +27,7 @@ import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.vis
 import com.yunshang.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.utils.StringUtils
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import com.yunshang.haile_manager_android.utils.span.VerticalBottomSpan
 import java.util.*
 
@@ -116,28 +117,30 @@ class IncomeShopStatisticsActivity :
     override fun initView() {
         mBinding.llIncomeShopStatisticsTop.setPadding(0, StatusBarUtils.getStatusBarHeight(),0,0)
 
-        mBinding.barIncomeShopStatisticsTitle.getRightBtn().run {
-            setText(R.string.income_expenses_detail)
-            setTextColor(
-                ContextCompat.getColor(
-                    this@IncomeShopStatisticsActivity,
-                    R.color.colorPrimary
-                )
-            )
-            setOnClickListener {
-                startActivity(
-                    Intent(
+        if (UserPermissionUtils.hasProfitDetailPermission()){
+            mBinding.barIncomeShopStatisticsTitle.getRightBtn().run {
+                setText(R.string.income_expenses_detail)
+                setTextColor(
+                    ContextCompat.getColor(
                         this@IncomeShopStatisticsActivity,
-                        IncomeExpensesDetailActivity::class.java
-                    ).apply {
-                        putExtras(
-                            IntentParams.ShopParams.packShops(
-                                mViewModel.shopIds?.toIntArray(),
-                                mBinding.tvIncomeShopStatisticsShop.text.toString()
-                            )
-                        )
-                    }
+                        R.color.colorPrimary
+                    )
                 )
+                setOnClickListener {
+                    startActivity(
+                        Intent(
+                            this@IncomeShopStatisticsActivity,
+                            IncomeExpensesDetailActivity::class.java
+                        ).apply {
+                            putExtras(
+                                IntentParams.ShopParams.packShops(
+                                    mViewModel.shopIds?.toIntArray(),
+                                    mBinding.tvIncomeShopStatisticsShop.text.toString()
+                                )
+                            )
+                        }
+                    )
+                }
             }
         }
 

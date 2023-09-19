@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
@@ -116,18 +117,20 @@ class DeviceManagerActivity :
                     ), start, end
                 )
             mBinding?.tvItemDeviceTotalIncome?.setOnClickListener {
-                if (UserPermissionUtils.hasDeviceProfitPermission()) {
-                    // 跳转到设备收益
-                    startActivity(
-                        Intent(
-                            this@DeviceManagerActivity,
-                            IncomeCalendarActivity::class.java
-                        ).apply {
-                            putExtra(IncomeCalendarActivity.ProfitType, 2)
-                            putExtra(IncomeCalendarActivity.ProfitSearchId, item.id)
-                            putExtra(IncomeCalendarActivity.DeviceName, item.name)
-                        })
+                if (UserPermissionUtils.hasProfitCalendarPermission()) {
+                    SToast.showToast(this@DeviceManagerActivity, "无收益日历的功能权限")
+                    return@setOnClickListener
                 }
+                // 跳转到设备收益
+                startActivity(
+                    Intent(
+                        this@DeviceManagerActivity,
+                        IncomeCalendarActivity::class.java
+                    ).apply {
+                        putExtra(IncomeCalendarActivity.ProfitType, 2)
+                        putExtra(IncomeCalendarActivity.ProfitSearchId, item.id)
+                        putExtra(IncomeCalendarActivity.DeviceName, item.name)
+                    })
             }
 
             // 进入详情

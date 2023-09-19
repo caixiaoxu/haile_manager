@@ -65,14 +65,17 @@
             tools:text="已通过" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/iv_personal_item_value"
+            android:id="@+id/tv_personal_item_value"
             style="@style/Font_18_333333"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:gravity="center"
             android:text="@{item.value}"
+            app:visibility="@{null != item.value &amp;&amp; item.value.length() > 0}"
             android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/iv_personal_item_right"
             tools:text="¥990.00" />
 

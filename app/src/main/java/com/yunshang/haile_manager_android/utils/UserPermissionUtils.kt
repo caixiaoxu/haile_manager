@@ -64,6 +64,39 @@ object UserPermissionUtils {
     }
 
     /**
+     * 是否含有数据统计权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasProfitDataStatisticsPermission(): Boolean {
+        return null != userPermissionsMap["league:data:list"]
+    }
+
+    /**
+     * 是否含有收益日历权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasProfitCalendarPermission(): Boolean {
+        return null != userPermissionsMap["league:profit:calendar"]
+    }
+
+    /**
+     * 是否含有收益明细权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasProfitDetailPermission(): Boolean {
+        return null != userPermissionsMap["league:profit:detail"]
+    }
+
+    /**
      * 是否含有商家收益权限
      *
      *

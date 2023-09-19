@@ -7,6 +7,7 @@ import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.yunshang.haile_manager_android.business.apiService.StaffService
 import com.yunshang.haile_manager_android.business.event.BusEvents
+import com.yunshang.haile_manager_android.data.arguments.StaffPermission
 import com.yunshang.haile_manager_android.data.entities.StaffDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.ui.activity.staff.StaffPermissionActivity
@@ -45,13 +46,13 @@ class StaffDetailViewModel : BaseViewModel() {
     /**
      * 返回权限列表id
      */
-    fun getPermissionIds(): IntArray =
+    fun getPermissionIds(): List<StaffPermission> =
         staffDetail.value?.menuList?.flatMap { menu ->
-            arrayListOf<Int>().apply {
-                add(menu.id)
-                addAll(menu.childList.map { child -> child.id })
+            arrayListOf<StaffPermission>().apply {
+                add(StaffPermission(menu.id))
+                addAll(menu.childList.map { child -> StaffPermission(child.id) })
             }
-        }?.toIntArray() ?: intArrayOf()
+        } ?: listOf()
 
     fun deleteStaff(view: View) {
         if (-1 == staffId) {

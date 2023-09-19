@@ -143,6 +143,7 @@
                         android:layout_height="wrap_content"
                         style="@style/Font_12_333333"
                         android:text="@string/all"
+                        android:visibility="gone"
                         android:gravity="center"
                         android:drawablePadding="4dp"
                         android:drawableEnd="@mipmap/icon_triangle_down"

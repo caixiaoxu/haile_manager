@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -35,6 +36,7 @@ import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.NumberUtils
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 
 class ShopManagerActivity :
     BaseBusinessActivity<ActivityShopManagerBinding, ShopManagerViewModel>(
@@ -116,17 +118,20 @@ class ShopManagerActivity :
                     ), start, end
                 )
             mBinding?.tvItemShopTotalIncome?.setOnClickListener {
-                if (true == mSharedViewModel.hasShopProfitPermission.value) {
-                    //  跳转到店铺收益
-                    startActivity(
-                        Intent(
-                            this@ShopManagerActivity,
-                            IncomeCalendarActivity::class.java
-                        ).apply {
-                            putExtra(IncomeCalendarActivity.ProfitType, 1)
-                            putExtra(IncomeCalendarActivity.ProfitSearchId, item.id)
-                        })
+                if (UserPermissionUtils.hasProfitCalendarPermission()) {
+                    SToast.showToast(this@ShopManagerActivity, "无收益日历的功能权限")
+                    return@setOnClickListener
                 }
+
+                //  跳转到店铺收益
+                startActivity(
+                    Intent(
+                        this@ShopManagerActivity,
+                        IncomeCalendarActivity::class.java
+                    ).apply {
+                        putExtra(IncomeCalendarActivity.ProfitType, 1)
+                        putExtra(IncomeCalendarActivity.ProfitSearchId, item.id)
+                    })
             }
 
             title = StringUtils.getString(R.string.device_num)

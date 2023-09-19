@@ -14,11 +14,11 @@ import com.yunshang.haile_manager_android.business.apiService.StaffService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.arguments.StaffParam
+import com.yunshang.haile_manager_android.data.arguments.StaffPermission
 import com.yunshang.haile_manager_android.data.entities.StaffRoleEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 /**
  * Title :
@@ -53,7 +53,7 @@ class StaffCreateViewModel : BaseViewModel() {
         StringUtils.getString(if (it.isNullOrEmpty()) R.string.no_configure else R.string.configured)
     }
 
-    val permission: MutableLiveData<ArrayList<Int>> by lazy {
+    val permission: MutableLiveData<MutableList<StaffPermission>> by lazy {
         MutableLiveData()
     }
     val permissionStr: LiveData<String> = permission.map {

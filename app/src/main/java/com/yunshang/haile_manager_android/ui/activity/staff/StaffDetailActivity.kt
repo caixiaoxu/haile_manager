@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
@@ -174,7 +175,7 @@ class StaffDetailActivity :
                 )
                 putExtra(
                     StaffPermissionActivity.PermissionIds,
-                    mViewModel.getPermissionIds()
+                    GsonUtils.any2Json(mViewModel.getPermissionIds())
                 )
             })
         }

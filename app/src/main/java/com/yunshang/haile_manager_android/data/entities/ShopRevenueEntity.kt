@@ -15,4 +15,6 @@ data class ShopRevenueEntity(
     val shopId: Int,
     val shopName: String,
     val userFundList: List<UserFund>?
-)
+){
+    var fold = false
+}

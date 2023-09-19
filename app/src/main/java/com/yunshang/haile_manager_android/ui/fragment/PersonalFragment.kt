@@ -1,6 +1,7 @@
 package com.yunshang.haile_manager_android.ui.fragment
 
 import android.content.Intent
+import android.graphics.Color
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
@@ -78,6 +79,14 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
                             }
                         })
                     }
+                }
+                if (item.title == R.string.real_name){
+                    mPersonalItemBinding.tvPersonalItemValue.textSize = 10f
+                    mPersonalItemBinding.tvPersonalItemValue.setTextColor(Color.WHITE)
+                    val pV = DimensionUtils.dip2px(requireContext(),2f)
+                    val pH = DimensionUtils.dip2px(requireContext(),8f)
+                    mPersonalItemBinding.tvPersonalItemValue.setPadding(pH,pV,pH,pV)
+                    mPersonalItemBinding.tvPersonalItemValue.setBackgroundResource(R.drawable.shape_sff3b30_r9)
                 }
 
                 if (group.childCount > 0) {

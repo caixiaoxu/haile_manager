@@ -498,7 +498,7 @@
     <string name="send_time">发券时间</string>
     <string name="send_operator">发券人</string>
     <string name="cancellation_time">作废时间</string>
-    <string name="cancellation_operator">作废人</string>
+    <string name="cancellation_operator">操作人</string>
 
     <string name="home_msg_title">最近消息</string>
     <string name="home_msg_num">条新消息</string>

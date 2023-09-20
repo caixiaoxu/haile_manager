@@ -88,6 +88,9 @@ class SearchSelectRadioViewModel : BaseViewModel() {
 
     var selectArr = intArrayOf()
 
+    // 不可修改列表
+    var noUpdateArr = intArrayOf()
+
     val searchKey: MutableLiveData<String> by lazy {
         MutableLiveData()
     }

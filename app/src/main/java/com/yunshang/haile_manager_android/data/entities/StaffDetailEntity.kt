@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName
 import com.lsy.framelib.data.constants.Constants
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.data.rule.IMultiSelectBottomItemEntity
 import com.yunshang.haile_manager_android.data.rule.IMultiTypeEntity
-import com.yunshang.haile_manager_android.ui.view.MultiTypeTextView
 
 /**
  * Title :
@@ -64,10 +64,29 @@ data class Menu(
     val shareType: Int,
     val type: Int,
     val url: String,
-    val childList: List<Menu>
+    val childList: List<Menu>,
+    val dataPermissionDto: DataPermissionDto?,
 )
 
 data class Shop(
     val id: Int,
     val name: String
 )
+
+data class DataPermissionDto(
+    val dataPermissionShopDtoList: List<DataPermissionShopDto>,
+    val fundsDistributionType: List<Int>,
+    val shopIdList: List<Int>
+)
+
+data class DataPermissionShopDto(
+    val id: Int,
+    val name: String,
+    val updateFlag: Boolean = true,
+    override var isCheck: Boolean = false,
+    override var onlyOne: Boolean = false
+) : IMultiSelectBottomItemEntity {
+
+    override fun getTitle(): String = name
+
+}

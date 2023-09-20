@@ -15,6 +15,7 @@ import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.arguments.StaffParam
 import com.yunshang.haile_manager_android.data.arguments.StaffPermission
+import com.yunshang.haile_manager_android.data.entities.DataPermissionShopDto
 import com.yunshang.haile_manager_android.data.entities.StaffRoleEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
@@ -64,6 +65,10 @@ class StaffCreateViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
+    // 可查看数据的门店
+    var shopList: List<DataPermissionShopDto>? = null
+    // 可查看分账的数据
+    var fundsDistributionTypes: List<Int>? = null
 
     // 是否可提交
     val canSubmit: MediatorLiveData<Boolean> = MediatorLiveData(false).apply {
@@ -111,7 +116,7 @@ class StaffCreateViewModel : BaseViewModel() {
         }
 
         permission.value?.let {
-            params["menuIdList"] = it
+            params["menuInfoList"] = it
         }
 
         launch({

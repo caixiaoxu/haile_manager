@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.ui.view.adapter
 
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -175,6 +176,17 @@ object ViewBindingAdapter {
         drawT: Int = 0,
         drawE: Int = 0,
         drawB: Int = 0
+    ) {
+        setCompoundDrawablesWithIntrinsicBounds(drawS, drawT, drawE, drawB)
+    }
+
+    @BindingAdapter("drawSD", "drawTD", "drawED", "drawBD", requireAll = false)
+    @JvmStatic
+    fun TextView.divider(
+        drawS: Drawable?,
+        drawT: Drawable?,
+        drawE: Drawable?,
+        drawB: Drawable?
     ) {
         setCompoundDrawablesWithIntrinsicBounds(drawS, drawT, drawE, drawB)
     }

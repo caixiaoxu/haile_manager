@@ -17,11 +17,15 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.StaffDetailViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
+import com.yunshang.haile_manager_android.data.entities.DataPermissionShopDto
+import com.yunshang.haile_manager_android.data.entities.Menu
 import com.yunshang.haile_manager_android.databinding.ActivityStaffDetailBinding
 import com.yunshang.haile_manager_android.databinding.ItemStaffDetailFlowBinding
 import com.yunshang.haile_manager_android.databinding.ItemStaffDetailPermissionBinding
+import com.yunshang.haile_manager_android.databinding.ItemStaffDetailPermissionProfitBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 
 class StaffDetailActivity :
     BaseBusinessActivity<ActivityStaffDetailBinding, StaffDetailViewModel>(
@@ -68,33 +72,70 @@ class StaffDetailActivity :
                     )
                     val mT = DimensionUtils.dip2px(this@StaffDetailActivity, 24f)
                     detail.menuList.forEachIndexed { index, menu ->
-                        inflater.inflate(R.layout.item_staff_detail_permission, null, false)
-                            .also { view ->
-                                val permissionBinding = ItemStaffDetailPermissionBinding.bind(view)
+                        val permissionView = if (menu.perms == "league:profit") {
+                            DataBindingUtil.inflate<ItemStaffDetailPermissionProfitBinding>(
+                                inflater, R.layout.item_staff_detail_permission_profit,
+                                null,
+                                false
+                            ).also { permissionBinding ->
+                                permissionBinding.item = menu
+
+                                // 权限
+                                permissionBinding.clStaffDetailProfitPermissionList.buildChild<ItemStaffDetailFlowBinding, Menu>(
+                                    menu.childList, R.layout.item_staff_detail_flow,
+                                ) { _, childBinding, data ->
+                                    childBinding.name = data.name
+                                }
+
+                                // 可查看营业数据的门店
+                                permissionBinding.clStaffDetailProfitPermissionShopList.buildChild<ItemStaffDetailFlowBinding, DataPermissionShopDto>(
+                                    menu.dataPermissionDto?.dataPermissionShopDtoList,
+                                    R.layout.item_staff_detail_flow,
+                                ) { _, childBinding, data ->
+                                    childBinding.name = data.name
+                                }
+
+                                // 可查看分账的数据
+                                permissionBinding.clStaffDetailProfitPermissionSubAccount.buildChild<ItemStaffDetailFlowBinding, Int>(
+                                    menu.dataPermissionDto?.fundsDistributionType,
+                                    R.layout.item_staff_detail_flow,
+                                ) { _, childBinding, data ->
+                                    childBinding.name = if (1 == data) "自己的分账" else "全部分账"
+                                }
+                                permissionBinding.root.visibility(!menu.childList.isNullOrEmpty())
+                            }
+                        } else {
+                            DataBindingUtil.inflate<ItemStaffDetailPermissionBinding>(
+                                inflater,
+                                R.layout.item_staff_detail_permission,
+                                null,
+                                false
+                            ).also { permissionBinding ->
                                 permissionBinding.tvStaffDetailPermissionTitle.text = menu.name
                                 buildFlowView(
                                     inflater,
-                                    permissionBinding.root,
+                                    permissionBinding.clPermissionParent,
                                     permissionBinding.flowStaffDetailPermission,
                                     menu.childList
                                 ) { itemBinding, menu ->
                                     itemBinding.name = menu.name
                                 }
-                                mBinding.llStaffDetailPermissionList.addView(
-                                    permissionBinding.root, LinearLayout.LayoutParams(
-                                        ViewGroup.LayoutParams.MATCH_PARENT,
-                                        ViewGroup.LayoutParams.WRAP_CONTENT
-                                    ).apply {
-                                        setMargins(
-                                            0,
-                                            if (0 == index) DimensionUtils.dip2px(
-                                                this@StaffDetailActivity,
-                                                16f
-                                            ) else mT, 0, 0
-                                        )
-                                    }
+                            }
+                        }.root
+                        mBinding.llStaffDetailPermissionList.addView(
+                            permissionView, LinearLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT
+                            ).apply {
+                                setMargins(
+                                    0,
+                                    if (0 == index) DimensionUtils.dip2px(
+                                        this@StaffDetailActivity,
+                                        16f
+                                    ) else mT, 0, 0
                                 )
                             }
+                        )
                     }
                     mBinding.llStaffDetailPermissionList.visibility = View.VISIBLE
                 }
@@ -177,6 +218,15 @@ class StaffDetailActivity :
                     StaffPermissionActivity.PermissionIds,
                     GsonUtils.any2Json(mViewModel.getPermissionIds())
                 )
+                putExtra(
+                    StaffPermissionActivity.ShopList,
+                    GsonUtils.any2Json(mViewModel.getProfitShopList().also {
+                        it?.forEach { shop ->
+                            shop.isCheck = true
+                        }
+                    })
+                )
+                putExtra(StaffPermissionActivity.ProfitTypes, mViewModel.getProfitTypesList())
             })
         }
     }

@@ -66,4 +66,11 @@
         <attr name="triangle_margin" format="dimension" />
         <attr name="triangle_shadow_w" format="dimension" />
     </declare-styleable>
+    <declare-styleable name="CustomFlowListConstraintLayout">
+        <attr name="flow_horizontalGap" />
+        <attr name="flow_verticalGap" />
+        <attr name="flow_horizontalStyle" />
+        <attr name="flow_wrapMode" />
+        <attr name="flow_horizontalBias" />
+    </declare-styleable>
 </resources>

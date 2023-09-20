@@ -16,6 +16,6 @@ data class StaffPermission(
 )
 
 data class DataPermissionRequest(
-    val fundsDistributionType: List<Int>,
-    val shopIdList: List<Int>
+    var fundsDistributionType: List<Int>? = null,
+    var shopIdList: List<Int>? = null,
 )

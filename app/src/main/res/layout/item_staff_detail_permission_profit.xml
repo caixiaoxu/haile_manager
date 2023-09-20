@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.Menu" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/ll_permission_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:showIn="@layout/activity_staff_detail">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_staff_detail_permission_title"
+            style="@style/Font_14_333333"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{item.name}"
+            tools:text="首页" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_staff_detail_profit_permission_list_title"
+            style="@style/Font_12_999999"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/fun_permission" />
+
+        <com.yunshang.haile_manager_android.ui.view.CustomFlowListConstraintLayout
+            android:id="@+id/cl_staff_detail_profit_permission_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingBottom="16dp"
+            app:flow_horizontalBias="0"
+            app:flow_horizontalGap="8dp"
+            app:flow_horizontalStyle="packed"
+            app:flow_verticalGap="8dp"
+            app:flow_wrapMode="chain" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_staff_detail_profit_permission_shop_list_title"
+            style="@style/Font_12_999999"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:visibility="@{null != item.dataPermissionDto.shopIdList &amp;&amp; item.dataPermissionDto.shopIdList.size > 0}"
+            android:text="@string/can_profit_data_shop" />
+
+        <com.yunshang.haile_manager_android.ui.view.CustomFlowListConstraintLayout
+            android:id="@+id/cl_staff_detail_profit_permission_shop_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingBottom="16dp"
+            app:flow_horizontalBias="0"
+            app:flow_horizontalGap="8dp"
+            app:visibility="@{null != item.dataPermissionDto.shopIdList &amp;&amp; item.dataPermissionDto.shopIdList.size > 0}"
+            app:flow_horizontalStyle="packed"
+            app:flow_verticalGap="8dp"
+            app:flow_wrapMode="chain" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_staff_detail_profit_permission_sub_account_title"
+            style="@style/Font_12_999999"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:visibility="@{null != item.dataPermissionDto.fundsDistributionType &amp;&amp; item.dataPermissionDto.fundsDistributionType.size > 0}"
+            android:text="@string/can_sub_account_profit_data" />
+
+        <com.yunshang.haile_manager_android.ui.view.CustomFlowListConstraintLayout
+            android:id="@+id/cl_staff_detail_profit_permission_sub_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:flow_horizontalBias="0"
+            app:flow_horizontalGap="8dp"
+            app:visibility="@{null != item.dataPermissionDto.fundsDistributionType &amp;&amp; item.dataPermissionDto.fundsDistributionType.size > 0}"
+            app:flow_horizontalStyle="packed"
+            app:flow_verticalGap="8dp"
+            app:flow_wrapMode="chain" />
+
+    </LinearLayout>
+</layout>

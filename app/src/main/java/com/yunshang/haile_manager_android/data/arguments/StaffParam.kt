@@ -23,7 +23,7 @@ object StaffParam {
 
 data class StaffPermissionParams(
     val parent: UserPermissionEntity,
-    val child: List<UserPermissionEntity>?,
+    var child: List<UserPermissionEntity>?,
 ) : BaseObservable() {
 
     val childNum: Int = child?.size ?: 0

@@ -10,7 +10,8 @@
 
     </data>
 
-    <androidx.appcompat.widget.AppCompatRadioButton
+    <com.yunshang.haile_manager_android.ui.view.ClickRadioButton
+        android:id="@+id/cb_single_select_item"
         android:layout_width="match_parent"
         android:paddingHorizontal="16dp"
         android:gravity="center_vertical"

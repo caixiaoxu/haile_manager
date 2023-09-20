@@ -12,9 +12,10 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.LoginUserService
 import com.yunshang.haile_manager_android.business.apiService.StaffService
 import com.yunshang.haile_manager_android.business.event.BusEvents
+import com.yunshang.haile_manager_android.data.arguments.DataPermissionRequest
 import com.yunshang.haile_manager_android.data.arguments.StaffPermission
 import com.yunshang.haile_manager_android.data.arguments.StaffPermissionParams
-import com.yunshang.haile_manager_android.data.entities.UserPermissionEntity
+import com.yunshang.haile_manager_android.data.entities.DataPermissionShopDto
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,9 +35,22 @@ class StaffPermissionViewModel : BaseViewModel() {
     private val mStaffRepo = ApiRepository.apiClient(StaffService::class.java)
     private val mUserRepo = ApiRepository.apiClient(LoginUserService::class.java)
 
+    private val specialPerms = listOf(
+        "league:profit",
+        "league:profit:home",
+        "league:data:list",
+        "league:profit:calendar",
+        "league:profit:detail"
+    )
+
     val permissionList: MutableLiveData<MutableList<StaffPermissionParams>> by lazy {
         MutableLiveData()
     }
+
+    // 可查看数据的门店
+    var shopList: List<DataPermissionShopDto>? = null
+    // 可查看分账的数据
+    var fundsDistributionTypes: List<Int>? = null
 
     var staffId: Int = -1
 
@@ -77,9 +91,23 @@ class StaffPermissionViewModel : BaseViewModel() {
             list.forEach {
                 val idList =
                     it.child?.filter { child -> child.isCheck }
-                        ?.map { child -> StaffPermission(child.menuId) }
+                        ?.map { child ->
+                            StaffPermission(
+                                child.menuId,
+                                if (specialPerms.contains(child.perms)) DataPermissionRequest(
+                                    fundsDistributionTypes, shopList?.map { item -> item.id },
+                                ) else null
+                            )
+                        }
                 if (!idList.isNullOrEmpty()) {
-                    ids.add(StaffPermission(it.parent.menuId))
+                    ids.add(
+                        StaffPermission(
+                            it.parent.menuId,
+                            if (specialPerms.contains(it.parent.perms)) DataPermissionRequest(
+                                fundsDistributionTypes, shopList?.map { item -> item.id },
+                            ) else null
+                        )
+                    )
                     ids.addAll(idList)
                 }
             }
@@ -127,7 +155,7 @@ class StaffPermissionViewModel : BaseViewModel() {
                     ApiRepository.createRequestBody(
                         hashMapOf(
                             "userId" to staffId,
-                            "menuIdList" to getSelectPermissionIds(),
+                            "menuInfoList" to getSelectPermissionIds(),
                         )
                     )
                 )

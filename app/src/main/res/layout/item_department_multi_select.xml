@@ -10,7 +10,7 @@
 
     </data>
 
-    <com.yunshang.haile_life.ui.view.ClickCheckBox
+    <com.yunshang.haile_manager_android.ui.view.ClickCheckBox
         android:id="@+id/cb_multi_select_item"
         android:layout_width="match_parent"
         android:paddingHorizontal="16dp"

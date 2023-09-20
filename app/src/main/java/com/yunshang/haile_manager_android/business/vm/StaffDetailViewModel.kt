@@ -1,6 +1,5 @@
 package com.yunshang.haile_manager_android.business.vm
 
-import android.content.Intent
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.async.LiveDataBus
@@ -10,7 +9,6 @@ import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.StaffPermission
 import com.yunshang.haile_manager_android.data.entities.StaffDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
-import com.yunshang.haile_manager_android.ui.activity.staff.StaffPermissionActivity
 
 /**
  * Title :
@@ -53,6 +51,20 @@ class StaffDetailViewModel : BaseViewModel() {
                 addAll(menu.childList.map { child -> StaffPermission(child.id) })
             }
         } ?: listOf()
+
+    /**
+     * 返回营业数据的门店信息
+     */
+    fun getProfitShopList() = staffDetail.value?.menuList?.find { item ->
+        item.perms == "league:profit"
+    }?.dataPermissionDto?.dataPermissionShopDtoList
+
+    /**
+     * 返回营业数据的分账可查看信息
+     */
+    fun getProfitTypesList() = staffDetail.value?.menuList?.find { item ->
+        item.perms == "league:profit"
+    }?.dataPermissionDto?.fundsDistributionType?.toIntArray()
 
     fun deleteStaff(view: View) {
         if (-1 == staffId) {

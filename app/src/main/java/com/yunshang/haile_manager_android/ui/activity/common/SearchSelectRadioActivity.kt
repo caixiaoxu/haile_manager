@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RadioGroup
 import androidx.appcompat.widget.AppCompatCheckBox
-import androidx.appcompat.widget.AppCompatRadioButton
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
@@ -146,6 +145,7 @@ class SearchSelectRadioActivity :
         mViewModel.moreSelect = SearchSelectTypeParam.parseMoreSelect(intent)
         mViewModel.hasAll = SearchSelectTypeParam.parseHasAll(intent)
         mViewModel.selectArr = SearchSelectTypeParam.parseSelectList(intent) ?: intArrayOf()
+        mViewModel.noUpdateArr = SearchSelectTypeParam.parseNoUpdateList(intent) ?: intArrayOf()
     }
 
     override fun initView() {
@@ -165,7 +165,7 @@ class SearchSelectRadioActivity :
         }
 
         mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.visibility(mViewModel.hasAll)
-        if (mViewModel.hasAll){
+        if (mViewModel.hasAll) {
             mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.setBackgroundResource(R.drawable.shape_bottom_stroke_dividing_mlr16)
             mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.setOnCheckClickListener {
                 mViewModel.allSelect.getCheck = !mViewModel.allSelect.getCheck
@@ -233,7 +233,14 @@ class SearchSelectRadioActivity :
                             binding.root.setBackgroundColor(Color.WHITE)
                         }
 
-                        (binding.root as AppCompatCheckBox).setOnCheckedChangeListener { _, isCheck ->
+                        binding.cbMultiSelectItem.setOnCheckClickListener {
+                            (item.getSelectId() in mViewModel.noUpdateArr).also { noUpdate ->
+                                if (noUpdate) {
+                                    SToast.showToast(this@SearchSelectRadioActivity, "不可修改")
+                                }
+                            }
+                        }
+                        binding.cbMultiSelectItem.setOnCheckedChangeListener { _, isCheck ->
                             if (isCheck) {
                                 mViewModel.allSelect.getCheck = false
                             }
@@ -279,7 +286,15 @@ class SearchSelectRadioActivity :
                         } else {
                             binding.root.setBackgroundColor(Color.WHITE)
                         }
-                        (binding.root as AppCompatRadioButton).setOnCheckedChangeListener { _, isCheck ->
+
+                        binding.cbSingleSelectItem.setOnRadioClickListener {
+                            (item.getSelectId() in mViewModel.noUpdateArr).also { noUpdate ->
+                                if (noUpdate) {
+                                    SToast.showToast(this@SearchSelectRadioActivity, "不可修改")
+                                }
+                            }
+                        }
+                        binding.cbSingleSelectItem.setOnCheckedChangeListener { _, isCheck ->
                             if (isCheck) {
                                 mViewModel.allSelect.getCheck = false
                             }

@@ -379,8 +379,11 @@
     <string name="take_charge_shop">负责门店</string>
     <string name="take_charge_shop1">负责的门店</string>
     <string name="permission">权限</string>
+    <string name="fun_permission">功能权限</string>
     <string name="permission_config">权限配置</string>
     <string name="permission_info">权限信息</string>
+    <string name="can_profit_data_shop">可查看营业数据的门店</string>
+    <string name="can_sub_account_profit_data">可查看分账的数据</string>
     <string name="select_all">全选</string>
     <string name="no_select_all">全不选</string>
     <string name="add_success">增加成功</string>

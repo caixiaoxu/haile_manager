@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cl_permission_parent"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:showIn="@layout/activity_staff_detail">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_staff_detail_permission_title"
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_permission_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Font_14_333333"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="首页" />
+        tools:showIn="@layout/activity_staff_detail">
 
-    <androidx.constraintlayout.helper.widget.Flow
-        android:id="@+id/flow_staff_detail_permission"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:flow_horizontalBias="0"
-        app:flow_horizontalGap="8dp"
-        app:flow_horizontalStyle="packed"
-        app:flow_verticalGap="8dp"
-        android:layout_marginTop="12dp"
-        app:flow_wrapMode="chain"
-        app:layout_constraintTop_toBottomOf="@id/tv_staff_detail_permission_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_staff_detail_permission_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Font_14_333333"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="首页" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flow_staff_detail_permission"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:flow_horizontalBias="0"
+            app:flow_horizontalGap="8dp"
+            app:flow_horizontalStyle="packed"
+            app:flow_verticalGap="8dp"
+            android:layout_marginTop="12dp"
+            app:flow_wrapMode="chain"
+            app:layout_constraintTop_toBottomOf="@id/tv_staff_detail_permission_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

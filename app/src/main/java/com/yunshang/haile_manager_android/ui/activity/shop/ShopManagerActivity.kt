@@ -118,7 +118,7 @@ class ShopManagerActivity :
                     ), start, end
                 )
             mBinding?.tvItemShopTotalIncome?.setOnClickListener {
-                if (UserPermissionUtils.hasProfitCalendarPermission()) {
+                if (!UserPermissionUtils.hasProfitCalendarPermission()) {
                     SToast.showToast(this@ShopManagerActivity, "无收益日历的功能权限")
                     return@setOnClickListener
                 }

@@ -2,7 +2,9 @@ package com.yunshang.haile_manager_android.ui.activity.personal
 
 import android.content.Intent
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -70,9 +72,34 @@ class IncomeShopStatisticsActivity :
             if (!item.userFundList.isNullOrEmpty()) {
                 mItemBinding?.includeItemIncomeShopStatisticsSubAccount?.root?.visibility(true)
                 mItemBinding?.includeItemIncomeShopStatisticsSubAccount?.llSubAccountInfo?.buildChild<ItemIncomeStatisticsSubAccountInfoBinding, UserFund>(
-                    item.userFundList
+                    item.userFundList, LinearLayoutCompat.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        DimensionUtils.dip2px(this@IncomeShopStatisticsActivity, 44f)
+                    )
                 ) { _, childBinding, data ->
                     childBinding.child = data
+                }
+
+                mItemBinding?.includeItemIncomeShopStatisticsSubAccount?.llSubAccountInfo?.visibility(
+                    item.fold
+                )
+                mItemBinding?.includeItemIncomeShopStatisticsSubAccount?.tvSubAccountInfo?.setCompoundDrawablesWithIntrinsicBounds(
+                    0,
+                    0,
+                    if (item.fold) R.drawable.icon_arrow_down_with_padding else R.drawable.icon_arrow_right_with_padding,
+                    0
+                )
+                mItemBinding?.includeItemIncomeShopStatisticsSubAccount?.tvSubAccountInfo?.setOnClickListener {
+                    item.fold = !item.fold
+                    mItemBinding.includeItemIncomeShopStatisticsSubAccount.tvSubAccountInfo.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        if (item.fold) R.drawable.icon_arrow_down_with_padding else R.drawable.icon_arrow_right_with_padding,
+                        0
+                    )
+                    mItemBinding.includeItemIncomeShopStatisticsSubAccount.llSubAccountInfo.visibility(
+                        item.fold
+                    )
                 }
             } else mItemBinding?.includeItemIncomeShopStatisticsSubAccount?.root?.visibility(false)
         }
@@ -105,7 +132,10 @@ class IncomeShopStatisticsActivity :
                 if (!total.userFundList.isNullOrEmpty()) {
                     mBinding.includeIncomeShopStatisticsSubAccount.root.visibility(true)
                     mBinding.includeIncomeShopStatisticsSubAccount.llSubAccountInfo.buildChild<ItemIncomeStatisticsSubAccountInfoBinding, UserFund>(
-                        total.userFundList
+                        total.userFundList, LinearLayoutCompat.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            DimensionUtils.dip2px(this@IncomeShopStatisticsActivity, 44f)
+                        )
                     ) { _, childBinding, data ->
                         childBinding.child = data
                     }
@@ -115,9 +145,9 @@ class IncomeShopStatisticsActivity :
     }
 
     override fun initView() {
-        mBinding.llIncomeShopStatisticsTop.setPadding(0, StatusBarUtils.getStatusBarHeight(),0,0)
+        mBinding.llIncomeShopStatisticsTop.setPadding(0, StatusBarUtils.getStatusBarHeight(), 0, 0)
 
-        if (UserPermissionUtils.hasProfitDetailPermission()){
+        if (UserPermissionUtils.hasProfitDetailPermission()) {
             mBinding.barIncomeShopStatisticsTitle.getRightBtn().run {
                 setText(R.string.income_expenses_detail)
                 setTextColor(

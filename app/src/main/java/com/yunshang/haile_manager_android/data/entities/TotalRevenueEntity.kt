@@ -11,13 +11,13 @@ package com.yunshang.haile_manager_android.data.entities
  * 作者姓名 修改时间 版本号 描述
  */
 data class TotalRevenueEntity(
-    val revenue: Double,
+    val revenue: String,
     val userFundList: List<UserFund>?
 )
 
 data class UserFund(
     val account: String,
     val name: String,
-    val revenue: Double,
+    val revenue: String,
     val userId: Int
 )

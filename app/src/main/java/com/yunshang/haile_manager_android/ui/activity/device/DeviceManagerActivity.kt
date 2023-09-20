@@ -117,7 +117,7 @@ class DeviceManagerActivity :
                     ), start, end
                 )
             mBinding?.tvItemDeviceTotalIncome?.setOnClickListener {
-                if (UserPermissionUtils.hasProfitCalendarPermission()) {
+                if (!UserPermissionUtils.hasProfitCalendarPermission()) {
                     SToast.showToast(this@DeviceManagerActivity, "无收益日历的功能权限")
                     return@setOnClickListener
                 }

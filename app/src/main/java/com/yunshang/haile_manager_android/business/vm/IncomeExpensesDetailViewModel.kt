@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.business.vm
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
@@ -14,6 +15,7 @@ import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.util.*
 
 /**
@@ -83,7 +85,7 @@ class IncomeExpensesDetailViewModel : BaseViewModel() {
     fun requestData(
         type: Int,
         isRefresh: Boolean,
-        callBack: (MutableList<IncomeExpensesDetailEntity>) -> Unit
+        callBack: (MutableList<IncomeExpensesDetailEntity>?) -> Unit
     ) {
         launch({
             if (isRefresh) {
@@ -114,17 +116,22 @@ class IncomeExpensesDetailViewModel : BaseViewModel() {
                 page = 1
             }
             // 请求店铺列表数据
-            ApiRepository.dealApiResult(
+            val list = ApiRepository.dealApiResult(
                 mCapitalRepo.requestIncomeExpensesDetailList(
                     getCommonParams(true)
                 )
-            )?.let {
-                withContext(Dispatchers.Main) {
-                    callBack(it.items)
-                }
-                if (it.items.isNotEmpty()) {
-                    page++
-                }
+            )
+            withContext(Dispatchers.Main) {
+                callBack(list?.items)
+            }
+            if (!list?.items.isNullOrEmpty()) {
+                page++
+            }
+        }, {
+            Timber.d("请求失败或异常$it")
+            withContext(Dispatchers.Main) {
+                it.message?.let { it1 -> SToast.showToast(msg = it1) }
+                callBack.invoke(null)
             }
         })
     }

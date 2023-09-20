@@ -2,7 +2,9 @@ package com.yunshang.haile_manager_android.ui.activity.personal
 
 import android.content.Intent
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -70,15 +72,30 @@ class IncomeStatisticsActivity :
             if (!item.userFundList.isNullOrEmpty()) {
                 mItemBinding?.includeItemIncomeStatisticsSubAccount?.root?.visibility(true)
                 mItemBinding?.includeItemIncomeStatisticsSubAccount?.llSubAccountInfo?.buildChild<ItemIncomeStatisticsSubAccountInfoBinding, UserFund>(
-                    item.userFundList
+                    item.userFundList, LinearLayoutCompat.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        DimensionUtils.dip2px(this@IncomeStatisticsActivity, 44f)
+                    )
                 ) { _, childBinding, data ->
                     childBinding.child = data
                 }
                 mItemBinding?.includeItemIncomeStatisticsSubAccount?.llSubAccountInfo?.visibility(
                     item.fold
                 )
+                mItemBinding?.includeItemIncomeStatisticsSubAccount?.tvSubAccountInfo?.setCompoundDrawablesWithIntrinsicBounds(
+                    0,
+                    0,
+                    if (item.fold) R.drawable.icon_arrow_down_with_padding else R.drawable.icon_arrow_right_with_padding,
+                    0
+                )
                 mItemBinding?.includeItemIncomeStatisticsSubAccount?.tvSubAccountInfo?.setOnClickListener {
                     item.fold = !item.fold
+                    mItemBinding.includeItemIncomeStatisticsSubAccount.tvSubAccountInfo.setCompoundDrawablesWithIntrinsicBounds(
+                        0,
+                        0,
+                        if (item.fold) R.drawable.icon_arrow_down_with_padding else R.drawable.icon_arrow_right_with_padding,
+                        0
+                    )
                     mItemBinding.includeItemIncomeStatisticsSubAccount.llSubAccountInfo.visibility(
                         item.fold
                     )
@@ -122,7 +139,10 @@ class IncomeStatisticsActivity :
                 if (!total.userFundList.isNullOrEmpty()) {
                     mBinding.includeIncomeStatisticsSubAccount.root.visibility(true)
                     mBinding.includeIncomeStatisticsSubAccount.llSubAccountInfo.buildChild<ItemIncomeStatisticsSubAccountInfoBinding, UserFund>(
-                        total.userFundList
+                        total.userFundList, LinearLayoutCompat.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            DimensionUtils.dip2px(this@IncomeStatisticsActivity, 44f)
+                        )
                     ) { _, childBinding, data ->
                         childBinding.child = data
                     }
@@ -134,7 +154,7 @@ class IncomeStatisticsActivity :
     override fun initView() {
         mBinding.llIncomeStatisticsTop.setPadding(0, StatusBarUtils.getStatusBarHeight(), 0, 0)
 
-        if (UserPermissionUtils.hasProfitDetailPermission()){
+        if (UserPermissionUtils.hasProfitDetailPermission()) {
             mBinding.barIncomeStatisticsTitle.getRightBtn().run {
                 setText(R.string.income_expenses_detail)
                 setTextColor(
@@ -246,10 +266,9 @@ class IncomeStatisticsActivity :
         mViewModel.requestData(type, isRefresh) { shopDataList ->
             mBinding.refreshLayout.finishRefresh()
             mBinding.refreshLayout.finishLoadMore()
-            if (shopDataList.isEmpty()) {
+            mAdapter.refreshList(shopDataList, isRefresh)
+            if (shopDataList.isNullOrEmpty()) {
                 mBinding.refreshLayout.setEnableLoadMore(false)
-            } else {
-                mAdapter.refreshList(shopDataList, isRefresh)
             }
         }
     }

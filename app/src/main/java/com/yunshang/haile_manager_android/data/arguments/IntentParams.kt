@@ -132,7 +132,7 @@ object IntentParams {
 
         fun parseShopId(intent: Intent): Int = intent.getIntExtra(ShopId, -1)
         fun parseShopName(intent: Intent): String? = intent.getStringExtra(ShopName)
-        fun parseShopIds(intent: Intent): IntArray? = intent.getIntArrayExtra(ShopId)
+        fun parseShopIds(intent: Intent): IntArray? = intent.getIntArrayExtra(ShopIds)
     }
 
     object ShopBusinessHoursParams {

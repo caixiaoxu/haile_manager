@@ -13,6 +13,8 @@ package com.yunshang.haile_manager_android.data.entities
 data class ShopRevenueDetailEntity(
     val categoryCode: String,
     val categoryName: String,
-    val revenue: Double,
+    val revenue: String,
     val userFundList: List<UserFund>?
-)
+) {
+    var fold = false
+}

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.data.arguments.CalendarEntity
 import com.yunshang.haile_manager_android.data.entities.IncomeCalendarEntity
@@ -219,16 +220,21 @@ class IncomeCalendarViewModel : BaseViewModel() {
         params["pageSize"] = pageSize
         params["transactionType"] = transactionType
         launch({
-            ApiRepository.dealApiResult(
+            val list = ApiRepository.dealApiResult(
                 mCapitalRepo.requestProfitStatisticsList(
                     ApiRepository.createRequestBody(
                         params
                     )
                 )
-            )?.let {
-                withContext(Dispatchers.Main) {
-                    callBack.invoke(it)
-                }
+            )
+            withContext(Dispatchers.Main) {
+                callBack.invoke(list)
+            }
+        }, {
+            Timber.d("请求失败或异常$it")
+            withContext(Dispatchers.Main) {
+                it.message?.let { it1 -> SToast.showToast(msg = it1) }
+                callBack.invoke(null)
             }
         })
     }

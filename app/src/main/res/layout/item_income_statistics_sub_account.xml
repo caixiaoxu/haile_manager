@@ -14,7 +14,6 @@
         style="@style/Font_14_333333"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:drawableEnd="@drawable/icon_arrow_right_with_padding"
         android:gravity="center_vertical"
         android:text="@string/sub_account_info" />
 

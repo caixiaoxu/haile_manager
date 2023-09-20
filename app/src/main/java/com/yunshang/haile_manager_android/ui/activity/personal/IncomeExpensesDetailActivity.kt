@@ -206,10 +206,9 @@ class IncomeExpensesDetailActivity :
         mViewModel.requestData(type, isRefresh) { list ->
             mBinding.refreshLayout.finishRefresh()
             mBinding.refreshLayout.finishLoadMore()
-            if (list.isEmpty()) {
+            mAdapter.refreshList(list, isRefresh)
+            if (list.isNullOrEmpty()) {
                 mBinding.refreshLayout.setEnableLoadMore(false)
-            } else {
-                mAdapter.refreshList(list, isRefresh)
             }
         }
     }

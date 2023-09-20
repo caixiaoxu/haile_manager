@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.business.vm
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
@@ -14,6 +15,7 @@ import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.util.*
 
 /**
@@ -77,7 +79,7 @@ class IncomeShopStatisticsViewModel : BaseViewModel() {
 
     fun requestData(
         type: Int,
-        callBack: (MutableList<ShopRevenueDetailEntity>) -> Unit
+        callBack: (MutableList<ShopRevenueDetailEntity>?) -> Unit
     ) {
         launch({
             if (0 == type) {
@@ -104,14 +106,19 @@ class IncomeShopStatisticsViewModel : BaseViewModel() {
                 totalRevenue.postValue(it)
             }
             // 请求店铺列表数据
-            ApiRepository.dealApiResult(
+            val list = ApiRepository.dealApiResult(
                 mCapitalRepo.requestShopRevenueDetail(
                     getCommonParams()
                 )
-            )?.let {
-                withContext(Dispatchers.Main) {
-                    callBack(it)
-                }
+            )
+            withContext(Dispatchers.Main) {
+                callBack(list)
+            }
+        }, {
+            Timber.d("请求失败或异常$it")
+            withContext(Dispatchers.Main) {
+                it.message?.let { it1 -> SToast.showToast(msg = it1) }
+                callBack.invoke(null)
             }
         })
     }

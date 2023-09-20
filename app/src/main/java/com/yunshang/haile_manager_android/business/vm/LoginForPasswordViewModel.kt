@@ -9,7 +9,6 @@ import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.business.apiService.LoginUserService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.model.ApiRepository
-import com.yunshang.haile_manager_android.utils.StringUtils
 
 /**
  * Title : 密码登录的viewmodel
@@ -65,10 +64,10 @@ class LoginForPasswordViewModel : BaseViewModel() {
             return
         }
 
-        if (!StringUtils.checkPassword(password.value)) {
-            SToast.showToast(view.context, "密码必须包含6-12位大小写字母和数字")
-            return
-        }
+//        if (!StringUtils.checkPassword(password.value)) {
+//            SToast.showToast(view.context, "密码必须包含6-12位大小写字母和数字")
+//            return
+//        }
 
         if (true != isAgree.value) {
             SToast.showToast(view.context, "请阅读并同意协议")

@@ -222,10 +222,8 @@ class DeviceManagerViewModel : BaseViewModel() {
             mDeviceCountStr.postValue(
                 StringUtils.getString(R.string.device_num_hint, deviceList?.total ?: 0),
             )
-            deviceList?.let {
-                withContext(Dispatchers.Main) {
-                    result.invoke(it)
-                }
+            withContext(Dispatchers.Main) {
+                result.invoke(deviceList)
             }
         }, {
             Timber.d("请求失败或异常$it")

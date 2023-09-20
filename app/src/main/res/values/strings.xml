@@ -37,6 +37,7 @@
     <string name="send_to_wechat">发送到微信</string>
     <string name="status">状态</string>
     <string name="operate">操作</string>
+    <string name="operate_success">操作成功</string>
     <string name="for_take">拍照</string>
     <string name="for_album">相册</string>
     <string name="capture_light">补光</string>
@@ -465,7 +466,7 @@
         <item>满减券</item>
         <item></item>
         <item>折扣券</item>
-        <item>兑换券</item>
+        <item>体验券</item>
     </string-array>
     <string name="coupon_price">券金额</string>
     <string name="coupon_price_hint">输入范围0.01-100.00</string>
@@ -498,7 +499,7 @@
     <string name="send_time">发券时间</string>
     <string name="send_operator">发券人</string>
     <string name="cancellation_time">作废时间</string>
-    <string name="cancellation_operator">作废人</string>
+    <string name="cancellation_operator">操作人</string>
 
     <string name="home_msg_title">最近消息</string>
     <string name="home_msg_num">条新消息</string>

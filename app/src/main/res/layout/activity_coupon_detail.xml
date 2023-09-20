@@ -187,7 +187,6 @@
                 style="@style/CommonStrokeTxtBtnStyle"
                 android:layout_gravity="end"
                 android:layout_marginEnd="16dp"
-                android:onClick="@{vm::abandonCoupon}"
                 android:text="@string/cancellation"
                 app:layout_constraintEnd_toEndOf="@id/view_device_detail_bottom"
                 app:layout_constraintTop_toTopOf="@id/view_device_detail_bottom" />

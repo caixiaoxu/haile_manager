@@ -76,7 +76,7 @@ class IssueCouponsViewModel : BaseViewModel() {
                 return
             }
             if (0.01 > coupon.value!!.reduce!! || 100 < coupon.value!!.reduce!!) {
-                SToast.showToast(v.context, "请券金额范围为0.01-100.00")
+                SToast.showToast(v.context, "券金额范围为0.01-100.00")
                 return
             }
             if (null == coupon.value?.orderReachPrice) {
@@ -84,7 +84,7 @@ class IssueCouponsViewModel : BaseViewModel() {
                 return
             }
             if (0 > coupon.value!!.orderReachPrice!! || 100 < coupon.value!!.orderReachPrice!!) {
-                SToast.showToast(v.context, "请使用条件范围为0-100.00")
+                SToast.showToast(v.context, "使用条件范围为0-100.00")
                 return
             }
         } else if (3 == coupon.value?.couponType) {
@@ -93,7 +93,7 @@ class IssueCouponsViewModel : BaseViewModel() {
                 return
             }
             if (0.1 > coupon.value!!.percentage!! || 9.9 < coupon.value!!.percentage!!) {
-                SToast.showToast(v.context, "请券折扣范围为0.1-9.9")
+                SToast.showToast(v.context, "券折扣范围为0.1-9.9")
                 return
             }
             if (null == coupon.value?.maxDiscountPrice) {
@@ -101,7 +101,7 @@ class IssueCouponsViewModel : BaseViewModel() {
                 return
             }
             if (0.01 > coupon.value!!.maxDiscountPrice!! || 100 < coupon.value!!.maxDiscountPrice!!) {
-                SToast.showToast(v.context, "请券折扣范围为0.01-100.00")
+                SToast.showToast(v.context, "券折扣范围为0.01-100.00")
                 return
             }
             if (null == coupon.value?.orderReachPrice) {
@@ -109,7 +109,7 @@ class IssueCouponsViewModel : BaseViewModel() {
                 return
             }
             if (0 > coupon.value!!.orderReachPrice!! || 100 < coupon.value!!.orderReachPrice!!) {
-                SToast.showToast(v.context, "请使用条件范围为0-100.00")
+                SToast.showToast(v.context, "使用条件范围为0-100.00")
                 return
             }
         } else if (4 == coupon.value?.couponType) {
@@ -118,7 +118,7 @@ class IssueCouponsViewModel : BaseViewModel() {
                 return
             }
             if (0 > coupon.value!!.specifiedPrice!! || 100 < coupon.value!!.specifiedPrice!!) {
-                SToast.showToast(v.context, "请体验价范围为0-100.00")
+                SToast.showToast(v.context, "体验价范围为0-100.00")
                 return
             }
         }
@@ -129,7 +129,7 @@ class IssueCouponsViewModel : BaseViewModel() {
         }
 
         if (1 > coupon.value!!.userCouponCountList.firstOrNull()!!.count!! || 10 < coupon.value!!.userCouponCountList.firstOrNull()!!.count!!) {
-            SToast.showToast(v.context, "请发券数量范围为1-10")
+            SToast.showToast(v.context, "发券数量范围为1-10")
             return
         }
 

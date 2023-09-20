@@ -150,9 +150,7 @@ class CommonLoadMoreRecyclerView<D> @JvmOverloads constructor(
 
         // 刷新数据
         adapter?.refreshList(it, isRefresh)
-
-        if (it.size <= pageSize)
-            mBinding.refreshLayout.setEnableLoadMore(false)
+        mBinding.refreshLayout.setEnableLoadMore(it.size >= pageSize)
     }
 
     /**

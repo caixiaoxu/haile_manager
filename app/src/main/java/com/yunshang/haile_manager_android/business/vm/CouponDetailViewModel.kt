@@ -1,13 +1,17 @@
 package com.yunshang.haile_manager_android.business.vm
 
-import android.view.View
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.lsy.framelib.utils.SToast
+import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.DiscountsService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.entities.CouponDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * Title :
@@ -47,7 +51,7 @@ class CouponDetailViewModel : BaseViewModel() {
     /**
      * 废弃优惠券
      */
-    fun abandonCoupon(v: View) {
+    fun abandonCoupon(context: Context) {
         if (couponId <= 0) return
         launch({
             ApiRepository.dealApiResult(
@@ -59,6 +63,9 @@ class CouponDetailViewModel : BaseViewModel() {
                     )
                 )
             )
+            withContext(Dispatchers.Main) {
+                SToast.showToast(context, R.string.operate_success)
+            }
             requestCouponDetailAsync()
             LiveDataBus.post(BusEvents.COUPON_LIST_STATUS, true)
         })

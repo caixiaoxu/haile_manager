@@ -111,7 +111,7 @@ class CouponManageViewModel : BaseViewModel() {
                         couponStatus[3].num.postValue(num.count)
                     }
                     32 -> {
-                        couponStatus[3].num.postValue(num.count)
+                        couponStatus[4].num.postValue(num.count)
                     }
                 }
             }
@@ -130,24 +130,27 @@ class CouponManageViewModel : BaseViewModel() {
             val couponList = ApiRepository.dealApiResult(
                 mDiscountsRepo.requestCouponList(
                     ApiRepository.createRequestBody(
-                        hashMapOf(
+                        hashMapOf<String, Any?>(
                             "page" to page,
                             "pageSize" to pageSize,
-                            "status" to curCouponStatus.value,
+                            "assetStatus" to curCouponStatus.value,
                             "couponType" to selectCouponType.value,
-                            "shopId" to selectShop.value,
-                            "categoryId" to selectCategory.value,
-                        )
+                        ).also { params ->
+                            selectShop.value?.let {
+                                params["shopIds"] = listOf(it)
+                            }
+                            selectCategory.value?.let {
+                                params["machineParentTypeIds"] = listOf(it)
+                            }
+                        }
                     )
                 )
             )
             mCouponCountStr.postValue(
                 StringUtils.getString(R.string.coupon_num_prompt, couponList?.total ?: 0),
             )
-            couponList?.let {
-                withContext(Dispatchers.Main) {
-                    result.invoke(it)
-                }
+            withContext(Dispatchers.Main) {
+                result.invoke(couponList)
             }
         }, {
             Timber.d("请求失败或异常$it")

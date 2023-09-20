@@ -50,10 +50,8 @@ class ShopManagerViewModel : BaseViewModel() {
             mShopCountStr.postValue(
                 StringUtils.getString(R.string.shop_num_hint, listWrapper?.total ?: 0),
             )
-            listWrapper?.let {
-                withContext(Dispatchers.Main) {
-                    result.invoke(it)
-                }
+            withContext(Dispatchers.Main) {
+                result.invoke(listWrapper)
             }
         }, {
             Timber.d("请求失败或异常$it")

@@ -136,7 +136,7 @@ data class IssueCouponEntity(
         get() = userCouponCountList.firstOrNull()?.count?.toString() ?: ""
         set(value) {
             try {
-                val num = value.toInt()
+                val num = if (value.isEmpty()) null else value.toInt()
                 userCouponCountList.firstOrNull()?.let {
                     it.count = num
                 } ?: run {

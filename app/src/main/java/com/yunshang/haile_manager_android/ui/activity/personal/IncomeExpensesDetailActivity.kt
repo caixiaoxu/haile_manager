@@ -129,7 +129,7 @@ class IncomeExpensesDetailActivity :
                 ).apply {
                     putExtras(
                         IntentParams.SearchSelectTypeParam.pack(
-                            IntentParams.SearchSelectTypeParam.SearchSelectTypeCouponShop,
+                            IntentParams.SearchSelectTypeParam.SearchSelectStatisticsShop,
                             mustSelect = true,
                             moreSelect = true,
                             hasAll = true,

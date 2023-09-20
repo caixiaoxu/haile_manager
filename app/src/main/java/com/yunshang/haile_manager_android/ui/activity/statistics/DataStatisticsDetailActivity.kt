@@ -355,7 +355,7 @@ class DataStatisticsDetailActivity :
                 ).apply {
                     putExtras(
                         IntentParams.SearchSelectTypeParam.pack(
-                            IntentParams.SearchSelectTypeParam.SearchSelectTypeShop,
+                            IntentParams.SearchSelectTypeParam.SearchSelectStatisticsShop,
                         )
                     )
                 }

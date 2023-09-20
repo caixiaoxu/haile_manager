@@ -95,7 +95,8 @@ class SearchSelectRadioActivity :
                         SearchSelectTypeParam.SearchSelectTypeShop,
                         SearchSelectTypeParam.SearchSelectTypeTakeChargeShop,
                         SearchSelectTypeParam.SearchSelectTypeRechargeShop,
-                        SearchSelectTypeParam.SearchSelectTypeCouponShop -> SearchSelectTypeParam.ShopResultCode
+                        SearchSelectTypeParam.SearchSelectTypeCouponShop,
+                        SearchSelectTypeParam.SearchSelectStatisticsShop-> SearchSelectTypeParam.ShopResultCode
                         SearchSelectTypeParam.SearchSelectTypeDeviceModel -> SearchSelectTypeParam.DeviceModelResultCode
                         else -> RESULT_OK
                     },

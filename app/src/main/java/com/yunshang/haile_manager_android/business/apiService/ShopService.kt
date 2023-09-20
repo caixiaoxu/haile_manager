@@ -82,6 +82,12 @@ interface ShopService {
     suspend fun shopSelectList(@Body body: RequestBody): ResponseWrapper<MutableList<ShopSelectEntity>>
 
     /**
+     * 数据统计店铺选择列表
+     */
+    @POST("/shop/shopDatePermissionSelectList")
+    suspend fun requestStatisticsShopSelectList(@Body body: RequestBody): ResponseWrapper<MutableList<ShopSelectEntity>>
+
+    /**
      * 海星方案店铺选择列表
      */
     @POST("/shop/shopSelectListForStarFish")

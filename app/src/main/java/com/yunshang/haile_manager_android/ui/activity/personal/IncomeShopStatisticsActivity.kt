@@ -199,7 +199,7 @@ class IncomeShopStatisticsActivity :
                 ).apply {
                     putExtras(
                         IntentParams.SearchSelectTypeParam.pack(
-                            IntentParams.SearchSelectTypeParam.SearchSelectTypeCouponShop,
+                            IntentParams.SearchSelectTypeParam.SearchSelectStatisticsShop,
                             mustSelect = true,
                             selectArr = mViewModel.shopIds?.toIntArray() ?: intArrayOf(0)
                         )

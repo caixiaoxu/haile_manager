@@ -235,6 +235,7 @@ object IntentParams {
         const val SearchSelectTypeRechargeShop = 4
         const val SearchSelectTypePaySettingsShop = 5
         const val SearchSelectTypeCouponShop = 6
+        const val SearchSelectStatisticsShop = 7
 
         fun pack(
             searchSelectType: Int? = null,

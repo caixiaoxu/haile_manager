@@ -147,7 +147,7 @@ class ProfitDataDialog private constructor(private val builder: Builder) :
                         ).apply {
                             putExtras(
                                 IntentParams.SearchSelectTypeParam.pack(
-                                    IntentParams.SearchSelectTypeParam.SearchSelectTypeCouponShop,
+                                    IntentParams.SearchSelectTypeParam.SearchSelectStatisticsShop,
                                     mustSelect = true,
                                     moreSelect = true,
                                     selectArr = list.filter { item -> item.isCheck && item.id != 0 }

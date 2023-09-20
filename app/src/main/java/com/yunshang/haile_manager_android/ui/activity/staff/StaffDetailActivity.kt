@@ -159,7 +159,7 @@ class StaffDetailActivity :
         inflater: LayoutInflater,
         parent: ConstraintLayout,
         flowParent: Flow,
-        shopList: List<T>,
+        shopList: List<T>?,
         build: (ItemStaffDetailFlowBinding, T) -> Unit
     ) {
         if (shopList.isNullOrEmpty()) {

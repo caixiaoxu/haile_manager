@@ -47,8 +47,10 @@ class StaffDetailViewModel : BaseViewModel() {
     fun getPermissionIds(): List<StaffPermission> =
         staffDetail.value?.menuList?.flatMap { menu ->
             arrayListOf<StaffPermission>().apply {
-                add(StaffPermission(menu.id))
-                addAll(menu.childList.map { child -> StaffPermission(child.id) })
+                menu.childList?.let {
+                    add(StaffPermission(menu.id))
+                    addAll(menu.childList.map { child -> StaffPermission(child.id) })
+                }
             }
         } ?: listOf()
 

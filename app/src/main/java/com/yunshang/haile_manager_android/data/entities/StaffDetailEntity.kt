@@ -64,7 +64,7 @@ data class Menu(
     val shareType: Int,
     val type: Int,
     val url: String,
-    val childList: List<Menu>,
+    val childList: List<Menu>?,
     val dataPermissionDto: DataPermissionDto?,
 )
 

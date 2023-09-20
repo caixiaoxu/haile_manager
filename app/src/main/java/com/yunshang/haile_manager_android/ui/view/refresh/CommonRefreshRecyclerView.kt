@@ -195,9 +195,7 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
         adapter?.refreshList(it.items, isRefresh)
 
         // 判断列表数量 >= 总数据数量
-        if ((adapter?.itemCount ?: 0) >= it.total) {
-            mBinding.refreshLayout.setEnableLoadMore(false)
-        }
+        mBinding.refreshLayout.setEnableLoadMore((adapter?.itemCount ?: 0) < it.total)
     }
 
     /**

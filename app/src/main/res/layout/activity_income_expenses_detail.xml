@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="com.yunshang.haile_manager_android.business.vm.IncomeExpensesDetailViewModel" />
@@ -38,9 +39,9 @@
                     style="@style/Font_14_333333"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{vm.dateSpace}"
                     android:drawableEnd="@mipmap/icon_triangle_down"
                     android:drawablePadding="4dp"
+                    android:text="@{vm.dateSpace}"
                     tools:text="05-14 至 06-24" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -51,7 +52,8 @@
                     android:layout_marginStart="16dp"
                     android:drawableEnd="@mipmap/icon_triangle_down"
                     android:drawablePadding="4dp"
-                    android:hint="@string/all_shop" />
+                    android:hint="@string/all_shop"
+                    app:visibility="@{!(null != vm.shopIds || null != vm.categoryCodes || -1 != vm.goodsId)}" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_income_expenses_detail_category"
@@ -61,7 +63,8 @@
                     android:layout_marginStart="16dp"
                     android:drawableEnd="@mipmap/icon_triangle_down"
                     android:drawablePadding="4dp"
-                    android:hint="@string/all_device" />
+                    android:hint="@string/all_device"
+                    app:visibility="@{!(null != vm.shopIds || null != vm.categoryCodes || -1 != vm.goodsId)}" />
             </LinearLayout>
         </HorizontalScrollView>
 

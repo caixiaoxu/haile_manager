@@ -247,7 +247,7 @@
         style="@style/Font_14_333333"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/start_order"
+        android:text="@string/device_pay_order"
         app:layout_constraintBottom_toTopOf="@id/tv_data_statistics_start_order"
         app:layout_constraintEnd_toEndOf="@id/tv_data_statistics_start_order_trend"
         app:layout_constraintStart_toStartOf="@id/tv_data_statistics_start_order_trend"

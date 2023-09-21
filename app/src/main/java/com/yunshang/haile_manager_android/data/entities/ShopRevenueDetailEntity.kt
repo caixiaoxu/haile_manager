@@ -14,7 +14,14 @@ data class ShopRevenueDetailEntity(
     val categoryCode: String,
     val categoryName: String,
     val revenue: String,
-    val userFundList: List<UserFund>?
+    val userFundList: List<UserFund>?,
+    val deviceNum: Int,
 ) {
     var fold = false
+
+    var deviceFold = false
+
+    var page: Int = 1
+    var noMore: Boolean = false
+    var deviceList: MutableList<ShopDeviceRevenueListEntity>? = null
 }

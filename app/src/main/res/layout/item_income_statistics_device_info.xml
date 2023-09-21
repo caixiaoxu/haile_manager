@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="device"
+            type="com.yunshang.haile_manager_android.data.entities.ShopDeviceRevenueListEntity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_14_333333_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxWidth="108dp"
+            android:text="@{device.name}"
+            tools:text="张三" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_14_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:text="@{@string/unit_money+device.revenue}"
+            tools:text="¥20.00" />
+    </LinearLayout>
+</layout>

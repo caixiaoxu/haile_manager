@@ -106,7 +106,7 @@ class DataStatisticsDetailActivity :
                     refreshItemView(
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.groupDataStatisticsRevenue,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsRevenueTitle,
-                        StringUtils.getString(R.string.start_order),
+                        StringUtils.getString(R.string.device_pay_order),
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsRevenue,
                         orderStatistics.deviceOrderCount,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsRevenueTrend,
@@ -115,7 +115,7 @@ class DataStatisticsDetailActivity :
                     refreshItemView(
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.groupDataStatisticsActiveUser,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsActiveUserTitle,
-                        "充值订单量",
+                        "充值支付订单",
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsActiveUser,
                         orderStatistics.rechargeOrderCount,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsActiveUserTrend,
@@ -124,29 +124,29 @@ class DataStatisticsDetailActivity :
                     refreshItemView(
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.groupDataStatisticsAddUser,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsAddUserTitle,
-                        "退款订单量",
+                        "启动退款订单量",
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsAddUser,
-                        orderStatistics.orderRefundCount,
+                        orderStatistics.deviceRefundOrderCount,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsAddUserTrend,
-                        orderStatistics.orderRefundCountCompare
+                        orderStatistics.deviceRefundOrderCountCompare
                     )
                     refreshItemView(
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.groupDataStatisticsActiveDevice,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsActiveDeviceTitle,
-                        "退款金额",
+                        "充值退款订单量",
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsActiveDevice,
-                        orderStatistics.orderRefundAmount,
+                        orderStatistics.rechargeRefundOrderCount,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsActiveDeviceTrend,
-                        orderStatistics.orderRefundAmountCompare
+                        orderStatistics.rechargeRefundOrderCountCompare
                     )
                     refreshItemView(
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.groupDataStatisticsDeviceFrequency,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsDeviceFrequencyTitle,
-                        "",
+                        "总退款金额",
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsDeviceFrequency,
-                        "",
+                        orderStatistics.orderRefundAmount,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsDeviceFrequencyTrend,
-                        0.0
+                        orderStatistics.orderRefundAmountCompare
                     )
                 } ?: run {
                     mBinding.includeDataStatisticsDetailOrder.root.visibility = View.GONE
@@ -422,7 +422,7 @@ class DataStatisticsDetailActivity :
     ) {
         if (title.isNotEmpty()) {
             tvTitle?.text = title
-            tv?.text = value
+            tv?.text = value.ifEmpty { "--" }
             tvTrend?.text =
                 "环比${com.yunshang.haile_manager_android.utils.StringUtils.formatNumberStr(trend)}%".let {
                     com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(

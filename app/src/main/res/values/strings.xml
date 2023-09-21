@@ -63,6 +63,7 @@
     <string name="closed">已关闭</string>
     <string name="next">下一步</string>
     <string name="manager">管理</string>
+    <string name="device">设备</string>
 
     <string name="empty_content">暂无内容信息</string>
     <string name="empty_device">暂无设备信息</string>
@@ -96,7 +97,7 @@
     <string name="data_revenue">收益</string>
     <string name="data_active_user">活跃用户量</string>
     <string name="data_add_user">新增用户量</string>
-    <string name="start_order">启动订单</string>
+    <string name="device_pay_order">设备支付订单</string>
     <string name="data_active_device">活跃设备数</string>
     <string name="data_device_frequency">设备频次</string>
     <string name="more_statistics">更多统计</string>
@@ -800,5 +801,6 @@
     <string name="antibacterial_solution_surplus">除菌液剩余</string>
     <string name="reset_100_percent">重置100%</string>
 
+    <string name="click_load_more">点击加载更多</string>
 
 </resources>

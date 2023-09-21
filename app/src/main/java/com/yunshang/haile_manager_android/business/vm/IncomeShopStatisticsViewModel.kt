@@ -123,12 +123,44 @@ class IncomeShopStatisticsViewModel : BaseViewModel() {
         })
     }
 
-    private fun getCommonParams() = ApiRepository.createRequestBody(
+    private fun getCommonParams(page: Int? = null) = ApiRepository.createRequestBody(
         hashMapOf(
             "shopIdList" to shopIds,
             "categoryCodeList" to categoryCodes,
             "startTime" to DateTimeUtils.formatDateTimeStartParam(startDate.value),
             "endTime" to DateTimeUtils.formatDateTimeEndParam(endDate.value),
-        )
+        ).also { params ->
+            page?.let {
+                params["page"] = page
+                params["pageSize"] = 20
+            }
+        }
     )
+
+    fun requestDeviceList(item: ShopRevenueDetailEntity, callBack: () -> Unit) {
+        launch({
+            if (0 == item.page){
+                item.page = 1
+            }
+            ApiRepository.dealApiResult(
+                mCapitalRepo.requestShopDeviceRevenueList(
+                    getCommonParams(item.page)
+                )
+            )?.let {
+                if (null == item.deviceList) {
+                    item.deviceList = mutableListOf()
+                }
+                item.deviceList!!.addAll(it.items)
+                if (it.items.size < 20) {
+                    item.noMore = true
+                } else {
+                    item.page++
+                    item.noMore = false
+                }
+                withContext(Dispatchers.Main) {
+                    callBack()
+                }
+            }
+        })
+    }
 }

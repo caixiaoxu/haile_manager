@@ -109,7 +109,7 @@ class IncomeStatisticsActivity :
                         IncomeShopStatisticsActivity::class.java
                     ).apply {
                         putExtras(
-                            IntentParams.ShopParams.packShops(
+                            IntentParams.ProfitStatisticsParams.pack(
                                 intArrayOf(item.shopId),
                                 item.shopName
                             )

@@ -75,6 +75,9 @@ class IncomeExpensesDetailViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
+    // 设备
+    var goodsId: Int = -1
+
     // 收支类型
     var transactionType: Int? = null
 
@@ -143,6 +146,9 @@ class IncomeExpensesDetailViewModel : BaseViewModel() {
             "startTime" to DateTimeUtils.formatDateTimeStartParam(startDate.value),
             "endTime" to DateTimeUtils.formatDateTimeEndParam(endDate.value),
         ).also { params ->
+            if (0 < goodsId) {
+                params["goodsId"] = goodsId
+            }
             if (needPage) {
                 params["page"] = page
                 params["pageSize"] = 20

@@ -81,9 +81,10 @@ class IncomeExpensesDetailActivity :
 
     override fun initIntent() {
         super.initIntent()
-        mViewModel.shopIds = IntentParams.ShopParams.parseShopIds(intent)?.toList()
-        mBinding.tvIncomeExpensesDetailShop.text =
-            IntentParams.ShopParams.parseShopName(intent) ?: ""
+        mViewModel.shopIds = IntentParams.ProfitStatisticsParams.parseShopIds(intent)?.toList()
+        mViewModel.categoryCodes =
+            IntentParams.ProfitStatisticsParams.parseCategoryCodes(intent)?.toList()
+        mViewModel.goodsId = IntentParams.ProfitStatisticsParams.parseGoodId(intent)
     }
 
     override fun initEvent() {

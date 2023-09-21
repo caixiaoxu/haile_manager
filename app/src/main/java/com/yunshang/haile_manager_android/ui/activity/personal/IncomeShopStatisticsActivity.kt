@@ -17,10 +17,12 @@ import com.yunshang.haile_manager_android.business.vm.IncomeShopStatisticsViewMo
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
+import com.yunshang.haile_manager_android.data.entities.ShopDeviceRevenueListEntity
 import com.yunshang.haile_manager_android.data.entities.ShopRevenueDetailEntity
 import com.yunshang.haile_manager_android.data.entities.UserFund
 import com.yunshang.haile_manager_android.databinding.ActivityIncomeShopStatisticsBinding
 import com.yunshang.haile_manager_android.databinding.ItemIncomeShopStatisticsListBinding
+import com.yunshang.haile_manager_android.databinding.ItemIncomeStatisticsDeviceInfoBinding
 import com.yunshang.haile_manager_android.databinding.ItemIncomeStatisticsSubAccountInfoBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
@@ -102,7 +104,120 @@ class IncomeShopStatisticsActivity :
                     )
                 }
             } else mItemBinding?.includeItemIncomeShopStatisticsSubAccount?.root?.visibility(false)
+
+            // 如果设备列表不为空，并且打开了设备列表，显示
+            mItemBinding?.rvDeviceInfoList?.layoutManager =
+                LinearLayoutManager(this@IncomeShopStatisticsActivity)
+            ContextCompat.getDrawable(this, R.drawable.divder_efefef)?.let {
+                mItemBinding?.rvDeviceInfoList?.addItemDecoration(
+                    DividerItemDecoration(this, DividerItemDecoration.VERTICAL).apply {
+                        setDrawable(it)
+                    })
+            }
+            mItemBinding?.rvDeviceInfoList?.adapter =
+                CommonRecyclerAdapter<ItemIncomeStatisticsDeviceInfoBinding, ShopDeviceRevenueListEntity>(
+                    R.layout.item_income_statistics_device_info,
+                    BR.device
+                ) { mItemDeviceBinding, _, itemDevice ->
+                    mItemDeviceBinding?.root?.setOnClickListener {
+                        startActivity(
+                            Intent(
+                                this@IncomeShopStatisticsActivity,
+                                IncomeExpensesDetailActivity::class.java
+                            ).apply {
+                                putExtras(
+                                    IntentParams.ProfitStatisticsParams.pack(
+                                        mViewModel.shopIds?.toIntArray(),
+                                        mBinding.tvIncomeShopStatisticsShop.text.toString(),
+                                        itemDevice.id,
+                                        arrayOf(item.categoryCode)
+                                    )
+                                )
+                            }
+                        )
+                    }
+                }
+            refreshDeviceList(mItemBinding, item)
+            mItemBinding?.clDeviceInfoList?.visibility(
+                !item.deviceList.isNullOrEmpty() && item.deviceFold
+            )
+            showLoadMore(mItemBinding, item)
+            // 打开图标
+            mItemBinding?.tvDeviceInfo?.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                if (item.deviceFold) R.drawable.icon_arrow_down_with_padding else R.drawable.icon_arrow_right_with_padding,
+                0
+            )
+            mItemBinding?.tvDeviceInfo?.setOnClickListener {
+                if (!item.deviceFold && item.deviceList.isNullOrEmpty()) {
+                    mViewModel.requestDeviceList(item) {
+                        refreshDeviceList(mItemBinding, item)
+                        showLoadMore(mItemBinding, item)
+                        toggleDeviceList(mItemBinding, item)
+                    }
+                } else {
+                    toggleDeviceList(mItemBinding, item)
+                }
+            }
+
+            mItemBinding?.viewDeviceInfoListBottom?.setOnClickListener {
+                mViewModel.requestDeviceList(item) {
+                    refreshDeviceList(mItemBinding, item)
+                    showLoadMore(mItemBinding, item)
+                }
+            }
+
+            mItemBinding?.root?.setOnClickListener {
+                startActivity(
+                    Intent(
+                        this@IncomeShopStatisticsActivity,
+                        IncomeExpensesDetailActivity::class.java
+                    ).apply {
+                        putExtras(
+                            IntentParams.ProfitStatisticsParams.pack(
+                                mViewModel.shopIds?.toIntArray(),
+                                categoryCodes = arrayOf(item.categoryCode)
+                            )
+                        )
+                    }
+                )
+            }
         }
+    }
+
+    private fun refreshDeviceList(
+        mItemBinding: ItemIncomeShopStatisticsListBinding?, item: ShopRevenueDetailEntity,
+    ) {
+        (mItemBinding?.rvDeviceInfoList?.adapter as? CommonRecyclerAdapter<*, ShopDeviceRevenueListEntity>)?.refreshList(
+            item.deviceList,
+            true
+        )
+    }
+
+    private fun showLoadMore(
+        mItemBinding: ItemIncomeShopStatisticsListBinding?,
+        item: ShopRevenueDetailEntity
+    ) {
+        mItemBinding?.groupDeviceInfoListBottom?.visibility =
+            if (item.noMore) View.GONE else View.VISIBLE
+    }
+
+    /**
+     * 切换设备列表显示
+     */
+    private fun toggleDeviceList(
+        mItemBinding: ItemIncomeShopStatisticsListBinding,
+        item: ShopRevenueDetailEntity
+    ) {
+        item.deviceFold = !item.deviceFold
+        mItemBinding.tvDeviceInfo.setCompoundDrawablesWithIntrinsicBounds(
+            0,
+            0,
+            if (item.deviceFold) R.drawable.icon_arrow_down_with_padding else R.drawable.icon_arrow_right_with_padding,
+            0
+        )
+        mItemBinding.clDeviceInfoList.visibility(item.deviceFold)
     }
 
     override fun isFullScreen(): Boolean = true
@@ -113,9 +228,9 @@ class IncomeShopStatisticsActivity :
 
     override fun initIntent() {
         super.initIntent()
-        mViewModel.shopIds = IntentParams.ShopParams.parseShopIds(intent)?.toList()
+        mViewModel.shopIds = IntentParams.ProfitStatisticsParams.parseShopIds(intent)?.toList()
         mBinding.tvIncomeShopStatisticsShop.text =
-            IntentParams.ShopParams.parseShopName(intent) ?: ""
+            IntentParams.ProfitStatisticsParams.parseShopName(intent) ?: ""
     }
 
     override fun initEvent() {
@@ -163,7 +278,7 @@ class IncomeShopStatisticsActivity :
                             IncomeExpensesDetailActivity::class.java
                         ).apply {
                             putExtras(
-                                IntentParams.ShopParams.packShops(
+                                IntentParams.ProfitStatisticsParams.pack(
                                     mViewModel.shopIds?.toIntArray(),
                                     mBinding.tvIncomeShopStatisticsShop.text.toString()
                                 )

@@ -45,13 +45,7 @@ data class OrderStatisticsVO(
     val orderRevenueAmountCompare: Double,
     val totalCount: String,
     val totalCountCompare: Double,
-
-    val deviceOrderCount: String,
-    val deviceOrderCountCompare: Double,
-    val rechargeOrderCount: String,
-    val rechargeOrderCountCompare: Double,
 )
-
 data class UserStatisticsVO(
     val userActiveCount: String,
     val userActiveCountCompare: Double,
@@ -78,6 +72,10 @@ data class OrderStatisticsProfitVO(
     val rechargeOrderCount: String,
     val rechargeOrderCountCompare: Double,
     val totalCount: String,
-    val totalCountCompare: Double
+    val totalCountCompare: Double,
+    val deviceRefundOrderCount: String,
+    val deviceRefundOrderCountCompare: Double,
+    val rechargeRefundOrderCount: String,
+    val rechargeRefundOrderCountCompare: Double,
 )
 

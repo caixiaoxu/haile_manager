@@ -254,4 +254,10 @@ interface CapitalService {
     @POST("/profitStatistics/getProfitStatisticsListVO")
     suspend fun requestIncomeExpensesDetailList(@Body body: RequestBody): ResponseWrapper<ResponseList<IncomeExpensesDetailEntity>>
 
+    /**
+     * 设备收益列表接口
+     */
+    @POST("/profitStatistics/getDeviceProfitVOPage")
+    suspend fun requestShopDeviceRevenueList(@Body body: RequestBody): ResponseWrapper<ResponseList<ShopDeviceRevenueListEntity>>
+
 }

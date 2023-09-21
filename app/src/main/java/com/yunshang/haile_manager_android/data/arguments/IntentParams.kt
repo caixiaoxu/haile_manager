@@ -104,8 +104,6 @@ object IntentParams {
     object ShopParams {
         private const val ShopId = "shopId"
         private const val ShopName = "shopName"
-        private const val ShopIds = "shopIds"
-        private const val ShopNames = "shopNames"
 
         /**
          * 包装参数
@@ -117,10 +115,24 @@ object IntentParams {
             }
         }
 
+        fun parseShopId(intent: Intent): Int = intent.getIntExtra(ShopId, -1)
+        fun parseShopName(intent: Intent): String? = intent.getStringExtra(ShopName)
+    }
+    object ProfitStatisticsParams {
+        private const val ShopIds = "shopIds"
+        private const val ShopName = "shopName"
+        private const val GoodId = "goodId"
+        private const val CategoryCodes = "categoryCodes"
+
         /**
          * 包装参数
          */
-        fun packShops(shopIds: IntArray? = null, shopName: String? = null): Bundle =
+        fun pack(
+            shopIds: IntArray? = null,
+            shopName: String? = null,
+            goodId: Int? = null,
+            categoryCodes: Array<String>? = null,
+        ): Bundle =
             Bundle().apply {
                 shopIds?.let {
                     putIntArray(ShopIds, shopIds)
@@ -128,11 +140,18 @@ object IntentParams {
                 shopName?.let {
                     putString(ShopName, shopName)
                 }
+                goodId?.let {
+                    putInt(GoodId, goodId)
+                }
+                categoryCodes?.let {
+                    putStringArray(CategoryCodes, categoryCodes)
+                }
             }
 
-        fun parseShopId(intent: Intent): Int = intent.getIntExtra(ShopId, -1)
-        fun parseShopName(intent: Intent): String? = intent.getStringExtra(ShopName)
         fun parseShopIds(intent: Intent): IntArray? = intent.getIntArrayExtra(ShopIds)
+        fun parseShopName(intent: Intent): String? = intent.getStringExtra(ShopName)
+        fun parseGoodId(intent: Intent): Int = intent.getIntExtra(GoodId,-1)
+        fun parseCategoryCodes(intent: Intent): Array<String>? = intent.getStringArrayExtra(CategoryCodes)
     }
 
     object ShopBusinessHoursParams {

@@ -2,10 +2,12 @@ package com.yunshang.haile_manager_android.ui.activity.login
 
 import android.content.Intent
 import android.view.View
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.AppManager
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.LoginForPasswordViewModel
 import com.yunshang.haile_manager_android.data.ActivityTag
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
@@ -58,6 +60,10 @@ class LoginForPasswordActivity :
                 }
             )
         }
+
+        mBinding.btnLoginRegister.setOnClickListener {
+            startActivity(Intent(this@LoginForPasswordActivity, RegisterActivity::class.java))
+        }
     }
 
     override fun initEvent() {
@@ -66,6 +72,10 @@ class LoginForPasswordActivity :
         // 监听是否可点击提交按钮
         mViewModel.canSubmit.observe(this) {
             mBinding.btnLoginSure.isEnabled = it
+        }
+
+        LiveDataBus.with(BusEvents.REGISTER_SUCCESS_STATUS, String::class.java)?.observe(this) {
+            mViewModel.phone.value = it
         }
     }
 

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.RegisterViewModel" />
+
+        <variable
+            name="shared"
+            type="com.yunshang.haile_manager_android.business.vm.SharedViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.login.RegisterActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_register_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            app:title="@string/register" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                app:divider="@drawable/divder_efefef"
+                app:dividerPadding="16dp"
+                app:showDividers="middle">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Font_12_999999"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:text="@string/register_info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_register_shop_name"
+                    style="@style/MultiTypePaddingHItemStyle"
+                    android:hint="@string/businesser_name_hint"
+                    android:maxLength="50"
+                    app:itemContent="@={vm.registerParams.shopNameVal}"
+                    app:title="@string/businesser_name"
+                    app:type="input" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_register_shop_manager_name"
+                    style="@style/MultiTypePaddingHItemStyle"
+                    android:hint="@string/shop_manager_name_hint"
+                    android:maxLength="20"
+                    app:itemContent="@={vm.registerParams.shopNameVal}"
+                    app:title="@string/shop_manager_name"
+                    app:type="input" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_register_phone"
+                    style="@style/MultiTypePaddingHItemStyle"
+                    android:hint="@string/login_phone_hint"
+                    app:itemContent="@={vm.registerParams.shopNameVal}"
+                    app:title="@string/phone"
+                    android:inputType="phone"
+                    android:maxLength="11"
+                    app:type="input" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_register_code"
+                    style="@style/MultiTypePaddingHItemStyle"
+                    app:itemContent="@={vm.registerParams.shopNameVal}"
+                    app:title="@string/sms_code"
+                    app:unitHint="@string/login_code_send"
+                    android:maxLength="8"
+                    android:inputType="number"
+                    app:type="input" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_register_password"
+                    style="@style/MultiTypePaddingHItemStyle"
+                    android:hint="@string/password_hint"
+                    app:itemContent="@={vm.registerParams.shopNameVal}"
+                    app:title="@string/password"
+                    android:maxLength="20"
+                    android:inputType="textPassword"
+                    app:type="input" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_register_password_again"
+                    style="@style/MultiTypePaddingHItemStyle"
+                    android:hint="@string/password_again_hint"
+                    android:maxLength="20"
+                    android:inputType="textPassword"
+                    app:itemContent="@={vm.registerParams.shopNameVal}"
+                    app:title="@string/password_again"
+                    app:type="input" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_register_affiliation_area"
+                    style="@style/MultiTypePaddingHItemStyle"
+                    android:hint="@string/password_again_hint"
+                    app:showArrow="true"
+                    app:itemContent="@{vm.registerParams.shopNameVal}"
+                    app:title="@string/affiliation_area"
+                    app:type="info" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_register_address"
+                    style="@style/MultiTypePaddingHItemStyle"
+                    app:itemContent="@={vm.registerParams.shopNameVal}"
+                    app:title="@string/shop_location_detail"
+                    android:maxLength="100"
+                    app:type="input" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.core.widget.NestedScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@null"
+                android:button="@null"
+                android:checked="@={vm.isAgree}"
+                android:drawableStart="@drawable/selector_login_agreement"
+                android:gravity="center_vertical" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_register_agreement"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/common_txt_color"
+                android:textSize="12sp"
+                tools:text="已阅读并同意《隐私协议》" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/shape_top_stroke_dividing"
+            android:paddingHorizontal="14dp"
+            android:paddingTop="8dp">
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_register_submit"
+                style="@style/CommonMatchBtnStyle1"
+                android:enabled="@{vm.isAgree}"
+                android:onClick="@{(view)->vm.register(view,shared)}"
+                android:text="@string/submit" />
+        </FrameLayout>
+
+    </LinearLayout>
+</layout>

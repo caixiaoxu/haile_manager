@@ -13,6 +13,7 @@ package com.yunshang.haile_manager_android.business.event
 object BusEvents {
 
     const val LOGIN_STATUS = "login_status"
+    const val REGISTER_SUCCESS_STATUS = "register_success_status"
     const val SHOP_LIST_STATUS = "shop_list_change"
     const val SHOP_DETAILS_STATUS = "shop_detail_change"
     const val DEVICE_LIST_STATUS = "device_list_change"

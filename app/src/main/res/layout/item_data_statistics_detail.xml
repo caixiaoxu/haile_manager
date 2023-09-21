@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:background="@color/transparent"
-        android:src="@mipmap/icon_data_statistics_data_hint"
+        android:src="@mipmap/icon_wallet_money_prompt"
         app:layout_constraintBottom_toBottomOf="@id/tv_data_statistics_detail_item_title"
         app:layout_constraintStart_toEndOf="@id/tv_data_statistics_detail_item_title"
         app:layout_constraintTop_toTopOf="@id/tv_data_statistics_detail_item_title" />

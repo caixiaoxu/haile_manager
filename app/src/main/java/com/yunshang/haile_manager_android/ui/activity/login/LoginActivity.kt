@@ -9,12 +9,10 @@ import android.view.View
 import android.view.View.OnClickListener
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
-import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.activity.BaseActivity
 import com.lsy.framelib.utils.ActivityUtils
 import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
-import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.ActivityTag
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.model.SPRepository

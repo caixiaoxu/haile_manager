@@ -8,10 +8,6 @@
         <variable
             name="vm"
             type="com.yunshang.haile_manager_android.business.vm.RegisterViewModel" />
-
-        <variable
-            name="shared"
-            type="com.yunshang.haile_manager_android.business.vm.SharedViewModel" />
     </data>
 
     <LinearLayout
@@ -63,7 +59,7 @@
                     style="@style/MultiTypePaddingHItemStyle"
                     android:hint="@string/shop_manager_name_hint"
                     android:maxLength="20"
-                    app:itemContent="@={vm.registerParams.shopNameVal}"
+                    app:itemContent="@={vm.registerParams.managerNameVal}"
                     app:title="@string/shop_manager_name"
                     app:type="input" />
 
@@ -71,7 +67,7 @@
                     android:id="@+id/item_register_phone"
                     style="@style/MultiTypePaddingHItemStyle"
                     android:hint="@string/login_phone_hint"
-                    app:itemContent="@={vm.registerParams.shopNameVal}"
+                    app:itemContent="@={vm.registerParams.phoneVal}"
                     app:title="@string/phone"
                     android:inputType="phone"
                     android:maxLength="11"
@@ -80,7 +76,7 @@
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_register_code"
                     style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@={vm.registerParams.shopNameVal}"
+                    app:itemContent="@={vm.registerParams.codeVal}"
                     app:title="@string/sms_code"
                     app:unitHint="@string/login_code_send"
                     android:maxLength="8"
@@ -91,10 +87,9 @@
                     android:id="@+id/item_register_password"
                     style="@style/MultiTypePaddingHItemStyle"
                     android:hint="@string/password_hint"
-                    app:itemContent="@={vm.registerParams.shopNameVal}"
+                    app:itemContent="@={vm.registerParams.passwordVal}"
                     app:title="@string/password"
                     android:maxLength="20"
-                    android:inputType="textPassword"
                     app:type="input" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
@@ -102,24 +97,22 @@
                     style="@style/MultiTypePaddingHItemStyle"
                     android:hint="@string/password_again_hint"
                     android:maxLength="20"
-                    android:inputType="textPassword"
-                    app:itemContent="@={vm.registerParams.shopNameVal}"
+                    app:itemContent="@={vm.registerParams.passwordAgainVal}"
                     app:title="@string/password_again"
                     app:type="input" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_register_affiliation_area"
                     style="@style/MultiTypePaddingHItemStyle"
-                    android:hint="@string/password_again_hint"
                     app:showArrow="true"
-                    app:itemContent="@{vm.registerParams.shopNameVal}"
+                    app:itemContent="@{vm.registerParams.areaVal}"
                     app:title="@string/affiliation_area"
                     app:type="info" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_register_address"
                     style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@={vm.registerParams.shopNameVal}"
+                    app:itemContent="@={vm.registerParams.addressVal}"
                     app:title="@string/shop_location_detail"
                     android:maxLength="100"
                     app:type="input" />
@@ -131,6 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
+            android:paddingVertical="12dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -157,7 +151,6 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="96dp"
-            android:layout_marginTop="12dp"
             android:background="@drawable/shape_top_stroke_dividing"
             android:paddingHorizontal="14dp"
             android:paddingTop="8dp">
@@ -166,7 +159,7 @@
                 android:id="@+id/btn_register_submit"
                 style="@style/CommonMatchBtnStyle1"
                 android:enabled="@{vm.isAgree}"
-                android:onClick="@{(view)->vm.register(view,shared)}"
+                android:onClick="@{vm::register}"
                 android:text="@string/submit" />
         </FrameLayout>
 

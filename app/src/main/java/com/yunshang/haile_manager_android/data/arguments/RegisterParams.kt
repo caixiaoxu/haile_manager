@@ -15,28 +15,80 @@ import com.yunshang.haile_manager_android.BR
  * 作者姓名 修改时间 版本号 描述
  */
 class RegisterParams(
-    var shopName: String? = null,
-    var managerName: String? = null,
+    var organizationName: String? = null,
+    var realName: String? = null,
     var phone: String? = null,
     var code: String? = null,
     var password: String? = null,
     @Transient
     var passwordAgain: String? = null,
     var provinceId: Int? = null,
-    var provinceName: String? = null,
     var cityId: Int? = null,
-    var cityName: String? = null,
-    var areaId: Int? = null,
-    var areaName: String? = null,
+    var districtId: Int? = null,
     var address: String? = null,
 ) : BaseObservable() {
 
     @get:Bindable
     var shopNameVal: String
-        get() = shopName ?: ""
+        get() = organizationName ?: ""
         set(value) {
-            shopName = value
+            organizationName = value
             notifyPropertyChanged(BR.shopNameVal)
         }
 
+    @get:Bindable
+    var managerNameVal: String
+        get() = realName ?: ""
+        set(value) {
+            realName = value
+            notifyPropertyChanged(BR.managerNameVal)
+        }
+
+    @get:Bindable
+    var phoneVal: String
+        get() = phone ?: ""
+        set(value) {
+            phone = value
+            notifyPropertyChanged(BR.phoneVal)
+        }
+
+    @get:Bindable
+    var codeVal: String
+        get() = code ?: ""
+        set(value) {
+            code = value
+            notifyPropertyChanged(BR.codeVal)
+        }
+
+    @get:Bindable
+    var passwordVal: String
+        get() = password ?: ""
+        set(value) {
+            password = value
+            notifyPropertyChanged(BR.passwordVal)
+        }
+
+    @get:Bindable
+    var passwordAgainVal: String
+        get() = passwordAgain ?: ""
+        set(value) {
+            passwordAgain = value
+            notifyPropertyChanged(BR.passwordAgainVal)
+        }
+
+    @Transient
+    @get:Bindable
+    var areaVal: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.areaVal)
+        }
+
+    @get:Bindable
+    var addressVal: String
+        get() = address ?: ""
+        set(value) {
+            address = value
+            notifyPropertyChanged(BR.addressVal)
+        }
 }

@@ -89,7 +89,7 @@
                     android:hint="@string/password_hint"
                     app:itemContent="@={vm.registerParams.passwordVal}"
                     app:title="@string/password"
-                    android:maxLength="20"
+                    android:maxLength="16"
                     app:type="input" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView

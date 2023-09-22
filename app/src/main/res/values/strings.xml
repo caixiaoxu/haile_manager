@@ -801,7 +801,7 @@
     <string name="shop_manager_name_hint">请输入负责人名称</string>
     <string name="sms_code">验证码</string>
     <string name="password">密码</string>
-    <string name="password_hint">6-20位大小写字母和数字的组合</string>
+    <string name="password_hint">6-12位大小写字母和数字的组合</string>
     <string name="password_again">验证密码</string>
     <string name="password_again_hint">请再次输入密码</string>
     <string name="affiliation_area">所属地区</string>

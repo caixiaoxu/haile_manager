@@ -70,7 +70,7 @@ class RegisterViewModel : BaseViewModel() {
             return
         }
         if (!StringUtils.checkPassword(registerParams.password!!)) {
-            SToast.showToast(v.context, "密码需6-20个中英文大小写和数字的组合")
+            SToast.showToast(v.context, "密码需6-12个中英文大小写和数字的组合")
             return
         }
         if (registerParams.passwordAgain.isNullOrEmpty()) {

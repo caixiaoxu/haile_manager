@@ -92,7 +92,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
                 }
                 if (0 == builder.showModel && -1 != builder.limitSpace && DateTimeUtils.calTwoDaySpaceAbs(
                         startCal.time, endCal!!.time
-                    ) >= builder.limitSpace
+                    ) > builder.limitSpace
                 ) {
                     SToast.showToast(requireContext(), "日数据查询跨度最大不能超过31天")
                     return@setOnClickListener
@@ -105,7 +105,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
                 }
                 if (0 == builder.showModel && -1 != builder.limitSpace && DateTimeUtils.calTwoDaySpaceAbs(
                         startCal.time, endCal!!.time
-                    ) >= builder.limitSpace
+                    ) > builder.limitSpace
                 ) {
                     SToast.showToast(requireContext(), "日数据查询跨度最大不能超过31天")
                     return@setOnClickListener

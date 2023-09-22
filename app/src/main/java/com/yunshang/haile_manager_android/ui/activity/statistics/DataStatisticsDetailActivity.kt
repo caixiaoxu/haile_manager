@@ -124,7 +124,7 @@ class DataStatisticsDetailActivity :
                     refreshItemView(
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.groupDataStatisticsAddUser,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsAddUserTitle,
-                        "启动退款订单量",
+                        "设备退款订单",
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsAddUser,
                         orderStatistics.deviceRefundOrderCount,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsAddUserTrend,
@@ -133,7 +133,7 @@ class DataStatisticsDetailActivity :
                     refreshItemView(
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.groupDataStatisticsActiveDevice,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsActiveDeviceTitle,
-                        "充值退款订单量",
+                        "充值退款订单",
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsActiveDevice,
                         orderStatistics.rechargeRefundOrderCount,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsActiveDeviceTrend,

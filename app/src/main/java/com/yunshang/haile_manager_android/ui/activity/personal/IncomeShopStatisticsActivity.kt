@@ -298,7 +298,7 @@ class IncomeShopStatisticsActivity :
                 onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
                         mViewModel.startDate.value = date1
-                        mViewModel.endDate.value = date1
+                        mViewModel.endDate.value = date2
                         requestData()
                     }
                 }

@@ -162,11 +162,7 @@ class ProfitDataDialog private constructor(private val builder: Builder) :
                 }
             } else {
                 childBinding.cbProfitDataBtn.setOnCheckClickListener {
-                    (!data.updateFlag).also { flag ->
-                        if (flag) {
-                            SToast.showToast(requireContext(), "不可取消")
-                        }
-                    }
+                    true
                 }
             }
         }

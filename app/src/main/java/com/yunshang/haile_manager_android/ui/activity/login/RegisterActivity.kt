@@ -100,34 +100,35 @@ class RegisterActivity : BaseBusinessActivity<ActivityRegisterBinding, RegisterV
                             ds.isUnderlineText = false
                         }
                     }, 6,
-                    16,
-                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE
-                )
-                // 服务协议
-                setSpan(
-                    object : ClickableSpan() {
-                        override fun onClick(view: View) {
-                            startActivity(
-                                Intent(
-                                    this@RegisterActivity,
-                                    WebViewActivity::class.java
-                                ).apply {
-                                    putExtras(
-                                        IntentParams.WebViewParams.pack(
-                                            BuildConfig.PRIVACY_POLICY,
-                                        )
-                                    )
-                                })
-                        }
-
-                        override fun updateDrawState(ds: TextPaint) {
-                            //去掉下划线
-                            ds.isUnderlineText = false
-                        }
-                    }, 18,
+//                    16,
                     length,
                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE
                 )
+//                // 服务协议
+//                setSpan(
+//                    object : ClickableSpan() {
+//                        override fun onClick(view: View) {
+//                            startActivity(
+//                                Intent(
+//                                    this@RegisterActivity,
+//                                    WebViewActivity::class.java
+//                                ).apply {
+//                                    putExtras(
+//                                        IntentParams.WebViewParams.pack(
+//                                            BuildConfig.PRIVACY_POLICY,
+//                                        )
+//                                    )
+//                                })
+//                        }
+//
+//                        override fun updateDrawState(ds: TextPaint) {
+//                            //去掉下划线
+//                            ds.isUnderlineText = false
+//                        }
+//                    }, 18,
+//                    length,
+//                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+//                )
             }
 
         //发送验证码

@@ -5,6 +5,8 @@ import android.os.Bundle
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.*
+import com.yunshang.haile_manager_android.utils.DateTimeUtils
+import java.util.*
 
 /**
  * Title :
@@ -118,11 +120,14 @@ object IntentParams {
         fun parseShopId(intent: Intent): Int = intent.getIntExtra(ShopId, -1)
         fun parseShopName(intent: Intent): String? = intent.getStringExtra(ShopName)
     }
+
     object ProfitStatisticsParams {
         private const val ShopIds = "shopIds"
         private const val ShopName = "shopName"
         private const val GoodId = "goodId"
         private const val CategoryCodes = "categoryCodes"
+        private const val StartTime = "startTime"
+        private const val EndTime = "endTime"
 
         /**
          * 包装参数
@@ -132,6 +137,8 @@ object IntentParams {
             shopName: String? = null,
             goodId: Int? = null,
             categoryCodes: Array<String>? = null,
+            startTime: Date? = null,
+            endTime: Date? = null,
         ): Bundle =
             Bundle().apply {
                 shopIds?.let {
@@ -146,12 +153,25 @@ object IntentParams {
                 categoryCodes?.let {
                     putStringArray(CategoryCodes, categoryCodes)
                 }
+                startTime?.let {
+                    putString(StartTime, DateTimeUtils.formatDateTime(it))
+                }
+                endTime?.let {
+                    putString(EndTime, DateTimeUtils.formatDateTime(it))
+                }
             }
 
         fun parseShopIds(intent: Intent): IntArray? = intent.getIntArrayExtra(ShopIds)
         fun parseShopName(intent: Intent): String? = intent.getStringExtra(ShopName)
-        fun parseGoodId(intent: Intent): Int = intent.getIntExtra(GoodId,-1)
-        fun parseCategoryCodes(intent: Intent): Array<String>? = intent.getStringArrayExtra(CategoryCodes)
+        fun parseGoodId(intent: Intent): Int = intent.getIntExtra(GoodId, -1)
+        fun parseCategoryCodes(intent: Intent): Array<String>? =
+            intent.getStringArrayExtra(CategoryCodes)
+
+        fun parseStartTime(intent: Intent): Date? =
+            DateTimeUtils.formatDateFromString(intent.getStringExtra(StartTime))
+
+        fun parseEndTime(intent: Intent): Date? =
+            DateTimeUtils.formatDateFromString(intent.getStringExtra(EndTime))
     }
 
     object ShopBusinessHoursParams {

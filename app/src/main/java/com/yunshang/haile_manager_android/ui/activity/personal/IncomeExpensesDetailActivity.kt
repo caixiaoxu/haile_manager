@@ -85,6 +85,12 @@ class IncomeExpensesDetailActivity :
         mViewModel.categoryCodes =
             IntentParams.ProfitStatisticsParams.parseCategoryCodes(intent)?.toList()
         mViewModel.goodsId = IntentParams.ProfitStatisticsParams.parseGoodId(intent)
+        IntentParams.ProfitStatisticsParams.parseStartTime(intent)?.let {
+            mViewModel.startDate.value = it
+        }
+        IntentParams.ProfitStatisticsParams.parseEndTime(intent)?.let {
+            mViewModel.endDate.value = it
+        }
     }
 
     override fun initEvent() {

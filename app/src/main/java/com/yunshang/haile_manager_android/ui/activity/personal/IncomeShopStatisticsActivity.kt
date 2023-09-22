@@ -231,6 +231,13 @@ class IncomeShopStatisticsActivity :
         mViewModel.shopIds = IntentParams.ProfitStatisticsParams.parseShopIds(intent)?.toList()
         mBinding.tvIncomeShopStatisticsShop.text =
             IntentParams.ProfitStatisticsParams.parseShopName(intent) ?: ""
+
+        IntentParams.ProfitStatisticsParams.parseStartTime(intent)?.let {
+            mViewModel.startDate.value = it
+        }
+        IntentParams.ProfitStatisticsParams.parseEndTime(intent)?.let {
+            mViewModel.endDate.value = it
+        }
     }
 
     override fun initEvent() {
@@ -280,7 +287,9 @@ class IncomeShopStatisticsActivity :
                             putExtras(
                                 IntentParams.ProfitStatisticsParams.pack(
                                     mViewModel.shopIds?.toIntArray(),
-                                    mBinding.tvIncomeShopStatisticsShop.text.toString()
+                                    mBinding.tvIncomeShopStatisticsShop.text.toString(),
+                                    startTime = mViewModel.startDate.value,
+                                    endTime = mViewModel.endDate.value,
                                 )
                             )
                         }

@@ -111,7 +111,9 @@ class IncomeStatisticsActivity :
                         putExtras(
                             IntentParams.ProfitStatisticsParams.pack(
                                 intArrayOf(item.shopId),
-                                item.shopName
+                                item.shopName,
+                                startTime = mViewModel.startDate.value,
+                                endTime = mViewModel.endDate.value,
                             )
                         )
                     })
@@ -168,7 +170,14 @@ class IncomeStatisticsActivity :
                         Intent(
                             this@IncomeStatisticsActivity,
                             IncomeExpensesDetailActivity::class.java
-                        )
+                        ).apply {
+                            putExtras(
+                                IntentParams.ProfitStatisticsParams.pack(
+                                    startTime = mViewModel.startDate.value,
+                                    endTime = mViewModel.endDate.value,
+                                )
+                            )
+                        }
                     )
                 }
             }

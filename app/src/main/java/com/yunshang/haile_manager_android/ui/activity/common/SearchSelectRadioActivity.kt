@@ -25,6 +25,8 @@ import com.yunshang.haile_manager_android.databinding.ItemDepartmentMultiSelectB
 import com.yunshang.haile_manager_android.databinding.ItemDepartmentSelectBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.shop.ShopPaySettingsActivity
+import com.yunshang.haile_manager_android.ui.view.ClickCheckBox
+import com.yunshang.haile_manager_android.ui.view.ClickRadioButton
 import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 
 class SearchSelectRadioActivity :
@@ -96,7 +98,7 @@ class SearchSelectRadioActivity :
                         SearchSelectTypeParam.SearchSelectTypeTakeChargeShop,
                         SearchSelectTypeParam.SearchSelectTypeRechargeShop,
                         SearchSelectTypeParam.SearchSelectTypeCouponShop,
-                        SearchSelectTypeParam.SearchSelectStatisticsShop-> SearchSelectTypeParam.ShopResultCode
+                        SearchSelectTypeParam.SearchSelectStatisticsShop -> SearchSelectTypeParam.ShopResultCode
                         SearchSelectTypeParam.SearchSelectTypeDeviceModel -> SearchSelectTypeParam.DeviceModelResultCode
                         else -> RESULT_OK
                     },
@@ -165,10 +167,10 @@ class SearchSelectRadioActivity :
             }
         }
 
-        mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.visibility(mViewModel.hasAll)
+        mBinding.includeSearchSelectRadioAll.root.visibility(mViewModel.hasAll)
         if (mViewModel.hasAll) {
-            mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.setBackgroundResource(R.drawable.shape_bottom_stroke_dividing_mlr16)
-            mBinding.includeSearchSelectRadioAll.cbMultiSelectItem.setOnCheckClickListener {
+            mBinding.includeSearchSelectRadioAll.root.setBackgroundResource(R.drawable.shape_bottom_stroke_dividing_mlr16)
+            (mBinding.includeSearchSelectRadioAll.root as ClickCheckBox).setOnCheckClickListener {
                 mViewModel.allSelect.getCheck = !mViewModel.allSelect.getCheck
                 if (mViewModel.allSelect.getCheck) {
                     mViewModel.selectList.value?.forEach {
@@ -228,20 +230,22 @@ class SearchSelectRadioActivity :
                         false
                     ).let { binding ->
                         binding.item = item
+                        val cbMultiSelectItem = (binding.root as ClickCheckBox)
                         if (0 < index) {
                             binding.root.setBackgroundResource(R.drawable.shape_top_stroke_dividing_mlr16)
                         } else {
                             binding.root.setBackgroundColor(Color.WHITE)
                         }
 
-                        binding.cbMultiSelectItem.setOnCheckClickListener {
-                            (item.getSelectId() in mViewModel.noUpdateArr).also { noUpdate ->
+                        cbMultiSelectItem.setOnCheckClickListener {
+                            // 不可选列表不为空，并且所选在列表中
+                            (mViewModel.noUpdateArr.isNotEmpty() && item.getSelectId() in mViewModel.noUpdateArr).also { noUpdate ->
                                 if (noUpdate) {
                                     SToast.showToast(this@SearchSelectRadioActivity, "不可修改")
                                 }
                             }
                         }
-                        binding.cbMultiSelectItem.setOnCheckedChangeListener { _, isCheck ->
+                        cbMultiSelectItem.setOnCheckedChangeListener { _, isCheck ->
                             if (isCheck) {
                                 mViewModel.allSelect.getCheck = false
                             }
@@ -282,20 +286,23 @@ class SearchSelectRadioActivity :
                         false
                     ).let { binding ->
                         binding.item = item
+
+                        val cbSingleSelectItem = (binding.root as ClickRadioButton)
                         if (0 < index) {
                             binding.root.setBackgroundResource(R.drawable.shape_top_stroke_dividing_mlr16)
                         } else {
                             binding.root.setBackgroundColor(Color.WHITE)
                         }
 
-                        binding.cbSingleSelectItem.setOnRadioClickListener {
-                            (item.getSelectId() in mViewModel.noUpdateArr).also { noUpdate ->
+                        cbSingleSelectItem.setOnRadioClickListener {
+                            // 不可选列表不为空，并且所选在列表中
+                            (mViewModel.noUpdateArr.isNotEmpty() && item.getSelectId() in mViewModel.noUpdateArr).also { noUpdate ->
                                 if (noUpdate) {
                                     SToast.showToast(this@SearchSelectRadioActivity, "不可修改")
                                 }
                             }
                         }
-                        binding.cbSingleSelectItem.setOnCheckedChangeListener { _, isCheck ->
+                        cbSingleSelectItem.setOnCheckedChangeListener { _, isCheck ->
                             if (isCheck) {
                                 mViewModel.allSelect.getCheck = false
                             }

@@ -122,17 +122,16 @@ class LoginForPhoneViewModel : BaseViewModel() {
     private fun countDownTimer(btn: Button) {
         btn.isEnabled = false
         var num = 60
-        if (null == timer) {
-            timer = object : CountDownTimer((num + 1) * 1000L, 1000L) {
+        timer?.cancel()
+        timer = object : CountDownTimer((num + 1) * 1000L, 1000L) {
 
-                override fun onTick(millisUntilFinished: Long) {
-                    btn.text = "${num--}s"
-                }
+            override fun onTick(millisUntilFinished: Long) {
+                btn.text = "${num--}s"
+            }
 
-                override fun onFinish() {
-                    btn.text = defaultCodeTxt
-                    btn.isEnabled = true
-                }
+            override fun onFinish() {
+                btn.text = defaultCodeTxt
+                btn.isEnabled = true
             }
         }
         timer?.start()
@@ -140,6 +139,7 @@ class LoginForPhoneViewModel : BaseViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        timer?.onFinish()
+        timer?.cancel()
+        timer = null
     }
 }

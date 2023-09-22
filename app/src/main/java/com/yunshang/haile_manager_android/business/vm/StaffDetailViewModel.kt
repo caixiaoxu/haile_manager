@@ -59,7 +59,9 @@ class StaffDetailViewModel : BaseViewModel() {
      */
     fun getProfitShopList() = staffDetail.value?.menuList?.find { item ->
         item.perms == "league:profit"
-    }?.dataPermissionDto?.dataPermissionShopDtoList
+    }?.dataPermissionDto?.dataPermissionShopDtoList.let {
+        if (it.isNullOrEmpty()) staffDetail.value?.dataPermissionShopDtoList else it
+    }
 
     /**
      * 返回营业数据的分账可查看信息

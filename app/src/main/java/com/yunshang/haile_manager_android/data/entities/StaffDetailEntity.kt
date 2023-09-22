@@ -28,6 +28,7 @@ data class StaffDetailEntity(
     val _tagName: String,
     val headImage: String,
     val account: String,
+    val dataPermissionShopDtoList: List<DataPermissionShopDto>,
 ) : IMultiTypeEntity {
     val tagName: String
         get() = if (_tagName.isNullOrEmpty()) StringUtils.getString(R.string.admin) else _tagName

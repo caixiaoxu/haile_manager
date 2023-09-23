@@ -241,7 +241,7 @@ class DeviceDetailActivity :
             mBinding.llDeviceDetailFuncRelated.removeAllViews()
             if (mViewModel.deviceDetail.value?.showRelated()!!) {
                 val inflater = LayoutInflater.from(this)
-                detail?.relatedGoodsDetailVo?.dosingVOS?.flatMap { item -> item.configs }
+                detail?.relatedGoodsDetailVo?.dosingVOS?.flatMap { item -> item.configs ?: listOf() }
                     ?.forEachIndexed { _, item ->
                         val itemBinding =
                             DataBindingUtil.inflate<ItemDeviceDetailDisposeMinBinding>(

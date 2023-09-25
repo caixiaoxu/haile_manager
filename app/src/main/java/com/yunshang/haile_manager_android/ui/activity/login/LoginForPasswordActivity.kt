@@ -58,6 +58,10 @@ class LoginForPasswordActivity :
                 }
             )
         }
+
+        mBinding.btnLoginRegister.setOnClickListener {
+            startActivity(Intent(this@LoginForPasswordActivity, RegisterActivity::class.java))
+        }
     }
 
     override fun initEvent() {

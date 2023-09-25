@@ -38,10 +38,7 @@ object StringUtils {
     @JvmStatic
     fun checkPassword(password: String?): Boolean =
         try {
-            val check = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\\d]{6,12}$"
-            val regex = Pattern.compile(check)
-            val matcher = regex.matcher(password)
-            matcher.matches()
+            true == password?.matches("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\\d]{6,12}$".toRegex())
         } catch (e: Exception) {
             false
         }
@@ -268,4 +265,18 @@ object StringUtils {
     fun formatNumberStr(amount: Double): String {
         return (if (amount > 0) "+" else "") + String.format("%.2f", amount)
     }
+
+    // 密码正则
+    private val ShopNameRule = "^[\\u4e00-\\u9fa5_a-zA-Z]{2,50}\$"
+    private val NameRule = "^[\\u4e00-\\u9fa5_a-zA-Z\\s]{2,20}\$"
+
+    /**
+     * 验证商户名称是否符合规则
+     */
+    fun checkShopName(password: String) = password.matches(ShopNameRule.toRegex())
+
+    /**
+     * 验证密码是否符合规则
+     */
+    fun checkName(password: String) = password.matches(NameRule.toRegex())
 }

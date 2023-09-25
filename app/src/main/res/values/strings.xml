@@ -802,6 +802,6 @@
     <string name="reset_100_percent">重置100%</string>
 
     <string name="click_load_more">点击加载更多</string>
-    <string name="no_permission">没有操作权限</string>
+    <string name="no_permission">暂无权限访问此功能</string>
 
 </resources>

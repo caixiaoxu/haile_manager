@@ -14,6 +14,7 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.PersonalViewModel
+import com.yunshang.haile_manager_android.data.arguments.StaffParam
 import com.yunshang.haile_manager_android.databinding.FragmentPersonalBinding
 import com.yunshang.haile_manager_android.databinding.IncludePersonalItemBinding
 import com.yunshang.haile_manager_android.ui.activity.personal.PersonalInfoActivity
@@ -91,20 +92,24 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
                         mPersonalItemBinding.tvPersonalItemValue.setBackgroundResource(R.drawable.shape_sff3b30_r9)
                     }
                     R.string.income_calendar -> {
-                        mPersonalItemBinding.root.visibility(UserPermissionUtils.hasProfitCalendarPermission())
+                        val isSpecialRole =
+                            StaffParam.isSpecialRole(mSharedViewModel.userInfo.value?.userInfo?.tagName)
+                        mPersonalItemBinding.root.visibility(isSpecialRole || UserPermissionUtils.hasProfitCalendarPermission())
                         mSharedViewModel.hasProfitCalendarPermission.observe(this) {
-                            mPersonalItemBinding.root.visibility(it)
+                            mPersonalItemBinding.root.visibility(isSpecialRole || it)
                         }
                     }
                     R.string.income_statistics -> {
-                        mPersonalItemBinding.root.visibility(UserPermissionUtils.hasProfitDetailPermission())
+                        val isSpecialRole =
+                            StaffParam.isSpecialRole(mSharedViewModel.userInfo.value?.userInfo?.tagName)
+                        mPersonalItemBinding.root.visibility(!isSpecialRole && UserPermissionUtils.hasProfitDetailPermission())
                         mSharedViewModel.hasProfitDetailPermission.observe(this) {
-                            mPersonalItemBinding.root.visibility(it)
+                            mPersonalItemBinding.root.visibility(!isSpecialRole && it)
                         }
                     }
                 }
 
-                if (group.childCount > 0) {
+                if (group.childCount > 0 && View.VISIBLE == mPersonalItemBinding.root.visibility) {
                     group.addView(View(requireContext()).apply {
                         setBackgroundColor(
                             ResourcesCompat.getColor(

@@ -82,6 +82,7 @@
                 android:layout_height="match_parent">
 
                 <com.google.android.material.appbar.AppBarLayout
+                    android:id="@+id/appbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/page_bg"
@@ -172,7 +173,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_income_expenses_detail_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:overScrollMode="never"
                     android:scrollbars="none"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />

@@ -585,6 +585,14 @@ object UserPermissionUtils {
 
     /** ------------------------充值管理权限------------------------  */
     /**
+     * 是否含有海星管理权限
+     *
+     * @return
+     */
+    fun hasVipPermission(): Boolean {
+        return null != userPermissionsMap["league:vip"]
+    }
+    /**
      * 是否含有方案列表权限
      *
      * @return
@@ -816,4 +824,18 @@ object UserPermissionUtils {
     }
 
     /** ------------------------发券权限------------------------  */
+
+    /** ------------------------公告权限------------------------  */
+
+    /**
+     * 是否含有公告权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasAnnouncementPermission(): Boolean {
+        return null != userPermissionsMap["league:announcement"]
+    }
+    /** ------------------------公告权限------------------------  */
 }

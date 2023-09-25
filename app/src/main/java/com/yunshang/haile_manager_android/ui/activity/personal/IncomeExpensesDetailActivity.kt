@@ -3,9 +3,11 @@ package com.yunshang.haile_manager_android.ui.activity.personal
 import android.content.Intent
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.appbar.AppBarLayout
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
@@ -72,7 +74,7 @@ class IncomeExpensesDetailActivity :
                             this@IncomeExpensesDetailActivity,
                             IncomeDetailActivity::class.java
                         ).apply {
-                            putExtra(IncomeDetailActivity.DetailType, 1)
+                            putExtra(IncomeDetailActivity.DetailType, 2)
                             putExtra(IncomeDetailActivity.OrderNo, item.orderNo)
                         }
                     } else {
@@ -123,13 +125,12 @@ class IncomeExpensesDetailActivity :
                     ), 0, 2
                 )
                 mBinding.tvIncomeExpensesDetailTotalCategory.text =
-                    "总收入 ¥${total.income}      总收支出 ¥${total.expend}"
+                    "总收入 ¥${total.income}      总支出 ¥${total.expend}"
             }
         }
     }
 
     override fun initView() {
-
         // 日期
         mBinding.tvIncomeExpensesDetailDate.setOnClickListener {
             DateSelectorDialog.Builder().apply {

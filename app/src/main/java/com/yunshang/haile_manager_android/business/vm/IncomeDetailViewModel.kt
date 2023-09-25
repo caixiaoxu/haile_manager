@@ -21,7 +21,7 @@ class IncomeDetailViewModel : BaseViewModel() {
     private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
     private val mHaiXinRepo = ApiRepository.apiClient(HaiXinService::class.java)
 
-    var detailType: Int = 0 // 0收入、1海星
+    var detailType: Int = 0 // 0收入、1海星用户 2海星充值
     var incomeId: Int = -1
     var orderNo: String? = null
 
@@ -32,6 +32,8 @@ class IncomeDetailViewModel : BaseViewModel() {
     fun requestData() {
         if (1 == detailType) {
             requestReChargeDetailData()
+        } else if (2 == detailType) {
+            requestReChargeOrderDetailData()
         } else {
             requestIncomeDetailData()
         }
@@ -53,6 +55,20 @@ class IncomeDetailViewModel : BaseViewModel() {
         launch({
             ApiRepository.dealApiResult(
                 mHaiXinRepo.rechargeDetail(
+                    orderNo,
+                    if (-1 == incomeId) null else incomeId
+                )
+            )?.let {
+                incomeDetail.postValue(it)
+            }
+        })
+    }
+
+    fun requestReChargeOrderDetailData() {
+        if (orderNo.isNullOrEmpty() && -1 == incomeId) return
+        launch({
+            ApiRepository.dealApiResult(
+                mHaiXinRepo.rechargeOrderDetail(
                     orderNo,
                     if (-1 == incomeId) null else incomeId
                 )

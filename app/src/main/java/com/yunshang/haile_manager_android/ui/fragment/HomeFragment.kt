@@ -35,6 +35,7 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.HomeViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.arguments.StaffParam
 import com.yunshang.haile_manager_android.data.entities.HomeIncomeEntity
 import com.yunshang.haile_manager_android.data.entities.MessageContentEntity
 import com.yunshang.haile_manager_android.databinding.FragmentHomeBinding
@@ -332,6 +333,13 @@ class HomeFragment :
     override fun initEvent() {
         super.initEvent()
 
+        mSharedViewModel.userInfo.observe(this) {
+            it?.userInfo?.tagName?.let { tagName ->
+                val isSpecialRole = StaffParam.isSpecialRole(tagName)
+                mBinding.tvHomeSpecialRoleState.visibility(isSpecialRole)
+            }
+        }
+
         mSharedViewModel.hasUserPermission.observe(this) {
 //            initProfitIncomeType()
             mViewModel.requestHomeIncome()
@@ -540,7 +548,7 @@ class HomeFragment :
             }
 
             // 如果正负收益列表都为空，或者没有权限，不显示
-            if ((positives.isEmpty() && negatives.isEmpty()) || !UserPermissionUtils.hasProfitPermission()) {
+            if ((positives.isEmpty() && negatives.isEmpty()) || !UserPermissionUtils.hasProfitHomePermission()) {
                 mBinding.clHomeTrend.visibility = View.GONE
             } else {
                 mBinding.clHomeTrend.visibility(true)

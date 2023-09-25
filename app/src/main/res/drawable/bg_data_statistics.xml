@@ -5,14 +5,8 @@
             <solid android:color="@color/page_bg" />
         </shape>
     </item>
-    <item android:height="140dp">
-        <shape android:shape="rectangle">
-
-            <gradient
-                android:angle="-90"
-                android:endColor="@color/white"
-                android:startColor="#F3C9A0"
-                android:type="linear" />
-        </shape>
+    <item android:gravity="top">
+        <bitmap
+            android:src="@mipmap/bg_income_statistics" />
     </item>
 </layer-list>

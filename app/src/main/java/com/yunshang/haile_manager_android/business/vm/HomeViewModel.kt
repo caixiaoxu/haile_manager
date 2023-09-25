@@ -108,7 +108,7 @@ class HomeViewModel : BaseViewModel() {
                 StringUtils.getString(R.string.notice_manager),
                 R.mipmap.icon_notice_manager,
                 NoticeManagerActivity::class.java,
-                true
+                UserPermissionUtils.hasAnnouncementPermission()
             ),
         )
     )
@@ -126,7 +126,7 @@ class HomeViewModel : BaseViewModel() {
                 StringUtils.getString(R.string.haixin_manager),
                 R.mipmap.icon_haixin_manager,
                 HaiXinRechargeConfigsActivity::class.java,
-                true
+                UserPermissionUtils.hasVipPermission()
             ),
             FunItem(
                 StringUtils.getString(R.string.issue_coupons),

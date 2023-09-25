@@ -94,6 +94,15 @@ interface HaiXinService {
     ): ResponseWrapper<RechargeDetailEntity>
 
     /**
+     * 充值订单详情接口
+     */
+    @GET("/starfish/getStarFishTradeVO")
+    suspend fun rechargeOrderDetail(
+        @Query("orderNo") orderNo: String? = null,
+        @Query("id") id: Int? = null
+    ): ResponseWrapper<RechargeOrderDetailEntity>
+
+    /**
      * 充值用户列表接口
      */
     @POST("/starfish/getUserStarFishListVO")

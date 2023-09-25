@@ -52,7 +52,7 @@ class StaffDetailActivity :
         mViewModel.staffDetail.observe(this) {
             it?.let { detail ->
 
-                if (detail.tagName == "合伙人"){
+                if (detail.tagName == "合伙人") {
                     mBinding.clStaffDetailTakeChargeShop.visibility(false)
                     mBinding.llStaffDetailPermissionList.visibility(false)
                 } else {
@@ -93,16 +93,28 @@ class StaffDetailActivity :
                                     }
 
                                     // 可查看营业数据的门店
+                                    val showShopList =
+                                        !menu.childList.isNullOrEmpty()
+                                                && !menu.dataPermissionDto?.shopIdList.isNullOrEmpty()
+                                    permissionBinding.tvStaffDetailProfitPermissionShopListTitle.visibility(
+                                        showShopList
+                                    )
                                     permissionBinding.clStaffDetailProfitPermissionShopList.buildChild<ItemStaffDetailFlowBinding, DataPermissionShopDto>(
-                                        menu.dataPermissionDto?.dataPermissionShopDtoList,
+                                        if (showShopList) menu.dataPermissionDto?.dataPermissionShopDtoList else null,
                                         R.layout.item_staff_detail_flow,
                                     ) { _, childBinding, data ->
                                         childBinding.name = data.name
                                     }
 
                                     // 可查看分账的数据
+                                    val showSubAccount =
+                                        null != menu.childList?.find { item -> item.perms == "league:profit:detail" }
+                                                && !menu.dataPermissionDto?.fundsDistributionType.isNullOrEmpty()
+                                    permissionBinding.tvStaffDetailProfitPermissionSubAccountTitle.visibility(
+                                        showSubAccount
+                                    )
                                     permissionBinding.clStaffDetailProfitPermissionSubAccount.buildChild<ItemStaffDetailFlowBinding, Int>(
-                                        menu.dataPermissionDto?.fundsDistributionType,
+                                        if (showSubAccount) menu.dataPermissionDto?.fundsDistributionType else null,
                                         R.layout.item_staff_detail_flow,
                                     ) { _, childBinding, data ->
                                         childBinding.name = if (1 == data) "自己的分账" else "全部分账"

@@ -27,6 +27,8 @@
 
         <include
             android:id="@+id/include_data_statistics_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             layout="@layout/layout_data_statistics_filter" />
 
         <com.scwang.smart.refresh.layout.SmartRefreshLayout

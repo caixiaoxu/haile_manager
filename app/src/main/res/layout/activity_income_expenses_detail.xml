@@ -79,7 +79,8 @@
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/white">
 
                 <com.google.android.material.appbar.AppBarLayout
                     android:id="@+id/appbar"
@@ -93,6 +94,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="16dp"
+                        android:layout_marginBottom="8dp"
                         app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -126,7 +128,6 @@
                         android:id="@+id/rg_income_expenses_detail_type"
                         android:layout_width="match_parent"
                         android:layout_height="53dp"
-                        android:layout_marginTop="8dp"
                         android:background="@drawable/shape_sffffff_rt12"
                         android:checkedButton="@id/rb_income_expenses_detail_type_all"
                         android:gravity="center_vertical"

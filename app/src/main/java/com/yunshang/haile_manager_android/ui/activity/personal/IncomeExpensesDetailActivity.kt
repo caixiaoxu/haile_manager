@@ -1,13 +1,12 @@
 package com.yunshang.haile_manager_android.ui.activity.personal
 
 import android.content.Intent
+import android.graphics.Color
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.appbar.AppBarLayout
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
@@ -29,7 +28,9 @@ import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDi
 import com.yunshang.haile_manager_android.utils.StringUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import com.yunshang.haile_manager_android.utils.span.VerticalBottomSpan
+import timber.log.Timber
 import java.util.*
+import kotlin.math.abs
 
 class IncomeExpensesDetailActivity :
     BaseBusinessActivity<ActivityIncomeExpensesDetailBinding, IncomeExpensesDetailViewModel>(
@@ -131,6 +132,24 @@ class IncomeExpensesDetailActivity :
     }
 
     override fun initView() {
+        mBinding.appbar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+            if ((appBarLayout.height - DimensionUtils.dip2px(
+                    this,
+                    8f
+                )) - mBinding.rgIncomeExpensesDetailType.height - abs(verticalOffset) < 10
+            ) {
+                window.statusBarColor = Color.WHITE
+                mBinding.root.setBackgroundColor(Color.WHITE)
+            } else {
+                window.statusBarColor = Color.TRANSPARENT
+                mBinding.root.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this@IncomeExpensesDetailActivity,
+                        R.color.page_bg
+                    )
+                )
+            }
+        }
         // 日期
         mBinding.tvIncomeExpensesDetailDate.setOnClickListener {
             DateSelectorDialog.Builder().apply {

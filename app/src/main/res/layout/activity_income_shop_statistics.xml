@@ -123,6 +123,7 @@
                         android:id="@+id/include_income_shop_statistics_sub_account"
                         android:visibility="gone"
                         tools:visibility="visible"
+                        app:isAdapter="@{false}"
                         layout="@layout/item_income_statistics_sub_account" />
 
                     <androidx.recyclerview.widget.RecyclerView

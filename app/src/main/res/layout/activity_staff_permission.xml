@@ -47,7 +47,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:onClick="@{vm::selectAll}"
                 android:paddingHorizontal="16dp"
                 android:text="@{vm.isAll?@string/no_select_all:@string/select_all}"
                 app:layout_constraintEnd_toEndOf="parent" />

@@ -68,7 +68,13 @@ class StaffDetailViewModel : BaseViewModel() {
      */
     fun getProfitTypesList() = staffDetail.value?.menuList?.find { item ->
         item.perms == "league:profit"
-    }?.dataPermissionDto?.fundsDistributionType?.toIntArray()
+    }?.dataPermissionDto?.fundsDistributionType.let {
+        if (it.isNullOrEmpty()){
+            intArrayOf(1)
+        } else {
+            it.toIntArray()
+        }
+    }
 
     fun deleteStaff(view: View) {
         if (-1 == staffId) {

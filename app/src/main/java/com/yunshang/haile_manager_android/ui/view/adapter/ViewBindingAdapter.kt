@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.MarginLayoutParamsCompat
 import androidx.databinding.BindingAdapter
@@ -11,7 +12,6 @@ import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import com.bumptech.glide.Glide
 import com.lsy.framelib.utils.DimensionUtils
-import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.ui.view.*
 import com.yunshang.haile_manager_android.utils.GlideUtils
 import com.yunshang.haile_manager_android.utils.StringUtils
@@ -189,5 +189,14 @@ object ViewBindingAdapter {
         drawB: Drawable?
     ) {
         setCompoundDrawablesWithIntrinsicBounds(drawS, drawT, drawE, drawB)
+    }
+
+    @BindingAdapter("paddingH", requireAll = false)
+    @JvmStatic
+    fun LinearLayout.divider(paddingH: Float?, ) {
+        paddingH?.let {
+            val ph = DimensionUtils.dip2px(context, paddingH)
+            setPadding(ph, 0, ph, 0)
+        }
     }
 }

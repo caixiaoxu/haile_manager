@@ -76,7 +76,7 @@ class IncomeCalendarViewModel : BaseViewModel() {
             "profitType" to profitType, //收益类型 1:店铺；2：设备；3:收入明细 4:所有店铺
             "profitIncomeType" to profitIncomeType
         ).also { params ->
-            if (3 != profitType) {
+            if (3 != profitType && 4 != profitType) {
                 if (-1 == profitSearchId) {
                     Timber.e("缺少profitSearchId参数")
                     return null
@@ -216,6 +216,11 @@ class IncomeCalendarViewModel : BaseViewModel() {
         callBack: (responseList: ResponseList<out ProfitStatisticsEntity>?) -> Unit
     ) {
         val params = getCommonParams(false) ?: return
+        if (1 == profitType) {
+            params["shopIdList"] = listOf(profitSearchId)
+        } else if (2 == profitType) {
+            params["goodsId"] = profitSearchId
+        }
         params["page"] = page
         params["pageSize"] = pageSize
         params["transactionType"] = transactionType

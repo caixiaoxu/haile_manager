@@ -11,7 +11,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
@@ -23,6 +22,7 @@ import com.yunshang.haile_manager_android.data.entities.UserPermissionEntity
 import com.yunshang.haile_manager_android.databinding.DialogProfitDataSheetBinding
 import com.yunshang.haile_manager_android.databinding.ItemProfitDataBtnBinding
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 
 /**
  * Title :
@@ -113,6 +113,11 @@ class ProfitDataDialog private constructor(private val builder: Builder) :
             builder.staffPermissionParams?.child, R.layout.item_profit_data_btn
         ) { _, childBinding, data ->
             childBinding.child = data
+            childBinding.cbProfitDataBtn.setOnCheckedChangeListener { _, isCheck ->
+                data.isCheck = isCheck
+                showShopList()
+                showSubAccountList()
+            }
         }
 
         buildShopList()
@@ -121,7 +126,16 @@ class ProfitDataDialog private constructor(private val builder: Builder) :
             builder.subAccountList, R.layout.item_profit_data_btn
         ) { _, childBinding, data ->
             childBinding.child = data
+            childBinding.cbProfitDataBtn.setOnCheckClickListener {
+                1 == data.id
+            }
+            childBinding.cbProfitDataBtn.setOnCheckedChangeListener { _, isCheck ->
+                data.isCheck = isCheck
+            }
         }
+
+        showShopList()
+        showSubAccountList()
     }
 
     private fun buildShopList() {
@@ -165,8 +179,32 @@ class ProfitDataDialog private constructor(private val builder: Builder) :
                     true
                 }
             }
+            childBinding.cbProfitDataBtn.setOnCheckedChangeListener { _, isCheck ->
+                data.isCheck = isCheck
+            }
         }
     }
+
+    private fun isShowShopList() =
+        (!builder.staffPermissionParams?.child?.filter { item -> item.isCheck }.isNullOrEmpty())
+
+    private fun showShopList() {
+        isShowShopList().let {
+            mBinding.tvFunPermissionShopList.visibility(it)
+            mBinding.clFunPermissionShopList.visibility(it)
+        }
+    }
+
+    private fun isShowSubAccountList() =
+        (null != builder.staffPermissionParams?.child?.find { item -> item.perms == "league:profit:detail" && item.isCheck })
+
+    private fun showSubAccountList() {
+        isShowSubAccountList().let {
+            mBinding.tvFunPermissionSubAccount.visibility(it)
+            mBinding.clFunPermissionSubAccount.visibility(it)
+        }
+    }
+
 
     /**
      * 默认显示

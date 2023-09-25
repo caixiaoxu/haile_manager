@@ -17,6 +17,8 @@ import com.yunshang.haile_manager_android.business.vm.PersonalViewModel
 import com.yunshang.haile_manager_android.databinding.FragmentPersonalBinding
 import com.yunshang.haile_manager_android.databinding.IncludePersonalItemBinding
 import com.yunshang.haile_manager_android.ui.activity.personal.PersonalInfoActivity
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 
 /**
  * Title :
@@ -79,13 +81,27 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
                         })
                     }
                 }
-                if (item.title == R.string.real_name){
-                    mPersonalItemBinding.tvPersonalItemValue.textSize = 10f
-                    mPersonalItemBinding.tvPersonalItemValue.setTextColor(Color.WHITE)
-                    val pV = DimensionUtils.dip2px(requireContext(),2f)
-                    val pH = DimensionUtils.dip2px(requireContext(),8f)
-                    mPersonalItemBinding.tvPersonalItemValue.setPadding(pH,pV,pH,pV)
-                    mPersonalItemBinding.tvPersonalItemValue.setBackgroundResource(R.drawable.shape_sff3b30_r9)
+                when (item.title) {
+                    R.string.real_name -> {
+                        mPersonalItemBinding.tvPersonalItemValue.textSize = 10f
+                        mPersonalItemBinding.tvPersonalItemValue.setTextColor(Color.WHITE)
+                        val pV = DimensionUtils.dip2px(requireContext(), 2f)
+                        val pH = DimensionUtils.dip2px(requireContext(), 8f)
+                        mPersonalItemBinding.tvPersonalItemValue.setPadding(pH, pV, pH, pV)
+                        mPersonalItemBinding.tvPersonalItemValue.setBackgroundResource(R.drawable.shape_sff3b30_r9)
+                    }
+                    R.string.income_calendar -> {
+                        mPersonalItemBinding.root.visibility(UserPermissionUtils.hasProfitCalendarPermission())
+                        mSharedViewModel.hasProfitCalendarPermission.observe(this) {
+                            mPersonalItemBinding.root.visibility(it)
+                        }
+                    }
+                    R.string.income_statistics -> {
+                        mPersonalItemBinding.root.visibility(UserPermissionUtils.hasProfitDetailPermission())
+                        mSharedViewModel.hasProfitDetailPermission.observe(this) {
+                            mPersonalItemBinding.root.visibility(it)
+                        }
+                    }
                 }
 
                 if (group.childCount > 0) {
@@ -147,7 +163,7 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        if (!hidden){
+        if (!hidden) {
             mViewModel.requestBalanceAsync()
         }
     }

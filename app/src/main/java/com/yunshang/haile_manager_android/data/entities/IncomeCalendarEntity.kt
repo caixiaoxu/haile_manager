@@ -1,13 +1,5 @@
 package com.yunshang.haile_manager_android.data.entities
 
-import androidx.core.content.ContextCompat
-import com.lsy.framelib.data.constants.Constants
-import com.yunshang.haile_manager_android.R
-import com.yunshang.haile_manager_android.data.rule.ICalendarEntity
-import com.yunshang.haile_manager_android.utils.DateTimeUtils
-import java.util.Calendar
-import java.util.Date
-
 /**
  * Title :
  * Author: Lsy

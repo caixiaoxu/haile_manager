@@ -130,7 +130,9 @@ class IncomeShopStatisticsActivity :
                                         mViewModel.shopIds?.toIntArray(),
                                         mBinding.tvIncomeShopStatisticsShop.text.toString(),
                                         itemDevice.id,
-                                        arrayOf(item.categoryCode)
+                                        arrayOf(item.categoryCode),
+                                        startTime = mViewModel.startDate.value,
+                                        endTime = mViewModel.endDate.value,
                                     )
                                 )
                             }
@@ -177,7 +179,9 @@ class IncomeShopStatisticsActivity :
                         putExtras(
                             IntentParams.ProfitStatisticsParams.pack(
                                 mViewModel.shopIds?.toIntArray(),
-                                categoryCodes = arrayOf(item.categoryCode)
+                                categoryCodes = arrayOf(item.categoryCode),
+                                startTime = mViewModel.startDate.value,
+                                endTime = mViewModel.endDate.value,
                             )
                         )
                     }
@@ -304,6 +308,8 @@ class IncomeShopStatisticsActivity :
                 selectModel = 1
                 limitSpace = 31
                 maxDate = Calendar.getInstance().apply { time = Date() }
+                selectStartDate = mViewModel.startDate.value
+                selectEndDate = mViewModel.endDate.value
                 onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
                         mViewModel.startDate.value = date1
@@ -335,7 +341,7 @@ class IncomeShopStatisticsActivity :
         // 设备
         mBinding.tvIncomeShopStatisticsCategory.setOnClickListener {
             MultiSelectBottomSheetDialog.Builder(
-                getString(R.string.coupon_device_dialog_title),
+                getString(R.string.device_category),
                 mViewModel.categoryList.value ?: listOf()
             ).apply {
                 onValueSureListener =

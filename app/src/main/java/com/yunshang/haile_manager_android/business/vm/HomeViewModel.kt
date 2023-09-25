@@ -52,9 +52,7 @@ class HomeViewModel : BaseViewModel() {
     }
 
     // 1:个人收益；2:商家收益
-    val profitIncomeType: MutableLiveData<Int> by lazy {
-        MutableLiveData()
-    }
+    val profitIncomeType: MutableLiveData<Int> = MutableLiveData(1)
 
     // 总收入
     val inComeVal: MutableLiveData<String> = MutableLiveData()
@@ -189,15 +187,13 @@ class HomeViewModel : BaseViewModel() {
      * 今日总收益
      */
     private suspend fun requestIncomeToday() {
-        profitIncomeType.value?.let { type ->
-            inComeVal.postValue(
-                ApiRepository.dealApiResult(
-                    mCapitalRepo.totalIncomeToady(
-                        ApiRepository.createRequestBody("")
-                    )
+        inComeVal.postValue(
+            ApiRepository.dealApiResult(
+                mCapitalRepo.totalIncomeToady(
+                    ApiRepository.createRequestBody("")
                 )
             )
-        }
+        )
     }
 
     /**
@@ -231,7 +227,7 @@ class HomeViewModel : BaseViewModel() {
         launch(
             {
                 requestIncomeToday()
-                profitIncomeType.value?.let { type ->
+                homeIncomeList.postValue(
                     ApiRepository.dealApiResult(
                         mCapitalRepo.homeInCome(
                             ApiRepository.createRequestBody(
@@ -245,11 +241,11 @@ class HomeViewModel : BaseViewModel() {
                                 ),
                             )
                         )
-                    )?.let { list ->
-                        homeIncomeList.postValue(list)
-                    }
-                }
-            }, {})
+                    )
+                )
+            }, {
+                homeIncomeList.postValue(null)
+            })
     }
 
     /**

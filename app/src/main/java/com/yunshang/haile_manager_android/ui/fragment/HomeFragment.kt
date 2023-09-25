@@ -45,6 +45,7 @@ import com.yunshang.haile_manager_android.ui.activity.device.DeviceDetailActivit
 import com.yunshang.haile_manager_android.ui.activity.message.MessageCenterActivity
 import com.yunshang.haile_manager_android.ui.activity.message.MessageListActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeCalendarActivity
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 import com.yunshang.haile_manager_android.ui.view.chart.BarChartRenderer
 import com.yunshang.haile_manager_android.ui.view.chart.CustomMarkerView
 import com.yunshang.haile_manager_android.ui.view.dialog.DeviceCategoryDialog
@@ -147,10 +148,15 @@ class HomeFragment :
             )
         }
 
-//        mBinding.ibHomeIncomeChange.setOnClickListener {
-//            mViewModel.profitIncomeType.value = if (1 == mViewModel.profitIncomeType.value) 2 else 1
-//            mViewModel.requestHomeIncome()
-//        }
+        mBinding.clHomeIncome.setOnClickListener {
+            if (UserPermissionUtils.hasProfitCalendarPermission()) {
+                startActivity(Intent(requireContext(), IncomeCalendarActivity::class.java).apply {
+                    putExtra(IncomeCalendarActivity.ProfitType, 4)
+                })
+            } else {
+                SToast.showToast(requireContext(), R.string.no_permission)
+            }
+        }
 
         initBarChart()
 
@@ -290,18 +296,18 @@ class HomeFragment :
                             // 跳转到收详情
 
                             marker.curBean?.let {
-                                startActivity(
-                                    Intent(
-                                        requireContext(),
-                                        IncomeCalendarActivity::class.java
-                                    ).apply {
-                                        putExtra(IncomeCalendarActivity.ProfitType, 4)
-                                        putExtra(IncomeCalendarActivity.SelectDay, it.date)
-                                        putExtra(
-                                            IncomeCalendarActivity.ProfitIncomeType,
-                                            mViewModel.profitIncomeType.value
-                                        )
-                                    })
+                                if (UserPermissionUtils.hasProfitCalendarPermission()) {
+                                    startActivity(
+                                        Intent(
+                                            requireContext(),
+                                            IncomeCalendarActivity::class.java
+                                        ).apply {
+                                            putExtra(IncomeCalendarActivity.ProfitType, 4)
+                                            putExtra(IncomeCalendarActivity.SelectDay, it.date)
+                                        })
+                                } else {
+                                    SToast.showToast(requireContext(), R.string.no_permission)
+                                }
                             }
                             return
                         }
@@ -327,7 +333,7 @@ class HomeFragment :
         super.initEvent()
 
         mSharedViewModel.hasUserPermission.observe(this) {
-            initProfitIncomeType()
+//            initProfitIncomeType()
             mViewModel.requestHomeIncome()
         }
 
@@ -537,7 +543,7 @@ class HomeFragment :
             if ((positives.isEmpty() && negatives.isEmpty()) || !UserPermissionUtils.hasProfitPermission()) {
                 mBinding.clHomeTrend.visibility = View.GONE
             } else {
-                mBinding.clHomeTrend.visibility = View.VISIBLE
+                mBinding.clHomeTrend.visibility(true)
                 val dataList = arrayListOf<IBarDataSet>()
                 if (positives.isNotEmpty()) {
                     val dataSet = BarDataSet(positives, "收益趋势")
@@ -571,11 +577,13 @@ class HomeFragment :
                 val index = instance[Calendar.DAY_OF_MONTH]
                 mBinding.bcTrendChart.highlightValue(index.toFloat(), 0, 0)
             }
+        } ?: run {
+            mBinding.clHomeTrend.visibility(false)
         }
     }
 
     override fun initData() {
-        initProfitIncomeType()
+//        initProfitIncomeType()
         mViewModel.requestHomeData()
     }
 

@@ -128,7 +128,13 @@ class StaffCreateActivity :
                     )
                     putExtra(
                         StaffPermissionActivity.ProfitTypes,
-                        mViewModel.fundsDistributionTypes?.toIntArray()
+                        mViewModel.fundsDistributionTypes.let {
+                            if (it.isNullOrEmpty()) {
+                                intArrayOf(1)
+                            } else {
+                                it.toIntArray()
+                            }
+                        }
                     )
                 }
             )

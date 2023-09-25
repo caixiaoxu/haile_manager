@@ -128,6 +128,7 @@ object IntentParams {
         private const val CategoryCodes = "categoryCodes"
         private const val StartTime = "startTime"
         private const val EndTime = "endTime"
+        private const val FormType = "formType"//0全不显示，1显示门店，2显示设备，3全显示
 
         /**
          * 包装参数
@@ -139,6 +140,7 @@ object IntentParams {
             categoryCodes: Array<String>? = null,
             startTime: Date? = null,
             endTime: Date? = null,
+            formType: Int? = 0
         ): Bundle =
             Bundle().apply {
                 shopIds?.let {
@@ -159,6 +161,9 @@ object IntentParams {
                 endTime?.let {
                     putString(EndTime, DateTimeUtils.formatDateTime(it))
                 }
+                formType?.let {
+                    putInt(FormType,formType)
+                }
             }
 
         fun parseShopIds(intent: Intent): IntArray? = intent.getIntArrayExtra(ShopIds)
@@ -166,12 +171,13 @@ object IntentParams {
         fun parseGoodId(intent: Intent): Int = intent.getIntExtra(GoodId, -1)
         fun parseCategoryCodes(intent: Intent): Array<String>? =
             intent.getStringArrayExtra(CategoryCodes)
-
         fun parseStartTime(intent: Intent): Date? =
             DateTimeUtils.formatDateFromString(intent.getStringExtra(StartTime))
 
         fun parseEndTime(intent: Intent): Date? =
             DateTimeUtils.formatDateFromString(intent.getStringExtra(EndTime))
+
+        fun parseFormType(intent: Intent): Int = intent.getIntExtra(FormType, 0)
     }
 
     object ShopBusinessHoursParams {

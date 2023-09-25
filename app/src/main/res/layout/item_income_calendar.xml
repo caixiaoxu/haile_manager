@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/money"
-            android:text="@{item.value}"
+            android:text='@{item.afterToday?"--":item.value}'
             android:textSize="14sp"
             android:visibility="@{-1 == item.type?View.GONE:View.VISIBLE}"
             tools:text="2333.00" />

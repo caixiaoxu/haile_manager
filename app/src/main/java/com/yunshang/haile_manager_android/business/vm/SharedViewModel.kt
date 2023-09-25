@@ -38,12 +38,12 @@ class SharedViewModel : ViewModel() {
 
     val hasProfitPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasProfitPermission() }
-    val hasProfitHomePermission: LiveData<Boolean> =
-        hasUserPermission.map { UserPermissionUtils.hasProfitHomePermission() }
-    val hasProfitMerchantPermission: LiveData<Boolean> =
-        hasUserPermission.map { UserPermissionUtils.hasProfitMerchantPermission() }
     val hasMessagePermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasMessagePermission() }
+    val hasProfitCalendarPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasProfitCalendarPermission() }
+    val hasProfitDetailPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasProfitDetailPermission() }
 
     /** ---------------------设备权限------------------------- **/
     val hasDevicePermission: LiveData<Boolean> =

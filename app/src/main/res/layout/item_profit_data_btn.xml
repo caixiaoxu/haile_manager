@@ -17,7 +17,7 @@
         android:padding="8dp"
         android:gravity="center"
         android:text="@{child.title}"
-        android:checked="@={child.check}"
+        android:checked="@{child.check}"
         android:background="@drawable/selector_f7f7f7_bg26strf0a258_r4"
         android:textColor="@color/common_bottom_sheet_item"
         android:textSize="14sp"

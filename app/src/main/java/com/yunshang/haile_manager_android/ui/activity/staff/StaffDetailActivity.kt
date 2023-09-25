@@ -51,93 +51,99 @@ class StaffDetailActivity :
 
         mViewModel.staffDetail.observe(this) {
             it?.let { detail ->
-                val inflater = LayoutInflater.from(this@StaffDetailActivity)
-                // 负责的门店
-                buildFlowView(
-                    inflater,
-                    mBinding.clStaffDetailTakeChargeShop,
-                    mBinding.flowStaffDetailShop,
-                    detail.shopList
-                ) { itemBinding, shop ->
-                    itemBinding.name = shop.name
-                }
 
-                // 权限
-                if (detail.menuList.isNullOrEmpty()) {
-                    mBinding.llStaffDetailPermissionList.visibility = View.GONE
+                if (detail.tagName == "合伙人"){
+                    mBinding.clStaffDetailTakeChargeShop.visibility(false)
+                    mBinding.llStaffDetailPermissionList.visibility(false)
                 } else {
-                    mBinding.llStaffDetailPermissionList.removeViews(
-                        1,
-                        mBinding.llStaffDetailPermissionList.childCount - 1
-                    )
-                    val mT = DimensionUtils.dip2px(this@StaffDetailActivity, 24f)
-                    detail.menuList.forEachIndexed { index, menu ->
-                        val permissionView = if (menu.perms == "league:profit") {
-                            DataBindingUtil.inflate<ItemStaffDetailPermissionProfitBinding>(
-                                inflater, R.layout.item_staff_detail_permission_profit,
-                                null,
-                                false
-                            ).also { permissionBinding ->
-                                permissionBinding.item = menu
-
-                                // 权限
-                                permissionBinding.clStaffDetailProfitPermissionList.buildChild<ItemStaffDetailFlowBinding, Menu>(
-                                    menu.childList, R.layout.item_staff_detail_flow,
-                                ) { _, childBinding, data ->
-                                    childBinding.name = data.name
-                                }
-
-                                // 可查看营业数据的门店
-                                permissionBinding.clStaffDetailProfitPermissionShopList.buildChild<ItemStaffDetailFlowBinding, DataPermissionShopDto>(
-                                    menu.dataPermissionDto?.dataPermissionShopDtoList,
-                                    R.layout.item_staff_detail_flow,
-                                ) { _, childBinding, data ->
-                                    childBinding.name = data.name
-                                }
-
-                                // 可查看分账的数据
-                                permissionBinding.clStaffDetailProfitPermissionSubAccount.buildChild<ItemStaffDetailFlowBinding, Int>(
-                                    menu.dataPermissionDto?.fundsDistributionType,
-                                    R.layout.item_staff_detail_flow,
-                                ) { _, childBinding, data ->
-                                    childBinding.name = if (1 == data) "自己的分账" else "全部分账"
-                                }
-                                permissionBinding.root.visibility(!menu.childList.isNullOrEmpty())
-                            }
-                        } else {
-                            DataBindingUtil.inflate<ItemStaffDetailPermissionBinding>(
-                                inflater,
-                                R.layout.item_staff_detail_permission,
-                                null,
-                                false
-                            ).also { permissionBinding ->
-                                permissionBinding.tvStaffDetailPermissionTitle.text = menu.name
-                                buildFlowView(
-                                    inflater,
-                                    permissionBinding.clPermissionParent,
-                                    permissionBinding.flowStaffDetailPermission,
-                                    menu.childList
-                                ) { itemBinding, menu ->
-                                    itemBinding.name = menu.name
-                                }
-                            }
-                        }.root
-                        mBinding.llStaffDetailPermissionList.addView(
-                            permissionView, LinearLayout.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT
-                            ).apply {
-                                setMargins(
-                                    0,
-                                    if (0 == index) DimensionUtils.dip2px(
-                                        this@StaffDetailActivity,
-                                        16f
-                                    ) else mT, 0, 0
-                                )
-                            }
-                        )
+                    val inflater = LayoutInflater.from(this@StaffDetailActivity)
+                    // 负责的门店
+                    buildFlowView(
+                        inflater,
+                        mBinding.clStaffDetailTakeChargeShop,
+                        mBinding.flowStaffDetailShop,
+                        detail.shopList
+                    ) { itemBinding, shop ->
+                        itemBinding.name = shop.name
                     }
-                    mBinding.llStaffDetailPermissionList.visibility = View.VISIBLE
+
+                    // 权限
+                    if (detail.menuList.isNullOrEmpty()) {
+                        mBinding.llStaffDetailPermissionList.visibility = View.GONE
+                    } else {
+                        mBinding.llStaffDetailPermissionList.removeViews(
+                            1,
+                            mBinding.llStaffDetailPermissionList.childCount - 1
+                        )
+                        val mT = DimensionUtils.dip2px(this@StaffDetailActivity, 24f)
+                        detail.menuList.forEachIndexed { index, menu ->
+                            val permissionView = if (menu.perms == "league:profit") {
+                                DataBindingUtil.inflate<ItemStaffDetailPermissionProfitBinding>(
+                                    inflater, R.layout.item_staff_detail_permission_profit,
+                                    null,
+                                    false
+                                ).also { permissionBinding ->
+                                    permissionBinding.item = menu
+
+                                    // 权限
+                                    permissionBinding.clStaffDetailProfitPermissionList.buildChild<ItemStaffDetailFlowBinding, Menu>(
+                                        menu.childList, R.layout.item_staff_detail_flow,
+                                    ) { _, childBinding, data ->
+                                        childBinding.name = data.name
+                                    }
+
+                                    // 可查看营业数据的门店
+                                    permissionBinding.clStaffDetailProfitPermissionShopList.buildChild<ItemStaffDetailFlowBinding, DataPermissionShopDto>(
+                                        menu.dataPermissionDto?.dataPermissionShopDtoList,
+                                        R.layout.item_staff_detail_flow,
+                                    ) { _, childBinding, data ->
+                                        childBinding.name = data.name
+                                    }
+
+                                    // 可查看分账的数据
+                                    permissionBinding.clStaffDetailProfitPermissionSubAccount.buildChild<ItemStaffDetailFlowBinding, Int>(
+                                        menu.dataPermissionDto?.fundsDistributionType,
+                                        R.layout.item_staff_detail_flow,
+                                    ) { _, childBinding, data ->
+                                        childBinding.name = if (1 == data) "自己的分账" else "全部分账"
+                                    }
+                                    permissionBinding.root.visibility(!menu.childList.isNullOrEmpty())
+                                }
+                            } else {
+                                DataBindingUtil.inflate<ItemStaffDetailPermissionBinding>(
+                                    inflater,
+                                    R.layout.item_staff_detail_permission,
+                                    null,
+                                    false
+                                ).also { permissionBinding ->
+                                    permissionBinding.tvStaffDetailPermissionTitle.text = menu.name
+                                    buildFlowView(
+                                        inflater,
+                                        permissionBinding.clPermissionParent,
+                                        permissionBinding.flowStaffDetailPermission,
+                                        menu.childList
+                                    ) { itemBinding, menu ->
+                                        itemBinding.name = menu.name
+                                    }
+                                }
+                            }.root
+                            mBinding.llStaffDetailPermissionList.addView(
+                                permissionView, LinearLayout.LayoutParams(
+                                    ViewGroup.LayoutParams.MATCH_PARENT,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT
+                                ).apply {
+                                    setMargins(
+                                        0,
+                                        if (0 == index) DimensionUtils.dip2px(
+                                            this@StaffDetailActivity,
+                                            16f
+                                        ) else mT, 0, 0
+                                    )
+                                }
+                            )
+                        }
+                        mBinding.llStaffDetailPermissionList.visibility = View.VISIBLE
+                    }
                 }
             }
         }

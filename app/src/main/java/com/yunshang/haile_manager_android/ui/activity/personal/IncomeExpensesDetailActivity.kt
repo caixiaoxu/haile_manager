@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -24,6 +25,7 @@ import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.utils.StringUtils
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import com.yunshang.haile_manager_android.utils.span.VerticalBottomSpan
 import java.util.*
 
@@ -64,13 +66,26 @@ class IncomeExpensesDetailActivity :
             BR.item
         ) { mItemBinding, _, item ->
             mItemBinding?.root?.setOnClickListener {
-                startActivity(
-                    Intent(
-                        this@IncomeExpensesDetailActivity,
-                        OrderDetailActivity::class.java
-                    ).apply {
-                        putExtras(IntentParams.OrderDetailParams.pack(item.orderId))
+                if (UserPermissionUtils.hasOrderInfoPermission()) {
+                    startActivity(if ("1000" == item.categoryCode) {
+                        Intent(
+                            this@IncomeExpensesDetailActivity,
+                            IncomeDetailActivity::class.java
+                        ).apply {
+                            putExtra(IncomeDetailActivity.DetailType, 1)
+                            putExtra(IncomeDetailActivity.OrderNo, item.orderNo)
+                        }
+                    } else {
+                        Intent(
+                            this@IncomeExpensesDetailActivity,
+                            OrderDetailActivity::class.java
+                        ).apply {
+                            putExtras(IntentParams.OrderDetailParams.pack(item.orderId))
+                        }
                     })
+                } else {
+                    SToast.showToast(this@IncomeExpensesDetailActivity, R.string.no_permission)
+                }
             }
         }
     }
@@ -82,9 +97,13 @@ class IncomeExpensesDetailActivity :
     override fun initIntent() {
         super.initIntent()
         mViewModel.shopIds = IntentParams.ProfitStatisticsParams.parseShopIds(intent)?.toList()
+        mBinding.tvIncomeExpensesDetailShop.text =
+            IntentParams.ProfitStatisticsParams.parseShopName(intent) ?: ""
         mViewModel.categoryCodes =
             IntentParams.ProfitStatisticsParams.parseCategoryCodes(intent)?.toList()
         mViewModel.goodsId = IntentParams.ProfitStatisticsParams.parseGoodId(intent)
+        mViewModel.formType = IntentParams.ProfitStatisticsParams.parseFormType(intent)
+
         IntentParams.ProfitStatisticsParams.parseStartTime(intent)?.let {
             mViewModel.startDate.value = it
         }
@@ -117,6 +136,8 @@ class IncomeExpensesDetailActivity :
                 selectModel = 1
                 limitSpace = 31
                 maxDate = Calendar.getInstance().apply { time = Date() }
+                selectStartDate = mViewModel.startDate.value
+                selectEndDate = mViewModel.endDate.value
                 onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
                         mViewModel.startDate.value = date1
@@ -150,7 +171,7 @@ class IncomeExpensesDetailActivity :
         // 设备
         mBinding.tvIncomeExpensesDetailCategory.setOnClickListener {
             MultiSelectBottomSheetDialog.Builder(
-                getString(R.string.coupon_device_dialog_title),
+                getString(R.string.device_category),
                 mViewModel.categoryList.value ?: listOf()
             ).apply {
                 onValueSureListener =

@@ -40,11 +40,13 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
 
     // 记录日期
     private var startCal = Calendar.getInstance().also { cal ->
-        cal.time = Date()
+        cal.time = builder.selectStartDate ?: Date()
         if (cal.before(builder.minDate)) cal.time = builder.minDate.time
         if (cal.after(builder.maxDate)) cal.time = builder.maxDate.time
     }
-    private var endCal: Calendar? = null
+    private var endCal: Calendar? = builder.selectEndDate?.let {
+        Calendar.getInstance().apply { time = it }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -583,6 +585,10 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
         // 最小或最大时间
         var minDate: Calendar = Calendar.getInstance().apply { set(1920, 1, 1) }
         var maxDate: Calendar = Calendar.getInstance().apply { set(2099, 12, 31) }
+
+        // 已选择的时间
+        var selectStartDate: Date? = null
+        var selectEndDate: Date? = null
 
         // 区间模式下，选择最大时长
         var limitSpace = -1

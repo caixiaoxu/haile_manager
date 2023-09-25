@@ -70,6 +70,7 @@
             app:flow_wrapMode="chain" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_fun_permission_shop_list"
             style="@style/Font_14_333333"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,6 +89,7 @@
             app:flow_wrapMode="chain" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_fun_permission_sub_account"
             style="@style/Font_14_333333"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -11,8 +11,10 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.data.constants.Constants
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -32,9 +34,11 @@ import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import com.yunshang.haile_manager_android.utils.ViewUtils
 import timber.log.Timber
 import java.util.*
+import kotlin.math.min
 
 class IncomeCalendarActivity :
     BaseBusinessActivity<ActivityIncomeCalendarBinding, IncomeCalendarViewModel>(
@@ -72,11 +76,14 @@ class IncomeCalendarActivity :
                 mItemBinding?.tvIncomeCalendarDayNum?.setTextColor(
                     ContextCompat.getColor(
                         this@IncomeCalendarActivity,
-                        if (isSelect) R.color.white else if (isAfterToday) R.color.common_txt_hint_color else R.color.common_txt_color
+                        if (isSelect) R.color.white else R.color.common_txt_color
                     )
                 )
                 mItemBinding?.tvIncomeCalendarDayAmount?.setTextColor(
-                    if (isSelect) Color.WHITE else item.curTypeColor
+                    if (isSelect) Color.WHITE else if (isAfterToday) ContextCompat.getColor(
+                        Constants.APP_CONTEXT,
+                        R.color.common_txt_hint_color
+                    ) else item.curTypeColor
                 )
             }
         }
@@ -87,13 +94,28 @@ class IncomeCalendarActivity :
             BR.item
         ) { mItemBinding, _, item ->
             mItemBinding?.root?.setOnClickListener {
-                startActivity(
-                    Intent(
-                        this@IncomeCalendarActivity,
-                        OrderDetailActivity::class.java
-                    ).apply {
-                        putExtras(IntentParams.OrderDetailParams.pack(item.orderId))
-                    })
+                if (UserPermissionUtils.hasOrderInfoPermission()) {
+                    startActivity(
+                        if ("1000" == item.categoryCode) {
+                            Intent(
+                                this@IncomeCalendarActivity,
+                                IncomeDetailActivity::class.java
+                            ).apply {
+                                putExtra(IncomeDetailActivity.DetailType, 1)
+                                putExtra(IncomeDetailActivity.OrderNo, item.orderNo)
+                            }
+                        } else {
+                            Intent(
+                                this@IncomeCalendarActivity,
+                                OrderDetailActivity::class.java
+                            ).apply {
+                                putExtras(IntentParams.OrderDetailParams.pack(item.orderId))
+                            }
+                        }
+                    )
+                } else {
+                    SToast.showToast(this@IncomeCalendarActivity, R.string.no_permission)
+                }
             }
         }
     }
@@ -106,8 +128,9 @@ class IncomeCalendarActivity :
         super.initIntent()
         mViewModel.profitType = intent.getIntExtra(ProfitType, 3)
         mViewModel.profitSearchId = intent.getIntExtra(ProfitSearchId, -1)
-        mViewModel.deviceName = intent.getStringExtra(DeviceName) ?: ""
-        mViewModel.profitIncomeType = intent.getIntExtra(ProfitIncomeType, 1)
+        mViewModel.deviceName =
+            if (1 == mViewModel.profitType) "门店" else intent.getStringExtra(DeviceName) ?: ""
+//        mViewModel.profitIncomeType = intent.getIntExtra(ProfitIncomeType, 1)
 
         DateTimeUtils.formatDateFromString(intent.getStringExtra(SelectDay))?.let {
             mViewModel.selectDay.postValue(it)
@@ -127,6 +150,21 @@ class IncomeCalendarActivity :
         mViewModel.selectMonth.observe(this) {
             mViewModel.requestTotalAmount(true)
             mViewModel.requestIncomeByDate()
+
+            mViewModel.selectDay.value?.let { curDay ->
+                val c1 = Calendar.getInstance().apply {
+                    time = it
+                }
+
+                val c2 = Calendar.getInstance().apply {
+                    time = curDay
+                }
+
+                val max = c1.getActualMaximum(Calendar.DAY_OF_MONTH)
+                val curD = c2.get(Calendar.DAY_OF_MONTH)
+                c1.set(Calendar.DAY_OF_MONTH, min(max, curD))
+                mViewModel.selectDay.value = c1.time
+            }
         }
         mViewModel.calendarIncome.observe(this) {
             mIncomeAdapter.refreshList(it, true)

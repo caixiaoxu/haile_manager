@@ -115,7 +115,7 @@ class StaffPermissionViewModel : BaseViewModel() {
         return ids
     }
 
-    fun selectAll(view: View) {
+    fun selectAll() {
         permissionList.value?.let {
             it.forEach { staffParams ->
                 staffParams.child?.forEach { entity ->

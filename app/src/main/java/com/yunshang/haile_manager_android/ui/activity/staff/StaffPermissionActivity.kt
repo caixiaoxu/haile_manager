@@ -46,23 +46,7 @@ class StaffPermissionActivity :
         ) { mBinding, _, data ->
             mBinding?.root?.setOnClickListener {
                 if (data.parent.perms == "league:profit") {
-                    ProfitDataDialog.Builder(
-                        GsonUtils.json2Class(
-                            GsonUtils.any2Json(data),
-                            StaffPermissionParams::class.java
-                        ),
-                        GsonUtils.json2List(
-                            GsonUtils.any2Json(mViewModel.shopList),
-                            DataPermissionShopDto::class.java
-                        ),
-                        mViewModel.fundsDistributionTypes
-                    ) { childPermission, shopList, types ->
-                        data.child = childPermission
-                        mViewModel.shopList = shopList
-                        mViewModel.fundsDistributionTypes = types
-                        mViewModel.checkSelectAll()
-                        data.notifyPropertyChanged(BR.selectNum)
-                    }.build().show(supportFragmentManager)
+                    showProfitDataDialog(data)
                 } else {
                     MultiSelectBottomSheetDialog.Builder(
                         data.parent.name,
@@ -93,6 +77,28 @@ class StaffPermissionActivity :
                         .show(supportFragmentManager)
                 }
             }
+        }
+    }
+
+    private fun showProfitDataDialog(data: StaffPermissionParams?) {
+        data?.let {
+            ProfitDataDialog.Builder(
+                GsonUtils.json2Class(
+                    GsonUtils.any2Json(data),
+                    StaffPermissionParams::class.java
+                ),
+                GsonUtils.json2List(
+                    GsonUtils.any2Json(mViewModel.shopList),
+                    DataPermissionShopDto::class.java
+                ),
+                mViewModel.fundsDistributionTypes
+            ) { childPermission, shopList, types ->
+                data.child = childPermission
+                mViewModel.shopList = shopList
+                mViewModel.fundsDistributionTypes = types
+                mViewModel.checkSelectAll()
+                data.notifyPropertyChanged(BR.selectNum)
+            }.build().show(supportFragmentManager)
         }
     }
 
@@ -130,6 +136,11 @@ class StaffPermissionActivity :
     override fun initView() {
         window.statusBarColor = Color.WHITE
         initRightBtn()
+
+        mBinding.tvStaffPermissionAll.setOnClickListener {
+            mViewModel.selectAll()
+            showProfitDataDialog(mViewModel.permissionList.value?.find { item->item.parent.perms == "league:profit" })
+        }
     }
 
     /**

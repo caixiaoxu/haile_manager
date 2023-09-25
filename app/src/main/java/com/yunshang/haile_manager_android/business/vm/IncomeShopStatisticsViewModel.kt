@@ -123,28 +123,29 @@ class IncomeShopStatisticsViewModel : BaseViewModel() {
         })
     }
 
-    private fun getCommonParams(page: Int? = null) = ApiRepository.createRequestBody(
-        hashMapOf(
-            "shopIdList" to shopIds,
-            "categoryCodeList" to categoryCodes,
-            "startTime" to DateTimeUtils.formatDateTimeStartParam(startDate.value),
-            "endTime" to DateTimeUtils.formatDateTimeEndParam(endDate.value),
-        ).also { params ->
-            page?.let {
-                params["page"] = page
-                params["pageSize"] = 20
+    private fun getCommonParams(page: Int? = null, categoryList: List<String>? = null) =
+        ApiRepository.createRequestBody(
+            hashMapOf(
+                "shopIdList" to shopIds,
+                "categoryCodeList" to (categoryList ?: categoryCodes),
+                "startTime" to DateTimeUtils.formatDateTimeStartParam(startDate.value),
+                "endTime" to DateTimeUtils.formatDateTimeEndParam(endDate.value),
+            ).also { params ->
+                page?.let {
+                    params["page"] = page
+                    params["pageSize"] = 20
+                }
             }
-        }
-    )
+        )
 
     fun requestDeviceList(item: ShopRevenueDetailEntity, callBack: () -> Unit) {
         launch({
-            if (0 == item.page){
+            if (0 == item.page) {
                 item.page = 1
             }
             ApiRepository.dealApiResult(
                 mCapitalRepo.requestShopDeviceRevenueList(
-                    getCommonParams(item.page)
+                    getCommonParams(item.page, listOf(item.categoryCode))
                 )
             )?.let {
                 if (null == item.deviceList) {

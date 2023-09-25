@@ -29,10 +29,14 @@ data class ProfitStatisticsEntity(
     val transactionType: Int, //收支类型 1:收入；2:支出
     val businessTime: String,
 ) : IMultiTypeEntity {
-    fun amountVal() = com.yunshang.haile_manager_android.utils.StringUtils.formatNumberStr(amount)
+    fun amountVal() =
+        com.yunshang.haile_manager_android.utils.StringUtils.formatNumberStr(if (1 == transactionType) amount else -amount)
+
     fun getOrderTime() =
         StringUtils.getString(if (1 == transactionType) R.string.pay_time else R.string.refund_time) + "：" + businessTime
-    fun transactionTypeVal() = StringUtils.getString(if (1 == transactionType) R.string.earning else R.string.expend)
+
+    fun transactionTypeVal() =
+        StringUtils.getString(if (1 == transactionType) R.string.earning else R.string.expend)
 
     override fun getMultiType(): Int = if (transactionType == 1) 0 else 1
 

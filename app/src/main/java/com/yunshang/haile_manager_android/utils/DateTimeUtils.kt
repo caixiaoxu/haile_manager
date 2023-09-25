@@ -328,6 +328,20 @@ object DateTimeUtils {
         return calendar.time
     }
 
+    fun isBeforeDay(date: Date?): Int {
+        if (null == date) return -1
+        val c1 = Calendar.getInstance().apply { time = date }
+        val c2 = Calendar.getInstance().apply { time = Date() }
+        return if (
+            c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR)
+            && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH)
+            && c1.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH)
+        ) 0 else if (c1.get(Calendar.YEAR) > c2.get(Calendar.YEAR)
+            || c1.get(Calendar.MONTH) > c2.get(Calendar.MONTH)
+            || c1.get(Calendar.DAY_OF_MONTH) > c2.get(Calendar.DAY_OF_MONTH)
+        ) 1 else -1
+    }
+
     /**
      * 计算两个日期间的相差天数
      */

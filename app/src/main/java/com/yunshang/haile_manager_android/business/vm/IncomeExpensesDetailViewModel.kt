@@ -78,6 +78,9 @@ class IncomeExpensesDetailViewModel : BaseViewModel() {
     // 设备
     var goodsId: Int = -1
 
+    // 来源
+    var formType: Int = 0
+
     // 收支类型
     var transactionType: Int? = null
 

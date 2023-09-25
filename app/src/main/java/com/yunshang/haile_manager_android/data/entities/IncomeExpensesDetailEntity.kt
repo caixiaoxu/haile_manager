@@ -27,7 +27,7 @@ data class IncomeExpensesDetailEntity(
     val shopName: String,
     val transactionType: Int
 ): IMultiTypeEntity{
-    fun amountVal() = com.yunshang.haile_manager_android.utils.StringUtils.formatNumberStr(amount)
+    fun amountVal() = com.yunshang.haile_manager_android.utils.StringUtils.formatNumberStr(if (1 == transactionType) amount else -amount)
     fun getOrderTime() =
         StringUtils.getString(if (1 == transactionType) R.string.pay_time else R.string.refund_time) + "：" + businessTime
     fun transactionTypeVal() = StringUtils.getString(if (1 == transactionType) R.string.earning else R.string.expend)

@@ -46,8 +46,11 @@ class SearchSelectRadioViewModel : BaseViewModel() {
             )
             SearchSelectTypeParam.SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model))
             SearchSelectTypeParam.SearchSelectTypeTakeChargeShop -> StringUtils.getString(R.string.take_charge_shop)
-            SearchSelectTypeParam.SearchSelectTypeCouponShop, SearchSelectTypeParam.SearchSelectStatisticsShop -> StringUtils.getString(
+            SearchSelectTypeParam.SearchSelectTypeCouponShop -> StringUtils.getString(
                 R.string.coupon_shop
+            )
+            SearchSelectTypeParam.SearchSelectStatisticsShop -> StringUtils.getString(
+                R.string.department
             )
             else -> ""
         }

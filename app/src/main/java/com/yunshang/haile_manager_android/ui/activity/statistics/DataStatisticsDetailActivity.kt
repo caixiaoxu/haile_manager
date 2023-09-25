@@ -423,7 +423,7 @@ class DataStatisticsDetailActivity :
         if (title.isNotEmpty()) {
             tvTitle?.text = title
             tv?.text = value.ifEmpty { "--" }
-            tvTrend?.text =
+            tvTrend?.text = if (value.isNotEmpty()) {
                 "环比${com.yunshang.haile_manager_android.utils.StringUtils.formatNumberStr(trend)}%".let {
                     com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
                         it,
@@ -444,6 +444,21 @@ class DataStatisticsDetailActivity :
                         2, it.length,
                     )
                 }
+            } else {
+                "环比--%".let {
+                    com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
+                        it,
+                        arrayOf(
+                            ForegroundColorSpan(
+                                ContextCompat.getColor(
+                                    this@DataStatisticsDetailActivity,
+                                    R.color.common_sub_txt_color
+                                )
+                            )
+                        ), 2, it.length
+                    )
+                }
+            }
         }
         group.visibility(title.isNotEmpty())
     }

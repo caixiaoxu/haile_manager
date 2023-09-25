@@ -53,7 +53,7 @@
                     android:drawableEnd="@mipmap/icon_triangle_down"
                     android:drawablePadding="4dp"
                     android:hint="@string/all_shop"
-                    app:visibility="@{!(null != vm.shopIds || null != vm.categoryCodes || -1 != vm.goodsId)}" />
+                    app:visibility="@{1 == vm.formType || 3 == vm.formType}" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_income_expenses_detail_category"
@@ -64,7 +64,7 @@
                     android:drawableEnd="@mipmap/icon_triangle_down"
                     android:drawablePadding="4dp"
                     android:hint="@string/all_device"
-                    app:visibility="@{!(null != vm.shopIds || null != vm.categoryCodes || -1 != vm.goodsId)}" />
+                    app:visibility="@{2 == vm.formType || 3 == vm.formType}" />
             </LinearLayout>
         </HorizontalScrollView>
 

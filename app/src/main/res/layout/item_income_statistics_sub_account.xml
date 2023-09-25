@@ -1,29 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/shape_top_stroke_dividing_mlr16"
-    android:orientation="vertical"
-    android:paddingHorizontal="12dp"
-    tools:showIn="@layout/activity_income_statistics">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_sub_account_info"
-        style="@style/Font_14_333333"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:gravity="center_vertical"
-        android:text="@string/sub_account_info" />
+    <data>
 
-    <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
-        android:id="@+id/ll_sub_account_info"
+        <variable
+            name="isAdapter"
+            type="java.lang.Boolean" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/shape_sf7f7f7_r8"
+        android:background="@drawable/shape_top_stroke_dividing_mlr16"
         android:orientation="vertical"
-        app:itemLayout="@layout/item_income_statistics_sub_account_info"/>
+        app:paddingH="@{isAdapter?16f:12f}"
+        tools:showIn="@layout/activity_income_statistics">
 
-</LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_sub_account_info"
+            style="@style/Font_14_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="@string/sub_account_info" />
+
+        <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+            android:id="@+id/ll_sub_account_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/shape_sf7f7f7_r8"
+            android:orientation="vertical"
+            app:itemLayout="@layout/item_income_statistics_sub_account_info" />
+
+    </LinearLayout>
+</layout>

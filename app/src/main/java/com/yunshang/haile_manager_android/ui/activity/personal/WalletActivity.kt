@@ -57,7 +57,7 @@ class WalletActivity : BaseBindingActivity<ActivityWalletBinding>() {
                         negativeTxt = StringUtils.getString(R.string.cancel)
                         setPositiveButton("去认证") {
                             startActivity(
-                                if (1 == authInfo?.status) {
+                                if (1 == (authInfo?.status ?: 1)) {
                                     Intent(
                                         this@WalletActivity,
                                         BindSmsVerifyActivity::class.java

@@ -113,27 +113,27 @@ class PersonalViewModel : BaseViewModel() {
     }
 
     private suspend fun requestRealNameAuth() {
-        ApiRepository.dealApiResult(mUserRepo.requestRealNameAuthDetail())?.let {
-            personalItems.find { item -> item?.title == R.string.real_name }?.run {
-                val params = IntentParams.RealNameAuthParams.pack(it)
-                value?.postValue(it.reason)
-                it.status?.let { status ->
-                    tag?.postValue(StringUtils.getStringArray(R.array.verify_status_arr)[status - 1])
-                    if (status < 2) {
-                        clz = BindSmsVerifyActivity::class.java
-                        bundle = params.apply { putAll(IntentParams.BindSmsVerifyParams.pack(2)) }
-                    } else null
-                } ?: run {
-                    clz = RealNameAuthActivity::class.java
-                    bundle = params
-                }
+        val result = ApiRepository.dealApiResult(mUserRepo.requestRealNameAuthDetail())
+
+        personalItems.find { item -> item?.title == R.string.real_name }?.run {
+            val params = IntentParams.RealNameAuthParams.pack(result)
+            value?.postValue(result?.reason ?: "")
+            // 如果为null,默认就是未认证
+            val status = result?.status ?: 1
+            tag?.postValue(StringUtils.getStringArray(R.array.verify_status_arr)[status - 1])
+            if (status < 2) {
+                clz = BindSmsVerifyActivity::class.java
+                bundle = params.apply { putAll(IntentParams.BindSmsVerifyParams.pack(2)) }
+            } else {
+                clz = RealNameAuthActivity::class.java
+                bundle = params
             }
-            personalItems.find { item -> item?.title == R.string.wallet }?.run {
-                bundle = IntentParams.WalletParams.pack(it)
-            }
-            personalItems.find { item -> item?.title == R.string.bank_card }?.run {
-                bundle = IntentParams.RealNameAuthParams.pack(it)
-            }
+        }
+        personalItems.find { item -> item?.title == R.string.wallet }?.run {
+            bundle = IntentParams.WalletParams.pack(result)
+        }
+        personalItems.find { item -> item?.title == R.string.bank_card }?.run {
+            bundle = IntentParams.RealNameAuthParams.pack(result)
         }
     }
 }

@@ -590,7 +590,7 @@ object IntentParams {
         /**
          * 包装参数
          */
-        fun pack(authInfo: RealNameAuthDetailEntity): Bundle = Bundle().apply {
+        fun pack(authInfo: RealNameAuthDetailEntity?): Bundle = Bundle().apply {
             putString(RealNameAuthStatus, GsonUtils.any2Json(authInfo))
         }
 
@@ -727,7 +727,7 @@ object IntentParams {
         /**
          * 包装参数
          */
-        fun pack(authInfo: RealNameAuthDetailEntity): Bundle = Bundle().apply {
+        fun pack(authInfo: RealNameAuthDetailEntity?): Bundle = Bundle().apply {
             putString(AuthInfo, GsonUtils.any2Json(authInfo))
         }
 

@@ -13,7 +13,6 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.PersonalViewModel
-import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.databinding.FragmentPersonalBinding
 import com.yunshang.haile_manager_android.databinding.IncludePersonalItemBinding
 import com.yunshang.haile_manager_android.ui.activity.personal.PersonalInfoActivity

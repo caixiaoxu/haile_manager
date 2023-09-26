@@ -55,7 +55,7 @@ class WalletWithdrawActivity :
                             if (isTrue) {
                                 SToast.showToast(
                                     this@WalletWithdrawActivity,
-                                    R.string.withdraw_success
+                                    R.string.submit_success
                                 )
                                 finish()
                             }
@@ -93,7 +93,7 @@ class WalletWithdrawActivity :
                     startActivity(
                         Intent(
                             this@WalletWithdrawActivity,
-                            BindSmsVerifyActivity::class.java
+                            WithdrawBindAlipayActivity::class.java
                         ).apply {
                             mViewModel.withdrawAccount.value?.id?.let { id ->
                                 putExtras(IntentParams.CommonParams.pack(id))

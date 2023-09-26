@@ -15,6 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical"
         tools:context=".ui.activity.personal.WithdrawBindAlipayActivity">
 
@@ -30,6 +31,134 @@
             style="@style/DividingStyle"
             app:layout_constraintBottom_toBottomOf="@id/bar_bind_alipay_title"
             tools:ignore="MissingConstraints" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_bind_alipay_title"
+            style="@style/Font_24_333333"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="82dp"
+            android:gravity="center"
+            android:text="@string/bind_alipay"
+            app:layout_constraintTop_toBottomOf="@id/bar_bind_alipay_title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_bind_alipay_hint"
+            style="@style/Font_14_333333"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/bind_alipay_sms_hint"
+            app:layout_constraintTop_toBottomOf="@id/tv_bind_alipay_title" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_bind_alipay_sms"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="32dp"
+            android:background="@color/transparent"
+            android:cursorVisible="false"
+            android:inputType="numberDecimal"
+            android:maxLength="6"
+            android:text="@={vm.verifyCode}"
+            android:textColor="@android:color/transparent"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_bind_alipay_hint" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_bind_alipay_sms_code1"
+            style="@style/Font_24_333333"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_sf7f7f7_r4"
+            android:gravity="center"
+            android:text="@{vm.code1}"
+            app:layout_constraintBottom_toBottomOf="@id/et_bind_alipay_sms"
+            app:layout_constraintEnd_toStartOf="@id/tv_bind_alipay_sms_code2"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@id/et_bind_alipay_sms"
+            app:layout_constraintTop_toTopOf="@id/et_bind_alipay_sms"
+            tools:text="1" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_bind_alipay_sms_code2"
+            style="@style/Font_24_333333"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_sf7f7f7_r4"
+            android:gravity="center"
+            android:text="@{vm.code2}"
+            app:layout_constraintBottom_toBottomOf="@id/et_bind_alipay_sms"
+            app:layout_constraintEnd_toStartOf="@id/tv_bind_alipay_sms_code3"
+            app:layout_constraintStart_toEndOf="@id/tv_bind_alipay_sms_code1"
+            app:layout_constraintTop_toTopOf="@id/et_bind_alipay_sms"
+            tools:text="2" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_bind_alipay_sms_code3"
+            style="@style/Font_24_333333"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_sf7f7f7_r4"
+            android:gravity="center"
+            android:text="@{vm.code3}"
+            app:layout_constraintBottom_toBottomOf="@id/et_bind_alipay_sms"
+            app:layout_constraintEnd_toStartOf="@id/tv_bind_alipay_sms_code4"
+            app:layout_constraintStart_toEndOf="@id/tv_bind_alipay_sms_code2"
+            app:layout_constraintTop_toTopOf="@id/et_bind_alipay_sms"
+            tools:text="3" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_bind_alipay_sms_code4"
+            style="@style/Font_24_333333"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_sf7f7f7_r4"
+            android:gravity="center"
+            android:text="@{vm.code4}"
+            app:layout_constraintBottom_toBottomOf="@id/et_bind_alipay_sms"
+            app:layout_constraintEnd_toStartOf="@id/tv_bind_alipay_sms_code5"
+            app:layout_constraintStart_toEndOf="@id/tv_bind_alipay_sms_code3"
+            app:layout_constraintTop_toTopOf="@id/et_bind_alipay_sms"
+            tools:text="4" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_bind_alipay_sms_code5"
+            style="@style/Font_24_333333"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_sf7f7f7_r4"
+            android:gravity="center"
+            android:text="@{vm.code5}"
+            app:layout_constraintBottom_toBottomOf="@id/et_bind_alipay_sms"
+            app:layout_constraintEnd_toStartOf="@id/tv_bind_alipay_sms_code6"
+            app:layout_constraintStart_toEndOf="@id/tv_bind_alipay_sms_code4"
+            app:layout_constraintTop_toTopOf="@id/et_bind_alipay_sms"
+            tools:text="5" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_bind_alipay_sms_code6"
+            style="@style/Font_24_333333"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_sf7f7f7_r4"
+            android:gravity="center"
+            android:text="@{vm.code6}"
+            app:layout_constraintBottom_toBottomOf="@id/et_bind_alipay_sms"
+            app:layout_constraintEnd_toEndOf="@id/et_bind_alipay_sms"
+            app:layout_constraintStart_toEndOf="@id/tv_bind_alipay_sms_code5"
+            app:layout_constraintTop_toTopOf="@id/et_bind_alipay_sms"
+            tools:text="6" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_withdraw_bind_alipay_sms"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="@{(null == vm.authCode || vm.authCode.length() == 0)?View.VISIBLE:View.GONE}"
+            app:constraint_referenced_ids="view_bind_alipay_title_split,tv_bind_alipay_title,tv_bind_alipay_hint,et_bind_alipay_sms,tv_bind_alipay_sms_code1,tv_bind_alipay_sms_code2,tv_bind_alipay_sms_code3,tv_bind_alipay_sms_code4,tv_bind_alipay_sms_code4,tv_bind_alipay_sms_code6" />
 
         <View
             android:id="@+id/view_withdraw_bind_alipay_parent"
@@ -109,5 +238,10 @@
             app:layout_constraintTop_toBottomOf="@id/view_withdraw_bind_alipay_parent"
             tools:ignore="MissingConstraints" />
 
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="@{(null != vm.authCode &amp;&amp; vm.authCode.length() > 0)?View.VISIBLE:View.GONE}"
+            app:constraint_referenced_ids="view_withdraw_bind_alipay_parent,tv_withdraw_bind_alipay_account_title,et_withdraw_bind_alipay_account,tv_withdraw_bind_alipay_name_title,et_withdraw_bind_alipay_name,btn_withdraw_bind_alipay,view_withdraw_bind_alipay_split" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

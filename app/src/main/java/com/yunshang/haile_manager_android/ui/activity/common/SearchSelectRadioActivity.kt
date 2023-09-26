@@ -160,7 +160,9 @@ class SearchSelectRadioActivity :
                 ?: false).also { isAll ->
                 if (mBinding.svDepartmentSelectList.getChildAt(0) is LinearLayout) {
                     (mBinding.svDepartmentSelectList.getChildAt(0) as LinearLayout).children.forEach { cb ->
-                        (cb as AppCompatCheckBox).isChecked = isAll
+                        if (true == cb.tag){
+                            (cb as AppCompatCheckBox).isChecked = isAll
+                        }
                     }
                 }
                 mViewModel.isAllSelect.value = isAll
@@ -237,9 +239,12 @@ class SearchSelectRadioActivity :
                             binding.root.setBackgroundColor(Color.WHITE)
                         }
 
+                        val canCheck = mViewModel.noUpdateArr.isNotEmpty() && item.getSelectId() in mViewModel.noUpdateArr
+                        cbMultiSelectItem.tag = !canCheck
+
                         cbMultiSelectItem.setOnCheckClickListener {
                             // 不可选列表不为空，并且所选在列表中
-                            (mViewModel.noUpdateArr.isNotEmpty() && item.getSelectId() in mViewModel.noUpdateArr).also { noUpdate ->
+                            (canCheck).also { noUpdate ->
                                 if (noUpdate) {
                                     SToast.showToast(this@SearchSelectRadioActivity, "不可修改")
                                 }

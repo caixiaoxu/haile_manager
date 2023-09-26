@@ -99,7 +99,7 @@ class ResetPasswordViewModel : BaseViewModel() {
             return
         }
 
-        if (!newPwd.value.equals(againPwd.value)){
+        if (!newPwd.value.equals(againPwd.value)) {
             SToast.showToast(view.context, "两次密码不一致")
             return
         }
@@ -157,11 +157,7 @@ class ResetPasswordViewModel : BaseViewModel() {
     private fun countDownTimer(btn: Button) {
         btn.isEnabled = false
         var num = 60
-
-        if (null != timer) {
-            timer?.cancel()
-        }
-
+        timer?.cancel()
         timer = object : CountDownTimer((num + 1) * 1000L, 1000L) {
 
             override fun onTick(millisUntilFinished: Long) {

@@ -110,6 +110,10 @@ class LoginActivity : BaseActivity() {
                 null
             )
         }
+
+        mLoginBinding.btnLoginRegister.setOnClickListener {
+            startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
+        }
     }
 
     override fun onBackListener() {

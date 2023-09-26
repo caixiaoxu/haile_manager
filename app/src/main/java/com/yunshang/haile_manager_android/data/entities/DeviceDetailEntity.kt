@@ -329,7 +329,7 @@ data class DosingVOS(
     val liquidRemaining: Int,
     val liquidStatus: Int,
     val liquidType: Int,
-    val configs: List<DosingConfigs>,
+    val configs: List<DosingConfigs>?,
 )
 
 data class DosingConfigs(

@@ -3,7 +3,6 @@ package com.yunshang.haile_manager_android.ui.activity.login
 import android.content.Intent
 import android.view.View
 import com.lsy.framelib.utils.AppManager
-import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
@@ -41,6 +40,10 @@ class LoginForPhoneActivity : BaseBusinessActivity<ActivityLoginForPhoneBinding,
                     )
                 )
             })
+        }
+
+        mBinding.btnLoginRegister.setOnClickListener {
+            startActivity(Intent(this@LoginForPhoneActivity, RegisterActivity::class.java))
         }
     }
 

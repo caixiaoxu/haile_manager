@@ -106,4 +106,16 @@ interface LoginUserService {
      */
     @POST("/user/logout")
     suspend fun cancelAccount(): ResponseWrapper<Any>
+
+    /**
+     * 注册接口
+     */
+    @POST("/merchant/reg")
+    suspend fun register(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 注册验证码接口
+     */
+    @POST("/merchant/sendSmsCode")
+    suspend fun sendRegisterCode(@Body body: RequestBody): ResponseWrapper<Any>
 }

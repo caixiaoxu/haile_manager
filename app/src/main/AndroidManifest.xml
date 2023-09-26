@@ -45,6 +45,9 @@
             android:name=".ui.activity.personal.IncomeShopStatisticsActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.activity.login.RegisterActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.coupon.CouponDetailActivity"
             android:exported="false" />
         <activity

@@ -39,7 +39,7 @@ object IntentParams {
         /**
          * 包装参数
          */
-        fun pack(phone: String): Bundle = Bundle().apply {
+        fun pack(phone: String?): Bundle = Bundle().apply {
             putString(Phone, phone)
         }
 

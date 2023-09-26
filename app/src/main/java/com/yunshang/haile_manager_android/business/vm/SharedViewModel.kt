@@ -314,4 +314,19 @@ class SharedViewModel : ViewModel() {
             hasUserPermission.postValue(true)
         }
     }
+
+
+    suspend fun register(){
+        // 注册
+//        Timber.d("登录接口请求成功$loginData")
+        // 登录信息
+//        loginData?.let {
+//            SPRepository.loginInfo = it
+//            loginInfo.postValue(it)
+//        } ?: throw CommonCustomException(-1, "返回数据为空")
+        // 用户信息
+//        requestUserInfo(loginType, password)
+        // 权限
+//        requestUserPermissions()
+    }
 }

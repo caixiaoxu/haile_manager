@@ -23,12 +23,12 @@ import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.activity.order.OrderDetailActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 import com.yunshang.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.utils.StringUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import com.yunshang.haile_manager_android.utils.span.VerticalBottomSpan
-import timber.log.Timber
 import java.util.*
 import kotlin.math.abs
 
@@ -258,6 +258,7 @@ class IncomeExpensesDetailActivity :
             if (list.isNullOrEmpty()) {
                 mBinding.refreshLayout.setEnableLoadMore(false)
             }
+            mBinding.tvIncomeExpensesDetailListStatus.visibility(0 == mAdapter.itemCount)
         }
     }
 }

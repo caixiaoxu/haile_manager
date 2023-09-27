@@ -115,6 +115,7 @@
                 android:id="@+id/group_device_info_list_bottom"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:visibility="gone"
                 app:constraint_referenced_ids="dividing_device_info_list_bottom,view_device_info_list_bottom,tv_device_info_list_bottom" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

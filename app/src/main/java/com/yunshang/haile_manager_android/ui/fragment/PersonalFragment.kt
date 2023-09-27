@@ -3,9 +3,10 @@ package com.yunshang.haile_manager_android.ui.fragment
 import android.content.Intent
 import android.graphics.Color
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
-import androidx.core.content.res.ResourcesCompat
+import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
@@ -53,11 +54,12 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
         }
 
         // items
-        var group: LinearLayout? = null
+        var group: LinearLayoutCompat? = null
         for (item in mViewModel.personalItems) {
             if (null == item) {
                 //null，把之前的加入布局，并创建新的group
                 if (null != group) {
+                    group.visibility(group.children.any { view-> View.VISIBLE == view.visibility })
                     mBinding.llPersonalItems.addView(group)
                 }
                 group = createItemGroup()
@@ -94,9 +96,10 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
                     R.string.income_calendar -> {
                         val isSpecialRole =
                             StaffParam.isSpecialRole(mSharedViewModel.userInfo.value?.userInfo?.tagName)
-                        mPersonalItemBinding.root.visibility(isSpecialRole || UserPermissionUtils.hasProfitCalendarPermission())
+                        mPersonalItemBinding.root.visibility(!isSpecialRole && UserPermissionUtils.hasProfitCalendarPermission())
                         mSharedViewModel.hasProfitCalendarPermission.observe(this) {
-                            mPersonalItemBinding.root.visibility(isSpecialRole || it)
+                            mPersonalItemBinding.root.visibility(!isSpecialRole && it)
+                            group.visibility(group.children.any { view-> View.VISIBLE == view.visibility })
                         }
                     }
                     R.string.income_statistics -> {
@@ -105,25 +108,26 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
                         mPersonalItemBinding.root.visibility(!isSpecialRole && UserPermissionUtils.hasProfitDetailPermission())
                         mSharedViewModel.hasProfitDetailPermission.observe(this) {
                             mPersonalItemBinding.root.visibility(!isSpecialRole && it)
+                            group.visibility(group.children.any { view-> View.VISIBLE == view.visibility })
                         }
                     }
                 }
 
-                if (group.childCount > 0 && View.VISIBLE == mPersonalItemBinding.root.visibility) {
-                    group.addView(View(requireContext()).apply {
-                        setBackgroundColor(
-                            ResourcesCompat.getColor(
-                                resources,
-                                R.color.dividing_line_color,
-                                null
-                            )
-                        )
-                        layoutParams = LayoutParams(
-                            LayoutParams.MATCH_PARENT,
-                            DimensionUtils.dip2px(requireContext(), 0.5f)
-                        )
-                    })
-                }
+//                if (group.childCount > 0 && View.VISIBLE == mPersonalItemBinding.root.visibility) {
+//                    group.addView(View(requireContext()).apply {
+//                        setBackgroundColor(
+//                            ResourcesCompat.getColor(
+//                                resources,
+//                                R.color.dividing_line_color,
+//                                null
+//                            )
+//                        )
+//                        layoutParams = LayoutParams(
+//                            LayoutParams.MATCH_PARENT,
+//                            DimensionUtils.dip2px(requireContext(), 0.5f)
+//                        )
+//                    })
+//                }
 
                 group.addView(
                     mPersonalItemBinding.root, LayoutParams(
@@ -138,15 +142,15 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
     /**
      * 创建ItemGroup
      */
-    private fun createItemGroup(): LinearLayout = LinearLayout(requireContext()).apply {
-        orientation = LinearLayout.VERTICAL
+    private fun createItemGroup(): LinearLayoutCompat = LinearLayoutCompat(requireContext()).apply {
+        orientation = LinearLayoutCompat.VERTICAL
         setBackgroundResource(R.drawable.shape_sffffff_r8)
+        dividerDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.divder_efefef)
+        showDividers = LinearLayoutCompat.SHOW_DIVIDER_MIDDLE
         layoutParams = LayoutParams(
             LayoutParams.MATCH_PARENT,
             LayoutParams.WRAP_CONTENT
-        ).apply {
-            setMargins(0, 0, 0, DimensionUtils.dip2px(requireContext(), 8f))
-        }
+        )
     }
 
     override fun initEvent() {

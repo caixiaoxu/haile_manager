@@ -32,7 +32,7 @@ import java.util.*
 class IncomeCalendarViewModel : BaseViewModel() {
     private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
 
-    var profitType: Int = 3
+    var profitType: Int = 4
 
     var profitSearchId: Int = -1
 

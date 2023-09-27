@@ -39,7 +39,7 @@ class PersonalViewModel : BaseViewModel() {
             null,
             IncomeCalendarActivity::class.java,
             Bundle().apply {
-                putInt(IncomeCalendarActivity.ProfitType, 3)
+                putInt(IncomeCalendarActivity.ProfitType, 4)
             }
         ),
         PersonalItem(

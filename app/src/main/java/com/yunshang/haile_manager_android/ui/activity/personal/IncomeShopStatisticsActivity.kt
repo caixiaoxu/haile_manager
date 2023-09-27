@@ -30,6 +30,7 @@ import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 import com.yunshang.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
+import com.yunshang.haile_manager_android.ui.view.refresh.CustomDividerItemDecoration
 import com.yunshang.haile_manager_android.utils.StringUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import com.yunshang.haile_manager_android.utils.span.VerticalBottomSpan
@@ -110,7 +111,7 @@ class IncomeShopStatisticsActivity :
                 LinearLayoutManager(this@IncomeShopStatisticsActivity)
             ContextCompat.getDrawable(this, R.drawable.divder_efefef)?.let {
                 mItemBinding?.rvDeviceInfoList?.addItemDecoration(
-                    DividerItemDecoration(this, DividerItemDecoration.VERTICAL).apply {
+                    CustomDividerItemDecoration(this, CustomDividerItemDecoration.VERTICAL).apply {
                         setDrawable(it)
                     })
             }

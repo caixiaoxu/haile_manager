@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.business.vm
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.ui.base.BaseViewModel
@@ -37,8 +38,20 @@ class ShopManagerViewModel : BaseViewModel() {
         result: (listWrapper: ResponseList<ShopEntity>?) -> Unit
     ) {
         launch({
+            if (1 == page) {
+                ApiRepository.dealApiResult(mRepo.requestShopAndPositionNum())?.let {
+                    mShopCountStr.postValue(
+                        StringUtils.getString(
+                            R.string.shop_num_hint,
+                            it.shopCount,
+                            it.positionCount
+                        ),
+                    )
+                }
+            }
+
             val listWrapper = ApiRepository.dealApiResult(
-                mRepo.shopList(
+                mRepo.requestShopList(
                     ApiRepository.createRequestBody(
                         hashMapOf(
                             "page" to page,
@@ -46,9 +59,6 @@ class ShopManagerViewModel : BaseViewModel() {
                         )
                     )
                 )
-            )
-            mShopCountStr.postValue(
-                StringUtils.getString(R.string.shop_num_hint, listWrapper?.total ?: 0),
             )
             withContext(Dispatchers.Main) {
                 result.invoke(listWrapper)
@@ -60,5 +70,44 @@ class ShopManagerViewModel : BaseViewModel() {
                 result.invoke(null)
             }
         }, null, 1 == page)
+    }
+
+    /**
+     * 请求点位列表
+     */
+    fun requestPositionList(
+        context: Context,
+        shop: ShopEntity,
+        callback: (hasMore: Boolean) -> Unit
+    ) {
+        launch({
+            ApiRepository.dealApiResult(
+                mRepo.requestPositionList(
+                    hashMapOf(
+                        "page" to shop.page,
+                        "pageSize" to 20,
+                        "shopId" to shop.id,
+                    )
+                )
+            )?.let { result ->
+                if (!result.items.isNullOrEmpty()) {
+                    shop.positionList = shop.positionList.apply { addAll(result.items!!) }
+                }
+                val hasMore = shop.positionList.size < result.total
+                if (hasMore) {
+                    shop.page++
+                }
+                withContext(Dispatchers.Main) {
+                    callback(hasMore)
+                }
+            } ?: withContext(Dispatchers.Main) {
+                callback(false)
+            }
+        }, {
+            withContext(Dispatchers.Main) {
+                SToast.showToast(context, it?.message ?: "")
+                callback(false)
+            }
+        })
     }
 }

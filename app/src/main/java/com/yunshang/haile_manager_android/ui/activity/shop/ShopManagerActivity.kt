@@ -87,93 +87,7 @@ class ShopManagerActivity :
                     setDrawable(it)
                 }
             })
-        mBinding.rvShopList.adapter = CommonRecyclerAdapter<ItemShopListBinding, ShopEntity>(
-            R.layout.item_shop_list,
-            BR.item
-        ) { mBinding, _, item ->
-            mBinding?.share = mSharedViewModel
-            var title =
-                StringUtils.getString(R.string.total_earnings)
-            var value =
-                StringUtils.getString(R.string.unit_money) + NumberUtils.keepTwoDecimals(item.income)
-            var start = title.length + 1
-            var end = title.length + 1 + value.length
-            // 格式化总收益样式
-            mBinding?.tvItemShopTotalIncome?.text =
-                com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
-                    "$title：$value",
-                    arrayOf(
-                        ForegroundColorSpan(
-                            ResourcesCompat.getColor(
-                                resources,
-                                R.color.colorPrimary,
-                                null
-                            )
-                        ),
-                        AbsoluteSizeSpan(DimensionUtils.sp2px(18f, this@ShopManagerActivity)),
-//                        StyleSpan(Typeface.BOLD),
-                        TypefaceSpan("money"),
-                    ), start, end
-                )
-            mBinding?.tvItemShopTotalIncome?.setOnClickListener {
-                if (true == mSharedViewModel.hasShopProfitPermission.value) {
-                    //  跳转到店铺收益
-                    startActivity(
-                        Intent(
-                            this@ShopManagerActivity,
-                            IncomeActivity::class.java
-                        ).apply {
-                            putExtra(IncomeActivity.ProfitType, 1)
-                            putExtra(IncomeActivity.ProfitSearchId, item.id)
-                        })
-                }
-            }
-
-            title = StringUtils.getString(R.string.device_num)
-            value = item.deviceNum.toString()
-            start = title.length + 1
-            end = title.length + 1 + value.length
-            // 格式化设备数样式
-            mBinding?.tvItemShopDeviceNum?.text =
-                com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
-                    "$title：$value",
-                    arrayOf(
-                        AbsoluteSizeSpan(DimensionUtils.sp2px(16f, this@ShopManagerActivity)),
-//                        StyleSpan(Typeface.BOLD),
-
-                    ), start, end
-                )
-
-            mBinding?.tvItemShopDeviceNum?.setOnClickListener {
-                startActivity(
-                    Intent(
-                        this@ShopManagerActivity,
-                        DeviceManagerActivity::class.java
-                    ).apply {
-                        putExtras(
-                            IntentParams.DeviceManagerParams.pack(
-                                SearchSelectParam(
-                                    item.id,
-                                    item.name
-                                )
-                            )
-                        )
-                    }
-                )
-            }
-
-            // 进入详情
-            mBinding?.root?.setOnClickListener {
-                if (true == mSharedViewModel.hasShopInfoPermission.value) {
-                    startActivity(Intent(
-                        this@ShopManagerActivity,
-                        ShopDetailActivity::class.java
-                    ).apply {
-                        putExtra(ShopDetailActivity.ShopId, item.id)
-                    })
-                }
-            }
-        }
+        mBinding.rvShopList.adapter = buildShopAdapter()
         mBinding.rvShopList.requestData =
             object : CommonRefreshRecyclerView.OnRequestDataListener<ShopEntity>() {
                 override fun requestData(
@@ -187,6 +101,113 @@ class ShopManagerActivity :
                     }
                 }
             }
+    }
+
+    /**
+     * 构建门店Adapter
+     */
+    private fun buildShopAdapter() = CommonRecyclerAdapter<ItemShopListBinding, ShopEntity>(
+        R.layout.item_shop_list,
+        BR.item
+    ) { mBinding, _, item ->
+        mBinding?.share = mSharedViewModel
+        var title =
+            StringUtils.getString(R.string.total_earnings)
+        var value =
+            StringUtils.getString(R.string.unit_money) + NumberUtils.keepTwoDecimals(item.income)
+        var start = title.length + 1
+        var end = title.length + 1 + value.length
+        // 格式化总收益样式
+        mBinding?.tvItemShopTotalIncome?.text =
+            com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
+                "$title：$value",
+                arrayOf(
+                    ForegroundColorSpan(
+                        ResourcesCompat.getColor(
+                            resources,
+                            R.color.colorPrimary,
+                            null
+                        )
+                    ),
+                    AbsoluteSizeSpan(DimensionUtils.sp2px(18f, this@ShopManagerActivity)),
+    //                        StyleSpan(Typeface.BOLD),
+                    TypefaceSpan("money"),
+                ), start, end
+            )
+        mBinding?.tvItemShopTotalIncome?.setOnClickListener {
+            if (true == mSharedViewModel.hasShopProfitPermission.value) {
+                //  跳转到店铺收益
+                startActivity(
+                    Intent(
+                        this@ShopManagerActivity,
+                        IncomeActivity::class.java
+                    ).apply {
+                        putExtra(IncomeActivity.ProfitType, 1)
+                        putExtra(IncomeActivity.ProfitSearchId, item.id)
+                    })
+            }
+        }
+
+        // 点位数
+        title = StringUtils.getString(R.string.pt)
+        value = item.positionCount.toString()
+        start = title.length + 1
+        end = title.length + 1 + value.length
+        // 格式化设备数样式
+        mBinding?.tvItemShopDeviceNum?.text =
+            com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
+                "$title：$value",
+                arrayOf(
+                    AbsoluteSizeSpan(DimensionUtils.sp2px(16f, this@ShopManagerActivity)),
+    //                        StyleSpan(Typeface.BOLD),
+
+                ), start, end
+            )
+        // 设备数
+        title = StringUtils.getString(R.string.device_num)
+        value = item.deviceNum.toString()
+        start = title.length + 1
+        end = title.length + 1 + value.length
+        // 格式化设备数样式
+        mBinding?.tvItemShopDeviceNum?.text =
+            com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
+                "$title：$value",
+                arrayOf(
+                    AbsoluteSizeSpan(DimensionUtils.sp2px(16f, this@ShopManagerActivity)),
+    //                        StyleSpan(Typeface.BOLD),
+
+                ), start, end
+            )
+
+        mBinding?.tvItemShopDeviceNum?.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@ShopManagerActivity,
+                    DeviceManagerActivity::class.java
+                ).apply {
+                    putExtras(
+                        IntentParams.DeviceManagerParams.pack(
+                            SearchSelectParam(
+                                item.id,
+                                item.name
+                            )
+                        )
+                    )
+                }
+            )
+        }
+
+        // 进入详情
+        mBinding?.root?.setOnClickListener {
+            if (true == mSharedViewModel.hasShopInfoPermission.value) {
+                startActivity(Intent(
+                    this@ShopManagerActivity,
+                    ShopDetailActivity::class.java
+                ).apply {
+                    putExtra(ShopDetailActivity.ShopId, item.id)
+                })
+            }
+        }
     }
 
     /**

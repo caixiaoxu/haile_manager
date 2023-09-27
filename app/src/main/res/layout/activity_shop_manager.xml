@@ -22,7 +22,7 @@
             android:background="@color/white"
             app:rightModel="text"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/shop_manage" />
+            app:title="@string/pt_manage" />
 
         <View
             android:id="@+id/view_shop_manager_search_parent_bg"
@@ -70,7 +70,7 @@
             android:text="@{vm.mShopCountStr}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_shop_manager_search_parent_bg"
-            tools:text="全部8家店铺" />
+            tools:text="全部8家门店，8个点位" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_shop_manager_list_refresh"

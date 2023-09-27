@@ -4,10 +4,7 @@ import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.yunshang.haile_manager_android.data.entities.*
 import okhttp3.RequestBody
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 /**
  * Title : 店铺接口
@@ -20,12 +17,26 @@ import retrofit2.http.Query
  * 作者姓名 修改时间 版本号 描述
  */
 interface ShopService {
+    @GET("/position/getShopPositionCountVO")
+    suspend fun requestShopAndPositionNum():ResponseWrapper<ShopAndPositionNumEntity>
 
     /**
      * 店铺列表接口
      */
     @POST("/shop/shopList")
     suspend fun shopList(@Body body: RequestBody): ResponseWrapper<ResponseList<ShopEntity>>
+
+    /**
+     * 带点位数量的店铺列表接口
+     */
+    @POST("/position/positionShopList")
+    suspend fun requestShopList(@Body body: RequestBody): ResponseWrapper<ResponseList<ShopEntity>>
+
+    /**
+     * 店铺的点位列表接口
+     */
+    @GET("/position/positionListByShopId")
+    suspend fun requestPositionList(@QueryMap params: HashMap<String, Any?>): ResponseWrapper<ResponseList<ShopPositionEntity>>
 
     /**
      * 店铺搜索列表接口

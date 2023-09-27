@@ -113,22 +113,6 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
                     }
                 }
 
-//                if (group.childCount > 0 && View.VISIBLE == mPersonalItemBinding.root.visibility) {
-//                    group.addView(View(requireContext()).apply {
-//                        setBackgroundColor(
-//                            ResourcesCompat.getColor(
-//                                resources,
-//                                R.color.dividing_line_color,
-//                                null
-//                            )
-//                        )
-//                        layoutParams = LayoutParams(
-//                            LayoutParams.MATCH_PARENT,
-//                            DimensionUtils.dip2px(requireContext(), 0.5f)
-//                        )
-//                    })
-//                }
-
                 group.addView(
                     mPersonalItemBinding.root, LayoutParams(
                         LayoutParams.MATCH_PARENT,

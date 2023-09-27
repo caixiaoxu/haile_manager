@@ -416,7 +416,7 @@ class DataStatisticsFragment :
         mViewModel.requestData(isRefresh) { shopDataList ->
             mBinding.refreshLayout.finishRefresh()
             mBinding.refreshLayout.finishLoadMore()
-            if (shopDataList.isEmpty()) {
+            if (shopDataList.isNullOrEmpty()) {
                 mBinding.refreshLayout.setEnableLoadMore(false)
             } else {
                 mAdapter.refreshList(shopDataList, isRefresh)

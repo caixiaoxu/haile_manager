@@ -159,7 +159,7 @@ class SearchLetterActivity : BaseActivity() {
                     if (1 == page) {
                         letters?.clear()
                     }
-                    it.items.forEachIndexed { index, item ->
+                    it.items?.forEachIndexed { index, item ->
                         val letter = item.getLetter()
                         if (!letter.isNullOrEmpty() && true == letters?.add(letter)) {
                             item.showLetter = true

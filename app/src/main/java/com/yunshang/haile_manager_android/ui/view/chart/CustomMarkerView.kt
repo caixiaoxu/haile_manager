@@ -2,15 +2,12 @@ package com.yunshang.haile_manager_android.ui.view.chart
 
 import android.content.Context
 import android.graphics.*
-import android.os.Build
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import com.github.mikephil.charting.charts.Chart
 import com.github.mikephil.charting.components.MarkerView
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.utils.MPPointF
-import com.lsy.framelib.utils.DimensionUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.entities.HomeIncomeEntity
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
@@ -68,13 +65,8 @@ class CustomMarkerView(context: Context?, layoutResource: Int) :
             exception.printStackTrace()
         }
         tvTrendAmount.text = "¥${curBean?.amount}"
-        tvTrendAmount.compoundDrawablePadding = 8
-        tvTrendAmount.setCompoundDrawablesWithIntrinsicBounds(
-            null,
-            null,
-            getContext().getDrawable(R.mipmap.icon_triangle_right),
-            null
-        )
+        //设置数据在该方法之前
+        super.refreshContent(e, highlight)
     }
 
     // 根据选中的条目的位置，调整标记视图的位置

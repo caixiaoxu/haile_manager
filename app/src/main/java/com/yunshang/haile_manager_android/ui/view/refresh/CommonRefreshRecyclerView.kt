@@ -164,7 +164,7 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
         // 多次刷新问题
         if (isRefresh) {
             page = 2
-        } else if (0 < it.items.size) {
+        } else if (0 < (it.items?.size ?: 0)) {
             page++
         }
 

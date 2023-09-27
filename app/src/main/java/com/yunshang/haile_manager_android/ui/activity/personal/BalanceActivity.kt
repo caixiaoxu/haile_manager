@@ -86,17 +86,17 @@ class BalanceActivity : BaseBusinessActivity<ActivityBalanceBinding, BalanceView
                 responseList: ResponseList<out BalanceEntity>,
                 isRefresh: Boolean
             ): Boolean {
-                val list = if (responseList.items.isEmpty()) {
+                val list = if (responseList.items.isNullOrEmpty()) {
                     mutableListOf(
                         BalanceListEntity(mViewModel.searchDate, null)
                     )
                 } else {
-                    responseList.items.map {
+                    responseList.items!!.map {
                         BalanceListEntity(DateTimeUtils.formatDateFromString(it.cashOutTime), it)
                     }.toMutableList()
                 }
 
-                if (responseList.items.size < responseList.pageSize) {
+                if ((responseList.items?.size ?: 0) < responseList.pageSize) {
                     mBinding.rvBalanceList.page = 1
                     mViewModel.searchDate = Calendar.getInstance().apply {
                         time = mViewModel.searchDate

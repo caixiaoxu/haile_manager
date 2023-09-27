@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="84dp"
-    android:layout_height="46dp"
-    android:gravity="center">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:minWidth="84dp"
+    android:minHeight="46dp"
+    tools:background="@color/colorPrimary">
 
     <TextView
         android:id="@+id/tv_trend_date"
@@ -10,19 +14,33 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="12月4日 周一"
         android:textColor="#ffffff"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        tools:text="12月4日 周一" />
 
-    <TextView
-        android:id="@+id/tv_trend_amount"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_trend_date"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="¥121.80"
-        android:textColor="#ffffff"
-        android:textSize="14sp" />
+        android:orientation="horizontal"
+        android:paddingHorizontal="4dp">
+
+        <TextView
+            android:id="@+id/tv_trend_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            tools:text="¥20000.00" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:src="@mipmap/icon_triangle_right" />
+    </LinearLayout>
 
 </RelativeLayout>

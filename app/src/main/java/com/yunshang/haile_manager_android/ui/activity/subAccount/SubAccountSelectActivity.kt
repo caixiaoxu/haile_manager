@@ -110,7 +110,7 @@ class SubAccountSelectActivity : BaseBindingActivity<ActivitySubAccountSelectBin
             )?.let { res ->
                 intent.getStringExtra(SubAccountData)?.let {
                     GsonUtils.json2Class(it, StaffEntity::class.java)?.let { e ->
-                        res.items.find { item -> item.id == e.id }?.let { item ->
+                        res.items?.find { item -> item.id == e.id }?.let { item ->
                             item.isCheck = true
                         }
                     }

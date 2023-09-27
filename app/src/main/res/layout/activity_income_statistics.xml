@@ -134,6 +134,19 @@
                         android:layout_marginTop="8dp"
                         android:overScrollMode="never"
                         android:scrollbars="none" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_income_statistics_list_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Font_14_999999"
+                        android:gravity="center"
+                        android:layout_marginTop="150dp"
+                        android:visibility="gone"
+                        android:layout_gravity="center_horizontal"
+                        android:drawableTop="@mipmap/icon_list_content_empty"
+                        android:text="@string/empty_content"
+                        tools:text ="暂无内容信息"/>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
 

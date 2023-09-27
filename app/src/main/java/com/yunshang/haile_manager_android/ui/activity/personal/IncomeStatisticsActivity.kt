@@ -284,6 +284,7 @@ class IncomeStatisticsActivity :
             if (shopDataList.isNullOrEmpty()) {
                 mBinding.refreshLayout.setEnableLoadMore(false)
             }
+            mBinding.tvIncomeStatisticsListStatus.visibility(0 == mAdapter.itemCount)
         }
     }
 }

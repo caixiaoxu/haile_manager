@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.business.vm
 
+import android.content.Context
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
@@ -138,7 +139,7 @@ class IncomeShopStatisticsViewModel : BaseViewModel() {
             }
         )
 
-    fun requestDeviceList(item: ShopRevenueDetailEntity, callBack: () -> Unit) {
+    fun requestDeviceList(context: Context, item: ShopRevenueDetailEntity, callBack: () -> Unit) {
         launch({
             if (0 == item.page) {
                 item.page = 1
@@ -151,16 +152,24 @@ class IncomeShopStatisticsViewModel : BaseViewModel() {
                 if (null == item.deviceList) {
                     item.deviceList = mutableListOf()
                 }
-                item.deviceList!!.addAll(it.items)
-                if (it.items.size < 20) {
-                    item.noMore = true
-                } else {
-                    item.page++
-                    item.noMore = false
-                }
+                it.items?.let { list ->
+                    item.deviceList!!.addAll(list)
+                    if (list.size < 20) {
+                        item.noMore = true
+                    } else {
+                        item.page++
+                        item.noMore = false
+                    }
+                } ?: run { item.noMore = false }
                 withContext(Dispatchers.Main) {
                     callBack()
                 }
+            }
+        }, {
+            item.noMore = false
+            withContext(Dispatchers.Main) {
+                SToast.showToast(context, it.message ?: "")
+                callBack()
             }
         })
     }

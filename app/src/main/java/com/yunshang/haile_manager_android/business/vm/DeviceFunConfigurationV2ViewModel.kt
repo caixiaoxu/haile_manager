@@ -214,13 +214,13 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
                     SToast.showToast(context, "请输入功能${index}的模式名称")
                     return@let
                 }
-                if ((DeviceCategory.isWashingOrShoes(categoryCode.value) || DeviceCategory.isDryer(
-                        categoryCode.value
-                    )) && param.featureVal.trim().isEmpty()
-                ) {
-                    SToast.showToast(context, "请输入功能${index}的描述信息")
-                    return@let
-                }
+//                if ((DeviceCategory.isWashingOrShoes(categoryCode.value) || DeviceCategory.isDryer(
+//                        categoryCode.value
+//                    )) && param.featureVal.trim().isEmpty()
+//                ) {
+//                    SToast.showToast(context, "请输入功能${index}的描述信息")
+//                    return@let
+//                }
                 if (param.extAttrDto.items.all { item -> !item.isCheck }) {
                     SToast.showToast(context, "请选择功能${index}的配置")
                     return@let

@@ -154,7 +154,7 @@ class IncomeShopStatisticsActivity :
             )
             mItemBinding?.tvDeviceInfo?.setOnClickListener {
                 if (!item.deviceFold && item.deviceList.isNullOrEmpty()) {
-                    mViewModel.requestDeviceList(item) {
+                    mViewModel.requestDeviceList(it.context, item) {
                         refreshDeviceList(mItemBinding, item)
                         showLoadMore(mItemBinding, item)
                         toggleDeviceList(mItemBinding, item)
@@ -165,7 +165,7 @@ class IncomeShopStatisticsActivity :
             }
 
             mItemBinding?.viewDeviceInfoListBottom?.setOnClickListener {
-                mViewModel.requestDeviceList(item) {
+                mViewModel.requestDeviceList(it.context, item) {
                     refreshDeviceList(mItemBinding, item)
                     showLoadMore(mItemBinding, item)
                 }
@@ -389,6 +389,8 @@ class IncomeShopStatisticsActivity :
         mViewModel.requestData(type) { shopDataList ->
             mBinding.refreshLayout.finishRefresh()
             mAdapter.refreshList(shopDataList, true)
+
+            mBinding.tvIncomeShopStatisticsStatus.visibility(0 == mAdapter.itemCount)
         }
     }
 }

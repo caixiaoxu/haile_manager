@@ -38,7 +38,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            app:visibility="@{null!=vm.orderDetail}">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -409,7 +410,7 @@
             android:gravity="end"
             android:paddingHorizontal="16dp"
             android:paddingTop="12dp"
-            android:visibility="@{((vm.orderDetail.canRefund &amp;&amp; shared.hasOrderRefundPermission) || (vm.orderDetail.canCompensate &amp;&amp; shared.hasOrderCompensatePermission) || (vm.orderDetail.canStart &amp;&amp; shared.hasOrderStartPermission) || (vm.orderDetail.canReset &amp;&amp; shared.hasOrderResetPermission) || (vm.isAppoint &amp;&amp;  vm.orderDetail.canCancelReserve))?View.VISIBLE:View.GONE}"
+            app:visibility="@{(null!=vm.orderDetail &amp;&amp; (vm.orderDetail.canRefund &amp;&amp; shared.hasOrderRefundPermission) || (vm.orderDetail.canCompensate &amp;&amp; shared.hasOrderCompensatePermission) || (vm.orderDetail.canStart &amp;&amp; shared.hasOrderStartPermission) || (vm.orderDetail.canReset &amp;&amp; shared.hasOrderResetPermission) || (vm.isAppoint &amp;&amp;  vm.orderDetail.canCancelReserve))}"
             app:divider="@drawable/divide_size8"
             app:showDividers="middle">
 

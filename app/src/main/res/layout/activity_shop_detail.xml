@@ -34,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scrollbars="none"
+            app:visibility="@{null!=vm.shopDetail}"
             app:layout_constraintBottom_toTopOf="@id/view_shop_detail_bottom"
             app:layout_constraintTop_toBottomOf="@id/bar_shop_detail_title">
 
@@ -370,6 +371,7 @@
             android:layout_width="match_parent"
             android:layout_height="92dp"
             android:background="@color/white"
+            app:visibility="@{null!=vm.shopDetail}"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -412,6 +414,7 @@
             style="@style/CommonStrokeTxtBtnStyle"
             android:layout_marginEnd="8dp"
             android:text="@string/operation_setting"
+            app:visibility="@{null!=vm.shopDetail}"
             app:layout_constraintEnd_toStartOf="@id/btn_shop_detail_appointment"
             app:layout_constraintTop_toTopOf="@id/gl_shop_detail_bottom_btns_top" />
 

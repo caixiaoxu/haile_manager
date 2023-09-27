@@ -148,15 +148,16 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
     override fun initEvent() {
         super.initEvent()
         mSharedViewModel.hasShopAppointPermission.observe(this) {
-            mBinding.btnShopDetailAppointment.visibility = if (it) View.VISIBLE else View.GONE
+            mBinding.btnShopDetailAppointment.visibility = if (it && null != mViewModel.shopDetail.value) View.VISIBLE else View.GONE
         }
 
         mSharedViewModel.hasShopUpdatePermission.observe(this) {
-            mBinding.btnShopDetailEdit.visibility = if (it) View.VISIBLE else View.GONE
+            mBinding.btnShopDetailEdit.visibility = if (it && null != mViewModel.shopDetail.value) View.VISIBLE else View.GONE
         }
 
         mSharedViewModel.hasShopDeletePermission.observe(this) {
-            mBinding.btnShopDetailDelete.visibility = if (it) View.VISIBLE else View.GONE
+            mBinding.btnShopDetailDelete.visibility =
+                if (it && null != mViewModel.shopDetail.value) View.VISIBLE else View.GONE
         }
 
         mViewModel.shopDetail.observe(this) {

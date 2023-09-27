@@ -33,7 +33,8 @@
             android:orientation="vertical"
             app:divider="@drawable/divder_efefef"
             app:dividerPadding="12dp"
-            app:showDividers="middle">
+            app:showDividers="middle"
+            app:visibility="@{null != vm.subAccountDetail}">
 
             <include
                 layout="@layout/item_device_detail_base_info"
@@ -54,6 +55,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_sub_account_shop_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:visibility="@{null != vm.subAccountDetail}" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

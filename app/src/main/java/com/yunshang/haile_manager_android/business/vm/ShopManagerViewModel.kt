@@ -9,6 +9,7 @@ import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.ShopService
 import com.yunshang.haile_manager_android.data.entities.ShopEntity
+import com.yunshang.haile_manager_android.data.entities.ShopPositionEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -78,7 +79,7 @@ class ShopManagerViewModel : BaseViewModel() {
     fun requestPositionList(
         context: Context,
         shop: ShopEntity,
-        callback: (hasMore: Boolean) -> Unit
+        callBack: () -> Unit
     ) {
         launch({
             ApiRepository.dealApiResult(
@@ -91,22 +92,27 @@ class ShopManagerViewModel : BaseViewModel() {
                 )
             )?.let { result ->
                 if (!result.items.isNullOrEmpty()) {
-                    shop.positionList = shop.positionList.apply { addAll(result.items!!) }
+                    val list = mutableListOf<ShopPositionEntity>()
+                    list.addAll(shop.positionList)
+                    list.addAll(result.items!!)
+                    shop.positionList = list
+                    shop.fold = !shop.fold
                 }
                 val hasMore = shop.positionList.size < result.total
                 if (hasMore) {
                     shop.page++
                 }
+                shop.hasMore = hasMore
                 withContext(Dispatchers.Main) {
-                    callback(hasMore)
+                    callBack()
                 }
-            } ?: withContext(Dispatchers.Main) {
-                callback(false)
+            } ?: run {
+                shop.hasMore = false
             }
         }, {
+            shop.hasMore = false
             withContext(Dispatchers.Main) {
-                SToast.showToast(context, it?.message ?: "")
-                callback(false)
+                SToast.showToast(context, it.message ?: "")
             }
         })
     }

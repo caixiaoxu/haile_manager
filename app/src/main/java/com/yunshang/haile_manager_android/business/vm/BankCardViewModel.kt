@@ -30,7 +30,7 @@ class BankCardViewModel : BaseViewModel() {
                     ApiRepository.createRequestBody("")
                 )
             )?.let {
-                bankCard.postValue(it.items.firstOrNull())
+                bankCard.postValue(it.items?.firstOrNull())
             }
         })
     }

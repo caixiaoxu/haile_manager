@@ -96,7 +96,7 @@ class HaiXinRechargeListActivity :
                 responseList: ResponseList<out HaixinRechargeEntity>,
                 isRefresh: Boolean
             ): Boolean {
-                val list = if (responseList.items.isEmpty()) {
+                val list = if (responseList.items.isNullOrEmpty()) {
                     mutableListOf(
                         HaixinRechargeListEntity(
                             mViewModel.searchDate,
@@ -108,7 +108,7 @@ class HaiXinRechargeListActivity :
                         )
                     )
                 } else {
-                    responseList.items.map {
+                    responseList.items!!.map {
                         val date = DateTimeUtils.formatDateFromString(it.createTime)
                         HaixinRechargeListEntity(
                             DateTimeUtils.formatDateFromString(it.createTime),
@@ -121,7 +121,7 @@ class HaiXinRechargeListActivity :
                     }.toMutableList()
                 }
 
-                if (responseList.items.size < responseList.pageSize) {
+                if ((responseList.items?.size ?: 0) < responseList.pageSize) {
                     mBinding.rvHaixinRechargeList.page = 1
                     mViewModel.searchDate = Calendar.getInstance().apply {
                         time = mViewModel.searchDate

@@ -61,22 +61,22 @@ class MessageCenterViewModel : BaseViewModel() {
                             )
                         )
                     )?.let { msgs ->
-                        if (msgs.items.isNotEmpty()) {
+                        if (!msgs.items.isNullOrEmpty()) {
                             msgList.isNull = false
                             msgList.time = DateTimeUtils.getFriendlyTime(
-                                DateTimeUtils.formatDateFromString(msgs.items[0].createTime), false
+                                DateTimeUtils.formatDateFromString(msgs.items!![0].createTime), false
                             )
 
-                            if (msgs.items[0].subtype == "merchant:device:fault") {
+                            if (msgs.items!![0].subtype == "merchant:device:fault") {
                                 GsonUtils.json2Class(
-                                    msgs.items[0].content,
+                                    msgs.items!![0].content,
                                     MessageContentEntity::class.java
                                 )?.let { content ->
                                     msgList.last = content.shortDescription
                                 }
-                            } else if (msgs.items[0].subtype == "merchant:system:system") {
+                            } else if (msgs.items!![0].subtype == "merchant:system:system") {
                                 GsonUtils.json2Class(
-                                    msgs.items[0].content,
+                                    msgs.items!![0].content,
                                     MessageSystemContentEntity::class.java
                                 )?.let { content ->
                                     msgList.last = content.shortDescription

@@ -176,6 +176,7 @@ object ViewBindingAdapter {
         drawE: Int = 0,
         drawB: Int = 0
     ) {
-        setCompoundDrawablesWithIntrinsicBounds(drawS, drawT, drawE, drawB)
+        if (drawS != 0 || drawT != 0 || drawE != 0 || drawB != 0)
+            setCompoundDrawablesWithIntrinsicBounds(drawS, drawT, drawE, drawB)
     }
 }

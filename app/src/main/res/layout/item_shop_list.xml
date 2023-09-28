@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.yunshang.haile_manager_android.R"/>
 
         <import type="android.view.View" />
 
@@ -29,11 +30,11 @@
             style="@style/Font_16_333333"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:drawableEnd="@drawable/icon_arrow_right_with_padding"
             android:gravity="center_vertical"
             android:paddingStart="4dp"
             android:text="@{item.name}"
             android:textStyle="bold"
-            android:drawableEnd="@drawable/icon_arrow_right_with_padding"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -44,8 +45,8 @@
             style="@style/Font_14_333333"
             android:layout_width="wrap_content"
             android:layout_height="44dp"
-            android:drawableEnd="@drawable/icon_arrow_right_with_padding"
             android:gravity="center"
+            app:drawE="@{item.fold &amp;&amp; item.positionCount > 0 ?R.drawable.icon_arrow_right_with_padding:R.drawable.icon_arrow_down_with_padding}"
             app:layout_constraintEnd_toStartOf="@id/tv_item_shop_device_num"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="@id/tv_item_shop_name"
@@ -68,19 +69,21 @@
             android:id="@+id/rv_shop_position_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_shop_device_num"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_item_shop_device_num"
+            app:visibility="@{!item.fold &amp;&amp; item.positionCount > 0 &amp;&amp; null != item.positionList &amp;&amp; item.positionList.size() > 0}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_shop_position_more"
+            style="@style/Font_14_999999"
             android:layout_width="wrap_content"
             android:layout_height="44dp"
-            style="@style/Font_14_999999"
-            android:gravity="center"
             android:drawableEnd="@drawable/icon_arrow_down_with_padding"
+            android:gravity="center"
             android:text="@string/click_load_more"
-            app:layout_constraintTop_toBottomOf="@id/rv_shop_position_list"
             app:layout_constraintEnd_toEndOf="@id/rv_shop_position_list"
-            app:layout_constraintStart_toStartOf="@id/rv_shop_position_list"/>
+            app:layout_constraintStart_toStartOf="@id/rv_shop_position_list"
+            app:layout_constraintTop_toBottomOf="@id/rv_shop_position_list"
+            app:visibility="@{!item.fold &amp;&amp; item.hasMore &amp;&amp; item.positionCount > 0 &amp;&amp; null != item.positionList &amp;&amp; item.positionList.size() > 0}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_item_shop_total_income"
@@ -98,8 +101,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="gone"
-            tools:visibility="visible"
-            app:constraint_referenced_ids="rv_shop_position_list,tv_shop_position_more"/>
+            app:constraint_referenced_ids="rv_shop_position_list,tv_shop_position_more"
+            tools:visibility="visible" />
 
         <include
             layout="@layout/include_dividing"

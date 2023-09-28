@@ -123,7 +123,7 @@ class HaiXinRechargeAccountDetailListActivity :
                 responseList: ResponseList<out HaixinRechargeAccountDetailEntity>,
                 isRefresh: Boolean
             ): Boolean {
-                val list = if (responseList.items.isEmpty()) {
+                val list = if (responseList.items.isNullOrEmpty()) {
                     mutableListOf(
                         HaixinRechargeAccountDetailsEntity(
                             mViewModel.searchDate,
@@ -135,7 +135,7 @@ class HaiXinRechargeAccountDetailListActivity :
                         )
                     )
                 } else {
-                    responseList.items.map {
+                    responseList.items!!.map {
                         val date = DateTimeUtils.formatDateFromString(it.createTime)
                         HaixinRechargeAccountDetailsEntity(
                             DateTimeUtils.formatDateFromString(it.createTime),
@@ -148,7 +148,7 @@ class HaiXinRechargeAccountDetailListActivity :
                     }.toMutableList()
                 }
 
-                if (responseList.items.size < responseList.pageSize) {
+                if ((responseList.items?.size ?: 0) < responseList.pageSize) {
                     mBinding.rvHaixinRechargeList.page = 1
                     mViewModel.searchDate = Calendar.getInstance().apply {
                         time = mViewModel.searchDate

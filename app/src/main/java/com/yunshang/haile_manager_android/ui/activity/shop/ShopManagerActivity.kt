@@ -2,12 +2,15 @@ package com.yunshang.haile_manager_android.ui.activity.shop
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,8 +26,10 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.ShopEntity
+import com.yunshang.haile_manager_android.data.entities.ShopPositionEntity
 import com.yunshang.haile_manager_android.databinding.ActivityShopManagerBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopListBinding
+import com.yunshang.haile_manager_android.databinding.ItemShopManagerPositionBinding
 import com.yunshang.haile_manager_android.databinding.PopupShopOperateManagerBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
@@ -34,6 +39,7 @@ import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
 import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+import com.yunshang.haile_manager_android.ui.view.refresh.CustomDividerItemDecoration
 import com.yunshang.haile_manager_android.utils.NumberUtils
 
 class ShopManagerActivity :
@@ -109,8 +115,8 @@ class ShopManagerActivity :
     private fun buildShopAdapter() = CommonRecyclerAdapter<ItemShopListBinding, ShopEntity>(
         R.layout.item_shop_list,
         BR.item
-    ) { mBinding, _, item ->
-        mBinding?.share = mSharedViewModel
+    ) { mItemBinding, _, item ->
+        mItemBinding?.share = mSharedViewModel
         var title =
             StringUtils.getString(R.string.total_earnings)
         var value =
@@ -118,7 +124,7 @@ class ShopManagerActivity :
         var start = title.length + 1
         var end = title.length + 1 + value.length
         // 格式化总收益样式
-        mBinding?.tvItemShopTotalIncome?.text =
+        mItemBinding?.tvItemShopTotalIncome?.text =
             com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
                 "$title：$value",
                 arrayOf(
@@ -130,11 +136,11 @@ class ShopManagerActivity :
                         )
                     ),
                     AbsoluteSizeSpan(DimensionUtils.sp2px(18f, this@ShopManagerActivity)),
-    //                        StyleSpan(Typeface.BOLD),
+                    //                        StyleSpan(Typeface.BOLD),
                     TypefaceSpan("money"),
                 ), start, end
             )
-        mBinding?.tvItemShopTotalIncome?.setOnClickListener {
+        mItemBinding?.tvItemShopTotalIncome?.setOnClickListener {
             if (true == mSharedViewModel.hasShopProfitPermission.value) {
                 //  跳转到店铺收益
                 startActivity(
@@ -154,51 +160,137 @@ class ShopManagerActivity :
         start = title.length + 1
         end = title.length + 1 + value.length
         // 格式化设备数样式
-        mBinding?.tvItemShopDeviceNum?.text =
+        mItemBinding?.tvItemShopPositionNum?.text =
             com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
                 "$title：$value",
                 arrayOf(
                     AbsoluteSizeSpan(DimensionUtils.sp2px(16f, this@ShopManagerActivity)),
-    //                        StyleSpan(Typeface.BOLD),
-
+                    StyleSpan(Typeface.BOLD),
                 ), start, end
             )
+        mItemBinding?.tvItemShopPositionNum?.setOnClickListener {
+            if (item.fold) {
+                if (item.positionList.isEmpty()) {
+                    mViewModel.requestPositionList(it.context, item) {
+                        (mItemBinding.rvShopPositionList.adapter as CommonRecyclerAdapter<*, ShopPositionEntity>).refreshList(
+                            item.positionList,
+                            true
+                        )
+                    }
+                } else {
+                    item.fold = false
+                }
+            } else {
+                item.fold = true
+            }
+        }
         // 设备数
         title = StringUtils.getString(R.string.device_num)
         value = item.deviceNum.toString()
         start = title.length + 1
         end = title.length + 1 + value.length
         // 格式化设备数样式
-        mBinding?.tvItemShopDeviceNum?.text =
+        mItemBinding?.tvItemShopDeviceNum?.text =
             com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
                 "$title：$value",
                 arrayOf(
                     AbsoluteSizeSpan(DimensionUtils.sp2px(16f, this@ShopManagerActivity)),
-    //                        StyleSpan(Typeface.BOLD),
-
+                    StyleSpan(Typeface.BOLD),
                 ), start, end
             )
 
-        mBinding?.tvItemShopDeviceNum?.setOnClickListener {
+        // 设备数量
+        mItemBinding?.tvItemShopDeviceNum?.setOnClickListener {
             startActivity(
                 Intent(
                     this@ShopManagerActivity,
                     DeviceManagerActivity::class.java
                 ).apply {
-                    putExtras(
-                        IntentParams.DeviceManagerParams.pack(
-                            SearchSelectParam(
-                                item.id,
-                                item.name
+                    if (null != item.id && null != item.name) {
+                        putExtras(
+                            IntentParams.DeviceManagerParams.pack(
+                                SearchSelectParam(
+                                    item.id,
+                                    item.name
+                                )
                             )
                         )
-                    )
+                    }
                 }
             )
         }
 
+        // 点位列表
+        mItemBinding?.rvShopPositionList?.layoutManager = LinearLayoutManager(this)
+        ContextCompat.getDrawable(this, R.drawable.divide_size8)?.let {
+            mItemBinding?.rvShopPositionList?.addItemDecoration(
+                CustomDividerItemDecoration(
+                    this,
+                    CustomDividerItemDecoration.VERTICAL
+                ).apply {
+                    setDrawable(it)
+                }
+            )
+        }
+        mItemBinding?.rvShopPositionList?.adapter =
+            CommonRecyclerAdapter<ItemShopManagerPositionBinding, ShopPositionEntity>(
+                R.layout.item_shop_manager_position, BR.item
+            ) { mInternalItemBinding, pos, posititon ->
+                // 设备数
+                title = StringUtils.getString(R.string.device_num)
+                value = posititon.deviceNum.toString()
+                start = title.length + 1
+                end = title.length + 1 + value.length
+                // 格式化设备数样式
+                mInternalItemBinding?.tvShopManagerPositionDeviceNum?.text =
+                    com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
+                        "$title：$value",
+                        arrayOf(
+                            AbsoluteSizeSpan(DimensionUtils.sp2px(16f, this@ShopManagerActivity)),
+                            StyleSpan(Typeface.BOLD),
+                        ), start, end
+                    )
+
+                mInternalItemBinding?.tvShopManagerPositionDeviceNum?.setOnClickListener {
+//                startActivity(
+//                    Intent(
+//                        this@ShopManagerActivity,
+//                        DeviceManagerActivity::class.java
+//                    ).apply {
+//                        if (null != posititon.id && null != posititon.name) {
+//                            putExtras(
+//                                IntentParams.DeviceManagerParams.pack(
+//                                    SearchSelectParam(
+//                                        posititon.id,
+//                                        posititon.name
+//                                    )
+//                                )
+//                            )
+//                        }
+//                    }
+//                )
+                }
+            }
+
+        // 如果点位数据不为空，刷新
+        if (item.positionList.isNotEmpty()) {
+            (mItemBinding?.rvShopPositionList?.adapter as? CommonRecyclerAdapter<*, ShopPositionEntity>)?.refreshList(
+                item.positionList,
+                true
+            )
+        }
+        // 加载更多
+        mItemBinding?.tvShopPositionMore?.setOnClickListener {
+            mViewModel.requestPositionList(it.context, item) {
+                (mItemBinding.rvShopPositionList.adapter as CommonRecyclerAdapter<*, ShopPositionEntity>).refreshList(
+                    item.positionList,
+                    true
+                )
+            }
+        }
+
         // 进入详情
-        mBinding?.root?.setOnClickListener {
+        mItemBinding?.root?.setOnClickListener {
             if (true == mSharedViewModel.hasShopInfoPermission.value) {
                 startActivity(Intent(
                     this@ShopManagerActivity,

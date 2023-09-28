@@ -6,7 +6,6 @@ import com.lsy.framelib.ui.base.BaseViewModel
 import com.yunshang.haile_manager_android.business.apiService.CategoryService
 import com.yunshang.haile_manager_android.business.apiService.DataStatisticsService
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
-import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DataStatisticsShopListEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
@@ -171,7 +170,7 @@ class DataStatisticsViewModel : BaseViewModel() {
 
     fun requestData(
         isRefresh: Boolean = false,
-        callBack: (MutableList<DataStatisticsShopListEntity>) -> Unit
+        callBack: (MutableList<DataStatisticsShopListEntity>?) -> Unit
     ) {
         launch({
             if (isRefresh) requestTotalData()
@@ -193,7 +192,7 @@ class DataStatisticsViewModel : BaseViewModel() {
 
     private suspend fun requestShopTotalData(
         isRefresh: Boolean,
-        callBack: (MutableList<DataStatisticsShopListEntity>) -> Unit
+        callBack: (MutableList<DataStatisticsShopListEntity>?) -> Unit
     ) {
         if (isRefresh) {
             page = 1
@@ -210,7 +209,7 @@ class DataStatisticsViewModel : BaseViewModel() {
             withContext(Dispatchers.Main) {
                 callBack(it.items)
             }
-            if (it.items.isNotEmpty()) {
+            if (!it.items.isNullOrEmpty()) {
                 page++
             }
         }

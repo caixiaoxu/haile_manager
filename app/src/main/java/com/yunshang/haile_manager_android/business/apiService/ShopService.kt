@@ -18,7 +18,7 @@ import retrofit2.http.*
  */
 interface ShopService {
     @GET("/position/getShopPositionCountVO")
-    suspend fun requestShopAndPositionNum():ResponseWrapper<ShopAndPositionNumEntity>
+    suspend fun requestShopAndPositionNum(): ResponseWrapper<ShopAndPositionNumEntity>
 
     /**
      * 店铺列表接口
@@ -37,6 +37,15 @@ interface ShopService {
      */
     @GET("/position/positionListByShopId")
     suspend fun requestPositionList(@QueryMap params: HashMap<String, Any?>): ResponseWrapper<ResponseList<ShopPositionEntity>>
+
+    /**
+     * 店铺的点位设备数接口
+     */
+    @GET("/position/positionDeviceNum")
+    suspend fun requestPositionDeviceNum(
+        @Query("shopId") shopId: Int,
+        @Query("positionId") positionId: Int
+    ): ResponseWrapper<MutableList<PositionDeviceNumEntity>>
 
     /**
      * 店铺搜索列表接口

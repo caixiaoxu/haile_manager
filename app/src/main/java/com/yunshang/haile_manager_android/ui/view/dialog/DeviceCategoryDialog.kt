@@ -18,6 +18,7 @@ import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
+import com.yunshang.haile_manager_android.data.entities.PositionDeviceNumEntity
 import com.yunshang.haile_manager_android.databinding.DialogDeviceCategoryBinding
 import com.yunshang.haile_manager_android.databinding.ItemDialogDeviceCategoryBinding
 import timber.log.Timber
@@ -74,13 +75,20 @@ class DeviceCategoryDialog private constructor(private val builder: Builder) :
         val space = DimensionUtils.dip2px(requireContext(), 12f)
         val itemW = (ScreenUtils.screenWidth - 3 * space) / columnCount
         val itemH = DimensionUtils.dip2px(requireContext(), 120f)
-        builder.categoryList.forEachIndexed { index, deviceCategoryItem ->
+        // 如果不显示全部，过滤设备数
+        val list = if (!builder.showAll) {
+            builder.categoryList.filter { item -> item.num > 0 }
+        } else {
+            builder.categoryList
+        }
+        list.forEachIndexed { index, deviceCategoryItem ->
             val rowIndex = index / columnCount
             val columnIndex = index % columnCount
             mBinding.glDeviceCategory.addView(
                 ItemDialogDeviceCategoryBinding.inflate(inflater).let { itemBinding ->
                     itemBinding.icon = deviceCategoryItem.icon
-                    itemBinding.name = deviceCategoryItem.name
+                    itemBinding.name =
+                        deviceCategoryItem.name + (if (deviceCategoryItem.num > 0) "   ${deviceCategoryItem.num}" else "")
                     itemBinding.desc = deviceCategoryItem.desc
                     itemBinding.root.setOnClickListener {
                         builder.onDeviceCodeSelectListener?.invoke(deviceCategoryItem.type)
@@ -134,7 +142,7 @@ class DeviceCategoryDialog private constructor(private val builder: Builder) :
         show(manager, DEVICE_CATEGORY_SHEET_TAG)
     }
 
-    internal class Builder {
+    internal class Builder(val showAll: Boolean = true, numList: List<Int>? = null) {
         var categoryList = arrayListOf(
             DeviceCategoryItem(
                 R.mipmap.icon_device_category_wash_dryer_small,
@@ -168,11 +176,18 @@ class DeviceCategoryDialog private constructor(private val builder: Builder) :
             ),
         )
 
+        init {
+            numList?.forEachIndexed { index, num ->
+                categoryList[index].num = num
+            }
+        }
+
         data class DeviceCategoryItem(
             val icon: Int,
             val name: String,
             val desc: String,
             val type: Int,
+            var num: Int = 0
         )
 
         // 选择监听

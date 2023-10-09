@@ -385,7 +385,7 @@
     <string name="permission_info">权限信息</string>
     <string name="select_all">全选</string>
     <string name="no_select_all">全不选</string>
-    <string name="add_success">增加成功</string>
+    <string name="add_success">添加成功</string>
     <string name="update_take_charge_shop">修改负责门店</string>
     <string name="update_permission">编辑权限</string>
     <string name="delete_staff">删除人员</string>

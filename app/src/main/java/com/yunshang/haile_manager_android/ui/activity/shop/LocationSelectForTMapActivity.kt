@@ -232,6 +232,12 @@ class LocationSelectForTMapActivity :
 
     override fun onLocationChanged(tencentLocation: TencentLocation, i: Int, s: String?) {
         if (i == TencentLocation.ERROR_OK && mLocationChangedListener != null) {
+            mViewModel.curLocation = PoiResultData(
+                tencentLocation.name,
+                tencentLocation.address,
+                tencentLocation.latitude,
+                tencentLocation.longitude, 0.0
+            )
             val location = Location(tencentLocation.provider)
             //设置经纬度
             location.latitude = tencentLocation.latitude

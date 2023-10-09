@@ -58,7 +58,7 @@
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_type"
                     style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@{vm.shopTypeValue.name}"
+                    app:itemContent="@{vm.createAndUpdateEntity.shopTypeName}"
                     app:showArrow="true"
                     app:title="@string/shop_type"
                     app:type="info" />
@@ -66,8 +66,8 @@
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_school_name"
                     style="@style/MultiTypePaddingHItemStyle"
-                    android:visibility="@{1 == vm.shopTypeValue.type?View.VISIBLE:View.GONE}"
-                    app:itemContent="@{vm.schoolNameValue}"
+                    app:visibility="@{null != vm.createAndUpdateEntity.shopTypeVal &amp;&amp; 1 == vm.createAndUpdateEntity.shopTypeVal}"
+                    app:itemContent="@{vm.createAndUpdateEntity.schoolNameVal}"
                     app:showArrow="true"
                     app:title="@string/school_name"
                     app:type="info" />
@@ -75,7 +75,8 @@
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_area"
                     style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@{vm.areaValue}"
+                    app:itemContent="@{vm.createAndUpdateEntity.areaValue}"
+                    app:visibility="@{null != vm.createAndUpdateEntity.shopTypeVal}"
                     app:showArrow="true"
                     app:title="@string/area"
                     app:type="info" />
@@ -83,8 +84,8 @@
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_mansion"
                     style="@style/MultiTypePaddingHItemStyle"
-                    android:visibility="@{1 != vm.shopTypeValue.type? View.VISIBLE:View.GONE}"
-                    app:itemContent="@{vm.mansionValue}"
+                    app:visibility="@{null != vm.createAndUpdateEntity.shopTypeVal &amp;&amp; 1 != vm.createAndUpdateEntity.shopTypeVal}"
+                    app:itemContent="@{vm.createAndUpdateEntity.mansionValue}"
                     app:showArrow="true"
                     app:title="@string/mansion"
                     app:type="info" />
@@ -92,42 +93,43 @@
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_location_detail"
                     style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@={vm.addressValue}"
+                    app:visibility="@{null != vm.createAndUpdateEntity.shopTypeVal}"
+                    app:itemContent="@={vm.createAndUpdateEntity.addressValue}"
                     app:title="@string/location_detail"
                     app:type="input" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_location_floor"
                     style="@style/MultiTypePaddingHItemStyle"
-                    android:visibility="@{1 == vm.shopTypeValue.type?View.VISIBLE:View.GONE}"
-                    app:itemContent="@={vm.createAndUpdateEntity.area}"
+                    app:visibility="@{null != vm.createAndUpdateEntity.shopTypeVal &amp;&amp; 1 == vm.createAndUpdateEntity.shopTypeVal}"
+                    app:itemContent="@={vm.createAndUpdateEntity.mansionValue}"
                     app:title="@string/location_floor"
                     app:type="input" />
 
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/mtiv_shop_create_business_hours"
-                    style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@{vm.workTimeValue}"
-                    app:showArrow="true"
-                    app:title="@string/business_hours"
-                    app:type="info" />
+<!--                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView-->
+<!--                    android:id="@+id/mtiv_shop_create_business_hours"-->
+<!--                    style="@style/MultiTypePaddingHItemStyle"-->
+<!--                    app:itemContent="@{vm.workTimeValue}"-->
+<!--                    app:showArrow="true"-->
+<!--                    app:title="@string/business_hours"-->
+<!--                    app:type="info" />-->
 
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/mtiv_shop_create_business_phone"
-                    style="@style/MultiTypePaddingHItemStyle"
-                    android:inputType="phone"
-                    android:maxLength="11"
-                    app:itemContent="@={vm.createAndUpdateEntity.serviceTelephone}"
-                    app:title="@string/business_phone"
-                    app:type="input" />
+<!--                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView-->
+<!--                    android:id="@+id/mtiv_shop_create_business_phone"-->
+<!--                    style="@style/MultiTypePaddingHItemStyle"-->
+<!--                    android:inputType="phone"-->
+<!--                    android:maxLength="11"-->
+<!--                    app:itemContent="@={vm.createAndUpdateEntity.serviceTelephone}"-->
+<!--                    app:title="@string/business_phone"-->
+<!--                    app:type="input" />-->
 
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/mtiv_shop_create_business_type"
-                    style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@{vm.businessTypeValue}"
-                    app:showArrow="true"
-                    app:title="@string/business_type"
-                    app:type="info" />
+<!--                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView-->
+<!--                    android:id="@+id/mtiv_shop_create_business_type"-->
+<!--                    style="@style/MultiTypePaddingHItemStyle"-->
+<!--                    app:itemContent="@{vm.businessTypeValue}"-->
+<!--                    app:showArrow="true"-->
+<!--                    app:title="@string/business_type"-->
+<!--                    app:type="info" />-->
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_shop_create_pay_setting"

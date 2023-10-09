@@ -12,19 +12,15 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SCHOOL
 import com.yunshang.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SEARCH_TYPE
 import com.yunshang.haile_manager_android.business.vm.ShopCreateAndUpdateViewModel
-import com.yunshang.haile_manager_android.data.arguments.BusinessHourEntity
-import com.yunshang.haile_manager_android.data.arguments.BusinessHourParams
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.PoiResultData
 import com.yunshang.haile_manager_android.data.entities.SchoolSelectEntity
-import com.yunshang.haile_manager_android.data.entities.ShopBusinessTypeEntity
 import com.yunshang.haile_manager_android.data.entities.ShopTypeEntity
 import com.yunshang.haile_manager_android.databinding.ActivityShopCreateAndUpdateBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.AreaSelectDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
-import com.yunshang.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
 
 class ShopCreateAndUpdateActivity :
     BaseBusinessActivity<ActivityShopCreateAndUpdateBinding, ShopCreateAndUpdateViewModel>(
@@ -51,14 +47,14 @@ class ShopCreateAndUpdateActivity :
                 SchoolResultCode -> {
                     it.data?.getStringExtra(SchoolResultData)?.let { json ->
                         GsonUtils.json2Class(json, SchoolSelectEntity::class.java)?.let { school ->
-                            mViewModel.changeSchool(school)
+                            mViewModel.createAndUpdateEntity.value?.changeSchool(school)
                         }
                     }
                 }
                 LocationResultCode -> {
                     it.data?.getStringExtra(LocationResultData)?.let { json ->
                         GsonUtils.json2Class(json, PoiResultData::class.java)?.let { poiItem ->
-                            mViewModel.changeMansion(
+                            mViewModel.createAndUpdateEntity.value?.changeMansion(
                                 poiItem.title,
                                 poiItem.latitude,
                                 poiItem.longitude,
@@ -75,19 +71,19 @@ class ShopCreateAndUpdateActivity :
                             }
                     }
                 }
-                IntentParams.ShopBusinessHoursParams.ResultCode -> {
-                    it.data?.let { intent ->
-                        IntentParams.ShopBusinessHoursParams.parseShopBusinessHoursJson(intent)
-                            ?.let { hours ->
-                                mViewModel.changeWorkTime(
-                                    GsonUtils.json2List(
-                                        hours,
-                                        BusinessHourEntity::class.java
-                                    )
-                                )
-                            }
-                    }
-                }
+//                IntentParams.ShopBusinessHoursParams.ResultCode -> {
+//                    it.data?.let { intent ->
+//                        IntentParams.ShopBusinessHoursParams.parseShopBusinessHoursJson(intent)
+//                            ?.let { hours ->
+//                                mViewModel.createAndUpdateEntity.value?.changeWorkTime(
+//                                    GsonUtils.json2List(
+//                                        hours,
+//                                        BusinessHourEntity::class.java
+//                                    )
+//                                )
+//                            }
+//                    }
+//                }
                 IntentParams.ShopOperationSettingParams.ResultCode -> {
                     it.data?.let { intent ->
                         mViewModel.volumeVisibleState.value =
@@ -101,7 +97,7 @@ class ShopCreateAndUpdateActivity :
     private val mAreaDialog: AreaSelectDialog by lazy {
         AreaSelectDialog.Builder().apply {
             onAreaSelect = { province, city, distract ->
-                mViewModel.changeArea(
+                mViewModel.createAndUpdateEntity.value?.changeArea(
                     province.areaId,
                     province.areaName,
                     city.areaId,
@@ -141,7 +137,7 @@ class ShopCreateAndUpdateActivity :
         }
         // 地区
         mBinding.mtivShopCreateArea.onSelectedEvent = {
-            if (null == mViewModel.shopTypeValue.value) {
+            if (null == mViewModel.createAndUpdateEntity.value?.shopTypeVal) {
                 SToast.showToast(this@ShopCreateAndUpdateActivity, "请先选择门店类型")
             } else {
                 mAreaDialog.show(supportFragmentManager)
@@ -149,7 +145,7 @@ class ShopCreateAndUpdateActivity :
         }
         // 小区/大厦
         mBinding.mtivShopCreateMansion.onSelectedEvent = {
-            if (null == mViewModel.shopTypeValue.value) {
+            if (null == mViewModel.createAndUpdateEntity.value?.shopTypeVal) {
                 SToast.showToast(this@ShopCreateAndUpdateActivity, "请先选择门店类型")
             } else if (null == mViewModel.createAndUpdateEntity.value?.cityId
                 || -1 == mViewModel.createAndUpdateEntity.value?.cityId
@@ -166,8 +162,8 @@ class ShopCreateAndUpdateActivity :
                     ).apply {
                         putExtras(
                             IntentParams.LocationSelectParams.packCity(
-                                mViewModel.cityName,
-                                mViewModel.shopTypeValue.value?.name
+                                mViewModel.createAndUpdateEntity.value?.cityName,
+                                mViewModel.createAndUpdateEntity.value?.shopTypeName
                             )
                         )
                     }
@@ -176,51 +172,51 @@ class ShopCreateAndUpdateActivity :
 
         }
 
-        // 营业时间
-        mBinding.mtivShopCreateBusinessHours.onSelectedEvent = {
-            startSearchSelect.launch(
-                Intent(
-                    this@ShopCreateAndUpdateActivity,
-                    ShopBusinessHoursActivity::class.java
-                ).apply {
-                    GsonUtils.json2List(
-                        mViewModel.createAndUpdateEntity.value?.workTimeStr,
-                        BusinessHourParams::class.java
-                    )?.let { params ->
-                        putExtras(IntentParams.ShopBusinessHoursParams.pack(params.map {
-                            BusinessHourEntity().apply {
-                                formatData(it.weekDays, it.workTime)
-                            }
-                        }.toMutableList()))
-                    }
-                })
-        }
-
-        // 业务类型
-        mBinding.mtivShopCreateBusinessType.onSelectedEvent = {
-            mViewModel.shopBusinessTypeList.value?.let { list ->
-                val select = mViewModel.businessTypeValue.value?.split("、")
-                select?.let {
-                    list.forEach { type ->
-                        type.isCheck = select.contains(type.businessName)
-                    }
-                }
-
-                val multiDialog =
-                    MultiSelectBottomSheetDialog.Builder("选择业务类型", list).apply {
-                        onValueSureListener = object :
-                            MultiSelectBottomSheetDialog.OnValueSureListener<ShopBusinessTypeEntity> {
-                            override fun onValue(
-                                selectData: List<ShopBusinessTypeEntity>,
-                                allSelectData: List<ShopBusinessTypeEntity>
-                            ) {
-                                mViewModel.changeBusinessType(selectData)
-                            }
-                        }
-                    }.build()
-                multiDialog.show(supportFragmentManager)
-            }
-        }
+//        // 营业时间
+//        mBinding.mtivShopCreateBusinessHours.onSelectedEvent = {
+//            startSearchSelect.launch(
+//                Intent(
+//                    this@ShopCreateAndUpdateActivity,
+//                    ShopBusinessHoursActivity::class.java
+//                ).apply {
+//                    GsonUtils.json2List(
+//                        mViewModel.createAndUpdateEntity.value?.workTimeStr,
+//                        BusinessHourParams::class.java
+//                    )?.let { params ->
+//                        putExtras(IntentParams.ShopBusinessHoursParams.pack(params.map {
+//                            BusinessHourEntity().apply {
+//                                formatData(it.weekDays, it.workTime)
+//                            }
+//                        }.toMutableList()))
+//                    }
+//                })
+//        }
+//
+//        // 业务类型
+//        mBinding.mtivShopCreateBusinessType.onSelectedEvent = {
+//            mViewModel.shopBusinessTypeList.value?.let { list ->
+//                val select = mViewModel.businessTypeValue.value?.split("、")
+//                select?.let {
+//                    list.forEach { type ->
+//                        type.isCheck = select.contains(type.businessName)
+//                    }
+//                }
+//
+//                val multiDialog =
+//                    MultiSelectBottomSheetDialog.Builder("选择业务类型", list).apply {
+//                        onValueSureListener = object :
+//                            MultiSelectBottomSheetDialog.OnValueSureListener<ShopBusinessTypeEntity> {
+//                            override fun onValue(
+//                                selectData: List<ShopBusinessTypeEntity>,
+//                                allSelectData: List<ShopBusinessTypeEntity>
+//                            ) {
+//                                mViewModel.changeBusinessType(selectData)
+//                            }
+//                        }
+//                    }.build()
+//                multiDialog.show(supportFragmentManager)
+//            }
+//        }
 
         // 支付设置
         mBinding.itemShopCreatePaySetting.onSelectedEvent = {
@@ -260,15 +256,11 @@ class ShopCreateAndUpdateActivity :
                         onValueSureListener =
                             object : CommonBottomSheetDialog.OnValueSureListener<ShopTypeEntity> {
                                 override fun onValue(data: ShopTypeEntity?) {
-                                    mViewModel.changeShopType(data)
+                                    mViewModel.createAndUpdateEntity.value?.changeShopType(data)
                                 }
                             }
                     }.build()
             }
-        }
-
-        mViewModel.addressValue.observe(this) {
-            mViewModel.createAndUpdateEntity.value?.address = it
         }
 
         mViewModel.jump.observe(this) {

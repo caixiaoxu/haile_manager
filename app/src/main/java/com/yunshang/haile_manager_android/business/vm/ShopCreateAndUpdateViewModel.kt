@@ -9,16 +9,12 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.ShopService
 import com.yunshang.haile_manager_android.business.event.BusEvents
-import com.yunshang.haile_manager_android.data.arguments.BusinessHourEntity
-import com.yunshang.haile_manager_android.data.arguments.BusinessHourParams
 import com.yunshang.haile_manager_android.data.arguments.OperationSettings
 import com.yunshang.haile_manager_android.data.arguments.ShopCreateParam
 import com.yunshang.haile_manager_android.data.entities.SchoolSelectEntity
-import com.yunshang.haile_manager_android.data.entities.ShopBusinessTypeEntity
 import com.yunshang.haile_manager_android.data.entities.ShopDetailEntity
 import com.yunshang.haile_manager_android.data.entities.ShopTypeEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
-import com.yunshang.haile_manager_android.utils.StringUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -43,31 +39,31 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
     val shopTypeList: MutableLiveData<List<ShopTypeEntity>> = MutableLiveData()
 
     // 门店业务列表
-    val shopBusinessTypeList: MutableLiveData<List<ShopBusinessTypeEntity>> = MutableLiveData()
+//    val shopBusinessTypeList: MutableLiveData<List<ShopBusinessTypeEntity>> = MutableLiveData()
 
     // 门店类型
-    val shopTypeValue: MutableLiveData<ShopTypeEntity> = MutableLiveData()
+//    val shopTypeValue: MutableLiveData<ShopTypeEntity> = MutableLiveData()
 
     // 学校名称
-    val schoolNameValue: MutableLiveData<String> = MutableLiveData()
+//    val schoolNameValue: MutableLiveData<String> = MutableLiveData()
 
     // 小区名
-    var cityName = ""
+//    var cityName = ""
 
     // 所在区域
-    val areaValue: MutableLiveData<String> = MutableLiveData()
+//    val areaValue: MutableLiveData<String> = MutableLiveData()
 
     // 小区
-    val mansionValue: MutableLiveData<String> = MutableLiveData()
+//    val mansionValue: MutableLiveData<String> = MutableLiveData()
 
     // 详细地址
-    val addressValue: MutableLiveData<String> = MutableLiveData()
+//    val addressValue: MutableLiveData<String> = MutableLiveData()
 
     // 营业时间
-    val workTimeValue: MutableLiveData<String> = MutableLiveData()
+//    val workTimeValue: MutableLiveData<String> = MutableLiveData()
 
     // 业务类型
-    val businessTypeValue: MutableLiveData<String> = MutableLiveData()
+//    val businessTypeValue: MutableLiveData<String> = MutableLiveData()
 
     // 运营设置
     val volumeVisibleState: MutableLiveData<Int> by lazy {
@@ -80,138 +76,138 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
     fun requestData() {
         launch({
             shopTypeList.postValue(ApiRepository.dealApiResult(mRepo.shopTypeList()))
-            shopBusinessTypeList.postValue(ApiRepository.dealApiResult(mRepo.shopBusinessType()))
+//            shopBusinessTypeList.postValue(ApiRepository.dealApiResult(mRepo.shopBusinessType()))
         })
     }
 
     /**
      * 切换店铺类型
      */
-    fun changeShopType(data: ShopTypeEntity?) {
-        if (null != data && -1 != data.type && data.type != shopTypeValue.value?.type) {
-            shopTypeValue.postValue(data)
-            createAndUpdateEntity.value?.let {
-                it.shopType = data.type
-            }
-            changeSchool(null)
-        }
-    }
+//    fun changeShopType(data: ShopTypeEntity?) {
+//        if (null != data && -1 != data.type && data.type != shopTypeValue.value?.type) {
+//            shopTypeValue.postValue(data)
+//            createAndUpdateEntity.value?.let {
+//                it.shopType = data.type
+//            }
+//            changeSchool(null)
+//        }
+//    }
 
     /**
      * 切换学校
      */
-    fun changeSchool(school: SchoolSelectEntity?) {
-        // 学校id
-        createAndUpdateEntity.value?.schoolId = school?.id ?: -1
-        // 学校名
-        createAndUpdateEntity.value?.schoolName = school?.name ?: ""
-        schoolNameValue.value = school?.name ?: ""
-        createAndUpdateEntity.value?.lat = school?.lat
-        createAndUpdateEntity.value?.lng = school?.lng
-        // 省市区
-        changeArea(
-            school?.provinceId ?: -1,
-            school?.provinceName,
-            school?.cityId ?: -1,
-            school?.cityName,
-            school?.districtId ?: -1,
-            school?.districtName
-        )
-        changeAddress(school?.address)
-    }
+//    fun changeSchool(school: SchoolSelectEntity?) {
+//        // 学校id
+//        createAndUpdateEntity.value?.schoolId = school?.id ?: -1
+//        // 学校名
+//        createAndUpdateEntity.value?.schoolName = school?.name ?: ""
+//        schoolNameValue.value = school?.name ?: ""
+//        createAndUpdateEntity.value?.lat = school?.lat
+//        createAndUpdateEntity.value?.lng = school?.lng
+//        // 省市区
+//        changeArea(
+//            school?.provinceId ?: -1,
+//            school?.provinceName,
+//            school?.cityId ?: -1,
+//            school?.cityName,
+//            school?.districtId ?: -1,
+//            school?.districtName
+//        )
+//        changeAddress(school?.address)
+//    }
 
     /**
      * 切换地区，省市区
      */
-    fun changeArea(
-        provinceId: Int,
-        provinceName: String?,
-        cityId: Int,
-        cityName: String?,
-        districtId: Int,
-        districtName: String?
-    ) {
-        createAndUpdateEntity.value?.provinceId = provinceId
-        createAndUpdateEntity.value?.cityId = cityId
-        createAndUpdateEntity.value?.districtId = districtId
-        this.cityName = cityName ?: ""
-        areaValue.value = StringUtils.formatArea(
-            provinceName,
-            cityName,
-            districtName
-        )
-    }
+//    fun changeArea(
+//        provinceId: Int,
+//        provinceName: String?,
+//        cityId: Int,
+//        cityName: String?,
+//        districtId: Int,
+//        districtName: String?
+//    ) {
+//        createAndUpdateEntity.value?.provinceId = provinceId
+//        createAndUpdateEntity.value?.cityId = cityId
+//        createAndUpdateEntity.value?.districtId = districtId
+//        this.cityName = cityName ?: ""
+//        areaValue.value = StringUtils.formatArea(
+//            provinceName,
+//            cityName,
+//            districtName
+//        )
+//    }
 
     /**
      * 切换小区
      */
-    fun changeMansion(title: String, latitude: Double, longitude: Double, address: String) {
-        createAndUpdateEntity.value?.area = title
-        createAndUpdateEntity.value?.lat = latitude
-        createAndUpdateEntity.value?.lng = longitude
-        mansionValue.value = title
-        changeAddress(address)
-    }
+//    fun changeMansion(title: String, latitude: Double, longitude: Double, address: String) {
+//        createAndUpdateEntity.value?.area = title
+//        createAndUpdateEntity.value?.lat = latitude
+//        createAndUpdateEntity.value?.lng = longitude
+//        mansionValue.value = title
+//        changeAddress(address)
+//    }
 
     /**
      * 切换详细地址
      */
-    private fun changeAddress(address: String?) {
-        // 详细地址
-        createAndUpdateEntity.value?.address = address ?: ""
-        addressValue.value = address ?: ""
-    }
+//    private fun changeAddress(address: String?) {
+//        // 详细地址
+//        createAndUpdateEntity.value?.address = address ?: ""
+//        addressValue.value = address ?: ""
+//    }
 
     /**
      * 切换营业时间
      */
-    fun changeWorkTime(
-        timeList: MutableList<BusinessHourEntity>? = null,
-        workTime: String? = null
-    ) {
-        timeList?.let {
-            createAndUpdateEntity.value?.workTimeStr = GsonUtils.any2Json(timeList.map { item ->
-                BusinessHourParams(
-                    item._weekDays.map { day -> day.id },
-                    item._workTime.split(" ")[0]
-                )
-            })
-            workTimeValue.value = timeList.joinToString("\n") { item ->
-                item.hourWeekVal + item.workTime
-            }
-            createAndUpdateEntity.value?.workTime = workTime ?: run {
-                val arr = Array(7) { "" }
-                for (index in 0..6) {
-                    arr[index] =
-                        timeList.filter { item -> null != item.weekDays.find { day -> day.id == (index + 1) } }
-                            .joinToString(",") { item ->
-                                item.workTime.split(" ")[0]
-                            }
-                }
-                GsonUtils.any2Json(arr)
-            }
-        }
-    }
+//    fun changeWorkTime(
+//        timeList: MutableList<BusinessHourEntity>? = null,
+//        workTime: String? = null
+//    ) {
+//        timeList?.let {
+//            createAndUpdateEntity.value?.workTimeStr = GsonUtils.any2Json(timeList.map { item ->
+//                BusinessHourParams(
+//                    item._weekDays.map { day -> day.id },
+//                    item._workTime.split(" ")[0]
+//                )
+//            })
+//            workTimeValue.value = timeList.joinToString("\n") { item ->
+//                item.hourWeekVal + item.workTime
+//            }
+//            createAndUpdateEntity.value?.workTime = workTime ?: run {
+//                val arr = Array(7) { "" }
+//                for (index in 0..6) {
+//                    arr[index] =
+//                        timeList.filter { item -> null != item.weekDays.find { day -> day.id == (index + 1) } }
+//                            .joinToString(",") { item ->
+//                                item.workTime.split(" ")[0]
+//                            }
+//                }
+//                GsonUtils.any2Json(arr)
+//            }
+//        }
+//    }
 
     /**
      * 切换业务类型
      */
-    fun changeBusinessType(datas: List<ShopBusinessTypeEntity>) {
-        val sb = StringBuilder()
-        val sbId = StringBuilder()
-        datas.forEach { type ->
-            sb.append(type.getTitle()).append("、")
-            sbId.append(type.type).append(",")
-        }
-        if (sb.isNotEmpty()) {
-            sb.deleteCharAt(sb.length - 1)
-        }
-        if (sbId.isNotEmpty()) {
-            sbId.deleteCharAt(sbId.length - 1)
-        }
-        businessTypeValue.postValue(sb.toString())
-        createAndUpdateEntity.value?.shopBusiness = sbId.toString()
-    }
+//    fun changeBusinessType(datas: List<ShopBusinessTypeEntity>) {
+//        val sb = StringBuilder()
+//        val sbId = StringBuilder()
+//        datas.forEach { type ->
+//            sb.append(type.getTitle()).append("、")
+//            sbId.append(type.type).append(",")
+//        }
+//        if (sb.isNotEmpty()) {
+//            sb.deleteCharAt(sb.length - 1)
+//        }
+//        if (sbId.isNotEmpty()) {
+//            sbId.deleteCharAt(sbId.length - 1)
+//        }
+//        businessTypeValue.postValue(sb.toString())
+//        createAndUpdateEntity.value?.shopBusiness = sbId.toString()
+//    }
 
     fun submit(view: View) {
         createAndUpdateEntity.value?.let { params ->
@@ -250,20 +246,20 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                     return
                 }
             }
-
-            if (params.workTime.isEmpty()) {
-                SToast.showToast(msg = "请选择营业时间")
-                return
-            }
-
-            if (params.serviceTelephone.isEmpty()) {
-                SToast.showToast(msg = "请输入客服电话")
-                return
-            }
-            if (params.shopBusiness.isEmpty()) {
-                SToast.showToast(msg = "请选择门店业务类型")
-                return
-            }
+//
+//            if (params.workTime.isEmpty()) {
+//                SToast.showToast(msg = "请选择营业时间")
+//                return
+//            }
+//
+//            if (params.serviceTelephone.isEmpty()) {
+//                SToast.showToast(msg = "请输入客服电话")
+//                return
+//            }
+//            if (params.shopBusiness.isEmpty()) {
+//                SToast.showToast(msg = "请选择门店业务类型")
+//                return
+//            }
 
             // 运营设置
             params.operationSettings = OperationSettings(volumeVisibleState.value ?: 0)
@@ -311,10 +307,10 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                 )
 
             // 店铺类型
-            changeShopType(ShopTypeEntity(shopDetailEntity.shopType, shopDetailEntity.shopTypeName))
+            createAndUpdateEntity.value?.changeShopType(ShopTypeEntity(shopDetailEntity.shopType, shopDetailEntity.shopTypeName))
 
             if (1 == shopDetailEntity.shopType) {
-                changeSchool(
+                createAndUpdateEntity.value?.changeSchool(
                     SchoolSelectEntity(
                         shopDetailEntity.schoolId,
                         shopDetailEntity.schoolName,
@@ -330,10 +326,10 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                         shopDetailEntity.area,
                     )
                 )
-                createAndUpdateEntity.value?.area = shopDetailEntity.address
+                createAndUpdateEntity.value?.mansionValue = shopDetailEntity.address
             } else {
                 //省市区
-                changeArea(
+                createAndUpdateEntity.value?.changeArea(
                     shopDetailEntity.provinceId,
                     shopDetailEntity.provinceName,
                     shopDetailEntity.cityId,
@@ -342,7 +338,7 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                     shopDetailEntity.districtName,
                 )
                 //小区、经纬度、详细地址
-                changeMansion(
+                createAndUpdateEntity.value?.changeMansion(
                     shopDetailEntity.area,
                     shopDetailEntity.lat,
                     shopDetailEntity.lng,
@@ -350,9 +346,9 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                 )
             }
             // 营业时间
-            changeWorkTime(shopDetailEntity.workTimeArr(), shopDetailEntity.workTime)
+//            changeWorkTime(shopDetailEntity.workTimeArr(), shopDetailEntity.workTime)
             // 业务类型
-            changeBusinessType(shopDetailEntity.businessName)
+//            changeBusinessType(shopDetailEntity.businessName)
             // 运营设置
             volumeVisibleState.postValue(shopDetailEntity.operationSettings.volumeVisibleState)
         }

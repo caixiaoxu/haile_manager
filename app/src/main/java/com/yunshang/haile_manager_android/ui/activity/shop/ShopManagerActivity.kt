@@ -38,6 +38,7 @@ import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivi
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
 import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
+import com.yunshang.haile_manager_android.ui.view.dialog.DeviceCategoryDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.ui.view.refresh.CustomDividerItemDecoration
 import com.yunshang.haile_manager_android.utils.NumberUtils
@@ -57,7 +58,7 @@ class ShopManagerActivity :
      */
     private fun initRightBtn() {
         mBinding.shopTitleBar.getRightBtn(true).run {
-            setText(R.string.manager)
+            setText(R.string.operate_manager)
             setCompoundDrawablesRelativeWithIntrinsicBounds(
                 R.mipmap.icon_add, 0, 0, 0
             )
@@ -159,7 +160,7 @@ class ShopManagerActivity :
         value = item.positionCount.toString()
         start = title.length + 1
         end = title.length + 1 + value.length
-        // 格式化设备数样式
+        // 格式化样式
         mItemBinding?.tvItemShopPositionNum?.text =
             com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
                 "$title：$value",
@@ -199,27 +200,6 @@ class ShopManagerActivity :
                 ), start, end
             )
 
-        // 设备数量
-        mItemBinding?.tvItemShopDeviceNum?.setOnClickListener {
-            startActivity(
-                Intent(
-                    this@ShopManagerActivity,
-                    DeviceManagerActivity::class.java
-                ).apply {
-                    if (null != item.id && null != item.name) {
-                        putExtras(
-                            IntentParams.DeviceManagerParams.pack(
-                                SearchSelectParam(
-                                    item.id,
-                                    item.name
-                                )
-                            )
-                        )
-                    }
-                }
-            )
-        }
-
         // 点位列表
         mItemBinding?.rvShopPositionList?.layoutManager = LinearLayoutManager(this)
         ContextCompat.getDrawable(this, R.drawable.divide_size8)?.let {
@@ -252,23 +232,31 @@ class ShopManagerActivity :
                     )
 
                 mInternalItemBinding?.tvShopManagerPositionDeviceNum?.setOnClickListener {
-//                startActivity(
-//                    Intent(
-//                        this@ShopManagerActivity,
-//                        DeviceManagerActivity::class.java
-//                    ).apply {
-//                        if (null != posititon.id && null != posititon.name) {
-//                            putExtras(
-//                                IntentParams.DeviceManagerParams.pack(
-//                                    SearchSelectParam(
-//                                        posititon.id,
-//                                        posititon.name
-//                                    )
-//                                )
-//                            )
-//                        }
-//                    }
-//                )
+                    if (null != item.id && null != posititon.id && 0 < posititon.deviceNum) {
+                        //id 不为空，并且设备数大于0
+                        mViewModel.requestPositionDeviceNum(item.id, posititon.id) { num ->
+                            if (!num.isNullOrEmpty()) {
+                                // 点位设备列表
+                                DeviceCategoryDialog.Builder(false, num).apply {
+                                    onDeviceCodeSelectListener = { type ->
+                                        startActivity(Intent(
+                                            this@ShopManagerActivity,
+                                            DeviceManagerActivity::class.java
+                                        ).apply {
+                                            putExtras(
+                                                IntentParams.DeviceManagerParams.pack(
+                                                    categoryBigType = type
+                                                )
+                                            )
+                                        })
+                                    }
+                                }.build().show(supportFragmentManager)
+                            }
+                        }
+                    }
+                }
+                mInternalItemBinding?.root?.setOnClickListener {
+                    // TODO 跳转到点位详情
                 }
             }
 

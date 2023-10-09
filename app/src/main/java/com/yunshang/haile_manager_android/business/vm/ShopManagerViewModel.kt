@@ -8,9 +8,13 @@ import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.ShopService
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
+import com.yunshang.haile_manager_android.data.entities.PositionDeviceNumEntity
 import com.yunshang.haile_manager_android.data.entities.ShopEntity
 import com.yunshang.haile_manager_android.data.entities.ShopPositionEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import com.yunshang.haile_manager_android.ui.view.dialog.DeviceCategoryDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -114,6 +118,64 @@ class ShopManagerViewModel : BaseViewModel() {
             withContext(Dispatchers.Main) {
                 SToast.showToast(context, it.message ?: "")
             }
+        })
+    }
+
+    /**
+     * 点位设备数
+     */
+    fun requestPositionDeviceNum(
+        shopId: Int,
+        positionId: Int,
+        callBack: (deviceNum: MutableList<Int>?) -> Unit
+    ) {
+        launch({
+            val list = ApiRepository.dealApiResult(
+                mRepo.requestPositionDeviceNum(shopId, positionId)
+            )
+            val categoryNumList = arrayListOf<Int>()
+            list?.let {
+                var num = 0
+                // 洗烘
+                it.filter { item ->
+                    DeviceCategory.isWashingOrShoes(item.categoryCode) || DeviceCategory.isDryer(
+                        item.categoryCode
+                    )
+                }.forEach { item ->
+                    num += (item.deviceCount ?: 0)
+                }
+                categoryNumList.add(num)
+
+                // 吹风
+                num = 0
+                it.filter { item -> DeviceCategory.isHair(item.categoryCode) }.forEach { item ->
+                    num += (item.deviceCount ?: 0)
+                }
+                categoryNumList.add(num)
+
+                // 淋浴
+                num = 0
+                it.filter { item -> DeviceCategory.isShower(item.categoryCode) }.forEach { item ->
+                    num += (item.deviceCount ?: 0)
+                }
+                categoryNumList.add(num)
+
+                // 投放器
+                num = 0
+                it.filter { item -> DeviceCategory.isDispenser(item.categoryCode) }
+                    .forEach { item ->
+                        num += (item.deviceCount ?: 0)
+                    }
+                categoryNumList.add(num)
+
+                // 饮水
+                num = 0
+                it.filter { item -> DeviceCategory.isDrinking(item.categoryCode) }.forEach { item ->
+                    num += (item.deviceCount ?: 0)
+                }
+                categoryNumList.add(num)
+            }
+            callBack(categoryNumList)
         })
     }
 }

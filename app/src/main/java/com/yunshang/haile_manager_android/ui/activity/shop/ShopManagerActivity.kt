@@ -313,7 +313,13 @@ class ShopManagerActivity :
         }
         mPopupBinding.tvShopOperateAddPt.setOnClickListener {
             popupWindow.dismiss()
-            // TODO 跳转新增点位
+            // 跳转新增点位
+            startActivity(
+                Intent(
+                    this@ShopManagerActivity,
+                    ShopPositionCreateActivity::class.java
+                )
+            )
         }
         mPopupBinding.tvShopOperatePaySetting.setOnClickListener {
             popupWindow.dismiss()

@@ -71,19 +71,6 @@ class ShopCreateAndUpdateActivity :
                             }
                     }
                 }
-//                IntentParams.ShopBusinessHoursParams.ResultCode -> {
-//                    it.data?.let { intent ->
-//                        IntentParams.ShopBusinessHoursParams.parseShopBusinessHoursJson(intent)
-//                            ?.let { hours ->
-//                                mViewModel.createAndUpdateEntity.value?.changeWorkTime(
-//                                    GsonUtils.json2List(
-//                                        hours,
-//                                        BusinessHourEntity::class.java
-//                                    )
-//                                )
-//                            }
-//                    }
-//                }
                 IntentParams.ShopOperationSettingParams.ResultCode -> {
                     it.data?.let { intent ->
                         mViewModel.volumeVisibleState.value =
@@ -172,25 +159,6 @@ class ShopCreateAndUpdateActivity :
 
         }
 
-//        // 营业时间
-//        mBinding.mtivShopCreateBusinessHours.onSelectedEvent = {
-//            startSearchSelect.launch(
-//                Intent(
-//                    this@ShopCreateAndUpdateActivity,
-//                    ShopBusinessHoursActivity::class.java
-//                ).apply {
-//                    GsonUtils.json2List(
-//                        mViewModel.createAndUpdateEntity.value?.workTimeStr,
-//                        BusinessHourParams::class.java
-//                    )?.let { params ->
-//                        putExtras(IntentParams.ShopBusinessHoursParams.pack(params.map {
-//                            BusinessHourEntity().apply {
-//                                formatData(it.weekDays, it.workTime)
-//                            }
-//                        }.toMutableList()))
-//                    }
-//                })
-//        }
 //
 //        // 业务类型
 //        mBinding.mtivShopCreateBusinessType.onSelectedEvent = {

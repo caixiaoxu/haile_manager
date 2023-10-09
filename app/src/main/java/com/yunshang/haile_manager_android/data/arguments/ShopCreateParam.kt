@@ -182,54 +182,6 @@ data class ShopCreateParam(
         }
 }
 
-data class BusinessHourEntity(
-    var _weekDays: List<ActiveDayParam> = listOf(),
-    var _workTime: String = ""
-) : BaseObservable() {
-
-    @get:Bindable
-    var weekDays: List<ActiveDayParam>
-        get() = _weekDays
-        set(value) {
-            _weekDays = value.sortedBy { item -> item.id }
-            notifyPropertyChanged(BR.hourWeekVal)
-        }
-
-    @get:Bindable
-    val hourWeekVal: String
-        get() = if (_weekDays.isEmpty()) "" else {
-            val first = _weekDays.first()
-            val last = _weekDays.last()
-            val temp = last.id - first.id
-            if (_weekDays.size == (temp + 1) && temp > 2) {
-                "${first.name}至${last.name}"
-            } else
-                _weekDays.joinToString("、") { item -> item.name }
-        }
-
-    @get:Bindable
-    var workTime: String
-        get() = _workTime
-        set(value) {
-            _workTime = value
-            notifyPropertyChanged(BR.workTime)
-        }
-
-    fun isEmpty(): Boolean = _weekDays.isEmpty() && _workTime.isEmpty()
-
-    fun isNotFull(): Boolean = !isEmpty() && (_weekDays.isEmpty() || _workTime.isEmpty())
-
-    fun formatData(days: List<Int>, time: String) {
-        _weekDays = ShopParam.businessDay.filter { item -> item.id in days }
-        _workTime = time
-    }
-}
-
-data class BusinessHourParams(
-    val weekDays: List<Int>,
-    val workTime: String
-)
-
 data class OperationSettings(
     val volumeVisibleState: Int
 )

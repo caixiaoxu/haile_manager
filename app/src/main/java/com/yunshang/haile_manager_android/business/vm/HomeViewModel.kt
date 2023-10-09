@@ -52,9 +52,7 @@ class HomeViewModel : BaseViewModel() {
     }
 
     // 1:个人收益；2:商家收益
-    val profitIncomeType: MutableLiveData<Int> by lazy {
-        MutableLiveData()
-    }
+    val profitIncomeType: MutableLiveData<Int> = MutableLiveData(1)
 
     // 总收入
     val inComeVal: MutableLiveData<String> = MutableLiveData()
@@ -110,7 +108,7 @@ class HomeViewModel : BaseViewModel() {
                 StringUtils.getString(R.string.notice_manager),
                 R.mipmap.icon_notice_manager,
                 NoticeManagerActivity::class.java,
-                true
+                UserPermissionUtils.hasAnnouncementPermission()
             ),
         )
     )
@@ -128,7 +126,7 @@ class HomeViewModel : BaseViewModel() {
                 StringUtils.getString(R.string.haixin_manager),
                 R.mipmap.icon_haixin_manager,
                 HaiXinRechargeConfigsActivity::class.java,
-                true
+                UserPermissionUtils.hasVipPermission()
             ),
             FunItem(
                 StringUtils.getString(R.string.issue_coupons),
@@ -189,19 +187,13 @@ class HomeViewModel : BaseViewModel() {
      * 今日总收益
      */
     private suspend fun requestIncomeToday() {
-        profitIncomeType.value?.let { type ->
-            inComeVal.postValue(
-                ApiRepository.dealApiResult(
-                    mCapitalRepo.totalIncomeToady(
-                        ApiRepository.createRequestBody(
-                            hashMapOf(
-                                "profitIncomeType" to type
-                            )
-                        )
-                    )
+        inComeVal.postValue(
+            ApiRepository.dealApiResult(
+                mCapitalRepo.totalIncomeToady(
+                    ApiRepository.createRequestBody("")
                 )
             )
-        }
+        )
     }
 
     /**
@@ -235,7 +227,7 @@ class HomeViewModel : BaseViewModel() {
         launch(
             {
                 requestIncomeToday()
-                profitIncomeType.value?.let { type ->
+                homeIncomeList.postValue(
                     ApiRepository.dealApiResult(
                         mCapitalRepo.homeInCome(
                             ApiRepository.createRequestBody(
@@ -246,15 +238,14 @@ class HomeViewModel : BaseViewModel() {
                                     "endTime" to DateTimeUtils.formatDateTime(
                                         DateTimeUtils.getMonthLast(selectedDate.value)
                                     ),
-                                    "profitIncomeType" to type
                                 ),
                             )
                         )
-                    )?.let { list ->
-                        homeIncomeList.postValue(list)
-                    }
-                }
-            }, {})
+                    )
+                )
+            }, {
+                homeIncomeList.postValue(null)
+            })
     }
 
     /**

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
@@ -37,7 +38,7 @@ import com.yunshang.haile_manager_android.databinding.PopupDeviceOperateManagerB
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
-import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
+import com.yunshang.haile_manager_android.ui.activity.personal.IncomeCalendarActivity
 import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
@@ -94,7 +95,7 @@ class DeviceManagerActivity :
         ) { mBinding, _, item ->
 
             val title =
-                StringUtils.getString(R.string.total_earnings)
+                StringUtils.getString(R.string.total_income)
             val value =
                 StringUtils.getString(R.string.unit_money) + NumberUtils.keepTwoDecimals(item.income)
             val start = title.length + 1
@@ -116,18 +117,20 @@ class DeviceManagerActivity :
                     ), start, end
                 )
             mBinding?.tvItemDeviceTotalIncome?.setOnClickListener {
-                if (UserPermissionUtils.hasDeviceProfitPermission()) {
-                    // 跳转到设备收益
-                    startActivity(
-                        Intent(
-                            this@DeviceManagerActivity,
-                            IncomeActivity::class.java
-                        ).apply {
-                            putExtra(IncomeActivity.ProfitType, 2)
-                            putExtra(IncomeActivity.ProfitSearchId, item.id)
-                            putExtra(IncomeActivity.DeviceName, item.name)
-                        })
+                if (!UserPermissionUtils.hasProfitCalendarPermission()) {
+                    SToast.showToast(this@DeviceManagerActivity, "无收益日历的功能权限")
+                    return@setOnClickListener
                 }
+                // 跳转到设备收益
+                startActivity(
+                    Intent(
+                        this@DeviceManagerActivity,
+                        IncomeCalendarActivity::class.java
+                    ).apply {
+                        putExtra(IncomeCalendarActivity.ProfitType, 2)
+                        putExtra(IncomeCalendarActivity.ProfitSearchId, item.id)
+                        putExtra(IncomeCalendarActivity.DeviceName, item.name)
+                    })
             }
 
             // 进入详情

@@ -59,7 +59,7 @@ class HaiXinRechargeListActivity :
                                 this@HaiXinRechargeListActivity,
                                 IncomeDetailActivity::class.java
                             ).apply {
-                                putExtra(IncomeDetailActivity.DetailType, 1)
+                                putExtra(IncomeDetailActivity.DetailType, 2)
                                 putExtra(IncomeDetailActivity.IncomeId, haixinRecharge.id)
                             })
                     }

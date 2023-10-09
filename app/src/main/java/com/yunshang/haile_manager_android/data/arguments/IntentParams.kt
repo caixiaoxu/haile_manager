@@ -5,6 +5,8 @@ import android.os.Bundle
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.*
+import com.yunshang.haile_manager_android.utils.DateTimeUtils
+import java.util.*
 
 /**
  * Title :
@@ -116,8 +118,66 @@ object IntentParams {
         }
 
         fun parseShopId(intent: Intent): Int = intent.getIntExtra(ShopId, -1)
-
         fun parseShopName(intent: Intent): String? = intent.getStringExtra(ShopName)
+    }
+
+    object ProfitStatisticsParams {
+        private const val ShopIds = "shopIds"
+        private const val ShopName = "shopName"
+        private const val GoodId = "goodId"
+        private const val CategoryCodes = "categoryCodes"
+        private const val StartTime = "startTime"
+        private const val EndTime = "endTime"
+        private const val FormType = "formType"//0全不显示，1显示门店，2显示设备，3全显示
+
+        /**
+         * 包装参数
+         */
+        fun pack(
+            shopIds: IntArray? = null,
+            shopName: String? = null,
+            goodId: Int? = null,
+            categoryCodes: Array<String>? = null,
+            startTime: Date? = null,
+            endTime: Date? = null,
+            formType: Int? = 0
+        ): Bundle =
+            Bundle().apply {
+                shopIds?.let {
+                    putIntArray(ShopIds, shopIds)
+                }
+                shopName?.let {
+                    putString(ShopName, shopName)
+                }
+                goodId?.let {
+                    putInt(GoodId, goodId)
+                }
+                categoryCodes?.let {
+                    putStringArray(CategoryCodes, categoryCodes)
+                }
+                startTime?.let {
+                    putString(StartTime, DateTimeUtils.formatDateTime(it))
+                }
+                endTime?.let {
+                    putString(EndTime, DateTimeUtils.formatDateTime(it))
+                }
+                formType?.let {
+                    putInt(FormType,formType)
+                }
+            }
+
+        fun parseShopIds(intent: Intent): IntArray? = intent.getIntArrayExtra(ShopIds)
+        fun parseShopName(intent: Intent): String? = intent.getStringExtra(ShopName)
+        fun parseGoodId(intent: Intent): Int = intent.getIntExtra(GoodId, -1)
+        fun parseCategoryCodes(intent: Intent): Array<String>? =
+            intent.getStringArrayExtra(CategoryCodes)
+        fun parseStartTime(intent: Intent): Date? =
+            DateTimeUtils.formatDateFromString(intent.getStringExtra(StartTime))
+
+        fun parseEndTime(intent: Intent): Date? =
+            DateTimeUtils.formatDateFromString(intent.getStringExtra(EndTime))
+
+        fun parseFormType(intent: Intent): Int = intent.getIntExtra(FormType, 0)
     }
 
     object ShopBusinessHoursParams {
@@ -209,6 +269,7 @@ object IntentParams {
         const val MoreSelect = "moreSelect"
         const val HasAll = "hasAll"
         const val SelectList = "selectList"
+        const val NoUpdateList = "noUpdateList"
         const val ShopResultCode = 0x90001
         const val DeviceModelResultCode = 0x90002
         const val ResultData = "resultData"
@@ -219,6 +280,7 @@ object IntentParams {
         const val SearchSelectTypeRechargeShop = 4
         const val SearchSelectTypePaySettingsShop = 5
         const val SearchSelectTypeCouponShop = 6
+        const val SearchSelectStatisticsShop = 7
 
         fun pack(
             searchSelectType: Int? = null,
@@ -228,7 +290,8 @@ object IntentParams {
             mustSelect: Boolean = true,
             moreSelect: Boolean = false,
             hasAll: Boolean = false,
-            selectArr: IntArray = intArrayOf()
+            selectArr: IntArray = intArrayOf(),
+            noUpdateArr: IntArray = intArrayOf()
         ): Bundle = Bundle().apply {
             searchSelectType?.let {
                 putInt(SearchSelectType, it)
@@ -246,6 +309,7 @@ object IntentParams {
             putBoolean(MoreSelect, moreSelect)
             putBoolean(HasAll, hasAll)
             putIntArray(SelectList, selectArr)
+            putIntArray(NoUpdateList, noUpdateArr)
         }
 
         fun parseSearchSelectType(intent: Intent): Int = intent.getIntExtra(SearchSelectType, -1)
@@ -256,6 +320,7 @@ object IntentParams {
         fun parseMoreSelect(intent: Intent): Boolean = intent.getBooleanExtra(MoreSelect, false)
         fun parseHasAll(intent: Intent): Boolean = intent.getBooleanExtra(HasAll, false)
         fun parseSelectList(intent: Intent): IntArray? = intent.getIntArrayExtra(SelectList)
+        fun parseNoUpdateList(intent: Intent): IntArray? = intent.getIntArrayExtra(NoUpdateList)
     }
 
     object DeviceCategoryModelParams {
@@ -525,7 +590,7 @@ object IntentParams {
         /**
          * 包装参数
          */
-        fun pack(authInfo: RealNameAuthDetailEntity): Bundle = Bundle().apply {
+        fun pack(authInfo: RealNameAuthDetailEntity?): Bundle = Bundle().apply {
             putString(RealNameAuthStatus, GsonUtils.any2Json(authInfo))
         }
 
@@ -662,7 +727,7 @@ object IntentParams {
         /**
          * 包装参数
          */
-        fun pack(authInfo: RealNameAuthDetailEntity): Bundle = Bundle().apply {
+        fun pack(authInfo: RealNameAuthDetailEntity?): Bundle = Bundle().apply {
             putString(AuthInfo, GsonUtils.any2Json(authInfo))
         }
 

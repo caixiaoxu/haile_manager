@@ -6,10 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.data.arguments.CalendarEntity
 import com.yunshang.haile_manager_android.data.entities.IncomeCalendarEntity
-import com.yunshang.haile_manager_android.data.entities.IncomeListByDayEntity
+import com.yunshang.haile_manager_android.data.entities.ProfitStatisticsEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.StringUtils
@@ -28,10 +29,10 @@ import java.util.*
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class IncomeViewModel : BaseViewModel() {
+class IncomeCalendarViewModel : BaseViewModel() {
     private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
 
-    var profitType: Int = 3
+    var profitType: Int = 4
 
     var profitSearchId: Int = -1
 
@@ -64,17 +65,18 @@ class IncomeViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
+    var transactionType: Int? = null
 
     /**
      * 共有参数
      */
-    private fun getCommonParams(isMonth: Boolean = true): HashMap<String, Any>? =
-        hashMapOf<String, Any>(
+    private fun getCommonParams(isMonth: Boolean = true): HashMap<String, Any?>? =
+        hashMapOf<String, Any?>(
             "dateType" to 1,//日期统计类型 ，1：天；2：月；3：年
-            "profitType" to profitType, //收益类型 1:店铺；2：设备；3:收入明细
+            "profitType" to profitType, //收益类型 1:店铺；2：设备；3:收入明细 4:所有店铺
             "profitIncomeType" to profitIncomeType
         ).also { params ->
-            if (3 != profitType) {
+            if (3 != profitType && 4 != profitType) {
                 if (-1 == profitSearchId) {
                     Timber.e("缺少profitSearchId参数")
                     return null
@@ -211,22 +213,33 @@ class IncomeViewModel : BaseViewModel() {
      */
     fun requestIncomeListForDay(
         page: Int, pageSize: Int,
-        callBack: (responseList: ResponseList<out IncomeListByDayEntity>?) -> Unit
+        callBack: (responseList: ResponseList<out ProfitStatisticsEntity>?) -> Unit
     ) {
         val params = getCommonParams(false) ?: return
+        if (1 == profitType) {
+            params["shopIdList"] = listOf(profitSearchId)
+        } else if (2 == profitType) {
+            params["goodsId"] = profitSearchId
+        }
         params["page"] = page
         params["pageSize"] = pageSize
+        params["transactionType"] = transactionType
         launch({
-            ApiRepository.dealApiResult(
-                mCapitalRepo.incomeListByDay(
+            val list = ApiRepository.dealApiResult(
+                mCapitalRepo.requestProfitStatisticsList(
                     ApiRepository.createRequestBody(
                         params
                     )
                 )
-            )?.let {
-                withContext(Dispatchers.Main) {
-                    callBack.invoke(it)
-                }
+            )
+            withContext(Dispatchers.Main) {
+                callBack.invoke(list)
+            }
+        }, {
+            Timber.d("请求失败或异常$it")
+            withContext(Dispatchers.Main) {
+                it.message?.let { it1 -> SToast.showToast(msg = it1) }
+                callBack.invoke(null)
             }
         })
     }

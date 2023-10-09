@@ -45,6 +45,9 @@
             android:name=".ui.activity.shop.ShopPositionCreateActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.activity.personal.IncomeShopStatisticsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.login.RegisterActivity"
             android:exported="false" />
         <activity
@@ -55,6 +58,12 @@
             android:exported="false" />
         <activity
             android:name=".ui.activity.coupon.IssueCouponsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.personal.IncomeExpensesDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.personal.IncomeStatisticsActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.personal.RealNameAuthBindingActivity"
@@ -319,7 +328,7 @@
             android:name=".ui.activity.personal.BankCardActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.personal.IncomeActivity"
+            android:name=".ui.activity.personal.IncomeCalendarActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.personal.BalanceActivity"

@@ -35,7 +35,8 @@
             android:layout_height="0dp"
             android:scrollbars="none"
             app:layout_constraintBottom_toTopOf="@id/view_shop_detail_bottom"
-            app:layout_constraintTop_toBottomOf="@id/bar_shop_detail_title">
+            app:layout_constraintTop_toBottomOf="@id/bar_shop_detail_title"
+            app:visibility="@{null!=vm.shopDetail}">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -268,8 +269,8 @@
                     android:layout_width="match_parent"
                     android:layout_marginTop="8dp"
                     android:background="@color/white"
-                    android:onClick="@{vm::changeShowOperationSetting}"
                     android:drawableEnd="@drawable/icon_arrow_right_with_padding"
+                    android:onClick="@{vm::changeShowOperationSetting}"
                     android:text="@string/operation_setting"
                     app:layout_constraintTop_toBottomOf="@id/bg_shop_detail_appointment_info" />
 
@@ -365,55 +366,48 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
-        <View
+        <LinearLayout
             android:id="@+id/view_shop_detail_bottom"
             android:layout_width="match_parent"
             android:layout_height="92dp"
             android:background="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_shop_detail_bottom_btns_top"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="80dp"
-            app:layout_constraintTop_toTopOf="@id/view_shop_detail_bottom" />
+            android:gravity="end"
+            android:paddingTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:visibility="@{null!=vm.shopDetail}" >
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/btn_shop_detail_delete"
-            style="@style/CommonStrokeTxtBtnStyle"
-            android:layout_marginEnd="16dp"
-            android:text="@string/delete"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/gl_shop_detail_bottom_btns_top" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_shop_detail_operation_setting"
+                style="@style/CommonStrokeTxtBtnStyle"
+                android:layout_marginEnd="8dp"
+                android:text="@string/operation_setting"
+                app:visibility="@{null!=vm.shopDetail}" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/btn_shop_detail_edit"
-            style="@style/CommonStrokeTxtBtnStyle"
-            android:layout_marginEnd="8dp"
-            android:text="@string/edit"
-            android:visibility="gone"
-            app:layout_constraintEnd_toStartOf="@id/btn_shop_detail_delete"
-            app:layout_constraintTop_toTopOf="@id/gl_shop_detail_bottom_btns_top" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_shop_detail_appointment"
+                style="@style/CommonStrokeTxtBtnStyle"
+                android:layout_marginEnd="8dp"
+                android:text="@string/appointment_setting"
+                android:visibility="gone"
+                tools:visibility="visible"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/btn_shop_detail_appointment"
-            style="@style/CommonStrokeTxtBtnStyle"
-            android:layout_marginEnd="8dp"
-            android:text="@string/appointment_setting"
-            android:visibility="gone"
-            app:layout_constraintEnd_toStartOf="@id/btn_shop_detail_edit"
-            app:layout_constraintTop_toTopOf="@id/gl_shop_detail_bottom_btns_top" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_shop_detail_edit"
+                style="@style/CommonStrokeTxtBtnStyle"
+                android:layout_marginEnd="8dp"
+                android:text="@string/edit"
+                android:visibility="gone"
+                tools:visibility="visible"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/btn_shop_detail_operation_setting"
-            style="@style/CommonStrokeTxtBtnStyle"
-            android:layout_marginEnd="8dp"
-            android:text="@string/operation_setting"
-            app:layout_constraintEnd_toStartOf="@id/btn_shop_detail_appointment"
-            app:layout_constraintTop_toTopOf="@id/gl_shop_detail_bottom_btns_top" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_shop_detail_delete"
+                style="@style/CommonStrokeTxtBtnStyle"
+                android:layout_marginEnd="16dp"
+                android:text="@string/delete"
+                android:visibility="gone"
+                tools:visibility="visible"/>
 
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

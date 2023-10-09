@@ -307,6 +307,10 @@
         <item name="android:textColor">@color/common_txt_color</item>
     </style>
 
+    <style name="Font_14_333333_333333" parent="Font_14_333333">
+        <item name="android:textColorHint">@color/common_txt_color</item>
+    </style>
+
     <style name="Font_14_333333_bold" parent="Font_14_333333">
         <item name="android:textStyle">bold</item>
     </style>
@@ -433,6 +437,11 @@
 
     <style name="Font_32_333333">
         <item name="android:textSize">32sp</item>
+        <item name="android:textColor">@color/common_txt_color</item>
+    </style>
+
+    <style name="Font_36_333333">
+        <item name="android:textSize">36sp</item>
         <item name="android:textColor">@color/common_txt_color</item>
     </style>
 

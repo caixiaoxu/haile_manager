@@ -46,7 +46,12 @@ class SearchSelectRadioViewModel : BaseViewModel() {
             )
             SearchSelectTypeParam.SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model))
             SearchSelectTypeParam.SearchSelectTypeTakeChargeShop -> StringUtils.getString(R.string.take_charge_shop)
-            SearchSelectTypeParam.SearchSelectTypeCouponShop -> StringUtils.getString(R.string.coupon_shop)
+            SearchSelectTypeParam.SearchSelectTypeCouponShop -> StringUtils.getString(
+                R.string.coupon_shop
+            )
+            SearchSelectTypeParam.SearchSelectStatisticsShop -> StringUtils.getString(
+                R.string.department
+            )
             else -> ""
         }
     }
@@ -57,14 +62,21 @@ class SearchSelectRadioViewModel : BaseViewModel() {
                 R.string.shop_search_hint
             )
             SearchSelectTypeParam.SearchSelectTypeDeviceModel -> StringUtils.getString(R.string.device_model_search_hint)
-            SearchSelectTypeParam.SearchSelectTypeCouponShop -> StringUtils.getString(R.string.search_shop)
+            SearchSelectTypeParam.SearchSelectTypeCouponShop, SearchSelectTypeParam.SearchSelectStatisticsShop -> StringUtils.getString(
+                R.string.search_shop
+            )
             else -> ""
         }
     }
 
     val searchSelectListHint: LiveData<String> = searchSelectType.map {
         when (it) {
-            SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop, SearchSelectTypeParam.SearchSelectTypeRechargeShop, SearchSelectTypeParam.SearchSelectTypePaySettingsShop, SearchSelectTypeParam.SearchSelectTypeCouponShop -> StringUtils.getString(
+            SearchSelectTypeParam.SearchSelectTypeShop,
+            SearchSelectTypeParam.SearchSelectTypeTakeChargeShop,
+            SearchSelectTypeParam.SearchSelectTypeRechargeShop,
+            SearchSelectTypeParam.SearchSelectTypePaySettingsShop,
+            SearchSelectTypeParam.SearchSelectTypeCouponShop,
+            SearchSelectTypeParam.SearchSelectStatisticsShop -> StringUtils.getString(
                 R.string.shop_info
             )
             SearchSelectTypeParam.SearchSelectTypeDeviceModel -> StringUtils.getString((R.string.device_model))
@@ -87,6 +99,9 @@ class SearchSelectRadioViewModel : BaseViewModel() {
     var hasAll = false
 
     var selectArr = intArrayOf()
+
+    // 不可修改列表
+    var noUpdateArr = intArrayOf()
 
     val searchKey: MutableLiveData<String> by lazy {
         MutableLiveData()
@@ -113,7 +128,8 @@ class SearchSelectRadioViewModel : BaseViewModel() {
                 SearchSelectTypeParam.SearchSelectTypeTakeChargeShop,
                 SearchSelectTypeParam.SearchSelectTypePaySettingsShop,
                 SearchSelectTypeParam.SearchSelectTypeRechargeShop,
-                SearchSelectTypeParam.SearchSelectTypeCouponShop -> "门店"
+                SearchSelectTypeParam.SearchSelectTypeCouponShop,
+                SearchSelectTypeParam.SearchSelectStatisticsShop -> "门店"
                 SearchSelectTypeParam.SearchSelectTypeDeviceModel -> "设备"
                 else -> ""
             }
@@ -127,8 +143,20 @@ class SearchSelectRadioViewModel : BaseViewModel() {
         launch({
             val list: MutableList<out SearchSelectRadioEntity> =
                 when (searchSelectType.value) {
-                    SearchSelectTypeParam.SearchSelectTypeShop, SearchSelectTypeParam.SearchSelectTypeTakeChargeShop, SearchSelectTypeParam.SearchSelectTypePaySettingsShop, SearchSelectTypeParam.SearchSelectTypeCouponShop -> ApiRepository.dealApiResult(
+                    SearchSelectTypeParam.SearchSelectTypeShop,
+                    SearchSelectTypeParam.SearchSelectTypeTakeChargeShop,
+                    SearchSelectTypeParam.SearchSelectTypePaySettingsShop,
+                    SearchSelectTypeParam.SearchSelectTypeCouponShop -> ApiRepository.dealApiResult(
                         mShopRepo.shopSelectList(
+                            ApiRepository.createRequestBody(
+                                hashMapOf(
+                                    "name" to (searchKey.value ?: ""),
+                                )
+                            )
+                        )
+                    )
+                    SearchSelectTypeParam.SearchSelectStatisticsShop -> ApiRepository.dealApiResult(
+                        mShopRepo.requestStatisticsShopSelectList(
                             ApiRepository.createRequestBody(
                                 hashMapOf(
                                     "name" to (searchKey.value ?: ""),

@@ -30,7 +30,10 @@ data class RechargeDetailEntity(
     val subType: Int,
     val type: Int,
     val typeDesc: String,
-    val userId: Int
+    val userId: Int,
+
+    val payTime: String,
+    val rechargeType: Int
 ) : IIncomeDetailEntity {
 
     override fun mainRes(): Int = RechargeType.getMainRes(type, subType)

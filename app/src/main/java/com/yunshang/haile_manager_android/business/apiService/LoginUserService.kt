@@ -66,6 +66,12 @@ interface LoginUserService {
     suspend fun permissionByUser(): ResponseWrapper<List<UserPermissionEntity>>
 
     /**
+     * 用户授权权限接口
+     */
+    @POST("/permission/authorizationMenu")
+    suspend fun permissionMenu(): ResponseWrapper<List<UserPermissionEntity>>
+
+    /**
      * 修改用户信息接口
      */
     @POST("/user/updateUserInfo")

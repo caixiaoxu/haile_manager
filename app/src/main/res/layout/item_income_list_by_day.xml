@@ -7,26 +7,40 @@
 
         <variable
             name="item"
-            type="com.yunshang.haile_manager_android.data.entities.IncomeListByDayEntity" />
+            type="com.yunshang.haile_manager_android.data.entities.ProfitStatisticsEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/white"
-        android:paddingHorizontal="16dp"
         android:paddingVertical="12dp">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_income_list_order_no"
-            style="@style/Font_14_333333"
+            style="@style/Font_16_333333_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.orderNo}"
+            android:text="@{item.shopName}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="1231231231231231" />
+
+        <com.yunshang.haile_manager_android.ui.view.MultiTypeTextView
+            android:id="@+id/tv_income_list_amount"
+            style="@style/Font_14_333333"
+            txtColors="@{item.multiTypeTxtColors}"
+            type="@{item.multiType}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/icon_arrow_right"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/money"
+            android:text="@{item.amountVal}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_income_list_order_no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_income_list_order_no"
+            tools:text="+80.00" />
 
         <com.yunshang.haile_manager_android.ui.view.MultiTypeTextView
             android:id="@+id/tv_income_list_type"
@@ -35,37 +49,38 @@
             type="@{item.multiType}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:paddingHorizontal="4dp"
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="8dp"
             android:paddingVertical="2dp"
-            android:text="@{item.orderType}"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="@id/tv_income_list_order_no"
-            app:layout_constraintEnd_toStartOf="@id/tv_income_list_amount"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toEndOf="@id/tv_income_list_order_no"
-            app:layout_constraintTop_toTopOf="@id/tv_income_list_order_no"
+            android:text="@{item.transactionTypeVal}"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_income_list_order_no"
             tools:text="洗衣订单" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_income_list_amount"
+            style="@style/Font_12_333333"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/money"
-            android:text="@{item.getAmountStr}"
-            style="@style/Font_14_333333"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="+80.00" />
+            android:layout_marginStart="4dp"
+            android:background="@drawable/shape_sf7f7f7_r10"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:text="@{item.categoryName}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_income_list_type"
+            app:layout_constraintStart_toEndOf="@id/tv_income_list_type"
+            app:layout_constraintTop_toTopOf="@id/tv_income_list_type"
+            tools:text="洗衣机" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_income_list_time"
             style="@style/Font_12_999999"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.getInComeListDateTime}"
+            android:layout_marginTop="8dp"
+            android:text="@{item.getOrderTime}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_income_list_order_no"
-            tools:text="1231231231231231" />
+            app:layout_constraintTop_toBottomOf="@id/tv_income_list_type"
+            tools:text="支付时间：2022-11-25 11:1" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

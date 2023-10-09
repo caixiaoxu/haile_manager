@@ -37,7 +37,7 @@ interface StaffService {
     /**
      * 新增人员
      */
-    @POST("/merchant/createMember")
+    @POST("/merchant/createMember/v2")
     suspend fun createStaff(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
@@ -55,7 +55,7 @@ interface StaffService {
     /**
      * 修改人员权限
      */
-    @POST("/merchant/updateMemberMenu")
+    @POST("/merchant/updateMemberMenuV2")
     suspend fun updateStaffPermission(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**

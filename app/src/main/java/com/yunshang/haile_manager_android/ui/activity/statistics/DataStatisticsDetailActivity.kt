@@ -7,6 +7,7 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.Group
 import androidx.core.content.ContextCompat
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.StringUtils
@@ -19,6 +20,7 @@ import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.databinding.ActivityDataStatisticsDetailBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
@@ -40,6 +42,7 @@ class DataStatisticsDetailActivity :
                             IntentParams.SearchSelectTypeParam.ShopResultCode -> {
                                 mViewModel.selectDepartment.value =
                                     if (selected.isNotEmpty()) selected[0] else null
+                                requestData()
                             }
                         }
                     }
@@ -68,7 +71,6 @@ class DataStatisticsDetailActivity :
 
         mViewModel.selectDepartment.observe(this) {
             mBinding.includeDataStatisticsDetailFilter.tvDataStatisticsShop.text = it?.name ?: ""
-            requestData()
         }
 
         // 设备类型
@@ -79,13 +81,12 @@ class DataStatisticsDetailActivity :
         // 选择设备类型
         mViewModel.selectDeviceCategory.observe(this) {
             mBinding.includeDataStatisticsDetailFilter.tvDataStatisticsDevice.text = it?.name ?: ""
-            requestData()
         }
 
         mViewModel.statisticsShopDetail.observe(this) {
             it?.let { detail ->
                 // 订单数据
-                detail.orderStatisticsVO?.let { orderStatistics ->
+                detail.orderStatisticsProfitVO?.let { orderStatistics ->
                     mBinding.includeDataStatisticsDetailOrder.root.visibility = View.VISIBLE
                     (mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.viewColumn1.layoutParams as ConstraintLayout.LayoutParams).bottomMargin =
                         DimensionUtils.dip2px(this@DataStatisticsDetailActivity, 24f)
@@ -94,6 +95,7 @@ class DataStatisticsDetailActivity :
                     mBinding.includeDataStatisticsDetailOrder.tvDataStatisticsDetailItemTitle.text =
                         "订单数据"
                     refreshItemView(
+                        mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.groupDataStatisticsOrderNum,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsOrderNumTitle,
                         "订单量",
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsOrderNum,
@@ -102,44 +104,49 @@ class DataStatisticsDetailActivity :
                         orderStatistics.totalCountCompare
                     )
                     refreshItemView(
+                        mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.groupDataStatisticsRevenue,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsRevenueTitle,
-                        "收益",
+                        StringUtils.getString(R.string.device_pay_order),
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsRevenue,
-                        orderStatistics.orderRevenueAmount,
+                        orderStatistics.deviceOrderCount,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsRevenueTrend,
-                        orderStatistics.orderRevenueAmountCompare
+                        orderStatistics.deviceOrderCountCompare
                     )
                     refreshItemView(
+                        mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.groupDataStatisticsActiveUser,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsActiveUserTitle,
-                        "无效订单量",
+                        "充值支付订单",
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsActiveUser,
-                        orderStatistics.orderInvalidCount,
+                        orderStatistics.rechargeOrderCount,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsActiveUserTrend,
-                        orderStatistics.orderInvalidCountCompare
+                        orderStatistics.rechargeOrderCountCompare
                     )
                     refreshItemView(
+                        mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.groupDataStatisticsAddUser,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsAddUserTitle,
-                        "退款订单量",
+                        "设备退款订单",
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsAddUser,
-                        orderStatistics.orderRefundCount,
+                        orderStatistics.deviceRefundOrderCount,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsAddUserTrend,
-                        orderStatistics.orderRefundCountCompare
+                        orderStatistics.deviceRefundOrderCountCompare
                     )
                     refreshItemView(
+                        mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.groupDataStatisticsActiveDevice,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsActiveDeviceTitle,
-                        "退款金额",
+                        "充值退款订单",
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsActiveDevice,
-                        orderStatistics.orderRefundAmount,
+                        orderStatistics.rechargeRefundOrderCount,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsActiveDeviceTrend,
-                        orderStatistics.orderRefundAmountCompare
+                        orderStatistics.rechargeRefundOrderCountCompare
                     )
                     refreshItemView(
+                        mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.groupDataStatisticsDeviceFrequency,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsDeviceFrequencyTitle,
-                        "失效订单占比",
+                        "总退款金额",
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsDeviceFrequency,
-                        orderStatistics.orderInvalidRate + "%",
+                        orderStatistics.orderRefundAmount,
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsDeviceFrequencyTrend,
-                        orderStatistics.orderInvalidRateCompare
+                        orderStatistics.orderRefundAmountCompare
                     )
                 } ?: run {
                     mBinding.includeDataStatisticsDetailOrder.root.visibility = View.GONE
@@ -156,6 +163,7 @@ class DataStatisticsDetailActivity :
                     mBinding.includeDataStatisticsDetailDevice.tvDataStatisticsDetailItemTitle.text =
                         "设备数据"
                     refreshItemView(
+                        mBinding.includeDataStatisticsDetailDevice.includeDataStatisticsDetailItems.groupDataStatisticsOrderNum,
                         mBinding.includeDataStatisticsDetailDevice.includeDataStatisticsDetailItems.tvDataStatisticsOrderNumTitle,
                         "设备数量",
                         mBinding.includeDataStatisticsDetailDevice.includeDataStatisticsDetailItems.tvDataStatisticsOrderNum,
@@ -164,6 +172,7 @@ class DataStatisticsDetailActivity :
                         deviceStatistics.deviceTotalCountCompare
                     )
                     refreshItemView(
+                        mBinding.includeDataStatisticsDetailDevice.includeDataStatisticsDetailItems.groupDataStatisticsRevenue,
                         mBinding.includeDataStatisticsDetailDevice.includeDataStatisticsDetailItems.tvDataStatisticsRevenueTitle,
                         "活跃设备量",
                         mBinding.includeDataStatisticsDetailDevice.includeDataStatisticsDetailItems.tvDataStatisticsRevenue,
@@ -172,6 +181,7 @@ class DataStatisticsDetailActivity :
                         deviceStatistics.deviceActiveCountCompare
                     )
                     refreshItemView(
+                        mBinding.includeDataStatisticsDetailDevice.includeDataStatisticsDetailItems.groupDataStatisticsActiveUser,
                         mBinding.includeDataStatisticsDetailDevice.includeDataStatisticsDetailItems.tvDataStatisticsActiveUserTitle,
                         "设备活跃率",
                         mBinding.includeDataStatisticsDetailDevice.includeDataStatisticsDetailItems.tvDataStatisticsActiveUser,
@@ -180,6 +190,7 @@ class DataStatisticsDetailActivity :
                         deviceStatistics.deviceActiveRateCompare
                     )
                     refreshItemView(
+                        mBinding.includeDataStatisticsDetailDevice.includeDataStatisticsDetailItems.groupDataStatisticsAddUser,
                         mBinding.includeDataStatisticsDetailDevice.includeDataStatisticsDetailItems.tvDataStatisticsAddUserTitle,
                         "设备故障率",
                         mBinding.includeDataStatisticsDetailDevice.includeDataStatisticsDetailItems.tvDataStatisticsAddUser,
@@ -188,6 +199,7 @@ class DataStatisticsDetailActivity :
                         deviceStatistics.deviceFaultRateCompare
                     )
                     refreshItemView(
+                        mBinding.includeDataStatisticsDetailDevice.includeDataStatisticsDetailItems.groupDataStatisticsActiveDevice,
                         mBinding.includeDataStatisticsDetailDevice.includeDataStatisticsDetailItems.tvDataStatisticsActiveDeviceTitle,
                         "设备离线率",
                         mBinding.includeDataStatisticsDetailDevice.includeDataStatisticsDetailItems.tvDataStatisticsActiveDevice,
@@ -196,6 +208,7 @@ class DataStatisticsDetailActivity :
                         deviceStatistics.deviceOfflineRateCompare
                     )
                     refreshItemView(
+                        mBinding.includeDataStatisticsDetailDevice.includeDataStatisticsDetailItems.groupDataStatisticsDeviceFrequency,
                         mBinding.includeDataStatisticsDetailDevice.includeDataStatisticsDetailItems.tvDataStatisticsDeviceFrequencyTitle,
                         "设备频次",
                         mBinding.includeDataStatisticsDetailDevice.includeDataStatisticsDetailItems.tvDataStatisticsDeviceFrequency,
@@ -217,6 +230,7 @@ class DataStatisticsDetailActivity :
                     mBinding.includeDataStatisticsDetailUser.tvDataStatisticsDetailItemTitle.text =
                         "用户数据"
                     refreshItemView(
+                        mBinding.includeDataStatisticsDetailUser.includeDataStatisticsDetailItems.groupDataStatisticsOrderNum,
                         mBinding.includeDataStatisticsDetailUser.includeDataStatisticsDetailItems.tvDataStatisticsOrderNumTitle,
                         "总用户量",
                         mBinding.includeDataStatisticsDetailUser.includeDataStatisticsDetailItems.tvDataStatisticsOrderNum,
@@ -225,6 +239,7 @@ class DataStatisticsDetailActivity :
                         userStatistics.userTotalCountCompare
                     )
                     refreshItemView(
+                        mBinding.includeDataStatisticsDetailUser.includeDataStatisticsDetailItems.groupDataStatisticsRevenue,
                         mBinding.includeDataStatisticsDetailUser.includeDataStatisticsDetailItems.tvDataStatisticsRevenueTitle,
                         "新增用户量",
                         mBinding.includeDataStatisticsDetailUser.includeDataStatisticsDetailItems.tvDataStatisticsRevenue,
@@ -233,6 +248,7 @@ class DataStatisticsDetailActivity :
                         userStatistics.userAddCountCompare
                     )
                     refreshItemView(
+                        mBinding.includeDataStatisticsDetailUser.includeDataStatisticsDetailItems.groupDataStatisticsActiveUser,
                         mBinding.includeDataStatisticsDetailUser.includeDataStatisticsDetailItems.tvDataStatisticsActiveUserTitle,
                         "新用户占比",
                         mBinding.includeDataStatisticsDetailUser.includeDataStatisticsDetailItems.tvDataStatisticsActiveUser,
@@ -241,6 +257,7 @@ class DataStatisticsDetailActivity :
                         userStatistics.userAddPercentCompare
                     )
                     refreshItemView(
+                        mBinding.includeDataStatisticsDetailUser.includeDataStatisticsDetailItems.groupDataStatisticsAddUser,
                         mBinding.includeDataStatisticsDetailUser.includeDataStatisticsDetailItems.tvDataStatisticsAddUserTitle,
                         "活跃用户量",
                         mBinding.includeDataStatisticsDetailUser.includeDataStatisticsDetailItems.tvDataStatisticsAddUser,
@@ -249,6 +266,7 @@ class DataStatisticsDetailActivity :
                         userStatistics.userActiveCountCompare
                     )
                     refreshItemView(
+                        mBinding.includeDataStatisticsDetailUser.includeDataStatisticsDetailItems.groupDataStatisticsActiveDevice,
                         mBinding.includeDataStatisticsDetailUser.includeDataStatisticsDetailItems.tvDataStatisticsActiveDeviceTitle,
                         "用户活跃率",
                         mBinding.includeDataStatisticsDetailUser.includeDataStatisticsDetailItems.tvDataStatisticsActiveDevice,
@@ -257,6 +275,7 @@ class DataStatisticsDetailActivity :
                         userStatistics.userActivePercentCompare
                     )
                     refreshItemView(
+                        mBinding.includeDataStatisticsDetailUser.includeDataStatisticsDetailItems.groupDataStatisticsDeviceFrequency,
                         mBinding.includeDataStatisticsDetailUser.includeDataStatisticsDetailItems.tvDataStatisticsDeviceFrequencyTitle,
                         "用户复购率",
                         mBinding.includeDataStatisticsDetailUser.includeDataStatisticsDetailItems.tvDataStatisticsDeviceFrequency,
@@ -336,7 +355,7 @@ class DataStatisticsDetailActivity :
                 ).apply {
                     putExtras(
                         IntentParams.SearchSelectTypeParam.pack(
-                            IntentParams.SearchSelectTypeParam.SearchSelectTypeShop,
+                            IntentParams.SearchSelectTypeParam.SearchSelectStatisticsShop,
                         )
                     )
                 }
@@ -375,6 +394,7 @@ class DataStatisticsDetailActivity :
                         object : CommonBottomSheetDialog.OnValueSureListener<CategoryEntity> {
                             override fun onValue(data: CategoryEntity?) {
                                 mViewModel.selectDeviceCategory.value = data
+                                requestData()
                             }
                         }
                 }
@@ -392,6 +412,7 @@ class DataStatisticsDetailActivity :
     }
 
     private fun refreshItemView(
+        group: Group,
         tvTitle: AppCompatTextView?,
         title: String,
         tv: AppCompatTextView?,
@@ -399,29 +420,47 @@ class DataStatisticsDetailActivity :
         tvTrend: AppCompatTextView?,
         trend: Double
     ) {
-        tvTitle?.text = title
-        tv?.text = value
-        tvTrend?.text =
-            "环比${com.yunshang.haile_manager_android.utils.StringUtils.formatNumberStr(trend)}%".let {
-                com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
-                    it,
-                    arrayOf(
-                        ForegroundColorSpan(
-                            ContextCompat.getColor(
-                                this@DataStatisticsDetailActivity,
-                                if (trend > 0.0)
-                                    R.color.colorPrimary
-                                else if (trend < 0.0) {
-                                    R.color.color_green
-                                } else {
-                                    R.color.common_sub_txt_color
-                                }
-                            )
+        if (title.isNotEmpty()) {
+            tvTitle?.text = title
+            tv?.text = value.ifEmpty { "--" }
+            tvTrend?.text = if (value.isNotEmpty()) {
+                "环比${com.yunshang.haile_manager_android.utils.StringUtils.formatNumberStr(trend)}%".let {
+                    com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
+                        it,
+                        arrayOf(
+                            ForegroundColorSpan(
+                                ContextCompat.getColor(
+                                    this@DataStatisticsDetailActivity,
+                                    if (trend > 0.0)
+                                        R.color.colorPrimary
+                                    else if (trend < 0.0) {
+                                        R.color.color_green
+                                    } else {
+                                        R.color.common_sub_txt_color
+                                    }
+                                )
+                            ),
                         ),
-                    ),
-                    2, it.length,
-                )
+                        2, it.length,
+                    )
+                }
+            } else {
+                "环比--%".let {
+                    com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
+                        it,
+                        arrayOf(
+                            ForegroundColorSpan(
+                                ContextCompat.getColor(
+                                    this@DataStatisticsDetailActivity,
+                                    R.color.common_sub_txt_color
+                                )
+                            )
+                        ), 2, it.length
+                    )
+                }
             }
+        }
+        group.visibility(title.isNotEmpty())
     }
 
     override fun initData() {

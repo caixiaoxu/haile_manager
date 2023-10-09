@@ -36,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            app:visibility="@{null!=vm.staffDetail}"
             android:scrollbars="none">
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -170,7 +171,7 @@
             android:gravity="end"
             android:paddingHorizontal="16dp"
             android:paddingTop="12dp"
-            android:visibility="@{((vm.staffDetail.id != shared.loginInfo.userId &amp;&amp; 1 != vm.staffDetail.property ) &amp;&amp; (shared.hasPersonDeletePermission || (!StaffParam.isSpecialRole(vm.staffDetail.tagName) &amp;&amp; shared.hasPersonUpdatePermission)))?View.VISIBLE:View.GONE}"
+            app:visibility="@{(null!=vm.staffDetail &amp;&amp; (vm.staffDetail.id != shared.loginInfo.userId &amp;&amp; 1 != vm.staffDetail.property ) &amp;&amp; (shared.hasPersonDeletePermission || (!StaffParam.isSpecialRole(vm.staffDetail.tagName) &amp;&amp; shared.hasPersonUpdatePermission)))}"
             app:divider="@drawable/divide_size8"
             app:showDividers="middle">
 

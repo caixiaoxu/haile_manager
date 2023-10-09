@@ -156,7 +156,8 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
         }
 
         mSharedViewModel.hasShopDeletePermission.observe(this) {
-            mBinding.btnShopDetailDelete.visibility = if (it) View.VISIBLE else View.GONE
+            mBinding.btnShopDetailDelete.visibility =
+                if (it) View.VISIBLE else View.GONE
         }
 
         mViewModel.shopDetail.observe(this) {

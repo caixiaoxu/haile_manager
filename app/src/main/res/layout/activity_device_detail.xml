@@ -35,6 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scrollbars="none"
+            app:visibility="@{null!=vm.deviceDetail}"
             app:layout_constraintBottom_toTopOf="@id/view_device_detail_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -551,6 +552,7 @@
             android:id="@+id/view_device_detail_bottom"
             android:layout_width="match_parent"
             android:layout_height="99dp"
+            app:visibility="@{null!=vm.deviceDetail}"
             android:background="@drawable/shape_top_stroke_dividing"
             app:layout_constraintBottom_toBottomOf="parent" />
 
@@ -560,7 +562,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:text="@string/unBind"
-            android:visibility="@{shared.hasDeviceDeletePermission?View.VISIBLE:View.GONE}"
+            app:visibility="@{null!=vm.deviceDetail &amp;&amp; shared.hasDeviceDeletePermission}"
             app:layout_constraintEnd_toEndOf="@id/view_device_detail_bottom"
             app:layout_constraintTop_toTopOf="@id/view_device_detail_bottom" />
     </androidx.constraintlayout.widget.ConstraintLayout>

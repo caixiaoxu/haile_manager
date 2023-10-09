@@ -19,6 +19,7 @@ import com.lsy.framelib.utils.FileUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.*
+import timber.log.Timber
 import java.io.File
 
 
@@ -96,6 +97,7 @@ object ApiRepository {
                     }
                 }
             }
+            Timber.e("错误码：${response.code}，错误信息：${response.message}")
             throw CommonCustomException(response.code, response.message)
         }
         return response.data

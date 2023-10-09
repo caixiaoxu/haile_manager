@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.IncomeExpensesDetailViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:fitsSystemWindows="false"
+        tools:context=".ui.activity.personal.IncomeExpensesDetailActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_income_expenses_detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            app:title="@string/income_expenses_detail" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:paddingHorizontal="16dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_income_expenses_detail_date"
+                    style="@style/Font_14_333333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@mipmap/icon_triangle_down"
+                    android:drawablePadding="4dp"
+                    android:text="@{vm.dateSpace}"
+                    tools:text="05-14 至 06-24" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_income_expenses_detail_shop"
+                    style="@style/Font_14_333333_333333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:drawableEnd="@mipmap/icon_triangle_down"
+                    android:drawablePadding="4dp"
+                    android:hint="@string/all_shop"
+                    app:visibility="@{1 == vm.formType || 3 == vm.formType}" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_income_expenses_detail_category"
+                    style="@style/Font_14_333333_333333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:drawableEnd="@mipmap/icon_triangle_down"
+                    android:drawablePadding="4dp"
+                    android:hint="@string/all_device"
+                    app:visibility="@{2 == vm.formType || 3 == vm.formType}" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.scwang.smart.refresh.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white">
+
+                <com.google.android.material.appbar.AppBarLayout
+                    android:id="@+id/appbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/page_bg"
+                    app:elevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_14_333333_bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@mipmap/icon_home_income_title"
+                            android:drawablePadding="8dp"
+                            android:text="@string/total_income" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_income_expenses_detail_total"
+                            style="@style/Font_36_333333"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/money"
+                            tools:text="200.00" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_income_expenses_detail_total_category"
+                            style="@style/Font_14_333333"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            tools:text="200.00" />
+
+                    </LinearLayout>
+
+                    <RadioGroup
+                        android:id="@+id/rg_income_expenses_detail_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="53dp"
+                        android:background="@drawable/shape_sffffff_rt12"
+                        android:checkedButton="@id/rb_income_expenses_detail_type_all"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="16dp">
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/rb_income_expenses_detail_type_all"
+                            android:layout_width="53dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/selector_income_expenses_detail_type_bg"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/all"
+                            android:textColor="@color/selector_ffffff_333333"
+                            android:textSize="14sp" />
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/rb_income_expenses_detail_type_earning"
+                            android:layout_width="53dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/selector_income_expenses_detail_type_bg"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/earning"
+                            android:textColor="@color/selector_ffffff_333333"
+                            android:textSize="14sp" />
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/rb_income_expenses_detail_type_expend"
+                            android:layout_width="53dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/selector_income_expenses_detail_type_bg"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:text="@string/expend"
+                            android:textColor="@color/selector_ffffff_333333"
+                            android:textSize="14sp" />
+                    </RadioGroup>
+
+                    <View style="@style/DividingStyle" />
+                </com.google.android.material.appbar.AppBarLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_income_expenses_detail_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:overScrollMode="never"
+                        android:scrollbars="none" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_income_expenses_detail_list_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Font_14_999999"
+                        android:gravity="center"
+                        android:layout_marginTop="150dp"
+                        android:visibility="gone"
+                        android:layout_gravity="center_horizontal"
+                        android:drawableTop="@mipmap/icon_list_content_empty"
+                        android:text="@string/empty_content"
+                        tools:text ="暂无内容信息"/>
+                </FrameLayout>
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+            <com.scwang.smart.refresh.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+    </LinearLayout>
+</layout>

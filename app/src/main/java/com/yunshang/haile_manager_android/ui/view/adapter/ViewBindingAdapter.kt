@@ -1,8 +1,10 @@
 package com.yunshang.haile_manager_android.ui.view.adapter
 
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.MarginLayoutParamsCompat
 import androidx.databinding.BindingAdapter
@@ -10,7 +12,6 @@ import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import com.bumptech.glide.Glide
 import com.lsy.framelib.utils.DimensionUtils
-import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.ui.view.*
 import com.yunshang.haile_manager_android.utils.GlideUtils
 import com.yunshang.haile_manager_android.utils.StringUtils
@@ -178,5 +179,25 @@ object ViewBindingAdapter {
     ) {
         if (drawS != 0 || drawT != 0 || drawE != 0 || drawB != 0)
             setCompoundDrawablesWithIntrinsicBounds(drawS, drawT, drawE, drawB)
+    }
+
+    @BindingAdapter("drawSD", "drawTD", "drawED", "drawBD", requireAll = false)
+    @JvmStatic
+    fun TextView.divider(
+        drawS: Drawable?,
+        drawT: Drawable?,
+        drawE: Drawable?,
+        drawB: Drawable?
+    ) {
+        setCompoundDrawablesWithIntrinsicBounds(drawS, drawT, drawE, drawB)
+    }
+
+    @BindingAdapter("paddingH", requireAll = false)
+    @JvmStatic
+    fun LinearLayout.divider(paddingH: Float?, ) {
+        paddingH?.let {
+            val ph = DimensionUtils.dip2px(context, paddingH)
+            setPadding(ph, 0, ph, 0)
+        }
     }
 }

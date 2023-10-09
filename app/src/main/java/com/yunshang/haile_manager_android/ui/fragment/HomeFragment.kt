@@ -35,6 +35,7 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.HomeViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.arguments.StaffParam
 import com.yunshang.haile_manager_android.data.entities.HomeIncomeEntity
 import com.yunshang.haile_manager_android.data.entities.MessageContentEntity
 import com.yunshang.haile_manager_android.databinding.FragmentHomeBinding
@@ -44,7 +45,8 @@ import com.yunshang.haile_manager_android.ui.activity.common.WeChatQRCodeScanAct
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceDetailActivity
 import com.yunshang.haile_manager_android.ui.activity.message.MessageCenterActivity
 import com.yunshang.haile_manager_android.ui.activity.message.MessageListActivity
-import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
+import com.yunshang.haile_manager_android.ui.activity.personal.IncomeCalendarActivity
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 import com.yunshang.haile_manager_android.ui.view.chart.BarChartRenderer
 import com.yunshang.haile_manager_android.ui.view.chart.CustomMarkerView
 import com.yunshang.haile_manager_android.ui.view.dialog.DeviceCategoryDialog
@@ -147,9 +149,14 @@ class HomeFragment :
             )
         }
 
-        mBinding.ibHomeIncomeChange.setOnClickListener {
-            mViewModel.profitIncomeType.value = if (1 == mViewModel.profitIncomeType.value) 2 else 1
-            mViewModel.requestHomeIncome()
+        mBinding.clHomeIncome.setOnClickListener {
+            if (UserPermissionUtils.hasProfitCalendarPermission()) {
+                startActivity(Intent(requireContext(), IncomeCalendarActivity::class.java).apply {
+                    putExtra(IncomeCalendarActivity.ProfitType, 4)
+                })
+            } else {
+                SToast.showToast(requireContext(), R.string.no_permission)
+            }
         }
 
         initBarChart()
@@ -290,18 +297,18 @@ class HomeFragment :
                             // 跳转到收详情
 
                             marker.curBean?.let {
-                                startActivity(
-                                    Intent(
-                                        requireContext(),
-                                        IncomeActivity::class.java
-                                    ).apply {
-                                        putExtra(IncomeActivity.ProfitType, 3)
-                                        putExtra(IncomeActivity.SelectDay, it.date)
-                                        putExtra(
-                                            IncomeActivity.ProfitIncomeType,
-                                            mViewModel.profitIncomeType.value
-                                        )
-                                    })
+                                if (UserPermissionUtils.hasProfitCalendarPermission()) {
+                                    startActivity(
+                                        Intent(
+                                            requireContext(),
+                                            IncomeCalendarActivity::class.java
+                                        ).apply {
+                                            putExtra(IncomeCalendarActivity.ProfitType, 4)
+                                            putExtra(IncomeCalendarActivity.SelectDay, it.date)
+                                        })
+                                } else {
+                                    SToast.showToast(requireContext(), R.string.no_permission)
+                                }
                             }
                             return
                         }
@@ -326,8 +333,15 @@ class HomeFragment :
     override fun initEvent() {
         super.initEvent()
 
+        mSharedViewModel.userInfo.observe(this) {
+            it?.userInfo?.tagName?.let { tagName ->
+                val isSpecialRole = StaffParam.isSpecialRole(tagName)
+                mBinding.tvHomeSpecialRoleState.visibility(isSpecialRole)
+            }
+        }
+
         mSharedViewModel.hasUserPermission.observe(this) {
-            initProfitIncomeType()
+//            initProfitIncomeType()
             mViewModel.requestHomeIncome()
         }
 
@@ -534,10 +548,10 @@ class HomeFragment :
             }
 
             // 如果正负收益列表都为空，或者没有权限，不显示
-            if ((positives.isEmpty() && negatives.isEmpty()) || !UserPermissionUtils.hasProfitPermission()) {
+            if ((positives.isEmpty() && negatives.isEmpty()) || !UserPermissionUtils.hasProfitHomePermission()) {
                 mBinding.clHomeTrend.visibility = View.GONE
             } else {
-                mBinding.clHomeTrend.visibility = View.VISIBLE
+                mBinding.clHomeTrend.visibility(true)
                 val dataList = arrayListOf<IBarDataSet>()
                 if (positives.isNotEmpty()) {
                     val dataSet = BarDataSet(positives, "收益趋势")
@@ -571,11 +585,13 @@ class HomeFragment :
                 val index = instance[Calendar.DAY_OF_MONTH]
                 mBinding.bcTrendChart.highlightValue(index.toFloat(), 0, 0)
             }
+        } ?: run {
+            mBinding.clHomeTrend.visibility(false)
         }
     }
 
     override fun initData() {
-        initProfitIncomeType()
+//        initProfitIncomeType()
         mViewModel.requestHomeData()
     }
 

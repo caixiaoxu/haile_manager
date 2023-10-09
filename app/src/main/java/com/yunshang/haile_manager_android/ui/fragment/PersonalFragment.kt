@@ -1,10 +1,12 @@
 package com.yunshang.haile_manager_android.ui.fragment
 
 import android.content.Intent
+import android.graphics.Color
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
-import androidx.core.content.res.ResourcesCompat
+import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
@@ -13,9 +15,12 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.PersonalViewModel
+import com.yunshang.haile_manager_android.data.arguments.StaffParam
 import com.yunshang.haile_manager_android.databinding.FragmentPersonalBinding
 import com.yunshang.haile_manager_android.databinding.IncludePersonalItemBinding
 import com.yunshang.haile_manager_android.ui.activity.personal.PersonalInfoActivity
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 
 /**
  * Title :
@@ -49,11 +54,12 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
         }
 
         // items
-        var group: LinearLayout? = null
+        var group: LinearLayoutCompat? = null
         for (item in mViewModel.personalItems) {
             if (null == item) {
                 //null，把之前的加入布局，并创建新的group
                 if (null != group) {
+                    group.visibility(group.children.any { view-> View.VISIBLE == view.visibility })
                     mBinding.llPersonalItems.addView(group)
                 }
                 group = createItemGroup()
@@ -78,21 +84,33 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
                         })
                     }
                 }
-
-                if (group.childCount > 0) {
-                    group.addView(View(requireContext()).apply {
-                        setBackgroundColor(
-                            ResourcesCompat.getColor(
-                                resources,
-                                R.color.dividing_line_color,
-                                null
-                            )
-                        )
-                        layoutParams = LayoutParams(
-                            LayoutParams.MATCH_PARENT,
-                            DimensionUtils.dip2px(requireContext(), 0.5f)
-                        )
-                    })
+                when (item.title) {
+                    R.string.real_name -> {
+                        mPersonalItemBinding.tvPersonalItemValue.textSize = 10f
+                        mPersonalItemBinding.tvPersonalItemValue.setTextColor(Color.WHITE)
+                        val pV = DimensionUtils.dip2px(requireContext(), 2f)
+                        val pH = DimensionUtils.dip2px(requireContext(), 8f)
+                        mPersonalItemBinding.tvPersonalItemValue.setPadding(pH, pV, pH, pV)
+                        mPersonalItemBinding.tvPersonalItemValue.setBackgroundResource(R.drawable.shape_sff3b30_r9)
+                    }
+                    R.string.income_calendar -> {
+                        val isSpecialRole =
+                            StaffParam.isSpecialRole(mSharedViewModel.userInfo.value?.userInfo?.tagName)
+                        mPersonalItemBinding.root.visibility(!isSpecialRole && UserPermissionUtils.hasProfitCalendarPermission())
+                        mSharedViewModel.hasProfitCalendarPermission.observe(this) {
+                            mPersonalItemBinding.root.visibility(!isSpecialRole && it)
+                            group.visibility(group.children.any { view-> View.VISIBLE == view.visibility })
+                        }
+                    }
+                    R.string.income_statistics -> {
+                        val isSpecialRole =
+                            StaffParam.isSpecialRole(mSharedViewModel.userInfo.value?.userInfo?.tagName)
+                        mPersonalItemBinding.root.visibility(!isSpecialRole && UserPermissionUtils.hasProfitDetailPermission())
+                        mSharedViewModel.hasProfitDetailPermission.observe(this) {
+                            mPersonalItemBinding.root.visibility(!isSpecialRole && it)
+                            group.visibility(group.children.any { view-> View.VISIBLE == view.visibility })
+                        }
+                    }
                 }
 
                 group.addView(
@@ -108,15 +126,15 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
     /**
      * 创建ItemGroup
      */
-    private fun createItemGroup(): LinearLayout = LinearLayout(requireContext()).apply {
-        orientation = LinearLayout.VERTICAL
+    private fun createItemGroup(): LinearLayoutCompat = LinearLayoutCompat(requireContext()).apply {
+        orientation = LinearLayoutCompat.VERTICAL
         setBackgroundResource(R.drawable.shape_sffffff_r8)
+        dividerDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.divder_efefef)
+        showDividers = LinearLayoutCompat.SHOW_DIVIDER_MIDDLE
         layoutParams = LayoutParams(
             LayoutParams.MATCH_PARENT,
             LayoutParams.WRAP_CONTENT
-        ).apply {
-            setMargins(0, 0, 0, DimensionUtils.dip2px(requireContext(), 8f))
-        }
+        )
     }
 
     override fun initEvent() {
@@ -138,7 +156,7 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        if (!hidden){
+        if (!hidden) {
             mViewModel.requestBalanceAsync()
         }
     }

@@ -63,6 +63,7 @@
     <string name="closed">已关闭</string>
     <string name="next">下一步</string>
     <string name="manager">管理</string>
+    <string name="device">设备</string>
 
     <string name="empty_content">暂无内容信息</string>
     <string name="empty_device">暂无设备信息</string>
@@ -98,13 +99,14 @@
     <string name="data_revenue">收益</string>
     <string name="data_active_user">活跃用户量</string>
     <string name="data_add_user">新增用户量</string>
+    <string name="device_pay_order">设备支付订单</string>
     <string name="data_active_device">活跃设备数</string>
     <string name="data_device_frequency">设备频次</string>
     <string name="more_statistics">更多统计</string>
     <string name="data_detail">数据详情</string>
     <string name="indicator_specification">指标说明</string>
     <string-array name="indicator_specification_content">
-        <item>订单量：门店实际订单总数量（含海星订单量）\n\n收益：用户实际支付的金额（含购买海星和平台补贴金额）\n\n退款订单量：退款和补偿订单的总数量（不含海星订单）\n\n退款订单金额：退款和补偿订单的总金额（不含海星订单）\n\n无效订单量：用户下单后未完成付款的订单数量\n\n无效订单占比：无效订单量占总订单的比例</item>
+        <item>订单量：门店实际订单总数量（含海星订单量）\n\n设备支付的订单（未支付不统计），不含启动退款订单\n\n充值支付订单：海星的充值订单，不含退款\n\n启动退款订单：只包含启动退款的订单\n\n充值退款订单：只包含充值退款的订单\n\n总退款金额：包含启动退款和充值退款金额</item>
         <item>设备数量：已绑定设备的总数量（不含删除设备）\n\n活跃设备量：实际产生订单的设备总数量\n\n设备活跃率：实际产生订单的设备占比\n\n设备故障率：出现过故障的设备占比\n\n设备离线率：持续离线30分钟及以上的设备占比\n\n设备频次：每台设备平均使用次数</item>
         <item>总用户量：下过订单的用户量\n\n新增用户量：新注册的用户数量\n\n新用户占比：新用户占总用户量的比例\n\n活跃用户量：下单的用户数量(不含海星订单)\n\n用户活跃率：下单用户占总用户量的比例\n\n用户复购率：下单次数超过1次的用户占比</item>
     </string-array>
@@ -282,8 +284,8 @@
     <string name="shop_pay_config">支付配置</string>
     <string name="shop_search_hint">搜索门店或点位名称</string>
     <string name="shop_num_hint">全部%1$d家门店，%1$d个点位</string>
-    <string name="total_income">总收入</string>
-    <string name="total_earnings">总收益</string>
+    <string name="total_income">总收益</string>
+    <string name="total_earnings">总收入</string>
     <string name="device_num">设备数</string>
     <string name="pt_info">点位信息</string>
     <string name="shop_info">门店信息</string>
@@ -385,8 +387,11 @@
     <string name="take_charge_shop">负责门店</string>
     <string name="take_charge_shop1">负责的门店</string>
     <string name="permission">权限</string>
+    <string name="fun_permission">功能权限</string>
     <string name="permission_config">权限配置</string>
     <string name="permission_info">权限信息</string>
+    <string name="can_profit_data_shop">可查看营业数据的门店</string>
+    <string name="can_sub_account_profit_data">可查看分账的数据</string>
     <string name="select_all">全选</string>
     <string name="no_select_all">全不选</string>
     <string name="add_success">添加成功</string>
@@ -525,16 +530,19 @@
     <string name="wallet_withdraw">余额提现</string>
     <string name="my_change">我的零钱</string>
     <string name="balance">余额</string>
-    <string name="available_balance">可提现余额</string>
+    <string name="available_balance">可提现余额（支付宝）</string>
+    <string name="auto_to_bank_balance">可提现余额（银行卡）</string>
     <string name="balance_detail">余额明细</string>
-    <string name="shop_income">门店收入</string>
-    <string name="device_income">设备收入</string>
+    <string name="shop_income_calendar">门店收益日历</string>
+    <string name="device_income_calendar">设备收益日历</string>
     <string name="income">收入明细</string>
+    <string name="earnings">收益</string>
     <string name="earning">收入</string>
     <string name="expend">支出</string>
+    <string name="total_expend">总支出</string>
     <string name="shop">门店</string>
     <string name="order_no">订单编号</string>
-    <string name="total_income_for_day">%1$s总收入：</string>
+    <string name="total_income_for_day">%1$s总收益：</string>
     <string name="earnings_detail">收益详情</string>
     <string name="check_order_detail">查看订单详情</string>
     <string name="pay_time">支付时间</string>
@@ -601,6 +609,10 @@
     <string name="result_fellback">结果反馈</string>
     <string name="pay_success">支付成功</string>
     <string name="pay_success_hint">恭喜您支付成功，请前往钱包余额查看</string>
+
+    <string name="income_calendar">收益日历</string>
+    <string name="income_statistics">收益统计</string>
+    <string name="income_expenses_detail">收支明细</string>
 
     <string name="bank_card">银行卡</string>
     <string name="add_bank_card">添加银行卡</string>
@@ -697,6 +709,8 @@
     <string name="version_update">版本更新</string>
     <string name="update_now">立即更新</string>
     <string name="cancel_account">注销账号</string>
+    <string name="contact_platform">联系平台</string>
+    <string name="platform_phone">400-661-1751</string>
     <string name="cancel_account_hint">注销后您的身份、账户信息、钱包余额、订单信息等都会被清空且无法找回请谨慎操作。</string>
     <string name="cancel_account_sure">确定注销</string>
     <string name="cancel_account_cancel">我再想想</string>

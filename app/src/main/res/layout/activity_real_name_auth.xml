@@ -32,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            app:visibility="@{null != vm.authInfo}"
             android:scrollbars="none">
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -266,6 +267,6 @@
             android:layout_marginBottom="40dp"
             android:onClick="@{vm::submit}"
             android:text="@string/submit_data"
-            android:visibility="@{vm.isSubmit()?View.VISIBLE:View.GONE}" />
+            app:visibility="@{null != vm.authInfo &amp;&amp; vm.isSubmit()}" />
     </LinearLayout>
 </layout>

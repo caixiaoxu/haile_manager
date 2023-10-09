@@ -13,7 +13,8 @@ package com.yunshang.haile_manager_android.data.entities
 data class DataStatisticsShopDetailEntity(
     val deviceStatisticsVO: DeviceStatisticsVO?,
     val orderStatisticsVO: OrderStatisticsVO?,
-    val userStatisticsVO: UserStatisticsVO?
+    val userStatisticsVO: UserStatisticsVO?,
+    val orderStatisticsProfitVO: OrderStatisticsProfitVO?,
 )
 
 data class DeviceStatisticsVO(
@@ -28,7 +29,7 @@ data class DeviceStatisticsVO(
     val deviceTotalCount: String,
     val deviceTotalCountCompare: Double,
     val deviceUseFrequency: String,
-    val deviceUseFrequencyCompare: Double
+    val deviceUseFrequencyCompare: Double,
 )
 
 data class OrderStatisticsVO(
@@ -43,9 +44,8 @@ data class OrderStatisticsVO(
     val orderRevenueAmount: String,
     val orderRevenueAmountCompare: Double,
     val totalCount: String,
-    val totalCountCompare: Double
+    val totalCountCompare: Double,
 )
-
 data class UserStatisticsVO(
     val userActiveCount: String,
     val userActiveCountCompare: Double,
@@ -59,5 +59,23 @@ data class UserStatisticsVO(
     val userRepeatBuyPercent: String,
     val userRepeatBuyPercentCompare: Double,
     val userTotalCount: String,
-    val userTotalCountCompare: Double
+    val userTotalCountCompare: Double,
 )
+
+data class OrderStatisticsProfitVO(
+    val deviceOrderCount: String,
+    val deviceOrderCountCompare: Double,
+    val orderRefundAmount: String,
+    val orderRefundAmountCompare: Double,
+    val orderRefundCount: String,
+    val orderRefundCountCompare: Double,
+    val rechargeOrderCount: String,
+    val rechargeOrderCountCompare: Double,
+    val totalCount: String,
+    val totalCountCompare: Double,
+    val deviceRefundOrderCount: String,
+    val deviceRefundOrderCountCompare: Double,
+    val rechargeRefundOrderCount: String,
+    val rechargeRefundOrderCountCompare: Double,
+)
+

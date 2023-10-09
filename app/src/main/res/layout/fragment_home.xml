@@ -90,12 +90,13 @@
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_home_income"
                     android:layout_width="match_parent"
                     android:layout_height="98dp"
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/shape_sffffff_r8"
                     android:padding="16dp"
-                    android:visibility="@{(!shared.hasProfitPermission || TextUtils.isEmpty(vm.inComeVal))?View.GONE:View.VISIBLE}">
+                    android:visibility="@{(!shared.hasProfitHomePermission || TextUtils.isEmpty(vm.inComeVal))?View.GONE:View.VISIBLE}">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_home_income_title"
@@ -104,25 +105,25 @@
                         android:layout_height="wrap_content"
                         android:drawableStart="@mipmap/icon_home_income_title"
                         android:drawablePadding="5dp"
-                        android:text="@{1 == vm.profitIncomeType?@string/personal_home_income_title:@string/merchant_home_income_title}"
+                        android:text="@string/home_income_title"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/tv_home_income"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_chainStyle="spread_inside" />
 
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/ib_home_income_change"
-                        android:layout_width="48dp"
-                        android:layout_height="28dp"
-                        android:layout_marginStart="8dp"
-                        android:background="@color/transparent"
-                        android:padding="0dp"
-                        android:src="@mipmap/icon_home_income_type_change"
-                        android:visibility="@{(shared.hasProfitHomePermission &amp;&amp; shared.hasProfitMerchantPermission)?View.VISIBLE:View.GONE}"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_home_income_title"
-                        app:layout_constraintStart_toEndOf="@id/tv_home_income_title"
-                        app:layout_constraintTop_toTopOf="@id/tv_home_income_title" />
+                    <!--                    <androidx.appcompat.widget.AppCompatImageButton-->
+                    <!--                        android:id="@+id/ib_home_income_change"-->
+                    <!--                        android:layout_width="48dp"-->
+                    <!--                        android:layout_height="28dp"-->
+                    <!--                        android:layout_marginStart="8dp"-->
+                    <!--                        android:background="@color/transparent"-->
+                    <!--                        android:padding="0dp"-->
+                    <!--                        android:src="@mipmap/icon_home_income_type_change"-->
+                    <!--                        android:visibility="@{(shared.hasProfitHomePermission &amp;&amp; shared.hasProfitMerchantPermission)?View.VISIBLE:View.GONE}"-->
+                    <!--                        app:layout_constraintBottom_toBottomOf="@id/tv_home_income_title"-->
+                    <!--                        app:layout_constraintStart_toEndOf="@id/tv_home_income_title"-->
+                    <!--                        app:layout_constraintTop_toTopOf="@id/tv_home_income_title" />-->
 
                     <com.yunshang.haile_manager_android.ui.view.AmountTextView
                         android:id="@+id/tv_home_income"
@@ -136,6 +137,14 @@
                         app:layout_constraintTop_toBottomOf="@id/tv_home_income_title"
                         tools:text="¥2000.00" />
 
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_arrow_right"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -145,7 +154,7 @@
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/shape_sffffff_r8"
                     android:paddingVertical="16dp"
-                    android:visibility="@{!shared.hasProfitPermission?View.GONE:View.VISIBLE}">
+                    android:visibility="gone">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_trend_title"
@@ -341,5 +350,21 @@
                 </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_home_special_role_state"
+            style="@style/Font_14_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableTop="@mipmap/icon_list_content_empty"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="@string/empty_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bg_home_title"
+            tools:text="暂无内容信息" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

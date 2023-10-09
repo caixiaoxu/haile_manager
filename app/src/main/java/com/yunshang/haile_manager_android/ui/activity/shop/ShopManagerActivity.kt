@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -35,13 +36,14 @@ import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivity
-import com.yunshang.haile_manager_android.ui.activity.personal.IncomeActivity
+import com.yunshang.haile_manager_android.ui.activity.personal.IncomeCalendarActivity
 import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.DeviceCategoryDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.ui.view.refresh.CustomDividerItemDecoration
 import com.yunshang.haile_manager_android.utils.NumberUtils
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 
 class ShopManagerActivity :
     BaseBusinessActivity<ActivityShopManagerBinding, ShopManagerViewModel>(
@@ -119,7 +121,7 @@ class ShopManagerActivity :
     ) { mItemBinding, _, item ->
         mItemBinding?.share = mSharedViewModel
         var title =
-            StringUtils.getString(R.string.total_earnings)
+            StringUtils.getString(R.string.total_income)
         var value =
             StringUtils.getString(R.string.unit_money) + NumberUtils.keepTwoDecimals(item.income)
         var start = title.length + 1
@@ -142,17 +144,19 @@ class ShopManagerActivity :
                 ), start, end
             )
         mItemBinding?.tvItemShopTotalIncome?.setOnClickListener {
-            if (true == mSharedViewModel.hasShopProfitPermission.value) {
-                //  跳转到店铺收益
-                startActivity(
-                    Intent(
-                        this@ShopManagerActivity,
-                        IncomeActivity::class.java
-                    ).apply {
-                        putExtra(IncomeActivity.ProfitType, 1)
-                        putExtra(IncomeActivity.ProfitSearchId, item.id)
-                    })
+            if (!UserPermissionUtils.hasProfitCalendarPermission()) {
+                SToast.showToast(this@ShopManagerActivity, "无收益日历的功能权限")
+                return@setOnClickListener
             }
+            //  跳转到店铺收益
+            startActivity(
+                Intent(
+                    this@ShopManagerActivity,
+                    IncomeActivity::class.java
+                ).apply {
+                    putExtra(IncomeActivity.ProfitType, 1)
+                    putExtra(IncomeActivity.ProfitSearchId, item.id)
+                })
         }
 
         // 点位数

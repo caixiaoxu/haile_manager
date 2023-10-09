@@ -1,15 +1,14 @@
 package com.yunshang.haile_manager_android.business.vm
 
-import android.content.Intent
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.yunshang.haile_manager_android.business.apiService.StaffService
 import com.yunshang.haile_manager_android.business.event.BusEvents
+import com.yunshang.haile_manager_android.data.arguments.StaffPermission
 import com.yunshang.haile_manager_android.data.entities.StaffDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
-import com.yunshang.haile_manager_android.ui.activity.staff.StaffPermissionActivity
 
 /**
  * Title :
@@ -45,13 +44,37 @@ class StaffDetailViewModel : BaseViewModel() {
     /**
      * 返回权限列表id
      */
-    fun getPermissionIds(): IntArray =
+    fun getPermissionIds(): List<StaffPermission> =
         staffDetail.value?.menuList?.flatMap { menu ->
-            arrayListOf<Int>().apply {
-                add(menu.id)
-                addAll(menu.childList.map { child -> child.id })
+            arrayListOf<StaffPermission>().apply {
+                menu.childList?.let {
+                    add(StaffPermission(menu.id))
+                    addAll(menu.childList.map { child -> StaffPermission(child.id) })
+                }
             }
-        }?.toIntArray() ?: intArrayOf()
+        } ?: listOf()
+
+    /**
+     * 返回营业数据的门店信息
+     */
+    fun getProfitShopList() = staffDetail.value?.menuList?.find { item ->
+        item.perms == "league:profit"
+    }?.dataPermissionDto?.dataPermissionShopDtoList.let {
+        if (it.isNullOrEmpty()) staffDetail.value?.dataPermissionShopDtoList else it
+    }
+
+    /**
+     * 返回营业数据的分账可查看信息
+     */
+    fun getProfitTypesList() = staffDetail.value?.menuList?.find { item ->
+        item.perms == "league:profit"
+    }?.dataPermissionDto?.fundsDistributionType.let {
+        if (it.isNullOrEmpty()){
+            intArrayOf(1)
+        } else {
+            it.toIntArray()
+        }
+    }
 
     fun deleteStaff(view: View) {
         if (-1 == staffId) {

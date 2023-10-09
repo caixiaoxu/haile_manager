@@ -24,7 +24,7 @@ interface CapitalService {
     /**
      * 当日总收益接口
      */
-    @POST("/profit/totalIncomeToday")
+    @POST("/profit/totalIncomeToday/v2")
     suspend fun totalIncomeToady(@Body body: RequestBody): ResponseWrapper<String>
 
     /**
@@ -46,6 +46,12 @@ interface CapitalService {
     suspend fun incomeListByDay(@Body body: RequestBody): ResponseWrapper<ResponseList<IncomeListByDayEntity>>
 
     /**
+     * 获取收支明细列表接口
+     */
+    @POST("/profitStatistics/getProfitStatisticsListVO")
+    suspend fun requestProfitStatisticsList(@Body body: RequestBody): ResponseWrapper<ResponseList<ProfitStatisticsEntity>>
+
+    /**
      * 收益明细详情接口
      */
     @GET("/profit/profitDetail")
@@ -55,7 +61,7 @@ interface CapitalService {
     /**
      * 首页收益趋势接口
      */
-    @POST("/profit/homeIncome")
+    @POST("/profit/homeIncome/v2")
     suspend fun homeInCome(@Body body: RequestBody): ResponseWrapper<List<HomeIncomeEntity>>
 
     /**
@@ -217,5 +223,41 @@ interface CapitalService {
      */
     @POST("/candyPay/bankCard/delete")
     suspend fun requestBankCardDelete(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 收益明细总收益接口
+     */
+    @POST("/profitStatistics/getTotalRevenue")
+    suspend fun requestTotalRevenue(@Body body: RequestBody): ResponseWrapper<TotalRevenueEntity>
+
+    /**
+     * 收益店铺列表接口
+     */
+    @POST("/profitStatistics/getShopRevenueList")
+    suspend fun requestShopRevenueList(@Body body: RequestBody): ResponseWrapper<ResponseList<ShopRevenueEntity>>
+
+    /**
+     * 收益店铺详情接口
+     */
+    @POST("/profitStatistics/getShopDetailStatistics")
+    suspend fun requestShopRevenueDetail(@Body body: RequestBody): ResponseWrapper<MutableList<ShopRevenueDetailEntity>>
+
+    /**
+     * 收益总收支接口
+     */
+    @POST("/profitStatistics/getProfitStatisticsVO")
+    suspend fun requestTotalIncomeExpenses(@Body body: RequestBody): ResponseWrapper<TotalIncomeExpensesEntity>
+
+    /**
+     * 收益收支明细列表接口
+     */
+    @POST("/profitStatistics/getProfitStatisticsListVO")
+    suspend fun requestIncomeExpensesDetailList(@Body body: RequestBody): ResponseWrapper<ResponseList<IncomeExpensesDetailEntity>>
+
+    /**
+     * 设备收益列表接口
+     */
+    @POST("/profitStatistics/getDeviceProfitVOPage")
+    suspend fun requestShopDeviceRevenueList(@Body body: RequestBody): ResponseWrapper<ResponseList<ShopDeviceRevenueListEntity>>
 
 }

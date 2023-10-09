@@ -12,6 +12,7 @@ import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.StatusBarUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DataStatisticsViewModel
@@ -52,6 +53,27 @@ class DataStatisticsFragment :
             BR.item
         ) { mItemBinding, _, item ->
             mItemBinding?.let {
+                // 总收益
+                refreshItemView(
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsTotalRevenue,
+                    item.revenue,
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsTotalRevenueTrend,
+                    item.revenueCompare, true
+                )
+                // 总收入
+                refreshItemView(
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsTotalEarnings,
+                    item.income,
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsTotalEarningsTrend,
+                    item.incomeCompare, true
+                )
+                // 总支出
+                refreshItemView(
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsTotalExpend,
+                    item.expend,
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsTotalExpendTrend,
+                    item.expendCompare, true
+                )
                 refreshItemView(
                     mItemBinding.includeDataStatisticsItems.tvDataStatisticsOrderNum,
                     item.orderTotalCount,
@@ -59,10 +81,10 @@ class DataStatisticsFragment :
                     item.orderTotalCountCompare
                 )
                 refreshItemView(
-                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsRevenue,
-                    item.orderRevenueAmount,
-                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsRevenueTrend,
-                    item.orderRevenueAmountCompare
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsStartOrder,
+                    item.deviceOrderCount,
+                    mItemBinding.includeDataStatisticsItems.tvDataStatisticsStartOrderTrend,
+                    item.deviceOrderCountCompare
                 )
                 refreshItemView(
                     mItemBinding.includeDataStatisticsItems.tvDataStatisticsActiveUser,
@@ -111,6 +133,7 @@ class DataStatisticsFragment :
                             IntentParams.SearchSelectTypeParam.ShopResultCode -> {
                                 mViewModel.selectDepartment.value =
                                     if (selected.isNotEmpty()) selected[0] else null
+                                requestData(true)
                             }
                         }
                     }
@@ -129,7 +152,6 @@ class DataStatisticsFragment :
 
         mViewModel.selectDepartment.observe(this) {
             mBinding.includeDataStatisticsFilter.tvDataStatisticsShop.text = it?.name ?: ""
-            requestData(true)
         }
 
         // 设备类型
@@ -140,42 +162,68 @@ class DataStatisticsFragment :
         // 选择设备类型
         mViewModel.selectDeviceCategory.observe(this) {
             mBinding.includeDataStatisticsFilter.tvDataStatisticsDevice.text = it?.name ?: ""
-            requestData(true)
         }
 
         // 总数据
         mViewModel.statisticsTotal.observe(this) {
             it?.let { total ->
+                // 总收益
+                refreshItemView(
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsTotalRevenue,
+                    total.revenue,
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsTotalRevenueTrend,
+                    total.revenueCompare, true
+                )
+                // 总收入
+                refreshItemView(
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsTotalEarnings,
+                    total.income,
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsTotalEarningsTrend,
+                    total.incomeCompare, true
+                )
+                // 总支出
+                refreshItemView(
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsTotalExpend,
+                    total.expend,
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsTotalExpendTrend,
+                    total.expendCompare, true
+                )
+                // 订单量
                 refreshItemView(
                     mBinding.includeDataStatisticsTotal.tvDataStatisticsOrderNum,
                     total.orderTotalCount,
                     mBinding.includeDataStatisticsTotal.tvDataStatisticsOrderNumTrend,
                     total.orderTotalCountCompare, true
                 )
+                // 启动订单
                 refreshItemView(
-                    mBinding.includeDataStatisticsTotal.tvDataStatisticsRevenue,
-                    total.orderRevenueAmount,
-                    mBinding.includeDataStatisticsTotal.tvDataStatisticsRevenueTrend,
-                    total.orderRevenueAmountCompare, true
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsStartOrder,
+                    total.deviceOrderCount,
+                    mBinding.includeDataStatisticsTotal.tvDataStatisticsStartOrderTrend,
+                    total.deviceOrderCountCompare, true
                 )
+                // 活跃用户量
                 refreshItemView(
                     mBinding.includeDataStatisticsTotal.tvDataStatisticsActiveUser,
                     total.userActiveCount,
                     mBinding.includeDataStatisticsTotal.tvDataStatisticsActiveUserTrend,
                     total.userActiveCountCompare, true
                 )
+                // 新增用户量
                 refreshItemView(
                     mBinding.includeDataStatisticsTotal.tvDataStatisticsAddUser,
                     total.userAddCount,
                     mBinding.includeDataStatisticsTotal.tvDataStatisticsAddUserTrend,
                     total.userAddCountCompare, true
                 )
+                // 活跃设备数
                 refreshItemView(
                     mBinding.includeDataStatisticsTotal.tvDataStatisticsActiveDevice,
                     total.deviceActiveCount,
                     mBinding.includeDataStatisticsTotal.tvDataStatisticsActiveDeviceTrend,
                     total.deviceActiveCountCompare, true
                 )
+                // 设备频次
                 refreshItemView(
                     mBinding.includeDataStatisticsTotal.tvDataStatisticsDeviceFrequency,
                     total.deviceUseFrequency,
@@ -187,6 +235,8 @@ class DataStatisticsFragment :
     }
 
     override fun initView() {
+        mBinding.root.setPadding(0, StatusBarUtils.getStatusBarHeight(), 0, 0)
+
         // 日、周、月、年
         mBinding.includeDataStatisticsDate.rgDataStatisticsCategoryDate.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
@@ -252,7 +302,7 @@ class DataStatisticsFragment :
                 ).apply {
                     putExtras(
                         IntentParams.SearchSelectTypeParam.pack(
-                            IntentParams.SearchSelectTypeParam.SearchSelectTypeShop,
+                            IntentParams.SearchSelectTypeParam.SearchSelectStatisticsShop,
                             mustSelect = false
                         )
                     )
@@ -309,6 +359,7 @@ class DataStatisticsFragment :
                         object : CommonBottomSheetDialog.OnValueSureListener<CategoryEntity> {
                             override fun onValue(data: CategoryEntity?) {
                                 mViewModel.selectDeviceCategory.value = data
+                                requestData(true)
                             }
                         }
                 }

@@ -107,10 +107,12 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/ll_personal_items"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:divider="@drawable/divide_size8"
+            app:showDividers="middle"
             android:orientation="vertical" />
 
     </LinearLayout>

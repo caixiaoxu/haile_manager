@@ -12,6 +12,6 @@ package com.yunshang.haile_manager_android.data.entities
  */
 data class BalanceTotalEntity(
     val totalAmount: String,
-    val availableAmount: String,
-    val candyPayAmount: String,
+    val availableAmount: String?,
+    val candyPayAmount: String?,
 )

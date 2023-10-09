@@ -11,6 +11,8 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.StaffCreateViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSelectTypeParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
+import com.yunshang.haile_manager_android.data.arguments.StaffPermission
+import com.yunshang.haile_manager_android.data.entities.DataPermissionShopDto
 import com.yunshang.haile_manager_android.data.entities.StaffRoleEntity
 import com.yunshang.haile_manager_android.databinding.ActivityStaffCreateBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -39,8 +41,17 @@ class StaffCreateActivity :
                 }
                 StaffPermissionActivity.PermissionResultCode -> {
                     it.data?.let { intent ->
-                        mViewModel.permission.value =
-                            intent.getIntegerArrayListExtra(StaffPermissionActivity.PermissionIds)
+                        mViewModel.permission.value = GsonUtils.json2List(
+                            intent.getStringExtra(StaffPermissionActivity.PermissionIds),
+                            StaffPermission::class.java
+                        )
+                        mViewModel.shopList = GsonUtils.json2List(
+                            intent.getStringExtra(
+                                StaffPermissionActivity.ShopList
+                            ), DataPermissionShopDto::class.java
+                        )
+                        mViewModel.fundsDistributionTypes =
+                            intent.getIntArrayExtra(StaffPermissionActivity.ProfitTypes)?.toList()
                     }
                 }
             }
@@ -105,7 +116,25 @@ class StaffCreateActivity :
                 ).apply {
                     putExtra(
                         StaffPermissionActivity.PermissionIds,
-                        mViewModel.permission.value ?: intArrayOf()
+                        GsonUtils.any2Json(mViewModel.permission.value)
+                    )
+                    putExtra(
+                        StaffPermissionActivity.ShopList,
+                        GsonUtils.any2Json(mViewModel.shopList.also {
+                            it?.forEach { shop ->
+                                shop.isCheck = true
+                            }
+                        })
+                    )
+                    putExtra(
+                        StaffPermissionActivity.ProfitTypes,
+                        mViewModel.fundsDistributionTypes.let {
+                            if (it.isNullOrEmpty()) {
+                                intArrayOf(1)
+                            } else {
+                                it.toIntArray()
+                            }
+                        }
                     )
                 }
             )

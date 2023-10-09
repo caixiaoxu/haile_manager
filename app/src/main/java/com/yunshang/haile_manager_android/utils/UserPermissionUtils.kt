@@ -64,6 +64,39 @@ object UserPermissionUtils {
     }
 
     /**
+     * 是否含有数据统计权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasProfitDataStatisticsPermission(): Boolean {
+        return null != userPermissionsMap["league:data:list"]
+    }
+
+    /**
+     * 是否含有收益日历权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasProfitCalendarPermission(): Boolean {
+        return null != userPermissionsMap["league:profit:calendar"]
+    }
+
+    /**
+     * 是否含有收益明细权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasProfitDetailPermission(): Boolean {
+        return null != userPermissionsMap["league:profit:detail"]
+    }
+
+    /**
      * 是否含有商家收益权限
      *
      *
@@ -552,6 +585,14 @@ object UserPermissionUtils {
 
     /** ------------------------充值管理权限------------------------  */
     /**
+     * 是否含有海星管理权限
+     *
+     * @return
+     */
+    fun hasVipPermission(): Boolean {
+        return null != userPermissionsMap["league:vip"]
+    }
+    /**
      * 是否含有方案列表权限
      *
      * @return
@@ -783,4 +824,18 @@ object UserPermissionUtils {
     }
 
     /** ------------------------发券权限------------------------  */
+
+    /** ------------------------公告权限------------------------  */
+
+    /**
+     * 是否含有公告权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasAnnouncementPermission(): Boolean {
+        return null != userPermissionsMap["league:announcement"]
+    }
+    /** ------------------------公告权限------------------------  */
 }

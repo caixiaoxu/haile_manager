@@ -1,4 +1,4 @@
-package com.yunshang.haile_life.ui.view
+package com.yunshang.haile_manager_android.ui.view
 
 import android.content.Context
 import android.util.AttributeSet

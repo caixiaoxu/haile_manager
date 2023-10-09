@@ -263,7 +263,7 @@ object StringUtils {
      * @return
      */
     fun formatNumberStr(amount: Double): String {
-        return (if (amount > 0) "+" else "") + String.format("%.2f", amount)
+        return (if (amount >= 0) "+" else "") + String.format("%.2f", amount)
     }
 
     // 密码正则

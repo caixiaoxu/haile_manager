@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.ui.activity.personal
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.view.View
 import com.lsy.framelib.utils.AppManager
 import com.lsy.framelib.utils.StringUtils
@@ -65,6 +66,14 @@ class SettingActivity : BaseBusinessActivity<ActivitySettingBinding, SettingView
                 positiveTxt = StringUtils.getString(R.string.cancel_account_cancel)
             }.build()
                 .show(supportFragmentManager)
+        }
+
+        // 联系平台
+        mBinding.itemContactPlatform.onSelectedEvent = {
+            startActivity(Intent().apply {
+                action = Intent.ACTION_DIAL
+                data = Uri.parse("tel:${StringUtils.getString(R.string.platform_phone)}")
+            })
         }
 
         mBinding.tvChangeAccount.setOnClickListener {

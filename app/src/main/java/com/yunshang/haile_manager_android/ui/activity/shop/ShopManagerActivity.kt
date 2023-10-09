@@ -24,7 +24,6 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.ShopManagerViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
-import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.ShopEntity
 import com.yunshang.haile_manager_android.data.entities.ShopPositionEntity
@@ -152,10 +151,10 @@ class ShopManagerActivity :
             startActivity(
                 Intent(
                     this@ShopManagerActivity,
-                    IncomeActivity::class.java
+                    IncomeCalendarActivity::class.java
                 ).apply {
-                    putExtra(IncomeActivity.ProfitType, 1)
-                    putExtra(IncomeActivity.ProfitSearchId, item.id)
+                    putExtra(IncomeCalendarActivity.ProfitType, 1)
+                    putExtra(IncomeCalendarActivity.ProfitSearchId, item.id)
                 })
         }
 

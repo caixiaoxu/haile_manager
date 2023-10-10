@@ -205,20 +205,22 @@ class ShopManagerActivity :
 
         // 点位列表
         mItemBinding?.rvShopPositionList?.layoutManager = LinearLayoutManager(this)
-        ContextCompat.getDrawable(this, R.drawable.divide_size8)?.let {
-            mItemBinding?.rvShopPositionList?.addItemDecoration(
-                CustomDividerItemDecoration(
-                    this,
-                    CustomDividerItemDecoration.VERTICAL
-                ).apply {
-                    setDrawable(it)
-                }
-            )
+        if ((mItemBinding?.rvShopPositionList?.itemDecorationCount ?: 0) == 0) {
+            ContextCompat.getDrawable(this, R.drawable.divide_size8)?.let {
+                mItemBinding?.rvShopPositionList?.addItemDecoration(
+                    CustomDividerItemDecoration(
+                        this,
+                        CustomDividerItemDecoration.VERTICAL
+                    ).apply {
+                        setDrawable(it)
+                    }
+                )
+            }
         }
         mItemBinding?.rvShopPositionList?.adapter =
             CommonRecyclerAdapter<ItemShopManagerPositionBinding, ShopPositionEntity>(
                 R.layout.item_shop_manager_position, BR.item
-            ) { mInternalItemBinding, pos, posititon ->
+            ) { mInternalItemBinding, _, posititon ->
                 // 设备数
                 title = StringUtils.getString(R.string.device_num)
                 value = posititon.deviceNum.toString()
@@ -259,7 +261,13 @@ class ShopManagerActivity :
                     }
                 }
                 mInternalItemBinding?.root?.setOnClickListener {
-                    // TODO 跳转到点位详情
+                    // 跳转到点位详情
+                    startActivity(Intent(
+                        this@ShopManagerActivity,
+                        ShopPositionDetailActivity::class.java
+                    ).apply {
+                        putExtras(IntentParams.CommonParams.pack(posititon.id))
+                    })
                 }
             }
 
@@ -282,12 +290,12 @@ class ShopManagerActivity :
 
         // 进入详情
         mItemBinding?.root?.setOnClickListener {
-            if (true == mSharedViewModel.hasShopInfoPermission.value) {
+            if (true == mSharedViewModel.hasShopInfoPermission.value && null != item.id) {
                 startActivity(Intent(
                     this@ShopManagerActivity,
                     ShopDetailActivity::class.java
                 ).apply {
-                    putExtra(ShopDetailActivity.ShopId, item.id)
+                    putExtras(IntentParams.ShopParams.pack(item.id))
                 })
             }
         }

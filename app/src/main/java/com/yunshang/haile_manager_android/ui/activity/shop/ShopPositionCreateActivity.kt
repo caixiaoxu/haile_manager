@@ -71,6 +71,11 @@ class ShopPositionCreateActivity :
 
     override fun backBtn(): View = mBinding.barAddPtTitle.getBackBtn()
 
+    override fun initIntent() {
+        super.initIntent()
+        mViewModel.updatePositionDetail(IntentParams.ShopPositionCreateParams.parseShopPositionDetail(intent))
+    }
+
     override fun initEvent() {
         super.initEvent()
         mViewModel.jump.observe(this){
@@ -82,18 +87,20 @@ class ShopPositionCreateActivity :
         window.statusBarColor = Color.WHITE
         // 所属门店
         mBinding.itemPositionShop.onSelectedEvent = {
-            startSearchSelect.launch(
-                Intent(
-                    this@ShopPositionCreateActivity,
-                    SearchSelectRadioActivity::class.java
-                ).apply {
-                    putExtras(
-                        IntentParams.SearchSelectTypeParam.pack(
-                            IntentParams.SearchSelectTypeParam.SearchSelectTypeShop,
+            if (null == mViewModel.positionParam.value?.id){
+                startSearchSelect.launch(
+                    Intent(
+                        this@ShopPositionCreateActivity,
+                        SearchSelectRadioActivity::class.java
+                    ).apply {
+                        putExtras(
+                            IntentParams.SearchSelectTypeParam.pack(
+                                IntentParams.SearchSelectTypeParam.SearchSelectTypeShop,
+                            )
                         )
-                    )
-                }
-            )
+                    }
+                )
+            }
         }
 
         //定位

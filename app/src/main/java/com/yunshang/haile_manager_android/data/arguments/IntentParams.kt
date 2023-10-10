@@ -5,7 +5,6 @@ import android.os.Bundle
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.*
-import com.yunshang.haile_manager_android.ui.activity.shop.ShopCreateAndUpdateActivity
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import java.util.*
 
@@ -224,6 +223,27 @@ object IntentParams {
             }
 
         fun parseVolumeVisibleState(intent: Intent): Int = intent.getIntExtra(VolumeVisibleState, 0)
+    }
+
+    object ShopPositionCreateParams {
+        private const val PositionDetail = "positionDetail"
+
+        /**
+         * 包装参数
+         */
+        fun pack(
+            positionDetail: ShopPositionDetailEntity? = null,
+        ): Bundle =
+            Bundle().apply {
+                positionDetail?.let {
+                    putString(PositionDetail, GsonUtils.any2Json(positionDetail))
+                }
+            }
+
+        fun parseShopPositionDetail(intent: Intent): ShopPositionDetailEntity? = GsonUtils.json2Class(
+            intent.getStringExtra(PositionDetail),
+            ShopPositionDetailEntity::class.java
+        )
     }
 
     object ShopPaySettingsParams {

@@ -9,7 +9,13 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.ShopService
 import com.yunshang.haile_manager_android.business.event.BusEvents
+import com.yunshang.haile_manager_android.data.arguments.BusinessHourEntity
+import com.yunshang.haile_manager_android.data.arguments.ShopCreateParam
 import com.yunshang.haile_manager_android.data.arguments.ShopPositionCreateParam
+import com.yunshang.haile_manager_android.data.entities.SchoolSelectEntity
+import com.yunshang.haile_manager_android.data.entities.ShopDetailEntity
+import com.yunshang.haile_manager_android.data.entities.ShopPositionDetailEntity
+import com.yunshang.haile_manager_android.data.entities.ShopTypeEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -41,6 +47,33 @@ class ShopPositionCreateViewModel : BaseViewModel() {
             })
         } ?: run {
             callBack(null)
+        }
+    }
+
+    /**
+     * 把点位详情的数据赋值到编辑参数中
+     */
+    fun updatePositionDetail(positionDetail: ShopPositionDetailEntity?) {
+        positionDetail?.let {
+            positionParam.value = ShopPositionCreateParam(
+                it.id,
+                it.name,
+                it.shopId,
+                serviceTelephone = it.serviceTelephone,
+                sex = it.sex
+            ).apply {
+                it.shopName?.let { name ->
+                    shopName = name
+                }
+                if (null != it.lat && null != it.lng && null != it.address) {
+                    changeAddress(
+                        it.lat,
+                        it.lng,
+                        it.address
+                    )
+                }
+                changeWorkTime(it.workTimeArr(), it.workTime)
+            }
         }
     }
 
@@ -77,20 +110,25 @@ class ShopPositionCreateViewModel : BaseViewModel() {
             return
         }
 
+        val body = ApiRepository.createRequestBody(GsonUtils.any2Json(positionParam.value))
+
         launch({
             ApiRepository.dealApiResult(
-                mShopRepo.createPosition(
-                    ApiRepository.createRequestBody(
-                        GsonUtils.any2Json(positionParam.value)
-                    )
-                )
+                if (null == positionParam.value?.id) {
+                    mShopRepo.createPosition(body)
+                } else {
+                    mShopRepo.updatePosition(body)
+                }
             )
             withContext(Dispatchers.Main) {
-                SToast.showToast(v.context, R.string.create_success)
+                SToast.showToast(
+                    v.context,
+                    if (null == positionParam.value?.id) R.string.add_success else R.string.update_success
+                )
             }
 
             LiveDataBus.post(BusEvents.SHOP_LIST_STATUS, true)
-            LiveDataBus.post(BusEvents.SHOP_DETAILS_STATUS, true)
+            LiveDataBus.post(BusEvents.PT_DETAILS_STATUS, true)
             jump.postValue(0)
         })
     }

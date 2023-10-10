@@ -278,6 +278,8 @@
     <string name="add_pt">新增点位</string>
     <string name="pt">点位</string>
     <string name="pt_name">点位名称</string>
+    <string name="pt_detail">点位详情</string>
+    <string name="pt_id">点位编号</string>
     <string name="orientation">定位</string>
     <string name="sex">性别</string>
     <string name="apply_sex">适用性别</string>
@@ -289,7 +291,9 @@
     <string name="total_earnings">总收入</string>
     <string name="device_num">设备数</string>
     <string name="pt_info">点位信息</string>
-    <string name="shop_id">门店编号%1$d信息</string>
+    <string name="pt_id_info">点位编号%1$d信息</string>
+    <string name="shop_id">门店编号</string>
+    <string name="shop_id_info">门店编号%1$d信息</string>
     <string name="shop_info">门店信息</string>
     <string name="shop_name">门店名称</string>
     <string name="shop_type">门店类型</string>
@@ -316,6 +320,7 @@
     <string name="select_district">请选择区/县</string>
     <string name="shop_detail">门店详情</string>
     <string name="shop_base_info">门店基础信息</string>
+    <string name="pt_base_info">门店基础信息</string>
     <string name="creator">创建人</string>
     <string name="create_time">创建时间</string>
     <string name="appointment">预约</string>
@@ -327,6 +332,7 @@
     <string name="copy_success">已复制到贴粘板</string>
     <string name="search_shop_hint">请输入门店名称</string>
     <string name="shop_delete_hint">是否确定要删除该门店么？</string>
+    <string name="pt_delete_hint">是否确定要删除该点位么？</string>
 
     <string name="operation_setting">运营设置</string>
     <string name="setting_title1">按流量收费，用户订单显示用量</string>

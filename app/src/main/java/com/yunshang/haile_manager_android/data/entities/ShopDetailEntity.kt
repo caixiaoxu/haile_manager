@@ -61,35 +61,6 @@ data class ShopDetailEntity(
     fun getBusinessNameTitle(): String = StringUtils.getString(R.string.business_type)
     fun hasLocation(): Boolean = !getRealAddress().isNullOrEmpty()
     fun getLocationTitle(): String = StringUtils.getString(R.string.location_detail)
-    fun hasWorkTime(): Boolean = !workTime.isNullOrEmpty() || !workTimeStr.isNullOrEmpty()
-
-    fun workTimeArr(): MutableList<BusinessHourEntity> =
-        GsonUtils.json2List(workTimeStr, BusinessHourParams::class.java)?.map {
-            BusinessHourEntity().apply {
-                formatData(it.weekDays, it.workTime)
-            }
-        }?.toMutableList() ?: run {
-            try {
-                GsonUtils.json2List(workTime, String::class.java)?.mapIndexed { index, s ->
-                    BusinessHourEntity(listOf(ShopParam.businessDay[index]), s.replace(",", " "))
-                }?.filter { item -> item._workTime.isNotEmpty() }?.toMutableList()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                null
-            } ?: run {
-                mutableListOf(
-                    BusinessHourEntity(ShopParam.businessDay, workTime)
-                )
-            }
-        }
-
-    fun workTimeVal(): String = workTimeArr().let {
-        it.joinToString("\n") { item ->
-            item.hourWeekVal + item.workTime
-        }
-    } ?: workTime
-
-    fun getWorkTimeTitle(): String = StringUtils.getString(R.string.business_hours)
     fun hasCreator(): Boolean = !createName.isNullOrEmpty()
     fun getCreatorTitle(): String = StringUtils.getString(R.string.creator)
     fun hasCreateTime(): Boolean = !createTime.isNullOrEmpty()

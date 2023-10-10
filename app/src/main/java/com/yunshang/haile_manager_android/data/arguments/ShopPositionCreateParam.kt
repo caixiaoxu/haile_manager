@@ -18,9 +18,10 @@ import com.yunshang.haile_manager_android.R
  * 作者姓名 修改时间 版本号 描述
  */
 data class ShopPositionCreateParam(
+    var id: Int? = null,
     var name: String? = null,//名称
     var shopId: Int? = null,//门店Id
-    var area: String? = null,//地区
+//    var area: String? = null,//地区
     var address: String? = null,//地址
     var lat: Double? = null,
     var lng: Double? = null,

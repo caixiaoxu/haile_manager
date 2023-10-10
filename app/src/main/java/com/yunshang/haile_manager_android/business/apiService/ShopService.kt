@@ -144,8 +144,32 @@ interface ShopService {
     suspend fun saveOperationSetting(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
-     * 创建点位设置
+     * 创建点位
      */
     @POST("/position/addSubOrganizationPosition")
     suspend fun createPosition(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 修改点位
+     */
+    @POST("/position/updateSubOrganizationPosition")
+    suspend fun updatePosition(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 修改点位状态
+     */
+    @POST("/position/updateState")
+    suspend fun updatePositionState(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 点位详情
+     */
+    @GET("/position/getDetail")
+    suspend fun requestPositionDetail(@Query("id") positionId: Int): ResponseWrapper<ShopPositionDetailEntity>
+
+    /**
+     * 点位删除
+     */
+    @POST("/position/deleteSubOrganizationPosition")
+    suspend fun deletePosition(@Body body: RequestBody): ResponseWrapper<Any>
 }

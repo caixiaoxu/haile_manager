@@ -103,7 +103,7 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                                 this@SearchActivity,
                                 ShopDetailActivity::class.java
                             ).apply {
-                                putExtra(ShopDetailActivity.ShopId, item.getSearchId())
+                                putExtras(IntentParams.ShopParams.pack(item.getSearchId()))
                             }
                         )
                     }

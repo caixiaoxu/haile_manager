@@ -100,7 +100,7 @@
                     android:id="@+id/mtiv_shop_create_location_floor"
                     style="@style/MultiTypePaddingHItemStyle"
                     android:visibility="@{1 == vm.shopTypeValue.type?View.VISIBLE:View.GONE}"
-                    app:itemContent="@={vm.createAndUpdateEntity.area}"
+                    app:itemContent="@={vm.createAndUpdateEntity.areaVal}"
                     app:title="@string/location_floor"
                     app:type="input" />
 

@@ -94,6 +94,7 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                 it.shopType = data.type
             }
             changeSchool(null)
+            changeMansion(null, null, null, "")
         }
     }
 
@@ -118,6 +119,11 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
             school?.districtName
         )
         changeAddress(school?.address)
+        //如果学校不为空，清空area数据
+        school?.let {
+            createAndUpdateEntity.value?.areaVal = ""
+            mansionValue.value = ""
+        }
     }
 
     /**
@@ -145,8 +151,8 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
     /**
      * 切换小区
      */
-    fun changeMansion(title: String, latitude: Double, longitude: Double, address: String) {
-        createAndUpdateEntity.value?.area = title
+    fun changeMansion(title: String?, latitude: Double?, longitude: Double?, address: String?) {
+        createAndUpdateEntity.value?.areaVal = title ?: ""
         createAndUpdateEntity.value?.lat = latitude
         createAndUpdateEntity.value?.lng = longitude
         mansionValue.value = title
@@ -330,7 +336,7 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                         shopDetailEntity.area,
                     )
                 )
-                createAndUpdateEntity.value?.area = shopDetailEntity.address
+                createAndUpdateEntity.value?.areaVal = shopDetailEntity.address
             } else {
                 //省市区
                 changeArea(

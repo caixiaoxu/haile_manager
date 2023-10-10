@@ -39,6 +39,14 @@ data class ShopCreateParam(
 ) : BaseObservable() {
 
     @get:Bindable
+    var areaVal: String
+        get() = area
+        set(value) {
+            area = value
+            notifyPropertyChanged(BR.areaVal)
+        }
+
+    @get:Bindable
     var paymentSettings: ShopPaySettingsEntity?
         get() = _paymentSettings
         set(value) {

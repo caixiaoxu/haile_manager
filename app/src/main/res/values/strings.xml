@@ -280,6 +280,7 @@
     <string name="pt_name">点位名称</string>
     <string name="orientation">定位</string>
     <string name="sex">性别</string>
+    <string name="apply_sex">适用性别</string>
     <string name="shop_pay_setting">支付设置</string>
     <string name="shop_pay_config">支付配置</string>
     <string name="shop_search_hint">搜索门店或点位名称</string>

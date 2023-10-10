@@ -36,6 +36,14 @@ data class ShopPositionCreateParam(
             notifyPropertyChanged(BR.shopName)
         }
 
+    /**
+     * 切换门店
+     */
+    fun changeShop(shopId: Int, shopName: String) {
+        this.shopId = shopId
+        this.shopName = shopName
+    }
+
     @Transient
     @get:Bindable
     var location: String = ""

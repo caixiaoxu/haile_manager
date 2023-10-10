@@ -80,9 +80,8 @@
                     style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{vm.positionParam.sexNameVal}"
                     app:showArrow="true"
-                    app:title="@string/sex"
+                    app:title="@string/apply_sex"
                     app:type="info" />
-
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_position_business_hours"

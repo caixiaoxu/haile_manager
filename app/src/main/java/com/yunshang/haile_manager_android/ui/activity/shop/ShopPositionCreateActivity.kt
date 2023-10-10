@@ -6,13 +6,16 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
+import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.ShopPositionCreateViewModel
 import com.yunshang.haile_manager_android.data.arguments.BusinessHourEntity
 import com.yunshang.haile_manager_android.data.arguments.BusinessHourParams
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.databinding.ActivityShopPositionCreateBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 
 class ShopPositionCreateActivity :
     BaseBusinessActivity<ActivityShopPositionCreateBinding, ShopPositionCreateViewModel>(
@@ -24,6 +27,15 @@ class ShopPositionCreateActivity :
     private val startSearchSelect =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             when (it.resultCode) {
+                IntentParams.SearchSelectTypeParam.ShopResultCode -> {
+                    it.data?.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)
+                        ?.let { json ->
+                            GsonUtils.json2List(json, SearchSelectParam::class.java)
+                                ?.firstOrNull()?.let { first ->
+                                    mViewModel.positionParam.value?.changeShop(first.id, first.name)
+                                }
+                        }
+                }
                 IntentParams.ShopBusinessHoursParams.ResultCode -> {
                     it.data?.let { intent ->
                         IntentParams.ShopBusinessHoursParams.parseShopBusinessHoursJson(intent)
@@ -46,6 +58,30 @@ class ShopPositionCreateActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+        // 所属门店
+        mBinding.itemPositionShop.onSelectedEvent = {
+            startSearchSelect.launch(
+                Intent(
+                    this@ShopPositionCreateActivity,
+                    SearchSelectRadioActivity::class.java
+                ).apply {
+                    putExtras(
+                        IntentParams.SearchSelectTypeParam.pack(
+                            IntentParams.SearchSelectTypeParam.SearchSelectTypeShop,
+                        )
+                    )
+                }
+            )
+        }
+
+        mBinding.itemPositionLocation.onSelectedEvent = {
+            startSearchSelect.launch(
+                Intent(
+                    this@ShopPositionCreateActivity,
+                    CurLocationSelectorActivity::class.java
+                )
+            )
+        }
 
         // 营业时间
         mBinding.itemPositionBusinessHours.onSelectedEvent = {

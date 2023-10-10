@@ -13,7 +13,6 @@ import com.yunshang.haile_manager_android.business.vm.SearchSelectViewModel.Comp
 import com.yunshang.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SEARCH_TYPE
 import com.yunshang.haile_manager_android.business.vm.ShopCreateAndUpdateViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
-import com.yunshang.haile_manager_android.data.arguments.PoiResultData
 import com.yunshang.haile_manager_android.data.entities.SchoolSelectEntity
 import com.yunshang.haile_manager_android.data.entities.ShopTypeEntity
 import com.yunshang.haile_manager_android.databinding.ActivityShopCreateAndUpdateBinding
@@ -31,8 +30,6 @@ class ShopCreateAndUpdateActivity :
     companion object {
         const val SchoolResultCode = 10001
         const val SchoolResultData = "SchoolResultData"
-        const val LocationResultCode = 10002
-        const val LocationResultData = "LocationResultData"
 
         const val ShopDetail = "ShopDetail"
     }
@@ -51,15 +48,16 @@ class ShopCreateAndUpdateActivity :
                         }
                     }
                 }
-                LocationResultCode -> {
-                    it.data?.getStringExtra(LocationResultData)?.let { json ->
-                        GsonUtils.json2Class(json, PoiResultData::class.java)?.let { poiItem ->
+                IntentParams.LocationParams.LocationResultCode -> {
+                    it.data?.let {intent->
+                        IntentParams.LocationParams.parseLocationResultData(intent)?.let {poiItem ->
                             mViewModel.createAndUpdateEntity.value?.changeMansion(
                                 poiItem.title,
                                 poiItem.latitude,
                                 poiItem.longitude,
                                 poiItem.address
                             )
+
                         }
                     }
                 }

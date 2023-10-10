@@ -119,19 +119,26 @@ class CurLocationSelectorActivity :
 
     override fun backBtn(): View = mBinding.locationSelectTitleBar.getBackBtn()
 
+    override fun initIntent() {
+        super.initIntent()
+
+        IntentParams.LocationSelectParams.parseCity(intent)?.let {
+            mViewModel.cityCode = it
+        }
+    }
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
 
         mBinding.tvSearchContent.setOnClickListener {
-//            startSearchSelect.launch(
-//                Intent(
-//                    this@CurLocationSelectorActivity,
-//                    SearchSelectActivity::class.java
-//                ).apply {
-//                    putExtra(SearchSelectViewModel.SEARCH_TYPE, SearchSelectViewModel.LOCATION)
-//                    putExtra(SearchSelectViewModel.CityCode, mViewModel.cityCode)
-//                })
+            startSearchSelect.launch(
+                Intent(
+                    this@CurLocationSelectorActivity,
+                    SearchSelectActivity::class.java
+                ).apply {
+                    putExtra(SearchSelectViewModel.SEARCH_TYPE, SearchSelectViewModel.LOCATION)
+                    putExtra(SearchSelectViewModel.CityCode, mViewModel.cityCode)
+                })
         }
 
         mBinding.rvLocationSelectList.layoutManager =

@@ -140,6 +140,12 @@ interface ShopService {
     /**
      * 保存店铺运营设置
      */
-    @POST("shop/saveOperationSetting")
+    @POST("/shop/saveOperationSetting")
     suspend fun saveOperationSetting(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 创建点位设置
+     */
+    @POST("/position/addSubOrganizationPosition")
+    suspend fun createPosition(@Body body: RequestBody): ResponseWrapper<Any>
 }

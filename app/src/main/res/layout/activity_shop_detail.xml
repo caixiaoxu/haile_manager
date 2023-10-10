@@ -109,6 +109,13 @@
 
                     <include
                         layout="@layout/item_device_detail_base_info"
+                        app:content='@{vm.shopDetail.id+""}'
+                        app:show="@{true}"
+                        app:showCopy="@{false}"
+                        app:title="@{vm.shopDetail.getShopIdTitle}" />
+
+                    <include
+                        layout="@layout/item_device_detail_base_info"
                         app:content="@{vm.shopDetail.schoolName}"
                         app:show="@{vm.shopDetail.hasSchoolName}"
                         app:showCopy="@{false}"
@@ -128,19 +135,19 @@
                         app:showCopy="@{false}"
                         app:title="@{vm.shopDetail.getLocationTitle}" />
 
-                    <include
-                        layout="@layout/item_device_detail_base_info"
-                        app:content="@{vm.shopDetail.getBusinessNameVal}"
-                        app:show="@{vm.shopDetail.hasBusinessName}"
-                        app:showCopy="@{false}"
-                        app:title="@{vm.shopDetail.getBusinessNameTitle}" />
+<!--                    <include-->
+<!--                        layout="@layout/item_device_detail_base_info"-->
+<!--                        app:content="@{vm.shopDetail.getBusinessNameVal}"-->
+<!--                        app:show="@{vm.shopDetail.hasBusinessName}"-->
+<!--                        app:showCopy="@{false}"-->
+<!--                        app:title="@{vm.shopDetail.getBusinessNameTitle}" />-->
 
-                    <include
-                        layout="@layout/item_device_detail_base_info"
-                        app:content="@{vm.shopDetail.workTimeVal}"
-                        app:show="@{vm.shopDetail.hasWorkTime}"
-                        app:showCopy="@{false}"
-                        app:title="@{vm.shopDetail.getWorkTimeTitle}" />
+<!--                    <include-->
+<!--                        layout="@layout/item_device_detail_base_info"-->
+<!--                        app:content="@{vm.shopDetail.workTimeVal}"-->
+<!--                        app:show="@{vm.shopDetail.hasWorkTime}"-->
+<!--                        app:showCopy="@{false}"-->
+<!--                        app:title="@{vm.shopDetail.getWorkTimeTitle}" />-->
 
                     <include
                         layout="@layout/item_device_detail_base_info"

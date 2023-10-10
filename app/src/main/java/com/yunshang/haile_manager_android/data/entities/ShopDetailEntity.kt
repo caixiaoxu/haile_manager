@@ -48,6 +48,8 @@ data class ShopDetailEntity(
     val paymentSettings: ShopPaySettingsEntity?, //
     val operationSettings: OperationSettings
 ) {
+
+    fun getShopIdTitle(): String = StringUtils.getString(R.string.shop_id)
     fun getRealAddress(): String = if (1 == shopType) area else address
     fun hasSchoolName(): Boolean = 0 != schoolId && !schoolName.isNullOrEmpty()
     fun getSchoolNameTitle(): String = StringUtils.getString(R.string.school_name)

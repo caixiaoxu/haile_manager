@@ -289,6 +289,7 @@
     <string name="total_earnings">总收入</string>
     <string name="device_num">设备数</string>
     <string name="pt_info">点位信息</string>
+    <string name="shop_id">门店编号%1$d信息</string>
     <string name="shop_info">门店信息</string>
     <string name="shop_name">门店名称</string>
     <string name="shop_type">门店类型</string>
@@ -396,6 +397,7 @@
     <string name="select_all">全选</string>
     <string name="no_select_all">全不选</string>
     <string name="add_success">添加成功</string>
+    <string name="create_success">创建成功</string>
     <string name="update_take_charge_shop">修改负责门店</string>
     <string name="update_permission">编辑权限</string>
     <string name="delete_staff">删除人员</string>
@@ -827,4 +829,10 @@
     <string name="password_again">验证密码</string>
     <string name="password_again_hint">请再次输入密码</string>
     <string name="affiliation_area">所属地区</string>
+
+    <string-array name="sex_list">
+        <item>男</item>
+        <item>女</item>
+        <item>不限</item>
+    </string-array>
 </resources>

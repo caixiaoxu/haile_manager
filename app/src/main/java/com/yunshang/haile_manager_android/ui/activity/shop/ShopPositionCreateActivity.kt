@@ -4,9 +4,10 @@ import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
-import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.ShopPositionCreateViewModel
 import com.yunshang.haile_manager_android.data.arguments.BusinessHourEntity
@@ -16,6 +17,7 @@ import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.databinding.ActivityShopPositionCreateBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 
 class ShopPositionCreateActivity :
     BaseBusinessActivity<ActivityShopPositionCreateBinding, ShopPositionCreateViewModel>(
@@ -35,6 +37,19 @@ class ShopPositionCreateActivity :
                                     mViewModel.positionParam.value?.changeShop(first.id, first.name)
                                 }
                         }
+                }
+                IntentParams.LocationParams.LocationResultCode -> {
+                    it.data?.let { intent ->
+                        IntentParams.LocationParams.parseLocationResultData(intent)
+                            ?.let { poiItem ->
+                                mViewModel.positionParam.value?.changeAddress(
+                                    poiItem.latitude,
+                                    poiItem.longitude,
+                                    poiItem.address
+                                )
+
+                            }
+                    }
                 }
                 IntentParams.ShopBusinessHoursParams.ResultCode -> {
                     it.data?.let { intent ->
@@ -56,6 +71,13 @@ class ShopPositionCreateActivity :
 
     override fun backBtn(): View = mBinding.barAddPtTitle.getBackBtn()
 
+    override fun initEvent() {
+        super.initEvent()
+        mViewModel.jump.observe(this){
+            finish()
+        }
+    }
+
     override fun initView() {
         window.statusBarColor = Color.WHITE
         // 所属门店
@@ -74,13 +96,44 @@ class ShopPositionCreateActivity :
             )
         }
 
+        //定位
         mBinding.itemPositionLocation.onSelectedEvent = {
-            startSearchSelect.launch(
-                Intent(
-                    this@ShopPositionCreateActivity,
-                    CurLocationSelectorActivity::class.java
-                )
-            )
+            if (null != mViewModel.positionParam.value?.shopId) {
+                mViewModel.requestShopDetail {
+                    it?.let { cityName ->
+                        startSearchSelect.launch(
+                            Intent(
+                                this@ShopPositionCreateActivity,
+                                CurLocationSelectorActivity::class.java
+                            ).apply {
+                                putExtras(
+                                    IntentParams.LocationSelectParams.packCity(cityName)
+                                )
+                            }
+                        )
+                    } ?: SToast.showToast(this, "无法获取门店所在城市")
+                }
+            } else {
+                SToast.showToast(this, "无法获取门店所在城市")
+            }
+        }
+
+        //性别
+        mBinding.itemPositionSex.onSelectedEvent = {
+            CommonBottomSheetDialog.Builder(
+                getString(R.string.apply_sex),
+                StringUtils.getStringArray(R.array.sex_list).mapIndexed { index, txt ->
+                    SearchSelectParam(index, txt)
+                }
+            ).apply {
+                mustSelect = false
+                onValueSureListener =
+                    object : CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
+                        override fun onValue(data: SearchSelectParam?) {
+                            mViewModel.positionParam.value?.sexVal = data?.id
+                        }
+                    }
+            }.build().show(supportFragmentManager)
         }
 
         // 营业时间

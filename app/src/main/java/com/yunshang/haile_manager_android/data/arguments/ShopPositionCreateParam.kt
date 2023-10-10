@@ -2,8 +2,10 @@ package com.yunshang.haile_manager_android.data.arguments
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
+import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
+import com.yunshang.haile_manager_android.R
 
 /**
  * Title :
@@ -20,8 +22,8 @@ data class ShopPositionCreateParam(
     var shopId: Int? = null,//门店Id
     var area: String? = null,//地区
     var address: String? = null,//地址
-    var lat: Int? = null,
-    var lng: Int? = null,
+    var lat: Double? = null,
+    var lng: Double? = null,
     var workTime: String? = null,
     var workTimeStr: String? = null,
     var serviceTelephone: String? = null,
@@ -60,6 +62,13 @@ data class ShopPositionCreateParam(
             notifyPropertyChanged(BR.addressVal)
         }
 
+    fun changeAddress(latitude: Double, longitude: Double, address: String) {
+        lat = latitude
+        lng = longitude
+        location = "$lat,$lng"
+        addressVal = address
+    }
+
     var sexVal: Int?
         get() = sex
         set(value) {
@@ -67,12 +76,15 @@ data class ShopPositionCreateParam(
             notifyPropertyChanged(BR.sexNameVal)
         }
 
+    @Transient
     @get:Bindable
     var sexNameVal: String = ""
-        get() = when (sex) {
-            0 -> "男"
-            1 -> "女"
-            else -> "不限"
+        get() {
+            var index = sex
+            return if (null == index || index < 0) "" else {
+                if (index > 2) index = 2
+                StringUtils.getStringArray(R.array.sex_list)[index]
+            }
         }
 
     @Transient
@@ -98,7 +110,7 @@ data class ShopPositionCreateParam(
                 )
             })
             workTimeValue = timeList.joinToString("\n") { item ->
-                item.hourWeekVal + item.workTime
+                "${item.hourWeekVal} ${item.workTime}"
             }
             this.workTime = workTime ?: run {
                 val arr = Array(7) { "" }

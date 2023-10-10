@@ -163,7 +163,7 @@ object IntentParams {
                     putString(EndTime, DateTimeUtils.formatDateTime(it))
                 }
                 formType?.let {
-                    putInt(FormType,formType)
+                    putInt(FormType, formType)
                 }
             }
 
@@ -172,6 +172,7 @@ object IntentParams {
         fun parseGoodId(intent: Intent): Int = intent.getIntExtra(GoodId, -1)
         fun parseCategoryCodes(intent: Intent): Array<String>? =
             intent.getStringArrayExtra(CategoryCodes)
+
         fun parseStartTime(intent: Intent): Date? =
             DateTimeUtils.formatDateFromString(intent.getStringExtra(StartTime))
 
@@ -600,7 +601,10 @@ object IntentParams {
          * 解析LocationResultData
          */
         fun parseLocationResultData(intent: Intent): PoiResultData? =
-            GsonUtils.json2Class(intent.getStringExtra(LocationResultData), PoiResultData::class.java)
+            GsonUtils.json2Class(
+                intent.getStringExtra(LocationResultData),
+                PoiResultData::class.java
+            )
     }
 
     object WalletParams {
@@ -891,7 +895,7 @@ object IntentParams {
         /**
          * 包装参数
          */
-        fun packCity(city: String?, shopTypeName: String?): Bundle = Bundle().apply {
+        fun packCity(city: String?, shopTypeName: String? = null): Bundle = Bundle().apply {
             city?.let {
                 putString(City, city)
             }

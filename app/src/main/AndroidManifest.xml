@@ -47,7 +47,7 @@
             android:name=".ui.activity.shop.CurLocationSelectorActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.common.ShopSelectorActivity"
+            android:name=".ui.activity.common.ShopPositionSelectorActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.shop.ShopPositionCreateActivity"

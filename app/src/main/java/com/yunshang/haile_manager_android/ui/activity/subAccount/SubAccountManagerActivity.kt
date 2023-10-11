@@ -19,7 +19,7 @@ import com.yunshang.haile_manager_android.databinding.ItemSubAccountManagerBindi
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
-import com.yunshang.haile_manager_android.ui.view.adapter.GridSameSpaceItemDecoration
+import com.yunshang.haile_manager_android.ui.view.refresh.GridSameSpaceItemDecoration
 
 class SubAccountManagerActivity :
     BaseBusinessActivity<ActivitySubAccountManagerBinding, SubAccountManagerViewModel>(

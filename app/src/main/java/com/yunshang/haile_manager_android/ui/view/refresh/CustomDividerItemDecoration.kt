@@ -29,7 +29,11 @@ import kotlin.math.roundToInt
  * @param context Current context, it will be used to access resources.
  * @param orientation Divider orientation. Should be [.HORIZONTAL] or [.VERTICAL].
  */
-class CustomDividerItemDecoration(context: Context, orientation: Int)  : ItemDecoration() {
+class CustomDividerItemDecoration(
+    context: Context,
+    orientation: Int,
+    private val dividerPadding: Int = 0
+) : ItemDecoration() {
     companion object {
         val HORIZONTAL = LinearLayout.HORIZONTAL
         val VERTICAL = LinearLayout.VERTICAL
@@ -104,8 +108,8 @@ class CustomDividerItemDecoration(context: Context, orientation: Int)  : ItemDec
         val left: Int
         val right: Int
         if (parent.clipToPadding) {
-            left = parent.paddingLeft
-            right = parent.width - parent.paddingRight
+            left = parent.paddingLeft + dividerPadding
+            right = parent.width - parent.paddingRight - dividerPadding
             canvas.clipRect(
                 left, parent.paddingTop, right,
                 parent.height - parent.paddingBottom
@@ -115,7 +119,7 @@ class CustomDividerItemDecoration(context: Context, orientation: Int)  : ItemDec
             right = parent.width
         }
         val childCount = parent.childCount
-        for (i in 0 until childCount -1) {
+        for (i in 0 until childCount - 1) {
             val child = parent.getChildAt(i)
             parent.getDecoratedBoundsWithMargins(child, mBounds)
             val bottom = mBounds.bottom + child.translationY.roundToInt()
@@ -131,8 +135,8 @@ class CustomDividerItemDecoration(context: Context, orientation: Int)  : ItemDec
         val top: Int
         val bottom: Int
         if (parent.clipToPadding) {
-            top = parent.paddingTop
-            bottom = parent.height - parent.paddingBottom
+            top = parent.paddingTop + dividerPadding
+            bottom = parent.height - parent.paddingBottom - dividerPadding
             canvas.clipRect(
                 parent.paddingLeft, top,
                 parent.width - parent.paddingRight, bottom
@@ -142,7 +146,7 @@ class CustomDividerItemDecoration(context: Context, orientation: Int)  : ItemDec
             bottom = parent.height
         }
         val childCount = parent.childCount
-        for (i in 0 until childCount -1) {
+        for (i in 0 until childCount - 1) {
             val child = parent.getChildAt(i)
             parent.layoutManager!!.getDecoratedBoundsWithMargins(child, mBounds)
             val right = mBounds.right + child.translationX.roundToInt()

@@ -61,7 +61,7 @@ data class DeviceDetailEntity(
     val qrId: Long, // 设备编号
     val deviceAttributeVo: DeviceAttributeVo,
     val relatedGoodsDetailVo: RelatedGoodsDetailVo,
-    val dosingVOS: List<DosingVOS>,
+    val dosingVOS: List<DosingVOS>?,
     val errorDeviceOrderId: Int,
     val errorDeviceOrderNo: String,
     val spuDto: Spu?,

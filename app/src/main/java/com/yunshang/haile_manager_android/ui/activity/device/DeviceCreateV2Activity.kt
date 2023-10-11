@@ -244,6 +244,9 @@ class DeviceCreateV2Activity :
             )
         }
 
+        //楼层
+        mBinding.itemDeviceCreateFloor.mTailView.setTextColor(ContextCompat.getColor(this,R.color.common_txt_color))
+
         // 洗衣机IMEI
         mBinding.itemDeviceWashImei.onSelectedEvent = {
             isAttrImei = true

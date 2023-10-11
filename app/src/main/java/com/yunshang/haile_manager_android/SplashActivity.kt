@@ -36,9 +36,9 @@ class SplashActivity : BaseActivity() {
 
     private fun initView() {
         initStatusBarTxtColor(mSplashBinding.root)
-        //临时使用
-        checkDelayJump();
-        return;
+//        //临时使用
+//        checkDelayJump()
+//        return
 
         launch({
             val response = mCommonRepo.checkService()
@@ -49,7 +49,6 @@ class SplashActivity : BaseActivity() {
                         Constants.needHintServiceUpdate = true
                         checkDelayJump()
                     }
-
                     else -> startActivity(
                         Intent(
                             this@SplashActivity,

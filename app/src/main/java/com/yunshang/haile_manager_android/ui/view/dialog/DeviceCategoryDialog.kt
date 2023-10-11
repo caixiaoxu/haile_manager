@@ -17,8 +17,6 @@ import com.lsy.framelib.utils.ScreenUtils
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
-import com.yunshang.haile_manager_android.data.common.DeviceCategory
-import com.yunshang.haile_manager_android.data.entities.PositionDeviceNumEntity
 import com.yunshang.haile_manager_android.databinding.DialogDeviceCategoryBinding
 import com.yunshang.haile_manager_android.databinding.ItemDialogDeviceCategoryBinding
 import timber.log.Timber
@@ -37,7 +35,6 @@ class DeviceCategoryDialog private constructor(private val builder: Builder) :
     BottomSheetDialogFragment() {
     private val DEVICE_CATEGORY_SHEET_TAG = "device_category_sheet_tag"
     private lateinit var mBinding: DialogDeviceCategoryBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.yunshang.haile_manager_android.R" />
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.ShopAndPositionSelectEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingVertical="16dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/cb_shop_position_selector_shop"
+            style="@style/Font_16_333333_bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:text="@{item.name}"
+            app:drawS="@{item.fold?R.mipmap.icon_shop_position_select_open:R.mipmap.icon_shop_position_select_close}"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:drawableStart="@mipmap/icon_shop_position_select_close"
+            tools:text="门店" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/cb_shop_position_selector_shop_all"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="16dp"
+            android:alpha="@{1 == item.selectType?0.5f:1f}"
+            app:imgRes="@{0 == item.selectType?R.mipmap.icon_uncheck:R.mipmap.icon_checked}"
+            app:layout_constraintBottom_toBottomOf="@id/cb_shop_position_selector_shop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cb_shop_position_selector_shop" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

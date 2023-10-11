@@ -72,6 +72,11 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
         DeviceCategory.isDispenser(it)
     }
 
+    // 楼层
+    val floorCode: MutableLiveData<String> by lazy {
+        MutableLiveData()
+    }
+
     // 脉冲
     var deviceCommunicationType: Int = -1
 
@@ -137,6 +142,9 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
         addSource(categoryId) {
             value = checkSubmit()
         }
+        addSource(floorCode) {
+            value = checkSubmit()
+        }
         addSource(deviceName) {
             value = checkSubmit()
         }
@@ -160,6 +168,7 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
                 && (null != createDeviceShop.value && createDeviceShop.value!!.id > 0)
                 && (null != spuId.value && spuId.value!! > 0)
                 && (null != categoryId.value && categoryId.value!! > 0)
+                && (!floorCode.value.isNullOrEmpty() && floorCode.value!!.length > 1)
                 && (!deviceName.value.isNullOrEmpty() && deviceName.value!!.length > 1)
                 && (if (true == isDispenser.value) !washImeiCode.value.isNullOrEmpty() else true)
                 && (if (true == showSinglePulseQuantity.value) {
@@ -242,7 +251,9 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
                             "code" to if (true == isDispenser.value) null else payCode.value,//投放器没有付款码
                             "items" to createDeviceFunConfigure.value,
                             "washerImei" to washImeiCode.value,
-                            "codeStr" to codeStr
+                            "codeStr" to codeStr,
+                            "positionId" to floorCode,
+                            "floorCode" to floorCode,
                         )
                     )
                 )

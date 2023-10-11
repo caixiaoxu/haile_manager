@@ -225,6 +225,13 @@
                         style="@style/Font_14_333333"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="@{vm.orderDetail.positionName}"
+                        tools:text="点位字段信息" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_14_333333"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:text="@{vm.orderDetail.deviceNameNoVal}"
                         tools:text="设备名称" />

@@ -38,6 +38,7 @@ import com.yunshang.haile_manager_android.databinding.PopupDeviceOperateManagerB
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.yunshang.haile_manager_android.ui.activity.common.ShopPositionSelectorActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeCalendarActivity
 import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
@@ -246,7 +247,7 @@ class DeviceManagerActivity :
             startSearchSelect.launch(
                 Intent(
                     this@DeviceManagerActivity,
-                    SearchSelectRadioActivity::class.java
+                    ShopPositionSelectorActivity::class.java
                 ).apply {
                     putExtras(
                         IntentParams.SearchSelectTypeParam.pack(

@@ -54,6 +54,12 @@ interface ShopService {
     suspend fun shopSearchList(@Body body: RequestBody): ResponseWrapper<MutableList<ShopSearchEntity>>
 
     /**
+     * 店铺搜索列表（带点位）
+     */
+    @POST("/shop/shopSearchList/v2")
+    suspend fun requestShopSearchListV2(@Body body: RequestBody): ResponseWrapper<MutableList<ShopAndPositionSearchEntity>>
+
+    /**
      * 店铺详情接口
      */
     @POST("/shop/shopDetail")
@@ -100,6 +106,12 @@ interface ShopService {
      */
     @POST("/shop/shopSelectList")
     suspend fun shopSelectList(@Body body: RequestBody): ResponseWrapper<MutableList<ShopSelectEntity>>
+
+    /**
+     * 店铺选择列表（带点位）
+     */
+    @POST("/shop/shopSelectList/v2")
+    suspend fun requestShopSelectListV2(@Body body: RequestBody): ResponseWrapper<MutableList<ShopAndPositionSelectEntity>>
 
     /**
      * 数据统计店铺选择列表

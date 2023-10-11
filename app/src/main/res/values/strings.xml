@@ -133,6 +133,8 @@
     <string name="department_empty">请先选择门店</string>
     <string name="device_category">设备类型</string>
     <string name="device_model">设备型号</string>
+    <string name="floor">楼层</string>
+    <string name="floor_hint">请输入设备所在楼层</string>
     <string name="device_model_empty">请先选择设备型号</string>
     <string name="network_status">网络状态</string>
     <string name="device_status">设备状态</string>
@@ -742,6 +744,7 @@
 
     <string name="unit_yuan">元</string>
     <string name="unit_tai">台</string>
+    <string name="unit_floor">层</string>
     <string name="unit_folds">折</string>
     <string name="unit_ge">个</string>
     <string name="unit_degree_centigrade">°C</string>

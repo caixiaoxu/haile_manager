@@ -181,20 +181,9 @@ object ViewBindingAdapter {
             setCompoundDrawablesWithIntrinsicBounds(drawS, drawT, drawE, drawB)
     }
 
-    @BindingAdapter("drawSD", "drawTD", "drawED", "drawBD", requireAll = false)
-    @JvmStatic
-    fun TextView.divider(
-        drawS: Drawable?,
-        drawT: Drawable?,
-        drawE: Drawable?,
-        drawB: Drawable?
-    ) {
-        setCompoundDrawablesWithIntrinsicBounds(drawS, drawT, drawE, drawB)
-    }
-
     @BindingAdapter("paddingH", requireAll = false)
     @JvmStatic
-    fun LinearLayout.divider(paddingH: Float?, ) {
+    fun LinearLayout.divider(paddingH: Float?) {
         paddingH?.let {
             val ph = DimensionUtils.dip2px(context, paddingH)
             setPadding(ph, 0, ph, 0)

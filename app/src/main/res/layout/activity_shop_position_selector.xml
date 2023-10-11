@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.ShopPositionSelectorViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.activity.common.ShopPositionSelectorActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_shop_position_select_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/coupon_shop" />
+
+        <View
+            android:id="@+id/view_shop_position_select_parent_bg"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/shape_top_bottom_stroke_dividing"
+            app:layout_constraintTop_toBottomOf="@id/bar_shop_position_select_title" />
+
+        <View
+            android:id="@+id/view_shop_position_select_bg"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="12dp"
+            android:background="@drawable/shape_sf7f7f7_r18"
+            app:layout_constraintBottom_toBottomOf="@id/view_shop_position_select_parent_bg"
+            app:layout_constraintTop_toTopOf="@id/view_shop_position_select_parent_bg" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_shop_position_select_search"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="12dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/icon_search"
+            app:layout_constraintBottom_toBottomOf="@id/view_shop_position_select_bg"
+            app:layout_constraintStart_toStartOf="@id/view_shop_position_select_bg"
+            app:layout_constraintTop_toTopOf="@id/view_shop_position_select_bg" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_shop_position_select_search_content"
+            style="@style/Font_14_333333_999999"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:background="@color/transparent"
+            android:hint="@string/shop_search_hint"
+            android:imeOptions="actionSearch"
+            android:maxLines="1"
+            android:text="@={vm.searchContent}"
+            app:layout_constraintBottom_toBottomOf="@id/view_shop_position_select_bg"
+            app:layout_constraintEnd_toEndOf="@id/view_shop_position_select_bg"
+            app:layout_constraintStart_toEndOf="@id/iv_shop_position_select_search"
+            app:layout_constraintTop_toTopOf="@id/view_shop_position_select_bg" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_shop_position_select_info_title"
+            style="@style/Font_12_999999"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@drawable/shape_top_bottom_stroke_dividing"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:text="@string/shop_info"
+            app:layout_constraintTop_toBottomOf="@id/view_shop_position_select_parent_bg" />
+
+        <com.lsy.framelib.ui.weight.SingleTapTextView
+            style="@style/Font_14_f0a258"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:text="@string/select_all"
+            app:layout_constraintBottom_toBottomOf="@id/tv_shop_position_select_info_title"
+            app:layout_constraintEnd_toEndOf="@id/tv_shop_position_select_info_title"
+            app:layout_constraintTop_toTopOf="@id/tv_shop_position_select_info_title"
+            app:visibility="@{vm.canSelectAll}" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_shop_position_select_info_title">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_shop_position_select_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:visibility="@{vm.showList}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_shop_position_select_list_status"
+                style="@style/Font_14_999999"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="150dp"
+                android:drawableTop="@mipmap/icon_list_content_empty"
+                android:gravity="center"
+                android:text="@string/empty_content"
+                app:visibility="@{!vm.showList}"
+                tools:text="暂无内容信息"
+                tools:visibility="visible" />
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

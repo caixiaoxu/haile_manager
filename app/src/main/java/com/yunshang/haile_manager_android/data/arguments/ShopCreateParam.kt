@@ -72,6 +72,7 @@ data class ShopCreateParam(
             shopTypeVal = data.type
             shopTypeName = data.name
             changeSchool(null)
+            changeMansion("",null,null,"")
         }
     }
 
@@ -103,7 +104,10 @@ data class ShopCreateParam(
             school?.districtName
         )
         changeAddress(school?.address)
-        areaValue = ""
+        //如果学校不为空，清空area数据
+        school?.let {
+            mansionValue = ""
+        }
     }
 
     @Transient
@@ -150,8 +154,8 @@ data class ShopCreateParam(
     /**
      * 切换小区
      */
-    fun changeMansion(title: String, latitude: Double, longitude: Double, address: String) {
-        mansionValue = title
+    fun changeMansion(title: String?, latitude: Double?, longitude: Double?, address: String?) {
+        mansionValue = title ?:""
         lat = latitude
         lng = longitude
         changeAddress(address)

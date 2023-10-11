@@ -24,7 +24,6 @@ class ShopPositionCreateActivity :
         ShopPositionCreateViewModel::class.java, BR.vm
     ) {
 
-
     // 搜索界面
     private val startSearchSelect =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -73,6 +72,12 @@ class ShopPositionCreateActivity :
 
     override fun initIntent() {
         super.initIntent()
+
+        val shopId = IntentParams.ShopParams.parseShopId(intent)
+        val shopName = IntentParams.ShopParams.parseShopName(intent)
+        if (-1 != shopId && null != shopName){
+            mViewModel.positionParam.value?.changeShop(shopId, shopName)
+        }
         mViewModel.updatePositionDetail(IntentParams.ShopPositionCreateParams.parseShopPositionDetail(intent))
     }
 

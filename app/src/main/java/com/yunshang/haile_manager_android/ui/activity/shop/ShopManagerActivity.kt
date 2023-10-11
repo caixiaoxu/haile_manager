@@ -371,6 +371,11 @@ class ShopManagerActivity :
         LiveDataBus.with(BusEvents.SHOP_LIST_STATUS)?.observe(this) {
             mBinding.rvShopList.requestRefresh()
         }
+
+        // 修改成功后
+        LiveDataBus.with(BusEvents.PT_LIST_STATUS)?.observe(this) {
+            mBinding.rvShopList.requestRefresh()
+        }
     }
 
     override fun initData() {

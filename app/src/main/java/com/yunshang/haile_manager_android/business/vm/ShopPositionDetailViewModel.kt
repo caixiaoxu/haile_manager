@@ -79,7 +79,7 @@ class ShopPositionDetailViewModel : BaseViewModel() {
                     )
                 )
             )
-            LiveDataBus.post(BusEvents.SHOP_LIST_STATUS, true)
+            LiveDataBus.post(BusEvents.PT_LIST_STATUS, true)
             jump.postValue(0)
         })
     }

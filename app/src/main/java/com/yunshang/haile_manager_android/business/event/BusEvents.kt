@@ -15,6 +15,7 @@ object BusEvents {
     const val LOGIN_STATUS = "login_status"
     const val SHOP_LIST_STATUS = "shop_list_change"
     const val SHOP_DETAILS_STATUS = "shop_detail_change"
+    const val PT_LIST_STATUS = "pt_list_change"
     const val PT_DETAILS_STATUS = "pt_detail_change"
     const val DEVICE_LIST_STATUS = "device_list_change"
     const val DEVICE_LIST_ITEM_STATUS = "device_list_item_change"

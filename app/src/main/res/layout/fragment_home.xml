@@ -366,5 +366,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bg_home_title"
             tools:text="暂无内容信息" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_contact_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@mipmap/icon_contact_service"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

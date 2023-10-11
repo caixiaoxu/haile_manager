@@ -31,11 +31,13 @@ import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.*
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
+import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.HomeViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.StaffParam
+import com.yunshang.haile_manager_android.data.common.Constants
 import com.yunshang.haile_manager_android.data.entities.HomeIncomeEntity
 import com.yunshang.haile_manager_android.data.entities.MessageContentEntity
 import com.yunshang.haile_manager_android.databinding.FragmentHomeBinding
@@ -54,6 +56,7 @@ import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDi
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.StringUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
+import com.yunshang.haile_manager_android.web.WebViewActivity
 import timber.log.Timber
 import java.lang.reflect.Field
 import java.util.*
@@ -172,6 +175,18 @@ class HomeFragment :
                 }
             }.build()
             dailog.show(childFragmentManager)
+        }
+
+        mBinding.ibContactService.setOnClickListener {
+            if (!ViewUtils.isFastDoubleClick()){
+                startActivity(Intent(requireContext(), WebViewActivity::class.java).apply {
+                    putExtras(
+                        IntentParams.WebViewParams.pack(
+                            Constants.SERVICE_URL,
+                        )
+                    )
+                })
+            }
         }
     }
 

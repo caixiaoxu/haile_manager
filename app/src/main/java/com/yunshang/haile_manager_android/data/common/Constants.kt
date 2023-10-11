@@ -13,4 +13,6 @@ package com.yunshang.haile_manager_android.data.common
 object Constants {
     // 提示
     var needHintServiceUpdate = false
+
+    var SERVICE_URL = "https://channel-p05.xiaoshouyi.com/embeded/im/iframe-h5.html?tenantToken=a81b73704d0d2c2ba359af89a6931ef9&siteId=2984639199222416&webPageTitle=在线咨询"
 }

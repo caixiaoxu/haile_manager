@@ -39,11 +39,42 @@ class WalletWithdrawActivity :
 
         mViewModel.withdrawAmount.observe(this) {
             try {
-                if (it.toDouble() > mViewModel.balanceTotal.toDouble()) {
-                    selectAllAmount()
+                val amount = it.toDouble()
+                val balanceTotal = mViewModel.balanceTotal.toDouble()
+                val maxAmount = mViewModel.withdrawAccount.value!!.maxWithdrawAmount.toDouble()
+                if (!it.isNullOrEmpty() && amount < 1) {
+                    mBinding.tvWalletWithdrawHint.setTextColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.hint_color
+                        )
+                    )
+                    mBinding.tvWalletWithdrawHint.text = "最低提现1.0元"
+                } else {
+                    mBinding.tvWalletWithdrawHint.setTextColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.common_txt_color
+                        )
+                    )
+                    mBinding.tvWalletWithdrawHint.text =
+                        mViewModel.withdrawAccount.value?.cashOutLimit() ?: ""
+                }
+                if (amount > balanceTotal) {
+                    selectAllAmount(mViewModel.balanceTotal)
+                } else if (balanceTotal > maxAmount && amount > maxAmount) {
+                    selectAllAmount(mViewModel.withdrawAccount.value!!.maxWithdrawAmount)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                mBinding.tvWalletWithdrawHint.setTextColor(
+                    ContextCompat.getColor(
+                        this,
+                        R.color.common_txt_color
+                    )
+                )
+                mBinding.tvWalletWithdrawHint.text =
+                    mViewModel.withdrawAccount.value?.cashOutLimit() ?: ""
             }
         }
 
@@ -105,13 +136,19 @@ class WalletWithdrawActivity :
         }
 
         mBinding.tvWalletWithdrawAmountAll.setOnClickListener {
-            selectAllAmount()
+            try {
+                val balanceTotal = mViewModel.balanceTotal.toDouble()
+                val maxAmount = mViewModel.withdrawAccount.value!!.maxWithdrawAmount.toDouble()
+                selectAllAmount(if (balanceTotal > maxAmount) mViewModel.withdrawAccount.value!!.maxWithdrawAmount else mViewModel.balanceTotal)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
-    private fun selectAllAmount() {
-        if (mViewModel.balanceTotal.isNotEmpty()) {
-            mViewModel.withdrawAmount.postValue(mViewModel.balanceTotal)
+    private fun selectAllAmount(amount: String) {
+        if (amount.isNotEmpty()) {
+            mViewModel.withdrawAmount.postValue(amount)
         }
     }
 

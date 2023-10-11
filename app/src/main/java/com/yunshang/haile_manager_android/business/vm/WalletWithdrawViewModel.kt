@@ -2,7 +2,6 @@ package com.yunshang.haile_manager_android.business.vm
 
 import android.view.View
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
@@ -51,7 +50,7 @@ class WalletWithdrawViewModel : BaseViewModel() {
      * 检测是否可提交
      */
     private fun checkSubmit(): Boolean = try {
-        null != withdrawAmount.value?.toDouble()
+        null != withdrawAmount.value && withdrawAmount.value!!.toDouble() >= 1.0
     } catch (e: Exception) {
         e.printStackTrace()
         false

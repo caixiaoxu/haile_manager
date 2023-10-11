@@ -93,7 +93,7 @@ class DeviceManagerActivity :
         CommonRecyclerAdapter<ItemDeviceListBinding, DeviceEntity>(
             R.layout.item_device_list,
             BR.item
-        ) { mBinding, _, item ->
+        ) { mItemBinding, _, item ->
 
             val title =
                 StringUtils.getString(R.string.total_income)
@@ -102,7 +102,7 @@ class DeviceManagerActivity :
             val start = title.length + 1
             val end = title.length + 1 + value.length
             // 格式化总收益样式
-            mBinding?.tvItemDeviceTotalIncome?.text =
+            mItemBinding?.tvItemDeviceTotalIncome?.text =
                 com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
                     "$title：$value",
                     arrayOf(
@@ -117,7 +117,7 @@ class DeviceManagerActivity :
                         TypefaceSpan("money")
                     ), start, end
                 )
-            mBinding?.tvItemDeviceTotalIncome?.setOnClickListener {
+            mItemBinding?.tvItemDeviceTotalIncome?.setOnClickListener {
                 if (!UserPermissionUtils.hasProfitCalendarPermission()) {
                     SToast.showToast(this@DeviceManagerActivity, "无收益日历的功能权限")
                     return@setOnClickListener
@@ -135,7 +135,7 @@ class DeviceManagerActivity :
             }
 
             // 进入详情
-            mBinding?.root?.setOnClickListener {
+            mItemBinding?.root?.setOnClickListener {
                 if (UserPermissionUtils.hasDeviceInfoPermission()) {
                     // 设备详情
                     startActivity(

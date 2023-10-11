@@ -19,12 +19,12 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_scheme_configs_title"
             style="@style/Font_16_333333_bold"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{item.configName}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_default="wrap"
+            app:layout_constrainedWidth="true"
             tools:text="充500送20方案" />
 
         <com.yunshang.haile_manager_android.ui.view.MultiTypeTextView

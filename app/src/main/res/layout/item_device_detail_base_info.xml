@@ -70,7 +70,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_base_info_content"
             style="@style/ShopDetailItemContentStyle"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:background="@color/transparent"
             android:text="@{content}"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -78,7 +78,7 @@
             app:layout_constraintHorizontal_bias="1"
             app:layout_constraintStart_toEndOf="@id/gl_device_detail_base_50"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_default="wrap"
+            app:layout_constrainedWidth="true"
             app:marginStart="@{showCopy?@dimen/dimen_56:@dimen/dimen_8}"
             tools:ignore="MissingConstraints"
             tools:text="内容" />

@@ -68,6 +68,9 @@ class DeviceDetailActivity :
                                         mViewModel.deviceDetail.value?.name = it
                                         mViewModel.name.value = it
                                     }
+                                    IntentParams.DeviceParamsUpdateParams.typeChangeFloor -> {
+                                        mViewModel.deviceDetail.value?.floorCodeVal = it
+                                    }
                                 }
                             }
                     }
@@ -214,7 +217,9 @@ class DeviceDetailActivity :
                     R.string.change_pay_code -> !DeviceCategory.isDispenser(detail.categoryCode)
                             && !DeviceCategory.isDrinkingOrShower(detail.categoryCode)
                     // 生成付款码
-                    R.string.create_pay_code -> !DeviceCategory.isDispenser(detail.categoryCode)
+                    R.string.create_pay_code -> !DeviceCategory.isDispenser(detail.categoryCode) && !DeviceCategory.isShower(
+                        detail.categoryCode
+                    )
                     // 修改功能配置
                     R.string.update_func_price -> true
                     // 修改设备名称
@@ -227,6 +232,8 @@ class DeviceDetailActivity :
                     R.string.device_voice -> DeviceCategory.isDispenser(detail.categoryCode)
                     // 排空
                     R.string.device_drain -> DeviceCategory.isDispenser(detail.categoryCode)
+                    // 修改楼层
+                    R.string.update_floor -> true
                     else -> false
                 }
             }
@@ -241,7 +248,9 @@ class DeviceDetailActivity :
             mBinding.llDeviceDetailFuncRelated.removeAllViews()
             if (mViewModel.deviceDetail.value?.showRelated()!!) {
                 val inflater = LayoutInflater.from(this)
-                detail?.relatedGoodsDetailVo?.dosingVOS?.flatMap { item -> item.configs ?: listOf() }
+                detail?.relatedGoodsDetailVo?.dosingVOS?.flatMap { item ->
+                    item.configs ?: listOf()
+                }
                     ?.forEachIndexed { _, item ->
                         val itemBinding =
                             DataBindingUtil.inflate<ItemDeviceDetailDisposeMinBinding>(
@@ -487,6 +496,22 @@ class DeviceDetailActivity :
                             )
                         )
                     })
+                }
+                14 -> mViewModel.deviceDetail.value?.let { detail ->
+                    startNext.launch(
+                        Intent(
+                            this@DeviceDetailActivity,
+                            DeviceMultiChangeActivity::class.java
+                        ).apply {
+                            putExtras(
+                                IntentParams.DeviceParamsUpdateParams.pack(
+                                    GsonUtils.any2Json(detail.toUpdateParams()),
+                                    IntentParams.DeviceParamsUpdateParams.typeChangeFloor,
+                                    mViewModel.deviceDetail.value?.floorCode
+                                )
+                            )
+                        }
+                    )
                 }
             }
         }

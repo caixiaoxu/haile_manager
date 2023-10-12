@@ -59,6 +59,9 @@ class ShopPositionSelectorViewModel : BaseViewModel() {
         }
     }
 
+    /**
+     * 获取店铺点位列表
+     */
     fun requestShopPositionList() {
         launch({
             val result = ApiRepository.dealApiResult(
@@ -74,7 +77,42 @@ class ShopPositionSelectorViewModel : BaseViewModel() {
         })
     }
 
-    fun searchShopPositionList() {
-
+    /**
+     * 搜索
+     */
+    fun searchShopPositionList(content: String) {
+        if (content.isNullOrEmpty()) {
+            shopPositionList.postValue(originShopPositionList.onEach {
+                it.checkIsAll()
+            })
+        } else {
+            launch({
+                val list = mutableListOf<ShopAndPositionSelectEntity>()
+                originShopPositionList.forEach {
+                    it.name?.let { name ->
+                        if (name.contains(content)) {
+                            // 如果门店名包含
+                            list.add(it)
+                        } else {
+                            // 遍历，点位名包含
+                            it.positionList?.let { position ->
+                                position.filter { item -> item.name?.contains(content) ?: false }
+                                    .let { selects ->
+                                        if (selects.isNotEmpty()) {
+                                            list.add(
+                                                it.copy(positionList = selects.toMutableList())
+                                                    .also { select ->
+                                                        select.fold = it.fold
+                                                        select.checkIsAll()
+                                                    })
+                                        }
+                                    }
+                            }
+                        }
+                    }
+                }
+                shopPositionList.postValue(list)
+            })
+        }
     }
 }

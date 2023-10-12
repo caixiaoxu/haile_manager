@@ -126,6 +126,7 @@ object IntentParams {
         private const val CanMultiSelect = "canMultiSelect"
         private const val ShowPosition = "showPosition"
         private const val CanSelectAll = "canSelectAll"
+        private const val MustSelect = "mustSelect"
         private const val ShopPositionSelectorResult = "ShopPositionSelectorResult"
 
         /**
@@ -134,12 +135,14 @@ object IntentParams {
         fun pack(
             canMultiSelect: Boolean = true,
             showPosition: Boolean = true,
-            canSelectAll: Boolean = true
+            canSelectAll: Boolean = true,
+            mustSelect:Boolean = true,
         ): Bundle =
             Bundle().apply {
                 putBoolean(CanMultiSelect, canMultiSelect)
                 putBoolean(ShowPosition, showPosition)
                 putBoolean(CanSelectAll, canSelectAll)
+                putBoolean(MustSelect, mustSelect)
             }
 
         fun parseCanMultiSelect(intent: Intent): Boolean =
@@ -151,10 +154,13 @@ object IntentParams {
         fun parseCanSelectAll(intent: Intent): Boolean =
             intent.getBooleanExtra(CanSelectAll, true)
 
+        fun parseMustSelect(intent: Intent): Boolean =
+            intent.getBooleanExtra(MustSelect, true)
+
         /**
          * 包装返回参数
          */
-        fun packResult(selectList: MutableList<ShopAndPositionSelectEntity>): Bundle =
+        fun packResult(selectList: MutableList<ShopAndPositionSelectEntity>?): Bundle =
             Bundle().apply {
                 putString(ShopPositionSelectorResult, GsonUtils.any2Json(selectList))
             }
@@ -561,6 +567,7 @@ object IntentParams {
         const val typeChangeModel = 0
         const val typeChangePayCode = 1
         const val typeChangeName = 2
+        const val typeChangeFloor = 3
 
         const val ResultCode = 0x70001
         const val ResultData = "ResultData"
@@ -637,7 +644,7 @@ object IntentParams {
         /**
          * 包装参数
          */
-        fun pack(shop: SearchSelectParam? = null, categoryBigType: Int = -1): Bundle =
+        fun pack(shop: ShopAndPositionSelectEntity? = null, categoryBigType: Int = -1): Bundle =
             Bundle().apply {
                 shop?.let {
                     putString(Shop, GsonUtils.any2Json(shop))
@@ -645,8 +652,8 @@ object IntentParams {
                 putInt(CategoryBigType, categoryBigType)
             }
 
-        fun parseShop(intent: Intent): SearchSelectParam? = GsonUtils.json2Class(
-            intent.getStringExtra(Shop), SearchSelectParam::class.java
+        fun parseShop(intent: Intent): ShopAndPositionSelectEntity? = GsonUtils.json2Class(
+            intent.getStringExtra(Shop), ShopAndPositionSelectEntity::class.java
         )
 
         fun parseCategoryBigType(intent: Intent): Int = intent.getIntExtra(CategoryBigType, -1)

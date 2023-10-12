@@ -13,6 +13,7 @@ import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceEntity
+import com.yunshang.haile_manager_android.data.entities.ShopAndPositionSelectEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.data.rule.DeviceIndicatorEntity
 import kotlinx.coroutines.Dispatchers
@@ -48,7 +49,7 @@ class DeviceManagerViewModel : BaseViewModel() {
     val mDeviceCountStr: MutableLiveData<String> = MutableLiveData()
 
     // 选择的店铺
-    val selectDepartment: MutableLiveData<SearchSelectParam> by lazy {
+    val selectDepartment: MutableLiveData<ShopAndPositionSelectEntity> by lazy {
         MutableLiveData()
     }
 
@@ -145,8 +146,12 @@ class DeviceManagerViewModel : BaseViewModel() {
 
         val params = hashMapOf<String, Any>()
         // 店铺
-        selectDepartment.value?.let {
-            params["shopId"] = it.id
+        selectDepartment.value?.id?.let {
+            params["shopId"] = it
+        }
+        //点位
+        selectDepartment.value?.positionList?.firstOrNull()?.id?.let {
+            params["positionId"] = it
         }
         // 设备类型
         selectDeviceCategory.value?.let {
@@ -245,8 +250,12 @@ class DeviceManagerViewModel : BaseViewModel() {
                 params["keywords"] = it
             }
             // 店铺
-            selectDepartment.value?.let {
-                params["shopId"] = it.id
+            selectDepartment.value?.id?.let {
+                params["shopId"] = it
+            }
+            //点位
+            selectDepartment.value?.positionList?.firstOrNull()?.id?.let {
+                params["positionId"] = it
             }
             // 设备模型
             selectDeviceModel.value?.let {

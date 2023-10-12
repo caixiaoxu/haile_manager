@@ -212,6 +212,7 @@
     <string name="create_pay_code">生成付款码</string>
     <string name="update_func_price">修改功能价格</string>
     <string name="update_device_name">修改设备名称</string>
+    <string name="update_device_floor">设备所在楼层</string>
     <string name="device_transfer">设备转移</string>
     <string name="device_appointment_setting">预约设置</string>
     <string name="func_price">功能配置</string>
@@ -250,9 +251,11 @@
     <string name="update_imei_hint">请扫描添加新的模块</string>
     <string name="update_pay_code_hint">请扫描添加新的付款码</string>
     <string name="update_name_hint">请输入新的设备名称</string>
+    <string name="update_floor_hint">请输入新的楼层数</string>
     <string name="update_imei_desc">模块编码会以二维码的形式贴在模块上，找到后扫描可获取模块的IMEI编码信息。</string>
     <string name="update_pay_code_desc">付款码会以二维码的形式张贴在设备显示面板附近，用户扫描付款码进行下单洗衣等操作。</string>
     <string name="update_name_desc">设备名称与线下洗衣设备张贴的物料编号最好保持一致，出现问题方便运维人员快速找到设备。</string>
+    <string name="update_floor_desc">请填写设备在楼栋中所在的楼层数。</string>
     <string name="device_delete_hint">是否确定要解绑该设备么？</string>
     <string name="open_success">开启成功</string>
     <string name="close_success">关闭成功</string>
@@ -335,6 +338,8 @@
     <string name="search_shop_hint">请输入门店名称</string>
     <string name="shop_delete_hint">是否确定要删除该门店么？</string>
     <string name="pt_delete_hint">是否确定要删除该点位么？</string>
+
+    <string name="update_floor">修改楼层</string>
 
     <string name="operation_setting">运营设置</string>
     <string name="setting_title1">按流量收费，用户订单显示用量</string>

@@ -70,7 +70,14 @@
                     android:background="@drawable/shape_sf0a258_r22"
                     android:paddingHorizontal="12dp"
                     android:text="@string/scan_add"
-                    android:visibility="@{2 == vm.type?View.GONE:View.VISIBLE}" />
+                    android:visibility="@{vm.type > 2?View.GONE:View.VISIBLE}" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Font_16_333333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unit_floor"
+                    app:visibility="@{3 == vm.type}" />
             </LinearLayout>
 
             <View style="@style/DividingStyle" />

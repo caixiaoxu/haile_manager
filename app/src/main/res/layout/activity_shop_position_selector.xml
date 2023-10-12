@@ -93,7 +93,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/fl_shop_position_page_bottom"
             app:layout_constraintTop_toBottomOf="@id/tv_shop_position_select_info_title">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -116,6 +116,25 @@
                 app:visibility="@{!vm.showList}"
                 tools:text="暂无内容信息"
                 tools:visibility="visible" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_shop_position_page_bottom"
+            android:layout_width="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:paddingTop="8dp"
+            app:visibility="@{vm.showList}"
+            android:background="@drawable/shape_top_stroke_dividing"
+            android:layout_height="@dimen/page_bottom_h">
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_shop_position_select_submit"
+                style="@style/CommonMatchBtnStyle1"
+                android:layout_marginHorizontal="14dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="42dp"
+                android:text="@string/submit" />
+
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

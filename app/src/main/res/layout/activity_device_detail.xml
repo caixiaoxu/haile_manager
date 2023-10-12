@@ -464,7 +464,7 @@
                         app:divider="@drawable/divder_efefef"
                         app:dividerPadding="12dp"
                         app:showDividers="middle"
-                        tools:visibility="gone">
+                        tools:visibility="visible">
 
                         <include
                             layout="@layout/item_device_detail_base_info"
@@ -500,6 +500,13 @@
                             app:show="@{vm.deviceDetail.hasModel}"
                             app:showCopy="@{false}"
                             app:title="@{vm.deviceDetail.getModelTitle}" />
+
+                        <include
+                            layout="@layout/item_device_detail_base_info"
+                            app:content="@{vm.deviceDetail.floorCodeVal}"
+                            app:show="@{vm.deviceDetail.hasFloor}"
+                            app:showCopy="@{false}"
+                            app:title="@{vm.deviceDetail.getFloorTitle}" />
 
                         <include
                             layout="@layout/item_device_detail_base_info"

@@ -65,25 +65,24 @@ class DeviceManagerActivity :
     private val startSearchSelect =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             it.data?.let { intent ->
-                intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)?.let { json ->
-
-                    GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
-                        when (it.resultCode) {
-                            IntentParams.SearchSelectTypeParam.ShopResultCode -> {
-                                if (selected.isNotEmpty()) {
-                                    mViewModel.selectDepartment.value = selected[0]
-                                } else {
-                                    mViewModel.selectDepartment.value = null
-                                }
+                when (it.resultCode) {
+                    IntentParams.ShopPositionSelectorParams.ShopPositionSelectorResultCode -> {
+                        mViewModel.selectDepartment.value =
+                            IntentParams.ShopPositionSelectorParams.parseSelectList(intent)
+                                ?.firstOrNull()
+                    }
+                    IntentParams.SearchSelectTypeParam.DeviceModelResultCode -> {
+                        intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)
+                            ?.let { json ->
+                                GsonUtils.json2List(json, SearchSelectParam::class.java)
+                                    ?.let { selected ->
+                                        if (selected.isNotEmpty()) {
+                                            mViewModel.selectDeviceModel.value = selected[0]
+                                        } else {
+                                            mViewModel.selectDeviceModel.value = null
+                                        }
+                                    }
                             }
-                            IntentParams.SearchSelectTypeParam.DeviceModelResultCode -> {
-                                if (selected.isNotEmpty()) {
-                                    mViewModel.selectDeviceModel.value = selected[0]
-                                } else {
-                                    mViewModel.selectDeviceModel.value = null
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -250,10 +249,7 @@ class DeviceManagerActivity :
                     ShopPositionSelectorActivity::class.java
                 ).apply {
                     putExtras(
-                        IntentParams.SearchSelectTypeParam.pack(
-                            IntentParams.SearchSelectTypeParam.SearchSelectTypeShop,
-                            mustSelect = false
-                        )
+                        IntentParams.ShopPositionSelectorParams.pack(false, mustSelect = false)
                     )
                 }
             )

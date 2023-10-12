@@ -105,7 +105,9 @@ class DeviceMultiChangeActivity :
         )
         mViewModel.type.value = IntentParams.DeviceParamsUpdateParams.parseUpdateParamsType(intent)
 
-        if (IntentParams.DeviceParamsUpdateParams.typeChangeName == mViewModel.type.value) {
+        if (IntentParams.DeviceParamsUpdateParams.typeChangeName == mViewModel.type.value
+            || IntentParams.DeviceParamsUpdateParams.typeChangeFloor == mViewModel.type.value
+        ) {
             mViewModel.content.value =
                 IntentParams.DeviceParamsUpdateParams.parseUpdateParamsOriginData(intent) ?: ""
         }

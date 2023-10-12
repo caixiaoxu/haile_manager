@@ -17,7 +17,7 @@ import com.yunshang.haile_manager_android.BR
 data class ShopAndPositionSelectEntity(
     val id: Int? = null,
     val name: String? = null,
-    val positionList: MutableList<ShopPositionSelect>? = null
+    var positionList: MutableList<ShopPositionSelect>? = null
 ) : BaseObservable() {
     @get:Bindable
     var fold = false
@@ -48,11 +48,11 @@ data class ShopAndPositionSelectEntity(
         if (positionList.isNullOrEmpty()) {
             selectType = if (2 != selectType) 2 else 0
         } else {
-            if (positionList.all { item -> !item.selectVal }) {
-                positionList.forEach { item -> item.selectVal = true }
+            if (positionList!!.all { item -> !item.selectVal }) {
+                positionList!!.forEach { item -> item.selectVal = true }
                 selectType = 2
             } else {
-                positionList.forEach { item -> item.selectVal = false }
+                positionList!!.forEach { item -> item.selectVal = false }
                 selectType = 0
             }
         }
@@ -63,9 +63,9 @@ data class ShopAndPositionSelectEntity(
      */
     fun checkIsAll() {
         positionList?.let {
-            selectType = if (positionList.all { item -> item.selectVal }) {
+            selectType = if (it.all { item -> item.selectVal }) {
                 2
-            } else if (positionList.all { item -> !item.selectVal }) {
+            } else if (it.all { item -> !item.selectVal }) {
                 0
             } else {
                 1

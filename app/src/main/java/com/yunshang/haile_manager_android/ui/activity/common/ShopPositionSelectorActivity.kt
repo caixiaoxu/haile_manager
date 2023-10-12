@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
@@ -46,15 +47,17 @@ class ShopPositionSelectorActivity :
                 ) { mPositionItemBinding, pos, posistionItem ->
                     mPositionItemBinding?.lineShopPositionSelectorPositionBottom?.visibility(pos != item.positionList!!.size - 1)
                     mPositionItemBinding?.root?.setOnClickListener {
-                        if (!mViewModel.canMultiSelect){
-                            mViewModel.shopPositionList.value?.forEach {position->
+                        if (!mViewModel.canMultiSelect) {
+                            mViewModel.shopPositionList.value?.forEach { position ->
                                 position.selectType = 0
-                                position.positionList?.forEach {select->select.selectVal = false }
+                                position.positionList?.forEach { select ->
+                                    select.selectVal = false
+                                }
                             }
                         }
                         posistionItem.selectVal = !posistionItem.selectVal
                         item.checkIsAll()
-                        if (mViewModel.canMultiSelect){
+                        if (mViewModel.canMultiSelect) {
                             mViewModel.checkIsAll()
                         }
                     }
@@ -87,7 +90,8 @@ class ShopPositionSelectorActivity :
     override fun initIntent() {
         super.initIntent()
 
-        mViewModel.canMultiSelect = IntentParams.ShopPositionSelectorParams.parseCanMultiSelect(intent)
+        mViewModel.canMultiSelect =
+            IntentParams.ShopPositionSelectorParams.parseCanMultiSelect(intent)
         mViewModel.showPosition = IntentParams.ShopPositionSelectorParams.parseShowPosition(intent)
         mViewModel.canSelectAll = IntentParams.ShopPositionSelectorParams.parseCanSelectAll(intent)
     }
@@ -101,6 +105,7 @@ class ShopPositionSelectorActivity :
 
         mViewModel.shopPositionList.observe(this) {
             mAdapter.refreshList(it, true)
+            mViewModel.checkIsAll()
         }
     }
 
@@ -121,7 +126,9 @@ class ShopPositionSelectorActivity :
         }
 
         mBinding.etShopPositionSelectSearchContent.onTextChange = {
-
+            mViewModel.searchShopPositionList(
+                mBinding.etShopPositionSelectSearchContent.text.toString().trim()
+            )
         }
 
         mBinding.rvShopPositionSelectList.layoutManager = LinearLayoutManager(this)
@@ -136,6 +143,30 @@ class ShopPositionSelectorActivity :
         }
         mBinding.rvShopPositionSelectList.adapter = mAdapter
 
+        mBinding.btnShopPositionSelectSubmit.setOnClickListener {
+            val list = mViewModel.shopPositionList.value?.filter { item -> item.selectType != 0 }
+                ?.toMutableList()
+            list?.forEach {
+                it.positionList =
+                    it.positionList?.filter { item -> item.selectVal }?.toMutableList()
+            }
+            if (IntentParams.ShopPositionSelectorParams.parseMustSelect(intent)) {
+                if (list.isNullOrEmpty()){
+                    SToast.showToast(this, "请先选择适用门店")
+                    return@setOnClickListener
+                }
+                if (list.any { item->item.positionList.isNullOrEmpty()}){
+                    SToast.showToast(this, "所选的门店中，有门店无点位，请先添加点位")
+                    return@setOnClickListener
+                }
+            }
+            setResult(
+                IntentParams.ShopPositionSelectorParams.ShopPositionSelectorResultCode,
+                Intent().apply {
+                    putExtras(IntentParams.ShopPositionSelectorParams.packResult(list))
+                })
+            finish()
+        }
     }
 
     override fun initData() {

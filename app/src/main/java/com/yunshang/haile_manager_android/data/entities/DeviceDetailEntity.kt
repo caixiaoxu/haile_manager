@@ -1,7 +1,10 @@
 package com.yunshang.haile_manager_android.data.entities
 
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
+import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.common.DeviceCategory.Dispenser
@@ -65,7 +68,19 @@ data class DeviceDetailEntity(
     val errorDeviceOrderId: Int,
     val errorDeviceOrderNo: String,
     val spuDto: Spu?,
-) {
+    var floorCode: String? = null,
+    val positionCode: String? = null,
+    val positionId: Int? = null,
+    val positionName: String? = null
+) : BaseObservable() {
+
+    @get:Bindable
+    var floorCodeVal: String?
+        get() = floorCode
+        set(value) {
+            floorCode = value
+            notifyPropertyChanged(BR.floorCodeVal)
+        }
 
     val isDispenser: Boolean
         get() = DeviceCategory.isDispenser(categoryCode)
@@ -180,6 +195,9 @@ data class DeviceDetailEntity(
 
     fun getModelTitle(): String = StringUtils.getString(R.string.device_model)
 
+    fun hasFloor(): Boolean = !floorCodeVal.isNullOrEmpty()
+    fun getFloorTitle(): String = StringUtils.getString(R.string.floor)
+
     fun getCommunicationTypeStr(): String =
         StringUtils.getString(if (20 == communicationType) R.string.pulse else R.string.serial_port)
 
@@ -224,6 +242,7 @@ data class DeviceDetailEntity(
         "extAttr" to extAttr,
         "soldState" to soldState,
         "items" to items,
+        "floorCode" to floorCode,
     )
 }
 

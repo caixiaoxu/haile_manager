@@ -121,6 +121,51 @@ object IntentParams {
         fun parseShopName(intent: Intent): String? = intent.getStringExtra(ShopName)
     }
 
+    object ShopPositionSelectorParams {
+        const val ShopPositionSelectorResultCode = 0x50001
+        private const val CanMultiSelect = "canMultiSelect"
+        private const val ShowPosition = "showPosition"
+        private const val CanSelectAll = "canSelectAll"
+        private const val ShopPositionSelectorResult = "ShopPositionSelectorResult"
+
+        /**
+         * 包装参数
+         */
+        fun pack(
+            canMultiSelect: Boolean = true,
+            showPosition: Boolean = true,
+            canSelectAll: Boolean = true
+        ): Bundle =
+            Bundle().apply {
+                putBoolean(CanMultiSelect, canMultiSelect)
+                putBoolean(ShowPosition, showPosition)
+                putBoolean(CanSelectAll, canSelectAll)
+            }
+
+        fun parseCanMultiSelect(intent: Intent): Boolean =
+            intent.getBooleanExtra(CanMultiSelect, true)
+
+        fun parseShowPosition(intent: Intent): Boolean =
+            intent.getBooleanExtra(ShowPosition, true)
+
+        fun parseCanSelectAll(intent: Intent): Boolean =
+            intent.getBooleanExtra(CanSelectAll, true)
+
+        /**
+         * 包装返回参数
+         */
+        fun packResult(selectList: MutableList<ShopAndPositionSelectEntity>): Bundle =
+            Bundle().apply {
+                putString(ShopPositionSelectorResult, GsonUtils.any2Json(selectList))
+            }
+
+        fun parseSelectList(intent: Intent): MutableList<ShopAndPositionSelectEntity>? =
+            GsonUtils.json2List(
+                intent.getStringExtra(ShopPositionSelectorResult),
+                ShopAndPositionSelectEntity::class.java
+            )
+    }
+
     object ProfitStatisticsParams {
         private const val ShopIds = "shopIds"
         private const val ShopName = "shopName"
@@ -240,10 +285,11 @@ object IntentParams {
                 }
             }
 
-        fun parseShopPositionDetail(intent: Intent): ShopPositionDetailEntity? = GsonUtils.json2Class(
-            intent.getStringExtra(PositionDetail),
-            ShopPositionDetailEntity::class.java
-        )
+        fun parseShopPositionDetail(intent: Intent): ShopPositionDetailEntity? =
+            GsonUtils.json2Class(
+                intent.getStringExtra(PositionDetail),
+                ShopPositionDetailEntity::class.java
+            )
     }
 
     object ShopPaySettingsParams {

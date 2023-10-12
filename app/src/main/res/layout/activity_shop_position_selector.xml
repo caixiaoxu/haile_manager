@@ -50,7 +50,7 @@
             app:layout_constraintStart_toStartOf="@id/view_shop_position_select_bg"
             app:layout_constraintTop_toTopOf="@id/view_shop_position_select_bg" />
 
-        <androidx.appcompat.widget.AppCompatEditText
+        <com.yunshang.haile_manager_android.ui.view.SearchEditText
             android:id="@+id/et_shop_position_select_search_content"
             style="@style/Font_14_333333_999999"
             android:layout_width="0dp"
@@ -88,7 +88,7 @@
             app:layout_constraintBottom_toBottomOf="@id/tv_shop_position_select_info_title"
             app:layout_constraintEnd_toEndOf="@id/tv_shop_position_select_info_title"
             app:layout_constraintTop_toTopOf="@id/tv_shop_position_select_info_title"
-            app:visibility="@{vm.canSelectAll}" />
+            app:visibility="@{vm.canSelectAll &amp;&amp; vm.canMultiSelect}" />
 
         <FrameLayout
             android:layout_width="match_parent"

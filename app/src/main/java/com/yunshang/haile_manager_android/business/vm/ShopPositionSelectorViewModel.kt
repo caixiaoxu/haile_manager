@@ -24,8 +24,8 @@ class ShopPositionSelectorViewModel : BaseViewModel() {
     // 是否显示点位
     var showPosition: Boolean = true
 
-    // 是否需要选择门店
-    var needSelectShop: Boolean = true
+    // 是否需要可多选
+    var canMultiSelect: Boolean = true
 
     // 是否可全选
     var canSelectAll: Boolean = true
@@ -35,6 +35,9 @@ class ShopPositionSelectorViewModel : BaseViewModel() {
 
     // 是否全选
     val isAll: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    // 原始列表数据
+    val originShopPositionList: MutableList<ShopAndPositionSelectEntity> = mutableListOf()
 
     val shopPositionList: MutableLiveData<MutableList<ShopAndPositionSelectEntity>?> by lazy { MutableLiveData() }
 
@@ -63,7 +66,15 @@ class ShopPositionSelectorViewModel : BaseViewModel() {
                     ApiRepository.createRequestBody(hashMapOf())
                 )
             )
+            originShopPositionList.clear()
+            result?.let {
+                originShopPositionList.addAll(it)
+            }
             shopPositionList.postValue(result)
         })
+    }
+
+    fun searchShopPositionList() {
+
     }
 }

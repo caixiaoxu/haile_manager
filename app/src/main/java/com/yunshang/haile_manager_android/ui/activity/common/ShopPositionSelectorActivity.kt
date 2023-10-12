@@ -33,7 +33,7 @@ class ShopPositionSelectorActivity :
             R.layout.item_shop_position_selector, BR.item
         ) { mItemBinding, _, item ->
             mItemBinding?.showPosition = mViewModel.showPosition
-            mItemBinding?.needSelectShop = mViewModel.needSelectShop
+            mItemBinding?.canMultiSelect = mViewModel.canMultiSelect
             mItemBinding?.cbShopPositionSelectorShopAll?.setOnClickListener {
                 item.selectAllOrNo()
                 mViewModel.checkIsAll()
@@ -46,9 +46,17 @@ class ShopPositionSelectorActivity :
                 ) { mPositionItemBinding, pos, posistionItem ->
                     mPositionItemBinding?.lineShopPositionSelectorPositionBottom?.visibility(pos != item.positionList!!.size - 1)
                     mPositionItemBinding?.root?.setOnClickListener {
+                        if (!mViewModel.canMultiSelect){
+                            mViewModel.shopPositionList.value?.forEach {position->
+                                position.selectType = 0
+                                position.positionList?.forEach {select->select.selectVal = false }
+                            }
+                        }
                         posistionItem.selectVal = !posistionItem.selectVal
                         item.checkIsAll()
-                        mViewModel.checkIsAll()
+                        if (mViewModel.canMultiSelect){
+                            mViewModel.checkIsAll()
+                        }
                     }
                 }.also { positionAdapter ->
                     item.positionList?.let {
@@ -76,6 +84,14 @@ class ShopPositionSelectorActivity :
 
     override fun backBtn(): View = mBinding.barShopPositionSelectTitle.getBackBtn()
 
+    override fun initIntent() {
+        super.initIntent()
+
+        mViewModel.canMultiSelect = IntentParams.ShopPositionSelectorParams.parseCanMultiSelect(intent)
+        mViewModel.showPosition = IntentParams.ShopPositionSelectorParams.parseShowPosition(intent)
+        mViewModel.canSelectAll = IntentParams.ShopPositionSelectorParams.parseCanSelectAll(intent)
+    }
+
     override fun initEvent() {
         super.initEvent()
 
@@ -102,6 +118,10 @@ class ShopPositionSelectorActivity :
                 }
                 mViewModel.isAll.value = isSelect
             }
+        }
+
+        mBinding.etShopPositionSelectSearchContent.onTextChange = {
+
         }
 
         mBinding.rvShopPositionSelectList.layoutManager = LinearLayoutManager(this)

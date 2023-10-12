@@ -16,7 +16,7 @@
             type="java.lang.Boolean" />
 
         <variable
-            name="needSelectShop"
+            name="canMultiSelect"
             type="java.lang.Boolean" />
     </data>
 
@@ -78,7 +78,7 @@
                 android:layout_marginEnd="16dp"
                 android:alpha="@{1 == item.selectType?0.5f:1f}"
                 android:background="@color/transparent"
-                app:visibility="@{needSelectShop}"
+                app:visibility="@{canMultiSelect}"
                 app:imgRes="@{0 == item.selectType?R.mipmap.icon_uncheck:R.mipmap.icon_checked}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

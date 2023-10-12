@@ -224,6 +224,22 @@ class WebViewActivity : BaseBusinessActivity<ActivityWebviewBinding, WebViewView
                     }
                     super.onProgressChanged(view, newProgress)
                 }
+
+//                override fun onShowFileChooser(
+//                    webView: WebView?,
+//                    filePathCallback: ValueCallback<Array<Uri>>?,
+//                    fileChooserParams: FileChooserParams?
+//                ): Boolean {
+//                    DialogUtils.showImgSelectorDialog(
+//                        this@WebViewActivity,
+//                        1,
+//                    ) { isSuccess, result ->
+//                        if (isSuccess && !result.isNullOrEmpty()) {
+////                            filePathCallback?.onReceiveValue()
+//                        } else callResponse(JsResponseBean<Any?>(4, "图片获取失败"))
+//                    }
+//                    return true
+//                }
             }
 
             addJavascriptInterface(

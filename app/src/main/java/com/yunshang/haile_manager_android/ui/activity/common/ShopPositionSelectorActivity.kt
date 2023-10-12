@@ -138,7 +138,9 @@ class ShopPositionSelectorActivity :
                     this,
                     CustomDividerItemDecoration.VERTICAL,
                     DimensionUtils.dip2px(this, 16f)
-                )
+                ).apply {
+                    setDrawable(it)
+                }
             )
         }
         mBinding.rvShopPositionSelectList.adapter = mAdapter

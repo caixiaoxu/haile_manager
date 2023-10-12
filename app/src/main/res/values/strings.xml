@@ -335,7 +335,7 @@
     <string name="call_phone">拨打电话</string>
     <string name="executive_logging">执行记录</string>
     <string name="copy_success">已复制到贴粘板</string>
-    <string name="search_shop_hint">请输入门店名称</string>
+    <string name="search_shop_hint">请输入门店或点位名称</string>
     <string name="shop_delete_hint">是否确定要删除该门店么？</string>
     <string name="pt_delete_hint">是否确定要删除该点位么？</string>
 

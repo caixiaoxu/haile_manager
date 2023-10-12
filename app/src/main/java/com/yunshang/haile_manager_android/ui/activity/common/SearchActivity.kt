@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.king.camera.scan.CameraScan
@@ -19,12 +20,11 @@ import com.yunshang.haile_manager_android.business.vm.SearchViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchParam
 import com.yunshang.haile_manager_android.data.common.SearchType
+import com.yunshang.haile_manager_android.data.entities.ShopAndPositionSearchEntity
+import com.yunshang.haile_manager_android.data.entities.ShopPositionSearch
 import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.data.rule.ISearchSelectEntity
-import com.yunshang.haile_manager_android.databinding.ActivitySearchBinding
-import com.yunshang.haile_manager_android.databinding.ItemDeviceSearchSelectBinding
-import com.yunshang.haile_manager_android.databinding.ItemSearchHistoryFlowBinding
-import com.yunshang.haile_manager_android.databinding.ItemSearchSelectBinding
+import com.yunshang.haile_manager_android.databinding.*
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceDetailActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivity
@@ -34,10 +34,11 @@ import com.yunshang.haile_manager_android.ui.activity.order.OrderManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.recharge.HaiXinRechargeAccountsActivity
 import com.yunshang.haile_manager_android.ui.activity.recharge.HaiXinRefundRecordActivity
 import com.yunshang.haile_manager_android.ui.activity.shop.ShopDetailActivity
+import com.yunshang.haile_manager_android.ui.activity.shop.ShopPositionDetailActivity
 import com.yunshang.haile_manager_android.ui.activity.subAccount.SubAccountManagerActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
-import com.yunshang.haile_manager_android.ui.view.refresh.CommonLoadMoreRecyclerView
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+import com.yunshang.haile_manager_android.ui.view.refresh.CustomDividerItemDecoration
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import timber.log.Timber
 
@@ -124,6 +125,45 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                 }
                 finish()
             }
+        }
+    }
+
+    private val mShopAdapter: CommonRecyclerAdapter<ItemShopSearchSelectBinding, ShopAndPositionSearchEntity> by lazy {
+        CommonRecyclerAdapter(
+            R.layout.item_shop_search_select,
+            BR.item
+        ) { mItemBinding, _, item ->
+            mItemBinding?.llShopSearchInfo?.setOnClickListener {
+                startActivity(
+                    Intent(
+                        this@SearchActivity,
+                        ShopDetailActivity::class.java
+                    ).apply {
+                        putExtras(IntentParams.ShopParams.pack(item.id))
+                    }
+                )
+                finish()
+            }
+            mItemBinding?.rvShopSearchPosition?.layoutManager = LinearLayoutManager(this)
+            mItemBinding?.rvShopSearchPosition?.adapter =
+                CommonRecyclerAdapter<ItemShopSearchSelectPositionBinding, ShopPositionSearch>(
+                    R.layout.item_shop_search_select_position, BR.item
+                ) { mPositionItemBinding, _, position ->
+                    mPositionItemBinding?.root?.setOnClickListener {
+                        position.id?.let { positionId ->
+                            // 跳转到点位详情
+                            startActivity(Intent(
+                                this@SearchActivity,
+                                ShopPositionDetailActivity::class.java
+                            ).apply {
+                                putExtras(IntentParams.CommonParams.pack(positionId))
+                            })
+                            finish()
+                        }
+                    }
+                }.apply {
+                    refreshList(item.positionList, true)
+                }
         }
     }
 
@@ -216,19 +256,17 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
         // 店铺搜索和（设备、订单）搜索响应数据格式不一
         if (SearchType.Shop == mViewModel.searchType) {
             mBinding.rvSearchList1.layoutManager = LinearLayoutManager(this)
-            mBinding.rvSearchList1.adapter = mAdapter
-            mBinding.rvSearchList1.requestData =
-                object : CommonLoadMoreRecyclerView.OnRequestDataListener<ISearchSelectEntity>() {
-                    override fun requestData(
-                        page: Int,
-                        pageSize: Int,
-                        callBack: (responseList: MutableList<out ISearchSelectEntity>?) -> Unit
-                    ) {
-                        if (UserPermissionUtils.hasShopListPermission()) {
-                            mViewModel.searchList(page, pageSize, result1 = callBack)
-                        }
+            ContextCompat.getDrawable(this, R.drawable.divide_size8)?.let {
+                mBinding.rvSearchList1.addItemDecoration(
+                    CustomDividerItemDecoration(
+                        this,
+                        CustomDividerItemDecoration.VERTICAL,
+                    ).apply {
+                        setDrawable(it)
                     }
-                }
+                )
+            }
+            mBinding.rvSearchList1.adapter = mShopAdapter
         } else {
             mBinding.rvSearchList2.enableRefresh = false
             mBinding.rvSearchList2.layoutManager = LinearLayoutManager(this)
@@ -280,7 +318,7 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                     mBinding.clSearchHistory.visibility = View.VISIBLE
                     mBinding.rvSearchList1.visibility = View.GONE
                 } else {
-                    mBinding.rvSearchList1.requestLoadMore(true)
+                    searchShopList()
                     mBinding.clSearchHistory.visibility = View.GONE
                     // 显示搜索列表
                     mBinding.rvSearchList1.visibility = View.VISIBLE
@@ -346,5 +384,13 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
     }
 
     override fun initData() {
+    }
+
+    private fun searchShopList() {
+        if (SearchType.Shop == mViewModel.searchType) {
+            mViewModel.searchShopList {
+                mBinding.rvSearchList1.refreshData(it, true)
+            }
+        }
     }
 }

@@ -1,7 +1,5 @@
 package com.yunshang.haile_manager_android.data.entities
 
-import com.yunshang.haile_manager_android.data.rule.ISearchSelectEntity
-
 /**
  * Title :
  * Author: Lsy
@@ -23,14 +21,9 @@ data class ShopAndPositionSearchEntity(
     val districtName: String,
     val area: String,
     val address: String,
-    val positionList: List<ShopPositionSearch>? = null
-) : ISearchSelectEntity {
-    override fun getSearchId(): Int = id
-
-    override fun getTitle(): String = name
-    override fun getContent(): Array<String> = arrayOf(
-        provinceName + cityName + districtName + area + address
-    )
+    val positionList: MutableList<ShopPositionSearch>? = null
+) {
+    fun getDetailAddress() = provinceName + cityName + districtName + area + address
 }
 
 data class ShopPositionSearch(

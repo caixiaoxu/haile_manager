@@ -4,6 +4,7 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Rect
+import android.net.Uri
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -31,7 +32,6 @@ import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.*
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
-import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.HomeViewModel
@@ -56,7 +56,6 @@ import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDi
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.StringUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
-import com.yunshang.haile_manager_android.web.WebViewActivity
 import timber.log.Timber
 import java.lang.reflect.Field
 import java.util.*
@@ -179,15 +178,20 @@ class HomeFragment :
 
         mBinding.ibContactService.setOnClickListener {
             if (!ViewUtils.isFastDoubleClick()){
-                startActivity(Intent(requireContext(), WebViewActivity::class.java).apply {
-                    putExtras(
-                        IntentParams.WebViewParams.pack(
-                            Constants.SERVICE_URL,
-                            noCache = true
-                        )
-                    )
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                })
+                // 调用系统浏览器
+                val uri: Uri = Uri.parse(Constants.SERVICE_URL)
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                startActivity(intent)
+
+//                startActivity(Intent(requireContext(), WebViewActivity::class.java).apply {
+//                    putExtras(
+//                        IntentParams.WebViewParams.pack(
+//                            Constants.SERVICE_URL,
+//                            noCache = true
+//                        )
+//                    )
+//                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                })
             }
         }
     }

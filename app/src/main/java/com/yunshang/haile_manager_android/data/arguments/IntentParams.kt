@@ -935,6 +935,7 @@ object IntentParams {
         private const val NeedFilter = "needFilter"
         private const val Title = "title"
         private const val AutoWebTitle = "autoWebTitle"
+        private const val NoCache = "noCache"
 
         /**
          * 包装参数
@@ -943,7 +944,8 @@ object IntentParams {
             url: String,
             needFilter: Boolean = false,
             title: String? = null,
-            autoWebTitle: Boolean = true
+            autoWebTitle: Boolean = true,
+            noCache:Boolean = false,
         ): Bundle = Bundle().apply {
             putString(Url, url)
             putBoolean(NeedFilter, needFilter)
@@ -951,11 +953,13 @@ object IntentParams {
                 putString(Title, title)
             }
             putBoolean(AutoWebTitle, autoWebTitle)
+            putBoolean(NoCache, noCache)
         }
 
         fun parseUrl(intent: Intent): String? = intent.getStringExtra(Url)
         fun parseNeedFilter(intent: Intent): Boolean = intent.getBooleanExtra(NeedFilter, false)
         fun parseTitle(intent: Intent): String? = intent.getStringExtra(NeedFilter)
         fun parseAutoWebTitle(intent: Intent): Boolean = intent.getBooleanExtra(AutoWebTitle, true)
+        fun parseNoCache(intent: Intent): Boolean = intent.getBooleanExtra(NoCache, false)
     }
 }

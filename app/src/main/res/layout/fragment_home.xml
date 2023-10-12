@@ -367,7 +367,7 @@
             app:layout_constraintTop_toBottomOf="@id/bg_home_title"
             tools:text="暂无内容信息" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <com.yunshang.haile_manager_android.ui.view.FloatImageButton
             android:id="@+id/ib_contact_service"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

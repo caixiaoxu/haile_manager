@@ -6,6 +6,7 @@ import android.net.http.SslError
 import android.view.View
 import android.webkit.*
 import androidx.activity.result.contract.ActivityResultContracts
+import com.github.lzyzsd.jsbridge.BridgeWebView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.king.camera.scan.CameraScan
@@ -32,6 +33,8 @@ import timber.log.Timber
 class WebViewActivity : BaseBusinessActivity<ActivityWebviewBinding, WebViewViewModel>(
     WebViewViewModel::class.java
 ) {
+    private var mWebView: BridgeWebView? = null
+
     private val jsInterfaceName = "WebViewJavascriptBridge"
 
     // 权限
@@ -60,7 +63,7 @@ class WebViewActivity : BaseBusinessActivity<ActivityWebviewBinding, WebViewView
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             // 扫码结果
             if (result.resultCode == RESULT_OK) {
-                CameraScan.parseScanResult(result.data)?.let {code->
+                CameraScan.parseScanResult(result.data)?.let { code ->
                     Timber.i("扫码:$code")
                     mViewModel.jsScanRequestBean?.let { scanRequest ->
                         when (scanRequest.typeVal) {
@@ -78,7 +81,14 @@ class WebViewActivity : BaseBusinessActivity<ActivityWebviewBinding, WebViewView
                             } else {
                                 val payCode: String? = StringUtils.getPayCode(code)
                                 if (payCode.isNullOrEmpty()) {
-                                    callResponse(JsResponseBean(JsScanResponseBean(scanRequest.type, code)))
+                                    callResponse(
+                                        JsResponseBean(
+                                            JsScanResponseBean(
+                                                scanRequest.type,
+                                                code
+                                            )
+                                        )
+                                    )
                                 } else {
                                     callResponse(
                                         JsResponseBean(
@@ -158,64 +168,71 @@ class WebViewActivity : BaseBusinessActivity<ActivityWebviewBinding, WebViewView
     }
 
     private fun initWebView() {
-        mBinding.webview.settings.run {
-            defaultTextEncodingName = "utf-8"
-            builtInZoomControls = false
+        mWebView = BridgeWebView(applicationContext).apply {
+            settings.run {
+                defaultTextEncodingName = "utf-8"
+                builtInZoomControls = false
 //            layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
-            domStorageEnabled = true
-            allowFileAccess = true
-            allowFileAccessFromFileURLs = true
-            allowUniversalAccessFromFileURLs = true
-            mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-        }
+                domStorageEnabled = true
+                allowFileAccess = true
+                allowFileAccessFromFileURLs = true
+                allowUniversalAccessFromFileURLs = true
+                mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
 
-        mBinding.webview.webViewClient = object : WebViewClient() {
-            //防止加载网页时调起系统浏览器
-            override fun shouldOverrideUrlLoading(
-                view: WebView?,
-                request: WebResourceRequest?
-            ): Boolean {
-                view?.loadUrl(request?.url.toString())
-                return true
+                if (IntentParams.WebViewParams.parseNoCache(intent)) {
+                    cacheMode = WebSettings.LOAD_NO_CACHE
+                }
             }
 
-            override fun onReceivedSslError(
-                view: WebView?,
-                handler: SslErrorHandler?,
-                error: SslError?
-            ) {
-                handler?.proceed()
+            webViewClient = object : WebViewClient() {
+                //防止加载网页时调起系统浏览器
+                override fun shouldOverrideUrlLoading(
+                    view: WebView?,
+                    request: WebResourceRequest?
+                ): Boolean {
+                    view?.loadUrl(request?.url.toString())
+                    return true
+                }
+
+                override fun onReceivedSslError(
+                    view: WebView?,
+                    handler: SslErrorHandler?,
+                    error: SslError?
+                ) {
+                    handler?.proceed()
 //                super.onReceivedSslError(view, handler, error)
+                }
             }
-        }
 
-        mBinding.webview.webChromeClient = object : WebChromeClient() {
+            webChromeClient = object : WebChromeClient() {
 
-            override fun onReceivedTitle(view: WebView?, title: String?) {
-                super.onReceivedTitle(view, title)
+                override fun onReceivedTitle(view: WebView?, title: String?) {
+                    super.onReceivedTitle(view, title)
 
-                title?.let {
-                    if (IntentParams.WebViewParams.parseAutoWebTitle(intent)) {
-                        mBinding.barWebviewTitle.setTitle(it)
+                    title?.let {
+                        if (IntentParams.WebViewParams.parseAutoWebTitle(intent)) {
+                            mBinding.barWebviewTitle.setTitle(it)
+                        }
                     }
                 }
-            }
 
-            override fun onProgressChanged(view: WebView?, newProgress: Int) {
-                if (newProgress == 100) {
-                    hideLoading()
-                } else {
-                    showLoading()
+                override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                    if (newProgress == 100) {
+                        hideLoading()
+                    } else {
+                        showLoading()
+                    }
+                    super.onProgressChanged(view, newProgress)
                 }
-                super.onProgressChanged(view, newProgress)
             }
-        }
 
-        mBinding.webview.addJavascriptInterface(
-            MainJavascriptInterface(mBinding.webview.callbacks)
-            { type, json, callbackId -> callMethod(type, json, callbackId) }, jsInterfaceName
-        )
-        mBinding.webview.setGson(Gson())
+            addJavascriptInterface(
+                MainJavascriptInterface(callbacks)
+                { type, json, callbackId -> callMethod(type, json, callbackId) }, jsInterfaceName
+            )
+            setGson(Gson())
+        }
+        mBinding.flWebview.addView(mWebView)
     }
 
     private fun changeTitle(bean: JsTitleRequestBean) {
@@ -258,16 +275,16 @@ class WebViewActivity : BaseBusinessActivity<ActivityWebviewBinding, WebViewView
                 sbimgs.append("<img src=$url width=\"100%\">")
                 sbimgs.append("</br>")
                 sbimgs.append("</center></html>")
-                mBinding.webview.loadData(sbimgs.toString(), "text/html", "UTF-8")
+                mWebView?.loadData(sbimgs.toString(), "text/html", "UTF-8")
             } else {
-                mBinding.webview.loadUrl(url)
+                mWebView?.loadUrl(url)
             }
         }
     }
 
     private fun callResponse(data: Any) {
         if (!mViewModel.callbackId.isNullOrEmpty()) {
-            mBinding.webview.sendResponse(data, mViewModel.callbackId)
+            mWebView?.sendResponse(data, mViewModel.callbackId)
         }
         clearCache()
     }
@@ -278,9 +295,17 @@ class WebViewActivity : BaseBusinessActivity<ActivityWebviewBinding, WebViewView
     }
 
     override fun onBackListener() {
-        if (mBinding.webview.canGoBack()) {
-            mBinding.webview.goBack()
+        if (mWebView?.canGoBack() == true) {
+            mWebView?.goBack()
         } else {
+            // 清空缓存
+            mWebView?.clearCache(true)
+            mWebView?.clearFormData()
+            mWebView?.clearHistory()
+            // 销毁控件
+            mBinding.flWebview.removeView(mWebView)
+            mWebView?.destroy()
+            mWebView = null
             super.onBackListener()
         }
     }

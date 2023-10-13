@@ -186,6 +186,10 @@ data class DeviceDetailEntity(
 
     fun getShopTitle(): String = StringUtils.getString(R.string.department)
 
+    fun hasPosition(): Boolean = 0 != positionId && !positionName.isNullOrEmpty()
+
+    fun getPositionTitle(): String = StringUtils.getString(R.string.belong_to_pt)
+
     fun hasCategory(): Boolean =
         0 != categoryId && !categoryCode.isNullOrEmpty() && !categoryName.isNullOrEmpty()
 

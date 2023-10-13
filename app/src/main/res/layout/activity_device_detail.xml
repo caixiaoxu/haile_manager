@@ -35,12 +35,12 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scrollbars="none"
-            app:visibility="@{null!=vm.deviceDetail}"
             app:layout_constraintBottom_toTopOf="@id/view_device_detail_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bar_device_detail_title"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintVertical_bias="0.0"
+            app:visibility="@{null!=vm.deviceDetail}">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -319,9 +319,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="12dp"
-                        app:visibility="@{vm.showParamsSetting}"
                         android:background="@drawable/shape_sf7f7f7_r8"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        app:visibility="@{vm.showParamsSetting}">
 
                         <include
                             android:id="@+id/include_device_detail_single_pulse_quantity"
@@ -482,10 +482,17 @@
 
                         <include
                             layout="@layout/item_device_detail_base_info"
-                            app:content="@{vm.deviceDetail.shopName}"
+                            app:content='@{vm.deviceDetail.shopName + "（"+ vm.deviceDetail.shopId +"）"}'
                             app:show="@{vm.deviceDetail.hasShop}"
                             app:showCopy="@{false}"
                             app:title="@{vm.deviceDetail.getShopTitle}" />
+
+                        <include
+                            layout="@layout/item_device_detail_base_info"
+                            app:content='@{vm.deviceDetail.positionName + "（"+ vm.deviceDetail.positionId +"）"}'
+                            app:show="@{vm.deviceDetail.hasPosition}"
+                            app:showCopy="@{false}"
+                            app:title="@{vm.deviceDetail.getPositionTitle}" />
 
                         <include
                             layout="@layout/item_device_detail_base_info"
@@ -559,9 +566,9 @@
             android:id="@+id/view_device_detail_bottom"
             android:layout_width="match_parent"
             android:layout_height="99dp"
-            app:visibility="@{null!=vm.deviceDetail}"
             android:background="@drawable/shape_top_stroke_dividing"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:visibility="@{null!=vm.deviceDetail}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/btn_device_detail_delete"
@@ -569,8 +576,8 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:text="@string/unBind"
-            app:visibility="@{null!=vm.deviceDetail &amp;&amp; shared.hasDeviceDeletePermission}"
             app:layout_constraintEnd_toEndOf="@id/view_device_detail_bottom"
-            app:layout_constraintTop_toTopOf="@id/view_device_detail_bottom" />
+            app:layout_constraintTop_toTopOf="@id/view_device_detail_bottom"
+            app:visibility="@{null!=vm.deviceDetail &amp;&amp; shared.hasDeviceDeletePermission}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

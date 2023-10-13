@@ -85,7 +85,7 @@
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_create_department"
                     style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@{vm.createDeviceShop.name}"
+                    app:itemContent="@{vm.createDeviceShop.shopAndPositionName}"
                     app:showArrow="true"
                     app:title="@string/department"
                     app:type="info" />
@@ -123,8 +123,9 @@
                     style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@={vm.floorCode}"
                     app:title="@string/floor"
-                    android:inputType="number"
+                    android:digits="1234567890-"
                     app:unitHint="@string/unit_floor"
+                    android:maxLength="3"
                     android:hint="@string/floor_hint"
                     app:type="input" />
 

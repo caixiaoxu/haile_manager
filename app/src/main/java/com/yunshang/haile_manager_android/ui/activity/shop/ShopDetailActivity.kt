@@ -44,12 +44,29 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
                 val show = View.VISIBLE == mBinding.llShopDetailPayConfigInfoParent.visibility
                 mBinding.llShopDetailPayConfigInfoParent.visibility =
                     if (show) View.GONE else View.VISIBLE
-                mBinding.tvShopDetailPayConfigTitle.setCompoundDrawablesWithIntrinsicBounds(
+                mBinding.tvShopDetailPayConfigStatus.setCompoundDrawablesWithIntrinsicBounds(
                     0,
                     0,
                     if (!show) R.drawable.icon_arrow_down_with_padding else R.drawable.icon_arrow_right_with_padding,
                     0
                 )
+            }
+        }
+        mBinding.tvShopDetailPayConfigStatus.setOnClickListener {
+            mViewModel.shopDetail.value?.let { detail ->
+                startActivity(Intent(
+                    this@ShopDetailActivity,
+                    ShopPaySettingsActivity::class.java
+                ).apply {
+                    detail.paymentSettings?.let { settings ->
+                        putExtras(
+                            IntentParams.ShopPaySettingsParams.pack(
+                                shopPaySettings = settings,
+                                shopId = detail.id,
+                            )
+                        )
+                    }
+                })
             }
         }
 

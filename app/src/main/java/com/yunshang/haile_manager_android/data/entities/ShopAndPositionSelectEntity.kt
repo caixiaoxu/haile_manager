@@ -19,6 +19,10 @@ data class ShopAndPositionSelectEntity(
     val name: String? = null,
     var positionList: MutableList<ShopPositionSelect>? = null
 ) : BaseObservable() {
+
+    val shopAndPositionName: String
+        get() = "${name ?: ""}-${positionList?.firstOrNull()?.name ?: ""}"
+
     @get:Bindable
     var fold = false
         set(value) {

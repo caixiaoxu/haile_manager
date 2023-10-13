@@ -301,6 +301,7 @@ object IntentParams {
     }
 
     object ShopPaySettingsParams {
+        private const val ShopId = "shopId"
         private const val ShopIds = "shopIds"
         private const val ShopPaySettings = "shopPaySettings"
         const val ResultCode = 10003
@@ -310,7 +311,8 @@ object IntentParams {
          */
         fun pack(
             shopIds: IntArray? = null,
-            shopPaySettings: ShopPaySettingsEntity? = null
+            shopPaySettings: ShopPaySettingsEntity? = null,
+            shopId: Int? = null
         ): Bundle =
             Bundle().apply {
                 shopIds?.let {
@@ -319,8 +321,12 @@ object IntentParams {
                 shopPaySettings?.let {
                     putString(ShopPaySettings, GsonUtils.any2Json(shopPaySettings))
                 }
+                shopId?.let {
+                    putInt(ShopId, it)
+                }
             }
 
+        fun parseShopId(intent: Intent): Int = intent.getIntExtra(ShopId, -1)
         fun parseShopIds(intent: Intent): IntArray? = intent.getIntArrayExtra(ShopIds)
 
         fun parseShopPaySettings(intent: Intent): ShopPaySettingsEntity? = GsonUtils.json2Class(

@@ -144,6 +144,12 @@ interface ShopService {
     suspend fun getShopPaySettingsTemplate(@Body body: RequestBody): ResponseWrapper<ShopPaySettingsEntity>
 
     /**
+     * 修改店铺支付设置
+     */
+    @POST("/pay/createSettings")
+    suspend fun updateShopPaySettings(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
      * 绑定店铺支付设置
      */
     @POST("/pay/batchCreateSettings")

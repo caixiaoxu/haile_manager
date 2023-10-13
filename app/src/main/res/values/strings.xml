@@ -130,6 +130,7 @@
     <string name="device_no">设备编号</string>
     <string name="device_search_hint">搜索设备名称/模块编码 (IMEI）/设备编码</string>
     <string name="department">所属门店</string>
+    <string name="belong_to_pt">所属点位</string>
     <string name="department_empty">请先选择门店</string>
     <string name="device_category">设备类型</string>
     <string name="device_model">设备型号</string>
@@ -153,7 +154,7 @@
     <string name="imei">IMEI</string>
     <string name="imei_title">模块编码（IMEI）</string>
     <string name="device_name">设备名称</string>
-    <string name="device_name_hint">请输入2-20个中英文名称</string>
+    <string name="device_name_hint">如：XX楼XX层XX号机</string>
     <string name="fun_configure">功能配置</string>
     <string name="add_manager_fun_configure">新增管理配置</string>
     <string name="scan_hint">扫描模块上的二维码</string>

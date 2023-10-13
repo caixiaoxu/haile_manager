@@ -114,14 +114,14 @@
 
                     <include
                         layout="@layout/item_device_detail_base_info"
-                        app:content='@{vm.positionDetail.id+""}'
+                        app:content='@{vm.positionDetail.code}'
                         app:show="@{true}"
                         app:showCopy="@{false}"
                         app:title="@{@string/pt_id}" />
 
                     <include
                         layout="@layout/item_device_detail_base_info"
-                        app:content='@{vm.positionDetail.shopName}'
+                        app:content='@{vm.positionDetail.shopName + "（"+ vm.positionDetail.shopId +"）"}'
                         app:show="@{vm.positionDetail.hasShopName}"
                         app:showCopy="@{false}"
                         app:title="@{@string/department}" />

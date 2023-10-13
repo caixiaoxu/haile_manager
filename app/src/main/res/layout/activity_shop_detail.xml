@@ -164,10 +164,24 @@
                     android:layout_width="match_parent"
                     android:layout_marginTop="8dp"
                     android:background="@color/white"
-                    android:drawableEnd="@drawable/icon_arrow_right_with_padding"
                     android:text="@string/shop_pay_config"
-                    android:visibility="@{(null == vm.shopDetail.paymentSettings)?View.GONE:View.VISIBLE}"
+                    app:visibility="@{(null != vm.shopDetail.paymentSettings)}"
                     app:layout_constraintTop_toBottomOf="@id/ll_shop_detail_base_info" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_pay_config_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:drawableEnd="@drawable/icon_arrow_right_with_padding"
+                    android:gravity="center"
+                    android:text="@string/edit"
+                    style="@style/Font_14_f0a258"
+                    app:visibility="@{(null != vm.shopDetail.paymentSettings)}"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_shop_detail_pay_config_title"
+                    app:layout_constraintEnd_toEndOf="@id/tv_shop_detail_pay_config_title"
+                    app:layout_constraintTop_toTopOf="@id/tv_shop_detail_pay_config_title"
+                    tools:text="编辑" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_shop_detail_pay_config_info_parent"

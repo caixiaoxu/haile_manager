@@ -126,7 +126,7 @@ class ShopManagerViewModel : BaseViewModel() {
      */
     fun requestPositionDeviceNum(
         shopId: Int,
-        positionId: Int,
+        positionId: Int? = null,
         callBack: (deviceNum: MutableList<Int>?) -> Unit
     ) {
         launch({

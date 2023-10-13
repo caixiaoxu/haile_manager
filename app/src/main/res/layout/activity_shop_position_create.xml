@@ -57,6 +57,7 @@
                     android:id="@+id/item_position_name"
                     style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@={vm.positionParam.name}"
+                    android:maxLength="20"
                     app:title="@string/pt_name"
                     app:type="input" />
 
@@ -72,6 +73,7 @@
                     android:id="@+id/item_position_address"
                     style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@={vm.positionParam.addressVal}"
+                    android:maxLength="50"
                     app:title="@string/location_detail"
                     app:type="input" />
 
@@ -95,7 +97,7 @@
                     android:id="@+id/item_position_business_phone"
                     style="@style/MultiTypePaddingHItemStyle"
                     android:inputType="phone"
-                    android:maxLength="11"
+                    android:maxLength="12"
                     app:itemContent="@={vm.positionParam.serviceTelephone}"
                     app:title="@string/business_phone"
                     app:type="input" />

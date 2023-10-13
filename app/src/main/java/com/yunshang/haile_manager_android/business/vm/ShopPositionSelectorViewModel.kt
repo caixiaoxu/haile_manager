@@ -36,6 +36,9 @@ class ShopPositionSelectorViewModel : BaseViewModel() {
     // 是否全选
     val isAll: MutableLiveData<Boolean> = MutableLiveData(false)
 
+    // 之前选择的列表数据
+    var oldShopPositionList: MutableList<ShopAndPositionSelectEntity>? = null
+
     // 原始列表数据
     val originShopPositionList: MutableList<ShopAndPositionSelectEntity> = mutableListOf()
 
@@ -71,10 +74,36 @@ class ShopPositionSelectorViewModel : BaseViewModel() {
             )
             originShopPositionList.clear()
             result?.let {
+                dealOldSelectList(result)
                 originShopPositionList.addAll(it)
             }
             shopPositionList.postValue(result)
         })
+    }
+
+    /**
+     * 处理之前选择的数据
+     */
+    private fun dealOldSelectList(result: MutableList<ShopAndPositionSelectEntity>) {
+        if (!oldShopPositionList.isNullOrEmpty()) {
+            // 遍历门店
+            result.forEach { select ->
+                // 相同门店
+                oldShopPositionList?.find { item -> item.id == select.id }?.let { sameShop ->
+                    // 遍历点位
+                    select.positionList?.forEach { position ->
+                        // 如果包含，改为选中
+                        position.selectVal =
+                            sameShop.positionList?.find { itemPosition -> itemPosition.id == position.id }
+                                ?.let { true } ?: false
+                    }
+                    // 判断是否点位全选
+                    select.checkIsAll()
+                }
+            }
+            // 判断是否门店全选
+            checkIsAll()
+        }
     }
 
     /**

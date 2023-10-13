@@ -17,6 +17,7 @@ import com.yunshang.haile_manager_android.data.entities.ShopDetailEntity
 import com.yunshang.haile_manager_android.data.entities.ShopPositionDetailEntity
 import com.yunshang.haile_manager_android.data.entities.ShopTypeEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import com.yunshang.haile_manager_android.utils.StringUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -34,7 +35,6 @@ class ShopPositionCreateViewModel : BaseViewModel() {
     private val mShopRepo = ApiRepository.apiClient(ShopService::class.java)
 
     val positionParam = MutableLiveData(ShopPositionCreateParam())
-
     fun requestShopDetail(callBack: (cityName: String?) -> Unit) {
         positionParam.value?.shopId?.let { shopId ->
             launch({
@@ -89,12 +89,20 @@ class ShopPositionCreateViewModel : BaseViewModel() {
             SToast.showToast(v.context, "请先输入点位名称")
             return
         }
+        if (StringUtils.checkShopPositionName(positionParam.value!!.name!!)) {
+            SToast.showToast(v.context, "请先输入点位名称")
+            return
+        }
         if (null == positionParam.value?.lat || null == positionParam.value?.lng) {
-            SToast.showToast(v.context, "请先选择定位")
+            SToast.showToast(v.context, "请输入2-20个中英文大小写点位名称")
             return
         }
         if (positionParam.value?.address.isNullOrEmpty()) {
             SToast.showToast(v.context, "请先输入详细位置")
+            return
+        }
+        if (StringUtils.checkAddress(positionParam.value!!.address!!)) {
+            SToast.showToast(v.context, "请输入2-50个中英文大小写字符")
             return
         }
         if (null == positionParam.value?.sex) {

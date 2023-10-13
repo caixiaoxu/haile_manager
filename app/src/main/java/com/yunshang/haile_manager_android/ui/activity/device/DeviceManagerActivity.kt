@@ -69,7 +69,6 @@ class DeviceManagerActivity :
                     IntentParams.ShopPositionSelectorParams.ShopPositionSelectorResultCode -> {
                         mViewModel.selectDepartment.value =
                             IntentParams.ShopPositionSelectorParams.parseSelectList(intent)
-                                ?.firstOrNull()
                     }
                     IntentParams.SearchSelectTypeParam.DeviceModelResultCode -> {
                         intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)
@@ -158,7 +157,7 @@ class DeviceManagerActivity :
         super.initIntent()
         mViewModel.searchKey.value = IntentParams.SearchParams.parseKeyWord(intent)
         IntentParams.DeviceManagerParams.parseShop(intent)?.let {
-            mViewModel.selectDepartment.value = it
+            mViewModel.selectDepartment.value = mutableListOf(it)
         }
         mViewModel.bigCategoryType = IntentParams.DeviceManagerParams.parseCategoryBigType(intent)
     }
@@ -249,7 +248,10 @@ class DeviceManagerActivity :
                     ShopPositionSelectorActivity::class.java
                 ).apply {
                     putExtras(
-                        IntentParams.ShopPositionSelectorParams.pack(false, mustSelect = false)
+                        IntentParams.ShopPositionSelectorParams.pack(
+                            mustSelect = false,
+                            selectList = mViewModel.selectDepartment.value
+                        )
                     )
                 }
             )
@@ -399,7 +401,7 @@ class DeviceManagerActivity :
      */
     private fun buildErrorStatus() {
         val list = mViewModel.errorStatus.filter { item ->
-            // 出水故障、免费设备,淋浴特有的
+            // 出水故障、免费设备,饮水特有的
             val drinking = if (mViewModel.selectDeviceCategory.value?.any() { category ->
                     DeviceCategory.isDrinking(category.code)
                 } != true) {
@@ -455,7 +457,11 @@ class DeviceManagerActivity :
 
         // 选择店铺
         mViewModel.selectDepartment.observe(this) {
-            mBinding.tvDeviceCategoryDepartment.text = it?.name ?: ""
+            mBinding.tvDeviceCategoryDepartment.text = when (val count: Int = (it?.size ?: 0)) {
+                0 -> ""
+                1 -> it?.firstOrNull()?.name ?: ""
+                else -> "已选中${count}个门店"
+            }
             mBinding.rvDeviceManagerList.requestRefresh()
         }
 

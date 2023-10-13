@@ -17,6 +17,7 @@ import com.yunshang.haile_manager_android.data.entities.SkuUnionIntersectionEnti
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceBatchStartBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.yunshang.haile_manager_android.ui.activity.common.ShopPositionSelectorActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
 
@@ -28,22 +29,17 @@ class DeviceBatchStartActivity :
     // 跳转回调界面
     private val startNext =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            when (it.resultCode) {
-                // 搜索店铺
-                IntentParams.SearchSelectTypeParam.ShopResultCode -> {
-                    it.data?.let { intent ->
-                        intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)
-                            ?.let { json ->
-                                GsonUtils.json2List(json, SearchSelectParam::class.java)
-                                    ?.let { selected ->
-                                        mViewModel.selectDepartments.value = selected
-                                    }
+            it.data?.let { intent ->
+                when (it.resultCode) {
+                    // 搜索店铺
+                    IntentParams.ShopPositionSelectorParams.ShopPositionSelectorResultCode -> {
+                        IntentParams.ShopPositionSelectorParams.parseSelectList(intent)
+                            ?.let { selects ->
+                                mViewModel.selectDepartments.value = selects
                             }
                     }
-                }
-                // 搜索设备型号
-                IntentParams.SearchSelectTypeParam.DeviceModelResultCode -> {
-                    it.data?.let { intent ->
+                    // 搜索设备型号
+                    IntentParams.SearchSelectTypeParam.DeviceModelResultCode -> {
                         intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)
                             ?.let { json ->
                                 GsonUtils.json2List(json, SearchSelectParam::class.java)
@@ -86,15 +82,11 @@ class DeviceBatchStartActivity :
             startNext.launch(
                 Intent(
                     this@DeviceBatchStartActivity,
-                    SearchSelectRadioActivity::class.java
+                    ShopPositionSelectorActivity::class.java
                 ).apply {
                     putExtras(
-                        IntentParams.SearchSelectTypeParam.pack(
-                            IntentParams.SearchSelectTypeParam.SearchSelectTypeShop,
-                            mustSelect = true,
-                            moreSelect = true,
-                            selectArr = mViewModel.selectDepartments.value?.map { it.id }
-                                ?.toIntArray() ?: intArrayOf()
+                        IntentParams.ShopPositionSelectorParams.pack(
+                            selectList = mViewModel.selectDepartments.value
                         )
                     )
                 }
@@ -119,7 +111,7 @@ class DeviceBatchStartActivity :
                         IntentParams.SearchSelectTypeParam.pack(
                             IntentParams.SearchSelectTypeParam.SearchSelectTypeDeviceModel,
                             mViewModel.selectCategory.value?.id ?: -1,
-                            shopIdList = mViewModel.selectDepartments.value?.map { it.id }
+                            shopIdList = mViewModel.selectDepartments.value?.mapNotNull { it.id }
                                 ?.toIntArray(),
                             mustSelect = true,
                             moreSelect = true,

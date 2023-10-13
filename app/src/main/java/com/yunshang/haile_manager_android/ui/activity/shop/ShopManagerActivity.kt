@@ -27,6 +27,7 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.ShopEntity
 import com.yunshang.haile_manager_android.data.entities.ShopPositionEntity
+import com.yunshang.haile_manager_android.data.extend.isGreaterThan0
 import com.yunshang.haile_manager_android.databinding.ActivityShopManagerBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopListBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopManagerPositionBinding
@@ -174,7 +175,7 @@ class ShopManagerActivity :
             )
         mItemBinding?.tvItemShopPositionNum?.setOnClickListener {
             if (item.fold) {
-                if (item.positionList.isEmpty()) {
+                if (item.positionCount.isGreaterThan0() && item.positionList.isEmpty()) {
                     mViewModel.requestPositionList(it.context, item) {
                         (mItemBinding.rvShopPositionList.adapter as CommonRecyclerAdapter<*, ShopPositionEntity>).refreshList(
                             item.positionList,
@@ -202,6 +203,29 @@ class ShopManagerActivity :
                     StyleSpan(Typeface.BOLD),
                 ), start, end
             )
+        mItemBinding?.tvItemShopDeviceNum?.setOnClickListener {
+            if (null != item.id && item.deviceNum.isGreaterThan0()) {
+                mViewModel.requestPositionDeviceNum(item.id) { num ->
+                    if (!num.isNullOrEmpty()) {
+                        // 点位设备列表
+                        DeviceCategoryDialog.Builder(false, num).apply {
+                            onDeviceCodeSelectListener = { type ->
+                                startActivity(Intent(
+                                    this@ShopManagerActivity,
+                                    DeviceManagerActivity::class.java
+                                ).apply {
+                                    putExtras(
+                                        IntentParams.DeviceManagerParams.pack(
+                                            categoryBigType = type
+                                        )
+                                    )
+                                })
+                            }
+                        }.build().show(supportFragmentManager)
+                    }
+                }
+            }
+        }
 
         // 点位列表
         mItemBinding?.rvShopPositionList?.layoutManager = LinearLayoutManager(this)

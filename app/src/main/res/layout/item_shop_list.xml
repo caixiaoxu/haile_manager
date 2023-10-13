@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="44dp"
             android:gravity="center"
-            app:drawE="@{item.fold &amp;&amp; item.positionCount > 0 ?R.drawable.icon_arrow_right_with_padding:R.drawable.icon_arrow_down_with_padding}"
+            app:drawE="@{item.fold ?R.drawable.icon_arrow_right_with_padding:R.drawable.icon_arrow_down_with_padding}"
             app:layout_constraintEnd_toStartOf="@id/tv_item_shop_device_num"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="@id/tv_item_shop_name"

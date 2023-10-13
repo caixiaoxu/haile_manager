@@ -44,7 +44,7 @@ interface ShopService {
     @GET("/position/positionDeviceNum")
     suspend fun requestPositionDeviceNum(
         @Query("shopId") shopId: Int,
-        @Query("positionId") positionId: Int
+        @Query("positionId") positionId: Int?
     ): ResponseWrapper<MutableList<PositionDeviceNumEntity>>
 
     /**

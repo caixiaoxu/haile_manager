@@ -127,7 +127,7 @@ object IntentParams {
         private const val ShowPosition = "showPosition"
         private const val CanSelectAll = "canSelectAll"
         private const val MustSelect = "mustSelect"
-        private const val ShopPositionSelectorResult = "ShopPositionSelectorResult"
+        private const val SelectList = "selectList"
 
         /**
          * 包装参数
@@ -136,13 +136,15 @@ object IntentParams {
             canMultiSelect: Boolean = true,
             showPosition: Boolean = true,
             canSelectAll: Boolean = true,
-            mustSelect:Boolean = true,
+            mustSelect: Boolean = true,
+            selectList: MutableList<ShopAndPositionSelectEntity>? = null
         ): Bundle =
             Bundle().apply {
                 putBoolean(CanMultiSelect, canMultiSelect)
                 putBoolean(ShowPosition, showPosition)
                 putBoolean(CanSelectAll, canSelectAll)
                 putBoolean(MustSelect, mustSelect)
+                putString(SelectList, GsonUtils.any2Json(selectList))
             }
 
         fun parseCanMultiSelect(intent: Intent): Boolean =
@@ -162,12 +164,12 @@ object IntentParams {
          */
         fun packResult(selectList: MutableList<ShopAndPositionSelectEntity>?): Bundle =
             Bundle().apply {
-                putString(ShopPositionSelectorResult, GsonUtils.any2Json(selectList))
+                putString(SelectList, GsonUtils.any2Json(selectList))
             }
 
         fun parseSelectList(intent: Intent): MutableList<ShopAndPositionSelectEntity>? =
             GsonUtils.json2List(
-                intent.getStringExtra(ShopPositionSelectorResult),
+                intent.getStringExtra(SelectList),
                 ShopAndPositionSelectEntity::class.java
             )
     }
@@ -1041,7 +1043,7 @@ object IntentParams {
             needFilter: Boolean = false,
             title: String? = null,
             autoWebTitle: Boolean = true,
-            noCache:Boolean = false,
+            noCache: Boolean = false,
         ): Bundle = Bundle().apply {
             putString(Url, url)
             putBoolean(NeedFilter, needFilter)

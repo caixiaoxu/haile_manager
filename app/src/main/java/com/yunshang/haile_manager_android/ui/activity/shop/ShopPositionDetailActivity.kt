@@ -46,9 +46,16 @@ class ShopPositionDetailActivity :
         // 切换状态
         mBinding.switchPositionDetailOpen.setOnSwitchClickListener {
             mViewModel.positionDetail.value?.let { detail ->
-                mViewModel.changePositionState(
-                    if (1 == detail.state) 2 else 1
-                )
+                if (1 == detail.state) {
+                    CommonDialog.Builder("停用后，不可添加设备，用户不可在本点位下单。").apply {
+                        negativeTxt = com.lsy.framelib.utils.StringUtils.getString(R.string.cancel)
+                        setPositiveButton(com.lsy.framelib.utils.StringUtils.getString(R.string.sure)){
+                            mViewModel.changePositionState(2)
+                        }
+                    }.build().show(supportFragmentManager)
+                } else {
+                    mViewModel.changePositionState(1)
+                }
             }
             true
         }

@@ -94,6 +94,8 @@ class ShopPositionSelectorActivity :
             IntentParams.ShopPositionSelectorParams.parseCanMultiSelect(intent)
         mViewModel.showPosition = IntentParams.ShopPositionSelectorParams.parseShowPosition(intent)
         mViewModel.canSelectAll = IntentParams.ShopPositionSelectorParams.parseCanSelectAll(intent)
+        mViewModel.oldShopPositionList =
+            IntentParams.ShopPositionSelectorParams.parseSelectList(intent)
     }
 
     override fun initEvent() {
@@ -153,11 +155,11 @@ class ShopPositionSelectorActivity :
                     it.positionList?.filter { item -> item.selectVal }?.toMutableList()
             }
             if (IntentParams.ShopPositionSelectorParams.parseMustSelect(intent)) {
-                if (list.isNullOrEmpty()){
+                if (list.isNullOrEmpty()) {
                     SToast.showToast(this, "请先选择适用门店")
                     return@setOnClickListener
                 }
-                if (list.any { item->item.positionList.isNullOrEmpty()}){
+                if (list.any { item -> item.positionList.isNullOrEmpty() }) {
                     SToast.showToast(this, "所选的门店中，有门店无点位，请先添加点位")
                     return@setOnClickListener
                 }

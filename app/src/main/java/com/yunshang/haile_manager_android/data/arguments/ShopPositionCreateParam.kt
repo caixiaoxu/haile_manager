@@ -28,7 +28,7 @@ data class ShopPositionCreateParam(
     var workTime: String? = null,
     var workTimeStr: String? = null,
     var serviceTelephone: String? = null,
-    var sex: Int? = null
+    var sex: Int? = 2
 ) : BaseObservable() {
 
     @Transient
@@ -77,9 +77,8 @@ data class ShopPositionCreateParam(
             notifyPropertyChanged(BR.sexNameVal)
         }
 
-    @Transient
     @get:Bindable
-    var sexNameVal: String = ""
+    val sexNameVal: String
         get() {
             var index = sex
             return if (null == index || index < 0) "" else {

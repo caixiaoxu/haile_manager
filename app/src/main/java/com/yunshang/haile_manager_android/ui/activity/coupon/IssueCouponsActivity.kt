@@ -168,12 +168,10 @@ class IssueCouponsActivity :
 
             MultiSelectBottomSheetDialog.Builder(
                 getString(
-                    if (4 == mViewModel.coupon.value?.couponType) R.string.coupon_device
-                    else R.string.coupon_device_dialog_title
+                    R.string.coupon_device_dialog_title
                 ),
                 list
             ).apply {
-                supportSingle = 4 == mViewModel.coupon.value?.couponType
                 onValueSureListener =
                     object :
                         MultiSelectBottomSheetDialog.OnValueSureListener<CategoryEntity> {

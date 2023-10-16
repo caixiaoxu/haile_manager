@@ -12,6 +12,7 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.ShopPaySettingsViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.GoodsSetting
+import com.yunshang.haile_manager_android.data.extend.hasVal
 import com.yunshang.haile_manager_android.databinding.ActivityShopPaySettingsBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopPaySettingsBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -63,7 +64,7 @@ class ShopPaySettingsActivity :
         window.statusBarColor = Color.WHITE
 
         mBinding.btnShopPaySettingsSave.setOnClickListener {
-            if (null != mViewModel.shopId) {
+            if (mViewModel.shopId.hasVal()) {
                 mViewModel.updatePaySettings {
                     SToast.showToast(this@ShopPaySettingsActivity, R.string.update_success)
                     finish()

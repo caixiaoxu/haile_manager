@@ -115,8 +115,8 @@ class CustomDividerItemDecoration(
                 parent.height - parent.paddingBottom
             )
         } else {
-            left = 0
-            right = parent.width
+            left = dividerPadding
+            right = parent.width - dividerPadding
         }
         val childCount = parent.childCount
         for (i in 0 until childCount - 1) {
@@ -142,8 +142,8 @@ class CustomDividerItemDecoration(
                 parent.width - parent.paddingRight, bottom
             )
         } else {
-            top = 0
-            bottom = parent.height
+            top = dividerPadding
+            bottom = parent.height - dividerPadding
         }
         val childCount = parent.childCount
         for (i in 0 until childCount - 1) {
@@ -163,14 +163,22 @@ class CustomDividerItemDecoration(
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
+        super.getItemOffsets(outRect, view, parent, state)
+        val childPosition = parent.getChildAdapterPosition(view)
+        val itemCount = parent.adapter!!.itemCount
+
         if (mDivider == null) {
             outRect[0, 0, 0] = 0
             return
         }
-        if (mOrientation == VERTICAL) {
-            outRect[0, 0, 0] = mDivider!!.intrinsicHeight
-        } else {
-            outRect[0, 0, mDivider!!.intrinsicWidth] = 0
+
+        //最后一个item 不绘制
+        if (childPosition != itemCount - 1) {
+            if (mOrientation == VERTICAL) {
+                outRect[0, 0, 0] = mDivider!!.intrinsicHeight
+            } else {
+                outRect[0, 0, mDivider!!.intrinsicWidth] = 0
+            }
         }
     }
 }

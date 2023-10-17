@@ -13,7 +13,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:orientation="vertical"
         tools:context=".ui.activity.shop.ShopAppointmentSettingActivity">
 
@@ -25,11 +24,79 @@
             app:layout_constraintTop_toTopOf="parent"
             app:title="@string/appointment_setting" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_shop_appointment_setting_list"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Font_16_333333_bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:text="预约设备类型" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_shop_appointment_setting_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Font_16_333333_bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:text="预约规则" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_333333"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="预约不使用，自动退款" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_shop_appointment_open"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:checked="@={vm.appointmentSetting.autoRefundVal}"
+                        android:thumb="@drawable/selector_default_switch_thumb"
+                        app:track="@drawable/selector_default_switch_track" />
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Font_12_999999"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
+                    android:gravity="center_vertical"
+                    android:padding="16dp"
+                    android:text="不选择，则仅限以下两种情况退款：\n1.若用户在预约生效时间的10分钟之前取消。\n2.若预约生效时间前5分钟，上一笔订单未结束。" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <include layout="@layout/include_dividing1" />
 
@@ -38,7 +105,7 @@
             android:layout_marginHorizontal="14dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="42dp"
-            android:enabled="@{null != vm.appointmentSettingList &amp;&amp; vm.appointmentSettingList.size() > 0}"
+            android:enabled="@{null != vm.appointmentSetting}"
             android:onClick="@{vm::save}"
             android:text="@string/save" />
     </LinearLayout>

@@ -37,6 +37,7 @@ class CustomChildListLinearLayout @JvmOverloads constructor(
         itemList: List<D>?,
         layoutParams: LayoutParams? = null,
         start: Int? = null,
+        show: Boolean = true,
         onChildBinding: (index: Int, childBinding: B, data: D) -> Unit
     ) {
         if (-1 == layoutId) {
@@ -46,7 +47,9 @@ class CustomChildListLinearLayout @JvmOverloads constructor(
             visibility = GONE
             return
         }
-        visibility = VISIBLE
+        if (show){
+            visibility = VISIBLE
+        }
 
         start?.let {
             if (childCount > start) {

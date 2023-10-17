@@ -7,6 +7,7 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.AppointmentSettingViewModel
 import com.yunshang.haile_manager_android.data.entities.AppointmentSettingEntity
+import com.yunshang.haile_manager_android.data.entities.SettingItem
 import com.yunshang.haile_manager_android.databinding.ActivityShopAppointmentSettingBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopAppointmentSettingBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -23,13 +24,10 @@ class ShopAppointmentSettingActivity :
     }
 
     private val mAdapter by lazy {
-        CommonRecyclerAdapter<ItemShopAppointmentSettingBinding, AppointmentSettingEntity>(
+        CommonRecyclerAdapter<ItemShopAppointmentSettingBinding, SettingItem>(
             R.layout.item_shop_appointment_setting,
             BR.item
-        ) { mBinding, _, item ->
-            mBinding?.switchShopAppointmentOpen?.setOnCheckedChangeListener { _, isChecked ->
-                item.appointSwitch = if (isChecked) 1 else 0
-            }
+        ) { _, _, _ ->
         }
     }
 
@@ -39,14 +37,13 @@ class ShopAppointmentSettingActivity :
 
     override fun initIntent() {
         super.initIntent()
-
         mViewModel.shopId = intent.getIntExtra(ShopId, -1)
     }
 
     override fun initEvent() {
         super.initEvent()
-        mViewModel.appointmentSettingList.observe(this) {
-            mAdapter.refreshList(it, true)
+        mViewModel.appointmentSetting.observe(this) {
+            mAdapter.refreshList(it.settingList, true)
         }
         mViewModel.jump.observe(this) {
             finish()

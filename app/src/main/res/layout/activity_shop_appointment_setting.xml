@@ -42,7 +42,7 @@
                     android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:gravity="center_vertical"
                     android:paddingStart="16dp"
-                    android:text="预约设备类型" />
+                    android:text="@string/appointment_device_category" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_shop_appointment_setting_list"
@@ -58,7 +58,7 @@
                     android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:gravity="center_vertical"
                     android:paddingStart="16dp"
-                    android:text="预约规则" />
+                    android:text="@string/appointment_rule" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="预约不使用，自动退款" />
+                        android:text="@string/appointment_rule_refund" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/switch_shop_appointment_open"
@@ -93,7 +93,7 @@
                     android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:gravity="center_vertical"
                     android:padding="16dp"
-                    android:text="不选择，则仅限以下两种情况退款：\n1.若用户在预约生效时间的10分钟之前取消。\n2.若预约生效时间前5分钟，上一笔订单未结束。" />
+                    android:text="@string/appointment_rule_prompt" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

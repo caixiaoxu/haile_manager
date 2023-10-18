@@ -522,12 +522,12 @@
                             app:showCopy="@{false}"
                             app:title="@{vm.deviceDetail.getCommunicationTypeTitle}" />
 
-                        <include
-                            layout="@layout/item_device_detail_base_info"
-                            app:content="@{vm.deviceDetail.company}"
-                            app:show="@{vm.deviceDetail.hasCompany}"
-                            app:showCopy="@{false}"
-                            app:title="@{vm.deviceDetail.getCompanyTitle}" />
+<!--                        <include-->
+<!--                            layout="@layout/item_device_detail_base_info"-->
+<!--                            app:content="@{vm.deviceDetail.company}"-->
+<!--                            app:show="@{vm.deviceDetail.hasCompany}"-->
+<!--                            app:showCopy="@{false}"-->
+<!--                            app:title="@{vm.deviceDetail.getCompanyTitle}" />-->
 
                         <include
                             layout="@layout/item_device_detail_base_info"

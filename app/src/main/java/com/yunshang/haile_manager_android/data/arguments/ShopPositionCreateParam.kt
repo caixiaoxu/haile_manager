@@ -66,7 +66,7 @@ data class ShopPositionCreateParam(
     fun changeAddress(latitude: Double, longitude: Double, address: String) {
         lat = latitude
         lng = longitude
-        location = "$lat,$lng"
+        location = "经度：$lng\n纬度：$lat"
         addressVal = address
     }
 

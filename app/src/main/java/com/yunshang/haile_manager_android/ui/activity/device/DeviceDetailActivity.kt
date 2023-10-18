@@ -35,11 +35,9 @@ import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 import timber.log.Timber
 
-class DeviceDetailActivity :
-    BaseBusinessActivity<ActivityDeviceDetailBinding, DeviceDetailModel>(
-        DeviceDetailModel::class.java,
-        BR.vm
-    ) {
+class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, DeviceDetailModel>(
+    DeviceDetailModel::class.java, BR.vm
+) {
 
     companion object {
         const val GoodsId = "goodsId"

@@ -173,7 +173,8 @@ class DeviceBatchUpdateActivity :
                                     mViewModel.selectCategory.value?.code,
                                     spu.communicationType,
                                     GsonUtils.any2Json(spu.extAttrDto),
-                                    mViewModel.createDeviceFunConfigure.value
+                                    mViewModel.createDeviceFunConfigure.value,
+                                    title = StringUtils.getString(R.string.batch_update)
                                 )
                             )
                         }

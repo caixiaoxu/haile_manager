@@ -281,7 +281,9 @@
     <string name="shop_manage">门店管理</string>
     <string name="pt_manage">点位管理</string>
     <string name="add_shop">新增门店</string>
+    <string name="update_shop">编辑门店</string>
     <string name="add_pt">新增点位</string>
+    <string name="update_pt">编辑点位</string>
     <string name="pt">点位</string>
     <string name="pt_name">点位名称</string>
     <string name="pt_detail">点位详情</string>
@@ -326,7 +328,7 @@
     <string name="select_district">请选择区/县</string>
     <string name="shop_detail">门店详情</string>
     <string name="shop_base_info">门店基础信息</string>
-    <string name="pt_base_info">门店基础信息</string>
+    <string name="pt_base_info">点位基础信息</string>
     <string name="creator">创建人</string>
     <string name="create_time">创建时间</string>
     <string name="appointment">预约</string>

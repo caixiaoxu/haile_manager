@@ -25,8 +25,10 @@ import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.ShopManagerViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.common.SearchType
+import com.yunshang.haile_manager_android.data.entities.ShopAndPositionSelectEntity
 import com.yunshang.haile_manager_android.data.entities.ShopEntity
 import com.yunshang.haile_manager_android.data.entities.ShopPositionEntity
+import com.yunshang.haile_manager_android.data.entities.ShopPositionSelect
 import com.yunshang.haile_manager_android.data.extend.isGreaterThan0
 import com.yunshang.haile_manager_android.databinding.ActivityShopManagerBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopListBinding
@@ -216,6 +218,10 @@ class ShopManagerActivity :
                                 ).apply {
                                     putExtras(
                                         IntentParams.DeviceManagerParams.pack(
+                                            ShopAndPositionSelectEntity(
+                                                item.id,
+                                                item.name,
+                                            ),
                                             categoryBigType = type
                                         )
                                     )
@@ -274,6 +280,11 @@ class ShopManagerActivity :
                                         ).apply {
                                             putExtras(
                                                 IntentParams.DeviceManagerParams.pack(
+                                                    ShopAndPositionSelectEntity(
+                                                        item.id,
+                                                        item.name,
+                                                        mutableListOf(ShopPositionSelect(id = posititon.id))
+                                                    ),
                                                     categoryBigType = type
                                                 )
                                             )

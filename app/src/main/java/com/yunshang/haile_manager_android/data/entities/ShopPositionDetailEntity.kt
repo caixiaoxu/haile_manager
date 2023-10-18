@@ -40,7 +40,13 @@ data class ShopPositionDetailEntity(
     val shopName: String? = null,
     var state: Int? = null,
     val workTime: String? = null,
-    val workTimeStr: String? = null
+    val workTimeStr: String? = null,
+    val cityId: Int? = null,
+    val cityName: String? = null,
+    val districtId: Int? = null,
+    val districtName: String? = null,
+    val provinceId: Int? = null,
+    val provinceName: String? = null,
 ) : BaseObservable() {
 
     @get:Bindable
@@ -57,7 +63,14 @@ data class ShopPositionDetailEntity(
         get() = StringUtils.getString(if (1 == stateVal) R.string.enable else R.string.disEnable)
 
     fun hasShopName(): Boolean = shopId.hasVal() && !shopName.isNullOrEmpty()
-    fun hasArea(): Boolean = !area.isNullOrEmpty()
+
+    val areaVal: String
+        get() = provinceName + cityName + districtName
+
+    fun hasArea(): Boolean =
+        !provinceName.isNullOrEmpty() && !cityName.isNullOrEmpty() && !districtName.isNullOrEmpty()
+
+    fun orientationVal(): String = "经度：$lng\n纬度：$lat"
     fun hasOrientation(): Boolean = lat.hasVal() && lng.hasVal()
     fun hasAddress(): Boolean = !address.isNullOrEmpty()
     fun hasSex(): Boolean = sex.hasVal()

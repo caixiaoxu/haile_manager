@@ -64,12 +64,15 @@
             android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:text="@{item.name}"
+            android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/view_shop_position_selector_position_dot"
+            app:layout_constraintEnd_toStartOf="@id/iv_shop_position_selector_position_state"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="点位" />
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_shop_position_selector_position_state"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_marginEnd="16dp"

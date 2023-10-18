@@ -471,7 +471,7 @@ object IntentParams {
             spuId: Int? = -1,
             categoryCode: String?,
             communicationType: Int? = -1,
-            oldFuncConfiguration: List<SkuFuncConfigurationParam>?
+            oldFuncConfiguration: List<SkuFuncConfigurationParam>?,
         ): Bundle = Bundle().apply {
             putAll(
                 DeviceParams.pack(
@@ -510,6 +510,7 @@ object IntentParams {
     }
 
     object DeviceFunConfigurationV2Params {
+        private const val Title = "title"
         private const val SpuId = "spuId"
         private const val GoodId = "goodId"
         private const val ExtAttrDto = "SpuExtAttrDto"
@@ -525,7 +526,8 @@ object IntentParams {
             communicationType: Int? = -1,
             extJson: String? = null,
             skuExtAttrDto: MutableList<SkuFunConfigurationV2Param>? = null,
-            goodId: Int? = null
+            goodId: Int? = null,
+            title: String? = null
         ): Bundle = Bundle().apply {
             spuId?.let {
                 putInt(SpuId, spuId)
@@ -544,6 +546,9 @@ object IntentParams {
             }
             goodId?.let {
                 putInt(GoodId, goodId)
+            }
+            title?.let {
+                putString(Title, it)
             }
         }
 
@@ -565,6 +570,8 @@ object IntentParams {
             )
 
         fun parseGoodId(intent: Intent): Int = intent.getIntExtra(GoodId, -1)
+
+        fun parseTitle(intent: Intent): String? = intent.getStringExtra(Title)
     }
 
     object DeviceParamsUpdateParams {

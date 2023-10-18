@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
@@ -14,9 +15,11 @@ import com.yunshang.haile_manager_android.data.arguments.BusinessHourEntity
 import com.yunshang.haile_manager_android.data.arguments.BusinessHourParams
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
+import com.yunshang.haile_manager_android.data.extend.hasVal
 import com.yunshang.haile_manager_android.databinding.ActivityShopPositionCreateBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 
 class ShopPositionCreateActivity :
@@ -75,15 +78,19 @@ class ShopPositionCreateActivity :
 
         val shopId = IntentParams.ShopParams.parseShopId(intent)
         val shopName = IntentParams.ShopParams.parseShopName(intent)
-        if (-1 != shopId && null != shopName){
+        if (-1 != shopId && null != shopName) {
             mViewModel.positionParam.value?.changeShop(shopId, shopName)
         }
-        mViewModel.updatePositionDetail(IntentParams.ShopPositionCreateParams.parseShopPositionDetail(intent))
+        mViewModel.updatePositionDetail(
+            IntentParams.ShopPositionCreateParams.parseShopPositionDetail(
+                intent
+            )
+        )
     }
 
     override fun initEvent() {
         super.initEvent()
-        mViewModel.jump.observe(this){
+        mViewModel.jump.observe(this) {
             finish()
         }
     }
@@ -91,8 +98,8 @@ class ShopPositionCreateActivity :
     override fun initView() {
         window.statusBarColor = Color.WHITE
         // 所属门店
-        mBinding.itemPositionShop.onSelectedEvent = {
-            if (null == mViewModel.positionParam.value?.id){
+        if (null == mViewModel.positionParam.value?.id) {
+            mBinding.itemPositionShop.onSelectedEvent = {
                 startSearchSelect.launch(
                     Intent(
                         this@ShopPositionCreateActivity,
@@ -106,6 +113,15 @@ class ShopPositionCreateActivity :
                     }
                 )
             }
+        } else {
+            mBinding.itemPositionShop.contentView.isEnabled = false
+            mBinding.itemPositionShop.contentView.setTextColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.common_sub_txt_color
+                )
+            )
+            mBinding.itemPositionShop.mTailView.visibility(false)
         }
 
         //定位
@@ -132,13 +148,16 @@ class ShopPositionCreateActivity :
 
         //性别
         mBinding.itemPositionSex.onSelectedEvent = {
+            val selectList = StringUtils.getStringArray(R.array.sex_list).mapIndexed { index, txt ->
+                SearchSelectParam(index, txt)
+            }
+            val select =
+                selectList[if (mViewModel.positionParam.value?.sex.hasVal()) mViewModel.positionParam.value!!.sex!! else 2]
             CommonBottomSheetDialog.Builder(
-                getString(R.string.apply_sex),
-                StringUtils.getStringArray(R.array.sex_list).mapIndexed { index, txt ->
-                    SearchSelectParam(index, txt)
-                }
+                getString(R.string.apply_sex), selectList
             ).apply {
                 mustSelect = false
+                selectData = select
                 onValueSureListener =
                     object : CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
                         override fun onValue(data: SearchSelectParam?) {

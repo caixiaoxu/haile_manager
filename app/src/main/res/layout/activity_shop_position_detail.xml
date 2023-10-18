@@ -56,11 +56,14 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_position_detail_title"
                     style="@style/Font_16_333333"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginHorizontal="12dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:text="@{vm.positionDetail.name}"
                     app:layout_constraintBottom_toTopOf="@id/tv_position_detail_type"
+                    app:layout_constraintEnd_toStartOf="@id/switch_position_detail_open"
                     app:layout_constraintStart_toEndOf="@id/iv_position_detail_main"
                     app:layout_constraintTop_toTopOf="@id/iv_position_detail_main"
                     app:layout_constraintVertical_chainStyle="spread_inside"
@@ -128,14 +131,14 @@
 
                     <include
                         layout="@layout/item_device_detail_base_info"
-                        app:content='@{vm.positionDetail.area}'
+                        app:content='@{vm.positionDetail.areaVal}'
                         app:show="@{vm.positionDetail.hasArea}"
                         app:showCopy="@{false}"
                         app:title="@{@string/area}" />
 
                     <include
                         layout="@layout/item_device_detail_base_info"
-                        app:content='@{vm.positionDetail.lat + ","+vm.positionDetail.lng}'
+                        app:content='@{vm.positionDetail.orientationVal}'
                         app:show="@{vm.positionDetail.hasOrientation}"
                         app:showCopy="@{false}"
                         app:title="@{@string/orientation}" />

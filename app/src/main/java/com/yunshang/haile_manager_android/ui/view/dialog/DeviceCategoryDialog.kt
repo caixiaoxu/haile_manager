@@ -94,8 +94,8 @@ class DeviceCategoryDialog private constructor(private val builder: Builder) :
                     itemBinding.root
                 },
                 LayoutParams(
-                    GridLayout.spec(index / columnCount, 1f),
-                    GridLayout.spec(index % columnCount, 1f)
+//                    GridLayout.spec(index / columnCount, 1f),
+//                    GridLayout.spec(index % columnCount, 1f)
                 ).apply {
                     width = itemW
                     height = itemH

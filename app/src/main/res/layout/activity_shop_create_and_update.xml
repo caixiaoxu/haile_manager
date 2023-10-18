@@ -23,7 +23,7 @@
             android:id="@+id/shop_title_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
-            app:title="@string/shop_manage" />
+            app:title="@{null == vm.createAndUpdateEntity.id?@string/add_shop:@string/update_shop}" />
 
         <View style="@style/DividingStyle" />
 
@@ -46,7 +46,7 @@
                     android:layout_height="45dp"
                     android:gravity="center_vertical"
                     android:paddingHorizontal="16dp"
-                    android:text='@{null == vm.createAndUpdateEntity.id?@string/shop_info:@string/shop_id(vm.createAndUpdateEntity.id)}' />
+                    android:text='@{null == vm.createAndUpdateEntity.id?@string/shop_info:@string/shop_id_info(vm.createAndUpdateEntity.id)}' />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_name"
@@ -119,6 +119,7 @@
                     style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{null == vm.createAndUpdateEntity.paymentSettings?@string/no_configure:@string/configured}"
                     app:showArrow="true"
+                    app:visibility="@{null == vm.createAndUpdateEntity.id}"
                     app:title="@string/shop_pay_config"
                     app:type="info" />
 

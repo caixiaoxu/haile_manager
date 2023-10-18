@@ -96,8 +96,8 @@
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_position_business_phone"
                     style="@style/MultiTypePaddingHItemStyle"
-                    android:inputType="phone"
-                    android:maxLength="12"
+                    android:maxLength="20"
+                    android:digits="0123456789-"
                     app:itemContent="@={vm.positionParam.serviceTelephone}"
                     app:title="@string/business_phone"
                     app:type="input" />

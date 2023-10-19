@@ -9,6 +9,8 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.LoginForPasswordViewModel
 import com.yunshang.haile_manager_android.data.ActivityTag
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.entities.PASSWORD
+import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.databinding.ActivityLoginForPasswordBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.MainActivity
@@ -33,6 +35,15 @@ class LoginForPasswordActivity :
 
     override fun initView() {
         mBinding.shared = mSharedViewModel
+
+        mBinding.etLoginPassword.setOnFocusChangeListener { _, b ->
+            if (b && mViewModel.password.value.isNullOrEmpty()) {
+                SPRepository.changeUser?.find { item -> item.loginType == PASSWORD && mViewModel.phone.value == item.userInfo.userInfo.phone }
+                    ?.let {
+                        mViewModel.password.value = it.password
+                    }
+            }
+        }
 
         // 协议内容
         ViewUtils.initAgreementToTextView(mBinding.tvLoginAgreement) {

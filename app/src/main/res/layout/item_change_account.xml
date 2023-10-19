@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.yunshang.haile_manager_android.R"/>
 
         <import type="android.view.View" />
 
@@ -16,7 +17,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="72dp"
-        android:background="@drawable/shape_sffffff_r8"
+        android:layout_marginTop="8dp"
+        android:background="@{user.isCurUser()?@drawable/shape_sffffff_strokef0a258_r8:@drawable/shape_sffffff_r8}"
         android:paddingStart="12dp"
         android:paddingEnd="8dp">
 
@@ -33,7 +35,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_account_name"
-            style="@style/Font_16_333333"
+            style="@style/Font_16_333333_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
@@ -57,25 +59,11 @@
             app:layout_constraintTop_toBottomOf="@id/tv_account_name"
             tools:text="16688888888" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_account_tag"
-            style="@style/Font_10_f0a258"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/shape_strokef0a258_solid26f0a258_r9"
-            android:paddingHorizontal="4dp"
-            android:paddingVertical="2dp"
-            android:text="@string/cur_account"
-            android:visibility="@{user.isCurUser()?View.VISIBLE:View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@id/tv_account_name"
-            app:layout_constraintStart_toEndOf="@id/tv_account_name"
-            app:layout_constraintTop_toTopOf="@id/tv_account_name" />
-
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/icon_arrow_right_with_padding"
+            app:imgRes="@{user.isCurUser()?R.mipmap.icon_change_account_cur:R.drawable.icon_arrow_right_with_padding}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

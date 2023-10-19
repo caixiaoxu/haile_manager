@@ -144,7 +144,6 @@ class SearchSelectRadioActivity :
         mViewModel.staffId = SearchSelectTypeParam.parseStaffId(intent)
         mViewModel.shopIdList = SearchSelectTypeParam.parseShopIdList(intent)
         mViewModel.positionIdList = SearchSelectTypeParam.parsePositionIdList(intent)
-        mViewModel.positionIdList = SearchSelectTypeParam.parseShopIdList(intent)
         mViewModel.staffId = SearchSelectTypeParam.parseStaffId(intent)
         mViewModel.mustSelect = SearchSelectTypeParam.parseMustSelect(intent)
         mViewModel.moreSelect = SearchSelectTypeParam.parseMoreSelect(intent)

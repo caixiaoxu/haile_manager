@@ -268,18 +268,12 @@ object StringUtils {
 
     // 密码正则
     private val ShopNameRule = "^[\\u4e00-\\u9fa5_a-zA-Z]{2,50}\$"
-    private val ShopPositionNameRule = "^[\\u4e00-\\u9fa5_a-zA-Z]{2,20}\$"
     private val NameRule = "^[\\u4e00-\\u9fa5_a-zA-Z\\s]{2,20}\$"
 
     /**
      * 验证商户名称是否符合规则
      */
     fun checkShopName(name: String) = name.matches(ShopNameRule.toRegex())
-
-    /**
-     * 验证商户点位名称是否符合规则
-     */
-    fun checkShopPositionName(name: String) = name.matches(ShopPositionNameRule.toRegex())
 
     /**
      * 验证密码是否符合规则

@@ -95,8 +95,8 @@ class ShopPositionCreateViewModel : BaseViewModel() {
             SToast.showToast(v.context, "请先输入点位名称")
             return
         }
-        if (!StringUtils.checkShopPositionName(positionParam.value!!.name!!)) {
-            SToast.showToast(v.context, "请输入2-20个中英文大小写点位名称")
+        if ((positionParam.value?.name?.length ?: 0) < 2) {
+            SToast.showToast(v.context, "请输入2-20位的名称")
             return
         }
         if (null == positionParam.value?.lat || null == positionParam.value?.lng) {
@@ -108,7 +108,7 @@ class ShopPositionCreateViewModel : BaseViewModel() {
             return
         }
         if ((positionParam.value?.address?.length ?: 0) < 2) {
-            SToast.showToast(v.context, "请输入2-50个字符")
+            SToast.showToast(v.context, "请输入2-50位的地址")
             return
         }
         if (null == positionParam.value?.sex) {

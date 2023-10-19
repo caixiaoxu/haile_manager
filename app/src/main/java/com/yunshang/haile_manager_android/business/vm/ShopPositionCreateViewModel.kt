@@ -31,6 +31,8 @@ import kotlinx.coroutines.withContext
 class ShopPositionCreateViewModel : BaseViewModel() {
     private val mShopRepo = ApiRepository.apiClient(ShopService::class.java)
 
+    var positionCode: String? = null
+
     val positionParam = MutableLiveData(ShopPositionCreateParam())
     fun requestShopDetail(callBack: (cityName: String?) -> Unit) {
         positionParam.value?.shopId?.let { shopId ->
@@ -52,6 +54,7 @@ class ShopPositionCreateViewModel : BaseViewModel() {
      */
     fun updatePositionDetail(positionDetail: ShopPositionDetailEntity?) {
         positionDetail?.let {
+            positionCode = it.code
             positionParam.value = ShopPositionCreateParam(
                 it.id,
                 it.name,

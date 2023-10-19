@@ -489,7 +489,7 @@
 
                         <include
                             layout="@layout/item_device_detail_base_info"
-                            app:content='@{vm.deviceDetail.positionName + "（"+ vm.deviceDetail.positionId +"）"}'
+                            app:content='@{vm.deviceDetail.positionName + "（"+ vm.deviceDetail.positionCode +"）"}'
                             app:show="@{vm.deviceDetail.hasPosition}"
                             app:showCopy="@{false}"
                             app:title="@{vm.deviceDetail.getPositionTitle}" />

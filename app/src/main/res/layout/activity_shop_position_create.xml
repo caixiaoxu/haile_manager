@@ -43,7 +43,7 @@
                     android:layout_height="45dp"
                     android:gravity="center_vertical"
                     android:paddingHorizontal="16dp"
-                    android:text='@{null == vm.positionParam.id?@string/pt_info:@string/pt_id_info(vm.positionParam.id)}' />
+                    android:text='@{null == vm.positionCode?@string/pt_info:@string/pt_id_info(vm.positionCode)}' />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_position_shop"

@@ -299,7 +299,7 @@
     <string name="total_earnings">总收入</string>
     <string name="device_num">设备数</string>
     <string name="pt_info">点位信息</string>
-    <string name="pt_id_info">点位编号%1$d信息</string>
+    <string name="pt_id_info">点位编号%1$s信息</string>
     <string name="shop_id">门店编号</string>
     <string name="shop_id_info">门店编号%1$d信息</string>
     <string name="shop_info">门店信息</string>

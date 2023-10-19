@@ -84,6 +84,12 @@ interface LoginUserService {
     suspend fun requestRoleInfo(@Body body: RequestBody): ResponseWrapper<List<RoleEntity>>
 
     /**
+     * 获取用户角色接口
+     */
+    @POST("/login/getLoginUserList/v2")
+    suspend fun requestRoleInfoV2(@Body body: RequestBody): ResponseWrapper<MutableList<RoleEntity>>
+
+    /**
      * 切换用户角色接口
      */
     @POST("/login/swapUserLogin")

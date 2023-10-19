@@ -75,26 +75,6 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_personal_nickname"
                 tools:text="188****8888" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_personal_tag"
-                style="@style/Font_12_f0a258"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:background="@drawable/shape_s26f0a258_r4"
-                android:paddingLeft="4dp"
-                android:paddingTop="2dp"
-                android:paddingRight="4dp"
-                android:paddingBottom="2dp"
-                android:text="@{1 == shared.userInfo.userInfo.property ? @string/admin : shared.userInfo.userInfo.tagName}"
-                android:visibility="@{(1 != shared.userInfo.userInfo.property &amp;&amp; TextUtils.isEmpty(shared.userInfo.userInfo.tagName))?View.GONE:View.VISIBLE}"
-                app:layout_constraintBottom_toBottomOf="@id/tv_personal_nickname"
-                app:layout_constraintEnd_toStartOf="@id/iv_personal_right"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toEndOf="@id/tv_personal_nickname"
-                app:layout_constraintTop_toTopOf="@id/tv_personal_nickname"
-                tools:text="老板" />
-
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_personal_right"
                 android:layout_width="wrap_content"
@@ -107,11 +87,83 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:layout_marginTop="24dp"
+            app:visibility="@{null != shared.userInfo.organization}"
+            android:background="@drawable/shape_ffffff_r8"
+            android:paddingVertical="12dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_organization_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Font_16_333333_bold"
+                android:text="@{shared.userInfo.organization.name}"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_organization_change"
+                tools:text="杭州荣事达"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_personal_tag"
+                style="@style/Font_12_f0a258"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/shape_s26f0a258_r4"
+                android:paddingLeft="4dp"
+                android:paddingTop="2dp"
+                android:paddingRight="4dp"
+                android:paddingBottom="2dp"
+                android:text="@{1 == shared.userInfo.userInfo.property ? @string/admin : shared.userInfo.userInfo.tagName}"
+                android:visibility="@{(1 != shared.userInfo.userInfo.property &amp;&amp; TextUtils.isEmpty(shared.userInfo.userInfo.tagName))?View.GONE:View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@id/tv_organization_name"
+                app:layout_constraintEnd_toStartOf="@id/btn_organization_change"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/tv_organization_name"
+                app:layout_constraintTop_toTopOf="@id/tv_organization_name"
+                tools:text="老板" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_organization_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tv_organization_name"
+                android:layout_marginTop="4dp"
+                android:text='@{"ID：" + shared.userInfo.organization.id}'
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_organization_change"
+                style="@style/Font_12_999999"
+                android:alpha="0.85"
+                tools:text="ID：234982374897"/>
+
+            <com.lsy.framelib.ui.weight.SingleTapTextView
+                android:id="@+id/btn_organization_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:drawablePadding="2dp"
+                android:background="@drawable/shape_storke_f0a258_r14"
+                android:text="@string/change_organization"
+                android:drawableStart="@mipmap/icon_organization_change"
+                style="@style/Font_12_f0a258"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/ll_personal_items"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:divider="@drawable/divide_size8"
+            android:layout_marginTop="8dp"
             app:showDividers="middle"
             android:orientation="vertical" />
 

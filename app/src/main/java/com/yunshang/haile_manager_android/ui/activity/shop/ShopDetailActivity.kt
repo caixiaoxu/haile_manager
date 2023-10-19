@@ -178,7 +178,7 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
                     )
                 )
                 mBinding.llShopDetailAppointmentInfo.buildChild<ItemShopDetailAppointmentBinding, AppointSetting>(
-                    it.appointSettingList,
+                    it.appointSettingList, show = false
                 ) { _, childBinding, data ->
                     childBinding.tvShopDetailsAppointmentName.text =
                         data.goodsCategoryName + StringUtils.getString(R.string.appointment)
@@ -192,7 +192,6 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
                         )
                     )
                 }
-                mBinding.llShopDetailAppointmentInfo.visibility = View.GONE
             }
         }
 

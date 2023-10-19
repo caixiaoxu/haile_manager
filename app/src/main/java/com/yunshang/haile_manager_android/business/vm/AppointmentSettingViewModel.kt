@@ -4,15 +4,12 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
-import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.business.apiService.ShopService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.entities.AppointmentSettingEntity
+import com.yunshang.haile_manager_android.data.extend.hasVal
 import com.yunshang.haile_manager_android.data.model.ApiRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 /**
  * Title :
@@ -29,17 +26,19 @@ class AppointmentSettingViewModel : BaseViewModel() {
 
     var shopId: Int = -1
 
-    val appointmentSettingList: MutableLiveData<MutableList<AppointmentSettingEntity>> by lazy {
-        MutableLiveData()
-    }
+    val appointmentSetting: MutableLiveData<AppointmentSettingEntity> =
+        MutableLiveData(AppointmentSettingEntity())
 
     fun requestData() {
         if (-1 == shopId) return
 
         launch({
-            val list = ApiRepository.dealApiResult(mRepo.getShopAppointmentSettingList(shopId))
-            list?.let {
-                appointmentSettingList.postValue(it)
+            val result = ApiRepository.dealApiResult(mRepo.getShopAppointmentSettingListV2(shopId))
+            result?.let {
+                appointmentSetting.postValue(result.apply {
+                    settingList = settings
+                    settings = null
+                })
             }
         })
     }
@@ -48,18 +47,17 @@ class AppointmentSettingViewModel : BaseViewModel() {
      * 保存
      */
     fun save(view: View) {
-        if (appointmentSettingList.value.isNullOrEmpty()) {
+        if (!shopId.hasVal() || null == appointmentSetting.value) {
             return
         }
+
+        appointmentSetting.value?.shopId = shopId
 
         launch({
             ApiRepository.dealApiResult(
                 mRepo.setShopAppointment(
                     ApiRepository.createRequestBody(
-                        hashMapOf(
-                            "shopId" to shopId,
-                            "settingList" to appointmentSettingList.value!!,
-                        )
+                        GsonUtils.any2Json(appointmentSetting.value)
                     )
                 )
             )

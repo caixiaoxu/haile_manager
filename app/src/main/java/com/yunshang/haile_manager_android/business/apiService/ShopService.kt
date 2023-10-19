@@ -132,6 +132,12 @@ interface ShopService {
     suspend fun getShopAppointmentSettingList(@Query("shopId") shopId: Int): ResponseWrapper<MutableList<AppointmentSettingEntity>>
 
     /**
+     * 店铺预约设置列表
+     */
+    @GET("/appoint/getSetting/v2")
+    suspend fun getShopAppointmentSettingListV2(@Query("shopId") shopId: Int): ResponseWrapper<AppointmentSettingEntity>
+
+    /**
      * 店铺预约设置
      */
     @POST("/appoint/setting")

@@ -347,6 +347,7 @@ object IntentParams {
         const val StaffId = "staffId"
         const val CategoryId = "categoryId"
         const val ShopIdList = "shopIdList"
+        const val PositionIdList = "positionIdList"
         const val MustSelect = "mustSelect"
         const val MoreSelect = "moreSelect"
         const val HasAll = "hasAll"
@@ -369,6 +370,7 @@ object IntentParams {
             categoryId: Int? = null,
             staffId: Int? = null,
             shopIdList: IntArray? = null,
+            positionIdList: IntArray? = null,
             mustSelect: Boolean = true,
             moreSelect: Boolean = false,
             hasAll: Boolean = false,
@@ -380,6 +382,9 @@ object IntentParams {
             }
             shopIdList?.let {
                 putIntArray(ShopIdList, shopIdList)
+            }
+            positionIdList?.let {
+                putIntArray(PositionIdList, positionIdList)
             }
             categoryId?.let {
                 putInt(CategoryId, it)
@@ -398,6 +403,7 @@ object IntentParams {
         fun parseCategoryId(intent: Intent): Int = intent.getIntExtra(CategoryId, -1)
         fun parseStaffId(intent: Intent): Int = intent.getIntExtra(StaffId, -1)
         fun parseShopIdList(intent: Intent): IntArray? = intent.getIntArrayExtra(ShopIdList)
+        fun parsePositionIdList(intent: Intent): IntArray? = intent.getIntArrayExtra(PositionIdList)
         fun parseMustSelect(intent: Intent): Boolean = intent.getBooleanExtra(MustSelect, true)
         fun parseMoreSelect(intent: Intent): Boolean = intent.getBooleanExtra(MoreSelect, false)
         fun parseHasAll(intent: Intent): Boolean = intent.getBooleanExtra(HasAll, false)

@@ -211,7 +211,7 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
             onBackListener()
         }
         mBinding.etSearchKey.onTextChange = {
-            if (SearchType.Device == mViewModel.searchType) {
+            if (SearchType.Device == mViewModel.searchType || SearchType.Shop == mViewModel.searchType) {
                 search(true)
             }
         }

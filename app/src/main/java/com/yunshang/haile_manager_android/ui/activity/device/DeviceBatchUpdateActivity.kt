@@ -151,6 +151,9 @@ class DeviceBatchUpdateActivity :
                             mViewModel.selectCategory.value?.id ?: -1,
                             shopIdList = mViewModel.selectDepartments.value?.mapNotNull { it.id }
                                 ?.toIntArray(),
+                            positionIdList = mViewModel.selectDepartments.value?.flatMap {
+                                it.positionList?.mapNotNull { item -> item.id } ?: listOf()
+                            }?.toIntArray(),
                             mustSelect = true
                         )
                     )

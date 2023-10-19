@@ -143,6 +143,8 @@ class SearchSelectRadioActivity :
         mViewModel.categoryId = SearchSelectTypeParam.parseCategoryId(intent)
         mViewModel.staffId = SearchSelectTypeParam.parseStaffId(intent)
         mViewModel.shopIdList = SearchSelectTypeParam.parseShopIdList(intent)
+        mViewModel.positionIdList = SearchSelectTypeParam.parsePositionIdList(intent)
+        mViewModel.positionIdList = SearchSelectTypeParam.parseShopIdList(intent)
         mViewModel.staffId = SearchSelectTypeParam.parseStaffId(intent)
         mViewModel.mustSelect = SearchSelectTypeParam.parseMustSelect(intent)
         mViewModel.moreSelect = SearchSelectTypeParam.parseMoreSelect(intent)
@@ -160,7 +162,7 @@ class SearchSelectRadioActivity :
                 ?: false).also { isAll ->
                 if (mBinding.svDepartmentSelectList.getChildAt(0) is LinearLayout) {
                     (mBinding.svDepartmentSelectList.getChildAt(0) as LinearLayout).children.forEach { cb ->
-                        if (true == cb.tag){
+                        if (true == cb.tag) {
                             (cb as AppCompatCheckBox).isChecked = isAll
                         }
                     }
@@ -239,7 +241,8 @@ class SearchSelectRadioActivity :
                             binding.root.setBackgroundColor(Color.WHITE)
                         }
 
-                        val canCheck = mViewModel.noUpdateArr.isNotEmpty() && item.getSelectId() in mViewModel.noUpdateArr
+                        val canCheck =
+                            mViewModel.noUpdateArr.isNotEmpty() && item.getSelectId() in mViewModel.noUpdateArr
                         cbMultiSelectItem.tag = !canCheck
 
                         cbMultiSelectItem.setOnCheckClickListener {

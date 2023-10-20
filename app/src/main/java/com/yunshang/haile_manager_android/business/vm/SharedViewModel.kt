@@ -163,6 +163,8 @@ class SharedViewModel : ViewModel() {
     /** ---------------------数据统计权限------------------------- **/
     val hasDataStatisticsListPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasDataStatisticsListPermission() }
+    val hasDeviceMonitoringPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasDeviceMonitoringPermission() }
     /** ---------------------数据统计权限------------------------- **/
     /** ---------------------用户权限------------------------- **/
 

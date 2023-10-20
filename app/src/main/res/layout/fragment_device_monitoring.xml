@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.DeviceMonitoringViewModel" />
+
+        <variable
+            name="countW"
+            type="java.lang.Integer" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_data_statistics"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_18_333333_bold"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:text="@string/data_statistics" />
+
+        <RadioGroup
+            android:id="@+id/rg_device_monitoring_category"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_device_monitoring_shop"
+                style="@style/Font_14_333333"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginStart="16dp"
+                android:drawableEnd="@mipmap/icon_triangle_down"
+                android:drawablePadding="4dp"
+                android:gravity="center"
+                android:hint="@string/all_shop"
+                android:textColorHint="@color/common_txt_color" />
+        </FrameLayout>
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.scwang.smart.refresh.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_14_333333_bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="16dp"
+                            android:drawableStart="@mipmap/icon_device_monitoring_device_num"
+                            android:drawablePadding="8dp"
+                            android:text="@string/total_device_num" />
+
+                        <com.yunshang.haile_manager_android.ui.view.AmountTextView
+                            style="@style/Font_36_333333"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="4dp"
+                            android:text='@{""+vm.deviceStateCounts.totalCount}'
+                            tools:text="6000" />
+
+                        <View
+                            style="@style/DividingStyleM16"
+                            android:layout_marginTop="16dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="horizontal">
+
+                        <include
+                            layout="@layout/item_device_monitoring_detail_count"
+                            android:background="@drawable/shape_right_stroke_dividing_mtb16"
+                            app:itemW="@{countW}"
+                            app:name="@{@string/online}"
+                            app:num="@{vm.deviceStateCounts.onLineCount}"
+                            app:percent="@{vm.deviceStateCounts.onLinePercent}"
+                            app:state="@{0}" />
+
+                        <include
+                            layout="@layout/item_device_monitoring_detail_count"
+                            android:background="@drawable/shape_right_stroke_dividing_mtb16"
+                            app:itemW="@{countW}"
+                            app:name="@{@string/offline}"
+                            app:num="@{vm.deviceStateCounts.offLineCount}"
+                            app:percent="@{vm.deviceStateCounts.offLinePercent}"
+                            app:state="@{1}" />
+
+                        <include
+                            layout="@layout/item_device_monitoring_detail_count"
+                            android:background="@drawable/shape_right_stroke_dividing_mtb16"
+                            app:itemW="@{countW}"
+                            app:name="@{@string/enable}"
+                            app:num="@{vm.deviceStateCounts.enableCount}"
+                            app:percent="@{vm.deviceStateCounts.enablePercent}" />
+
+                        <include
+                            layout="@layout/item_device_monitoring_detail_count"
+                            android:background="@drawable/shape_right_stroke_dividing_mtb16"
+                            app:itemW="@{countW}"
+                            app:name="@{@string/disEnable}"
+                            app:num="@{vm.deviceStateCounts.unableCount}"
+                            app:percent="@{vm.deviceStateCounts.unablePercent}"
+                            app:state="@{1}" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_device_monitoring_num_percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_device_monitoring_num_percent_title"
+                            style="@style/Font_16_333333_bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:background="@drawable/shape_bottom_stroke_dividing"
+                            android:gravity="center_vertical"
+                            android:paddingHorizontal="16dp"
+                            android:text="@string/device_category_num_percent" />
+
+                        <GridLayout
+                            android:id="@+id/gl_device_monitoring_num_percent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:columnCount="4"
+                            android:orientation="horizontal" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+    </LinearLayout>
+</layout>

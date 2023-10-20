@@ -24,12 +24,13 @@
         <item name="android:background">@color/dividing_line_color</item>
     </style>
 
-    <style name="DividingStyleM12">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">0.5dp</item>
-        <item name="android:background">@color/dividing_line_color</item>
+    <style name="DividingStyleM12" parent="DividingStyle">
         <item name="android:layout_marginStart">12dp</item>
         <item name="android:layout_marginEnd">12dp</item>
+    </style>
+    <style name="DividingStyleM16" parent="DividingStyle">
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
     </style>
 
     <style name="CommonMatchBtnStyle" parent="@style/Widget.AppCompat.Button.Borderless">

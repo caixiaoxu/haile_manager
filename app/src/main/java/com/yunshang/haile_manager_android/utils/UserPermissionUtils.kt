@@ -787,6 +787,18 @@ object UserPermissionUtils {
         return null != userPermissionsMap["league:funds:distribution:delete"]
     }
     /** ------------------------分账管理权限------------------------  */
+    /** ------------------------设备监控权限------------------------  */
+    /**
+     * 是否含有设备监控权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasDeviceMonitoringPermission(): Boolean {
+        return null != userPermissionsMap["league:normal:goods:monitoring"]
+    }
+    /** ------------------------设备监控权限------------------------  */
     /** ------------------------数据统计权限------------------------  */
     /**
      * 是否含有数据统计权限

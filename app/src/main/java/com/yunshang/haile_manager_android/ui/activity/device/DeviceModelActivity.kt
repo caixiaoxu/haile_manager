@@ -72,7 +72,7 @@ class DeviceModelActivity :
                                         IntentParams.DeviceCategoryModelParams.packResult(
                                             spu.id,
                                             mViewModel.selectCategory.value?.name,
-                                            spu.name + spu.feature,
+                                            "${spu.name}（${spu.feature}）",
                                             mViewModel.selectCategory.value?.id,
                                             mViewModel.selectCategory.value?.code,
                                             spu.communicationType,

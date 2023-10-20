@@ -225,7 +225,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                     // 修改参数设置
                     R.string.update_params_setting -> mViewModel.checkSinglePulseQuantity(detail)
                     // 预约设置
-                    R.string.device_appointment_setting -> detail.shopAppointmentEnabled
+                    R.string.device_appointment_setting -> 20 != detail.communicationType && detail.shopAppointmentEnabled
                     // 语音设置
                     R.string.device_voice -> DeviceCategory.isDispenser(detail.categoryCode)
                     // 排空

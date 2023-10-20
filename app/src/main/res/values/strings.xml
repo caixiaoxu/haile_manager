@@ -293,7 +293,8 @@
     <string name="apply_sex">适用性别</string>
     <string name="shop_pay_setting">支付设置</string>
     <string name="shop_pay_config">支付配置</string>
-    <string name="shop_search_hint">搜索门店或点位名称</string>
+    <string name="shop_search_hint">搜索门店名称</string>
+    <string name="shop_position_search_hint">搜索门店或点位名称</string>
     <string name="shop_num_hint">全部%1$d家门店，%2$d个点位</string>
     <string name="total_income">总收益</string>
     <string name="total_earnings">总收入</string>

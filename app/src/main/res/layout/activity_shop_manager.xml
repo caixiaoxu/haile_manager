@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="@string/shop_search_hint"
+            android:text="@string/shop_position_search_hint"
             app:layout_constraintBottom_toBottomOf="@id/view_shop_manager_search_bg"
             app:layout_constraintStart_toEndOf="@id/iv_shop_manager_search"
             app:layout_constraintTop_toTopOf="@id/view_shop_manager_search_bg" />

@@ -109,33 +109,47 @@
 
                         <include
                             layout="@layout/item_device_monitoring_detail_count"
-                            android:background="@drawable/shape_right_stroke_dividing_mtb16"
                             app:itemW="@{countW}"
                             app:name="@{@string/online}"
                             app:num="@{vm.deviceStateCounts.onLineCount}"
                             app:percent="@{vm.deviceStateCounts.onLinePercent}"
                             app:state="@{0}" />
 
+                        <View
+                            android:layout_width="0.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginVertical="16dp"
+                            android:background="@color/dividing_line_color" />
+
                         <include
                             layout="@layout/item_device_monitoring_detail_count"
-                            android:background="@drawable/shape_right_stroke_dividing_mtb16"
                             app:itemW="@{countW}"
                             app:name="@{@string/offline}"
                             app:num="@{vm.deviceStateCounts.offLineCount}"
                             app:percent="@{vm.deviceStateCounts.offLinePercent}"
                             app:state="@{1}" />
 
+                        <View
+                            android:layout_width="0.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginVertical="16dp"
+                            android:background="@color/dividing_line_color" />
+
                         <include
                             layout="@layout/item_device_monitoring_detail_count"
-                            android:background="@drawable/shape_right_stroke_dividing_mtb16"
                             app:itemW="@{countW}"
                             app:name="@{@string/enable}"
                             app:num="@{vm.deviceStateCounts.enableCount}"
                             app:percent="@{vm.deviceStateCounts.enablePercent}" />
 
+                        <View
+                            android:layout_width="0.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginVertical="16dp"
+                            android:background="@color/dividing_line_color" />
+
                         <include
                             layout="@layout/item_device_monitoring_detail_count"
-                            android:background="@drawable/shape_right_stroke_dividing_mtb16"
                             app:itemW="@{countW}"
                             app:name="@{@string/disEnable}"
                             app:num="@{vm.deviceStateCounts.unableCount}"

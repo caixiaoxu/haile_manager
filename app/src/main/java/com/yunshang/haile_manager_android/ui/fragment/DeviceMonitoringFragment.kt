@@ -89,7 +89,7 @@ class DeviceMonitoringFragment :
         mViewModel.deviceStateCountPercents.observe(this) {
             mBinding.llDeviceMonitoringNumPercent.visibility(!it.isNullOrEmpty())
             if (!it.isNullOrEmpty()) {
-                it.forEach { percent ->
+                it.forEachIndexed { index, percent ->
                     mBinding.glDeviceMonitoringNumPercent.addView(
                         DataBindingUtil.inflate<ItemDeviceMonitoringDetailCountBinding>(
                             inflater,
@@ -101,6 +101,9 @@ class DeviceMonitoringFragment :
                             childBinding.name = percent.categoryName
                             childBinding.num = percent.count
                             childBinding.percent = percent.percent
+                            if ((index % 4) < 3) {
+                                childBinding.root.setBackgroundResource(R.drawable.shape_right_stroke_dividing_mtb16)
+                            }
                         }.root
                     )
                 }

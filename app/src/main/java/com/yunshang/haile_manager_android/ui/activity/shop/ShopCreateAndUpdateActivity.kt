@@ -7,7 +7,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
-import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SCHOOL
 import com.yunshang.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SEARCH_TYPE
@@ -49,16 +48,16 @@ class ShopCreateAndUpdateActivity :
                     }
                 }
                 IntentParams.LocationParams.LocationResultCode -> {
-                    it.data?.let {intent->
-                        IntentParams.LocationParams.parseLocationResultData(intent)?.let {poiItem ->
-                            mViewModel.createAndUpdateEntity.value?.changeMansion(
-                                poiItem.title,
-                                poiItem.latitude,
-                                poiItem.longitude,
-                                poiItem.address
-                            )
-
-                        }
+                    it.data?.let { intent ->
+                        IntentParams.LocationParams.parseLocationResultData(intent)
+                            ?.let { poiItem ->
+                                mViewModel.createAndUpdateEntity.value?.changeMansion(
+                                    poiItem.title,
+                                    poiItem.latitude,
+                                    poiItem.longitude,
+                                    poiItem.address
+                                )
+                            }
                     }
                 }
                 IntentParams.ShopPaySettingsParams.ResultCode -> {
@@ -140,16 +139,10 @@ class ShopCreateAndUpdateActivity :
                 startSearchSelect.launch(
                     Intent(
                         this@ShopCreateAndUpdateActivity,
-                        if (0 == BuildConfig.MAP_TYPE)
-                            LocationSelectForAMapActivity::class.java
-                        else
-                            LocationSelectForTMapActivity::class.java
+                        CurLocationSelectorActivity::class.java
                     ).apply {
                         putExtras(
-                            IntentParams.LocationSelectParams.packCity(
-                                mViewModel.createAndUpdateEntity.value?.cityName,
-                                mViewModel.createAndUpdateEntity.value?.shopTypeName
-                            )
+                            IntentParams.LocationSelectParams.packCity(mViewModel.createAndUpdateEntity.value?.cityName)
                         )
                     }
                 )

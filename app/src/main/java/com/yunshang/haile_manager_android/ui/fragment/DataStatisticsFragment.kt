@@ -303,7 +303,8 @@ class DataStatisticsFragment :
                     putExtras(
                         IntentParams.SearchSelectTypeParam.pack(
                             IntentParams.SearchSelectTypeParam.SearchSelectStatisticsShop,
-                            mustSelect = false
+                            mustSelect = false,
+                            moreSelect = true
                         )
                     )
                 }

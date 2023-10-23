@@ -28,7 +28,10 @@ data class UserInfo(
 )
 
 data class Organization(
-    val id: String,
+    val id: String?,
     val name: String
-)
+) {
+    val idVal: String
+        get() = id ?: ""
+}
 

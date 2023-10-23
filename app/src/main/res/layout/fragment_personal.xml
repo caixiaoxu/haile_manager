@@ -134,7 +134,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/tv_organization_name"
                 android:layout_marginTop="4dp"
-                android:text='@{"ID：" + shared.userInfo.organization.id}'
+                android:text='@{"ID：" + shared.userInfo.organization.idVal}'
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btn_organization_change"
                 style="@style/Font_12_999999"

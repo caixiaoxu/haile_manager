@@ -30,7 +30,10 @@ class LoginForPasswordActivity :
 
     override fun initIntent() {
         super.initIntent()
-        mViewModel.phone.value = IntentParams.LoginParams.parsePhone(intent)
+        IntentParams.LoginParams.parsePhone(intent)?.let {
+            mViewModel.phone.value = it
+            findPasswordOfPhone()
+        }
     }
 
     override fun initView() {
@@ -38,10 +41,7 @@ class LoginForPasswordActivity :
 
         mBinding.etLoginPassword.setOnFocusChangeListener { _, b ->
             if (b && mViewModel.password.value.isNullOrEmpty()) {
-                SPRepository.changeUser?.find { item -> item.loginType == PASSWORD && mViewModel.phone.value == item.userInfo.userInfo.phone }
-                    ?.let {
-                        mViewModel.password.value = it.password
-                    }
+                findPasswordOfPhone()
             }
         }
 
@@ -73,6 +73,13 @@ class LoginForPasswordActivity :
         mBinding.btnLoginRegister.setOnClickListener {
             startActivity(Intent(this@LoginForPasswordActivity, RegisterActivity::class.java))
         }
+    }
+
+    private fun findPasswordOfPhone() {
+        SPRepository.changeUser?.find { item -> item.loginType == PASSWORD && mViewModel.phone.value == item.userInfo.userInfo.phone }
+            ?.let {
+                mViewModel.password.value = it.password
+            }
     }
 
     override fun initEvent() {

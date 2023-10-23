@@ -52,6 +52,7 @@
                     android:id="@+id/mtiv_shop_create_name"
                     style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@={vm.createAndUpdateEntity.name}"
+                    android:maxLength="20"
                     app:title="@string/shop_name"
                     app:type="input" />
 

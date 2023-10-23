@@ -95,7 +95,8 @@ data class DeviceDetailEntity(
         else -> R.mipmap.icon_device_detail_washing_main
     }
 
-    fun getReason() = "${deviceErrorMsg}${deviceErrorCode}"
+    fun getReason() =
+        "${if (deviceErrorCode.isNullOrEmpty()) "" else deviceErrorCode + "-"}${deviceErrorMsg}"
 
     fun hasName(): Boolean = !name.isNullOrEmpty()
 
@@ -232,8 +233,8 @@ data class DeviceDetailEntity(
      */
     fun getDeviceStatusValue(): String = when (workStatus) {
         10 -> "空闲"
-        20 -> "运行中"
-        30 -> "故障"
+        20 -> "运行"
+        30 -> getReason()
         40 -> "停用"
         else -> ""
     }

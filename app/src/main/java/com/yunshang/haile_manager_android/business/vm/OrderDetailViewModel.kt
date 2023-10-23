@@ -39,6 +39,7 @@ class OrderDetailViewModel : BaseViewModel() {
     val orderDetail: MutableLiveData<OrderDetailEntity> by lazy {
         MutableLiveData()
     }
+
     fun requestOrderDetail() {
         if (-1 == orderId) {
             return
@@ -82,6 +83,26 @@ class OrderDetailViewModel : BaseViewModel() {
         })
     }
 
+    fun cancelAppointmentOrder(context: Context, orderNo: String, reason: String) {
+        launch({
+            ApiRepository.dealApiResult(
+                mOrderRepo.cancelAppointmentOrder(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "orderNo" to orderNo,
+                            "reason" to reason,
+                        )
+                    )
+                )
+            )
+            withContext(Dispatchers.Main) {
+                SToast.showToast(context, StringUtils.getString(R.string.cancel_success))
+            }
+            LiveDataBus.post(BusEvents.ORDER_LIST_STATUS, orderId)
+            requestOrderDetail()
+        })
+    }
+
     /**
      * 订单退款
      */
@@ -99,7 +120,7 @@ class OrderDetailViewModel : BaseViewModel() {
         withContext(Dispatchers.Main) {
             SToast.showToast(context, StringUtils.getString(R.string.refund_success))
         }
-        LiveDataBus.post(BusEvents.ORDER_LIST_STATUS,orderId)
+        LiveDataBus.post(BusEvents.ORDER_LIST_STATUS, orderId)
         requestOrderDetail()
     }
 

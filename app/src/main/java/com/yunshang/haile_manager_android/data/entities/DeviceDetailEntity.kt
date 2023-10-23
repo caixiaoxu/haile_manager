@@ -176,7 +176,7 @@ data class DeviceDetailEntity(
 
     fun getCategoryTitle(): String = StringUtils.getString(R.string.device_category)
 
-    fun modelVal(): String = spuName + (spuFeature.split("/").firstOrNull() ?: "")
+    fun modelVal(): String = spuName + "（$spuFeature）"
 
     fun hasModel(): Boolean = 0 != spuId && !spuName.isNullOrEmpty()
 

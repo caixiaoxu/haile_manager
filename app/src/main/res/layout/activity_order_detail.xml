@@ -204,32 +204,48 @@
                         app:layout_constraintTop_toTopOf="@id/tv_order_detail_order_no_copy" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:divider="@drawable/divide_size4"
-                    android:orientation="vertical"
                     android:paddingHorizontal="16dp"
-                    android:paddingVertical="12dp"
-                    app:showDividers="middle">
+                    android:paddingVertical="12dp">
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_order_detail_shop"
                         style="@style/Font_14_333333"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@{vm.orderDetail.shopName}"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:text="所属店铺字段信息" />
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_order_detail_device"
                         style="@style/Font_14_333333"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:gravity="center_vertical"
                         android:text="@{vm.orderDetail.deviceNameNoVal}"
+                        app:layout_constraintEnd_toStartOf="@id/btn_order_detail_device"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_order_detail_shop"
                         tools:text="设备名称" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                    <com.lsy.framelib.ui.weight.SingleTapTextView
+                        android:id="@+id/btn_order_detail_device"
+                        style="@style/Font_14_f0a258"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/look_device"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_device"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_order_detail_device"
+                        tools:text="查看设备" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
@@ -396,9 +412,16 @@
                     <include
                         layout="@layout/item_order_detail_item"
                         app:mStart="@{@dimen/dimen_2}"
-                        app:title='@{@string/time_of_payment +"："}'
+                        app:title='@{@string/reason_for_end +"："}'
                         app:value='@{vm.orderDetail.payTime}'
                         app:visibility="@{vm.orderDetail.state >= 500 }" />
+
+                    <include
+                        layout="@layout/item_order_detail_item"
+                        app:mStart="@{@dimen/dimen_2}"
+                        app:title='@{@string/time_of_payment +"："}'
+                        app:value='@{vm.orderDetail.endStateVal}'
+                        app:visibility="@{vm.orderDetail.endStateVal().length() > 0 }" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
@@ -410,15 +433,15 @@
             android:gravity="end"
             android:paddingHorizontal="16dp"
             android:paddingTop="12dp"
-            app:visibility="@{(null!=vm.orderDetail &amp;&amp; (vm.orderDetail.canRefund &amp;&amp; shared.hasOrderRefundPermission) || (vm.orderDetail.canCompensate &amp;&amp; shared.hasOrderCompensatePermission) || (vm.orderDetail.canStart &amp;&amp; shared.hasOrderStartPermission) || (vm.orderDetail.canReset &amp;&amp; shared.hasOrderResetPermission) || (vm.isAppoint &amp;&amp;  vm.orderDetail.canCancelReserve))}"
             app:divider="@drawable/divide_size8"
-            app:showDividers="middle">
+            app:showDividers="middle"
+            app:visibility="@{(null!=vm.orderDetail &amp;&amp; (vm.orderDetail.canRefund &amp;&amp; shared.hasOrderRefundPermission) || (vm.orderDetail.canCompensate &amp;&amp; shared.hasOrderCompensatePermission) || (vm.orderDetail.canStart &amp;&amp; shared.hasOrderStartPermission) || (vm.orderDetail.canReset &amp;&amp; shared.hasOrderResetPermission) || (vm.isAppoint &amp;&amp;  vm.orderDetail.canCancelReserve))}">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_order_detail_cancel"
                 style="@style/CommonStrokeTxtBtnStyle"
                 android:text="@string/cancel"
-                android:visibility="@{(vm.isAppoint &amp;&amp; vm.orderDetail.canCancelReserve)?View.VISIBLE:View.GONE}" />
+                app:visibility="@{vm.isAppoint &amp;&amp; vm.orderDetail.canCancelReserve}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_order_detail_refund"

@@ -13,6 +13,7 @@ package com.yunshang.haile_manager_android.data.arguments
 object OrderParam {
     @JvmStatic
     fun orderStatusList(state: Int) = when (state) {
+        50 -> "进行中"
         in 0 until 300 -> "待支付"
         400 -> "已取消"
         401 -> "支付超时"

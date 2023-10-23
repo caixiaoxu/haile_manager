@@ -89,10 +89,12 @@ class OrderManagerViewModel : BaseViewModel() {
         arrayListOf(
             IndicatorEntity("全部", 0, ""),
             IndicatorEntity("待支付", 0, "100"),
+            IndicatorEntity("进行中", 0, "50"),
             IndicatorEntity("已支付", 0, "500"),
             IndicatorEntity("已完成", 0, "1000"),
             IndicatorEntity("已退款", 0, "2099"),
-            IndicatorEntity("支付超时", 0, "401"),
+            IndicatorEntity("已取消", 0, "400"),
+            IndicatorEntity("超时关闭", 0, "401"),
         )
     )
 

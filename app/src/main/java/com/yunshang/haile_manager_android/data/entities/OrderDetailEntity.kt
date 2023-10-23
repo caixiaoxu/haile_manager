@@ -69,6 +69,8 @@ data class OrderDetailEntity(
     val appointmentInfo: AppointmentInfo?,
     val appointmentTime: String,
     val canCancelReserve: Boolean,
+    val endState: Int,
+    val endStateDesc: String?
 ) : BaseObservable() {
     val createTime: String
         get() = DateTimeUtils.formatDateTimeForStr(_createTime, "yyyy-MM-dd HH:mm")
@@ -121,6 +123,12 @@ data class OrderDetailEntity(
             )
         }
             ?: SpannableString("")
+
+    fun endStateVal(): String = when(endState){
+        1050->endStateDesc?.let { "故障结束-$it" } ?: ""
+        1000->"正常结束"
+        else->""
+    }
 }
 
 data class AppointmentInfo(

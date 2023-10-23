@@ -295,6 +295,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                                         GsonUtils.any2Json(detail.spuDto?.extAttrDto),
                                         detail.items,
                                         mViewModel.goodsId,
+                                        StringUtils.getString(R.string.update_func_price)
                                     )
                                 )
                             }

@@ -60,6 +60,7 @@ class DeviceMonitoringFragment :
 
         val inflater = LayoutInflater.from(requireContext())
         mViewModel.categoryList.observe(this) {
+            mBinding.rgDeviceMonitoringCategory.removeAllViews()
             it?.let { categoryList ->
                 categoryList.forEachIndexed { index, deviceCategory ->
                     mBinding.rgDeviceMonitoringCategory.addView(
@@ -95,6 +96,7 @@ class DeviceMonitoringFragment :
 
         mViewModel.deviceStateCountPercents.observe(this) {
             mBinding.llDeviceMonitoringNumPercent.visibility(!it.isNullOrEmpty())
+            mBinding.glDeviceMonitoringNumPercent.removeAllViews()
             if (!it.isNullOrEmpty()) {
                 it.forEachIndexed { index, percent ->
                     mBinding.glDeviceMonitoringNumPercent.addView(

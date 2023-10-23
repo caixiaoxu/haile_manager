@@ -60,6 +60,11 @@ class DeviceMonitoringViewModel : BaseViewModel() {
                 categoryList.postValue(it)
                 requestGoodsCountPercents(it.firstOrNull()?.categoryId)
             }
+            ApiRepository.dealApiResult(
+                mDeviceRepo.requestGoodsCountPercents()
+            )?.let {
+                deviceStateCountPercents.postValue(it)
+            }
         })
     }
 
@@ -81,12 +86,6 @@ class DeviceMonitoringViewModel : BaseViewModel() {
             )
         )?.let {
             deviceStateCounts.postValue(it)
-        }
-
-        ApiRepository.dealApiResult(
-            mDeviceRepo.requestGoodsCountPercents()
-        )?.let {
-            deviceStateCountPercents.postValue(it)
         }
     }
 }

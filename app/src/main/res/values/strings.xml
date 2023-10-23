@@ -92,6 +92,7 @@
 
     <string name="main_tab_home">首页</string>
     <string name="monitoring">监控</string>
+    <string name="device_monitoring">设备监控</string>
     <string name="total_device_num">总设备数</string>
     <string name="online_device_state">在线设备运行状态</string>
     <string name="device_category_num_percent">设备类型数量占比</string>

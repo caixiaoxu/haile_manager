@@ -373,6 +373,7 @@
     <string name="operator">操作人员：</string>
     <string name="refund_order_no">退款单号：</string>
     <string name="refund_hint">发起退款后订单金额会按原路径返回到用户付款账户，确定要发起退款么？</string>
+    <string name="cancel_success">取消成功</string>
     <string name="refund_success">退款成功</string>
     <string name="compensate_coupon">补偿优惠券</string>
     <string name="coupon_info">券信息</string>

@@ -27,7 +27,6 @@
         android:drawableStart="@mipmap/icon_device_operate_add"
         android:drawablePadding="4dp"
         android:gravity="center"
-        android:visibility="gone"
         android:paddingHorizontal="16dp"
         android:text="@string/add_pt" />
 

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.ShopAndPositionSearchEntity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/ll_shop_search_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="12dp"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{item.name}"
+                tools:text="门店名称"
+                style="@style/Font_16_333333_bold"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{item.getDetailAddress}"
+                tools:text="门店地址信息"
+                android:layout_marginTop="4dp"
+                style="@style/Font_12_999999"/>
+
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_shop_search_position"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</layout>

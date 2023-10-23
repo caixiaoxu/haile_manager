@@ -35,11 +35,9 @@ import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 import timber.log.Timber
 
-class DeviceDetailActivity :
-    BaseBusinessActivity<ActivityDeviceDetailBinding, DeviceDetailModel>(
-        DeviceDetailModel::class.java,
-        BR.vm
-    ) {
+class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, DeviceDetailModel>(
+    DeviceDetailModel::class.java, BR.vm
+) {
 
     companion object {
         const val GoodsId = "goodsId"
@@ -67,6 +65,9 @@ class DeviceDetailActivity :
                                     IntentParams.DeviceParamsUpdateParams.typeChangeName -> {
                                         mViewModel.deviceDetail.value?.name = it
                                         mViewModel.name.value = it
+                                    }
+                                    IntentParams.DeviceParamsUpdateParams.typeChangeFloor -> {
+                                        mViewModel.deviceDetail.value?.floorCodeVal = it
                                     }
                                 }
                             }
@@ -214,7 +215,9 @@ class DeviceDetailActivity :
                     R.string.change_pay_code -> !DeviceCategory.isDispenser(detail.categoryCode)
                             && !DeviceCategory.isDrinkingOrShower(detail.categoryCode)
                     // 生成付款码
-                    R.string.create_pay_code -> !DeviceCategory.isDispenser(detail.categoryCode)
+                    R.string.create_pay_code -> !DeviceCategory.isDispenser(detail.categoryCode) && !DeviceCategory.isShower(
+                        detail.categoryCode
+                    )
                     // 修改功能配置
                     R.string.update_func_price -> true
                     // 修改设备名称
@@ -222,11 +225,13 @@ class DeviceDetailActivity :
                     // 修改参数设置
                     R.string.update_params_setting -> mViewModel.checkSinglePulseQuantity(detail)
                     // 预约设置
-                    R.string.device_appointment_setting -> detail.shopAppointmentEnabled
+                    R.string.device_appointment_setting -> 20 != detail.communicationType && detail.shopAppointmentEnabled
                     // 语音设置
                     R.string.device_voice -> DeviceCategory.isDispenser(detail.categoryCode)
                     // 排空
                     R.string.device_drain -> DeviceCategory.isDispenser(detail.categoryCode)
+                    // 修改楼层
+                    R.string.update_floor -> true
                     else -> false
                 }
             }
@@ -241,7 +246,9 @@ class DeviceDetailActivity :
             mBinding.llDeviceDetailFuncRelated.removeAllViews()
             if (mViewModel.deviceDetail.value?.showRelated()!!) {
                 val inflater = LayoutInflater.from(this)
-                detail?.relatedGoodsDetailVo?.dosingVOS?.flatMap { item -> item.configs ?: listOf() }
+                detail?.relatedGoodsDetailVo?.dosingVOS?.flatMap { item ->
+                    item.configs ?: listOf()
+                }
                     ?.forEachIndexed { _, item ->
                         val itemBinding =
                             DataBindingUtil.inflate<ItemDeviceDetailDisposeMinBinding>(
@@ -288,6 +295,7 @@ class DeviceDetailActivity :
                                         GsonUtils.any2Json(detail.spuDto?.extAttrDto),
                                         detail.items,
                                         mViewModel.goodsId,
+                                        StringUtils.getString(R.string.update_func_price)
                                     )
                                 )
                             }
@@ -487,6 +495,22 @@ class DeviceDetailActivity :
                             )
                         )
                     })
+                }
+                14 -> mViewModel.deviceDetail.value?.let { detail ->
+                    startNext.launch(
+                        Intent(
+                            this@DeviceDetailActivity,
+                            DeviceMultiChangeActivity::class.java
+                        ).apply {
+                            putExtras(
+                                IntentParams.DeviceParamsUpdateParams.pack(
+                                    GsonUtils.any2Json(detail.toUpdateParams()),
+                                    IntentParams.DeviceParamsUpdateParams.typeChangeFloor,
+                                    mViewModel.deviceDetail.value?.floorCode
+                                )
+                            )
+                        }
+                    )
                 }
             }
         }

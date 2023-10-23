@@ -87,6 +87,7 @@ class SearchSelectRadioViewModel : BaseViewModel() {
     var staffId: Int = -1
 
     var shopIdList: IntArray? = null
+    var positionIdList: IntArray? = null
 
     // 设备类型id
     var categoryId: Int = -1
@@ -171,7 +172,8 @@ class SearchSelectRadioViewModel : BaseViewModel() {
                                     ApiRepository.dealApiResult(
                                         mDeviceRepo.spuList(
                                             categoryId,
-                                            shopIdList
+                                            shopIdList,
+                                            positionIdList
                                         )
                                     )
                                 originSelectList = list?.firstOrNull()?.spu

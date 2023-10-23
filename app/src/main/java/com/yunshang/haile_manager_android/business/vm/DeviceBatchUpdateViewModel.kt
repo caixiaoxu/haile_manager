@@ -11,6 +11,7 @@ import com.yunshang.haile_manager_android.business.apiService.CategoryService
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
+import com.yunshang.haile_manager_android.data.entities.ShopAndPositionSelectEntity
 import com.yunshang.haile_manager_android.data.entities.SkuFunConfigurationV2Param
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
@@ -31,14 +32,14 @@ class DeviceBatchUpdateViewModel : BaseViewModel() {
     private val mCategoryRepo = ApiRepository.apiClient(CategoryService::class.java)
 
     // 所属门店
-    val selectDepartments: MutableLiveData<MutableList<SearchSelectParam>> by lazy {
+    val selectDepartments: MutableLiveData<MutableList<ShopAndPositionSelectEntity>> by lazy {
         MutableLiveData()
     }
 
     val selectDepartmentsVal: LiveData<String> = selectDepartments.map {
         when (val count: Int = it.size) {
             0 -> ""
-            1 -> it[0].name
+            1 -> it.firstOrNull()?.name ?: ""
             else -> "已选中${count}个门店"
         }
     }
@@ -144,7 +145,10 @@ class DeviceBatchUpdateViewModel : BaseViewModel() {
                             "shopIdList" to selectDepartments.value?.map { item -> item.id },
                             "categoryId" to selectCategory.value?.id,
                             "spuIdList" to intArrayOf(selectDeviceModel.value!!.id),
-                            "functions" to createDeviceFunConfigure.value
+                            "functions" to createDeviceFunConfigure.value,
+                            "positionIdList" to selectDepartments.value?.flatMap { item ->
+                                item.positionList?.mapNotNull { positionItem->positionItem.id } ?: listOf()
+                            }
                         )
                     )
                 )

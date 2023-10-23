@@ -7,11 +7,13 @@ import com.amap.api.services.core.PoiItem
 import com.amap.api.services.poisearch.PoiResult
 import com.amap.api.services.poisearch.PoiSearch
 import com.tencent.lbssearch.TencentSearch
+import com.tencent.lbssearch.httpresponse.HttpResponseListener
+import com.tencent.lbssearch.`object`.param.ExploreParam
 import com.tencent.lbssearch.`object`.param.SearchParam
+import com.tencent.lbssearch.`object`.result.ExploreResultObject
 import com.tencent.lbssearch.`object`.result.SearchResultObject
-import com.tencent.map.tools.net.http.HttpResponseListener
 import com.tencent.tencentmap.mapsdk.maps.model.LatLng
-import java.util.ArrayList
+import timber.log.Timber
 
 
 /**
@@ -109,5 +111,41 @@ object LocationUtils {
                 callBack(p0, listOf())
             }
         })
+    }
+
+    /**
+     * 搜索附近列表
+     */
+    fun searchNearByOfTMap(
+        context: Context,
+        latLng: LatLng,
+        radius: Int = 5000,
+        callBack: (data: List<ExploreResultObject.SearchResultData>?) -> Unit
+    ) {
+        //周边搜索（圆形范围）： boundary=nearby(lat,lng(中心坐标),radius(半径/米)[, auto_extend])
+        val nearBy = ExploreParam.Nearby(latLng, radius)
+        //创建创建explore参数请求
+        val exploreParam = ExploreParam(nearBy)
+        //周边推荐模式  1.DEFAULT：默认 地点签到场景，针对用户签到的热门 地点进行优先排序    2.SHARE_LOCATION：位置共享场景
+        exploreParam.policy(ExploreParam.Policy.DEFAULT)
+        //创建TencentSearch
+        val tencentSearch = TencentSearch(context)
+        //周边推荐(Explore接口)数据请求
+        tencentSearch.explore(exploreParam, object : HttpResponseListener<ExploreResultObject?> {
+            override fun onFailure(
+                arg0: Int, arg2: String,
+                arg3: Throwable
+            ) {
+                Timber.v("onFailure$arg0")
+            }
+
+            override fun onSuccess(arg0: Int, obj: ExploreResultObject?) {
+                if (obj?.data == null) {
+                    return
+                }
+                callBack(obj.data)
+            }
+        })
+
     }
 }

@@ -15,6 +15,7 @@ import com.yunshang.haile_manager_android.business.vm.SearchSelectViewModel
 import com.yunshang.haile_manager_android.business.vm.SearchSelectViewModel.Companion.LOCATION
 import com.yunshang.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SCHOOL
 import com.yunshang.haile_manager_android.business.vm.SearchSelectViewModel.Companion.SEARCH_TYPE
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.LocationSelectEntityI
 import com.yunshang.haile_manager_android.data.rule.ISearchSelectEntity
 import com.yunshang.haile_manager_android.databinding.ActivitySearchSelectBinding
@@ -44,10 +45,7 @@ class SearchSelectActivity :
                     })
                 } else if (LOCATION == mViewModel.searchType.value) {
                     setResult(RESULT_OK, Intent().apply {
-                        putExtra(
-                            ShopCreateAndUpdateActivity.LocationResultData,
-                            GsonUtils.any2Json((d as LocationSelectEntityI).poi)
-                        )
+                        putExtras(IntentParams.LocationParams.pack((d as LocationSelectEntityI).poi))
                     })
                 }
                 finish()

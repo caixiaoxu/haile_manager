@@ -273,7 +273,7 @@ object StringUtils {
     /**
      * 验证商户名称是否符合规则
      */
-    fun checkShopName(password: String) = password.matches(ShopNameRule.toRegex())
+    fun checkShopName(name: String) = name.matches(ShopNameRule.toRegex())
 
     /**
      * 验证密码是否符合规则

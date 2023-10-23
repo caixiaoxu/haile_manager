@@ -21,7 +21,7 @@ import com.yunshang.haile_manager_android.databinding.ItemDeviceCategoryBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceModelBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceModelItemBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
-import com.yunshang.haile_manager_android.ui.view.GridSpaceItemDecoration
+import com.yunshang.haile_manager_android.ui.view.refresh.GridSpaceItemDecoration
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.utils.GlideUtils
 

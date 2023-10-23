@@ -20,6 +20,7 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.databinding.ActivityOrderDetailBinding
 import com.yunshang.haile_manager_android.databinding.ItemOrderDetailItemBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.view.dialog.CancelContentDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 
@@ -153,6 +154,19 @@ class OrderDetailActivity :
             }
         }
 
+        // 预约取消
+        mBinding.tvOrderDetailCancel.setOnClickListener {
+            CancelContentDialog.Builder(
+                StringUtils.getString(R.string.cancel_order),
+                StringUtils.getString(R.string.cancel_order_hint)
+            ).apply {
+                positiveClickListener = { reason ->
+                    mViewModel.orderDetail.value?.orderNo?.let { orderNo ->
+                        mViewModel.cancelAppointmentOrder(this@OrderDetailActivity, orderNo, reason)
+                    }
+                }
+            }.build().show(supportFragmentManager)
+        }
         // 退款
         mBinding.tvOrderDetailRefund.setOnClickListener {
             CommonDialog.Builder(StringUtils.getString(R.string.refund_hint)).apply {

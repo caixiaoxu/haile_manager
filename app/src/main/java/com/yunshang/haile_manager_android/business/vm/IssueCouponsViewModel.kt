@@ -66,7 +66,7 @@ class IssueCouponsViewModel : BaseViewModel() {
             SToast.showToast(v.context, "请输入正确的手机号")
             return
         }
-        if (null == coupon.value?.couponType || coupon.value!!.couponType!! <= 0) {
+        if (null == coupon.value?.couponType || coupon.value!!.couponType <= 0) {
             SToast.showToast(v.context, "请选择券类型")
             return
         }

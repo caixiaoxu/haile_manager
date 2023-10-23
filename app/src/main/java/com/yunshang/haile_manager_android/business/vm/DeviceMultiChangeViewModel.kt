@@ -39,12 +39,14 @@ class DeviceMultiChangeViewModel : BaseViewModel() {
         StringUtils.getString(R.string.change_model),
         StringUtils.getString(R.string.change_pay_code),
         StringUtils.getString(R.string.update_device_name),
+        StringUtils.getString(R.string.update_floor),
     )
 
     val multiChangeTitles = arrayOf(
         StringUtils.getString(R.string.update_imei_title),
         StringUtils.getString(R.string.update_pay_code_title),
         StringUtils.getString(R.string.update_name_title),
+        StringUtils.getString(R.string.update_device_floor),
     )
 
     val multiChangeTitle: LiveData<String> = type.map { multiChangeTitles[it] }
@@ -53,6 +55,7 @@ class DeviceMultiChangeViewModel : BaseViewModel() {
         StringUtils.getString(R.string.update_imei_hint),
         StringUtils.getString(R.string.update_pay_code_hint),
         StringUtils.getString(R.string.update_name_hint),
+        StringUtils.getString(R.string.update_floor_hint),
     )
 
     val multiChangeHint: LiveData<String> = type.map { multiChangeHints[it] }
@@ -61,6 +64,7 @@ class DeviceMultiChangeViewModel : BaseViewModel() {
         StringUtils.getString(R.string.update_imei_desc),
         StringUtils.getString(R.string.update_pay_code_desc),
         StringUtils.getString(R.string.update_name_desc),
+        StringUtils.getString(R.string.update_floor_desc),
     )
 
     val multiChangeDesc: LiveData<String> = type.map { multiChangeDescs[it] }
@@ -91,6 +95,7 @@ class DeviceMultiChangeViewModel : BaseViewModel() {
                     updateParams!!["codeStr"] = originCode
                 }
                 IntentParams.DeviceParamsUpdateParams.typeChangeName -> updateParams!!["name"] = content.value!!
+                IntentParams.DeviceParamsUpdateParams.typeChangeFloor -> updateParams!!["floorCode"] = content.value!!
             }
 
             ApiRepository.dealApiResult(

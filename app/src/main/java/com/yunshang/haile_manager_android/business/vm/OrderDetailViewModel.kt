@@ -17,7 +17,6 @@ import com.yunshang.haile_manager_android.data.entities.OrderDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 /**
  * Title :
@@ -79,6 +78,26 @@ class OrderDetailViewModel : BaseViewModel() {
                 1 -> orderStart(context)
                 2 -> orderRestart(context)
             }
+        })
+    }
+
+    fun cancelAppointmentOrder(context: Context, orderNo: String, reason: String) {
+        launch({
+            ApiRepository.dealApiResult(
+                mOrderRepo.cancelAppointmentOrder(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "orderNo" to orderNo,
+                            "reason" to reason,
+                        )
+                    )
+                )
+            )
+            withContext(Dispatchers.Main) {
+                SToast.showToast(context, StringUtils.getString(R.string.cancel_success))
+            }
+            LiveDataBus.post(BusEvents.ORDER_LIST_STATUS, orderId)
+            requestOrderDetail()
         })
     }
 

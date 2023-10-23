@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.ShopPositionSearch" />
+    </data>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/Font_16_333333"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/shape_top_stroke_dividing"
+        android:text="@{item.name}">
+
+    </androidx.appcompat.widget.AppCompatTextView>
+</layout>

@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/page_bg"
-        tools:context=".ui.activity.common.SearchSelectActivity">
+        tools:context=".ui.activity.shop.LocationSelectForTMapActivity">
 
         <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/location_select_title_bar"
@@ -75,7 +75,8 @@
             <com.amap.api.maps2d.MapView
                 android:id="@+id/map_location_select"
                 android:layout_width="match_parent"
-                android:layout_height="278dp"/>
+                android:layout_height="278dp"
+                android:visibility="gone"/>
 
             <com.tencent.tencentmap.mapsdk.maps.MapView
                 android:id="@+id/tmap_location_select"

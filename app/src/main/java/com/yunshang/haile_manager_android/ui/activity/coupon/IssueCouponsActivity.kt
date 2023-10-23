@@ -167,7 +167,10 @@ class IssueCouponsActivity :
             }
 
             MultiSelectBottomSheetDialog.Builder(
-                getString(R.string.coupon_device_dialog_title), list
+                getString(
+                    R.string.coupon_device_dialog_title
+                ),
+                list
             ).apply {
                 onValueSureListener =
                     object :

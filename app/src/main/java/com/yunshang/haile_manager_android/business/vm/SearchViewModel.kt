@@ -4,12 +4,14 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.apiService.OrderService
 import com.yunshang.haile_manager_android.business.apiService.ShopService
 import com.yunshang.haile_manager_android.data.common.SearchType
+import com.yunshang.haile_manager_android.data.entities.ShopAndPositionSearchEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.data.rule.ISearchSelectEntity
 import kotlinx.coroutines.Dispatchers
@@ -62,13 +64,11 @@ class SearchViewModel : BaseViewModel() {
         page: Int,
         pageSize: Int,
         showLoading: Boolean = true,
-        result1: ((responseList: MutableList<out ISearchSelectEntity>?) -> Unit)? = null,
         result2: ((responseList: ResponseList<out ISearchSelectEntity>?) -> Unit)? = null
     ) {
         launch({
             when (searchType) {
                 SearchType.Device -> searchDeviceList(page, pageSize, result2)
-                SearchType.Shop -> searchShopList(page, pageSize, result1)
                 SearchType.Order, SearchType.AppointOrder -> searchOrderList(
                     page,
                     pageSize,
@@ -107,27 +107,30 @@ class SearchViewModel : BaseViewModel() {
     /**
      * 搜索店铺列表
      */
-    private suspend fun searchShopList(
-        page: Int,
-        pageSize: Int,
-        result: ((responseList: MutableList<out ISearchSelectEntity>?) -> Unit)?
+    fun searchShopList(
+        result: ((responseList: MutableList<ShopAndPositionSearchEntity>?) -> Unit)
     ) {
-        val listWrapper = ApiRepository.dealApiResult(
-            mShopRepo.shopSearchList(
-                ApiRepository.createRequestBody(
-                    hashMapOf(
-                        "page" to page,
-                        "pageSize" to pageSize,
-                        "name" to (searchKey.value?.trim() ?: "")
+        launch({
+            val listWrapper = ApiRepository.dealApiResult(
+                mShopRepo.requestShopSearchListV2(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "name" to (searchKey.value?.trim() ?: "")
+                        )
                     )
                 )
             )
-        )
-        listWrapper?.let {
             withContext(Dispatchers.Main) {
-                result?.invoke(it)
+                result.invoke(listWrapper)
             }
-        }
+        }, {
+            withContext(Dispatchers.Main) {
+                it.message?.let {msg->
+                    SToast.showToast(msg = msg)
+                }
+                result.invoke(null)
+            }
+        })
     }
 
     /**

@@ -1,7 +1,5 @@
 package com.yunshang.haile_manager_android.ui.activity.shop
 
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Intent
 import android.graphics.Color
 import android.view.View
@@ -9,7 +7,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
-import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
@@ -29,9 +26,6 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
     ShopDetailViewModel::class.java,
     BR.vm
 ) {
-    companion object {
-        const val ShopId = "ShopId"
-    }
 
     override fun layoutId(): Int = R.layout.activity_shop_detail
 
@@ -39,7 +33,7 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
 
     override fun initIntent() {
         super.initIntent()
-        mViewModel.shopId = intent.getIntExtra(ShopId, -1)
+        mViewModel.shopId = IntentParams.ShopParams.parseShopId(intent)
     }
 
     override fun initView() {
@@ -50,12 +44,29 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
                 val show = View.VISIBLE == mBinding.llShopDetailPayConfigInfoParent.visibility
                 mBinding.llShopDetailPayConfigInfoParent.visibility =
                     if (show) View.GONE else View.VISIBLE
-                mBinding.tvShopDetailPayConfigTitle.setCompoundDrawablesWithIntrinsicBounds(
+                mBinding.tvShopDetailPayConfigStatus.setCompoundDrawablesWithIntrinsicBounds(
                     0,
                     0,
                     if (!show) R.drawable.icon_arrow_down_with_padding else R.drawable.icon_arrow_right_with_padding,
                     0
                 )
+            }
+        }
+        mBinding.tvShopDetailPayConfigStatus.setOnClickListener {
+            mViewModel.shopDetail.value?.let { detail ->
+                startActivity(Intent(
+                    this@ShopDetailActivity,
+                    ShopPaySettingsActivity::class.java
+                ).apply {
+                    detail.paymentSettings?.let { settings ->
+                        putExtras(
+                            IntentParams.ShopPaySettingsParams.pack(
+                                shopPaySettings = settings,
+                                shopId = detail.id,
+                            )
+                        )
+                    }
+                })
             }
         }
 
@@ -76,19 +87,6 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
 
         // 设置间距
         mBinding.llShopDetailAppointmentInfo.space = DimensionUtils.dip2px(this, 12f)
-
-        // 复制
-        mBinding.tvShopDetailServicePhoneCopy.setOnClickListener {
-            (getSystemService(CLIPBOARD_SERVICE) as ClipboardManager).run {
-                setPrimaryClip(
-                    ClipData.newPlainText(
-                        "",
-                        mViewModel.shopDetail.value?.serviceTelephone ?: ""
-                    )
-                )
-            }
-            SToast.showToast(this@ShopDetailActivity, "已复制到剪切板")
-        }
 
         // 运营设置
         mBinding.btnShopDetailOperationSetting.setOnClickListener {

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.yunshang.haile_manager_android.R" />
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.ShopAndPositionSelectEntity" />
+
+        <variable
+            name="showPosition"
+            type="java.lang.Boolean" />
+
+        <variable
+            name="canMultiSelect"
+            type="java.lang.Boolean" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingVertical="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ll_shop_position_selector_shop"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:onClick="@{(v)->item.changeFold()}"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_shop_position_selector_shop_fold"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginStart="12dp"
+                android:background="@color/transparent"
+                app:imgRes="@{item.fold?R.mipmap.icon_shop_position_select_open:R.mipmap.icon_shop_position_select_close}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:src="@mipmap/icon_shop_position_select_close" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="0dp"
+                android:background="#D8D8D8"
+                app:visibility="@{item.fold}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/iv_shop_position_selector_shop_fold"
+                app:layout_constraintStart_toStartOf="@id/iv_shop_position_selector_shop_fold"
+                app:layout_constraintTop_toBottomOf="@id/iv_shop_position_selector_shop_fold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/cb_shop_position_selector_shop"
+                style="@style/Font_16_333333"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@{item.name}"
+                app:layout_constraintEnd_toStartOf="@id/cb_shop_position_selector_shop_all"
+                app:layout_constraintStart_toEndOf="@id/iv_shop_position_selector_shop_fold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="门店" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/cb_shop_position_selector_shop_all"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginEnd="16dp"
+                android:alpha="@{1 == item.selectType?0.5f:1f}"
+                android:background="@color/transparent"
+                app:visibility="@{canMultiSelect}"
+                app:imgRes="@{0 == item.selectType?R.mipmap.icon_uncheck:R.mipmap.icon_checked}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:src="@mipmap/icon_uncheck" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:visibility="@{showPosition &amp;&amp; item.fold}"
+            app:layout_constraintTop_toBottomOf="@id/ll_shop_position_selector_shop">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_shop_position_selector_position_empty"
+                android:layout_width="match_parent"
+                app:visibility="@{null == item.positionList || 0 == item.positionList.size()}"
+                android:layout_height="38dp">
+
+                <View
+                    android:id="@+id/view_shop_position_selector_position_empty_dot"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginStart="12dp"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_shop_position_selector_position_empty_dot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:layout_gravity="center"
+                    app:layout_constraintStart_toStartOf="@id/view_shop_position_selector_position_empty_dot"
+                    app:layout_constraintEnd_toEndOf="@id/view_shop_position_selector_position_empty_dot"
+                    app:layout_constraintTop_toTopOf="@id/view_shop_position_selector_position_empty_dot"
+                    app:layout_constraintBottom_toBottomOf="@id/view_shop_position_selector_position_empty_dot"
+                    android:src="@drawable/shape_circle_d8d8d8" />
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="0dp"
+                    android:background="#D8D8D8"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_shop_position_selector_position_empty_dot"
+                    app:layout_constraintEnd_toEndOf="@id/view_shop_position_selector_position_empty_dot"
+                    app:layout_constraintStart_toStartOf="@id/view_shop_position_selector_position_empty_dot"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_position_selector_position_empty"
+                    style="@style/Font_16_333333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="当前店铺没有点位"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/view_shop_position_selector_position_empty_dot"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_position_selector_position_add"
+                    style="@style/Font_16_f0a258"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="点击添加点位"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_shop_position_selector_position_empty"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_shop_position_selector_position"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:visibility="@{!(null == item.positionList || 0 == item.positionList.size())}"/>
+        </FrameLayout>
+    </LinearLayout>
+</layout>

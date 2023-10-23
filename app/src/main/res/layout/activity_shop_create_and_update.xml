@@ -23,7 +23,7 @@
             android:id="@+id/shop_title_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
-            app:title="@string/shop_manage" />
+            app:title="@{null == vm.createAndUpdateEntity.id?@string/add_shop:@string/update_shop}" />
 
         <View style="@style/DividingStyle" />
 
@@ -35,30 +35,31 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 app:divider="@color/dividing_line_color"
-                app:showDividers="middle|end"
                 app:dividerPadding="16dp"
-                android:orientation="vertical">
+                app:showDividers="middle|end">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Font_12_999999"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:paddingHorizontal="16dp"
                     android:gravity="center_vertical"
-                    android:text="@string/shop_info" />
+                    android:paddingHorizontal="16dp"
+                    android:text='@{null == vm.createAndUpdateEntity.id?@string/shop_info:@string/shop_id_info(vm.createAndUpdateEntity.id)}' />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_name"
                     style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@={vm.createAndUpdateEntity.name}"
+                    android:maxLength="20"
                     app:title="@string/shop_name"
                     app:type="input" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_type"
                     style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@{vm.shopTypeValue.name}"
+                    app:itemContent="@{vm.createAndUpdateEntity.shopTypeName}"
                     app:showArrow="true"
                     app:title="@string/shop_type"
                     app:type="info" />
@@ -66,74 +67,60 @@
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_school_name"
                     style="@style/MultiTypePaddingHItemStyle"
-                    android:visibility="@{1 == vm.shopTypeValue.type?View.VISIBLE:View.GONE}"
-                    app:itemContent="@{vm.schoolNameValue}"
+                    app:itemContent="@{vm.createAndUpdateEntity.schoolNameVal}"
                     app:showArrow="true"
                     app:title="@string/school_name"
-                    app:type="info" />
+                    app:type="info"
+                    app:visibility="@{null != vm.createAndUpdateEntity.shopTypeVal &amp;&amp; 1 == vm.createAndUpdateEntity.shopTypeVal}" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_area"
                     style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@{vm.areaValue}"
+                    app:itemContent="@{vm.createAndUpdateEntity.areaValue}"
                     app:showArrow="true"
                     app:title="@string/area"
-                    app:type="info" />
+                    app:type="info"
+                    app:visibility="@{null != vm.createAndUpdateEntity.shopTypeVal}" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_mansion"
                     style="@style/MultiTypePaddingHItemStyle"
-                    android:visibility="@{1 != vm.shopTypeValue.type? View.VISIBLE:View.GONE}"
-                    app:itemContent="@{vm.mansionValue}"
+                    app:itemContent="@{vm.createAndUpdateEntity.mansionValue}"
                     app:showArrow="true"
                     app:title="@string/mansion"
-                    app:type="info" />
+                    app:type="info"
+                    app:visibility="@{null != vm.createAndUpdateEntity.shopTypeVal &amp;&amp; 1 != vm.createAndUpdateEntity.shopTypeVal}" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_location_detail"
                     style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@={vm.addressValue}"
+                    app:itemContent="@={vm.createAndUpdateEntity.addressValue}"
                     app:title="@string/location_detail"
-                    app:type="input" />
+                    app:type="input"
+                    app:visibility="@{null != vm.createAndUpdateEntity.shopTypeVal}" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/mtiv_shop_create_location_floor"
                     style="@style/MultiTypePaddingHItemStyle"
-                    android:visibility="@{1 == vm.shopTypeValue.type?View.VISIBLE:View.GONE}"
-                    app:itemContent="@={vm.createAndUpdateEntity.areaVal}"
+                    app:itemContent="@={vm.createAndUpdateEntity.mansionValue}"
                     app:title="@string/location_floor"
-                    app:type="input" />
+                    app:type="input"
+                    app:visibility="@{null != vm.createAndUpdateEntity.shopTypeVal &amp;&amp; 1 == vm.createAndUpdateEntity.shopTypeVal}" />
 
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/mtiv_shop_create_business_hours"
-                    style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@{vm.workTimeValue}"
-                    app:showArrow="true"
-                    app:title="@string/business_hours"
-                    app:type="info" />
-
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/mtiv_shop_create_business_phone"
-                    style="@style/MultiTypePaddingHItemStyle"
-                    android:inputType="phone"
-                    android:maxLength="11"
-                    app:itemContent="@={vm.createAndUpdateEntity.serviceTelephone}"
-                    app:title="@string/business_phone"
-                    app:type="input" />
-
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/mtiv_shop_create_business_type"
-                    style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@{vm.businessTypeValue}"
-                    app:showArrow="true"
-                    app:title="@string/business_type"
-                    app:type="info" />
+                <!--                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView-->
+                <!--                    android:id="@+id/mtiv_shop_create_business_type"-->
+                <!--                    style="@style/MultiTypePaddingHItemStyle"-->
+                <!--                    app:itemContent="@{vm.businessTypeValue}"-->
+                <!--                    app:showArrow="true"-->
+                <!--                    app:title="@string/business_type"-->
+                <!--                    app:type="info" />-->
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_shop_create_pay_setting"
                     style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{null == vm.createAndUpdateEntity.paymentSettings?@string/no_configure:@string/configured}"
                     app:showArrow="true"
+                    app:visibility="@{null == vm.createAndUpdateEntity.id}"
                     app:title="@string/shop_pay_config"
                     app:type="info" />
 

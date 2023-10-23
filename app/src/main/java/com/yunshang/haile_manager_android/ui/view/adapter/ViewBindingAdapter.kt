@@ -188,18 +188,8 @@ object ViewBindingAdapter {
         drawE: Int = 0,
         drawB: Int = 0
     ) {
-        setCompoundDrawablesWithIntrinsicBounds(drawS, drawT, drawE, drawB)
-    }
-
-    @BindingAdapter("drawSD", "drawTD", "drawED", "drawBD", requireAll = false)
-    @JvmStatic
-    fun TextView.divider(
-        drawS: Drawable?,
-        drawT: Drawable?,
-        drawE: Drawable?,
-        drawB: Drawable?
-    ) {
-        setCompoundDrawablesWithIntrinsicBounds(drawS, drawT, drawE, drawB)
+        if (drawS != 0 || drawT != 0 || drawE != 0 || drawB != 0)
+            setCompoundDrawablesWithIntrinsicBounds(drawS, drawT, drawE, drawB)
     }
 
     @BindingAdapter("paddingH", requireAll = false)

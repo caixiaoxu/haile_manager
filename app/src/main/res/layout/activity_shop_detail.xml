@@ -109,6 +109,13 @@
 
                     <include
                         layout="@layout/item_device_detail_base_info"
+                        app:content='@{vm.shopDetail.id+""}'
+                        app:show="@{true}"
+                        app:showCopy="@{false}"
+                        app:title="@{vm.shopDetail.getShopIdTitle}" />
+
+                    <include
+                        layout="@layout/item_device_detail_base_info"
                         app:content="@{vm.shopDetail.schoolName}"
                         app:show="@{vm.shopDetail.hasSchoolName}"
                         app:showCopy="@{false}"
@@ -128,19 +135,12 @@
                         app:showCopy="@{false}"
                         app:title="@{vm.shopDetail.getLocationTitle}" />
 
-                    <include
-                        layout="@layout/item_device_detail_base_info"
-                        app:content="@{vm.shopDetail.getBusinessNameVal}"
-                        app:show="@{vm.shopDetail.hasBusinessName}"
-                        app:showCopy="@{false}"
-                        app:title="@{vm.shopDetail.getBusinessNameTitle}" />
-
-                    <include
-                        layout="@layout/item_device_detail_base_info"
-                        app:content="@{vm.shopDetail.workTimeVal}"
-                        app:show="@{vm.shopDetail.hasWorkTime}"
-                        app:showCopy="@{false}"
-                        app:title="@{vm.shopDetail.getWorkTimeTitle}" />
+<!--                    <include-->
+<!--                        layout="@layout/item_device_detail_base_info"-->
+<!--                        app:content="@{vm.shopDetail.getBusinessNameVal}"-->
+<!--                        app:show="@{vm.shopDetail.hasBusinessName}"-->
+<!--                        app:showCopy="@{false}"-->
+<!--                        app:title="@{vm.shopDetail.getBusinessNameTitle}" />-->
 
                     <include
                         layout="@layout/item_device_detail_base_info"
@@ -164,10 +164,24 @@
                     android:layout_width="match_parent"
                     android:layout_marginTop="8dp"
                     android:background="@color/white"
-                    android:drawableEnd="@drawable/icon_arrow_right_with_padding"
                     android:text="@string/shop_pay_config"
-                    android:visibility="@{(null == vm.shopDetail.paymentSettings)?View.GONE:View.VISIBLE}"
+                    app:visibility="@{(null != vm.shopDetail.paymentSettings)}"
                     app:layout_constraintTop_toBottomOf="@id/ll_shop_detail_base_info" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_shop_detail_pay_config_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:drawableEnd="@drawable/icon_arrow_right_with_padding"
+                    android:gravity="center"
+                    android:text="@string/edit"
+                    style="@style/Font_14_f0a258"
+                    app:visibility="@{(null != vm.shopDetail.paymentSettings)}"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_shop_detail_pay_config_title"
+                    app:layout_constraintEnd_toEndOf="@id/tv_shop_detail_pay_config_title"
+                    app:layout_constraintTop_toTopOf="@id/tv_shop_detail_pay_config_title"
+                    tools:text="编辑" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_shop_detail_pay_config_info_parent"
@@ -321,47 +335,6 @@
                     android:layout_height="0dp"
                     android:visibility="@{vm.showOperationSetting?View.VISIBLE:View.GONE}"
                     app:constraint_referenced_ids="bg_shop_detail_operation_setting_parent,bg_shop_detail_operation_setting,tv_shop_detail_operation_setting_item_title,tv_shop_detail_operation_setting_item_status" />
-
-                <View
-                    android:id="@+id/bg_shop_detail_server_phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/white"
-                    app:layout_constraintTop_toBottomOf="@id/bg_shop_detail_operation_setting_parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_shop_detail_service_phone"
-                    style="@style/ShopDetailTitleItemStyle"
-                    android:layout_width="wrap_content"
-                    android:background="@color/white"
-                    android:text='@{@string/business_phone+"："+vm.shopDetail.serviceTelephone}'
-                    app:layout_constraintBottom_toBottomOf="@id/bg_shop_detail_server_phone"
-                    app:layout_constraintEnd_toStartOf="@id/tv_shop_detail_service_phone_copy"
-                    app:layout_constraintHorizontal_chainStyle="spread_inside"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/bg_shop_detail_server_phone"
-                    tools:Text="客服电话：18888888888" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_shop_detail_service_phone_copy"
-                    style="@style/ShopDetailTitleItemStyle"
-                    android:layout_width="wrap_content"
-                    android:text="@string/copy_phone"
-                    android:textColor="@color/colorPrimary"
-                    app:layout_constraintBottom_toBottomOf="@id/bg_shop_detail_server_phone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/tv_shop_detail_service_phone"
-                    app:layout_constraintTop_toTopOf="@id/bg_shop_detail_server_phone"
-                    tools:Text="客服电话：18888888888" />
-
-                <View
-                    android:layout_width="0.5dp"
-                    android:layout_height="17dp"
-                    android:background="@color/dividing_line_color"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_shop_detail_service_phone_copy"
-                    app:layout_constraintStart_toStartOf="@id/tv_shop_detail_service_phone_copy"
-                    app:layout_constraintTop_toTopOf="@id/tv_shop_detail_service_phone_copy" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

@@ -19,7 +19,8 @@ import com.yunshang.haile_manager_android.R
 data class ShopPaySettingsEntity(
     var tokenCoinAllowRefund: Int,
     val goodsSettingList: List<GoodsSetting>?,
-    var shopIdList: List<Int>? = null
+    var shopIdList: List<Int>? = null,
+    var shopId: Int? = null
 ) {
     fun setTokenCoinAllowRefund(isCheck: Boolean) {
         tokenCoinAllowRefund = if (isCheck) 1 else 0

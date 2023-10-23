@@ -73,4 +73,8 @@
         <attr name="flow_wrapMode" />
         <attr name="flow_horizontalBias" />
     </declare-styleable>
+    <declare-styleable name="StateRecyclerView">
+        <attr name="stateImg" format="reference" />
+        <attr name="stateInfo" format="string" />
+    </declare-styleable>
 </resources>

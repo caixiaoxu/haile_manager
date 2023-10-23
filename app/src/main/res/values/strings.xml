@@ -88,7 +88,7 @@
     <string name="agreement_hint">根据国家法律法规的要求，我们更新了《隐私政策》，帮助您了解我们收集、使用、存储和共享个人信息的情况，特别是我们所采集的个人信息类型及用途，同时您还可以了解到您所共享的相关权利和实现途径，以及我们为了保护好您的个人信息安全所采取的相关策略。</string>
     <string name="login_agreement_hint">已阅读并同意《隐私协议》</string>
     <string name="register_agreement_hint">已阅读并同意《海乐管家隐私协议》</string>
-<!--    <string name="register_agreement_hint">已阅读并同意《海乐管家隐私协议》 《海乐管家服务协议》 </string>-->
+    <!--    <string name="register_agreement_hint">已阅读并同意《海乐管家隐私协议》 《海乐管家服务协议》 </string>-->
 
     <string name="main_tab_home">首页</string>
     <string name="monitoring">监控</string>
@@ -138,9 +138,12 @@
     <string name="device_no">设备编号</string>
     <string name="device_search_hint">搜索设备名称/模块编码 (IMEI）/设备编码</string>
     <string name="department">所属门店</string>
+    <string name="belong_to_pt">所属点位</string>
     <string name="department_empty">请先选择门店</string>
     <string name="device_category">设备类型</string>
     <string name="device_model">设备型号</string>
+    <string name="floor">楼层</string>
+    <string name="floor_hint">请输入设备所在楼层</string>
     <string name="device_model_empty">请先选择设备型号</string>
     <string name="network_status">网络状态</string>
     <string name="device_status">设备状态</string>
@@ -159,7 +162,7 @@
     <string name="imei">IMEI</string>
     <string name="imei_title">模块编码（IMEI）</string>
     <string name="device_name">设备名称</string>
-    <string name="device_name_hint">请输入2-20个中英文名称</string>
+    <string name="device_name_hint">如：XX楼XX层XX号机</string>
     <string name="fun_configure">功能配置</string>
     <string name="add_manager_fun_configure">新增管理配置</string>
     <string name="scan_hint">扫描模块上的二维码</string>
@@ -218,6 +221,7 @@
     <string name="create_pay_code">生成付款码</string>
     <string name="update_func_price">修改功能价格</string>
     <string name="update_device_name">修改设备名称</string>
+    <string name="update_device_floor">设备所在楼层</string>
     <string name="device_transfer">设备转移</string>
     <string name="device_appointment_setting">预约设置</string>
     <string name="func_price">功能配置</string>
@@ -256,9 +260,11 @@
     <string name="update_imei_hint">请扫描添加新的模块</string>
     <string name="update_pay_code_hint">请扫描添加新的付款码</string>
     <string name="update_name_hint">请输入新的设备名称</string>
+    <string name="update_floor_hint">请输入新的楼层数</string>
     <string name="update_imei_desc">模块编码会以二维码的形式贴在模块上，找到后扫描可获取模块的IMEI编码信息。</string>
     <string name="update_pay_code_desc">付款码会以二维码的形式张贴在设备显示面板附近，用户扫描付款码进行下单洗衣等操作。</string>
     <string name="update_name_desc">设备名称与线下洗衣设备张贴的物料编号最好保持一致，出现问题方便运维人员快速找到设备。</string>
+    <string name="update_floor_desc">请填写设备在楼栋中所在的楼层数。</string>
     <string name="device_delete_hint">是否确定要解绑该设备么？</string>
     <string name="open_success">开启成功</string>
     <string name="close_success">关闭成功</string>
@@ -283,14 +289,28 @@
     <string name="shop_manage">门店管理</string>
     <string name="pt_manage">点位管理</string>
     <string name="add_shop">新增门店</string>
+    <string name="update_shop">编辑门店</string>
     <string name="add_pt">新增点位</string>
+    <string name="update_pt">编辑点位</string>
+    <string name="pt">点位</string>
+    <string name="pt_name">点位名称</string>
+    <string name="pt_detail">点位详情</string>
+    <string name="pt_id">点位编号</string>
+    <string name="orientation">定位</string>
+    <string name="sex">性别</string>
+    <string name="apply_sex">适用性别</string>
     <string name="shop_pay_setting">支付设置</string>
     <string name="shop_pay_config">支付配置</string>
     <string name="shop_search_hint">搜索门店名称</string>
-    <string name="shop_num_hint">全部%1$d家门店</string>
+    <string name="shop_position_search_hint">搜索门店或点位名称</string>
+    <string name="shop_num_hint">全部%1$d家门店，%2$d个点位</string>
     <string name="total_income">总收益</string>
     <string name="total_earnings">总收入</string>
     <string name="device_num">设备数</string>
+    <string name="pt_info">点位信息</string>
+    <string name="pt_id_info">点位编号%1$s信息</string>
+    <string name="shop_id">门店编号</string>
+    <string name="shop_id_info">门店编号%1$d信息</string>
     <string name="shop_info">门店信息</string>
     <string name="shop_name">门店名称</string>
     <string name="shop_type">门店类型</string>
@@ -317,6 +337,7 @@
     <string name="select_district">请选择区/县</string>
     <string name="shop_detail">门店详情</string>
     <string name="shop_base_info">门店基础信息</string>
+    <string name="pt_base_info">点位基础信息</string>
     <string name="creator">创建人</string>
     <string name="create_time">创建时间</string>
     <string name="appointment">预约</string>
@@ -326,8 +347,11 @@
     <string name="call_phone">拨打电话</string>
     <string name="executive_logging">执行记录</string>
     <string name="copy_success">已复制到贴粘板</string>
-    <string name="search_shop_hint">请输入门店名称</string>
+    <string name="search_shop_hint">请输入门店或点位名称</string>
     <string name="shop_delete_hint">是否确定要删除该门店么？</string>
+    <string name="pt_delete_hint">是否确定要删除该点位么？</string>
+
+    <string name="update_floor">修改楼层</string>
 
     <string name="operation_setting">运营设置</string>
     <string name="setting_title1">按流量收费，用户订单显示用量</string>
@@ -357,6 +381,7 @@
     <string name="operator">操作人员：</string>
     <string name="refund_order_no">退款单号：</string>
     <string name="refund_hint">发起退款后订单金额会按原路径返回到用户付款账户，确定要发起退款么？</string>
+    <string name="cancel_success">取消成功</string>
     <string name="refund_success">退款成功</string>
     <string name="compensate_coupon">补偿优惠券</string>
     <string name="coupon_info">券信息</string>
@@ -397,7 +422,8 @@
     <string name="can_sub_account_profit_data">可查看分账的数据</string>
     <string name="select_all">全选</string>
     <string name="no_select_all">全不选</string>
-    <string name="add_success">增加成功</string>
+    <string name="add_success">添加成功</string>
+    <string name="create_success">创建成功</string>
     <string name="update_take_charge_shop">修改负责门店</string>
     <string name="update_permission">编辑权限</string>
     <string name="delete_staff">删除人员</string>
@@ -741,6 +767,7 @@
 
     <string name="unit_yuan">元</string>
     <string name="unit_tai">台</string>
+    <string name="unit_floor">层</string>
     <string name="unit_folds">折</string>
     <string name="unit_ge">个</string>
     <string name="unit_degree_centigrade">°C</string>
@@ -834,4 +861,10 @@
     <string name="password_again">验证密码</string>
     <string name="password_again_hint">请再次输入密码</string>
     <string name="affiliation_area">所属地区</string>
+
+    <string-array name="sex_list">
+        <item>男</item>
+        <item>女</item>
+        <item>不限</item>
+    </string-array>
 </resources>

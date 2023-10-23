@@ -50,8 +50,8 @@ object ThirdLibs {
     const val amapSearch = "com.amap.api:search:latest.integration"
 
     // 腾讯地图定位
-    const val tMap = "com.tencent.map:tencent-map-vector-sdk:4.5.13"
-    const val tMapLocation = "com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.5.2"
+    const val tMap = "com.tencent.map:tencent-map-vector-sdk:5.2.1"
+    const val tMapLocation = "com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.5.3.2"
 
     //指示器
     const val indicator = "com.github.hackware1993:MagicIndicator:1.7.0"

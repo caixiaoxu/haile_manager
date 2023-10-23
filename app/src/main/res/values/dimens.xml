@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <dimen name="title_action_bar_h">44dp</dimen>
 
     <dimen name="login_input_h">44dp</dimen>
@@ -19,6 +20,8 @@
     <dimen name="switch_default_w">52dp</dimen>
     <dimen name="switch_default_h">26dp</dimen>
     <dimen name="switch_default_offset">2dp</dimen>
+
+    <dimen name="page_bottom_h">96dp</dimen>
 
     <dimen name="dimen_2">2dp</dimen>
     <dimen name="dimen_8">8dp</dimen>

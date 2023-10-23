@@ -253,6 +253,10 @@ class DeviceFunConfigurationV2Activity :
     override fun initView() {
         window.statusBarColor = Color.WHITE
 
+        IntentParams.DeviceFunConfigurationV2Params.parseTitle(intent)?.let {
+            mBinding.barDeviceFuncConfigurationTitle.setTitle(it)
+        }
+
         mBinding.itemDeviceFunConfigurationPriceModel.onSelectedEvent = {
             CommonBottomSheetDialog.Builder(
                 StringUtils.getString(R.string.pricing_manner), mViewModel.priceModelList

@@ -24,6 +24,7 @@ import com.yunshang.haile_manager_android.databinding.ItemSelectFunConfigureAttr
 import com.yunshang.haile_manager_android.databinding.ItemSelectFunConfigureV2Binding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.yunshang.haile_manager_android.ui.activity.common.ShopPositionSelectorActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 
@@ -40,7 +41,12 @@ class DeviceBatchUpdateActivity :
             item.extAttrDto.items.filter { attr -> attr.isEnabled }.let {
                 // 是否是脉冲设备
                 val isPulseDevice =
-                    DeviceCategory.isPulseDevice(GsonUtils.json2Class(mViewModel.selectDeviceModel.value?.origin, Spu::class.java)?.communicationType)
+                    DeviceCategory.isPulseDevice(
+                        GsonUtils.json2Class(
+                            mViewModel.selectDeviceModel.value?.origin,
+                            Spu::class.java
+                        )?.communicationType
+                    )
                 mItemBinding?.llSelectFunConfigureAttrs?.buildChild<ItemSelectFunConfigureAttrItemV2Binding, ExtAttrDtoItem>(
                     it
                 ) { index, childBinding, data ->
@@ -58,41 +64,32 @@ class DeviceBatchUpdateActivity :
     // 跳转回调界面
     private val startNext =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            when (it.resultCode) {
-                // 搜索店铺
-                IntentParams.SearchSelectTypeParam.ShopResultCode -> {
-                    it.data?.let { intent ->
+            it.data?.let { intent ->
+                when (it.resultCode) {
+                    // 搜索店铺
+                    IntentParams.ShopPositionSelectorParams.ShopPositionSelectorResultCode -> {
+                        IntentParams.ShopPositionSelectorParams.parseSelectList(intent)
+                            ?.let { selects ->
+                                mViewModel.selectDepartments.value = selects
+                            }
+                    }
+                    // 搜索设备型号
+                    IntentParams.SearchSelectTypeParam.DeviceModelResultCode -> {
                         intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)
                             ?.let { json ->
                                 GsonUtils.json2List(json, SearchSelectParam::class.java)
                                     ?.let { selected ->
-                                        mViewModel.selectDepartments.value = selected
+                                        mViewModel.selectDeviceModel.value = selected.firstOrNull()
+                                        mViewModel.createDeviceFunConfigure.value = null
                                     }
                             }
                     }
-                }
-                // 搜索设备型号
-                IntentParams.SearchSelectTypeParam.DeviceModelResultCode -> {
-                    it.data?.let { intent ->
-                        intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)
-                            ?.let { json ->
-                                GsonUtils.json2List(json, SearchSelectParam::class.java)
-                                    ?.let { selected ->
-                                        mViewModel.selectDeviceModel.value =
-                                            selected.firstOrNull()
-                                    }
+                    // 配置
+                    IntentParams.DeviceFunConfigurationV2Params.ResultCode -> {
+                        IntentParams.DeviceFunConfigurationV2Params.parseSkuExtAttrDto(intent)
+                            ?.let { configures ->
+                                mViewModel.createDeviceFunConfigure.value = configures
                             }
-
-                    }
-                }
-                // 配置
-                IntentParams.DeviceFunConfigurationV2Params.ResultCode -> {
-                    it.data?.let { intent ->
-                        IntentParams.DeviceFunConfigurationV2Params.parseSkuExtAttrDto(
-                            intent
-                        )?.let { configures ->
-                            mViewModel.createDeviceFunConfigure.value = configures
-                        }
                     }
                 }
             }
@@ -123,15 +120,11 @@ class DeviceBatchUpdateActivity :
             startNext.launch(
                 Intent(
                     this@DeviceBatchUpdateActivity,
-                    SearchSelectRadioActivity::class.java
+                    ShopPositionSelectorActivity::class.java
                 ).apply {
                     putExtras(
-                        IntentParams.SearchSelectTypeParam.pack(
-                            IntentParams.SearchSelectTypeParam.SearchSelectTypeShop,
-                            mustSelect = true,
-                            moreSelect = true,
-                            selectArr = mViewModel.selectDepartments.value?.map { it.id }
-                                ?.toIntArray() ?: intArrayOf()
+                        IntentParams.ShopPositionSelectorParams.pack(
+                            selectList = mViewModel.selectDepartments.value
                         )
                     )
                 }
@@ -156,8 +149,11 @@ class DeviceBatchUpdateActivity :
                         IntentParams.SearchSelectTypeParam.pack(
                             IntentParams.SearchSelectTypeParam.SearchSelectTypeDeviceModel,
                             mViewModel.selectCategory.value?.id ?: -1,
-                            shopIdList = mViewModel.selectDepartments.value?.map { it.id }
+                            shopIdList = mViewModel.selectDepartments.value?.mapNotNull { it.id }
                                 ?.toIntArray(),
+                            positionIdList = mViewModel.selectDepartments.value?.flatMap {
+                                it.positionList?.mapNotNull { item -> item.id } ?: listOf()
+                            }?.toIntArray(),
                             mustSelect = true
                         )
                     )
@@ -180,7 +176,8 @@ class DeviceBatchUpdateActivity :
                                     mViewModel.selectCategory.value?.code,
                                     spu.communicationType,
                                     GsonUtils.any2Json(spu.extAttrDto),
-                                    mViewModel.createDeviceFunConfigure.value
+                                    mViewModel.createDeviceFunConfigure.value,
+                                    title = StringUtils.getString(R.string.batch_update)
                                 )
                             )
                         }
@@ -220,6 +217,7 @@ class DeviceBatchUpdateActivity :
                     override fun onValue(data: CategoryEntity?) {
                         mViewModel.selectCategory.value = data
                         mViewModel.selectDeviceModel.value = null
+                        mViewModel.createDeviceFunConfigure.value = null
                     }
                 }
         }.build().show(supportFragmentManager)

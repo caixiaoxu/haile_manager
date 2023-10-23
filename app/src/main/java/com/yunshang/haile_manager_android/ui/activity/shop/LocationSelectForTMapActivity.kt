@@ -11,7 +11,6 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.utils.SystemPermissionHelper
-import com.lsy.framelib.utils.gson.GsonUtils
 import com.tencent.map.geolocation.TencentLocation
 import com.tencent.map.geolocation.TencentLocationListener
 import com.tencent.map.geolocation.TencentLocationManager
@@ -80,7 +79,7 @@ class LocationSelectForTMapActivity :
     private val startSearchSelect =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
-                setResult(ShopCreateAndUpdateActivity.LocationResultCode, it.data)
+                setResult(IntentParams.LocationParams.LocationResultCode, it.data)
                 finish()
             }
         }
@@ -98,11 +97,8 @@ class LocationSelectForTMapActivity :
             mBinding?.tvItemLocationSelectPoiDistance?.text = StringUtils.friendJuli(item.distance)
 
             mBinding?.root?.setOnClickListener {
-                setResult(ShopCreateAndUpdateActivity.LocationResultCode, Intent().apply {
-                    putExtra(
-                        ShopCreateAndUpdateActivity.LocationResultData,
-                        GsonUtils.any2Json(item)
-                    )
+                setResult(IntentParams.LocationParams.LocationResultCode, Intent().apply {
+                    IntentParams.LocationParams.pack(item)
                 })
                 finish()
             }
@@ -232,6 +228,12 @@ class LocationSelectForTMapActivity :
 
     override fun onLocationChanged(tencentLocation: TencentLocation, i: Int, s: String?) {
         if (i == TencentLocation.ERROR_OK && mLocationChangedListener != null) {
+            mViewModel.curLocation = PoiResultData(
+                tencentLocation.name,
+                tencentLocation.address,
+                tencentLocation.latitude,
+                tencentLocation.longitude, 0.0
+            )
             val location = Location(tencentLocation.provider)
             //设置经纬度
             location.latitude = tencentLocation.latitude

@@ -1,4 +1,4 @@
-package com.yunshang.haile_manager_android.ui.view.adapter
+package com.yunshang.haile_manager_android.ui.view.refresh
 
 import android.graphics.Rect
 import android.view.View

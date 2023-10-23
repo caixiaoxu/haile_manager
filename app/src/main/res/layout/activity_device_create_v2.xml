@@ -85,7 +85,7 @@
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_create_department"
                     style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@{vm.createDeviceShop.name}"
+                    app:itemContent="@{vm.createDeviceShop.shopAndPositionName}"
                     app:showArrow="true"
                     app:title="@string/department"
                     app:type="info" />
@@ -113,6 +113,21 @@
                     app:showArrow="true"
                     app:title="@string/device_model"
                     app:type="info" />
+
+                <View
+                    style="@style/DividingStyle"
+                    android:layout_marginHorizontal="16dp" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_device_create_floor"
+                    style="@style/MultiTypePaddingHItemStyle"
+                    app:itemContent="@={vm.floorCode}"
+                    app:title="@string/floor"
+                    android:digits="1234567890-"
+                    app:unitHint="@string/unit_floor"
+                    android:maxLength="3"
+                    android:hint="@string/floor_hint"
+                    app:type="input" />
 
                 <View
                     style="@style/DividingStyle"

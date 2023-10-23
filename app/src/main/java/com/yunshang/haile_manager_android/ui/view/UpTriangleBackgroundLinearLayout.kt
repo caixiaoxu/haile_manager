@@ -1,13 +1,11 @@
 package com.yunshang.haile_manager_android.ui.view
 
 import android.content.Context
-import android.graphics.BlurMaskFilter
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
-import android.view.View
 import android.widget.LinearLayout
 import androidx.core.view.children
 import com.lsy.framelib.utils.DimensionUtils

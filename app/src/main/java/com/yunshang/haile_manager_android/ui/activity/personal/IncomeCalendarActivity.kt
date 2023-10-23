@@ -28,7 +28,7 @@ import com.yunshang.haile_manager_android.databinding.ItemIncomeCalendarBinding
 import com.yunshang.haile_manager_android.databinding.ItemIncomeListByDayBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.order.OrderDetailActivity
-import com.yunshang.haile_manager_android.ui.view.GridSpaceItemDecoration
+import com.yunshang.haile_manager_android.ui.view.refresh.GridSpaceItemDecoration
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog

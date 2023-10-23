@@ -11,9 +11,10 @@ import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.event.BusEvents
-import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
+import com.yunshang.haile_manager_android.data.entities.ShopAndPositionSelectEntity
 import com.yunshang.haile_manager_android.data.entities.SkuFunConfigurationV2Param
+import com.yunshang.haile_manager_android.data.extend.hasVal
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.StringUtils
 import kotlinx.coroutines.Dispatchers
@@ -44,7 +45,7 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
     var codeStr: String? = null
 
     // 所属门店
-    val createDeviceShop: MutableLiveData<SearchSelectParam> by lazy {
+    val createDeviceShop: MutableLiveData<ShopAndPositionSelectEntity> by lazy {
         MutableLiveData()
     }
 
@@ -70,6 +71,11 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
     }
     val isDispenser: LiveData<Boolean> = categoryCode.map {
         DeviceCategory.isDispenser(it)
+    }
+
+    // 楼层
+    val floorCode: MutableLiveData<String> by lazy {
+        MutableLiveData()
     }
 
     // 脉冲
@@ -157,7 +163,7 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
     private fun checkSubmit(): Boolean =
         ((!imeiCode.value.isNullOrEmpty() && StringUtils.isImeiCode(imeiCode.value))
                 && (if (true != isDispenser.value) !payCode.value.isNullOrEmpty() else true)
-                && (null != createDeviceShop.value && createDeviceShop.value!!.id > 0)
+                && (null != createDeviceShop.value && createDeviceShop.value!!.id.hasVal() && !createDeviceShop.value!!.positionList.isNullOrEmpty())
                 && (null != spuId.value && spuId.value!! > 0)
                 && (null != categoryId.value && categoryId.value!! > 0)
                 && (!deviceName.value.isNullOrEmpty() && deviceName.value!!.length > 1)
@@ -242,7 +248,9 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
                             "code" to if (true == isDispenser.value) null else payCode.value,//投放器没有付款码
                             "items" to createDeviceFunConfigure.value,
                             "washerImei" to washImeiCode.value,
-                            "codeStr" to codeStr
+                            "codeStr" to codeStr,
+                            "positionId" to createDeviceShop.value?.positionList?.firstOrNull()?.id,
+                            "floorCode" to floorCode.value,
                         )
                     )
                 )

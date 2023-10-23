@@ -35,12 +35,12 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scrollbars="none"
-            app:visibility="@{null!=vm.deviceDetail}"
             app:layout_constraintBottom_toTopOf="@id/view_device_detail_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bar_device_detail_title"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintVertical_bias="0.0"
+            app:visibility="@{null!=vm.deviceDetail}">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -91,20 +91,20 @@
                         app:layout_constraintTop_toBottomOf="@id/tv_device_detail_name"
                         tools:text="已停用" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_device_detail_error"
-                        style="@style/font_10_fc7f6f"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:background="@drawable/shape_s26fc7f6f_r4"
-                        android:paddingHorizontal="4dp"
-                        android:paddingVertical="2dp"
-                        android:text="@{vm.deviceDetail.getReason}"
-                        android:visibility="@{(0 == vm.deviceDetail.getReason().length)?View.GONE:View.VISIBLE}"
-                        app:layout_constraintStart_toEndOf="@id/tv_device_detail_status"
-                        app:layout_constraintTop_toTopOf="@id/tv_device_detail_status"
-                        tools:text="排水异常0401" />
+<!--                    <androidx.appcompat.widget.AppCompatTextView-->
+<!--                        android:id="@+id/tv_device_detail_error"-->
+<!--                        style="@style/font_10_fc7f6f"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="4dp"-->
+<!--                        android:background="@drawable/shape_s26fc7f6f_r4"-->
+<!--                        android:paddingHorizontal="4dp"-->
+<!--                        android:paddingVertical="2dp"-->
+<!--                        android:text="@{vm.deviceDetail.getReason}"-->
+<!--                        android:visibility="@{(0 == vm.deviceDetail.getReason().length)?View.GONE:View.VISIBLE}"-->
+<!--                        app:layout_constraintStart_toEndOf="@id/tv_device_detail_status"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/tv_device_detail_status"-->
+<!--                        tools:text="排水异常0401" />-->
 
                     <com.yunshang.haile_manager_android.ui.view.ClickSwitchView
                         android:id="@+id/switch_device_detail_open"
@@ -319,9 +319,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="12dp"
-                        app:visibility="@{vm.showParamsSetting}"
                         android:background="@drawable/shape_sf7f7f7_r8"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        app:visibility="@{vm.showParamsSetting}">
 
                         <include
                             android:id="@+id/include_device_detail_single_pulse_quantity"
@@ -464,7 +464,7 @@
                         app:divider="@drawable/divder_efefef"
                         app:dividerPadding="12dp"
                         app:showDividers="middle"
-                        tools:visibility="gone">
+                        tools:visibility="visible">
 
                         <include
                             layout="@layout/item_device_detail_base_info"
@@ -482,10 +482,17 @@
 
                         <include
                             layout="@layout/item_device_detail_base_info"
-                            app:content="@{vm.deviceDetail.shopName}"
+                            app:content='@{vm.deviceDetail.shopName + "（"+ vm.deviceDetail.shopId +"）"}'
                             app:show="@{vm.deviceDetail.hasShop}"
                             app:showCopy="@{false}"
                             app:title="@{vm.deviceDetail.getShopTitle}" />
+
+                        <include
+                            layout="@layout/item_device_detail_base_info"
+                            app:content='@{vm.deviceDetail.positionName + "（"+ vm.deviceDetail.positionCode +"）"}'
+                            app:show="@{vm.deviceDetail.hasPosition}"
+                            app:showCopy="@{false}"
+                            app:title="@{vm.deviceDetail.getPositionTitle}" />
 
                         <include
                             layout="@layout/item_device_detail_base_info"
@@ -503,17 +510,24 @@
 
                         <include
                             layout="@layout/item_device_detail_base_info"
+                            app:content="@{vm.deviceDetail.floorCodeVal}"
+                            app:show="@{vm.deviceDetail.hasFloor}"
+                            app:showCopy="@{false}"
+                            app:title="@{vm.deviceDetail.getFloorTitle}" />
+
+                        <include
+                            layout="@layout/item_device_detail_base_info"
                             app:content="@{vm.deviceDetail.getCommunicationTypeStr}"
                             app:show="@{vm.deviceDetail.hasCommunicationType}"
                             app:showCopy="@{false}"
                             app:title="@{vm.deviceDetail.getCommunicationTypeTitle}" />
 
-                        <include
-                            layout="@layout/item_device_detail_base_info"
-                            app:content="@{vm.deviceDetail.company}"
-                            app:show="@{vm.deviceDetail.hasCompany}"
-                            app:showCopy="@{false}"
-                            app:title="@{vm.deviceDetail.getCompanyTitle}" />
+<!--                        <include-->
+<!--                            layout="@layout/item_device_detail_base_info"-->
+<!--                            app:content="@{vm.deviceDetail.company}"-->
+<!--                            app:show="@{vm.deviceDetail.hasCompany}"-->
+<!--                            app:showCopy="@{false}"-->
+<!--                            app:title="@{vm.deviceDetail.getCompanyTitle}" />-->
 
                         <include
                             layout="@layout/item_device_detail_base_info"
@@ -552,9 +566,9 @@
             android:id="@+id/view_device_detail_bottom"
             android:layout_width="match_parent"
             android:layout_height="99dp"
-            app:visibility="@{null!=vm.deviceDetail}"
             android:background="@drawable/shape_top_stroke_dividing"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:visibility="@{null!=vm.deviceDetail}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/btn_device_detail_delete"
@@ -562,8 +576,8 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:text="@string/unBind"
-            app:visibility="@{null!=vm.deviceDetail &amp;&amp; shared.hasDeviceDeletePermission}"
             app:layout_constraintEnd_toEndOf="@id/view_device_detail_bottom"
-            app:layout_constraintTop_toTopOf="@id/view_device_detail_bottom" />
+            app:layout_constraintTop_toTopOf="@id/view_device_detail_bottom"
+            app:visibility="@{null!=vm.deviceDetail &amp;&amp; shared.hasDeviceDeletePermission}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

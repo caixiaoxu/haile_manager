@@ -130,7 +130,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.yunshang.haile_manager_android.ui.view.refresh.CommonLoadMoreRecyclerView
+        <com.yunshang.haile_manager_android.ui.view.StateRecyclerView
             android:id="@+id/rv_search_list1"
             android:layout_width="match_parent"
             android:layout_height="0dp"

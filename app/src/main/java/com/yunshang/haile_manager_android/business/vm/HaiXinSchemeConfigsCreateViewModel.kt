@@ -12,7 +12,7 @@ import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.HaixinSchemeConfigCreateParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.extend.hasVal
-import com.yunshang.haile_manager_android.data.extend.isNotEmptyAmount
+import com.yunshang.haile_manager_android.data.extend.isGreaterThan0
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -82,7 +82,7 @@ class HaiXinSchemeConfigsCreateViewModel : BaseViewModel() {
                 SToast.showToast(v.context, R.string.empty_scheme_shop)
                 return@let
             }
-            if (!it.rewards.any { item -> 0 == item.status && item.reach.isNotEmptyAmount() }) {
+            if (!it.rewards.any { item -> 0 == item.status && item.reach.isGreaterThan0() }) {
                 SToast.showToast(v.context, R.string.empty_scheme_list)
                 return@let
             }

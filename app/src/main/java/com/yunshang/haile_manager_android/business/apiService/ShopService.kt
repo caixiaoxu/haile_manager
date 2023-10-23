@@ -4,10 +4,7 @@ import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.yunshang.haile_manager_android.data.entities.*
 import okhttp3.RequestBody
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 /**
  * Title : 店铺接口
@@ -20,6 +17,8 @@ import retrofit2.http.Query
  * 作者姓名 修改时间 版本号 描述
  */
 interface ShopService {
+    @GET("/position/getShopPositionCountVO")
+    suspend fun requestShopAndPositionNum(): ResponseWrapper<ShopAndPositionNumEntity>
 
     /**
      * 店铺列表接口
@@ -28,10 +27,37 @@ interface ShopService {
     suspend fun shopList(@Body body: RequestBody): ResponseWrapper<ResponseList<ShopEntity>>
 
     /**
+     * 带点位数量的店铺列表接口
+     */
+    @POST("/position/positionShopList")
+    suspend fun requestShopList(@Body body: RequestBody): ResponseWrapper<ResponseList<ShopEntity>>
+
+    /**
+     * 店铺的点位列表接口
+     */
+    @GET("/position/positionListByShopId")
+    suspend fun requestPositionList(@QueryMap params: HashMap<String, Any?>): ResponseWrapper<ResponseList<ShopPositionEntity>>
+
+    /**
+     * 店铺的点位设备数接口
+     */
+    @GET("/position/positionDeviceNum")
+    suspend fun requestPositionDeviceNum(
+        @Query("shopId") shopId: Int,
+        @Query("positionId") positionId: Int?
+    ): ResponseWrapper<MutableList<PositionDeviceNumEntity>>
+
+    /**
      * 店铺搜索列表接口
      */
     @POST("/shop/shopSearchList")
     suspend fun shopSearchList(@Body body: RequestBody): ResponseWrapper<MutableList<ShopSearchEntity>>
+
+    /**
+     * 店铺搜索列表（带点位）
+     */
+    @POST("/shop/shopSearchList/v2")
+    suspend fun requestShopSearchListV2(@Body body: RequestBody): ResponseWrapper<MutableList<ShopAndPositionSearchEntity>>
 
     /**
      * 店铺详情接口
@@ -82,6 +108,12 @@ interface ShopService {
     suspend fun shopSelectList(@Body body: RequestBody): ResponseWrapper<MutableList<ShopSelectEntity>>
 
     /**
+     * 店铺选择列表（带点位）
+     */
+    @POST("/shop/shopSelectList/v2")
+    suspend fun requestShopSelectListV2(@Body body: RequestBody): ResponseWrapper<MutableList<ShopAndPositionSelectEntity>>
+
+    /**
      * 数据统计店铺选择列表
      */
     @POST("/shop/shopDatePermissionSelectList")
@@ -118,6 +150,12 @@ interface ShopService {
     suspend fun getShopPaySettingsTemplate(@Body body: RequestBody): ResponseWrapper<ShopPaySettingsEntity>
 
     /**
+     * 修改店铺支付设置
+     */
+    @POST("/pay/createSettings")
+    suspend fun updateShopPaySettings(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
      * 绑定店铺支付设置
      */
     @POST("/pay/batchCreateSettings")
@@ -126,6 +164,36 @@ interface ShopService {
     /**
      * 保存店铺运营设置
      */
-    @POST("shop/saveOperationSetting")
+    @POST("/shop/saveOperationSetting")
     suspend fun saveOperationSetting(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 创建点位
+     */
+    @POST("/position/addSubOrganizationPosition")
+    suspend fun createPosition(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 修改点位
+     */
+    @POST("/position/updateSubOrganizationPosition")
+    suspend fun updatePosition(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 修改点位状态
+     */
+    @POST("/position/updateState")
+    suspend fun updatePositionState(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 点位详情
+     */
+    @GET("/position/getDetail")
+    suspend fun requestPositionDetail(@Query("id") positionId: Int): ResponseWrapper<ShopPositionDetailEntity>
+
+    /**
+     * 点位删除
+     */
+    @POST("/position/deleteSubOrganizationPosition")
+    suspend fun deletePosition(@Body body: RequestBody): ResponseWrapper<Any>
 }

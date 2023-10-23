@@ -86,6 +86,13 @@ class DeviceMonitoringFragment :
             }
         }
 
+        mViewModel.deviceStateCounts.observe(this) { state ->
+            state?.let {
+                mBinding.ringDeviceMonitoringChart.data =
+                    listOf(state.workPercent, state.faultPercent, state.freePercent)
+            }
+        }
+
         mViewModel.deviceStateCountPercents.observe(this) {
             mBinding.llDeviceMonitoringNumPercent.visibility(!it.isNullOrEmpty())
             if (!it.isNullOrEmpty()) {

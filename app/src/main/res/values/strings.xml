@@ -64,6 +64,8 @@
     <string name="next">下一步</string>
     <string name="manager">管理</string>
     <string name="device">设备</string>
+    <string name="idle">空闲</string>
+    <string name="running">运行</string>
 
     <string name="empty_content">暂无内容信息</string>
     <string name="empty_device">暂无设备信息</string>
@@ -91,6 +93,7 @@
     <string name="main_tab_home">首页</string>
     <string name="monitoring">监控</string>
     <string name="total_device_num">总设备数</string>
+    <string name="online_device_state">在线设备运行状态</string>
     <string name="device_category_num_percent">设备类型数量占比</string>
     <string name="statistics">统计</string>
     <string name="data_statistics">数据统计</string>

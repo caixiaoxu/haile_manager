@@ -15,5 +15,5 @@ data class DeviceStateCountPercentEntity(
     val categoryId: Int = 0,
     val categoryName: String = "",
     val count: Int = 0,
-    val percent: Double = 0.0
+    val percent: Float = 0f
 )

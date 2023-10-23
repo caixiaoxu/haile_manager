@@ -19,7 +19,7 @@
 
         <variable
             name="percent"
-            type="java.lang.Double" />
+            type="java.lang.Float" />
 
         <variable
             name="state"

@@ -12,18 +12,18 @@ package com.yunshang.haile_manager_android.data.entities
  */
 data class DeviceStateCountsEntity(
     val enableCount: Int = 0,
-    val enablePercent: Double = 0.0,
+    val enablePercent: Float = 0f,
     val faultCount: Int = 0,
-    val faultPercent: Double = 0.0,
+    val faultPercent: Float = 0f,
     val freeCount: Int = 0,
-    val freePercent: Double = 0.0,
+    val freePercent: Float = 0f,
     val offLineCount: Int = 0,
-    val offLinePercent: Double = 0.0,
+    val offLinePercent: Float = 0f,
     val onLineCount: Int = 0,
-    val onLinePercent: Double = 0.0,
+    val onLinePercent: Float = 0f,
     val totalCount: Int = 0,
     val unableCount: Int = 0,
-    val unablePercent: Double = 0.0,
+    val unablePercent: Float = 0f,
     val workCount: Int = 0,
-    val workPercent: Double = 0.0
+    val workPercent: Float = 0f
 )

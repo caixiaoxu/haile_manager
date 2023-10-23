@@ -80,7 +80,7 @@ class DeviceMonitoringViewModel : BaseViewModel() {
                 )
             )
         )?.let {
-            deviceStateCounts
+            deviceStateCounts.postValue(it)
         }
 
         ApiRepository.dealApiResult(

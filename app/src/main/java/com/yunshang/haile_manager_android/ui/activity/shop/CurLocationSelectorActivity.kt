@@ -2,15 +2,12 @@ package com.yunshang.haile_manager_android.ui.activity.shop
 
 import android.content.Intent
 import android.graphics.Color
-import android.location.Location
 import android.os.Bundle
-import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.utils.SystemPermissionHelper
-import com.lsy.framelib.utils.gson.GsonUtils
 import com.tencent.map.geolocation.TencentLocation
 import com.tencent.map.geolocation.TencentLocationListener
 import com.tencent.map.geolocation.TencentLocationManager

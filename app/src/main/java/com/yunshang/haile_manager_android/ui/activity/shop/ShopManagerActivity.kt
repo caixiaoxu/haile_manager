@@ -41,6 +41,7 @@ import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivi
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeCalendarActivity
 import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 import com.yunshang.haile_manager_android.ui.view.dialog.DeviceCategoryDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.ui.view.refresh.CustomDividerItemDecoration
@@ -367,6 +368,8 @@ class ShopManagerActivity :
                 )
             )
         }
+        //根据权限判断是否显示该功能
+        mPopupBinding.tvShopOperatePaySetting.visibility(UserPermissionUtils.hasShopPayBatchPermission())
         mPopupBinding.tvShopOperatePaySetting.setOnClickListener {
             popupWindow.dismiss()
             startActivity(Intent(

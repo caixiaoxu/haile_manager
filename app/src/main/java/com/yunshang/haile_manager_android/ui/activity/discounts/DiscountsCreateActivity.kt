@@ -87,7 +87,12 @@ class DiscountsCreateActivity :
                     this@DiscountsCreateActivity,
                     SearchSelectRadioActivity::class.java
                 ).apply {
-                    putExtras(IntentParams.SearchSelectTypeParam.pack(IntentParams.SearchSelectTypeParam.SearchSelectTypeTakeChargeShop))
+                    putExtras(
+                        IntentParams.SearchSelectTypeParam.pack(
+                            IntentParams.SearchSelectTypeParam.SearchSelectTypeTakeChargeShop,
+                            moreSelect = true
+                        )
+                    )
                 })
         }
 

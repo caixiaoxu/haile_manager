@@ -142,7 +142,7 @@ class DeviceMonitoringFragment :
                 ).apply {
                     putExtras(
                         IntentParams.SearchSelectTypeParam.pack(
-                            IntentParams.SearchSelectTypeParam.SearchSelectStatisticsShop,
+                            IntentParams.SearchSelectTypeParam.SearchSelectTypeShop,
                             mustSelect = false,
                             moreSelect = true
                         )

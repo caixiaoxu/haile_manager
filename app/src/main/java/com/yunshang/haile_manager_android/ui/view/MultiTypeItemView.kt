@@ -15,6 +15,7 @@ import androidx.core.view.setPadding
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.InverseBindingListener
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.ViewUtils
 import com.yunshang.haile_manager_android.R
 
 /**
@@ -244,7 +245,9 @@ class MultiTypeItemView @JvmOverloads constructor(
                     it.isFocusable = false
                     it.isFocusableInTouchMode = false
                     it.setOnClickListener {
-                        onSelectedEvent?.invoke()
+                        if (!ViewUtils.isFastDoubleClick()) {
+                            onSelectedEvent?.invoke()
+                        }
                     }
                 }
             },

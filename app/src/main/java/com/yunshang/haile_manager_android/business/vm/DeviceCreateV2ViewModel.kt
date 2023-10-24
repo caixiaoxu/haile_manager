@@ -221,7 +221,6 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
         deviceCommunicationType = communicationType
         deviceIgnorePayCodeFlag = ignorePayCodeFlag
         extAttrDtoJson.postValue(extJson)
-
         createDeviceFunConfigure.value = null
     }
 

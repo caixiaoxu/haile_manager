@@ -67,6 +67,24 @@
                     android:layout_height="8dp"
                     app:visibility="@{!vm.isSinglePriceModel || !vm.isSingleCalculateModel}" />
 
+                <LinearLayout
+                    android:id="@+id/ll_device_fun_configuration_channels"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:visibility="@{vm.spuExtAttrDto.channelCount > 0}"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Font_12_999999"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/dividing_line_color"
+                    android:paddingHorizontal="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="12dp"
+                    android:text="@string/channel_prompt"
+                    app:visibility="@{vm.spuExtAttrDto.channelCount > 0}" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_device_fun_configuration_list"
                     android:layout_width="match_parent"

@@ -511,17 +511,20 @@ data class SkuFunConfigurationV2Param(
     val isNewFromSpu: Boolean,
     val functionId: String,
     val functionName: String,
+    var channelCode: String? = null,
     val id: Int? = null,
 ) : BaseObservable(), ICommonBottomItemEntity {
 
-    fun mergeSku(sameParam: SkuFunConfigurationV2Param) {
+    fun mergeSku(sameParam: SkuFunConfigurationV2Param, hasChannel: Boolean) {
         name = sameParam.nameVal
         price = sameParam.price
         pulse = sameParam.pulse
         unit = sameParam.unit
         extAttr = sameParam.extAttr
         feature = sameParam.feature
-        soldState = sameParam.soldState
+        if (!hasChannel) {
+            soldState = sameParam.soldState
+        }
         extAttrDto.items.forEach {
             sameParam.extAttrDto.items.find { item -> it.id == item.id }
                 ?.let { same ->
@@ -540,6 +543,7 @@ data class SkuFunConfigurationV2Param(
                 extAttrDto.items.forEach { attr ->
                     attr.isDefault = false
                 }
+                channelCode = null
                 notifyPropertyChanged(BR.defaultOpen)
                 notifyPropertyChanged(BR.defaultUnitAmount)
             }

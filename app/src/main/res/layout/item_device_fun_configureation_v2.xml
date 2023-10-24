@@ -38,7 +38,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:checked="@={item.soldStateVal}"
                 android:thumb="@drawable/selector_default_switch_thumb"
                 app:track="@drawable/selector_default_switch_track" />
         </LinearLayout>

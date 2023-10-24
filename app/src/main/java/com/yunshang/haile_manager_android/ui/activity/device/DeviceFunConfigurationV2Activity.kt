@@ -4,11 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.utils.DimensionUtils
@@ -24,10 +26,9 @@ import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.ExtAttrDtoItem
 import com.yunshang.haile_manager_android.data.entities.SkuFunConfigurationV2Param
-import com.yunshang.haile_manager_android.databinding.ActivityDeviceFunConfigurationV2Binding
-import com.yunshang.haile_manager_android.databinding.ItemDeviceFunConfigureationV2Binding
-import com.yunshang.haile_manager_android.databinding.ItemDeviceFuncConfigurationDryerTimeBinding
-import com.yunshang.haile_manager_android.databinding.ItemDeviceFuncConfigurationWashingBinding
+import com.yunshang.haile_manager_android.data.extend.hasVal
+import com.yunshang.haile_manager_android.data.extend.isGreaterThan0
+import com.yunshang.haile_manager_android.databinding.*
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
@@ -71,6 +72,32 @@ class DeviceFunConfigurationV2Activity :
         ) { mItemBinding, pos, item ->
             val itemDryerHeight = DimensionUtils.dip2px(this, 54f)
 
+            val channelCount = mViewModel.spuExtAttrDto.value?.channelCount
+            mItemBinding?.switchDeviceFunConfigurationOpen?.isChecked = item.soldStateVal
+            mItemBinding?.switchDeviceFunConfigurationOpen?.setOnCheckedChangeListener { _, b ->
+                if (channelCount.isGreaterThan0()) {
+                    if (b) {
+                        val openCount =
+                            mViewModel.configureList.value?.count { item -> item.soldStateVal } ?: 0
+                        (openCount < channelCount!!).let { canCheck ->
+                            if (canCheck) {
+                                item.soldStateVal = true
+                            } else {
+                                SToast.showToast(
+                                    this@DeviceFunConfigurationV2Activity,
+                                    "启用功能数量不能超过通道数量，请先关闭不用的功能"
+                                )
+                            }
+                        }
+                    } else {
+                        item.soldStateVal = false
+                        refreshChannelView()
+                    }
+                } else {
+                    item.soldStateVal = b
+                }
+            }
+
             mItemBinding?.tvDeviceFunConfigurationIndex?.text =
                 StringUtils.getString(R.string.device_func_configuration_title, pos + 1)
 
@@ -99,7 +126,10 @@ class DeviceFunConfigurationV2Activity :
                     mItemBinding?.switchDeviceFunConfigurationAttrDefault?.setOnSwitchClickListener {
                         val isOpen = 1 == item.soldState
                         if (!isOpen) {
-                            SToast.showToast(this@DeviceFunConfigurationV2Activity, "未上架配置不能开启默认")
+                            SToast.showToast(
+                                this@DeviceFunConfigurationV2Activity,
+                                "未上架配置不能开启默认"
+                            )
                         }
                         !isOpen
                     }
@@ -214,11 +244,8 @@ class DeviceFunConfigurationV2Activity :
         mViewModel.categoryCode.value = IntentParams.DeviceParams.parseCategoryCode(intent)
         mViewModel.communicationType = IntentParams.DeviceParams.parseCommunicationType(intent)
 
-        mViewModel.isFirstData =
-            IntentParams.DeviceFunConfigurationV2Params.parseSkuExtAttrDto(intent)?.let {
-                mViewModel.oldConfigureList = it
-                -1
-            } ?: 0
+        mViewModel.oldConfigureList =
+            IntentParams.DeviceFunConfigurationV2Params.parseSkuExtAttrDto(intent)
 
         mViewModel.spuExtAttrDto.value =
             IntentParams.DeviceFunConfigurationV2Params.parseExtAttrDto(intent)
@@ -229,9 +256,6 @@ class DeviceFunConfigurationV2Activity :
         mViewModel.spuExtAttrDto.observe(this) {
             mViewModel.initSelectPriceModel(it)
             mViewModel.initSelectCalculateModel(it)
-            if (!mViewModel.oldConfigureList.isNullOrEmpty()) {
-                mViewModel.configureList.postValue(mViewModel.oldConfigureList)
-            }
         }
 
         mViewModel.hasAllParams.observe(this) {
@@ -247,6 +271,66 @@ class DeviceFunConfigurationV2Activity :
 
         mViewModel.configureList.observe(this) {
             mAdapter.refreshList(it, true)
+            refreshChannelView()
+        }
+    }
+
+    /**
+     * 刷新通道布局
+     */
+    private fun refreshChannelView() {
+        // 通道
+        val channelCount = mViewModel.spuExtAttrDto.value?.channelCount
+        if (channelCount.isGreaterThan0()) {
+            mBinding.llDeviceFunConfigurationChannels.removeAllViews()
+            val inflater = LayoutInflater.from(this@DeviceFunConfigurationV2Activity)
+            for (index in 1..channelCount!!) {
+                mBinding.llDeviceFunConfigurationChannels.addView(
+                    DataBindingUtil.inflate<ItemDeviceFunConfigurationChannelBinding>(
+                        inflater,
+                        R.layout.item_device_fun_configuration_channel,
+                        null,
+                        false
+                    ).also { mChildBinding ->
+                        mChildBinding.itemDeviceFunConfigurationChannel.mTitleView.text =
+                            StringUtils.getString(R.string.channel_index, index)
+                        val pos =
+                            mViewModel.configureList.value?.indexOfFirst { item -> item.channelCode == index.toString() }
+                        if (pos.hasVal()) {
+                            mChildBinding.itemDeviceFunConfigurationChannel.contentView.setText(
+                                StringUtils.getString(
+                                    R.string.device_func_configuration_title,
+                                    (pos!! + 1)
+                                )
+                            )
+                        }
+                        mChildBinding.itemDeviceFunConfigurationChannel.onSelectedEvent = {
+                            mViewModel.configureList.value?.filter { item -> item.soldStateVal && item.channelCode.isNullOrEmpty() }
+                                ?.let { list ->
+                                    if (list.isEmpty()) {
+                                        SToast.showToast(
+                                            this@DeviceFunConfigurationV2Activity,
+                                            "请先开启未配置通道的功能"
+                                        )
+                                        return@let
+                                    }
+                                    CommonBottomSheetDialog.Builder("请选择通道功能", list.toList())
+                                        .apply {
+                                            onValueSureListener = object :
+                                                CommonBottomSheetDialog.OnValueSureListener<SkuFunConfigurationV2Param> {
+                                                override fun onValue(data: SkuFunConfigurationV2Param?) {
+                                                    data?.channelCode = index.toString()
+                                                    refreshChannelView()
+                                                }
+                                            }
+                                        }.build().show(supportFragmentManager)
+                                }
+                        }
+                    }.root,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+            }
         }
     }
 

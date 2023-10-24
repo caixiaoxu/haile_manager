@@ -271,6 +271,9 @@
     <string name="price_model_type1">固定</string>
     <string name="price_model_type2">单价</string>
     <string name="calculate_model">计费模式</string>
+    <string name="channel">通道</string>
+    <string name="channel_index">通道%1$d</string>
+    <string name="channel_prompt">通道只能选择已开启的功能</string>
     <string name="configure">配置</string>
     <string name="c_app_default">C端默认选中</string>
     <string name="default_select">默认选中</string>

@@ -27,13 +27,18 @@
             android:gravity="center"
             android:text="@string/device_monitoring" />
 
-        <RadioGroup
-            android:id="@+id/rg_device_monitoring_category"
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingHorizontal="16dp" />
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp">
+
+            <RadioGroup
+                android:id="@+id/rg_device_monitoring_category"
+                android:layout_width="wrap_content"
+                android:layout_height="52dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -184,7 +189,7 @@
                             android:layout_marginStart="24dp"
                             android:drawableStart="@drawable/shape_s30c19a_dot"
                             android:drawablePadding="8dp"
-                            android:text='@{@string/idle + " " + vm.deviceStateCounts.freeCount + "/" + vm.deviceStateCounts.freePercent + "%"}'
+                            android:text='@{@string/idle + " " + vm.deviceStateCounts.freeCount + "/" + vm.deviceStateCounts.freePercentVal + "%"}'
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@id/ring_device_monitoring_chart"
                             tools:text="空闲 406/15%" />
@@ -198,7 +203,7 @@
                             android:layout_marginTop="4dp"
                             android:drawableStart="@drawable/shape_sf0a258_dot"
                             android:drawablePadding="8dp"
-                            android:text='@{@string/running + " " + vm.deviceStateCounts.workCount + "/" + vm.deviceStateCounts.workPercent + "%"}'
+                            android:text='@{@string/running + " " + vm.deviceStateCounts.workCount + "/" + vm.deviceStateCounts.workPercentVal + "%"}'
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tv_online_device_state_idle"
                             tools:text="运行 910/75%" />
@@ -212,7 +217,7 @@
                             android:layout_marginTop="4dp"
                             android:drawableStart="@drawable/shape_sfc7f6f_dot"
                             android:drawablePadding="8dp"
-                            android:text='@{@string/break_down + " " + vm.deviceStateCounts.faultCount + "/" + vm.deviceStateCounts.faultPercent + "%"}'
+                            android:text='@{@string/break_down + " " + vm.deviceStateCounts.faultCount + "/" + vm.deviceStateCounts.faultPercentVal + "%"}'
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tv_online_device_state_run"
                             tools:text="故障 72/5%" />
@@ -233,9 +238,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="8dp"
-                        android:visibility="gone"
                         android:background="@color/white"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Font_16_333333_bold"

@@ -212,6 +212,6 @@ interface DeviceService {
     @POST("/goods/getGoodsCountVO")
     suspend fun requestGoodsCounts(@Body params: RequestBody): ResponseWrapper<DeviceStateCountsEntity>
 
-    @GET("/goods/getGoodsCountPercentVOList")
-    suspend fun requestGoodsCountPercents(): ResponseWrapper<MutableList<DeviceStateCountPercentEntity>>
+    @POST("/goods/getGoodsCountPercentVOList")
+    suspend fun requestGoodsCountPercents(@Body params: RequestBody): ResponseWrapper<MutableList<DeviceStateCountPercentEntity>>
 }

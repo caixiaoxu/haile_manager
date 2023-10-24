@@ -49,14 +49,22 @@ class RingChart @JvmOverloads constructor(
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
         data?.let {
-            val rectF = RectF(ringWidth, ringWidth, width - ringWidth, height - ringWidth)
+            val size = it.filter { item -> item > 0f }.size
+            val rectF =
+                RectF(ringWidth / 2, ringWidth / 2, width - ringWidth / 2, height - ringWidth / 2)
             var start = -90f
             it.forEachIndexed { index, percent ->
-                if (percent > 0f){
+                if (percent > 0f) {
                     mPaint.color = colors[index % it.size]
                     val sweepAngle = (360 * percent)
 //                Timber.i("开始角度：$start,孤度:$sweepAngle")
-                    canvas?.drawArc(rectF, start, sweepAngle - 1, false, mPaint)
+                    canvas?.drawArc(
+                        rectF,
+                        start,
+                        sweepAngle - (if (size > 1) 1 else 0),
+                        false,
+                        mPaint
+                    )
                     start += sweepAngle
                 }
             }

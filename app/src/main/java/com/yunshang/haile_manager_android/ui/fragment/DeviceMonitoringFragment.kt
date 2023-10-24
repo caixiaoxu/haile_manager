@@ -74,7 +74,7 @@ class DeviceMonitoringFragment :
                             (childBinding.root as CheckBoldRadioButton).setOnCheckedChangeListener { _, b ->
                                 if (b) {
                                     mViewModel.selectCategory.value = deviceCategory
-                                    mViewModel.refreshGoodsCountPercents()
+                                    mViewModel.refreshGoodsCountPercents(1)
                                 }
                             }
                             childBinding.root.id = index + 1
@@ -90,7 +90,11 @@ class DeviceMonitoringFragment :
         mViewModel.deviceStateCounts.observe(this) { state ->
             state?.let {
                 mBinding.ringDeviceMonitoringChart.data =
-                    listOf(state.workPercent, state.faultPercent, state.freePercent)
+                    listOf(
+                        state.workPercent / 100,
+                        state.faultPercent / 100,
+                        state.freePercent / 100
+                    )
             }
         }
 

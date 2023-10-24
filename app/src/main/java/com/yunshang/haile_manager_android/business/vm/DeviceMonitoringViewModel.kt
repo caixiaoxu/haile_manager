@@ -5,7 +5,6 @@ import com.lsy.framelib.ui.base.BaseViewModel
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.DeviceCategoryEntity
-import com.yunshang.haile_manager_android.data.entities.DeviceEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceStateCountPercentEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceStateCountsEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
@@ -58,23 +57,18 @@ class DeviceMonitoringViewModel : BaseViewModel() {
             )?.let {
                 it.add(0, DeviceCategoryEntity(categoryName = "全部设备"))
                 categoryList.postValue(it)
-                requestGoodsCountPercents(it.firstOrNull()?.categoryId)
-            }
-            ApiRepository.dealApiResult(
-                mDeviceRepo.requestGoodsCountPercents()
-            )?.let {
-                deviceStateCountPercents.postValue(it)
+                requestGoodsCountPercents(0, it.firstOrNull()?.categoryId)
             }
         })
     }
 
-    fun refreshGoodsCountPercents() {
+    fun refreshGoodsCountPercents(type: Int = 0) {
         launch({
-            requestGoodsCountPercents(selectCategory.value?.categoryId)
+            requestGoodsCountPercents(type, selectCategory.value?.categoryId)
         })
     }
 
-    private suspend fun requestGoodsCountPercents(categoryId: Int?) {
+    private suspend fun requestGoodsCountPercents(type: Int = 0, categoryId: Int?) {
         ApiRepository.dealApiResult(
             mDeviceRepo.requestGoodsCounts(
                 ApiRepository.createRequestBody(
@@ -86,6 +80,20 @@ class DeviceMonitoringViewModel : BaseViewModel() {
             )
         )?.let {
             deviceStateCounts.postValue(it)
+        }
+
+        if (1 != type) {
+            ApiRepository.dealApiResult(
+                mDeviceRepo.requestGoodsCountPercents(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "shopIdList" to selectDepartments.value?.map { it.id }
+                        )
+                    )
+                )
+            )?.let {
+                deviceStateCountPercents.postValue(it)
+            }
         }
     }
 }

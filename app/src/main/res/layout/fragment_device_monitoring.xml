@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="com.yunshang.haile_manager_android.utils.NumberUtils" />
+
         <variable
             name="vm"
             type="com.yunshang.haile_manager_android.business.vm.DeviceMonitoringViewModel" />
@@ -30,7 +32,8 @@
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="16dp">
+            android:paddingHorizontal="16dp"
+            android:scrollbars="none">
 
             <RadioGroup
                 android:id="@+id/rg_device_monitoring_category"
@@ -189,7 +192,7 @@
                             android:layout_marginStart="24dp"
                             android:drawableStart="@drawable/shape_s30c19a_dot"
                             android:drawablePadding="8dp"
-                            android:text='@{@string/idle + " " + vm.deviceStateCounts.freeCount + "/" + vm.deviceStateCounts.freePercentVal + "%"}'
+                            android:text='@{@string/idle + " " + vm.deviceStateCounts.freeCount + "/" + NumberUtils.formatTwoDecimals(vm.deviceStateCounts.freePercent) + "%"}'
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@id/ring_device_monitoring_chart"
                             tools:text="空闲 406/15%" />
@@ -203,7 +206,7 @@
                             android:layout_marginTop="4dp"
                             android:drawableStart="@drawable/shape_sf0a258_dot"
                             android:drawablePadding="8dp"
-                            android:text='@{@string/running + " " + vm.deviceStateCounts.workCount + "/" + vm.deviceStateCounts.workPercentVal + "%"}'
+                            android:text='@{@string/running + " " + vm.deviceStateCounts.workCount + "/" + NumberUtils.formatTwoDecimals(vm.deviceStateCounts.workPercent) + "%"}'
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tv_online_device_state_idle"
                             tools:text="运行 910/75%" />
@@ -217,7 +220,7 @@
                             android:layout_marginTop="4dp"
                             android:drawableStart="@drawable/shape_sfc7f6f_dot"
                             android:drawablePadding="8dp"
-                            android:text='@{@string/break_down + " " + vm.deviceStateCounts.faultCount + "/" + vm.deviceStateCounts.faultPercentVal + "%"}'
+                            android:text='@{@string/break_down + " " + vm.deviceStateCounts.faultCount + "/" + NumberUtils.formatTwoDecimals(vm.deviceStateCounts.faultPercent) + "%"}'
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tv_online_device_state_run"
                             tools:text="故障 72/5%" />

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.yunshang.haile_manager_android.utils.NumberUtils"/>
 
         <variable
             name="itemW"
@@ -76,7 +77,7 @@
             android:id="@+id/tv_device_monitoring_detail_count_percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text='@{percent+"%"}'
+            android:text='@{NumberUtils.formatTwoDecimals(percent)+"%"}'
             android:textColor="@{1 == state?@color/color_green:@color/colorPrimary}"
             android:textSize="12sp"
             android:textStyle="bold"

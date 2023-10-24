@@ -29,11 +29,4 @@ data class DeviceStateCountsEntity(
     val unablePercent: Float = 0f,
     val workCount: Int = 0,
     val workPercent: Float = 0f
-) {
-    val freePercentVal: String
-        get() = "${StringUtils.getString(R.string.idle)} ${freeCount}/${StringUtils.format("%.2f", freePercent)}"
-    val workPercentVal: String
-        get() = StringUtils.format("%.2f", workPercent)
-    val faultPercentVal: String
-        get() = StringUtils.format("%.2f", faultPercent)
-}
+)

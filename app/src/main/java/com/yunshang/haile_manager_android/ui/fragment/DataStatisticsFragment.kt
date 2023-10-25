@@ -131,8 +131,7 @@ class DataStatisticsFragment :
                     GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
                         when (it.resultCode) {
                             IntentParams.SearchSelectTypeParam.ShopResultCode -> {
-                                mViewModel.selectDepartment.value =
-                                    if (selected.isNotEmpty()) selected[0] else null
+                                mViewModel.selectDepartments.value = selected
                                 requestData(true)
                             }
                         }
@@ -150,8 +149,13 @@ class DataStatisticsFragment :
             mBinding.includeDataStatisticsFilter.tvDataStatisticsTime.text = it
         }
 
-        mViewModel.selectDepartment.observe(this) {
-            mBinding.includeDataStatisticsFilter.tvDataStatisticsShop.text = it?.name ?: ""
+        mViewModel.selectDepartments.observe(this) {
+            mBinding.includeDataStatisticsFilter.tvDataStatisticsShop.text =
+                when (val count: Int? = it?.size) {
+                    null, 0 -> ""
+                    1 -> it.firstOrNull()?.name ?: ""
+                    else -> "${count}家门店"
+                }
         }
 
         // 设备类型
@@ -304,7 +308,9 @@ class DataStatisticsFragment :
                         IntentParams.SearchSelectTypeParam.pack(
                             IntentParams.SearchSelectTypeParam.SearchSelectStatisticsShop,
                             mustSelect = false,
-                            moreSelect = true
+                            moreSelect = true,
+                            selectArr = mViewModel.selectDepartments.value?.map { item -> item.id }
+                                ?.toIntArray() ?: intArrayOf()
                         )
                     )
                 }

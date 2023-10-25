@@ -234,6 +234,18 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tv_online_device_state_title" />
 
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="42dp"
+                            android:layout_height="wrap_content"
+                            style="@style/font_10_000000"
+                            android:gravity="center"
+                            android:text="@{vm.deviceStateCounts.chartTotal}"
+                            tools:text="在线设备\n1888"
+                            app:layout_constraintBottom_toBottomOf="@id/ring_device_monitoring_chart"
+                            app:layout_constraintEnd_toEndOf="@id/ring_device_monitoring_chart"
+                            app:layout_constraintStart_toStartOf="@id/ring_device_monitoring_chart"
+                            app:layout_constraintTop_toTopOf="@id/ring_device_monitoring_chart" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <LinearLayout
@@ -243,7 +255,7 @@
                         android:layout_marginVertical="8dp"
                         android:background="@color/white"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        app:visibility="@{null == vm.selectCategory.categoryId &amp;&amp; null != vm.deviceStateCountPercents &amp;&amp; vm.deviceStateCountPercents.size() > 0}">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Font_16_333333_bold"

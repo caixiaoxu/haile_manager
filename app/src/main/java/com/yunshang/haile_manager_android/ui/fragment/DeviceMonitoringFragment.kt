@@ -18,7 +18,6 @@ import com.yunshang.haile_manager_android.databinding.ItemDeviceMonitoringCatego
 import com.yunshang.haile_manager_android.databinding.ItemDeviceMonitoringDetailCountBinding
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.view.CheckBoldRadioButton
-import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 
 /**
  * Title :
@@ -99,7 +98,6 @@ class DeviceMonitoringFragment :
         }
 
         mViewModel.deviceStateCountPercents.observe(this) {
-            mBinding.llDeviceMonitoringNumPercent.visibility(!it.isNullOrEmpty())
             mBinding.glDeviceMonitoringNumPercent.removeAllViews()
             if (!it.isNullOrEmpty()) {
                 it.forEachIndexed { index, percent ->
@@ -125,7 +123,11 @@ class DeviceMonitoringFragment :
 
         mViewModel.selectDepartments.observe(this) {
             mBinding.tvDeviceMonitoringShop.text =
-                if (1 == it.size) it.first().name else "${it.size}家门店"
+                when (val count: Int? = it?.size) {
+                    null, 0 -> ""
+                    1 -> it.firstOrNull()?.name ?: ""
+                    else -> "${count}家门店"
+                }
             mViewModel.refreshGoodsCountPercents()
         }
     }
@@ -144,7 +146,9 @@ class DeviceMonitoringFragment :
                         IntentParams.SearchSelectTypeParam.pack(
                             IntentParams.SearchSelectTypeParam.SearchSelectTypeShop,
                             mustSelect = false,
-                            moreSelect = true
+                            moreSelect = true,
+                            selectArr = mViewModel.selectDepartments.value?.map { item -> item.id }
+                                ?.toIntArray() ?: intArrayOf()
                         )
                     )
                 }

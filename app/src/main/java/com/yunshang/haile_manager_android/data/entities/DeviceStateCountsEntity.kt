@@ -1,7 +1,11 @@
 package com.yunshang.haile_manager_android.data.entities
 
-import com.lsy.framelib.utils.StringUtils
+import android.graphics.Typeface
+import android.text.SpannableString
+import android.text.style.StyleSpan
+import android.text.style.TypefaceSpan
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.utils.StringUtils
 
 /**
  * Title :
@@ -29,4 +33,14 @@ data class DeviceStateCountsEntity(
     val unablePercent: Float = 0f,
     val workCount: Int = 0,
     val workPercent: Float = 0f
-)
+) {
+    val chartTotal: SpannableString
+        get() = "${com.lsy.framelib.utils.StringUtils.getString(R.string.online_device)}\n${totalCount}".let { content ->
+            StringUtils.formatMultiStyleStr(
+                content,
+                arrayOf(StyleSpan(Typeface.BOLD)),
+                content.length - totalCount.toString().length,
+                content.length
+            )
+        }
+}

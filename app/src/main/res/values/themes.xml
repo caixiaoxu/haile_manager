@@ -232,6 +232,11 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
+    <style name="font_10_000000">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <style name="font_10_ffffff">
         <item name="android:textSize">10sp</item>
         <item name="android:textColor">@color/white</item>

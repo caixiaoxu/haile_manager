@@ -27,8 +27,12 @@ class HaiXinSchemeConfigsCreateActivity :
             it.data?.let { intent ->
                 intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)?.let { json ->
                     GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
-                        if (selected.isNotEmpty()) {
-                            mViewModel.selectShop.value = selected[0]
+                        if (mViewModel.isBatch) {
+                            mViewModel.selectShops.value = selected
+                        } else {
+                            if (selected.isNotEmpty()) {
+                                mViewModel.selectShop.value = selected[0]
+                            }
                         }
                     }
                 }
@@ -41,6 +45,23 @@ class HaiXinSchemeConfigsCreateActivity :
 
     override fun initIntent() {
         super.initIntent()
+        mViewModel.isBatch =
+            IntentParams.HaiXinSchemeConfigsCreateParams.parseIsBatch(intent).also {
+                if (it) {
+                    startSearchSelect.launch(
+                        Intent(
+                            this@HaiXinSchemeConfigsCreateActivity,
+                            SearchSelectRadioActivity::class.java
+                        ).apply {
+                            putExtras(
+                                IntentParams.SearchSelectTypeParam.pack(
+                                    IntentParams.SearchSelectTypeParam.SearchSelectTypeShop,
+                                    moreSelect = true
+                                )
+                            )
+                        })
+                }
+            }
         IntentParams.ShopParams.parseShopId(intent).let { shopId ->
             if (-1 != shopId) {
                 mViewModel.shopId = shopId
@@ -57,9 +78,6 @@ class HaiXinSchemeConfigsCreateActivity :
 
     override fun initEvent() {
         super.initEvent()
-        if (-1 != mViewModel.shopId) {
-            mBinding.barSchemeCreateTitle.setTitle(R.string.update_scheme)
-        }
 
         mViewModel.createUpdateParams.observe(this) {
             mBinding.llSchemeCreateList.buildChild<ItemSchemeConfigCreateBinding, RewardsConfig>(
@@ -83,7 +101,7 @@ class HaiXinSchemeConfigsCreateActivity :
                         0
                     }
                 }
-                data.reach?.let { reach ->
+                data.reach.let { reach ->
                     data.reachVal.value = ((reach * 1.0 / it.exchangeRate).toString())
                 }
                 data.rewardVal.observe(this) { reach ->
@@ -97,14 +115,22 @@ class HaiXinSchemeConfigsCreateActivity :
                         0
                     }
                 }
-                data.reward?.let { reward ->
+                data.reward.let { reward ->
                     data.rewardVal.value = ((reward * 1.0 / it.exchangeRate).toString())
                 }
             }
         }
 
+        mViewModel.selectShops.observe(this) {
+            mViewModel.createUpdateParams.value?.shopIds= it?.map { item -> item.id }?.toList()
+            mBinding.itemSchemeShop.contentView.setText(it?.joinToString(",") { item -> item.name }
+                ?: "")
+            mViewModel.requestSchemeDetail()
+        }
+
         mViewModel.selectShop.observe(this) {
             mViewModel.createUpdateParams.value?.shopId = it.id
+            mBinding.itemSchemeShop.contentView.setText(it?.name ?: "")
             mViewModel.requestSchemeDetail()
         }
 
@@ -127,7 +153,16 @@ class HaiXinSchemeConfigsCreateActivity :
                     this@HaiXinSchemeConfigsCreateActivity,
                     SearchSelectRadioActivity::class.java
                 ).apply {
-                    putExtras(IntentParams.SearchSelectTypeParam.pack(IntentParams.SearchSelectTypeParam.SearchSelectTypeRechargeShop))
+                    putExtras(
+                        if (mViewModel.isBatch) {
+                            IntentParams.SearchSelectTypeParam.pack(
+                                IntentParams.SearchSelectTypeParam.SearchSelectTypeShop,
+                                moreSelect = true
+                            )
+                        } else {
+                            IntentParams.SearchSelectTypeParam.pack(IntentParams.SearchSelectTypeParam.SearchSelectTypeRechargeShop)
+                        }
+                    )
                 })
         }
     }

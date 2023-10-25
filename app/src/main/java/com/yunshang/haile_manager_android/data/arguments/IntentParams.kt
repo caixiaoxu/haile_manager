@@ -959,7 +959,19 @@ object IntentParams {
 
         fun parseReach(intent: Intent): Int = intent.getIntExtra(Reach, 0)
         fun parseReward(intent: Intent): Int = intent.getIntExtra(Reward, 0)
+    }
 
+    object HaiXinSchemeConfigsCreateParams {
+        private const val IsBatch = "isBatch"
+
+        /**
+         * 包装参数
+         */
+        fun pack(isBatch: Boolean): Bundle = Bundle().apply {
+            putBoolean(IsBatch, isBatch)
+        }
+
+        fun parseIsBatch(intent: Intent): Boolean = intent.getBooleanExtra(IsBatch, false)
     }
 
     object MessageListParams {

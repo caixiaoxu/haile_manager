@@ -190,11 +190,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="24dp"
+                            android:layout_marginTop="20dp"
                             android:drawableStart="@drawable/shape_s30c19a_dot"
                             android:drawablePadding="8dp"
                             android:text='@{@string/idle + " " + vm.deviceStateCounts.freeCount + "/" + NumberUtils.formatTwoDecimals(vm.deviceStateCounts.freePercent) + "%"}'
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/ring_device_monitoring_chart"
+                            app:layout_constraintTop_toBottomOf="@id/tv_online_device_state_title"
                             tools:text="空闲 406/15%" />
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -229,22 +230,23 @@
                             android:id="@+id/ring_device_monitoring_chart"
                             android:layout_width="112dp"
                             android:layout_height="112dp"
-                            android:layout_marginTop="20dp"
                             android:layout_marginEnd="36dp"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_online_device_state_title" />
+                            app:layout_constraintTop_toTopOf="@id/tv_online_device_state_idle"
+                            app:visibility="@{vm.deviceStateCounts.totalCount > 0}" />
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/font_10_000000"
                             android:layout_width="42dp"
                             android:layout_height="wrap_content"
-                            style="@style/font_10_000000"
                             android:gravity="center"
                             android:text="@{vm.deviceStateCounts.chartTotal}"
-                            tools:text="在线设备\n1888"
                             app:layout_constraintBottom_toBottomOf="@id/ring_device_monitoring_chart"
                             app:layout_constraintEnd_toEndOf="@id/ring_device_monitoring_chart"
                             app:layout_constraintStart_toStartOf="@id/ring_device_monitoring_chart"
-                            app:layout_constraintTop_toTopOf="@id/ring_device_monitoring_chart" />
+                            app:layout_constraintTop_toTopOf="@id/ring_device_monitoring_chart"
+                            app:visibility="@{vm.deviceStateCounts.totalCount > 0}"
+                            tools:text="在线设备\n1888" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

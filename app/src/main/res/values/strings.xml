@@ -349,7 +349,7 @@
     <string name="setting_title1">按流量收费，用户订单显示用量</string>
 
     <string name="order_manager">订单管理</string>
-    <string name="order_search_hint">搜索手机号或订单编号</string>
+    <string name="order_search_hint">搜索手机号或订单编号或设备IMEI</string>
     <string name="order_num_hint">全部%1$d笔订单</string>
     <string name="order_time">下单时间</string>
     <string name="real_income">实收：</string>

@@ -45,10 +45,6 @@ class HaiXinSchemeConfigsCreateViewModel : BaseViewModel() {
     val createUpdateParams: MutableLiveData<HaixinSchemeConfigCreateParams> =
         MutableLiveData(HaixinSchemeConfigCreateParams())
 
-    fun switchSchemeOpen(isCheck: Boolean) {
-        createUpdateParams.value?.isAllowRefund = if (isCheck) 1 else 0
-    }
-
     fun requestSchemeDetail() {
         if (!isBatch && !createUpdateParams.value?.shopId.hasVal()) return
         launch({
@@ -70,7 +66,6 @@ class HaiXinSchemeConfigsCreateViewModel : BaseViewModel() {
                         it.configName.ifEmpty { createUpdateParams.value?.configName }
                     discountProportion = it.discountProportion
                     isForceUse = it.isForceUse
-                    isAllowRefund = it.isAllowRefund
                     rewards = it.rewardsConfig
                     updateRewards = it.rewardsConfig
                     exchangeRate = it.exchangeRate

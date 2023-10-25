@@ -116,24 +116,12 @@
                     tools:text="适用店铺：1号店铺" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_scheme_detail_can_refund"
-                    style="@style/Font_14_333333_bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:background="@color/white"
-                    android:gravity="center_vertical"
-                    android:paddingHorizontal="16dp"
-                    android:text='@{@string/allow_refund + "：" + (1 == vm.schemeDetail.isAllowRefund() ? @string/open : @string/close)}'
-                    app:layout_constraintTop_toBottomOf="@id/tv_scheme_detail_shop_name"
-                    tools:text="允许退款：开启" />
-
-                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_scheme_detail_base_info"
                     style="@style/ShopDetailTitleItemStyle"
                     android:layout_width="match_parent"
                     android:layout_marginTop="8dp"
                     android:text="@string/scheme_info"
-                    app:layout_constraintTop_toBottomOf="@id/tv_scheme_detail_can_refund" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_scheme_detail_shop_name" />
 
                 <View
                     android:id="@+id/bg_scheme_detail_info"

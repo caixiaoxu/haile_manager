@@ -224,6 +224,16 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
 
     fun save(context: Context, callBack: (json: String?) -> Unit) {
         configureList.value?.let { configureList ->
+
+            val channelCount = spuExtAttrDto.value?.channelCount
+            if (channelCount.isGreaterThan0()) {
+                val openSize = configureList.count { item -> item.soldStateVal }
+                if (openSize != channelCount) {
+                    SToast.showToast(context, "功能开启数需要与通道保持一致")
+                    return@let
+                }
+            }
+
             configureList.forEachIndexed { i, param ->
                 val index = i + 1
                 if (param.nameVal.trim().isEmpty()) {

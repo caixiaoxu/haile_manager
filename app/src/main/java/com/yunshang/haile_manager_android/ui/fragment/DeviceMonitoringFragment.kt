@@ -73,16 +73,13 @@ class DeviceMonitoringFragment :
                             (childBinding.root as CheckBoldRadioButton).setOnCheckedChangeListener { _, b ->
                                 if (b) {
                                     mViewModel.selectCategory.value = deviceCategory
-                                    mViewModel.refreshGoodsCountPercents(1)
                                 }
                             }
                             childBinding.root.id = index + 1
                         }.root
                     )
                 }
-                val index =
-                    categoryList.indexOfFirst { item -> item.categoryId == mViewModel.selectCategory.value?.categoryId }
-                mBinding.rgDeviceMonitoringCategory.check(mBinding.rgDeviceMonitoringCategory[index].id)
+                mBinding.rgDeviceMonitoringCategory.check(mBinding.rgDeviceMonitoringCategory[0].id)
             }
         }
 
@@ -128,7 +125,11 @@ class DeviceMonitoringFragment :
                     1 -> it.firstOrNull()?.name ?: ""
                     else -> "${count}家门店"
                 }
-            mViewModel.refreshGoodsCountPercents()
+            mViewModel.requestShopCategory()
+        }
+
+        mViewModel.selectCategory.observe(this) {
+            mViewModel.requestGoodsCountPercents(0)
         }
     }
 
@@ -159,6 +160,6 @@ class DeviceMonitoringFragment :
     }
 
     override fun initData() {
-        mViewModel.requestData()
+        mViewModel.requestShopCategory()
     }
 }

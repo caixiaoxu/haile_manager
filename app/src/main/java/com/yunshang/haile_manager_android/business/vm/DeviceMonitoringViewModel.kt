@@ -43,7 +43,7 @@ class DeviceMonitoringViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
-    fun requestData() {
+    fun requestShopCategory() {
         launch({
             // 类目
             ApiRepository.dealApiResult(
@@ -57,43 +57,43 @@ class DeviceMonitoringViewModel : BaseViewModel() {
             )?.let {
                 it.add(0, DeviceCategoryEntity(categoryName = "全部设备"))
                 categoryList.postValue(it)
-                requestGoodsCountPercents(0, it.firstOrNull()?.categoryId)
+                selectCategory.postValue(it.firstOrNull())
             }
         })
     }
 
-    fun refreshGoodsCountPercents(type: Int = 0) {
+    fun requestGoodsCountPercents(type: Int = 0) {
         launch({
-            requestGoodsCountPercents(type, selectCategory.value?.categoryId)
-        })
-    }
-
-    private suspend fun requestGoodsCountPercents(type: Int = 0, categoryId: Int?) {
-        ApiRepository.dealApiResult(
-            mDeviceRepo.requestGoodsCounts(
-                ApiRepository.createRequestBody(
-                    hashMapOf(
-                        "shopIdList" to selectDepartments.value?.map { it.id },
-                        "categoryIdList" to categoryId?.let { listOf(categoryId) }
-                    )
-                )
-            )
-        )?.let {
-            deviceStateCounts.postValue(it)
-        }
-
-        if (1 != type) {
             ApiRepository.dealApiResult(
-                mDeviceRepo.requestGoodsCountPercents(
+                mDeviceRepo.requestGoodsCounts(
                     ApiRepository.createRequestBody(
                         hashMapOf(
-                            "shopIdList" to selectDepartments.value?.map { it.id }
+                            "shopIdList" to selectDepartments.value?.map { it.id },
+                            "categoryIdList" to selectCategory.value?.let { category ->
+                                listOf(
+                                    category.categoryId
+                                )
+                            }
                         )
                     )
                 )
             )?.let {
-                deviceStateCountPercents.postValue(it)
+                deviceStateCounts.postValue(it)
             }
-        }
+
+            if (1 != type) {
+                ApiRepository.dealApiResult(
+                    mDeviceRepo.requestGoodsCountPercents(
+                        ApiRepository.createRequestBody(
+                            hashMapOf(
+                                "shopIdList" to selectDepartments.value?.map { it.id }
+                            )
+                        )
+                    )
+                )?.let {
+                    deviceStateCountPercents.postValue(it)
+                }
+            }
+        })
     }
 }

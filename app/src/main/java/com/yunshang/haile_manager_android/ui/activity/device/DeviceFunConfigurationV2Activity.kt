@@ -74,27 +74,25 @@ class DeviceFunConfigurationV2Activity :
 
             val channelCount = mViewModel.spuExtAttrDto.value?.channelCount
             mItemBinding?.switchDeviceFunConfigurationOpen?.isChecked = item.soldStateVal
-            mItemBinding?.switchDeviceFunConfigurationOpen?.setOnCheckedChangeListener { _, b ->
-                if (channelCount.isGreaterThan0()) {
-                    if (b) {
-                        val openCount =
-                            mViewModel.configureList.value?.count { item -> item.soldStateVal } ?: 0
-                        (openCount < channelCount!!).let { canCheck ->
-                            if (canCheck) {
-                                item.soldStateVal = true
-                            } else {
-                                SToast.showToast(
-                                    this@DeviceFunConfigurationV2Activity,
-                                    "启用功能数量不能超过通道数量，请先关闭不用的功能"
-                                )
-                            }
+            mItemBinding?.switchDeviceFunConfigurationOpen?.setOnSwitchClickListener {
+                if (channelCount.isGreaterThan0() && !mItemBinding.switchDeviceFunConfigurationOpen.isChecked) {
+                    val openCount =
+                        mViewModel.configureList.value?.count { item -> item.soldStateVal } ?: 0
+                    (openCount >= channelCount!!).also { beyond ->
+                        if (beyond) {
+                            SToast.showToast(
+                                this@DeviceFunConfigurationV2Activity,
+                                "启用功能数量不能超过通道数量，请先关闭不用的功能"
+                            )
                         }
-                    } else {
-                        item.soldStateVal = false
-                        refreshChannelView()
                     }
-                } else {
-                    item.soldStateVal = b
+                } else false
+
+            }
+            mItemBinding?.switchDeviceFunConfigurationOpen?.setOnCheckedChangeListener { _, b ->
+                item.soldStateVal = b
+                if (channelCount.isGreaterThan0() && !b) {
+                    refreshChannelView()
                 }
             }
 
@@ -248,7 +246,9 @@ class DeviceFunConfigurationV2Activity :
             IntentParams.DeviceFunConfigurationV2Params.parseSkuExtAttrDto(intent)
 
         mViewModel.spuExtAttrDto.value =
-            IntentParams.DeviceFunConfigurationV2Params.parseExtAttrDto(intent)
+            IntentParams.DeviceFunConfigurationV2Params.parseExtAttrDto(intent)?.apply {
+                channelCount = 1
+            }
     }
 
     override fun initEvent() {

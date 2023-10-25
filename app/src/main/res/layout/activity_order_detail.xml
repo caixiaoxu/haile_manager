@@ -225,6 +225,7 @@
                         style="@style/Font_14_333333"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:text="@{vm.orderDetail.positionName}"
                         app:layout_constraintTop_toBottomOf="@id/tv_order_detail_shop"
                         tools:text="点位字段信息" />

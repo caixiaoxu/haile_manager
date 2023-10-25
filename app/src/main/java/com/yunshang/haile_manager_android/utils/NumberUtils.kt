@@ -19,6 +19,7 @@ object NumberUtils {
      * 保留两位小数
      */
     @JvmStatic
-    fun keepTwoDecimals(num: Double): String =
+    fun keepTwoDecimals(num: Double?): String = num?.let {
         BigDecimal(num).run { setScale(2, RoundingMode.HALF_UP).toString() }
+    } ?: ""
 }

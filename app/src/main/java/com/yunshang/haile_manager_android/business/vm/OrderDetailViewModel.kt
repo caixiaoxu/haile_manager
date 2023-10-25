@@ -17,7 +17,6 @@ import com.yunshang.haile_manager_android.data.entities.OrderDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 /**
  * Title :

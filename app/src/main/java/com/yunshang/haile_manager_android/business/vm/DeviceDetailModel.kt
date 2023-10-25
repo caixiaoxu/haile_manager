@@ -7,7 +7,6 @@ import androidx.lifecycle.map
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
-import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.event.BusEvents
@@ -253,6 +252,14 @@ class DeviceDetailModel : BaseViewModel() {
         ) {
             //排空设置事件
             jump.postValue(11)
+        },
+        ItemShowParam(
+            R.string.update_floor,
+            R.mipmap.icon_device_update,
+            MutableLiveData(UserPermissionUtils.hasDeviceUpdatePermission())
+        ) {
+            //排空设置事件
+            jump.postValue(14)
         },
     )
 

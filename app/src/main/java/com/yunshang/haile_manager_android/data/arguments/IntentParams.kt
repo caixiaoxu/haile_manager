@@ -121,6 +121,59 @@ object IntentParams {
         fun parseShopName(intent: Intent): String? = intent.getStringExtra(ShopName)
     }
 
+    object ShopPositionSelectorParams {
+        const val ShopPositionSelectorResultCode = 0x50001
+        private const val CanMultiSelect = "canMultiSelect"
+        private const val ShowPosition = "showPosition"
+        private const val CanSelectAll = "canSelectAll"
+        private const val MustSelect = "mustSelect"
+        private const val SelectList = "selectList"
+
+        /**
+         * 包装参数
+         */
+        fun pack(
+            canMultiSelect: Boolean = true,
+            showPosition: Boolean = true,
+            canSelectAll: Boolean = true,
+            mustSelect: Boolean = true,
+            selectList: MutableList<ShopAndPositionSelectEntity>? = null
+        ): Bundle =
+            Bundle().apply {
+                putBoolean(CanMultiSelect, canMultiSelect)
+                putBoolean(ShowPosition, showPosition)
+                putBoolean(CanSelectAll, canSelectAll)
+                putBoolean(MustSelect, mustSelect)
+                putString(SelectList, GsonUtils.any2Json(selectList))
+            }
+
+        fun parseCanMultiSelect(intent: Intent): Boolean =
+            intent.getBooleanExtra(CanMultiSelect, true)
+
+        fun parseShowPosition(intent: Intent): Boolean =
+            intent.getBooleanExtra(ShowPosition, true)
+
+        fun parseCanSelectAll(intent: Intent): Boolean =
+            intent.getBooleanExtra(CanSelectAll, true)
+
+        fun parseMustSelect(intent: Intent): Boolean =
+            intent.getBooleanExtra(MustSelect, true)
+
+        /**
+         * 包装返回参数
+         */
+        fun packResult(selectList: MutableList<ShopAndPositionSelectEntity>?): Bundle =
+            Bundle().apply {
+                putString(SelectList, GsonUtils.any2Json(selectList))
+            }
+
+        fun parseSelectList(intent: Intent): MutableList<ShopAndPositionSelectEntity>? =
+            GsonUtils.json2List(
+                intent.getStringExtra(SelectList),
+                ShopAndPositionSelectEntity::class.java
+            )
+    }
+
     object ProfitStatisticsParams {
         private const val ShopIds = "shopIds"
         private const val ShopName = "shopName"
@@ -162,7 +215,7 @@ object IntentParams {
                     putString(EndTime, DateTimeUtils.formatDateTime(it))
                 }
                 formType?.let {
-                    putInt(FormType,formType)
+                    putInt(FormType, formType)
                 }
             }
 
@@ -171,6 +224,7 @@ object IntentParams {
         fun parseGoodId(intent: Intent): Int = intent.getIntExtra(GoodId, -1)
         fun parseCategoryCodes(intent: Intent): Array<String>? =
             intent.getStringArrayExtra(CategoryCodes)
+
         fun parseStartTime(intent: Intent): Date? =
             DateTimeUtils.formatDateFromString(intent.getStringExtra(StartTime))
 
@@ -224,7 +278,30 @@ object IntentParams {
         fun parseVolumeVisibleState(intent: Intent): Int = intent.getIntExtra(VolumeVisibleState, 0)
     }
 
+    object ShopPositionCreateParams {
+        private const val PositionDetail = "positionDetail"
+
+        /**
+         * 包装参数
+         */
+        fun pack(
+            positionDetail: ShopPositionDetailEntity? = null,
+        ): Bundle =
+            Bundle().apply {
+                positionDetail?.let {
+                    putString(PositionDetail, GsonUtils.any2Json(positionDetail))
+                }
+            }
+
+        fun parseShopPositionDetail(intent: Intent): ShopPositionDetailEntity? =
+            GsonUtils.json2Class(
+                intent.getStringExtra(PositionDetail),
+                ShopPositionDetailEntity::class.java
+            )
+    }
+
     object ShopPaySettingsParams {
+        private const val ShopId = "shopId"
         private const val ShopIds = "shopIds"
         private const val ShopPaySettings = "shopPaySettings"
         const val ResultCode = 10003
@@ -234,7 +311,8 @@ object IntentParams {
          */
         fun pack(
             shopIds: IntArray? = null,
-            shopPaySettings: ShopPaySettingsEntity? = null
+            shopPaySettings: ShopPaySettingsEntity? = null,
+            shopId: Int? = null
         ): Bundle =
             Bundle().apply {
                 shopIds?.let {
@@ -243,8 +321,12 @@ object IntentParams {
                 shopPaySettings?.let {
                     putString(ShopPaySettings, GsonUtils.any2Json(shopPaySettings))
                 }
+                shopId?.let {
+                    putInt(ShopId, it)
+                }
             }
 
+        fun parseShopId(intent: Intent): Int = intent.getIntExtra(ShopId, -1)
         fun parseShopIds(intent: Intent): IntArray? = intent.getIntArrayExtra(ShopIds)
 
         fun parseShopPaySettings(intent: Intent): ShopPaySettingsEntity? = GsonUtils.json2Class(
@@ -265,6 +347,7 @@ object IntentParams {
         const val StaffId = "staffId"
         const val CategoryId = "categoryId"
         const val ShopIdList = "shopIdList"
+        const val PositionIdList = "positionIdList"
         const val MustSelect = "mustSelect"
         const val MoreSelect = "moreSelect"
         const val HasAll = "hasAll"
@@ -287,6 +370,7 @@ object IntentParams {
             categoryId: Int? = null,
             staffId: Int? = null,
             shopIdList: IntArray? = null,
+            positionIdList: IntArray? = null,
             mustSelect: Boolean = true,
             moreSelect: Boolean = false,
             hasAll: Boolean = false,
@@ -298,6 +382,9 @@ object IntentParams {
             }
             shopIdList?.let {
                 putIntArray(ShopIdList, shopIdList)
+            }
+            positionIdList?.let {
+                putIntArray(PositionIdList, positionIdList)
             }
             categoryId?.let {
                 putInt(CategoryId, it)
@@ -316,6 +403,7 @@ object IntentParams {
         fun parseCategoryId(intent: Intent): Int = intent.getIntExtra(CategoryId, -1)
         fun parseStaffId(intent: Intent): Int = intent.getIntExtra(StaffId, -1)
         fun parseShopIdList(intent: Intent): IntArray? = intent.getIntArrayExtra(ShopIdList)
+        fun parsePositionIdList(intent: Intent): IntArray? = intent.getIntArrayExtra(PositionIdList)
         fun parseMustSelect(intent: Intent): Boolean = intent.getBooleanExtra(MustSelect, true)
         fun parseMoreSelect(intent: Intent): Boolean = intent.getBooleanExtra(MoreSelect, false)
         fun parseHasAll(intent: Intent): Boolean = intent.getBooleanExtra(HasAll, false)
@@ -389,7 +477,7 @@ object IntentParams {
             spuId: Int? = -1,
             categoryCode: String?,
             communicationType: Int? = -1,
-            oldFuncConfiguration: List<SkuFuncConfigurationParam>?
+            oldFuncConfiguration: List<SkuFuncConfigurationParam>?,
         ): Bundle = Bundle().apply {
             putAll(
                 DeviceParams.pack(
@@ -428,6 +516,7 @@ object IntentParams {
     }
 
     object DeviceFunConfigurationV2Params {
+        private const val Title = "title"
         private const val SpuId = "spuId"
         private const val GoodId = "goodId"
         private const val ExtAttrDto = "SpuExtAttrDto"
@@ -443,7 +532,8 @@ object IntentParams {
             communicationType: Int? = -1,
             extJson: String? = null,
             skuExtAttrDto: MutableList<SkuFunConfigurationV2Param>? = null,
-            goodId: Int? = null
+            goodId: Int? = null,
+            title: String? = null
         ): Bundle = Bundle().apply {
             spuId?.let {
                 putInt(SpuId, spuId)
@@ -462,6 +552,9 @@ object IntentParams {
             }
             goodId?.let {
                 putInt(GoodId, goodId)
+            }
+            title?.let {
+                putString(Title, it)
             }
         }
 
@@ -483,6 +576,8 @@ object IntentParams {
             )
 
         fun parseGoodId(intent: Intent): Int = intent.getIntExtra(GoodId, -1)
+
+        fun parseTitle(intent: Intent): String? = intent.getStringExtra(Title)
     }
 
     object DeviceParamsUpdateParams {
@@ -493,6 +588,7 @@ object IntentParams {
         const val typeChangeModel = 0
         const val typeChangePayCode = 1
         const val typeChangeName = 2
+        const val typeChangeFloor = 3
 
         const val ResultCode = 0x70001
         const val ResultData = "ResultData"
@@ -569,7 +665,7 @@ object IntentParams {
         /**
          * 包装参数
          */
-        fun pack(shop: SearchSelectParam? = null, categoryBigType: Int = -1): Bundle =
+        fun pack(shop: ShopAndPositionSelectEntity? = null, categoryBigType: Int = -1): Bundle =
             Bundle().apply {
                 shop?.let {
                     putString(Shop, GsonUtils.any2Json(shop))
@@ -577,11 +673,32 @@ object IntentParams {
                 putInt(CategoryBigType, categoryBigType)
             }
 
-        fun parseShop(intent: Intent): SearchSelectParam? = GsonUtils.json2Class(
-            intent.getStringExtra(Shop), SearchSelectParam::class.java
+        fun parseShop(intent: Intent): ShopAndPositionSelectEntity? = GsonUtils.json2Class(
+            intent.getStringExtra(Shop), ShopAndPositionSelectEntity::class.java
         )
 
         fun parseCategoryBigType(intent: Intent): Int = intent.getIntExtra(CategoryBigType, -1)
+    }
+
+    object LocationParams {
+        const val LocationResultCode = 10002
+        private const val LocationResultData = "LocationResultData"
+
+        /**
+         * 包装参数
+         */
+        fun pack(poiData: PoiResultData?): Bundle = Bundle().apply {
+            putString(LocationResultData, GsonUtils.any2Json(poiData))
+        }
+
+        /**
+         * 解析LocationResultData
+         */
+        fun parseLocationResultData(intent: Intent): PoiResultData? =
+            GsonUtils.json2Class(
+                intent.getStringExtra(LocationResultData),
+                PoiResultData::class.java
+            )
     }
 
     object WalletParams {
@@ -872,7 +989,7 @@ object IntentParams {
         /**
          * 包装参数
          */
-        fun packCity(city: String?, shopTypeName: String?): Bundle = Bundle().apply {
+        fun packCity(city: String?, shopTypeName: String? = null): Bundle = Bundle().apply {
             city?.let {
                 putString(City, city)
             }
@@ -945,7 +1062,7 @@ object IntentParams {
             needFilter: Boolean = false,
             title: String? = null,
             autoWebTitle: Boolean = true,
-            noCache:Boolean = false,
+            noCache: Boolean = false,
         ): Bundle = Bundle().apply {
             putString(Url, url)
             putBoolean(NeedFilter, needFilter)

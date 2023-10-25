@@ -16,7 +16,6 @@ import com.amap.api.maps2d.LocationSource
 import com.amap.api.maps2d.model.*
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SystemPermissionHelper
-import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.LocationSelectViewModel
@@ -132,7 +131,7 @@ class LocationSelectForAMapActivity :
     private val startSearchSelect =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
-                setResult(ShopCreateAndUpdateActivity.LocationResultCode, it.data)
+                setResult(IntentParams.LocationParams.LocationResultCode, it.data)
                 finish()
             }
         }
@@ -150,11 +149,8 @@ class LocationSelectForAMapActivity :
             mBinding?.tvItemLocationSelectPoiDistance?.text = StringUtils.friendJuli(item.distance)
 
             mBinding?.root?.setOnClickListener {
-                setResult(ShopCreateAndUpdateActivity.LocationResultCode, Intent().apply {
-                    putExtra(
-                        ShopCreateAndUpdateActivity.LocationResultData,
-                        GsonUtils.any2Json(item)
-                    )
+                setResult(IntentParams.LocationParams.LocationResultCode, Intent().apply {
+                    putExtras(IntentParams.LocationParams.pack(item))
                 })
                 finish()
             }

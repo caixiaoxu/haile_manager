@@ -70,7 +70,11 @@ data class OrderDetailEntity(
     val appointmentTime: String,
     val canCancelReserve: Boolean,
     val endState: Int,
-    val endStateDesc: String?
+    val endStateDesc: String?,
+    val completeTime: String? = null,
+    val positionId: Int? = null,
+    val positionName: String? = null,
+    val code: String? = null
 ) : BaseObservable() {
     val createTime: String
         get() = DateTimeUtils.formatDateTimeForStr(_createTime, "yyyy-MM-dd HH:mm")

@@ -353,6 +353,17 @@ object UserPermissionUtils {
         return null != userPermissionsMap["league:shop:profit"]
     }
 
+    /**
+     * 是否含有门店批量支付设置权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasShopPayBatchPermission(): Boolean {
+        return null != userPermissionsMap["league:shop:pay:batch"]
+    }
+
     /** ------------------------门店管理权限------------------------  */
     /** ------------------------订单管理权限------------------------  */
     /**

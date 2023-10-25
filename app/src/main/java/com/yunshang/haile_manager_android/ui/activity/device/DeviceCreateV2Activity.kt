@@ -12,13 +12,11 @@ import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.SystemPermissionHelper
-import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.DeviceCreateV2ViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
-import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.ExtAttrDtoItem
 import com.yunshang.haile_manager_android.data.entities.SkuFunConfigurationV2Param
@@ -26,7 +24,7 @@ import com.yunshang.haile_manager_android.databinding.ActivityDeviceCreateV2Bind
 import com.yunshang.haile_manager_android.databinding.ItemSelectFunConfigureAttrItemV2Binding
 import com.yunshang.haile_manager_android.databinding.ItemSelectFunConfigureV2Binding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
-import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.yunshang.haile_manager_android.ui.activity.common.ShopPositionSelectorActivity
 import com.yunshang.haile_manager_android.ui.activity.common.WeChatQRCodeScanActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.utils.StringUtils
@@ -98,16 +96,13 @@ class DeviceCreateV2Activity :
     private val startNext =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
-                IntentParams.SearchSelectTypeParam.ShopResultCode -> {
-                    result.data?.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)
-                        ?.let { json ->
-                            GsonUtils.json2List(json, SearchSelectParam::class.java)
-                                ?.let { selected ->
-                                    if (selected.isNotEmpty()) {
-                                        mViewModel.createDeviceShop.value = selected[0]
-                                    }
-                                }
-                        }
+                IntentParams.ShopPositionSelectorParams.ShopPositionSelectorResultCode -> {
+                    result.data?.let {intent->
+                        IntentParams.ShopPositionSelectorParams.parseSelectList(intent)?.firstOrNull()
+                            ?.let {
+                                mViewModel.createDeviceShop.value = it
+                            }
+                    }
                 }
                 IntentParams.DeviceCategoryModelParams.ResultCode -> {
                     result.data?.let { intent ->
@@ -219,10 +214,12 @@ class DeviceCreateV2Activity :
         // 所属门店
         mBinding.itemDeviceCreateDepartment.onSelectedEvent = {
             startNext.launch(Intent(
-                this,
-                SearchSelectRadioActivity::class.java
+                this@DeviceCreateV2Activity,
+                ShopPositionSelectorActivity::class.java
             ).apply {
-                putExtras(putExtras(IntentParams.SearchSelectTypeParam.pack(IntentParams.SearchSelectTypeParam.SearchSelectTypeShop)))
+                putExtras(
+                    IntentParams.ShopPositionSelectorParams.pack(false)
+                )
             })
         }
 
@@ -243,6 +240,14 @@ class DeviceCreateV2Activity :
                 )
             )
         }
+
+        //楼层
+        mBinding.itemDeviceCreateFloor.mTailView.setTextColor(
+            ContextCompat.getColor(
+                this,
+                R.color.common_txt_color
+            )
+        )
 
         // 洗衣机IMEI
         mBinding.itemDeviceWashImei.onSelectedEvent = {

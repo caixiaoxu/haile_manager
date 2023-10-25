@@ -1,12 +1,16 @@
 package com.yunshang.haile_manager_android.business.vm
 
 import androidx.lifecycle.MutableLiveData
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.business.apiService.CategoryService
 import com.yunshang.haile_manager_android.business.apiService.ShopService
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.entities.GoodsSetting
 import com.yunshang.haile_manager_android.data.entities.ShopPaySettingsEntity
+import com.yunshang.haile_manager_android.data.extend.hasVal
+import com.yunshang.haile_manager_android.data.extend.isGreaterThan0
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -25,6 +29,7 @@ class ShopPaySettingsViewModel : BaseViewModel() {
     private val mShopRepo = ApiRepository.apiClient(ShopService::class.java)
     private val mCategoryRepo = ApiRepository.apiClient(CategoryService::class.java)
 
+    var shopId: Int? = null
     var shopIds: IntArray? = null
     var oldShopPaySettings: ShopPaySettingsEntity? = null
 
@@ -67,7 +72,7 @@ class ShopPaySettingsViewModel : BaseViewModel() {
         })
     }
 
-    fun submitPaySettings(callBack:()->Unit) {
+    fun submitPaySettings(callBack: () -> Unit) {
         if (null == shopIds || null == shopPaySettings.value) return
         launch({
             shopPaySettings.value?.shopIdList = shopIds!!.toList()
@@ -78,7 +83,28 @@ class ShopPaySettingsViewModel : BaseViewModel() {
                     )
                 )
             )
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
+                callBack()
+            }
+        })
+    }
+
+    /**
+     * 修改支付设置
+     */
+    fun updatePaySettings(callBack: () -> Unit) {
+        if (!shopId.hasVal() || null == shopPaySettings.value) return
+        launch({
+            shopPaySettings.value?.shopId = shopId
+            ApiRepository.dealApiResult(
+                mShopRepo.updateShopPaySettings(
+                    ApiRepository.createRequestBody(
+                        GsonUtils.any2Json(shopPaySettings.value)
+                    )
+                )
+            )
+            LiveDataBus.post(BusEvents.SHOP_DETAILS_STATUS, true)
+            withContext(Dispatchers.Main) {
                 callBack()
             }
         })

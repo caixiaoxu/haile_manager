@@ -38,6 +38,7 @@ import com.yunshang.haile_manager_android.databinding.PopupDeviceOperateManagerB
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.yunshang.haile_manager_android.ui.activity.common.ShopPositionSelectorActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeCalendarActivity
 import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
@@ -64,25 +65,23 @@ class DeviceManagerActivity :
     private val startSearchSelect =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             it.data?.let { intent ->
-                intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)?.let { json ->
-
-                    GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
-                        when (it.resultCode) {
-                            IntentParams.SearchSelectTypeParam.ShopResultCode -> {
-                                if (selected.isNotEmpty()) {
-                                    mViewModel.selectDepartment.value = selected[0]
-                                } else {
-                                    mViewModel.selectDepartment.value = null
-                                }
+                when (it.resultCode) {
+                    IntentParams.ShopPositionSelectorParams.ShopPositionSelectorResultCode -> {
+                        mViewModel.selectDepartment.value =
+                            IntentParams.ShopPositionSelectorParams.parseSelectList(intent)
+                    }
+                    IntentParams.SearchSelectTypeParam.DeviceModelResultCode -> {
+                        intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)
+                            ?.let { json ->
+                                GsonUtils.json2List(json, SearchSelectParam::class.java)
+                                    ?.let { selected ->
+                                        if (selected.isNotEmpty()) {
+                                            mViewModel.selectDeviceModel.value = selected[0]
+                                        } else {
+                                            mViewModel.selectDeviceModel.value = null
+                                        }
+                                    }
                             }
-                            IntentParams.SearchSelectTypeParam.DeviceModelResultCode -> {
-                                if (selected.isNotEmpty()) {
-                                    mViewModel.selectDeviceModel.value = selected[0]
-                                } else {
-                                    mViewModel.selectDeviceModel.value = null
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -158,7 +157,7 @@ class DeviceManagerActivity :
         super.initIntent()
         mViewModel.searchKey.value = IntentParams.SearchParams.parseKeyWord(intent)
         IntentParams.DeviceManagerParams.parseShop(intent)?.let {
-            mViewModel.selectDepartment.value = it
+            mViewModel.selectDepartment.value = mutableListOf(it)
         }
         mViewModel.bigCategoryType = IntentParams.DeviceManagerParams.parseCategoryBigType(intent)
     }
@@ -198,7 +197,6 @@ class DeviceManagerActivity :
             startActivity(
                 Intent(
                     this@DeviceManagerActivity,
-//                    DeviceCreateActivity::class.java
                     DeviceCreateV2Activity::class.java
                 )
             )
@@ -246,12 +244,12 @@ class DeviceManagerActivity :
             startSearchSelect.launch(
                 Intent(
                     this@DeviceManagerActivity,
-                    SearchSelectRadioActivity::class.java
+                    ShopPositionSelectorActivity::class.java
                 ).apply {
                     putExtras(
-                        IntentParams.SearchSelectTypeParam.pack(
-                            IntentParams.SearchSelectTypeParam.SearchSelectTypeShop,
-                            mustSelect = false
+                        IntentParams.ShopPositionSelectorParams.pack(
+                            mustSelect = false,
+                            selectList = mViewModel.selectDepartment.value
                         )
                     )
                 }
@@ -402,7 +400,7 @@ class DeviceManagerActivity :
      */
     private fun buildErrorStatus() {
         val list = mViewModel.errorStatus.filter { item ->
-            // 出水故障、免费设备,淋浴特有的
+            // 出水故障、免费设备,饮水特有的
             val drinking = if (mViewModel.selectDeviceCategory.value?.any() { category ->
                     DeviceCategory.isDrinking(category.code)
                 } != true) {
@@ -458,7 +456,11 @@ class DeviceManagerActivity :
 
         // 选择店铺
         mViewModel.selectDepartment.observe(this) {
-            mBinding.tvDeviceCategoryDepartment.text = it?.name ?: ""
+            mBinding.tvDeviceCategoryDepartment.text = when (val count: Int = (it?.size ?: 0)) {
+                0 -> ""
+                1 -> it?.firstOrNull()?.name ?: ""
+                else -> "已选中${count}个门店"
+            }
             mBinding.rvDeviceManagerList.requestRefresh()
         }
 

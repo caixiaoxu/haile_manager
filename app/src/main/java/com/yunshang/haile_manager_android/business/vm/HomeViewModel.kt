@@ -76,7 +76,7 @@ class HomeViewModel : BaseViewModel() {
                 UserPermissionUtils.hasDevicePermission()
             ),
             FunItem(
-                StringUtils.getString(R.string.shop_manage),
+                StringUtils.getString(R.string.pt_manage),
                 R.mipmap.icon_shop_manager,
                 ShopManagerActivity::class.java,
                 UserPermissionUtils.hasShopPermission()

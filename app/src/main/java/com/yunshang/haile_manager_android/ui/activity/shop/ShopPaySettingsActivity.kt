@@ -12,6 +12,7 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.ShopPaySettingsViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.GoodsSetting
+import com.yunshang.haile_manager_android.data.extend.hasVal
 import com.yunshang.haile_manager_android.databinding.ActivityShopPaySettingsBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopPaySettingsBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -27,6 +28,7 @@ class ShopPaySettingsActivity :
 
     override fun initIntent() {
         super.initIntent()
+        mViewModel.shopId = IntentParams.ShopPaySettingsParams.parseShopId(intent)
         mViewModel.shopIds = IntentParams.ShopPaySettingsParams.parseShopIds(intent)
         mViewModel.oldShopPaySettings =
             IntentParams.ShopPaySettingsParams.parseShopPaySettings(intent)
@@ -46,11 +48,11 @@ class ShopPaySettingsActivity :
                     childBinding.item = data
 
                     childBinding.switchShopPaySettingsNoPwdPayOpen.setOnSwitchClickListener {
-                        SToast.showToast(this@ShopPaySettingsActivity,"免密支付功能，暂不可使用")
+                        SToast.showToast(this@ShopPaySettingsActivity, "免密支付功能，暂不可使用")
                         true
                     }
                     childBinding.switchShopPaySettingsCompelNoPwdPayOpen.setOnSwitchClickListener {
-                        SToast.showToast(this@ShopPaySettingsActivity,"免密支付功能，暂不可使用")
+                        SToast.showToast(this@ShopPaySettingsActivity, "免密支付功能，暂不可使用")
                         true
                     }
                 }
@@ -62,7 +64,12 @@ class ShopPaySettingsActivity :
         window.statusBarColor = Color.WHITE
 
         mBinding.btnShopPaySettingsSave.setOnClickListener {
-            if (null == mViewModel.shopIds) {
+            if (mViewModel.shopId.hasVal()) {
+                mViewModel.updatePaySettings {
+                    SToast.showToast(this@ShopPaySettingsActivity, R.string.update_success)
+                    finish()
+                }
+            } else if (null == mViewModel.shopIds) {
                 setResult(IntentParams.ShopPaySettingsParams.ResultCode, Intent().apply {
                     mViewModel.shopPaySettings.value?.let { settings ->
                         putExtras(IntentParams.ShopPaySettingsParams.pack(shopPaySettings = settings))

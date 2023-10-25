@@ -13,6 +13,7 @@ import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceEntity
+import com.yunshang.haile_manager_android.data.entities.ShopAndPositionSelectEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.data.rule.DeviceIndicatorEntity
 import kotlinx.coroutines.Dispatchers
@@ -48,7 +49,7 @@ class DeviceManagerViewModel : BaseViewModel() {
     val mDeviceCountStr: MutableLiveData<String> = MutableLiveData()
 
     // 选择的店铺
-    val selectDepartment: MutableLiveData<SearchSelectParam> by lazy {
+    val selectDepartment: MutableLiveData<MutableList<ShopAndPositionSelectEntity>?> by lazy {
         MutableLiveData()
     }
 
@@ -145,14 +146,19 @@ class DeviceManagerViewModel : BaseViewModel() {
 
         val params = hashMapOf<String, Any>()
         // 店铺
-        selectDepartment.value?.let {
-            params["shopId"] = it.id
+        selectDepartment.value?.mapNotNull { item -> item.id }?.joinToString(",")?.let {
+            params["shopIdList"] = it
+        }
+        //点位
+        selectDepartment.value?.flatMap { item ->
+            item.positionList?.mapNotNull { pos -> pos.id } ?: listOf()
+        }?.joinToString(",")?.let {
+            params["positionIdList"] = it
         }
         // 设备类型
         selectDeviceCategory.value?.let {
             params["categoryIdList"] = it.joinToString(",") { item -> item.id.toString() }
         }
-
         val totals = ApiRepository.dealApiResult(
             mDeviceRepo.deviceStatusTotals(params)
         )
@@ -172,7 +178,7 @@ class DeviceManagerViewModel : BaseViewModel() {
         ApiRepository.dealApiResult(
             mDeviceRepo.deviceErrorStatusTotals(
                 ApiRepository.createRequestBody(
-                    getDeviceRequestParams().also { params ->
+                    getDeviceRequestParams(true).also { params ->
                         selectDeviceCategory.value?.map { it.id }?.let {
                             params["categoryIdList"] = it
                         }
@@ -205,7 +211,7 @@ class DeviceManagerViewModel : BaseViewModel() {
             }
 
             val deviceList = ApiRepository.dealApiResult(
-                mDeviceRepo.deviceList(getDeviceRequestParams().also { params ->
+                mDeviceRepo.deviceList(getDeviceRequestParams(false).also { params ->
                     params["page"] = page
                     params["pageSize"] = pageSize
                     // 异常状态
@@ -234,7 +240,7 @@ class DeviceManagerViewModel : BaseViewModel() {
         }, null, 1 == page)
     }
 
-    private fun getDeviceRequestParams(): HashMap<String, Any> {
+    private fun getDeviceRequestParams(isPost: Boolean): HashMap<String, Any> {
         return hashMapOf<String, Any>().also { params ->
             //状态
             curWorkStatus.value?.let {
@@ -245,8 +251,20 @@ class DeviceManagerViewModel : BaseViewModel() {
                 params["keywords"] = it
             }
             // 店铺
-            selectDepartment.value?.let {
-                params["shopId"] = it.id
+            val shopIdList = selectDepartment.value?.mapNotNull { item -> item.id } ?: listOf()
+            if (isPost) {
+                params["shopIdList"] = shopIdList
+            } else {
+                params["shopIdList"] = shopIdList.joinToString(",")
+            }
+            //点位
+            val positionIdList = selectDepartment.value?.flatMap { item ->
+                item.positionList?.mapNotNull { pos -> pos.id } ?: listOf()
+            } ?: listOf()
+            if (isPost) {
+                params["positionIdList"] = positionIdList
+            } else {
+                params["positionIdList"] = positionIdList.joinToString(",")
             }
             // 设备模型
             selectDeviceModel.value?.let {

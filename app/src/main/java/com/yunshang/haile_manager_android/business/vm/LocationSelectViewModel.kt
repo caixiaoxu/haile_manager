@@ -25,6 +25,8 @@ class LocationSelectViewModel : BaseViewModel() {
 
     val poiItemList: MutableLiveData<MutableList<PoiResultData>> by lazy { MutableLiveData() }
 
+    var curLocation: PoiResultData? = null
+
     /**
      * 搜索周边
      */
@@ -71,7 +73,11 @@ class LocationSelectViewModel : BaseViewModel() {
                         it.latLng.getLongitude(),
                         it.distance
                     )
-                }.toMutableList())
+                }.toMutableList().apply {
+                    curLocation?.let {
+                        add(0, it)
+                    }
+                })
             } else {
                 SToast.showToast(msg = "请求附近位置失败")
             }

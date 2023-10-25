@@ -41,6 +41,18 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.shop.ShopPositionDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.shop.CurLocationSelectorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.common.ShopPositionSelectorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.shop.ShopPositionCreateActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.personal.IncomeShopStatisticsActivity"
             android:exported="false" />
         <activity
@@ -269,12 +281,6 @@
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
-            android:name=".ui.activity.device.DeviceFunctionConfigurationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activity.device.DeviceDrinkingFunctionConfigurationActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.activity.device.DeviceShowerFunctionConfigurationActivity"
             android:exported="false" />
         <activity
@@ -282,9 +288,6 @@
             android:exported="false" />
         <activity
             android:name=".ui.activity.device.DeviceModelActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.activity.device.DeviceCreateActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.common.SearchSelectRadioActivity"

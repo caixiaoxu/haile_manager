@@ -12,4 +12,4 @@ package com.yunshang.haile_manager_android.data.extend
  */
 fun Int?.hasVal(): Boolean = null != this && -1 != this
 
-fun Int?.isNotEmptyAmount(): Boolean = null != this && 0 < this
+fun Int?.isGreaterThan0(): Boolean = null != this && 0 < this

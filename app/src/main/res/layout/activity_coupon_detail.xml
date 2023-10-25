@@ -27,8 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            app:visibility="@{null != vm.couponDetail}"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            app:visibility="@{null != vm.couponDetail}">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -82,8 +82,9 @@
                     app:title="@{@string/coupon_price}"
                     app:visibility="@{1 == vm.couponDetail.couponType}" />
 
-                <View style="@style/DividingStyleM12"
-                    app:visibility="@{3 == vm.couponDetail.couponType}"/>
+                <View
+                    style="@style/DividingStyleM12"
+                    app:visibility="@{3 == vm.couponDetail.couponType}" />
 
                 <include
                     layout="@layout/item_bank_detail_info"
@@ -91,17 +92,29 @@
                     app:title="@{@string/coupon_discount}"
                     app:visibility="@{3 == vm.couponDetail.couponType}" />
 
-                <View style="@style/DividingStyleM12"
-                    app:visibility="@{4 == vm.couponDetail.couponType}"/>
+                <View
+                    style="@style/DividingStyleM12"
+                    app:visibility="@{4 == vm.couponDetail.couponType}" />
+
+                <include
+                    layout="@layout/item_bank_detail_info"
+                    app:content="@{vm.couponDetail.specifiedPriceTypeVal}"
+                    app:title="@{@string/need_pay_or_not}"
+                    app:visibility="@{4 == vm.couponDetail.couponType}" />
+
+                <View
+                    style="@style/DividingStyleM12"
+                    app:visibility="@{4 == vm.couponDetail.couponType &amp;&amp; vm.couponDetail.specifiedPrice > 0}" />
 
                 <include
                     layout="@layout/item_bank_detail_info"
                     app:content="@{vm.couponDetail.specifiedPriceVal}"
                     app:title="@{@string/experiential_price}"
-                    app:visibility="@{4 == vm.couponDetail.couponType}" />
+                    app:visibility="@{4 == vm.couponDetail.couponType &amp;&amp; vm.couponDetail.specifiedPrice > 0}" />
 
-                <View style="@style/DividingStyleM12"
-                    app:visibility="@{3 == vm.couponDetail.couponType}"/>
+                <View
+                    style="@style/DividingStyleM12"
+                    app:visibility="@{3 == vm.couponDetail.couponType}" />
 
                 <include
                     layout="@layout/item_bank_detail_info"
@@ -109,8 +122,9 @@
                     app:title="@{@string/relief_ceiling}"
                     app:visibility="@{3 == vm.couponDetail.couponType}" />
 
-                <View style="@style/DividingStyleM12"
-                    app:visibility="@{1 == vm.couponDetail.couponType || 3 == vm.couponDetail.couponType}"/>
+                <View
+                    style="@style/DividingStyleM12"
+                    app:visibility="@{1 == vm.couponDetail.couponType || 3 == vm.couponDetail.couponType}" />
 
                 <include
                     layout="@layout/item_bank_detail_info"

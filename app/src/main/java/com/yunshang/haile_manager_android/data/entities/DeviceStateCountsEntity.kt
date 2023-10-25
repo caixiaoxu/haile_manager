@@ -35,12 +35,22 @@ data class DeviceStateCountsEntity(
     val workPercent: Float = 0f
 ) {
     val chartTotal: SpannableString
-        get() = "${com.lsy.framelib.utils.StringUtils.getString(R.string.online_device)}\n${totalCount}".let { content ->
-            StringUtils.formatMultiStyleStr(
-                content,
-                arrayOf(StyleSpan(Typeface.BOLD)),
-                content.length - totalCount.toString().length,
-                content.length
+        get() = if (0 == totalCount) {
+            SpannableString(
+                "${com.lsy.framelib.utils.StringUtils.getString(R.string.online_device)}\n暂无数据"
             )
+        } else {
+            "${
+                com.lsy.framelib.utils.StringUtils.getString(
+                    R.string.online_device
+                )
+            }\n${totalCount}".let { content ->
+                StringUtils.formatMultiStyleStr(
+                    content,
+                    arrayOf(StyleSpan(Typeface.BOLD)),
+                    content.length - totalCount.toString().length,
+                    content.length
+                )
+            }
         }
 }

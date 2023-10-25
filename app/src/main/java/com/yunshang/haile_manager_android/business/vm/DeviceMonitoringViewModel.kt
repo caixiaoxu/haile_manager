@@ -69,10 +69,8 @@ class DeviceMonitoringViewModel : BaseViewModel() {
                     ApiRepository.createRequestBody(
                         hashMapOf(
                             "shopIdList" to selectDepartments.value?.map { it.id },
-                            "categoryIdList" to selectCategory.value?.let { category ->
-                                listOf(
-                                    category.categoryId
-                                )
+                            "categoryIdList" to selectCategory.value?.categoryId?.let { categoryId ->
+                                listOf(categoryId)
                             }
                         )
                     )

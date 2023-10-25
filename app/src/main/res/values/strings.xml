@@ -500,8 +500,13 @@
         <item>折扣券</item>
         <item>体验券</item>
     </string-array>
+    <string-array name="experiential_coupon_type">
+        <item>免费</item>
+        <item>收费</item>
+    </string-array>
     <string name="coupon_price">券金额</string>
     <string name="coupon_price_hint">输入范围0.01-100.00</string>
+    <string name="need_pay_or_not">是否收费</string>
     <string name="experiential_price">体验价</string>
     <string name="experiential_price_hint">输入范围0-100.00</string>
     <string name="coupon_discount">券折扣</string>

@@ -151,6 +151,7 @@
     <string name="device_model_search_hint">搜索设备型号</string>
     <string name="device_info">设备信息</string>
     <string name="pay_code">付款码</string>
+    <string name="time_of_duration">持续时间</string>
     <string name="imei">IMEI</string>
     <string name="imei_title">模块编码（IMEI）</string>
     <string name="device_name">设备名称</string>

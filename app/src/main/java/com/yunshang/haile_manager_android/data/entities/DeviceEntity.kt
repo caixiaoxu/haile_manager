@@ -53,6 +53,7 @@ data class DeviceEntity(
     val faultFlag: Boolean,//是否故障
     val faultReason: String,//故障原因
     val freeFlag: Boolean,//是否免费
+    val format: String,//持续时间
 ) : ISearchSelectEntity, IMultiTypeEntity {
 
     fun getDeviceCategoryAndNo() = if (id > 0)

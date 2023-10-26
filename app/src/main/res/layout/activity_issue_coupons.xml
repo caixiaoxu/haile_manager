@@ -78,6 +78,16 @@
                     app:visibility="@{1 == vm.coupon.couponTypeVal}" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
+                    android:id="@+id/item_issue_coupons_experiential_price_type"
+                    style="@style/MultiTypeItemStyle"
+                    app:itemContent="@{vm.selectExperientialCouponType.name}"
+                    app:showArrow="true"
+                    app:title="@string/need_pay_or_not"
+                    app:titleW="88dp"
+                    app:type="info"
+                    app:visibility="@{4 == vm.coupon.couponTypeVal}" />
+
+                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_issue_coupons_experiential_price"
                     style="@style/MultiTypeItemStyle"
                     android:hint="@string/experiential_price_hint"
@@ -87,7 +97,7 @@
                     app:titleW="88dp"
                     app:type="input"
                     app:unitHint="@string/unit_yuan_hint"
-                    app:visibility="@{4 == vm.coupon.couponTypeVal}" />
+                    app:visibility="@{4 == vm.coupon.couponTypeVal &amp;&amp; 1 == vm.selectExperientialCouponType.id}" />
 
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_issue_coupons_percentage"

@@ -40,7 +40,7 @@ data class CouponEntity(
     val shopIds: List<Int>,
     val shopNames: List<String>,
     val shopVOs: List<CouponShopVO>?,
-    val specifiedPrice: String,
+    val specifiedPrice: Double,
     val startAt: String,
     val state: Int,
     val subjectId: Int,
@@ -63,7 +63,9 @@ data class CouponEntity(
 
     val title: String
         get() = "${StringUtils.getStringArray(R.array.coupon_type)[couponType]} ${
-            if (3 == couponType) percentage + "折" else if (4 == couponType) specifiedPrice + "元" else reduce + "元"
+            if (3 == couponType) percentage + "折" else if (4 == couponType) {
+                if (0.0 == specifiedPrice) "免费" else "${specifiedPrice}元"
+            } else reduce + "元"
         }"
 
     val user: String

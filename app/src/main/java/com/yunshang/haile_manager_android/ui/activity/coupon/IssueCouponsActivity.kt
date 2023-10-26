@@ -64,6 +64,10 @@ class IssueCouponsActivity :
         mViewModel.jump.observe(this) {
             finish()
         }
+
+        mViewModel.selectExperientialCouponType.observe(this) {
+            mViewModel.coupon.value?.specifiedPriceVal = if (0 == it?.id) 0.0.toString() else ""
+        }
     }
 
     override fun initView() {
@@ -105,6 +109,22 @@ class IssueCouponsActivity :
                                 refreshCategoryName()
                             }
                         }
+                    }
+                }
+            }.build().show(supportFragmentManager)
+        }
+
+        // 体验券是否收费
+        mBinding.itemIssueCouponsExperientialPriceType.onSelectedEvent = {
+            CommonBottomSheetDialog.Builder(
+                getString(
+                    R.string.need_pay_or_not
+                ), mViewModel.experientialCouponTypeList
+            ).apply {
+                onValueSureListener = object :
+                    CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
+                    override fun onValue(data: SearchSelectParam?) {
+                        mViewModel.selectExperientialCouponType.value = data
                     }
                 }
             }.build().show(supportFragmentManager)

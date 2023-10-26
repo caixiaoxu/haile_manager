@@ -53,13 +53,16 @@ data class DeviceEntity(
     val faultFlag: Boolean,//是否故障
     val faultReason: String,//故障原因
     val freeFlag: Boolean,//是否免费
-    val format: String,//持续时间
+    val format: String?,//持续时间
 ) : ISearchSelectEntity, IMultiTypeEntity {
 
     fun getDeviceCategoryAndNo() = if (id > 0)
         "${StringUtils.getString(R.string.device_category_no)}：${categoryName} $id"
     else
         "${StringUtils.getString(R.string.device_category)}：${categoryName}"
+
+    val formatVal: String
+        get() = if (format.isNullOrEmpty()) "" else StringUtils.getString(R.string.time_of_duration) + format
 
     /**
      * 获取类型

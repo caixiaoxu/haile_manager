@@ -750,6 +750,8 @@
     <string name="click_update">点击升级</string>
 
     <string name="change_account">切换账号</string>
+    <string name="add_account">添加账号</string>
+    <string name="change_organization">切换组织</string>
     <string name="cur_account">当前登录</string>
 
     <string name="logout">退出登录</string>

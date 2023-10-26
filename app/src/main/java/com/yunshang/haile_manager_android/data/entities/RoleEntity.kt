@@ -1,6 +1,6 @@
 package com.yunshang.haile_manager_android.data.entities
 
-import com.yunshang.haile_manager_android.data.rule.ICommonBottomItemEntity
+import com.yunshang.haile_manager_android.data.model.SPRepository
 
 /**
  * Title :
@@ -18,8 +18,12 @@ data class RoleEntity(
     val id: Int,
     val `property`: Int,
     val realName: String,
-    val tagName: String
-) : ICommonBottomItemEntity {
-    override fun getTitle(): String = realName + if (tagName.isEmpty()) "" else ":${tagName}"
-
+    val tagName: String,
+    val organizationId: Int,
+    val organizationName: String,
+)  {
+    /**
+     * 是否是当前组织
+     */
+    fun isCurOrganization():Boolean = id == SPRepository.loginInfo?.userId
 }

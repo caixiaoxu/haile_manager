@@ -229,14 +229,12 @@ class SharedViewModel : ViewModel() {
     /**
      * 切换角色
      */
-    fun swapUserInfo() {
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                requestUserInfo(-1, null)
-                requestUserPermissions()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+    suspend fun swapUserInfo() {
+        try {
+            requestUserInfo(-1, null)
+            requestUserPermissions()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

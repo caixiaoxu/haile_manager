@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
- data class UserInfoEntity(
+data class UserInfoEntity(
     @SerializedName("organization")
     val organization: Organization,
     @SerializedName("userInfo")
@@ -28,6 +28,10 @@ data class UserInfo(
 )
 
 data class Organization(
+    val id: String?,
     val name: String
-)
+) {
+    val idVal: String
+        get() = id ?: ""
+}
 

@@ -53,6 +53,9 @@
             android:name=".ui.activity.shop.ShopPositionCreateActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.activity.personal.ChangeOrganizationActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.personal.IncomeShopStatisticsActivity"
             android:exported="false" />
         <activity

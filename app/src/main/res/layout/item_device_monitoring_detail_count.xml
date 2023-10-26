@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.yunshang.haile_manager_android.utils.NumberUtils"/>
+
+        <variable
+            name="itemW"
+            type="java.lang.Integer" />
+
+        <variable
+            name="name"
+            type="java.lang.String" />
+
+        <variable
+            name="num"
+            type="java.lang.Integer" />
+
+        <variable
+            name="percent"
+            type="java.lang.Float" />
+
+        <variable
+            name="state"
+            type="java.lang.Integer" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="94dp"
+        android:layout_height="wrap_content"
+        android:paddingVertical="16dp"
+        app:width="@{itemW}">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_device_monitoring_detail_count_name"
+            style="@style/Font_14_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{name}"
+            app:layout_constraintBottom_toTopOf="@id/tv_device_monitoring_detail_count"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="在线" />
+
+        <com.yunshang.haile_manager_android.ui.view.AmountTextView
+            android:id="@+id/tv_device_monitoring_detail_count"
+            style="@style/Font_18_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text='@{num+""}'
+            app:layout_constraintBottom_toTopOf="@id/tv_device_monitoring_detail_count_percent_prefix"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_device_monitoring_detail_count_name"
+            tools:text="099" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_device_monitoring_detail_count_percent_prefix"
+            style="@style/Font_12_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/percent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_device_monitoring_detail_count_percent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_device_monitoring_detail_count"
+            tools:text="占比" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_device_monitoring_detail_count_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{NumberUtils.formatTwoDecimals(percent)+"%"}'
+            android:textColor="@{1 == state?@color/color_green:@color/colorPrimary}"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/tv_device_monitoring_detail_count_percent_prefix"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_device_monitoring_detail_count_percent_prefix"
+            app:layout_constraintTop_toTopOf="@id/tv_device_monitoring_detail_count_percent_prefix"
+            tools:text="20%" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

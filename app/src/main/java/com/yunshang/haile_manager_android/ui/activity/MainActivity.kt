@@ -16,6 +16,7 @@ import com.yunshang.haile_manager_android.databinding.ActivityMainBinding
 import com.yunshang.haile_manager_android.ui.view.dialog.ServiceCheckDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.UpdateAppDialog
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import org.opencv.OpenCV
 import timber.log.Timber
 import java.io.File
@@ -48,8 +49,23 @@ class MainActivity :
     override fun initEvent() {
         super.initEvent()
         mSharedViewModel.hasDataStatisticsListPermission.observe(this) {
-            mBinding.glMainTabHomeEnd.setGuidelinePercent(if (it) 0.33f else 0.5f)
+            val percent: Float = if (it) {
+                if (UserPermissionUtils.hasDeviceMonitoringPermission()) 0.25f else 0.33f
+            } else {
+                if (UserPermissionUtils.hasDeviceMonitoringPermission()) 0.33f else 0.5f
+            }
+
+            mBinding.glMainTabHomeEnd.setGuidelinePercent(percent)
             mBinding.rbMainTabStatistics.visibility = if (it) View.VISIBLE else View.GONE
+        }
+        mSharedViewModel.hasDeviceMonitoringPermission.observe(this) {
+            val percent: Float = if (it) {
+                if (UserPermissionUtils.hasDataStatisticsListPermission()) 0.25f else 0.33f
+            } else {
+                if (UserPermissionUtils.hasDataStatisticsListPermission()) 0.33f else 0.5f
+            }
+            mBinding.glMainTabHomeEnd.setGuidelinePercent(percent)
+            mBinding.rbMainTabMonitoring.visibility = if (it) View.VISIBLE else View.GONE
         }
 
         mViewModel.checkId.observe(this) {

@@ -729,6 +729,11 @@
 
     <string name="setting">设置</string>
     <string name="change_password">修改密码</string>
+
+    <string name="change_login_phone">修改登录手机号</string>
+    <string name="current_phone">当前手机号</string>
+    <string name="change_login_phone_hint">请输入新手机号</string>
+
     <string name="change_login_password">修改登录密码</string>
 
     <string name="privacy_policy">隐私政策</string>

@@ -183,7 +183,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@{@string/time_of_duration+item.format}"
+            android:text="@{item.formatVal}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_item_device_error_status"
             tools:text="持续时间30分钟" />

@@ -22,7 +22,7 @@ data class UserInfoEntity(
 data class UserInfo(
     val headImage: String,
     val name: String,
-    val phone: String,
+    var phone: String,
     val `property`: Int,
     val tagName: String
 )

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.ChangePhoneLoginViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.login.ChangeLoginPhoneActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_change_phone_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            app:title="@string/change_login_phone" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:background="@drawable/shape_ffffff_r8"
+            android:paddingHorizontal="22dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="40dp"
+            app:visibility="@{0 == vm.step}">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/et_change_phone_step1_phone"
+                style="@style/Font_16_333333"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="@{vm.oldPhoneVal}"
+                android:background="@drawable/shape_bottom_stroke_dividing"
+                android:gravity="center_vertical"
+                android:paddingStart="85dp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_16_333333"
+                android:layout_width="85dp"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:text="@string/current_phone"
+                app:layout_constraintBottom_toBottomOf="@id/et_change_phone_step1_phone"
+                app:layout_constraintStart_toStartOf="@id/et_change_phone_step1_phone"
+                app:layout_constraintTop_toTopOf="@id/et_change_phone_step1_phone" />
+
+            <com.yunshang.haile_manager_android.ui.view.PhoneEditText
+                android:id="@+id/et_change_phone_step1_code"
+                style="@style/Font_16_333333_cccccc"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
+                android:text="@={vm.step1Code}"
+                android:background="@drawable/shape_bottom_stroke_dividing"
+                android:gravity="center_vertical"
+                android:hint="@string/login_code_hint"
+                android:paddingEnd="72dp"
+                app:layout_constraintTop_toBottomOf="@id/et_change_phone_step1_phone" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_14_f0a258"
+                android:layout_width="72dp"
+                android:layout_height="48dp"
+                android:gravity="center_vertical|end"
+                android:text="@string/login_code_send"
+                android:onClick="@{vm::sendStep1Code}"
+                app:layout_constraintBottom_toBottomOf="@id/et_change_phone_step1_code"
+                app:layout_constraintEnd_toEndOf="@id/et_change_phone_step1_code"
+                app:layout_constraintTop_toTopOf="@id/et_change_phone_step1_code" />
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_change_phone_step1_sure"
+                style="@style/CommonMatchBtnStyle1"
+                android:layout_marginTop="32dp"
+                android:enabled="@{vm.canStep1Submit}"
+                android:text="@string/sure"
+                android:onClick="@{vm::submitStep1}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_change_phone_step1_code" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:background="@drawable/shape_ffffff_r8"
+            android:paddingHorizontal="22dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="40dp"
+            app:visibility="@{1 == vm.step}">
+
+            <com.yunshang.haile_manager_android.ui.view.PhoneEditText
+                android:id="@+id/et_change_phone_step2_phone"
+                style="@style/Font_16_333333_cccccc"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="@={vm.newPhone}"
+                android:background="@drawable/shape_bottom_stroke_dividing"
+                android:gravity="center_vertical"
+                android:hint="@string/change_login_phone_hint"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.yunshang.haile_manager_android.ui.view.PhoneEditText
+                android:id="@+id/et_change_phone_step2_code"
+                style="@style/Font_16_333333_cccccc"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
+                android:text="@={vm.step2Code}"
+                android:background="@drawable/shape_bottom_stroke_dividing"
+                android:gravity="center_vertical"
+                android:hint="@string/login_code_hint"
+                android:paddingEnd="72dp"
+                app:layout_constraintTop_toBottomOf="@id/et_change_phone_step2_phone" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_change_phone_step2_code"
+                style="@style/Font_14_f0a258"
+                android:layout_width="72dp"
+                android:layout_height="48dp"
+                android:gravity="center_vertical|end"
+                android:text="@string/login_code_send"
+                app:layout_constraintBottom_toBottomOf="@id/et_change_phone_step2_code"
+                app:layout_constraintEnd_toEndOf="@id/et_change_phone_step2_code"
+                app:layout_constraintTop_toTopOf="@id/et_change_phone_step2_code" />
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_change_phone_step2_sure"
+                style="@style/CommonMatchBtnStyle1"
+                android:layout_marginTop="32dp"
+                android:enabled="@{vm.canStep2Submit}"
+                android:text="@string/sure"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_change_phone_step2_code" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</layout>

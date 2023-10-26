@@ -124,4 +124,22 @@ interface LoginUserService {
      */
     @POST("/merchant/sendSmsCode")
     suspend fun sendRegisterCode(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 修改登录手机号验证码接口
+     */
+    @POST("/user/phone/sendCode")
+    suspend fun sendChangeLoginPhoneCode(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 校验登录手机号验证码接口
+     */
+    @POST("/user/phone/checkCode")
+    suspend fun checkChangeLoginPhoneCode(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 修改登录手机号接口
+     */
+    @POST("/user/updatePhone")
+    suspend fun changeLoginPhone(@Body body: RequestBody): ResponseWrapper<Any>
 }

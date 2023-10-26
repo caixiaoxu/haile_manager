@@ -30,27 +30,29 @@ import kotlinx.coroutines.withContext
 class HaiXinSchemeConfigsCreateViewModel : BaseViewModel() {
     val mHaiXinRepo = ApiRepository.apiClient(HaiXinService::class.java)
     var shopId: Int = -1
+    var isBatch: Boolean = false
 
-    // 选择的店铺类型
+    // 选择的店铺
     val selectShop: MutableLiveData<SearchSelectParam> by lazy {
+        MutableLiveData()
+    }
+
+    // 选择的店铺列表
+    val selectShops: MutableLiveData<List<SearchSelectParam>> by lazy {
         MutableLiveData()
     }
 
     val createUpdateParams: MutableLiveData<HaixinSchemeConfigCreateParams> =
         MutableLiveData(HaixinSchemeConfigCreateParams())
 
-    fun switchSchemeOpen(isCheck: Boolean) {
-        createUpdateParams.value?.isAllowRefund = if (isCheck) 1 else 0
-    }
-
     fun requestSchemeDetail() {
-        if (createUpdateParams.value?.shopId?.hasVal() == false) return
+        if (!isBatch && !createUpdateParams.value?.shopId.hasVal()) return
         launch({
             ApiRepository.dealApiResult(
                 mHaiXinRepo.requestSchemeDetail(
                     ApiRepository.createRequestBody(
                         hashMapOf(
-                            "shopId" to createUpdateParams.value!!.shopId!!
+                            "shopId" to if (isBatch) 0 else createUpdateParams.value!!.shopId!!
                         )
                     )
                 )
@@ -58,12 +60,12 @@ class HaiXinSchemeConfigsCreateViewModel : BaseViewModel() {
                 createUpdateParams.postValue(HaixinSchemeConfigCreateParams().apply {
                     id = it.id
                     shopId =
-                        if (-1 == it.shopId || 0 == it.shopId) createUpdateParams.value?.shopId else it.shopId
+                        if (isBatch) null else if (-1 == it.shopId || 0 == it.shopId) createUpdateParams.value?.shopId else it.shopId
+                    shopIds = if (isBatch) selectShops.value?.map { item -> item.id } else null
                     configName =
                         it.configName.ifEmpty { createUpdateParams.value?.configName }
                     discountProportion = it.discountProportion
                     isForceUse = it.isForceUse
-                    isAllowRefund = it.isAllowRefund
                     rewards = it.rewardsConfig
                     updateRewards = it.rewardsConfig
                     exchangeRate = it.exchangeRate
@@ -78,9 +80,16 @@ class HaiXinSchemeConfigsCreateViewModel : BaseViewModel() {
                 SToast.showToast(v.context, R.string.empty_scheme_name)
                 return@let
             }
-            if (-1 == it.shopId || 0 == it.shopId) {
-                SToast.showToast(v.context, R.string.empty_scheme_shop)
-                return@let
+            if (isBatch) {
+                if (it.shopIds.isNullOrEmpty()) {
+                    SToast.showToast(v.context, R.string.empty_scheme_shop)
+                    return@let
+                }
+            } else {
+                if (-1 == it.shopId || 0 == it.shopId) {
+                    SToast.showToast(v.context, R.string.empty_scheme_shop)
+                    return@let
+                }
             }
             if (!it.rewards.any { item -> 0 == item.status && item.reach.isGreaterThan0() }) {
                 SToast.showToast(v.context, R.string.empty_scheme_list)
@@ -89,20 +98,31 @@ class HaiXinSchemeConfigsCreateViewModel : BaseViewModel() {
 
             launch({
                 val params = ApiRepository.createRequestBody(GsonUtils.any2Json(it))
-                ApiRepository.dealApiResult(
-                    if (-1 == shopId) {
-                        mHaiXinRepo.createSchemeConfig(params)
-                    } else {
-                        mHaiXinRepo.updateSchemeConfig(params)
-                    }
-                )
-                withContext(Dispatchers.Main) {
-                    if (-1 == shopId) {
-                        SToast.showToast(v.context, R.string.add_success)
+
+                if (isBatch) {
+                    ApiRepository.dealApiResult(
+                        mHaiXinRepo.batchSettingSchemeConfig(params)
+                    )
+                    withContext(Dispatchers.Main) {
+                        SToast.showToast(v.context, "批量设置成功")
                         LiveDataBus.post(BusEvents.HAIXIN_SCHEME_LIST_STATUS, true)
-                    } else {
-                        SToast.showToast(v.context, R.string.update_scheme)
-                        LiveDataBus.post(BusEvents.HAIXIN_SCHEME_DETAIL_STATUS, true)
+                    }
+                } else {
+                    ApiRepository.dealApiResult(
+                        if (-1 == shopId) {
+                            mHaiXinRepo.createSchemeConfig(params)
+                        } else {
+                            mHaiXinRepo.updateSchemeConfig(params)
+                        }
+                    )
+                    withContext(Dispatchers.Main) {
+                        if (-1 == shopId) {
+                            SToast.showToast(v.context, R.string.add_success)
+                            LiveDataBus.post(BusEvents.HAIXIN_SCHEME_LIST_STATUS, true)
+                        } else {
+                            SToast.showToast(v.context, R.string.update_scheme)
+                            LiveDataBus.post(BusEvents.HAIXIN_SCHEME_DETAIL_STATUS, true)
+                        }
                     }
                 }
                 jump.postValue(0)

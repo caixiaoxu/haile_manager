@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
             android:background="@color/white"
-            app:title="@string/add_scheme" />
+            app:title="@{vm.batch?@string/batch_setting:-1 == vm.shopId?@string/add_scheme:@string/update_scheme}" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -81,42 +81,12 @@
                     <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                         android:id="@+id/item_scheme_shop"
                         style="@style/MultiTypePaddingHItemStyle"
-                        app:itemContent="@{vm.selectShop.name}"
                         app:layout_constraintTop_toBottomOf="@id/item_scheme_name"
                         app:showArrow="true"
                         app:title="@string/coupon_shop"
                         app:titleW="114dp"
                         app:type="info"
                         tools:ignore="MissingConstraints" />
-
-                    <View
-                        style="@style/DividingStyle"
-                        android:layout_marginHorizontal="16dp"
-                        app:layout_constraintBottom_toBottomOf="@id/item_scheme_shop"
-                        tools:ignore="MissingConstraints" />
-
-                    <androidx.appcompat.widget.AppCompatCheckedTextView
-                        android:id="@+id/tv_scheme_allow_refund"
-                        style="@style/Font_16_333333"
-                        android:layout_width="match_parent"
-                        android:layout_height="54dp"
-                        android:gravity="center_vertical"
-                        android:paddingHorizontal="16dp"
-                        android:text="@string/allow_refund"
-                        app:layout_constraintTop_toBottomOf="@id/item_scheme_shop" />
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/switch_scheme_detail_open"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:checked="@{1 == vm.createUpdateParams.isAllowRefund}"
-                        android:onCheckedChanged="@{(v,isCheck)->vm.switchSchemeOpen(isCheck)}"
-                        android:thumb="@drawable/selector_default_switch_thumb"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_scheme_allow_refund"
-                        app:layout_constraintEnd_toEndOf="@id/tv_scheme_allow_refund"
-                        app:layout_constraintTop_toTopOf="@id/tv_scheme_allow_refund"
-                        app:track="@drawable/selector_default_switch_track" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

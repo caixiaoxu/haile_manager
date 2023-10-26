@@ -24,6 +24,7 @@ data class HaixinSchemeConfigCreateParams(
     var rewards: List<RewardsConfig> = ArrayList(),
     var updateRewards: List<RewardsConfig> = ArrayList(),
     var shopId: Int? = null,
+    var shopIds: List<Int>? = null,
     @Transient
     var exchangeRate: Int = 1,
 ) : BaseObservable() {

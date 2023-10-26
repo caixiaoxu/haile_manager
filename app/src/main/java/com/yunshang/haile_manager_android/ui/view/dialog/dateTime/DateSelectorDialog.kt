@@ -159,6 +159,7 @@ class DateSelectorDialog private constructor(private val builder: Builder) :
         ) { index ->
             getCurSelectCalender().set(Calendar.MONTH, index + monthInterval)
             refreshDayData()
+            refreshWeekData()
             if (0 != builder.selectModel) {
                 refreshTimeVal()
             }

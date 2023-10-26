@@ -1,6 +1,5 @@
 package com.yunshang.haile_manager_android.business.vm
 
-import android.content.Context
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.TextView
@@ -110,10 +109,10 @@ class ChangePhoneLoginViewModel : BaseViewModel() {
 
     // 是否可提交
     val canStep2Submit: MediatorLiveData<Boolean> = MediatorLiveData(false).apply {
-        addSource(oldPhone) {
+        addSource(newPhone) {
             value = checkStep2Submit()
         }
-        addSource(step1Code) {
+        addSource(step2Code) {
             value = checkStep2Submit()
         }
     }
@@ -122,7 +121,7 @@ class ChangePhoneLoginViewModel : BaseViewModel() {
      * 检测是否可提交
      */
     private fun checkStep2Submit(): Boolean =
-        (!oldPhone.value.isNullOrEmpty() && 11 == oldPhone.value!!.length) && !step1Code.value.isNullOrEmpty()
+        (!newPhone.value.isNullOrEmpty() && 11 == newPhone.value!!.length) && !step2Code.value.isNullOrEmpty()
 
     fun sendStep2Code(v: View, callBack: (success: Boolean, msg: String?) -> Unit) {
         if (newPhone.value.isNullOrEmpty()) return
@@ -165,6 +164,12 @@ class ChangePhoneLoginViewModel : BaseViewModel() {
                     )
                 )
             )
+            //从切换账号列表中找到旧账号数据，更换手机号并替换
+            SPRepository.changeUser?.find { item -> item.userInfo.userInfo.phone == oldPhone.value!! }
+                ?.let {
+                    it.userInfo.userInfo.phone = newPhone.value!!
+                    SPRepository.changeUser = SPRepository.changeUser
+                }
             SPRepository.cleaLoginUserInfo()
             withContext(Dispatchers.Main) {
                 callBack(true, "")

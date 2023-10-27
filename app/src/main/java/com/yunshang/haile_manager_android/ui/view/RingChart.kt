@@ -9,7 +9,6 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.lsy.framelib.utils.DimensionUtils
 import com.yunshang.haile_manager_android.R
-import timber.log.Timber
 
 /**
  * Title :

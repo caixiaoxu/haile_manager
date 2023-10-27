@@ -80,6 +80,7 @@ class ChangePhoneLoginViewModel : BaseViewModel() {
                 )
             )
             withContext(Dispatchers.Main) {
+                SToast.showToast(v.context,R.string.send_success)
                 countDownTimer(v as TextView)
             }
         })
@@ -134,6 +135,7 @@ class ChangePhoneLoginViewModel : BaseViewModel() {
                 )
             )
             withContext(Dispatchers.Main) {
+                SToast.showToast(v.context,R.string.send_success)
                 countDownTimer(v as TextView)
             }
         }, {

@@ -80,6 +80,7 @@
     <string name="login_password_tag">忘记密码？</string>
     <string name="login_code_hint">请输入验证码</string>
     <string name="login_code_send">获取验证码</string>
+    <string name="send_success">发送成功</string>
     <string name="reset_login_password">重置登录密码</string>
     <string name="login_old_password_hint">请输入旧密码</string>
     <string name="login_new_password_hint">请输入新密码（6–12位数字或字母）</string>

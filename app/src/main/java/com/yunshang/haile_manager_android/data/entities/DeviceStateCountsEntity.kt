@@ -3,7 +3,6 @@ package com.yunshang.haile_manager_android.data.entities
 import android.graphics.Typeface
 import android.text.SpannableString
 import android.text.style.StyleSpan
-import android.text.style.TypefaceSpan
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.utils.StringUtils
 
@@ -34,8 +33,8 @@ data class DeviceStateCountsEntity(
     val workCount: Int = 0,
     val workPercent: Float = 0f
 ) {
-    val chartTotal: SpannableString
-        get() = if (0 == totalCount) {
+    val chartOnLine: SpannableString
+        get() = if (0 == onLineCount) {
             SpannableString(
                 "${com.lsy.framelib.utils.StringUtils.getString(R.string.online_device)}\n暂无数据"
             )
@@ -44,11 +43,11 @@ data class DeviceStateCountsEntity(
                 com.lsy.framelib.utils.StringUtils.getString(
                     R.string.online_device
                 )
-            }\n${totalCount}".let { content ->
+            }\n${onLineCount}".let { content ->
                 StringUtils.formatMultiStyleStr(
                     content,
                     arrayOf(StyleSpan(Typeface.BOLD)),
-                    content.length - totalCount.toString().length,
+                    content.length - onLineCount.toString().length,
                     content.length
                 )
             }

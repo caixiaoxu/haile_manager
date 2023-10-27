@@ -239,7 +239,7 @@
                             android:layout_width="42dp"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="@{vm.deviceStateCounts.chartTotal}"
+                            android:text="@{vm.deviceStateCounts.chartOnLine}"
                             app:layout_constraintBottom_toBottomOf="@id/ring_device_monitoring_chart"
                             app:layout_constraintEnd_toEndOf="@id/ring_device_monitoring_chart"
                             app:layout_constraintStart_toStartOf="@id/ring_device_monitoring_chart"

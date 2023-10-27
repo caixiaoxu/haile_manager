@@ -156,6 +156,9 @@ class DeviceMonitoringFragment :
             )
         }
 
+        mBinding.refreshLayout.setOnRefreshListener {
+            mViewModel.requestGoodsCountPercents(0)
+        }
         mBinding.refreshLayout.setEnableLoadMore(false)
     }
 

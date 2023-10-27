@@ -90,23 +90,23 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="16dp"
-            android:layout_marginTop="24dp"
-            app:visibility="@{null != shared.userInfo.organization}"
             android:background="@drawable/shape_ffffff_r8"
-            android:paddingVertical="12dp">
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            app:visibility="@{null != shared.userInfo.organization}">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_organization_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 style="@style/Font_16_333333_bold"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:text="@{shared.userInfo.organization.name}"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btn_organization_change"
-                tools:text="杭州荣事达"/>
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="杭州荣事达" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_personal_tag"
@@ -130,31 +130,31 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_organization_id"
+                style="@style/Font_12_999999"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/tv_organization_name"
                 android:layout_marginTop="4dp"
-                android:text='@{"ID：" + shared.userInfo.organization.idVal}'
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/btn_organization_change"
-                style="@style/Font_12_999999"
                 android:alpha="0.85"
-                tools:text="ID：234982374897"/>
+                android:text='@{"ID：" + shared.userInfo.organization.idVal}'
+                app:layout_constraintEnd_toStartOf="@id/btn_organization_change"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_organization_name"
+                tools:text="ID：234982374897" />
 
             <com.lsy.framelib.ui.weight.SingleTapTextView
                 android:id="@+id/btn_organization_change"
+                style="@style/Font_12_f0a258"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/shape_storke_f0a258_r14"
+                android:drawableStart="@mipmap/icon_organization_change"
+                android:drawablePadding="2dp"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="4dp"
-                android:drawablePadding="2dp"
-                android:background="@drawable/shape_storke_f0a258_r14"
                 android:text="@string/change_organization"
-                android:drawableStart="@mipmap/icon_organization_change"
-                style="@style/Font_12_f0a258"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -162,10 +162,10 @@
             android:id="@+id/ll_personal_items"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:divider="@drawable/divide_size8"
             android:layout_marginTop="8dp"
-            app:showDividers="middle"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            app:divider="@drawable/divide_size8"
+            app:showDividers="middle" />
 
     </LinearLayout>
 </layout>

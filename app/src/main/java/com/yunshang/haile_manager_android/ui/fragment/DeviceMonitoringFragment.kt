@@ -84,6 +84,7 @@ class DeviceMonitoringFragment :
         }
 
         mViewModel.deviceStateCounts.observe(this) { state ->
+            mBinding.refreshLayout.finishRefresh()
             state?.let {
                 mBinding.ringDeviceMonitoringChart.data =
                     listOf(

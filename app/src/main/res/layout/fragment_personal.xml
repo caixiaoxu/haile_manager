@@ -98,9 +98,11 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_organization_name"
                 style="@style/Font_16_333333_bold"
-                android:layout_width="220dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
+                android:maxWidth="180dp"
+                android:maxLines="1"
                 android:text="@{shared.userInfo.organization.name}"
                 app:layout_constraintEnd_toStartOf="@id/btn_organization_change"
                 app:layout_constraintHorizontal_bias="0"

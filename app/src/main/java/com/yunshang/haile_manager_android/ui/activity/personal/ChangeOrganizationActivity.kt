@@ -6,7 +6,6 @@ import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.ChangeOrganizationViewModel
 import com.yunshang.haile_manager_android.data.entities.RoleEntity
-import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.databinding.ActivityChangeOrganizationBinding
 import com.yunshang.haile_manager_android.databinding.ItemChangeOrganizationBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -23,7 +22,7 @@ class ChangeOrganizationActivity :
         ) { mItemBinding, _, item ->
             mItemBinding?.root?.setOnClickListener {
                 mViewModel.swapUserLogin(item.id, mSharedViewModel) {
-                    refreshAdapter()
+                    finish()
                 }
             }
         }
@@ -39,11 +38,6 @@ class ChangeOrganizationActivity :
             mAdapter.refreshList(it, true)
         }
     }
-
-    private fun refreshAdapter() {
-        mAdapter.notifyDataSetChanged()
-    }
-
 
     override fun initView() {
 

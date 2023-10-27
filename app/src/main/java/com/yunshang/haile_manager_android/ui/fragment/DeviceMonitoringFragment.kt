@@ -84,7 +84,6 @@ class DeviceMonitoringFragment :
         }
 
         mViewModel.deviceStateCounts.observe(this) { state ->
-            mBinding.refreshLayout.finishRefresh()
             state?.let {
                 mBinding.ringDeviceMonitoringChart.data =
                     listOf(
@@ -130,7 +129,7 @@ class DeviceMonitoringFragment :
         }
 
         mViewModel.selectCategory.observe(this) {
-            mViewModel.requestGoodsCountPercents(0)
+            refreshData()
         }
     }
 
@@ -158,9 +157,15 @@ class DeviceMonitoringFragment :
         }
 
         mBinding.refreshLayout.setOnRefreshListener {
-            mViewModel.requestGoodsCountPercents(0)
+            refreshData()
         }
         mBinding.refreshLayout.setEnableLoadMore(false)
+    }
+
+    private fun refreshData() {
+        mViewModel.requestGoodsCountPercents() {
+            mBinding.refreshLayout.finishRefresh()
+        }
     }
 
     override fun initData() {

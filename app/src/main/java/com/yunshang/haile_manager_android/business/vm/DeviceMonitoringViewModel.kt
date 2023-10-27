@@ -8,6 +8,8 @@ import com.yunshang.haile_manager_android.data.entities.DeviceCategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceStateCountPercentEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceStateCountsEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * Title :
@@ -62,7 +64,7 @@ class DeviceMonitoringViewModel : BaseViewModel() {
         })
     }
 
-    fun requestGoodsCountPercents(type: Int = 0) {
+    fun requestGoodsCountPercents(callBack: () -> Unit) {
         launch({
             ApiRepository.dealApiResult(
                 mDeviceRepo.requestGoodsCounts(
@@ -79,18 +81,20 @@ class DeviceMonitoringViewModel : BaseViewModel() {
                 deviceStateCounts.postValue(it)
             }
 
-            if (1 != type) {
-                ApiRepository.dealApiResult(
-                    mDeviceRepo.requestGoodsCountPercents(
-                        ApiRepository.createRequestBody(
-                            hashMapOf(
-                                "shopIdList" to selectDepartments.value?.map { it.id }
-                            )
+            ApiRepository.dealApiResult(
+                mDeviceRepo.requestGoodsCountPercents(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "shopIdList" to selectDepartments.value?.map { it.id }
                         )
                     )
-                )?.let {
-                    deviceStateCountPercents.postValue(it)
-                }
+                )
+            )?.let {
+                deviceStateCountPercents.postValue(it)
+            }
+        }, complete = {
+            withContext(Dispatchers.Main) {
+                callBack()
             }
         })
     }

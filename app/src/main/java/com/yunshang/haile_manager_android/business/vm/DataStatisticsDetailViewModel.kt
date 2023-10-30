@@ -6,7 +6,6 @@ import com.lsy.framelib.ui.base.BaseViewModel
 import com.yunshang.haile_manager_android.business.apiService.CategoryService
 import com.yunshang.haile_manager_android.business.apiService.DataStatisticsService
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
-import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DataStatisticsShopDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
@@ -68,17 +67,11 @@ class DataStatisticsDetailViewModel : BaseViewModel() {
      * 检测是否可提交
      */
     private fun calDateVal(): String = when (dateType.value) {
-        1 -> if (null != startTime.value && null != endTime.value) {
-            if (DateTimeUtils.isSameDay(startTime.value, endTime.value)) {
-                DateTimeUtils.formatDateTime(startTime.value, "yyyy-MM-dd")
-            } else {
-                "${DateTimeUtils.formatDateTime(startTime.value, "MM-dd")} 至 ${
-                    DateTimeUtils.formatDateTime(
-                        endTime.value,
-                        "MM-dd"
-                    )
-                }"
-            }
+        1 -> if (null != singleTime.value) {
+            DateTimeUtils.formatDateTime(
+                singleTime.value,
+                "yyyy-MM-dd"
+            )
         } else ""
         2 -> if (null != startWeekTime.value && null != endWeekTime.value) {
             "${
@@ -138,8 +131,8 @@ class DataStatisticsDetailViewModel : BaseViewModel() {
         hashMapOf<String, Any?>("dateType" to dateType.value!!).also { params ->
             when (dateType.value) {
                 1 -> {
-                    params["startTime"] = DateTimeUtils.formatDateTimeStartParam(startTime.value)
-                    params["endTime"] = DateTimeUtils.formatDateTimeEndParam(endTime.value)
+                    params["startTime"] = DateTimeUtils.formatDateTimeStartParam(singleTime.value)
+                    params["endTime"] = DateTimeUtils.formatDateTimeEndParam(singleTime.value)
                 }
                 2 -> {
                     params["startTime"] =

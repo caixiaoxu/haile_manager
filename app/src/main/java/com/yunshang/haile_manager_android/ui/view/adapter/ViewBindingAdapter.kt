@@ -34,6 +34,17 @@ object ViewBindingAdapter {
         visibility = if (true == show) View.VISIBLE else View.GONE
     }
 
+    @BindingAdapter("width", "height", requireAll = false)
+    @JvmStatic
+    fun View.setWH(width: Int?, height: Int?) {
+        width?.let {
+            layoutParams?.width = width
+        }
+        height?.let {
+            layoutParams?.height = height
+        }
+    }
+
     @BindingAdapter("marginStart", "textColor", requireAll = false)
     @JvmStatic
     fun TextView.marginStart(mS: Float?, txtColor: Int?) {

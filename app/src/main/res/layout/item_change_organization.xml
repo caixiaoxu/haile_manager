@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.RoleEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@{item.isCurOrganization()?@drawable/shape_sffffff_strokef0a258_r8:@drawable/shape_sffffff_r8}"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_change_organization_name"
+            style="@style/Font_16_333333_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="220dp"
+            android:text="@{item.organizationName}"
+            app:layout_constraintEnd_toStartOf="@id/iv_change_organization_state"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="名字名字" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_change_organization_tag"
+            style="@style/Font_12_f0a258"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/shape_s26f0a258_r4"
+            android:paddingLeft="4dp"
+            android:paddingTop="2dp"
+            android:paddingRight="4dp"
+            android:paddingBottom="2dp"
+            android:text="@{1 == item.property ? @string/admin : item.tagName}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_change_organization_name"
+            app:layout_constraintEnd_toStartOf="@id/iv_change_organization_state"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/tv_change_organization_name"
+            app:layout_constraintTop_toTopOf="@id/tv_change_organization_name"
+            tools:text="老板" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_change_organization_phone"
+            style="@style/Font_12_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text='@{"ID："+item.organizationId}'
+            app:layout_constraintEnd_toStartOf="@id/iv_change_organization_state"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_change_organization_name"
+            tools:text="16688888888" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_change_organization_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_change_account_cur"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:visibility="@{item.isCurOrganization()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

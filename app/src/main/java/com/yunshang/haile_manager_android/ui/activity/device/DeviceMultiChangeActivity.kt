@@ -57,22 +57,23 @@ class DeviceMultiChangeActivity :
                     IntentParams.DeviceParamsUpdateParams.typeChangePayCode -> {
                         CameraScan.parseScanResult(result.data)?.let {
                             Timber.i("扫码:$it")
-                            val payCode = StringUtils.getPayCode(it)
+                            val originCodeTrim = it.trim()
+                            val payCode = StringUtils.getPayCode(originCodeTrim)
                             payCode?.let { code ->
                                 mViewModel.content.value = code
-                                mViewModel.originCode = it
+                                mViewModel.originCode = originCodeTrim
                             } ?: SToast.showToast(this, R.string.pay_code_error)
                         }
                     }
                     IntentParams.DeviceParamsUpdateParams.typeChangeModel -> {
                         CameraScan.parseScanResult(result.data)?.let {
                             Timber.i("扫码:$it")
-
-                            StringUtils.getPayImeiCode(it)?.let { code ->
+                            val originCodeTrim = it.trim()
+                            StringUtils.getPayImeiCode(originCodeTrim)?.let { code ->
                                 mViewModel.content.value = code
                             } ?: run {
-                                if (StringUtils.isImeiCode(it)) {
-                                    mViewModel.content.value = it
+                                if (StringUtils.isImeiCode(originCodeTrim)) {
+                                    mViewModel.content.value = originCodeTrim
                                 } else SToast.showToast(this, R.string.imei_code_error)
                             }
                         } ?: SToast.showToast(this, R.string.imei_code_error)

@@ -6,6 +6,12 @@
         </shape>
     </item>
     <item android:gravity="top">
+        <shape android:shape="rectangle">
+            <size android:height="200dp" />
+            <solid android:color="@color/white" />
+        </shape>
+    </item>
+    <item android:gravity="top">
         <bitmap
             android:src="@mipmap/bg_income_statistics" />
     </item>

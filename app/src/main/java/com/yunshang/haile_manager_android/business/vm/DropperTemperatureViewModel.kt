@@ -7,7 +7,6 @@ import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.event.BusEvents
-import com.yunshang.haile_manager_android.data.entities.DiscountsDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -38,9 +37,9 @@ class DropperTemperatureViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
-    val temperatureSwitch: MutableLiveData<Boolean> by lazy {
-        MutableLiveData()
-    }
+//    val temperatureSwitch: MutableLiveData<Boolean> by lazy {
+//        MutableLiveData()
+//    }
 
 
     /**
@@ -53,10 +52,10 @@ class DropperTemperatureViewModel : BaseViewModel() {
         var max_ = max.value!!
         var min_ = min.value!!
 
-        if (temperatureSwitch.value == true && (max_.isNullOrEmpty() || min_.isNullOrEmpty())) {
-            SToast.showToast(msg = "温度设置不能为空")
-            return
-        }
+//        if (temperatureSwitch.value == true && (max_.isNullOrEmpty() || min_.isNullOrEmpty())) {
+//            SToast.showToast(msg = "温度设置不能为空")
+//            return
+//        }
 
         var max_n: Int
         try {
@@ -94,7 +93,7 @@ class DropperTemperatureViewModel : BaseViewModel() {
                             "imei" to imei.value!!,
                             "max" to max.value!!,
                             "min" to min.value!!,
-                            "switch" to temperatureSwitch.value!!,
+                            "switch" to true,
                         )
                     )
                 )
@@ -105,7 +104,5 @@ class DropperTemperatureViewModel : BaseViewModel() {
             }
             jump.postValue(0)
         })
-
     }
-
 }

@@ -39,6 +39,12 @@ class IssueCouponsViewModel : BaseViewModel() {
             SearchSelectParam(index, s)
         }.filter { item -> !item.name.isNullOrEmpty() }
 
+    val experientialCouponTypeList =
+        StringUtils.getStringArray(R.array.experiential_coupon_type).mapIndexed { index, s ->
+            SearchSelectParam(index, s)
+        }.filter { item -> !item.name.isNullOrEmpty() }
+
+    val selectExperientialCouponType:MutableLiveData<SearchSelectParam> = MutableLiveData(experientialCouponTypeList.first())
 
     // 设备类型
     val categoryList: MutableLiveData<MutableList<CategoryEntity>> by lazy {

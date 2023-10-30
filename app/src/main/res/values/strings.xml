@@ -64,6 +64,8 @@
     <string name="next">下一步</string>
     <string name="manager">管理</string>
     <string name="device">设备</string>
+    <string name="idle">空闲</string>
+    <string name="running">运行</string>
 
     <string name="empty_content">暂无内容信息</string>
     <string name="empty_device">暂无设备信息</string>
@@ -78,6 +80,7 @@
     <string name="login_password_tag">忘记密码？</string>
     <string name="login_code_hint">请输入验证码</string>
     <string name="login_code_send">获取验证码</string>
+    <string name="send_success">发送成功</string>
     <string name="reset_login_password">重置登录密码</string>
     <string name="login_old_password_hint">请输入旧密码</string>
     <string name="login_new_password_hint">请输入新密码（6–12位数字或字母）</string>
@@ -89,6 +92,12 @@
     <!--    <string name="register_agreement_hint">已阅读并同意《海乐管家隐私协议》 《海乐管家服务协议》 </string>-->
 
     <string name="main_tab_home">首页</string>
+    <string name="monitoring">监控</string>
+    <string name="device_monitoring">设备监控</string>
+    <string name="total_device_num">总设备数</string>
+    <string name="online_device">在线设备</string>
+    <string name="online_device_state">在线设备运行状态</string>
+    <string name="device_category_num_percent">设备类型数量占比</string>
     <string name="statistics">统计</string>
     <string name="data_statistics">数据统计</string>
     <string name="day_data">日数据</string>
@@ -105,6 +114,7 @@
     <string name="more_statistics">更多统计</string>
     <string name="data_detail">数据详情</string>
     <string name="indicator_specification">指标说明</string>
+    <string name="percent">占比</string>
     <string-array name="indicator_specification_content">
         <item>订单量：门店实际订单总数量（含海星订单量）\n\n设备支付的订单（未支付不统计），不含启动退款订单\n\n充值支付订单：海星的充值订单，不含退款\n\n启动退款订单：只包含启动退款的订单\n\n充值退款订单：只包含充值退款的订单\n\n总退款金额：包含启动退款和充值退款金额</item>
         <item>设备数量：已绑定设备的总数量（不含删除设备）\n\n活跃设备量：实际产生订单的设备总数量\n\n设备活跃率：实际产生订单的设备占比\n\n设备故障率：出现过故障的设备占比\n\n设备离线率：持续离线30分钟及以上的设备占比\n\n设备频次：每台设备平均使用次数</item>
@@ -145,12 +155,14 @@
     <string name="new_device">新增设备</string>
     <string name="batch_update">批量修改</string>
     <string name="batch_start">批量启动</string>
+    <string name="batch_setting">批量设置</string>
     <string name="scan_input">扫码录入</string>
     <string name="configure_condition">配置条件</string>
     <string name="device_num_hint">全部%1$d台设备</string>
     <string name="device_model_search_hint">搜索设备型号</string>
     <string name="device_info">设备信息</string>
     <string name="pay_code">付款码</string>
+    <string name="time_of_duration">持续时间</string>
     <string name="imei">IMEI</string>
     <string name="imei_title">模块编码（IMEI）</string>
     <string name="device_name">设备名称</string>
@@ -352,7 +364,7 @@
     <string name="setting_title1">按流量收费，用户订单显示用量</string>
 
     <string name="order_manager">订单管理</string>
-    <string name="order_search_hint">搜索手机号或订单编号</string>
+    <string name="order_search_hint">搜索手机号或订单编号或设备IMEI</string>
     <string name="order_num_hint">全部%1$d笔订单</string>
     <string name="order_time">下单时间</string>
     <string name="real_income">实收：</string>
@@ -503,8 +515,13 @@
         <item>折扣券</item>
         <item>体验券</item>
     </string-array>
+    <string-array name="experiential_coupon_type">
+        <item>免费</item>
+        <item>收费</item>
+    </string-array>
     <string name="coupon_price">券金额</string>
     <string name="coupon_price_hint">输入范围0.01-100.00</string>
+    <string name="need_pay_or_not">是否收费</string>
     <string name="experiential_price">体验价</string>
     <string name="experiential_price_hint">输入范围0-100.00</string>
     <string name="coupon_discount">券折扣</string>
@@ -731,6 +748,11 @@
 
     <string name="setting">设置</string>
     <string name="change_password">修改密码</string>
+
+    <string name="change_login_phone">修改登录手机号</string>
+    <string name="current_phone">当前手机号</string>
+    <string name="change_login_phone_hint">请输入新手机号</string>
+
     <string name="change_login_password">修改登录密码</string>
 
     <string name="privacy_policy">隐私政策</string>
@@ -752,6 +774,8 @@
     <string name="click_update">点击升级</string>
 
     <string name="change_account">切换账号</string>
+    <string name="add_account">添加账号</string>
+    <string name="change_organization">切换组织</string>
     <string name="cur_account">当前登录</string>
 
     <string name="logout">退出登录</string>

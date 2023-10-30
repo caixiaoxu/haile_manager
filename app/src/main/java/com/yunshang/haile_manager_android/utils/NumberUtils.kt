@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.utils
 
+import com.lsy.framelib.utils.StringUtils
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -22,4 +23,10 @@ object NumberUtils {
     fun keepTwoDecimals(num: Double?): String = num?.let {
         BigDecimal(num).run { setScale(2, RoundingMode.HALF_UP).toString() }
     } ?: ""
+
+    /**
+     * 小数点后两位
+     */
+    @JvmStatic
+    fun formatTwoDecimals(num: Float?): String = num?.let { StringUtils.format("%.2f", num) } ?: ""
 }

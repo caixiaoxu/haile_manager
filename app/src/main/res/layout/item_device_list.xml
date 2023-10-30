@@ -6,6 +6,7 @@
     <data>
 
         <import type="android.view.View" />
+
         <import type="com.yunshang.haile_manager_android.utils.UserPermissionUtils" />
 
         <variable
@@ -155,8 +156,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:drawableStart="@mipmap/icon_device_manager_shop"
-            android:gravity="center_vertical"
             android:drawablePadding="4dp"
+            android:gravity="center_vertical"
             android:text="@{item.shopName}"
             app:layout_constraintEnd_toStartOf="@id/tv_item_device_error_status"
             app:layout_constraintStart_toStartOf="@id/tv_item_device_name"
@@ -165,34 +166,47 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_item_device_error_status"
+            style="@style/font_12_ff3b30"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:visibility="@{item.faultFlag}"
-            android:text="@{item.faultReason}"
+            android:layout_marginTop="4dp"
             android:maxLength="7"
-            app:layout_constraintTop_toTopOf="@id/tv_item_device_shop"
+            android:text="@{item.faultReason}"
             app:layout_constraintEnd_toEndOf="parent"
-            style="@style/font_12_ff3b30"/>
+            app:layout_constraintTop_toBottomOf="@id/iv_item_device_name_right"
+            app:visibility="@{item.faultFlag}"
+            tools:text="故障原因" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_item_device_duration_time"
+            style="@style/Font_12_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@{item.formatVal}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_device_error_status"
+            tools:text="持续时间30分钟" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_device_list_free"
+            style="@style/Font_10_333333"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_sf7f7f7_r8"
             android:paddingHorizontal="8dp"
             android:paddingVertical="2dp"
-            android:layout_marginTop="8dp"
-            style="@style/Font_10_333333"
-            app:visibility="@{item.freeFlag}"
-            android:background="@drawable/shape_sf7f7f7_r8"
+            android:text="@string/free_device"
             app:layout_constraintStart_toStartOf="@id/tv_item_device_shop"
             app:layout_constraintTop_toBottomOf="@id/tv_item_device_shop"
-            android:text="@string/free_device"/>
+            app:visibility="@{item.freeFlag}" />
 
         <View
             android:id="@+id/divider_item_device_total_income"
             style="@style/DividingStyle"
-            android:layout_marginEnd="8dp"
             android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"
             android:visibility="@{UserPermissionUtils.hasDeviceProfitPermission?View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintTop_toBottomOf="@id/tv_device_list_free"
             tools:ignore="MissingConstraints" />
@@ -204,12 +218,12 @@
             android:layout_height="46dp"
             android:drawableEnd="@drawable/icon_arrow_right_with_padding"
             android:gravity="center"
-            app:visibility="@{UserPermissionUtils.hasDeviceProfitPermission}"
-            tools:visibility="visible"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="@id/tv_item_device_shop"
             app:layout_constraintTop_toBottomOf="@id/divider_item_device_total_income"
-            tools:text="总收益：856420.00" />
+            app:visibility="@{UserPermissionUtils.hasDeviceProfitPermission}"
+            tools:text="总收益：856420.00"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

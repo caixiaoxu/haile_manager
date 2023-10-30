@@ -15,6 +15,7 @@ import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.data.model.OnDownloadProgressListener
 import com.lsy.framelib.utils.AppPackageUtils
 import com.yunshang.haile_manager_android.ui.fragment.DataStatisticsFragment
+import com.yunshang.haile_manager_android.ui.fragment.DeviceMonitoringFragment
 import com.yunshang.haile_manager_android.ui.fragment.HomeFragment
 import com.yunshang.haile_manager_android.ui.fragment.PersonalFragment
 import kotlinx.coroutines.Dispatchers
@@ -37,6 +38,7 @@ class MainViewModel : BaseViewModel() {
 
     val fragments = SparseArray<Fragment>(3).apply {
         put(R.id.rb_main_tab_home, HomeFragment())
+        put(R.id.rb_main_tab_monitoring, DeviceMonitoringFragment())
         put(R.id.rb_main_tab_statistics, DataStatisticsFragment())
         put(R.id.rb_main_tab_personal, PersonalFragment())
     }

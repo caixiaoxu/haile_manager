@@ -14,6 +14,7 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.databinding.ActivitySettingBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.activity.login.ChangeLoginPhoneActivity
 import com.yunshang.haile_manager_android.ui.activity.login.ChangeUserActivity
 import com.yunshang.haile_manager_android.ui.activity.login.LoginActivity
 import com.yunshang.haile_manager_android.ui.activity.login.UpdateLoginPasswordActivity
@@ -34,6 +35,10 @@ class SettingActivity : BaseBusinessActivity<ActivitySettingBinding, SettingView
 
         mBinding.tvChangePassword.setOnClickListener {
             startActivity(Intent(this@SettingActivity, UpdateLoginPasswordActivity::class.java))
+        }
+
+        mBinding.tvChangeLoginPhone.setOnClickListener {
+            startActivity(Intent(this@SettingActivity, ChangeLoginPhoneActivity::class.java))
         }
 
         mBinding.tvPrivacyPolicy.setOnClickListener {

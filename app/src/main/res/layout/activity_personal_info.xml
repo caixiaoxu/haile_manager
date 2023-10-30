@@ -63,16 +63,5 @@
             android:paddingHorizontal="16dp"
             android:text="@{shared.userInfo.userInfo.name}"
             tools:text="洗衣先生" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_personal_info_change_role"
-            style="@style/Font_16_f0a258"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:background="@color/white"
-            android:gravity="center"
-            android:paddingHorizontal="16dp"
-            android:text="@string/change_role"
-            tools:text="切换角色" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

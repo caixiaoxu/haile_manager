@@ -106,7 +106,7 @@ class DataStatisticsViewModel : BaseViewModel() {
     }
 
     // 选择的店铺
-    val selectDepartment: MutableLiveData<SearchSelectParam> by lazy {
+    val selectDepartments: MutableLiveData<List<SearchSelectParam>> by lazy {
         MutableLiveData()
     }
 
@@ -159,8 +159,8 @@ class DataStatisticsViewModel : BaseViewModel() {
                 }
             }
 
-            if (null != selectDepartment.value) {
-                params["shopId"] = selectDepartment.value!!.id
+            if (!selectDepartments.value.isNullOrEmpty()) {
+                params["shopIdList"] = selectDepartments.value?.map { it.id }
             }
 
             if (null != selectDeviceCategory.value) {

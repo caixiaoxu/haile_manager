@@ -62,7 +62,7 @@ object StringUtils {
      * 格式化手机
      */
     @JvmStatic
-    fun formatPhone(phone: String?): String = phone?.replaceRange(IntRange(3, 7), "****") ?: ""
+    fun formatPhone(phone: String?): String = phone?.replaceRange(IntRange(3, 6), "****") ?: ""
 
     /**
      * 格式化多样式字符串

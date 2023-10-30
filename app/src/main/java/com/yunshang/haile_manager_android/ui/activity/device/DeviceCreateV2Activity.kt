@@ -68,21 +68,22 @@ class DeviceCreateV2Activity :
             if (result.resultCode == RESULT_OK) {
                 CameraScan.parseScanResult(result.data)?.let {
                     Timber.i("扫码:$it")
+                    val originCodeTrim = it.trim()
                     if (isAttrImei) {
                         Timber.i("IMEI:$it")
-                        if (StringUtils.isImeiCode(it)) mViewModel.washImeiCode.value = it
+                        if (StringUtils.isImeiCode(originCodeTrim)) mViewModel.washImeiCode.value = originCodeTrim
                         else SToast.showToast(this, R.string.imei_code_error1)
                     } else {
-                        mViewModel.codeStr = it
-                        StringUtils.getPayImeiCode(it)?.let { code ->
+                        mViewModel.codeStr = originCodeTrim
+                        StringUtils.getPayImeiCode(originCodeTrim)?.let { code ->
                             mViewModel.payCode.value = code
                             mViewModel.imeiCode.value = code
                         } ?: run {
-                            val payCode = StringUtils.getPayCode(it)
+                            val payCode = StringUtils.getPayCode(originCodeTrim)
                             if (null != payCode) {
                                 mViewModel.payCode.value = payCode
-                            } else if (StringUtils.isImeiCode(it)) {
-                                mViewModel.imeiCode.value = it
+                            } else if (StringUtils.isImeiCode(originCodeTrim)) {
+                                mViewModel.imeiCode.value = originCodeTrim
                                 mBinding.itemDeviceCreateImei.clearFocus()
                             } else
                                 SToast.showToast(this, R.string.scan_code_error)

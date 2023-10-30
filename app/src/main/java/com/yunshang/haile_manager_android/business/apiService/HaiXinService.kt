@@ -73,6 +73,12 @@ interface HaiXinService {
     suspend fun createSchemeConfig(@Body params: RequestBody): ResponseWrapper<Any>
 
     /**
+     * 批量设置充值方案接口
+     */
+    @POST("/starfish/shopConfig/create/batch")
+    suspend fun batchSettingSchemeConfig(@Body params: RequestBody): ResponseWrapper<Any>
+
+    /**
      * 修改充值方案接口
      */
     @POST("/starfish/shopConfig/update")

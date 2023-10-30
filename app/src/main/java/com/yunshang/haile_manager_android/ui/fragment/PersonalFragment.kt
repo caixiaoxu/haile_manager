@@ -18,6 +18,7 @@ import com.yunshang.haile_manager_android.business.vm.PersonalViewModel
 import com.yunshang.haile_manager_android.data.arguments.StaffParam
 import com.yunshang.haile_manager_android.databinding.FragmentPersonalBinding
 import com.yunshang.haile_manager_android.databinding.IncludePersonalItemBinding
+import com.yunshang.haile_manager_android.ui.activity.personal.ChangeOrganizationActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.PersonalInfoActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
@@ -51,6 +52,10 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
 
         mBinding.clPersonalInfo.setOnClickListener {
             startActivity(Intent(context, PersonalInfoActivity::class.java))
+        }
+
+        mBinding.btnOrganizationChange.setOnClickListener {
+            startActivity(Intent(context, ChangeOrganizationActivity::class.java))
         }
 
         // items
@@ -151,6 +156,7 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
     }
 
     override fun initData() {
+        mSharedViewModel.requestUserInfoAsync()
         mViewModel.requestData()
     }
 

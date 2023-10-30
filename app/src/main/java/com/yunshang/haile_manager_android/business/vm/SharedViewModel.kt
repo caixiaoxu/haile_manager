@@ -163,6 +163,8 @@ class SharedViewModel : ViewModel() {
     /** ---------------------数据统计权限------------------------- **/
     val hasDataStatisticsListPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasDataStatisticsListPermission() }
+    val hasDeviceMonitoringPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasDeviceMonitoringPermission() }
     /** ---------------------数据统计权限------------------------- **/
     /** ---------------------用户权限------------------------- **/
 
@@ -229,14 +231,12 @@ class SharedViewModel : ViewModel() {
     /**
      * 切换角色
      */
-    fun swapUserInfo() {
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                requestUserInfo(-1, null)
-                requestUserPermissions()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+    suspend fun swapUserInfo() {
+        try {
+            requestUserInfo(-1, null)
+            requestUserPermissions()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

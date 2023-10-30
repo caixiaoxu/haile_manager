@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.web
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.net.http.SslError
 import android.view.View
 import android.webkit.*
@@ -34,18 +35,35 @@ class WebViewActivity : BaseBusinessActivity<ActivityWebviewBinding, WebViewView
     WebViewViewModel::class.java
 ) {
     private var mWebView: BridgeWebView? = null
-
     private val jsInterfaceName = "WebViewJavascriptBridge"
+    private var fileChooserParams: WebChromeClient.FileChooserParams? = null
+    private var fileCallback: ValueCallback<Array<Uri>>? = null
 
     // 权限
     private val requestMultiplePermission =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result: Map<String, Boolean> ->
             if (result.values.any { it }) {
                 // 授权权限成功
-                startQRActivity(false)
+                fileChooserParams?.createIntent()?.let { intent ->
+                    startFileChooser.launch(intent)
+                    fileChooserParams = null
+                } ?: run {
+                    startQRActivity(false)
+                }
             } else {
                 // 授权失败
                 SToast.showToast(this, R.string.empty_permission)
+            }
+        }
+
+    // 文件选择界面
+    private val startFileChooser =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            fileCallback?.let { callback ->
+                callback.onReceiveValue(if (result.resultCode == RESULT_OK && null != result.data) {
+                    result.data?.dataString?.let { arrayOf(Uri.parse(it)) }
+                } else null)
+                fileCallback = null
             }
         }
 
@@ -225,21 +243,16 @@ class WebViewActivity : BaseBusinessActivity<ActivityWebviewBinding, WebViewView
                     super.onProgressChanged(view, newProgress)
                 }
 
-//                override fun onShowFileChooser(
-//                    webView: WebView?,
-//                    filePathCallback: ValueCallback<Array<Uri>>?,
-//                    fileChooserParams: FileChooserParams?
-//                ): Boolean {
-//                    DialogUtils.showImgSelectorDialog(
-//                        this@WebViewActivity,
-//                        1,
-//                    ) { isSuccess, result ->
-//                        if (isSuccess && !result.isNullOrEmpty()) {
-////                            filePathCallback?.onReceiveValue()
-//                        } else callResponse(JsResponseBean<Any?>(4, "图片获取失败"))
-//                    }
-//                    return true
-//                }
+                override fun onShowFileChooser(
+                    webView: WebView?,
+                    filePathCallback: ValueCallback<Array<Uri>>?,
+                    fileChooserParams: FileChooserParams?
+                ): Boolean {
+                    this@WebViewActivity.fileChooserParams = fileChooserParams
+                    fileCallback = filePathCallback
+                    requestMultiplePermission.launch(SystemPermissionHelper.readWritePermissions())
+                    return true
+                }
             }
 
             addJavascriptInterface(

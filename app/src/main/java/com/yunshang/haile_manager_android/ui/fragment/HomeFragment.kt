@@ -56,6 +56,7 @@ import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDi
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.StringUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
+import com.yunshang.haile_manager_android.web.WebViewActivity
 import timber.log.Timber
 import java.lang.reflect.Field
 import java.util.*
@@ -177,21 +178,21 @@ class HomeFragment :
         }
 
         mBinding.ibContactService.setOnClickListener {
-            if (!ViewUtils.isFastDoubleClick()){
+            if (!ViewUtils.isFastDoubleClick()) {
                 // 调用系统浏览器
-                val uri: Uri = Uri.parse(Constants.SERVICE_URL)
-                val intent = Intent(Intent.ACTION_VIEW, uri)
-                startActivity(intent)
+//                val uri: Uri = Uri.parse(Constants.SERVICE_URL)
+//                val intent = Intent(Intent.ACTION_VIEW, uri)
+//                startActivity(intent)
 
-//                startActivity(Intent(requireContext(), WebViewActivity::class.java).apply {
-//                    putExtras(
-//                        IntentParams.WebViewParams.pack(
-//                            Constants.SERVICE_URL,
-//                            noCache = true
-//                        )
-//                    )
-//                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//                })
+                startActivity(Intent(requireContext(), WebViewActivity::class.java).apply {
+                    putExtras(
+                        IntentParams.WebViewParams.pack(
+                            Constants.SERVICE_URL,
+                            noCache = true
+                        )
+                    )
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                })
             }
         }
     }

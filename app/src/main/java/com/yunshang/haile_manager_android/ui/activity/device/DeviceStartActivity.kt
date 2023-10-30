@@ -41,9 +41,9 @@ class DeviceStartActivity :
         intent.getStringExtra(Items)?.let {
             GsonUtils.json2List(it, SkuFunConfigurationV2Param::class.java)?.let { list ->
                 mViewModel.items = list.filter { item -> 1 == item.soldState }.map { item ->
-                    val list = item.extAttrDto.items.filter { attr -> attr.isEnabled }
+                    val filterList = item.extAttrDto.items.filter { attr -> attr.isEnabled }
                     if (DeviceCategory.isWashingOrShoes(mViewModel.categoryCode)) {
-                        val attr = list.firstOrNull()
+                        val attr = filterList.firstOrNull()
                         val times = attr?.unitAmount?.let { unit -> listOf(unit) } ?: listOf()
                         DeviceConfigSelectParams(
                             item.id,
@@ -53,7 +53,7 @@ class DeviceStartActivity :
                         DeviceConfigSelectParams(
                             item.id,
                             item.name,
-                            list.map { ext -> ext.unitAmount })
+                            filterList.map { ext -> ext.unitAmount })
                     }
                 }
             }

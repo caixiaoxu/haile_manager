@@ -21,37 +21,38 @@
             android:id="@+id/bar_device_temperature_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
+            android:layout_marginBottom="8dp"
             android:background="@color/white"
             app:title="@string/devices_temperature_setting" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/shape_ffffff_r8"
-            android:padding="12dp">
+<!--        <RelativeLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="12dp"-->
+<!--            android:layout_marginRight="12dp"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            android:visibility="gone"-->
+<!--            android:background="@drawable/shape_ffffff_r8"-->
+<!--            android:padding="12dp">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="温度限制"
-                android:textColor="#ff333333"
-                android:textSize="14sp" />
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="温度限制"-->
+<!--                android:textColor="#ff333333"-->
+<!--                android:textSize="14sp" />-->
 
-            <CheckBox
-                android:id="@+id/cb_temper"
-                android:layout_width="52dp"
-                android:layout_height="26dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/devices_checkbox_selector"
-                android:button="@null"
-                android:checked="@{vm.temperatureSwitch}" />
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_temper"-->
+<!--                android:layout_width="52dp"-->
+<!--                android:layout_height="26dp"-->
+<!--                android:layout_alignParentRight="true"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:background="@drawable/devices_checkbox_selector"-->
+<!--                android:button="@null"-->
+<!--                android:checked="@{vm.temperatureSwitch}" />-->
 
-        </RelativeLayout>
+<!--        </RelativeLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -86,7 +87,7 @@
                     android:hint="输入范围-20至15度"
                     android:inputType="number"
                     android:maxLength="3"
-                    android:text="@{vm.min}"
+                    android:text="@={vm.min}"
                     android:textColor="#333333"
                     android:textColorHint="#cccccc"
                     android:textSize="16sp" />
@@ -149,7 +150,7 @@
                     android:hint="输入范围-20至16度"
                     android:inputType="number"
                     android:maxLength="3"
-                    android:text="@{vm.max}"
+                    android:text="@={vm.max}"
                     android:textColor="#333333"
                     android:textColorHint="#cccccc"
                     android:textSize="16sp" />

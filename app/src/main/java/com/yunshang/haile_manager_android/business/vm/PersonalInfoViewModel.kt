@@ -26,10 +26,6 @@ class PersonalInfoViewModel : BaseViewModel() {
     private val mCommonService = ApiRepository.apiClient(CommonService::class.java)
     private val mUserService = ApiRepository.apiClient(LoginUserService::class.java)
 
-    val roleList: MutableLiveData<List<RoleEntity>> by lazy {
-        MutableLiveData()
-    }
-
     /**
      * 上传头像
      */
@@ -54,41 +50,6 @@ class PersonalInfoViewModel : BaseViewModel() {
             Timber.e("图片上传失败$it")
             withContext(Dispatchers.Main) {
                 callback(false)
-            }
-        })
-    }
-
-    /**
-     * 请求角色列表
-     */
-    fun requestRoleList() {
-        launch({
-            ApiRepository.dealApiResult(
-                mUserService.requestRoleInfo(ApiRepository.createRequestBody(hashMapOf()))
-            )?.let {
-                roleList.postValue(it.filter { r ->
-                    SPRepository.loginInfo?.userId?.let { id -> r.id != id } ?: false
-                })
-            }
-        })
-    }
-
-    /**
-     * 切换角色
-     */
-    fun swapUserLogin(id: Int, callback: (loginEntity: LoginEntity) -> Unit) {
-        launch({
-            ApiRepository.dealApiResult(
-                mUserService.swapUserLogin(
-                    ApiRepository.createRequestBody(
-                        hashMapOf(
-                            "authorizationClientType" to 4,
-                            "userId" to id
-                        )
-                    )
-                )
-            )?.let {
-                callback(it)
             }
         })
     }

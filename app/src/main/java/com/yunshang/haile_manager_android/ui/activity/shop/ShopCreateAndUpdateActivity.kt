@@ -196,7 +196,7 @@ class ShopCreateAndUpdateActivity :
             startSearchSelect.launch(
                 Intent(
                     this@ShopCreateAndUpdateActivity,
-                    ShopOperationSettingActivity::class.java
+                    ShopFlowOperationSettingActivity::class.java
                 ).apply {
                     putExtras(IntentParams.ShopOperationSettingParams.pack(mViewModel.volumeVisibleState.value))
                 }

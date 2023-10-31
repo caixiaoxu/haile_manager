@@ -17,14 +17,19 @@ import com.yunshang.haile_manager_android.R
  * 作者姓名 修改时间 版本号 描述
  */
 data class ShopPaySettingsEntity(
-    var tokenCoinAllowRefund: Int,
-    val goodsSettingList: List<GoodsSetting>?,
+    var tokenCoinAllowRefund: Int? = null,
+    val goodsSettingList: List<GoodsSetting>? = null,
     var shopIdList: List<Int>? = null,
     var shopId: Int? = null
-) {
-    fun setTokenCoinAllowRefund(isCheck: Boolean) {
-        tokenCoinAllowRefund = if (isCheck) 1 else 0
-    }
+) : BaseObservable() {
+
+    @get:Bindable
+    var tokenCoinAllowRefundVal: Boolean
+        get() = 1 == tokenCoinAllowRefund
+        set(value) {
+            tokenCoinAllowRefund = if (value) 1 else 0
+            notifyPropertyChanged(BR.tokenCoinAllowRefundVal)
+        }
 
     fun showSettingList(): Boolean =
         !(goodsSettingList.isNullOrEmpty()

@@ -95,7 +95,7 @@
             android:name=".ui.activity.personal.BindSmsVerifyActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.shop.ShopOperationSettingActivity"
+            android:name=".ui.activity.shop.ShopFlowOperationSettingActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.device.DeviceOtherParamsUpdateActivity"

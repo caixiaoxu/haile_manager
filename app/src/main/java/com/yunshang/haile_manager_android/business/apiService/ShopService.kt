@@ -196,4 +196,10 @@ interface ShopService {
      */
     @POST("/position/deleteSubOrganizationPosition")
     suspend fun deletePosition(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 请求运营设置详情
+     */
+    @POST("/shop/operationSettingDetail")
+    suspend fun requestOperationSettingDetail(@Body body: RequestBody): ResponseWrapper<ShopOperationSettingEntity>
 }

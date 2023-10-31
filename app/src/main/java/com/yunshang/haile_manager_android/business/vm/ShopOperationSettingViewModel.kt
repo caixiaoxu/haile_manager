@@ -5,6 +5,7 @@ import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.yunshang.haile_manager_android.business.apiService.ShopService
 import com.yunshang.haile_manager_android.business.event.BusEvents
+import com.yunshang.haile_manager_android.data.entities.ShopOperationSettingEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -20,29 +21,33 @@ import kotlinx.coroutines.withContext
  * 作者姓名 修改时间 版本号 描述
  */
 class ShopOperationSettingViewModel : BaseViewModel() {
-    private val mRepo = ApiRepository.apiClient(ShopService::class.java)
+    private val mShopRepo = ApiRepository.apiClient(ShopService::class.java)
 
     var shopId: Int = -1
 
-    val openSetting1: MutableLiveData<Boolean> by lazy {
+    val operationSettingDetail: MutableLiveData<ShopOperationSettingEntity> by lazy {
         MutableLiveData()
     }
 
-    fun submit(openVal: Int, callback: () -> Unit) {
+    fun requestData() {
+        if (-1 == shopId) return
         launch({
             ApiRepository.dealApiResult(
-                mRepo.saveOperationSetting(
+                mShopRepo.requestOperationSettingDetail(
                     ApiRepository.createRequestBody(
-                        hashMapOf(
-                            "shopId" to shopId,
-                            "volumeVisibleState" to openVal
-                        )
+                        hashMapOf("id" to shopId)
                     )
                 )
-            )
-            LiveDataBus.post(BusEvents.SHOP_DETAILS_STATUS, true)
-            withContext(Dispatchers.Main){
-                callback()
+            )?.let {
+                operationSettingDetail.postValue(it.apply {
+                    showItem1 = null != paymentSetting
+                    showItem2 = null != compensationSetting
+                    showItem3 = null != appointSetting
+                    showItem4 = null != operationSetting
+
+                    appointSetting?.settingList = appointSetting?.settings
+                    appointSetting?.settings = null
+                })
             }
         })
     }

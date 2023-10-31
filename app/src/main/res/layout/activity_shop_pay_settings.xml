@@ -45,8 +45,7 @@
                 style="@style/CustomSwitchStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="@{1 == vm.shopPaySettings.tokenCoinAllowRefund}"
-                android:onCheckedChanged="@{(btn,checked)-> vm.shopPaySettings.setTokenCoinAllowRefund(checked)}"
+                android:checked="@={vm.shopPaySettings.tokenCoinAllowRefundVal}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

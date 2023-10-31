@@ -52,23 +52,23 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
                 )
             }
         }
-        mBinding.tvShopDetailPayConfigStatus.setOnClickListener {
-            mViewModel.shopDetail.value?.let { detail ->
-                startActivity(Intent(
-                    this@ShopDetailActivity,
-                    ShopPaySettingsActivity::class.java
-                ).apply {
-                    detail.paymentSettings?.let { settings ->
-                        putExtras(
-                            IntentParams.ShopPaySettingsParams.pack(
-                                shopPaySettings = settings,
-                                shopId = detail.id,
-                            )
-                        )
-                    }
-                })
-            }
-        }
+//        mBinding.tvShopDetailPayConfigStatus.setOnClickListener {
+//            mViewModel.shopDetail.value?.let { detail ->
+//                startActivity(Intent(
+//                    this@ShopDetailActivity,
+//                    ShopPaySettingsActivity::class.java
+//                ).apply {
+//                    detail.paymentSettings?.let { settings ->
+//                        putExtras(
+//                            IntentParams.ShopPaySettingsParams.pack(
+//                                shopPaySettings = settings,
+//                                shopId = detail.id,
+//                            )
+//                        )
+//                    }
+//                })
+//            }
+//        }
 
         mBinding.tvShopDetailAppointmentInfoTitle.setOnClickListener {
             if (mViewModel.shopDetail.value?.appointSettingList.isNullOrEmpty()) return@setOnClickListener
@@ -93,7 +93,7 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
             startActivity(
                 Intent(
                     this@ShopDetailActivity,
-                    ShopOperationSettingActivity::class.java
+                    ShopFlowOperationSettingActivity::class.java
                 ).apply {
                     putExtras(
                         IntentParams.ShopOperationSettingParams.pack(
@@ -106,16 +106,16 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
         }
 
         // 预约
-        mBinding.btnShopDetailAppointment.setOnClickListener {
-            startActivity(
-                Intent(
-                    this@ShopDetailActivity,
-                    ShopAppointmentSettingActivity::class.java
-                ).apply {
-                    putExtra(ShopAppointmentSettingActivity.ShopId, mViewModel.shopId)
-                }
-            )
-        }
+//        mBinding.btnShopDetailAppointment.setOnClickListener {
+//            startActivity(
+//                Intent(
+//                    this@ShopDetailActivity,
+//                    ShopAppointmentSettingActivity::class.java
+//                ).apply {
+//                    putExtra(ShopAppointmentSettingActivity.ShopId, mViewModel.shopId)
+//                }
+//            )
+//        }
 
         // 编辑
         mBinding.btnShopDetailEdit.setOnClickListener {
@@ -145,9 +145,9 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
 
     override fun initEvent() {
         super.initEvent()
-        mSharedViewModel.hasShopAppointPermission.observe(this) {
-            mBinding.btnShopDetailAppointment.visibility = if (it) View.VISIBLE else View.GONE
-        }
+//        mSharedViewModel.hasShopAppointPermission.observe(this) {
+//            mBinding.btnShopDetailAppointment.visibility = if (it) View.VISIBLE else View.GONE
+//        }
 
         mSharedViewModel.hasShopUpdatePermission.observe(this) {
             mBinding.btnShopDetailEdit.visibility = if (it) View.VISIBLE else View.GONE

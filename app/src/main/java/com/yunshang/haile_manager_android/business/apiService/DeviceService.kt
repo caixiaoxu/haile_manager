@@ -53,6 +53,15 @@ interface DeviceService {
     ): ResponseWrapper<MutableList<SpuEntity>>
 
     /**
+     * spu列表（拆分子型号）接口
+     */
+    @GET("/spu/list/split")
+    suspend fun spuListSplit(
+        @Query("categoryId") categoryId: Int,
+        @Query("shopIdList") shopIdList: IntArray? = null
+    ): ResponseWrapper<MutableList<SpuEntity>>
+
+    /**
      * spu详情接口
      */
     @GET("/spu/detail")

@@ -370,6 +370,7 @@
     <string name="real_income">实收：</string>
     <string name="order_specs">"%1$s %2$s分钟 ￥%3$s"</string>
     <string name="order_detail">订单详情</string>
+    <string name="look_device">查看设备</string>
     <string name="compensate">补偿</string>
     <string name="refund">退款</string>
     <string name="order_user">下单用户</string>
@@ -381,6 +382,7 @@
     <string name="model_of_payment">支付方式</string>
     <string name="no_of_payment">支付单号</string>
     <string name="time_of_payment">支付时间</string>
+    <string name="reason_for_end">结束原因</string>
     <string name="reason_for_refund">退款原因：</string>
     <string name="refund_amount">退款金额：</string>
     <string name="refund_haixin">退款海星：</string>

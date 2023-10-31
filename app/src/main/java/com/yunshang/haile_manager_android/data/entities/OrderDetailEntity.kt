@@ -69,6 +69,8 @@ data class OrderDetailEntity(
     val appointmentInfo: AppointmentInfo?,
     val appointmentTime: String,
     val canCancelReserve: Boolean,
+    val endState: Int,
+    val endStateDesc: String?,
     val completeTime: String? = null,
     val positionId: Int? = null,
     val positionName: String? = null,
@@ -125,6 +127,12 @@ data class OrderDetailEntity(
             )
         }
             ?: SpannableString("")
+
+    fun endStateVal(): String = when(endState){
+        1050->endStateDesc?.let { "故障结束-$it" } ?: ""
+        1000->"正常结束"
+        else->""
+    }
 }
 
 data class AppointmentInfo(

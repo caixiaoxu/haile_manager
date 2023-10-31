@@ -68,6 +68,10 @@ class ShopOperationSettingActivity :
             // 预约设置
             mAdapter.refreshList(settings?.appointSetting?.settingList, true)
         }
+
+        mViewModel.jump.observe(this){
+            finish()
+        }
     }
 
     override fun initView() {

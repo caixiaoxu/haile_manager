@@ -1,10 +1,16 @@
 package com.yunshang.haile_manager_android.business.vm
 
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.gson.GsonUtils
+import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.ShopService
 import com.yunshang.haile_manager_android.data.entities.ShopOperationSettingEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * Title :
@@ -36,15 +42,33 @@ class ShopOperationSettingViewModel : BaseViewModel() {
                 )
             )?.let {
                 operationSettingDetail.postValue(it.apply {
-                    showItem1 = null != paymentSetting
-                    showItem2 = null != compensationSetting
-                    showItem3 = null != appointSetting
-                    showItem4 = null != operationSetting
-
                     appointSetting?.settingList = appointSetting?.settings
                     appointSetting?.settings = null
+
+                    showItem1 = null != paymentSetting
+                    showItem2 = null != compensationSetting
+                    showItem3 = !appointSetting?.settingList.isNullOrEmpty()
+                    showItem4 = null != operationSetting
                 })
             }
+        })
+    }
+
+    fun save(v: View) {
+        launch({
+            ApiRepository.dealApiResult(
+                mShopRepo.saveOperationSetting(
+                    ApiRepository.createRequestBody(
+                        GsonUtils.any2Json(
+                            operationSettingDetail.value
+                        )
+                    )
+                )
+            )
+            withContext(Dispatchers.Main) {
+                SToast.showToast(v.context, R.string.save_success)
+            }
+            jump.postValue(0)
         })
     }
 }

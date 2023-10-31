@@ -164,7 +164,7 @@ interface ShopService {
     /**
      * 保存店铺运营设置
      */
-    @POST("/shop/saveOperationSetting")
+    @POST("/shop/operationSetting")
     suspend fun saveOperationSetting(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**

@@ -388,14 +388,16 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="96dp"
-            android:background="@color/white"
+            android:background="@drawable/shape_top_stroke_dividing"
             android:paddingTop="8dp">
 
             <com.yunshang.haile_manager_android.ui.view.CommonButton
                 android:id="@+id/btn_shop_params_setting_save"
                 style="@style/CommonMatchBtnStyle1"
                 android:layout_marginHorizontal="14dp"
+                android:enabled="@{null != vm.operationSettingDetail}"
                 android:layout_marginTop="8dp"
+                android:onClick="@{vm::save}"
                 android:layout_marginBottom="42dp"
                 android:text="@string/save" />
         </FrameLayout>

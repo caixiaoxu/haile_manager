@@ -96,7 +96,10 @@ data class OperationCompensationSetting(
     var autoRefundMoneyVal: Boolean
         get() = 1 == autoRefundMoney
         set(value) {
-            autoRefundMoney = if (value) 1 else 0
+            autoRefundMoney = if (value) {
+                autoCompensateCouponVal = false
+                1
+            } else 0
             notifyPropertyChanged(BR.autoRefundMoneyVal)
         }
 
@@ -104,7 +107,10 @@ data class OperationCompensationSetting(
     var autoCompensateCouponVal: Boolean
         get() = 1 == autoCompensateCoupon
         set(value) {
-            autoCompensateCoupon = if (value) 1 else 0
+            autoCompensateCoupon = if (value) {
+                autoRefundMoneyVal = false
+                1
+            } else 0
             notifyPropertyChanged(BR.autoCompensateCouponVal)
         }
 

@@ -179,7 +179,7 @@
     <string name="scan_code_error">无法识别该二维码</string>
     <string name="device_func_configuration_title">功能%1$d</string>
     <string name="invalid_error">无效码</string>
-    <string name="allow_starfish_refund">允许海星退款</string>
+    <string name="allow_starfish_refund">允许海星充值退款</string>
     <string name="compel_use_starfish">强制使用\n海星</string>
     <string name="compel_no_pwd_pay">强制使用\n免密支付</string>
     <string name="no_pwd_pay">提示使用\n免密支付</string>
@@ -278,6 +278,7 @@
     <string name="update_params">修改参数</string>
     <string name="update_params_setting">修改参数设置</string>
     <string name="params_info">参数信息</string>
+    <string name="save_success">保存成功</string>
 
     <string name="price_model">价格模式</string>
     <string name="price_model_type1">固定</string>

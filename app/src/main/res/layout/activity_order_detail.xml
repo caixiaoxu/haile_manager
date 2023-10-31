@@ -422,7 +422,7 @@
                     <include
                         layout="@layout/item_order_detail_item"
                         app:mStart="@{@dimen/dimen_2}"
-                        app:title='@{@string/reason_for_end +"："}'
+                        app:title='@{@string/time_of_payment +"："}'
                         app:value='@{vm.orderDetail.payTime}'
                         app:visibility="@{vm.orderDetail.state >= 500 }" />
 

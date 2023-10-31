@@ -93,13 +93,10 @@ class ShopDetailActivity : BaseBusinessActivity<ActivityShopDetailBinding, ShopD
             startActivity(
                 Intent(
                     this@ShopDetailActivity,
-                    ShopFlowOperationSettingActivity::class.java
+                    ShopOperationSettingActivity::class.java
                 ).apply {
                     putExtras(
-                        IntentParams.ShopOperationSettingParams.pack(
-                            mViewModel.shopDetail.value?.operationSettings?.volumeVisibleState,
-                            mViewModel.shopId
-                        )
+                        IntentParams.ShopParams.pack(mViewModel.shopId)
                     )
                 }
             )

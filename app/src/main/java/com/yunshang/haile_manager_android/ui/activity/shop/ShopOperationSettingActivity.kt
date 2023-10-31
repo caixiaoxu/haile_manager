@@ -1,8 +1,6 @@
 package com.yunshang.haile_manager_android.ui.activity.shop
 
-import android.content.Intent
 import android.graphics.Color
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.LinearLayoutCompat
@@ -11,7 +9,6 @@ import com.lsy.framelib.BR
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.R
-import com.yunshang.haile_manager_android.business.vm.ShopFlowOperationSettingViewModel
 import com.yunshang.haile_manager_android.business.vm.ShopOperationSettingViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.GoodsSetting
@@ -19,9 +16,7 @@ import com.yunshang.haile_manager_android.data.entities.SettingItem
 import com.yunshang.haile_manager_android.databinding.ActivityShopOperationSettingBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopAppointmentSettingBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopPaySettingsBinding
-import com.yunshang.haile_manager_android.databinding.PopupShopOperationSettingPromtBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
-import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 
 class ShopOperationSettingActivity :

@@ -1,14 +1,10 @@
 package com.yunshang.haile_manager_android.business.vm
 
 import androidx.lifecycle.MutableLiveData
-import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.yunshang.haile_manager_android.business.apiService.ShopService
-import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.entities.ShopOperationSettingEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 /**
  * Title :

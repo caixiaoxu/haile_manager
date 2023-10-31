@@ -429,7 +429,7 @@
                     <include
                         layout="@layout/item_order_detail_item"
                         app:mStart="@{@dimen/dimen_2}"
-                        app:title='@{@string/time_of_payment +"："}'
+                        app:title='@{@string/reason_for_end +"："}'
                         app:value='@{vm.orderDetail.endStateVal}'
                         app:visibility="@{vm.orderDetail.endStateVal().length() > 0 }" />
                 </androidx.appcompat.widget.LinearLayoutCompat>

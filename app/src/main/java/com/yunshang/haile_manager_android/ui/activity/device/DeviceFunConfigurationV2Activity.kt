@@ -246,9 +246,7 @@ class DeviceFunConfigurationV2Activity :
             IntentParams.DeviceFunConfigurationV2Params.parseSkuExtAttrDto(intent)
 
         mViewModel.spuExtAttrDto.value =
-            IntentParams.DeviceFunConfigurationV2Params.parseExtAttrDto(intent)?.apply {
-                channelCount = 1
-            }
+            IntentParams.DeviceFunConfigurationV2Params.parseExtAttrDto(intent)
     }
 
     override fun initEvent() {

@@ -72,11 +72,13 @@ class ShopOperationSettingActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+        mBinding.shared = mSharedViewModel
 
         mBinding.rvShopAppointmentOperationSettingList.layoutManager = LinearLayoutManager(this)
         mBinding.rvShopAppointmentOperationSettingList.adapter = mAdapter
     }
 
     override fun initData() {
+        mViewModel.requestData()
     }
 }

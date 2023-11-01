@@ -280,6 +280,16 @@
     <string name="params_info">参数信息</string>
     <string name="save_success">保存成功</string>
 
+    <string name="batch_pay_setting">批量支付设置</string>
+    <string name="batch_pay_setting_prompt">设置海星、免密支付的强制和提示</string>
+    <string name="batch_compensation_setting">批量补偿设置</string>
+    <string name="batch_compensation_setting_prompt">异常订单的补偿规则</string>
+    <string name="batch_appointment_setting">批量预约设置</string>
+    <string name="batch_appointment_setting_prompt">设置预约的设备类型和预约退款规则</string>
+    <string name="batch_flow_setting">批量按流量收费显示设置</string>
+    <string name="batch_flow_setting_prompt">按流量收费时，用户订单是否显示用量</string>
+    <string name="select_shops_hint">具体门店信息</string>
+
     <string name="price_model">价格模式</string>
     <string name="price_model_type1">固定</string>
     <string name="price_model_type2">单价</string>

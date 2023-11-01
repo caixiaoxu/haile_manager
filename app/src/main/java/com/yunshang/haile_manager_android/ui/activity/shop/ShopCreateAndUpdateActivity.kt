@@ -176,32 +176,32 @@ class ShopCreateAndUpdateActivity :
 //                multiDialog.show(supportFragmentManager)
 //            }
 //        }
-
-        // 支付设置
-        mBinding.itemShopCreatePaySetting.onSelectedEvent = {
-            startSearchSelect.launch(
-                Intent(
-                    this@ShopCreateAndUpdateActivity,
-                    ShopPaySettingsActivity::class.java
-                ).apply {
-                    mViewModel.createAndUpdateEntity.value?.paymentSettings?.let { settings ->
-                        putExtras(IntentParams.ShopPaySettingsParams.pack(shopPaySettings = settings))
-                    }
-                }
-            )
-        }
-
-        // 运营设置
-        mBinding.itemShopCreateOperationSetting.onSelectedEvent = {
-            startSearchSelect.launch(
-                Intent(
-                    this@ShopCreateAndUpdateActivity,
-                    ShopFlowOperationSettingActivity::class.java
-                ).apply {
-                    putExtras(IntentParams.ShopOperationSettingParams.pack(mViewModel.volumeVisibleState.value))
-                }
-            )
-        }
+//
+//        // 支付设置
+//        mBinding.itemShopCreatePaySetting.onSelectedEvent = {
+//            startSearchSelect.launch(
+//                Intent(
+//                    this@ShopCreateAndUpdateActivity,
+//                    ShopBatchPaySettingsActivity::class.java
+//                ).apply {
+//                    mViewModel.createAndUpdateEntity.value?.paymentSettings?.let { settings ->
+//                        putExtras(IntentParams.ShopPaySettingsParams.pack(shopPaySettings = settings))
+//                    }
+//                }
+//            )
+//        }
+//
+//        // 运营设置
+//        mBinding.itemShopCreateOperationSetting.onSelectedEvent = {
+//            startSearchSelect.launch(
+//                Intent(
+//                    this@ShopCreateAndUpdateActivity,
+//                    ShopFlowOperationSettingActivity::class.java
+//                ).apply {
+//                    putExtras(IntentParams.ShopOperationSettingParams.pack(mViewModel.volumeVisibleState.value))
+//                }
+//            )
+//        }
     }
 
     override fun initEvent() {

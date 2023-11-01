@@ -202,4 +202,16 @@ interface ShopService {
      */
     @POST("/shop/operationSettingDetail")
     suspend fun requestOperationSettingDetail(@Body body: RequestBody): ResponseWrapper<ShopOperationSettingEntity>
+
+    /**
+     * 批量补偿设置
+     */
+    @POST("/compensation/operationBatchSetting")
+    suspend fun saveBatchCompensationSetting(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 批量按流量设置
+     */
+    @POST("/shop/batchSaveOperationSetting")
+    suspend fun saveBatchFlowSetting(@Body body: RequestBody): ResponseWrapper<Any>
 }

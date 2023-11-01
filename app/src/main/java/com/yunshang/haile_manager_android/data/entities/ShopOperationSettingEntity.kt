@@ -91,6 +91,7 @@ data class OperationCompensationSetting(
     var autoRefundMoney: Int? = null,
     val shopId: Int? = null
 ) : BaseObservable() {
+    var shopIdList: IntArray? = null
 
     @get:Bindable
     var autoRefundMoneyVal: Boolean
@@ -120,6 +121,8 @@ data class OperationFlowSetting(
     val shopId: Int? = null,
     var volumeVisibleState: Int? = null
 ) : BaseObservable() {
+    var shopIdList: IntArray? = null
+
     @get:Bindable
     var volumeVisibleStateVal: Boolean
         get() = 1 == volumeVisibleState

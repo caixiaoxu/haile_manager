@@ -18,7 +18,8 @@ data class AppointmentSettingEntity(
     var settingList: MutableList<SettingItem>? = null,
     var autoRefund: Int? = null,
     var shopId: Int? = null
-): BaseObservable(){
+) : BaseObservable() {
+    var shopIdList: IntArray? = null
     var settings: MutableList<SettingItem>? = null
 
     @get:Bindable

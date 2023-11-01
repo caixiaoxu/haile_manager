@@ -44,11 +44,11 @@ class ShopFlowOperationSettingViewModel : BaseViewModel() {
     }
 
     val flowSetting: MutableLiveData<OperationFlowSetting> by lazy {
-        MutableLiveData()
+        MutableLiveData(OperationFlowSetting())
     }
 
     fun save(v: View) {
-        if (selectShops.value.isNullOrEmpty() || null != flowSetting.value) return
+        if (selectShops.value.isNullOrEmpty() || null == flowSetting.value) return
 
         launch({
             ApiRepository.dealApiResult(

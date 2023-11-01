@@ -2,10 +2,8 @@ package com.yunshang.haile_manager_android.data.arguments
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
-import com.google.gson.annotations.SerializedName
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.data.entities.SchoolSelectEntity
-import com.yunshang.haile_manager_android.data.entities.ShopPaySettingsEntity
 import com.yunshang.haile_manager_android.data.entities.ShopTypeEntity
 import com.yunshang.haile_manager_android.utils.StringUtils
 
@@ -40,9 +38,6 @@ data class ShopCreateParam(
     var serviceTelephone: String = "",
     @Transient
     var shopBusiness: String = "",
-    @SerializedName("paymentSettings")
-    var _paymentSettings: ShopPaySettingsEntity? = null,
-    var operationSettings: OperationSettings = OperationSettings(0)
 ) : BaseObservable() {
 
     @get:Bindable
@@ -176,14 +171,6 @@ data class ShopCreateParam(
         // 详细地址
         addressValue = address ?: ""
     }
-
-    @get:Bindable
-    var paymentSettings: ShopPaySettingsEntity?
-        get() = _paymentSettings
-        set(value) {
-            _paymentSettings = value
-            notifyPropertyChanged(BR.paymentSettings)
-        }
 }
 
 data class OperationSettings(

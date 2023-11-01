@@ -106,31 +106,6 @@
                     app:title="@string/location_floor"
                     app:type="input"
                     app:visibility="@{null != vm.createAndUpdateEntity.shopTypeVal &amp;&amp; 1 == vm.createAndUpdateEntity.shopTypeVal}" />
-
-                <!--                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView-->
-                <!--                    android:id="@+id/mtiv_shop_create_business_type"-->
-                <!--                    style="@style/MultiTypePaddingHItemStyle"-->
-                <!--                    app:itemContent="@{vm.businessTypeValue}"-->
-                <!--                    app:showArrow="true"-->
-                <!--                    app:title="@string/business_type"-->
-                <!--                    app:type="info" />-->
-
-<!--                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView-->
-<!--                    android:id="@+id/item_shop_create_pay_setting"-->
-<!--                    style="@style/MultiTypePaddingHItemStyle"-->
-<!--                    app:itemContent="@{null == vm.createAndUpdateEntity.paymentSettings?@string/no_configure:@string/configured}"-->
-<!--                    app:showArrow="true"-->
-<!--                    app:visibility="@{null == vm.createAndUpdateEntity.id}"-->
-<!--                    app:title="@string/shop_pay_config"-->
-<!--                    app:type="info" />-->
-
-<!--                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView-->
-<!--                    android:id="@+id/item_shop_create_operation_setting"-->
-<!--                    style="@style/MultiTypePaddingHItemStyle"-->
-<!--                    app:itemContent="@{null == vm.volumeVisibleState?@string/no_configure:@string/configured}"-->
-<!--                    app:showArrow="true"-->
-<!--                    app:title="@string/operation_setting"-->
-<!--                    app:type="info" />-->
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
 

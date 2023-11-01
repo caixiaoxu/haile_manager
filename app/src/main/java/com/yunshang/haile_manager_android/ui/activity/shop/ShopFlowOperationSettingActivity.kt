@@ -7,14 +7,12 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import com.lsy.framelib.BR
 import com.lsy.framelib.utils.DimensionUtils
-import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.ShopFlowOperationSettingViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.databinding.ActivityShopFlowOperationSettingBinding
-import com.yunshang.haile_manager_android.databinding.ActivityShopOperationSettingBinding
 import com.yunshang.haile_manager_android.databinding.PopupShopOperationSettingPromtBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
@@ -44,6 +42,13 @@ class ShopFlowOperationSettingActivity :
     override fun layoutId(): Int = R.layout.activity_shop_flow_operation_setting
 
     override fun backBtn(): View = mBinding.barOperationSettingTitle.getBackBtn()
+
+    override fun initEvent() {
+        super.initEvent()
+        mViewModel.jump.observe(this){
+            finish()
+        }
+    }
 
     override fun initView() {
         window.statusBarColor = Color.WHITE

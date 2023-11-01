@@ -25,7 +25,7 @@ import kotlinx.coroutines.withContext
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class AppointmentSettingViewModel : BaseViewModel() {
+class ShopAppointmentSettingViewModel : BaseViewModel() {
     private val mRepo = ApiRepository.apiClient(ShopService::class.java)
 
     // 选择的门店
@@ -41,20 +41,21 @@ class AppointmentSettingViewModel : BaseViewModel() {
         }
     }
 
-    val appointmentSetting: MutableLiveData<AppointmentSettingEntity> =
-        MutableLiveData(AppointmentSettingEntity())
+    val appointmentSetting: MutableLiveData<AppointmentSettingEntity> by lazy {
+        MutableLiveData()
+    }
 
     fun requestData() {
         if (selectShops.value.isNullOrEmpty()) return
 
         launch({
-//            val result = ApiRepository.dealApiResult(mRepo.getShopAppointmentSettingListV2(shopId))
-//            result?.let {
-//                appointmentSetting.postValue(result.apply {
-//                    settingList = settings
-//                    settings = null
-//                })
-//            }
+            ApiRepository.dealApiResult(mRepo.requestShopBatchAppointmentSettingList())
+                ?.let { result ->
+                    appointmentSetting.postValue(result.apply {
+                        settingList = settings
+                        settings = null
+                    })
+                }
         })
     }
 
@@ -74,7 +75,7 @@ class AppointmentSettingViewModel : BaseViewModel() {
                     )
                 )
             )
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 SToast.showToast(view.context, R.string.save_success)
             }
             jump.postValue(0)

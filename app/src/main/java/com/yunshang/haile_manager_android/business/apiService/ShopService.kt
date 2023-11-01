@@ -86,13 +86,13 @@ interface ShopService {
     /**
      * 店铺创建
      */
-    @POST("/shop/createShop")
+    @POST("/shop/createShop/v2")
     suspend fun createShop(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
      * 店铺修改
      */
-    @POST("/shop/updateShop")
+    @POST("/shop/updateShop/v2")
     suspend fun updateShop(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
@@ -136,6 +136,12 @@ interface ShopService {
      */
     @GET("/appoint/getSetting/v2")
     suspend fun getShopAppointmentSettingListV2(@Query("shopId") shopId: Int): ResponseWrapper<AppointmentSettingEntity>
+
+    /**
+     * 店铺预约设置列表
+     */
+    @POST("/appoint/getBatchSetting")
+    suspend fun requestShopBatchAppointmentSettingList(): ResponseWrapper<AppointmentSettingEntity>
 
     /**
      * 店铺预约设置

@@ -8,10 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
-import com.yunshang.haile_manager_android.business.vm.AppointmentSettingViewModel
+import com.yunshang.haile_manager_android.business.vm.ShopAppointmentSettingViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
-import com.yunshang.haile_manager_android.data.entities.AppointmentSettingEntity
 import com.yunshang.haile_manager_android.data.entities.SettingItem
 import com.yunshang.haile_manager_android.databinding.ActivityShopAppointmentSettingBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopAppointmentSettingBinding
@@ -20,8 +19,8 @@ import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioAc
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 
 class ShopAppointmentSettingActivity :
-    BaseBusinessActivity<ActivityShopAppointmentSettingBinding, AppointmentSettingViewModel>(
-        AppointmentSettingViewModel::class.java,
+    BaseBusinessActivity<ActivityShopAppointmentSettingBinding, ShopAppointmentSettingViewModel>(
+        ShopAppointmentSettingViewModel::class.java,
         BR.vm
     ) {
 
@@ -55,6 +54,10 @@ class ShopAppointmentSettingActivity :
 
     override fun initEvent() {
         super.initEvent()
+        mViewModel.selectShops.observe(this){
+            mViewModel.requestData()
+        }
+
         mViewModel.appointmentSetting.observe(this) {
             mAdapter.refreshList(it.settingList, true)
         }

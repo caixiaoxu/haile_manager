@@ -1,15 +1,13 @@
 package com.yunshang.haile_manager_android.business.vm
 
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
-import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.business.apiService.ShopService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.entities.ShopDetailEntity
+import com.yunshang.haile_manager_android.data.entities.ShopOperationSettingEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
-import timber.log.Timber
 
 /**
  * Title :
@@ -30,11 +28,11 @@ class ShopDetailViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
-    val showOperationSetting: MutableLiveData<Boolean> = MutableLiveData(true)
-
-    fun changeShowOperationSetting(v:View){
-        showOperationSetting.value = !(showOperationSetting.value ?: false)
+    val operationSettingDetail: MutableLiveData<ShopOperationSettingEntity> by lazy {
+        MutableLiveData()
     }
+
+    val showOperationSetting: MutableLiveData<Boolean> = MutableLiveData(true)
 
     /**
      * 店铺详情
@@ -45,11 +43,28 @@ class ShopDetailViewModel : BaseViewModel() {
         }
 
         launch({
-            val details = ApiRepository.dealApiResult(
+            ApiRepository.dealApiResult(
                 mRepo.shopDetail(ApiRepository.createRequestBody(hashMapOf("id" to shopId)))
-            )
-            details?.let {
-                shopDetail.postValue(it)
+            )?.let {details->
+                shopDetail.postValue(details)
+            }
+
+            ApiRepository.dealApiResult(
+                mRepo.requestOperationSettingDetail(
+                    ApiRepository.createRequestBody(
+                        hashMapOf("id" to shopId)
+                    )
+                )
+            )?.let {
+                operationSettingDetail.postValue(it.apply {
+                    appointSetting?.settingList = appointSetting?.settings
+                    appointSetting?.settings = null
+
+                    showItem1 = null != paymentSetting
+                    showItem2 = null != compensationSetting
+                    showItem3 = !appointSetting?.settingList.isNullOrEmpty()
+                    showItem4 = null != operationSetting
+                })
             }
         })
     }

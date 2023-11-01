@@ -2,11 +2,13 @@ package com.yunshang.haile_manager_android.business.vm
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.ShopService
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.entities.ShopOperationSettingEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
@@ -68,6 +70,7 @@ class ShopOperationSettingViewModel : BaseViewModel() {
             withContext(Dispatchers.Main) {
                 SToast.showToast(v.context, R.string.save_success)
             }
+            LiveDataBus.post(BusEvents.SHOP_DETAILS_STATUS, true)
             jump.postValue(0)
         })
     }

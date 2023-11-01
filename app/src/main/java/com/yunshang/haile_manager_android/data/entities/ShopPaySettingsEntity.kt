@@ -53,7 +53,7 @@ data class ShopPaySettingsEntity(
             sb.append("\n提示使用免密支付设备：${noPassTipList.joinToString("、") { item -> item.goodsCategoryName }}")
         }
 
-        return if (0 > sb.length) sb.substring(1) else ""
+        return if (sb.isNotEmpty()) sb.substring(1) else ""
     }
 }
 

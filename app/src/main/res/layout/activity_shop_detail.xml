@@ -135,13 +135,6 @@
                         app:showCopy="@{false}"
                         app:title="@{vm.shopDetail.getLocationTitle}" />
 
-                    <!--                    <include-->
-                    <!--                        layout="@layout/item_device_detail_base_info"-->
-                    <!--                        app:content="@{vm.shopDetail.getBusinessNameVal}"-->
-                    <!--                        app:show="@{vm.shopDetail.hasBusinessName}"-->
-                    <!--                        app:showCopy="@{false}"-->
-                    <!--                        app:title="@{vm.shopDetail.getBusinessNameTitle}" />-->
-
                     <include
                         layout="@layout/item_device_detail_base_info"
                         app:content="@{vm.shopDetail.createName}"

@@ -44,7 +44,7 @@ data class AppointmentSettingEntity(
         if (autoRefundVal) {
             sb.append("\n预约先付费")
         }
-        return if (0 > sb.length) sb.substring(1) else ""
+        return if (sb.isNotEmpty()) sb.substring(1) else ""
     }
 }
 

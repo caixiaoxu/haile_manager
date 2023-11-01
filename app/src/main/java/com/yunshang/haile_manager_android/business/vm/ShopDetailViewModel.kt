@@ -32,7 +32,7 @@ class ShopDetailViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
-    val showOperationSetting: MutableLiveData<Boolean> = MutableLiveData(true)
+    val showOperationSetting: MutableLiveData<Boolean> = MutableLiveData(false)
 
     /**
      * 店铺详情

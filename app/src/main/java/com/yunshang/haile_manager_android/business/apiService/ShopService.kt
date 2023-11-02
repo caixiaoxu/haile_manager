@@ -146,7 +146,7 @@ interface ShopService {
     /**
      * 店铺预约设置
      */
-    @POST("/appoint/setting")
+    @POST("/appoint/batchSetting")
     suspend fun setShopAppointment(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**

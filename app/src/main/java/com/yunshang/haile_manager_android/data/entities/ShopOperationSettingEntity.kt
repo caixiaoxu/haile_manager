@@ -95,7 +95,7 @@ data class OperationCompensationSetting(
 ) : BaseObservable() {
     var shopIdList: IntArray? = null
 
-    val showCompensation: Boolean = autoRefundMoneyVal || autoCompensateCouponVal
+    fun showCompensation(): Boolean = autoRefundMoneyVal || autoCompensateCouponVal
 
     @get:Bindable
     var autoRefundMoneyVal: Boolean
@@ -119,7 +119,7 @@ data class OperationCompensationSetting(
             notifyPropertyChanged(BR.autoCompensateCouponVal)
         }
 
-    val showCompensationContent: String =
+    fun showCompensationContent(): String =
         if (autoRefundMoneyVal) StringUtils.getString(R.string.compensation_setting_name2)
         else if (autoCompensateCouponVal) StringUtils.getString(R.string.compensation_setting_name1)
         else ""

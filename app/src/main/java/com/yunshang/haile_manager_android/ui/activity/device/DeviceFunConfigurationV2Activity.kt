@@ -149,7 +149,7 @@ class DeviceFunConfigurationV2Activity :
                         mItemBinding?.itemDeviceFunConfigurationAttr?.visibility(false)
                         buildOnlyOnConfigure(
                             mItemBinding?.llDeviceFunConfigurationAttrSku,
-                            list.subList(0, 1),
+                            item.extAttrDto.items,
                             isPulseDevice
                         )
                     } else {

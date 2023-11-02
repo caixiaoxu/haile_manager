@@ -2,7 +2,9 @@ package com.yunshang.haile_manager_android.data.entities
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
+import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
+import com.yunshang.haile_manager_android.R
 
 /**
  * Title :
@@ -93,6 +95,8 @@ data class OperationCompensationSetting(
 ) : BaseObservable() {
     var shopIdList: IntArray? = null
 
+    val showCompensation: Boolean = autoRefundMoneyVal || autoCompensateCouponVal
+
     @get:Bindable
     var autoRefundMoneyVal: Boolean
         get() = 1 == autoRefundMoney
@@ -115,6 +119,10 @@ data class OperationCompensationSetting(
             notifyPropertyChanged(BR.autoCompensateCouponVal)
         }
 
+    val showCompensationContent: String =
+        if (autoRefundMoneyVal) StringUtils.getString(R.string.compensation_setting_name2)
+        else if (autoCompensateCouponVal) StringUtils.getString(R.string.compensation_setting_name1)
+        else ""
 }
 
 data class OperationFlowSetting(

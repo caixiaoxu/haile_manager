@@ -69,7 +69,7 @@ class ShopFlowOperationSettingActivity :
                     )
                 })
         }
-        mBinding.tvShopOperationSettingTitle1.setOnClickListener {
+        mBinding.tvShopFlowOperationSettingTitle.setOnClickListener {
             showDeviceOperateView(it)
         }
     }

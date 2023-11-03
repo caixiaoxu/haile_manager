@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.ui.activity.shop
 import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.BR
@@ -45,7 +46,7 @@ class ShopOperationSettingActivity :
     override fun initEvent() {
         super.initEvent()
 
-        mViewModel.operationSettingDetail.observe(this){settings->
+        mViewModel.operationSettingDetail.observe(this) { settings ->
             // 支付设置
             mBinding.llShopPaySettings.buildChild<ItemShopPaySettingsBinding, GoodsSetting>(
                 settings?.paymentSetting?.goodsSettingList,
@@ -69,7 +70,7 @@ class ShopOperationSettingActivity :
             mAdapter.refreshList(settings?.appointSetting?.settingList, true)
         }
 
-        mViewModel.jump.observe(this){
+        mViewModel.jump.observe(this) {
             finish()
         }
     }
@@ -80,6 +81,11 @@ class ShopOperationSettingActivity :
 
         mBinding.rvShopAppointmentOperationSettingList.layoutManager = LinearLayoutManager(this)
         mBinding.rvShopAppointmentOperationSettingList.adapter = mAdapter
+
+        mBinding.tvShopFlowOperationSettingTitle.setOnClickListener {
+            AlertDialog.Builder(this@ShopOperationSettingActivity)
+                .setView(R.layout.popup_shop_operation_setting_promt).create().show()
+        }
     }
 
     override fun initData() {

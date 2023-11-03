@@ -352,12 +352,14 @@
                     app:visibility="@{vm.operationSettingDetail.showItem4 &amp;&amp; vm.operationSettingDetail.showItem4Content}">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_shop_operation_setting_title1"
+                        android:id="@+id/tv_shop_flow_operation_setting_title"
                         style="@style/Font_16_333333"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawableEnd="@mipmap/icon_item_required"
+                        android:drawablePadding="6dp"
                         android:text="@string/per_flow_charge_display_setting_name"
-                        app:layout_constraintEnd_toStartOf="@id/switch_shop_operation_setting1"
+                        app:layout_constraintEnd_toStartOf="@id/switch_shop_flow_operation_setting"
                         app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -367,12 +369,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="@string/per_flow_charge_display_setting_name_prompt"
-                        app:layout_constraintEnd_toStartOf="@id/switch_shop_operation_setting1"
-                        app:layout_constraintStart_toStartOf="@id/tv_shop_operation_setting_title1"
-                        app:layout_constraintTop_toBottomOf="@id/tv_shop_operation_setting_title1" />
+                        app:layout_constraintEnd_toStartOf="@id/switch_shop_flow_operation_setting"
+                        app:layout_constraintStart_toStartOf="@id/tv_shop_flow_operation_setting_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_shop_flow_operation_setting_title" />
 
                     <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/switch_shop_operation_setting1"
+                        android:id="@+id/switch_shop_flow_operation_setting"
                         style="@style/CustomSwitchStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

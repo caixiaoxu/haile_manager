@@ -283,7 +283,6 @@ class DataStatisticsFragment :
             }.build().show(
                 childFragmentManager,
                 when (mViewModel.dateType.value) {
-                    1 -> mViewModel.startTime.value
                     2 -> mViewModel.startWeekTime.value
                     else -> mViewModel.singleTime.value
                 }

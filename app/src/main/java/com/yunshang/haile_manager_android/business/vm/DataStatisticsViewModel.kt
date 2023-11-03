@@ -34,25 +34,16 @@ class DataStatisticsViewModel : BaseViewModel() {
 
     val dateType: MutableLiveData<Int> = MutableLiveData(1)
 
-    var startTime: MutableLiveData<Date> = MutableLiveData(DateTimeUtils.beforeDay(Date(), 7))
-    var endTime: MutableLiveData<Date> = MutableLiveData(DateTimeUtils.beforeDay(Date(), 1))
-
     var startWeekTime: MutableLiveData<Date> =
         MutableLiveData(DateTimeUtils.beforeWeekFirstDay(Date()))
     var endWeekTime: MutableLiveData<Date> =
         MutableLiveData(DateTimeUtils.beforeWeekLastDay(Date()))
 
-    var singleTime: MutableLiveData<Date> = MutableLiveData(Date())
+    var singleTime: MutableLiveData<Date> = MutableLiveData(DateTimeUtils.beforeDay(Date(), 1))
 
     // 是否可提交
     val dateVal: MediatorLiveData<String> = MediatorLiveData("").apply {
         addSource(dateType) {
-            value = calDateVal()
-        }
-        addSource(startTime) {
-            value = calDateVal()
-        }
-        addSource(endTime) {
             value = calDateVal()
         }
         addSource(startWeekTime) {

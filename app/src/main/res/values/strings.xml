@@ -294,6 +294,9 @@
     <string name="price_model_type1">固定</string>
     <string name="price_model_type2">单价</string>
     <string name="calculate_model">计费模式</string>
+    <string name="channel">通道</string>
+    <string name="channel_index">通道%1$d</string>
+    <string name="channel_prompt">通道只能选择已开启的功能</string>
     <string name="configure">配置</string>
     <string name="c_app_default">C端默认选中</string>
     <string name="default_select">默认选中</string>
@@ -384,6 +387,7 @@
     <string name="real_income">实收：</string>
     <string name="order_specs">"%1$s %2$s分钟 ￥%3$s"</string>
     <string name="order_detail">订单详情</string>
+    <string name="look_device">查看设备</string>
     <string name="compensate">补偿</string>
     <string name="compensate_setting">补偿设置</string>
     <string name="refund">退款</string>
@@ -396,6 +400,7 @@
     <string name="model_of_payment">支付方式</string>
     <string name="no_of_payment">支付单号</string>
     <string name="time_of_payment">支付时间</string>
+    <string name="reason_for_end">结束原因</string>
     <string name="reason_for_refund">退款原因：</string>
     <string name="refund_amount">退款金额：</string>
     <string name="refund_haixin">退款海星：</string>

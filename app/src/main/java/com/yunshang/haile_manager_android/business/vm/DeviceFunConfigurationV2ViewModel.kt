@@ -17,6 +17,7 @@ import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.SkuFunConfigurationV2Param
 import com.yunshang.haile_manager_android.data.entities.SpuExtAttrDto
+import com.yunshang.haile_manager_android.data.extend.isGreaterThan0
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -181,25 +182,40 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
             )?.let {
                 // 转换数据
                 configureList.postValue(it.apply {
-                    it.forEach { param ->
-                        // 默认全选，json转换不走构造函数，值为默认false，需要初始化
-                        if (param.extAttrDto.items.all { item -> !item.isCheck }) {
-                            if (isWashingOrShoes) {
-                                param.extAttrDto.items.firstOrNull()?.isCheck =
-                                    true
+                    val newSold =
+                        null == oldConfigureList || oldConfigureList!!.any { item -> 1 == item.soldState && item.channelCode.isNullOrEmpty() }
+                    it.forEachIndexed { index, param ->
+                        val channelCount = spuExtAttrDto.value?.channelCount
+                        if (channelCount.isGreaterThan0()) {
+                            // 如果旧数据为空或者有开始的功能但通道为null,开启前3个, 否则寻找相同的配置
+                            param.soldState = if (newSold) {
+                                if (index < channelCount!!) {
+                                    param.channelCode = (index + 1).toString()
+                                    1
+                                } else 2
                             } else {
-                                param.extAttrDto.items.forEach { item ->
-                                    item.isCheck = true
+                                oldConfigureList?.find { item -> item.skuId == param.skuId }
+                                    ?.let { same ->
+                                        param.channelCode = same.channelCode
+                                        same.soldState
+                                    } ?: 2
+                            }
+                        }
+                        oldConfigureList?.find { item -> item.skuId == param.skuId }?.let { same ->
+                            param.mergeSku(same, channelCount.isGreaterThan0())
+                        } ?: run {
+                            // 默认全选，json转换不走构造函数，值为默认false，需要初始化
+                            if (param.extAttrDto.items.all { item -> !item.isCheck }) {
+                                if (isWashingOrShoes) {
+                                    param.extAttrDto.items.firstOrNull()?.isCheck = true
+                                } else {
+                                    param.extAttrDto.items.forEach { item ->
+                                        item.isCheck = true
+                                    }
                                 }
                             }
                         }
                     }
-
-                    // 如果没有默认选中，就选中第一个
-//                    if (it.all { item -> item.extAttrDto.items.firstOrNull()?.isDefault == false }) {
-//                        it.firstOrNull()?.extAttrDto?.items?.firstOrNull() { item -> item.isCheck }?.isDefault =
-//                            true
-//                    }
                 })
             }
             isFirstData = 2
@@ -208,6 +224,16 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
 
     fun save(context: Context, callBack: (json: String?) -> Unit) {
         configureList.value?.let { configureList ->
+
+            val channelCount = spuExtAttrDto.value?.channelCount
+            if (channelCount.isGreaterThan0()) {
+                val openSize = configureList.count { item -> item.soldStateVal && !item.channelCode.isNullOrEmpty() }
+                if (openSize != channelCount) {
+                    SToast.showToast(context, "功能开启数需要与通道保持一致并对应")
+                    return@let
+                }
+            }
+
             configureList.forEachIndexed { i, param ->
                 val index = i + 1
                 if (param.nameVal.trim().isEmpty()) {

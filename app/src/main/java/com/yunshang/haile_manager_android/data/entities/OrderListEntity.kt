@@ -46,10 +46,14 @@ data class OrderListEntity(
     val state: Int,
     val appointmentState: Int,
     val canCancelReserve: Boolean,
+    val endState: Int,
+    val endStateDesc: String?
 ) : ISearchSelectEntity {
     override fun getSearchId(): Int = id
 
     override fun getTitle(): String = buyerPhone
+
+    fun endStateVal(): String = if (1050 == endState) "故障结束" else ""
 
     override fun getContent(): Array<String> = arrayOf(
         shopName,

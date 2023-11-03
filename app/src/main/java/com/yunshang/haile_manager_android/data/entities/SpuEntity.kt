@@ -111,6 +111,7 @@ data class SpuFile(
 )
 
 data class SpuExtAttrDto(
+    var channelCount: Int? = null,
     val communicationType: Int,
     val ignorePayCodeFlag: Boolean,
     val specValueIdList: List<Int>,

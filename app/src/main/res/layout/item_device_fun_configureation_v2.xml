@@ -33,12 +33,11 @@
                 android:gravity="center_vertical"
                 tools:text="功能配置1" />
 
-            <androidx.appcompat.widget.SwitchCompat
+            <com.yunshang.haile_manager_android.ui.view.ClickSwitchView
                 android:id="@+id/switch_device_fun_configuration_open"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:checked="@={item.soldStateVal}"
                 android:thumb="@drawable/selector_default_switch_thumb"
                 app:track="@drawable/selector_default_switch_track" />
         </LinearLayout>

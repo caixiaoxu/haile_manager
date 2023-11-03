@@ -73,7 +73,7 @@ class DeviceModelViewModel : BaseViewModel() {
      */
     private suspend fun requestDeviceModel(categoryId: Int) {
         if (deviceModelCache[categoryId].isNullOrEmpty()) {
-            val list = ApiRepository.dealApiResult(mDeviceRepo.spuList(categoryId))
+            val list = ApiRepository.dealApiResult(mDeviceRepo.spuListSplit(categoryId))
             if (list.isNullOrEmpty()) {
                 deviceModel.postValue(null)
             } else {
@@ -99,28 +99,29 @@ class DeviceModelViewModel : BaseViewModel() {
                             deviceModelMapByName[bean.name] = mutableListOf()
                             supList = deviceModelMapByName[bean.name]
                         }
-                        try {
-                            //型号按 "/" 分割，分成多个数据
-                            val split: List<String> = bean.feature.split("/")
-                            if (1 >= split.size) {
-                                supList!!.add(bean)
-                            } else {
-                                val json: String = GsonUtils.any2Json(bean)
-                                for (sp in split) {
-                                    val newBean =
-                                        GsonUtils.json2Class(json, Spu::class.java)?.apply {
-                                            shortFeature = sp
-                                        }
-                                    newBean?.let {
-                                        supList!!.add(it)
-                                    }
-                                }
-                            }
-                        } catch (e: java.lang.Exception) {
-                            e.printStackTrace()
-                            supList!!.add(bean)
-                        }
-                        deviceModelMapByName[bean.name] = supList!!
+                        supList?.add(bean)
+//                        try {
+//                            //型号按 "/" 分割，分成多个数据
+//                            val split: List<String> = bean.feature.split("/")
+//                            if (1 >= split.size) {
+//                                supList!!.add(bean)
+//                            } else {
+//                                val json: String = GsonUtils.any2Json(bean)
+//                                for (sp in split) {
+//                                    val newBean =
+//                                        GsonUtils.json2Class(json, Spu::class.java)?.apply {
+//                                            shortFeature = sp
+//                                        }
+//                                    newBean?.let {
+//                                        supList!!.add(it)
+//                                    }
+//                                }
+//                            }
+//                        } catch (e: java.lang.Exception) {
+//                            e.printStackTrace()
+//                            supList!!.add(bean)
+//                        }
+//                        deviceModelMapByName[bean.name] = supList!!
                     }
                 }
 

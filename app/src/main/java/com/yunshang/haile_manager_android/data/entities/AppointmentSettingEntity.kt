@@ -42,7 +42,7 @@ data class AppointmentSettingEntity(
         }
 
         if (autoRefundVal) {
-            sb.append("\n预约先付费")
+            sb.append("\n预约不使用自动退款")
         }
         return if (sb.isNotEmpty()) sb.substring(1) else ""
     }

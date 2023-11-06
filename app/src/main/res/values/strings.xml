@@ -582,8 +582,13 @@
 
     <string name="appointment_device_category">预约设备类型</string>
     <string name="appointment_rule">预约规则</string>
+    <string name="proof_time">验证时间</string>
     <string name="appointment_rule_refund">预约不使用，自动退款</string>
-    <string name="appointment_rule_prompt">不选择，则仅限以下两种情况退款：\n1.若用户在预约生效时间的10分钟之前取消。\n2.若预约生效时间前5分钟，上一笔订单未结束。</string>
+    <string name="appointment_rule_prompt">预约成功后，到使用时间，给到用户用于验证的最长时间。没有在验证时间内完成验证，则订单取消。</string>
+    <string name="appointment_rule_item1">先预约后收费</string>
+    <string name="appointment_rule_item1_prompt">预约不收费，使用时再收费</string>
+    <string name="appointment_rule_item2">预约先收费</string>
+    <string name="appointment_rule_item2_prompt">预约时收费，收费后才会预约成功</string>
 
     <string name="main_tab_personal">我的</string>
     <string name="admin">管理员</string>

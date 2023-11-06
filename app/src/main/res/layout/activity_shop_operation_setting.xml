@@ -45,9 +45,9 @@
                     android:layout_height="54dp"
                     android:background="@drawable/shape_bottom_stroke_dividing"
                     android:button="@null"
+                    android:checked="@={vm.operationSettingDetail.showItem1Content}"
                     android:drawableEnd="@{vm.operationSettingDetail.showItem1Content?@drawable/icon_arrow_down_with_padding:@drawable/icon_arrow_right_with_padding}"
                     android:paddingStart="16dp"
-                    android:checked="@={vm.operationSettingDetail.showItem1Content}"
                     android:paddingEnd="8dp"
                     android:text="@string/shop_pay_setting"
                     app:visibility="@{vm.operationSettingDetail.showItem1}" />
@@ -56,8 +56,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="54dp"
                     android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
+                    android:paddingHorizontal="16dp"
                     app:visibility="@{vm.operationSettingDetail.showItem1 &amp;&amp; vm.operationSettingDetail.showItem1Content}"
-                    android:paddingHorizontal="16dp">
+                    tools:visibility="gone">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Font_16_333333"
@@ -85,11 +86,12 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:orientation="vertical"
-                    app:visibility="@{vm.operationSettingDetail.showItem1 &amp;&amp; vm.operationSettingDetail.showItem1Content}"
                     app:divider="@drawable/divder_efefef"
                     app:dividerPadding="16dp"
                     app:itemLayout="@layout/item_shop_pay_settings"
-                    app:showDividers="middle">
+                    app:showDividers="middle"
+                    app:visibility="@{vm.operationSettingDetail.showItem1 &amp;&amp; vm.operationSettingDetail.showItem1Content}"
+                    tools:visibility="gone">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -157,10 +159,10 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/shape_bottom_stroke_dividing"
                     android:button="@null"
+                    android:checked="@={vm.operationSettingDetail.showItem2Content}"
                     android:drawableEnd="@{vm.operationSettingDetail.showItem2Content?@drawable/icon_arrow_down_with_padding:@drawable/icon_arrow_right_with_padding}"
                     android:paddingStart="16dp"
                     android:paddingEnd="8dp"
-                    android:checked="@={vm.operationSettingDetail.showItem2Content}"
                     android:text="@string/compensate_setting"
                     app:visibility="@{vm.operationSettingDetail.showItem2}" />
 
@@ -168,11 +170,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:orientation="vertical"
                     android:paddingHorizontal="16dp"
                     app:divider="@drawable/divder_efefef"
-                    android:orientation="vertical"
                     app:showDividers="middle"
-                    app:visibility="@{vm.operationSettingDetail.showItem2 &amp;&amp; vm.operationSettingDetail.showItem2Content}">
+                    app:visibility="@{vm.operationSettingDetail.showItem2 &amp;&amp; vm.operationSettingDetail.showItem2Content}"
+                    tools:visibility="gone">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -191,10 +194,10 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_12_999999"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            style="@style/Font_12_999999"
                             android:layout_marginEnd="26dp"
                             android:text="@string/compensation_setting_name1_prompt"
                             app:layout_constraintEnd_toStartOf="@id/switch_shop_compensation_coupon_operation_setting"
@@ -229,10 +232,10 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_12_999999"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            style="@style/Font_12_999999"
                             android:layout_marginEnd="26dp"
                             android:text="@string/compensation_setting_name2_prompt"
                             app:layout_constraintEnd_toStartOf="@id/switch_shop_compensation_money_operation_setting"
@@ -258,10 +261,10 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/shape_bottom_stroke_dividing"
                     android:button="@null"
+                    android:checked="@={vm.operationSettingDetail.showItem3Content}"
                     android:drawableEnd="@{vm.operationSettingDetail.showItem3Content?@drawable/icon_arrow_down_with_padding:@drawable/icon_arrow_right_with_padding}"
                     android:paddingStart="16dp"
                     android:paddingEnd="8dp"
-                    android:checked="@={vm.operationSettingDetail.showItem3Content}"
                     android:text="@string/appointment_setting"
                     app:visibility="@{shared.hasShopAppointPermission &amp;&amp; vm.operationSettingDetail.showItem3}"
                     tools:visibility="visible" />
@@ -269,10 +272,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="16dp"
                     android:background="@color/white"
-                    app:visibility="@{vm.operationSettingDetail.showItem3 &amp;&amp; vm.operationSettingDetail.showItem3Content}"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    app:visibility="@{vm.operationSettingDetail.showItem3 &amp;&amp; vm.operationSettingDetail.showItem3Content}">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Font_12_999999"
@@ -286,21 +289,145 @@
                         android:id="@+id/rv_shop_appointment_operation_setting_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white" />
+                        android:background="@color/white"
+                        tools:visibility="gone" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Font_12_999999"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:layout_marginTop="8dp"
                         android:background="@drawable/shape_bottom_stroke_dividing"
                         android:gravity="center_vertical"
                         android:text="@string/appointment_rule" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="16dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_16_333333"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/proof_time" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            style="@style/Font_16_333333_cccccc"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="16dp"
+                            android:layout_weight="1"
+                            android:background="@color/transparent"
+                            android:hint="@string/please_input"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:text="@={vm.operationSettingDetail.appointSetting.checkTimeVal}" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_16_cccccc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/unit_minute_hint1" />
+
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_12_999999"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_bottom_stroke_dividing"
+                        android:gravity="center_vertical"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="16dp"
+                        android:text="@string/appointment_rule_prompt" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_bottom_stroke_dividing"
+                        android:orientation="horizontal"
+                        android:paddingBottom="16dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_16_333333"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@string/appointment_rule_item1"
+                            app:layout_constraintBottom_toBottomOf="@id/switch_shop_appointment_operation_setting_item1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/switch_shop_appointment_operation_setting_item1" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switch_shop_appointment_operation_setting_item1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:checked="@={vm.operationSettingDetail.appointSetting.reserveMethod1Val}"
+                            android:thumb="@drawable/selector_default_switch_thumb"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:track="@drawable/selector_default_switch_track" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_12_999999"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="@string/appointment_rule_item1_prompt"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/switch_shop_appointment_operation_setting_item1" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_bottom_stroke_dividing"
+                        android:orientation="horizontal"
+                        android:paddingBottom="16dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_16_333333"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@string/appointment_rule_item2"
+                            app:layout_constraintBottom_toBottomOf="@id/switch_shop_appointment_operation_setting_item2"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/switch_shop_appointment_operation_setting_item2" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switch_shop_appointment_operation_setting_item2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:checked="@={vm.operationSettingDetail.appointSetting.reserveMethod2Val}"
+                            android:thumb="@drawable/selector_default_switch_thumb"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:track="@drawable/selector_default_switch_track" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_12_999999"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="@string/appointment_rule_item1_prompt"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/switch_shop_appointment_operation_setting_item2" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="46dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        app:visibility="@{vm.operationSettingDetail.appointSetting.reserveMethod2Val}">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/Font_16_333333"
@@ -326,8 +453,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:paddingBottom="16dp"
-                        android:text="@string/appointment_rule_prompt" />
-
+                        android:text="@string/appointment_rule_prompt"
+                        app:visibility="@{vm.operationSettingDetail.appointSetting.reserveMethod2Val}" />
                 </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatCheckBox
@@ -337,10 +464,10 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/shape_bottom_stroke_dividing"
                     android:button="@null"
+                    android:checked="@={vm.operationSettingDetail.showItem4Content}"
                     android:drawableEnd="@{vm.operationSettingDetail.showItem4Content?@drawable/icon_arrow_down_with_padding:@drawable/icon_arrow_right_with_padding}"
                     android:paddingStart="16dp"
                     android:paddingEnd="8dp"
-                    android:checked="@={vm.operationSettingDetail.showItem4Content}"
                     android:text="@string/per_flow_charge_display_setting"
                     app:visibility="@{vm.operationSettingDetail.showItem4}" />
 
@@ -397,10 +524,9 @@
                 android:id="@+id/btn_shop_params_setting_save"
                 style="@style/CommonMatchBtnStyle1"
                 android:layout_marginHorizontal="14dp"
-                android:enabled="@{null != vm.operationSettingDetail}"
                 android:layout_marginTop="8dp"
-                android:onClick="@{vm::save}"
                 android:layout_marginBottom="42dp"
+                android:enabled="@{null != vm.operationSettingDetail}"
                 android:text="@string/save" />
         </FrameLayout>
     </LinearLayout>

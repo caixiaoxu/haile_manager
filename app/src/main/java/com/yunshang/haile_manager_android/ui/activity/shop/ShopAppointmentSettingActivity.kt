@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -17,6 +18,7 @@ import com.yunshang.haile_manager_android.databinding.ItemShopAppointmentSetting
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 
 class ShopAppointmentSettingActivity :
     BaseBusinessActivity<ActivityShopAppointmentSettingBinding, ShopAppointmentSettingViewModel>(
@@ -54,7 +56,7 @@ class ShopAppointmentSettingActivity :
 
     override fun initEvent() {
         super.initEvent()
-        mViewModel.selectShops.observe(this){
+        mViewModel.selectShops.observe(this) {
             mViewModel.requestData()
         }
 
@@ -89,6 +91,18 @@ class ShopAppointmentSettingActivity :
         mBinding.rvShopAppointmentSettingList.layoutManager = LinearLayoutManager(this)
         mBinding.rvShopAppointmentSettingList.adapter = mAdapter
 
+        mBinding.btnAppointmentSettingSave.setOnClickListener {
+            if (2 == mViewModel.appointmentSetting.value?.reserveMethod && 1 != mViewModel.appointmentSetting.value?.autoRefund) {
+                CommonDialog.Builder("不开启预约不使用，自动退款设置，则只有用户在预约验证时间到期前取消给退款，否则不退款").apply {
+                    negativeTxt = StringUtils.getString(R.string.cancel)
+                    setPositiveButton(StringUtils.getString(R.string.sure)) {
+                        mViewModel.save(this@ShopAppointmentSettingActivity)
+                    }
+                }.build().show(supportFragmentManager)
+            } else {
+                mViewModel.save(this@ShopAppointmentSettingActivity)
+            }
+        }
     }
 
     override fun initData() {

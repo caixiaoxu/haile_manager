@@ -1,6 +1,6 @@
 package com.yunshang.haile_manager_android.business.vm
 
-import android.view.View
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
@@ -62,8 +62,12 @@ class ShopAppointmentSettingViewModel : BaseViewModel() {
     /**
      * 保存
      */
-    fun save(view: View) {
-        if (selectShops.value.isNullOrEmpty() || null == appointmentSetting.value) return
+    fun save(context: Context) {
+        val checkTime = appointmentSetting.value?.checkTime
+        if (null == checkTime || checkTime < 3 || checkTime > 30) {
+            SToast.showToast(context, "请选择选择3-30之间的验证时长")
+            return
+        }
 
         launch({
             ApiRepository.dealApiResult(
@@ -76,7 +80,7 @@ class ShopAppointmentSettingViewModel : BaseViewModel() {
                 )
             )
             withContext(Dispatchers.Main) {
-                SToast.showToast(view.context, R.string.save_success)
+                SToast.showToast(context, R.string.save_success)
             }
             jump.postValue(0)
         })

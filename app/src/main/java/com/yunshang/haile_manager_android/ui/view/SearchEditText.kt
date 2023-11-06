@@ -21,10 +21,10 @@ import com.yunshang.haile_manager_android.R
 class SearchEditText @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : BindingEditText(context, attrs) {
-    var onTextChange: (() -> Unit)? = null
+    var onTextChange: ((isAuto: Boolean) -> Unit)? = null
 
     private val mHandler = Handler(Looper.getMainLooper()) {
-        onTextChange?.invoke()
+        onTextChange?.invoke(true)
         false
     }
 
@@ -47,7 +47,7 @@ class SearchEditText @JvmOverloads constructor(
         setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 mHandler.removeMessages(0)
-                onTextChange?.invoke()
+                onTextChange?.invoke(false)
                 true
             } else false
         }

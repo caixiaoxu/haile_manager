@@ -210,9 +210,9 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
         mBinding.ibSearchBack.setOnClickListener {
             onBackListener()
         }
-        mBinding.etSearchKey.onTextChange = {
+        mBinding.etSearchKey.onTextChange = {auto->
             if (SearchType.Device == mViewModel.searchType || SearchType.Shop == mViewModel.searchType) {
-                search(true)
+                search(auto)
             }
         }
         // 扫码

@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:background="@color/white"
-        tools:showIn="@layout/activity_shop_pay_settings">
+        tools:showIn="@layout/activity_shop_batch_pay_settings">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_shop_pay_settings_category"

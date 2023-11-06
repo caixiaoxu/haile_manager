@@ -60,20 +60,6 @@ class ShopCreateAndUpdateActivity :
                             }
                     }
                 }
-                IntentParams.ShopPaySettingsParams.ResultCode -> {
-                    it.data?.let { intent ->
-                        IntentParams.ShopPaySettingsParams.parseShopPaySettings(intent)
-                            ?.let { settings ->
-                                mViewModel.createAndUpdateEntity.value?.paymentSettings = settings
-                            }
-                    }
-                }
-                IntentParams.ShopOperationSettingParams.ResultCode -> {
-                    it.data?.let { intent ->
-                        mViewModel.volumeVisibleState.value =
-                            IntentParams.ShopOperationSettingParams.parseVolumeVisibleState(intent)
-                    }
-                }
             }
         }
 
@@ -148,59 +134,6 @@ class ShopCreateAndUpdateActivity :
                 )
             }
 
-        }
-
-//
-//        // 业务类型
-//        mBinding.mtivShopCreateBusinessType.onSelectedEvent = {
-//            mViewModel.shopBusinessTypeList.value?.let { list ->
-//                val select = mViewModel.businessTypeValue.value?.split("、")
-//                select?.let {
-//                    list.forEach { type ->
-//                        type.isCheck = select.contains(type.businessName)
-//                    }
-//                }
-//
-//                val multiDialog =
-//                    MultiSelectBottomSheetDialog.Builder("选择业务类型", list).apply {
-//                        onValueSureListener = object :
-//                            MultiSelectBottomSheetDialog.OnValueSureListener<ShopBusinessTypeEntity> {
-//                            override fun onValue(
-//                                selectData: List<ShopBusinessTypeEntity>,
-//                                allSelectData: List<ShopBusinessTypeEntity>
-//                            ) {
-//                                mViewModel.changeBusinessType(selectData)
-//                            }
-//                        }
-//                    }.build()
-//                multiDialog.show(supportFragmentManager)
-//            }
-//        }
-
-        // 支付设置
-        mBinding.itemShopCreatePaySetting.onSelectedEvent = {
-            startSearchSelect.launch(
-                Intent(
-                    this@ShopCreateAndUpdateActivity,
-                    ShopPaySettingsActivity::class.java
-                ).apply {
-                    mViewModel.createAndUpdateEntity.value?.paymentSettings?.let { settings ->
-                        putExtras(IntentParams.ShopPaySettingsParams.pack(shopPaySettings = settings))
-                    }
-                }
-            )
-        }
-
-        // 运营设置
-        mBinding.itemShopCreateOperationSetting.onSelectedEvent = {
-            startSearchSelect.launch(
-                Intent(
-                    this@ShopCreateAndUpdateActivity,
-                    ShopOperationSettingActivity::class.java
-                ).apply {
-                    putExtras(IntentParams.ShopOperationSettingParams.pack(mViewModel.volumeVisibleState.value))
-                }
-            )
         }
     }
 

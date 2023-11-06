@@ -90,6 +90,8 @@ class SharedViewModel : ViewModel() {
         hasUserPermission.map { UserPermissionUtils.hasShopDeletePermission() }
     val hasShopUpdatePermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasShopUpdatePermission() }
+    val hasShopPayBatchPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasShopPayBatchPermission() }
     val hasShopAppointPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasShopAppointPermission() }
     /** ---------------------店铺权限------------------------- **/

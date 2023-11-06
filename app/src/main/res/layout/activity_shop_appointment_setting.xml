@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.yunshang.haile_manager_android.business.vm.AppointmentSettingViewModel" />
+            type="com.yunshang.haile_manager_android.business.vm.ShopAppointmentSettingViewModel" />
     </data>
 
     <LinearLayout
@@ -22,50 +22,82 @@
             android:layout_height="@dimen/title_action_bar_h"
             android:background="@drawable/shape_bottom_stroke_dividing"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/appointment_setting" />
+            app:title="@string/batch_appointment_setting" />
+
+        <LinearLayout
+            android:id="@+id/ll_shop_batch_appointment_setting_shops"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_16_333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/shop" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_16_333333_333333"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="74dp"
+                android:drawableEnd="@drawable/icon_arrow_right"
+                android:gravity="center_vertical"
+                android:hint="@string/select_shops_hint"
+                android:text="@{vm.selectShopNames}" />
+        </LinearLayout>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="1">
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:background="@color/white"
+                app:divider="@drawable/divder_efefef"
+                app:showDividers="middle"
+                app:visibility="@{null != vm.appointmentSetting}">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Font_16_333333_bold"
                     android:layout_width="match_parent"
                     android:layout_height="54dp"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:gravity="center_vertical"
-                    android:paddingStart="16dp"
+                    android:text="@string/appointment_setting" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Font_12_999999"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
                     android:text="@string/appointment_device_category" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_shop_appointment_setting_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white" />
+                    android:layout_height="wrap_content" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Font_16_333333_bold"
+                    style="@style/Font_12_999999"
                     android:layout_width="match_parent"
-                    android:layout_height="54dp"
+                    android:layout_height="40dp"
                     android:layout_marginTop="8dp"
-                    android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:gravity="center_vertical"
-                    android:paddingStart="16dp"
                     android:text="@string/appointment_rule" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="16dp">
+                    android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Font_16_333333"
@@ -92,21 +124,24 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:gravity="center_vertical"
-                    android:padding="16dp"
+                    android:paddingVertical="16dp"
                     android:text="@string/appointment_rule_prompt" />
 
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.core.widget.NestedScrollView>
 
-        <include layout="@layout/include_dividing1" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/page_bottom_h"
+            android:background="@drawable/shape_top_stroke_dividing"
+            android:paddingTop="8dp">
 
-        <com.yunshang.haile_manager_android.ui.view.CommonButton
-            style="@style/CommonMatchBtnStyle1"
-            android:layout_marginHorizontal="14dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="42dp"
-            android:enabled="@{null != vm.appointmentSetting}"
-            android:onClick="@{vm::save}"
-            android:text="@string/save" />
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                style="@style/CommonMatchBtnStyle1"
+                android:layout_marginHorizontal="14dp"
+                android:enabled="@{null != vm.appointmentSetting}"
+                android:onClick="@{vm::save}"
+                android:text="@string/save" />
+        </FrameLayout>
     </LinearLayout>
 </layout>

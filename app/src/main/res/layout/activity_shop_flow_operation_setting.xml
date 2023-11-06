@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.ShopFlowOperationSettingViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.shop.ShopFlowOperationSettingActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_operation_setting_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            app:title="@string/batch_flow_setting" />
+
+        <LinearLayout
+            android:id="@+id/ll_shop_batch_flow_setting_shops"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_16_333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/shop" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_16_333333_333333"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="74dp"
+                android:drawableEnd="@drawable/icon_arrow_right"
+                android:gravity="center_vertical"
+                android:hint="@string/select_shops_hint"
+                android:text="@{vm.selectShopNames}" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:visibility="@{null != vm.selectShops}"
+            android:layout_marginTop="8dp"
+            android:padding="16dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_shop_flow_operation_setting_title"
+                style="@style/Font_16_333333_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@mipmap/icon_item_required"
+                android:drawablePadding="6dp"
+                android:text="@string/per_flow_charge_display_setting_name"
+                app:layout_constraintEnd_toStartOf="@id/switch_shop_flow_operation_setting"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/per_flow_charge_display_setting_name_prompt"
+                app:layout_constraintEnd_toStartOf="@id/switch_shop_flow_operation_setting"
+                app:layout_constraintStart_toStartOf="@id/tv_shop_flow_operation_setting_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_shop_flow_operation_setting_title" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_shop_flow_operation_setting"
+                style="@style/CustomSwitchStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@={vm.flowSetting.volumeVisibleStateVal}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/page_bottom_h"
+            android:background="@color/white"
+            android:paddingTop="8dp">
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_shop_params_setting_save"
+                style="@style/CommonMatchBtnStyle1"
+                android:layout_marginHorizontal="14dp"
+                android:enabled="@{null != vm.selectShops}"
+                android:onClick="@{vm::save}"
+                android:text="@string/save" />
+        </FrameLayout>
+    </LinearLayout>
+</layout>

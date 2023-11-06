@@ -34,25 +34,16 @@ class DataStatisticsViewModel : BaseViewModel() {
 
     val dateType: MutableLiveData<Int> = MutableLiveData(1)
 
-    var startTime: MutableLiveData<Date> = MutableLiveData(DateTimeUtils.beforeDay(Date(), 7))
-    var endTime: MutableLiveData<Date> = MutableLiveData(DateTimeUtils.beforeDay(Date(), 1))
-
     var startWeekTime: MutableLiveData<Date> =
         MutableLiveData(DateTimeUtils.beforeWeekFirstDay(Date()))
     var endWeekTime: MutableLiveData<Date> =
         MutableLiveData(DateTimeUtils.beforeWeekLastDay(Date()))
 
-    var singleTime: MutableLiveData<Date> = MutableLiveData(Date())
+    var singleTime: MutableLiveData<Date> = MutableLiveData(DateTimeUtils.beforeDay(Date(), 1))
 
     // 是否可提交
     val dateVal: MediatorLiveData<String> = MediatorLiveData("").apply {
         addSource(dateType) {
-            value = calDateVal()
-        }
-        addSource(startTime) {
-            value = calDateVal()
-        }
-        addSource(endTime) {
             value = calDateVal()
         }
         addSource(startWeekTime) {
@@ -70,17 +61,11 @@ class DataStatisticsViewModel : BaseViewModel() {
      * 检测是否可提交
      */
     private fun calDateVal(): String = when (dateType.value) {
-        1 -> if (null != startTime.value && null != endTime.value) {
-            if (DateTimeUtils.isSameDay(startTime.value, endTime.value)) {
-                DateTimeUtils.formatDateTime(startTime.value, "yyyy-MM-dd")
-            } else {
-                "${DateTimeUtils.formatDateTime(startTime.value, "MM-dd")} 至 ${
-                    DateTimeUtils.formatDateTime(
-                        endTime.value,
-                        "MM-dd"
-                    )
-                }"
-            }
+        1 -> if (null != singleTime.value) {
+            DateTimeUtils.formatDateTime(
+                singleTime.value,
+                "yyyy-MM-dd"
+            )
         } else ""
         2 -> if (null != startWeekTime.value && null != endWeekTime.value) {
             "${
@@ -135,8 +120,8 @@ class DataStatisticsViewModel : BaseViewModel() {
         hashMapOf<String, Any?>("dateType" to dateType.value!!).also { params ->
             when (dateType.value) {
                 1 -> {
-                    params["startTime"] = DateTimeUtils.formatDateTimeStartParam(startTime.value)
-                    params["endTime"] = DateTimeUtils.formatDateTimeEndParam(endTime.value)
+                    params["startTime"] = DateTimeUtils.formatDateTimeStartParam(singleTime.value)
+                    params["endTime"] = DateTimeUtils.formatDateTimeEndParam(singleTime.value)
                 }
                 2 -> {
                     params["startTime"] =

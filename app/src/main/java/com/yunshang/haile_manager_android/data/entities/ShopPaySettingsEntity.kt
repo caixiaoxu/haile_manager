@@ -17,18 +17,44 @@ import com.yunshang.haile_manager_android.R
  * 作者姓名 修改时间 版本号 描述
  */
 data class ShopPaySettingsEntity(
-    var tokenCoinAllowRefund: Int,
-    val goodsSettingList: List<GoodsSetting>?,
+    var tokenCoinAllowRefund: Int? = null,
+    val goodsSettingList: List<GoodsSetting>? = null,
     var shopIdList: List<Int>? = null,
     var shopId: Int? = null
-) {
-    fun setTokenCoinAllowRefund(isCheck: Boolean) {
-        tokenCoinAllowRefund = if (isCheck) 1 else 0
-    }
+) : BaseObservable() {
+
+    @get:Bindable
+    var tokenCoinAllowRefundVal: Boolean
+        get() = 1 == tokenCoinAllowRefund
+        set(value) {
+            tokenCoinAllowRefund = if (value) 1 else 0
+            notifyPropertyChanged(BR.tokenCoinAllowRefundVal)
+        }
 
     fun showSettingList(): Boolean =
-        !(goodsSettingList.isNullOrEmpty()
-                || goodsSettingList.all { item -> !item.checkTokenCoinForceUse && !item.checkNoPassForceUse && !item.checkNoPassTipUse })
+        goodsSettingList?.any { item -> item.checkTokenCoinForceUse || item.checkNoPassForceUse || item.checkNoPassTipUse }
+            ?: false
+
+    fun showContextList(): String {
+        val sb = StringBuilder()
+
+        val tokenCoinList = goodsSettingList?.filter { item -> item.checkTokenCoinForceUse }
+        if (!tokenCoinList.isNullOrEmpty()) {
+            sb.append("\n强制使用海星设备：${tokenCoinList.joinToString("、") { item -> item.goodsCategoryName }}")
+        }
+
+        val noPassForceList = goodsSettingList?.filter { item -> item.checkNoPassForceUse }
+        if (!noPassForceList.isNullOrEmpty()) {
+            sb.append("\n强制使用免密支付设备：${noPassForceList.joinToString("、") { item -> item.goodsCategoryName }}")
+        }
+
+        val noPassTipList = goodsSettingList?.filter { item -> item.checkNoPassTipUse }
+        if (!noPassTipList.isNullOrEmpty()) {
+            sb.append("\n提示使用免密支付设备：${noPassTipList.joinToString("、") { item -> item.goodsCategoryName }}")
+        }
+
+        return if (sb.isNotEmpty()) sb.substring(1) else ""
+    }
 }
 
 data class GoodsSetting(

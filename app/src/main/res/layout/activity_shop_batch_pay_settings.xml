@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.ShopPayBatchSettingsViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.shop.ShopBatchPaySettingsActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_shop_pay_settings_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            app:title="@string/batch_pay_setting" />
+
+        <LinearLayout
+            android:id="@+id/ll_shop_batch_pay_setting_shops"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_16_333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/shop" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_16_333333_333333"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="74dp"
+                android:drawableEnd="@drawable/icon_arrow_right"
+                android:gravity="center_vertical"
+                android:hint="@string/select_shops_hint"
+                android:text="@{vm.selectShopNames}" />
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                app:divider="@drawable/divder_efefef"
+                app:dividerPadding="16dp"
+                app:showDividers="middle"
+                app:visibility="@{null != vm.shopPaySettings}">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/Font_16_333333_bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="@string/shop_pay_setting" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:paddingHorizontal="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_333333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/allow_starfish_refund"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_shop_pay_settings_allow_refund_open"
+                        style="@style/CustomSwitchStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={vm.shopPaySettings.tokenCoinAllowRefundVal}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+                    android:id="@+id/ll_shop_pay_settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    app:divider="@drawable/divder_efefef"
+                    app:dividerPadding="16dp"
+                    app:itemLayout="@layout/item_shop_pay_settings"
+                    app:showDividers="middle">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_shop_pay_settings_category_title"
+                            style="@style/Font_12_999999"
+                            android:layout_width="0dp"
+                            android:layout_height="66dp"
+                            android:gravity="center_vertical"
+                            android:paddingStart="16dp"
+                            android:text="@string/device_category"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/tv_shop_pay_settings_compel_use_starfish_title"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_shop_pay_settings_compel_use_starfish_title"
+                            style="@style/Font_12_999999"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/compel_use_starfish"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_shop_pay_settings_category_title"
+                            app:layout_constraintEnd_toStartOf="@id/tv_shop_pay_settings_compel_no_pwd_pay_title"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toEndOf="@id/tv_shop_pay_settings_category_title"
+                            app:layout_constraintTop_toTopOf="@id/tv_shop_pay_settings_category_title" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_shop_pay_settings_compel_no_pwd_pay_title"
+                            style="@style/Font_12_999999"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/compel_no_pwd_pay"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_shop_pay_settings_category_title"
+                            app:layout_constraintEnd_toStartOf="@id/tv_shop_pay_settings_no_pwd_pay_title"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toEndOf="@id/tv_shop_pay_settings_compel_use_starfish_title"
+                            app:layout_constraintTop_toTopOf="@id/tv_shop_pay_settings_category_title" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_shop_pay_settings_no_pwd_pay_title"
+                            style="@style/Font_12_999999"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/no_pwd_pay"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_shop_pay_settings_category_title"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toEndOf="@id/tv_shop_pay_settings_compel_no_pwd_pay_title"
+                            app:layout_constraintTop_toTopOf="@id/tv_shop_pay_settings_category_title" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.core.widget.NestedScrollView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:background="@color/white"
+            android:paddingTop="8dp">
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_shop_pay_settings_save"
+                style="@style/CommonMatchBtnStyle1"
+                android:layout_marginHorizontal="14dp"
+                android:enabled="@{null != vm.shopPaySettings}"
+                android:onClick="@{vm::save}"
+                android:text="@string/save" />
+        </FrameLayout>
+    </LinearLayout>
+</layout>

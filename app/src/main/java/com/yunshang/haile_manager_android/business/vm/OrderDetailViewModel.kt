@@ -38,6 +38,7 @@ class OrderDetailViewModel : BaseViewModel() {
     val orderDetail: MutableLiveData<OrderDetailEntity> by lazy {
         MutableLiveData()
     }
+
     fun requestOrderDetail() {
         if (-1 == orderId) {
             return
@@ -118,7 +119,7 @@ class OrderDetailViewModel : BaseViewModel() {
         withContext(Dispatchers.Main) {
             SToast.showToast(context, StringUtils.getString(R.string.refund_success))
         }
-        LiveDataBus.post(BusEvents.ORDER_LIST_STATUS,orderId)
+        LiveDataBus.post(BusEvents.ORDER_LIST_STATUS, orderId)
         requestOrderDetail()
     }
 

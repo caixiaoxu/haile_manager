@@ -255,7 +255,7 @@ class DataStatisticsFragment :
         // 日期选择
         mBinding.includeDataStatisticsFilter.tvDataStatisticsTime.setOnClickListener {
             DateSelectorDialog.Builder().apply {
-                selectModel = if (1 == mViewModel.dateType.value) 1 else 0
+                selectModel = 0
                 showModel = when (mViewModel.dateType.value) {
                     2 -> 7
                     3 -> 1
@@ -267,12 +267,6 @@ class DataStatisticsFragment :
                 onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
                         when (mViewModel.dateType.value) {
-                            1 -> {
-                                mViewModel.startTime.value = date1
-                                date2?.let {
-                                    mViewModel.endTime.value = date2
-                                }
-                            }
                             2 -> {
                                 mViewModel.startWeekTime.value = date1
                                 date2?.let {
@@ -289,11 +283,9 @@ class DataStatisticsFragment :
             }.build().show(
                 childFragmentManager,
                 when (mViewModel.dateType.value) {
-                    1 -> mViewModel.startTime.value
                     2 -> mViewModel.startWeekTime.value
                     else -> mViewModel.singleTime.value
-                },
-                if (1 == mViewModel.dateType.value) mViewModel.endTime.value else null
+                }
             )
         }
 

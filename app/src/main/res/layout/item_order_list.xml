@@ -81,14 +81,31 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_order_list_user"
             style="@style/Font_14_999999"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:drawableStart="@mipmap/icon_order_list_user"
             android:drawablePadding="4dp"
             android:text='@{@string/order_user+"（"+item.buyerPhone+"）"}'
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_order_list_device_name"
+            app:layout_constraintEnd_toStartOf="@id/tv_order_list_end_status"
             tools:text="下单用户（18814822697）" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_order_list_end_status"
+            style="@style/font_12_ff3b30"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:drawableEnd="@drawable/shape_sff3b30_dot"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:text="@{item.endStateVal}"
+            app:visibility="@{item.endStateVal().length() > 0}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_order_list_user"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_order_list_user"
+            tools:text="异常结束" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_order_list_device"

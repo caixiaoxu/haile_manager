@@ -14,9 +14,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp">
+        android:background="@drawable/shape_bottom_stroke_dividing"
+        android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/Font_16_333333"

@@ -86,13 +86,13 @@ interface ShopService {
     /**
      * 店铺创建
      */
-    @POST("/shop/createShop")
+    @POST("/shop/createShop/v2")
     suspend fun createShop(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
      * 店铺修改
      */
-    @POST("/shop/updateShop")
+    @POST("/shop/updateShop/v2")
     suspend fun updateShop(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
@@ -138,9 +138,15 @@ interface ShopService {
     suspend fun getShopAppointmentSettingListV2(@Query("shopId") shopId: Int): ResponseWrapper<AppointmentSettingEntity>
 
     /**
+     * 店铺预约设置列表
+     */
+    @POST("/appoint/getBatchSetting")
+    suspend fun requestShopBatchAppointmentSettingList(): ResponseWrapper<AppointmentSettingEntity>
+
+    /**
      * 店铺预约设置
      */
-    @POST("/appoint/setting")
+    @POST("/appoint/batchSetting")
     suspend fun setShopAppointment(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
@@ -164,7 +170,7 @@ interface ShopService {
     /**
      * 保存店铺运营设置
      */
-    @POST("/shop/saveOperationSetting")
+    @POST("/shop/operationSetting")
     suspend fun saveOperationSetting(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
@@ -196,4 +202,22 @@ interface ShopService {
      */
     @POST("/position/deleteSubOrganizationPosition")
     suspend fun deletePosition(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 请求运营设置详情
+     */
+    @POST("/shop/operationSettingDetail")
+    suspend fun requestOperationSettingDetail(@Body body: RequestBody): ResponseWrapper<ShopOperationSettingEntity>
+
+    /**
+     * 批量补偿设置
+     */
+    @POST("/compensation/operationBatchSetting")
+    suspend fun saveBatchCompensationSetting(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 批量按流量设置
+     */
+    @POST("/shop/batchSaveOperationSetting")
+    suspend fun saveBatchFlowSetting(@Body body: RequestBody): ResponseWrapper<Any>
 }

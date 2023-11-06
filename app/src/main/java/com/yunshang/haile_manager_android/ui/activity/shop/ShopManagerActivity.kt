@@ -368,22 +368,9 @@ class ShopManagerActivity :
                 )
             )
         }
-        //根据权限判断是否显示该功能
-        mPopupBinding.tvShopOperatePaySetting.visibility(UserPermissionUtils.hasShopPayBatchPermission())
-        mPopupBinding.tvShopOperatePaySetting.setOnClickListener {
+        mPopupBinding.tvShopOperateBatchSetting.setOnClickListener {
             popupWindow.dismiss()
-            startActivity(Intent(
-                this@ShopManagerActivity,
-                SearchSelectRadioActivity::class.java
-            ).apply {
-                putExtras(
-                    IntentParams.SearchSelectTypeParam.pack(
-                        IntentParams.SearchSelectTypeParam.SearchSelectTypePaySettingsShop,
-                        mustSelect = true,
-                        moreSelect = true
-                    )
-                )
-            })
+            startActivity(Intent(this@ShopManagerActivity,ShopBatchSettingActivity::class.java))
         }
         popupWindow.showAsDropDown(
             this,

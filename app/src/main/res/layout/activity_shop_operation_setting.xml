@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="shared"
+            type="com.yunshang.haile_manager_android.business.vm.SharedViewModel" />
+
+        <variable
             name="vm"
             type="com.yunshang.haile_manager_android.business.vm.ShopOperationSettingViewModel" />
     </data>
@@ -14,72 +18,390 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ui.activity.shop.ShopOperationSettingActivity">
+        tools:context=".ui.activity.shop.ShopFlowOperationSettingActivity">
 
         <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
             android:id="@+id/bar_operation_setting_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
-            android:background="@drawable/shape_bottom_stroke_dividing"
+            android:background="@color/white"
             app:title="@string/operation_setting" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="16dp">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_shop_operation_setting_title1"
-                style="@style/Font_16_333333_bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@mipmap/icon_item_required"
-                android:drawablePadding="6dp"
-                android:text="@string/setting_title1"
-                app:layout_constraintEnd_toStartOf="@id/switch_shop_operation_setting1"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="饮水和淋浴有该设置，只针对用户看到的订单内容"
-                app:layout_constraintEnd_toStartOf="@id/switch_shop_operation_setting1"
-                app:layout_constraintStart_toStartOf="@id/tv_shop_operation_setting_title1"
-                app:layout_constraintTop_toBottomOf="@id/tv_shop_operation_setting_title1" />
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switch_shop_operation_setting1"
-                style="@style/CustomSwitchStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="@={vm.openSetting1}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <View
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    style="@style/Font_16_333333_bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:background="@drawable/shape_bottom_stroke_dividing"
+                    android:button="@null"
+                    android:drawableEnd="@{vm.operationSettingDetail.showItem1Content?@drawable/icon_arrow_down_with_padding:@drawable/icon_arrow_right_with_padding}"
+                    android:paddingStart="16dp"
+                    android:checked="@={vm.operationSettingDetail.showItem1Content}"
+                    android:paddingEnd="8dp"
+                    android:text="@string/shop_pay_setting"
+                    app:visibility="@{vm.operationSettingDetail.showItem1}" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
+                    app:visibility="@{vm.operationSettingDetail.showItem1 &amp;&amp; vm.operationSettingDetail.showItem1Content}"
+                    android:paddingHorizontal="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_16_333333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/allow_starfish_refund"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_shop_pay_settings_allow_refund_open"
+                        style="@style/CustomSwitchStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={vm.operationSettingDetail.paymentSetting.tokenCoinAllowRefundVal}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+                    android:id="@+id/ll_shop_pay_settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    app:visibility="@{vm.operationSettingDetail.showItem1 &amp;&amp; vm.operationSettingDetail.showItem1Content}"
+                    app:divider="@drawable/divder_efefef"
+                    app:dividerPadding="16dp"
+                    app:itemLayout="@layout/item_shop_pay_settings"
+                    app:showDividers="middle">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_shop_pay_settings_category_title"
+                            style="@style/Font_12_999999"
+                            android:layout_width="0dp"
+                            android:layout_height="66dp"
+                            android:gravity="center_vertical"
+                            android:paddingStart="16dp"
+                            android:text="@string/device_category"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/tv_shop_pay_settings_compel_use_starfish_title"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_shop_pay_settings_compel_use_starfish_title"
+                            style="@style/Font_12_999999"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/compel_use_starfish"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_shop_pay_settings_category_title"
+                            app:layout_constraintEnd_toStartOf="@id/tv_shop_pay_settings_compel_no_pwd_pay_title"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toEndOf="@id/tv_shop_pay_settings_category_title"
+                            app:layout_constraintTop_toTopOf="@id/tv_shop_pay_settings_category_title" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_shop_pay_settings_compel_no_pwd_pay_title"
+                            style="@style/Font_12_999999"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/compel_no_pwd_pay"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_shop_pay_settings_category_title"
+                            app:layout_constraintEnd_toStartOf="@id/tv_shop_pay_settings_no_pwd_pay_title"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toEndOf="@id/tv_shop_pay_settings_compel_use_starfish_title"
+                            app:layout_constraintTop_toTopOf="@id/tv_shop_pay_settings_category_title" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_shop_pay_settings_no_pwd_pay_title"
+                            style="@style/Font_12_999999"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/no_pwd_pay"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_shop_pay_settings_category_title"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintStart_toEndOf="@id/tv_shop_pay_settings_compel_no_pwd_pay_title"
+                            app:layout_constraintTop_toTopOf="@id/tv_shop_pay_settings_category_title" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout>
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    style="@style/Font_16_333333_bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shape_bottom_stroke_dividing"
+                    android:button="@null"
+                    android:drawableEnd="@{vm.operationSettingDetail.showItem2Content?@drawable/icon_arrow_down_with_padding:@drawable/icon_arrow_right_with_padding}"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp"
+                    android:checked="@={vm.operationSettingDetail.showItem2Content}"
+                    android:text="@string/compensate_setting"
+                    app:visibility="@{vm.operationSettingDetail.showItem2}" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingHorizontal="16dp"
+                    app:divider="@drawable/divder_efefef"
+                    android:orientation="vertical"
+                    app:showDividers="middle"
+                    app:visibility="@{vm.operationSettingDetail.showItem2 &amp;&amp; vm.operationSettingDetail.showItem2Content}">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="16dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_shop_compensation_coupon_operation_setting_title"
+                            style="@style/Font_16_333333_bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/compensation_setting_name1"
+                            app:layout_constraintEnd_toStartOf="@id/switch_shop_compensation_coupon_operation_setting"
+                            app:layout_constraintHorizontal_bias="0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            style="@style/Font_12_999999"
+                            android:layout_marginEnd="26dp"
+                            android:text="@string/compensation_setting_name1_prompt"
+                            app:layout_constraintEnd_toStartOf="@id/switch_shop_compensation_coupon_operation_setting"
+                            app:layout_constraintStart_toStartOf="@id/tv_shop_compensation_coupon_operation_setting_title"
+                            app:layout_constraintTop_toBottomOf="@id/tv_shop_compensation_coupon_operation_setting_title" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switch_shop_compensation_coupon_operation_setting"
+                            style="@style/CustomSwitchStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="@={vm.operationSettingDetail.compensationSetting.autoCompensateCouponVal}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="16dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_shop_compensation_money_operation_setting_title"
+                            style="@style/Font_16_333333_bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/compensation_setting_name2"
+                            app:layout_constraintEnd_toStartOf="@id/switch_shop_compensation_money_operation_setting"
+                            app:layout_constraintHorizontal_bias="0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            style="@style/Font_12_999999"
+                            android:layout_marginEnd="26dp"
+                            android:text="@string/compensation_setting_name2_prompt"
+                            app:layout_constraintEnd_toStartOf="@id/switch_shop_compensation_money_operation_setting"
+                            app:layout_constraintStart_toStartOf="@id/tv_shop_compensation_money_operation_setting_title"
+                            app:layout_constraintTop_toBottomOf="@id/tv_shop_compensation_money_operation_setting_title" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switch_shop_compensation_money_operation_setting"
+                            style="@style/CustomSwitchStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="@={vm.operationSettingDetail.compensationSetting.autoRefundMoneyVal}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    style="@style/Font_16_333333_bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shape_bottom_stroke_dividing"
+                    android:button="@null"
+                    android:drawableEnd="@{vm.operationSettingDetail.showItem3Content?@drawable/icon_arrow_down_with_padding:@drawable/icon_arrow_right_with_padding}"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp"
+                    android:checked="@={vm.operationSettingDetail.showItem3Content}"
+                    android:text="@string/appointment_setting"
+                    app:visibility="@{shared.hasShopAppointPermission &amp;&amp; vm.operationSettingDetail.showItem3}"
+                    tools:visibility="visible" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:background="@color/white"
+                    app:visibility="@{vm.operationSettingDetail.showItem3 &amp;&amp; vm.operationSettingDetail.showItem3Content}"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_12_999999"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/shape_bottom_stroke_dividing"
+                        android:gravity="center_vertical"
+                        android:text="@string/appointment_device_category" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_shop_appointment_operation_setting_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_12_999999"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/shape_bottom_stroke_dividing"
+                        android:gravity="center_vertical"
+                        android:text="@string/appointment_rule" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_16_333333"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@string/appointment_rule_refund" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:checked="@={vm.operationSettingDetail.appointSetting.autoRefundVal}"
+                            android:thumb="@drawable/selector_default_switch_thumb"
+                            app:track="@drawable/selector_default_switch_track" />
+
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_12_999999"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="16dp"
+                        android:text="@string/appointment_rule_prompt" />
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    style="@style/Font_16_333333_bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shape_bottom_stroke_dividing"
+                    android:button="@null"
+                    android:drawableEnd="@{vm.operationSettingDetail.showItem4Content?@drawable/icon_arrow_down_with_padding:@drawable/icon_arrow_right_with_padding}"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp"
+                    android:checked="@={vm.operationSettingDetail.showItem4Content}"
+                    android:text="@string/per_flow_charge_display_setting"
+                    app:visibility="@{vm.operationSettingDetail.showItem4}" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="16dp"
+                    app:visibility="@{vm.operationSettingDetail.showItem4 &amp;&amp; vm.operationSettingDetail.showItem4Content}">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_flow_operation_setting_title"
+                        style="@style/Font_16_333333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@mipmap/icon_item_required"
+                        android:drawablePadding="6dp"
+                        android:text="@string/per_flow_charge_display_setting_name"
+                        app:layout_constraintEnd_toStartOf="@id/switch_shop_flow_operation_setting"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/per_flow_charge_display_setting_name_prompt"
+                        app:layout_constraintEnd_toStartOf="@id/switch_shop_flow_operation_setting"
+                        app:layout_constraintStart_toStartOf="@id/tv_shop_flow_operation_setting_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_shop_flow_operation_setting_title" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_shop_flow_operation_setting"
+                        style="@style/CustomSwitchStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={vm.operationSettingDetail.operationSetting.volumeVisibleStateVal}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="96dp"
-            android:background="@color/white"
+            android:background="@drawable/shape_top_stroke_dividing"
             android:paddingTop="8dp">
 
             <com.yunshang.haile_manager_android.ui.view.CommonButton
                 android:id="@+id/btn_shop_params_setting_save"
                 style="@style/CommonMatchBtnStyle1"
                 android:layout_marginHorizontal="14dp"
+                android:enabled="@{null != vm.operationSettingDetail}"
                 android:layout_marginTop="8dp"
+                android:onClick="@{vm::save}"
                 android:layout_marginBottom="42dp"
-                android:text="@{vm.shopId>0?@string/submit:@string/save}" />
+                android:text="@string/save" />
         </FrameLayout>
     </LinearLayout>
 </layout>

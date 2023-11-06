@@ -9,7 +9,6 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.ShopService
 import com.yunshang.haile_manager_android.business.event.BusEvents
-import com.yunshang.haile_manager_android.data.arguments.OperationSettings
 import com.yunshang.haile_manager_android.data.arguments.ShopCreateParam
 import com.yunshang.haile_manager_android.data.entities.SchoolSelectEntity
 import com.yunshang.haile_manager_android.data.entities.ShopDetailEntity
@@ -89,23 +88,6 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                     return
                 }
             }
-//
-//            if (params.workTime.isEmpty()) {
-//                SToast.showToast(msg = "请选择营业时间")
-//                return
-//            }
-//
-//            if (params.serviceTelephone.isEmpty()) {
-//                SToast.showToast(msg = "请输入客服电话")
-//                return
-//            }
-//            if (params.shopBusiness.isEmpty()) {
-//                SToast.showToast(msg = "请选择门店业务类型")
-//                return
-//            }
-
-            // 运营设置
-            params.operationSettings = OperationSettings(volumeVisibleState.value ?: 0)
 
             launch({
                 ApiRepository.dealApiResult(
@@ -145,8 +127,6 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                     name = shopDetailEntity.name,
                     address = if (1 == shopDetailEntity.shopType) shopDetailEntity.area else shopDetailEntity.address,
                     serviceTelephone = shopDetailEntity.serviceTelephone,
-                    _paymentSettings = shopDetailEntity.paymentSettings,
-                    operationSettings = shopDetailEntity.operationSettings
                 )
 
             // 店铺类型
@@ -188,12 +168,6 @@ class ShopCreateAndUpdateViewModel : BaseViewModel() {
                     shopDetailEntity.address
                 )
             }
-            // 营业时间
-//            changeWorkTime(shopDetailEntity.workTimeArr(), shopDetailEntity.workTime)
-            // 业务类型
-//            changeBusinessType(shopDetailEntity.businessName)
-            // 运营设置
-            volumeVisibleState.postValue(shopDetailEntity.operationSettings.volumeVisibleState)
         }
     }
 }

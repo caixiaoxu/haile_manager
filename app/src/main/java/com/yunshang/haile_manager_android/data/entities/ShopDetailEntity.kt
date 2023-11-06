@@ -44,9 +44,6 @@ data class ShopDetailEntity(
     val shopBusiness: String, // 店铺业务
     val businessName: List<ShopBusinessTypeEntity>,// 店铺业务名称
     val attribute: Int,// 店铺属性1联营店,0非联营
-    val appointSettingList: List<AppointSetting>?,//预约开关
-    val paymentSettings: ShopPaySettingsEntity?, //
-    val operationSettings: OperationSettings
 ) {
 
     fun getShopIdTitle(): String = StringUtils.getString(R.string.shop_id)

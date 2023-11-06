@@ -98,8 +98,9 @@ class DeviceCreateV2Activity :
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
                 IntentParams.ShopPositionSelectorParams.ShopPositionSelectorResultCode -> {
-                    result.data?.let {intent->
-                        IntentParams.ShopPositionSelectorParams.parseSelectList(intent)?.firstOrNull()
+                    result.data?.let { intent ->
+                        IntentParams.ShopPositionSelectorParams.parseSelectList(intent)
+                            ?.firstOrNull()
                             ?.let {
                                 mViewModel.createDeviceShop.value = it
                             }

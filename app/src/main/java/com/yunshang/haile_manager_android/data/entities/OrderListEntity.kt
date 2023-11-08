@@ -33,7 +33,7 @@ data class OrderListEntity(
     val orderNo: String,
     val orderSubCategory: Int,
     val orderSubType: Int,
-    val orderType: String,
+    val orderType: Int,
     val originPrice: Double,
     val payMethod: String,
     val payMethodType: Int,
@@ -47,19 +47,32 @@ data class OrderListEntity(
     val appointmentState: Int,
     val canCancelReserve: Boolean,
     val endState: Int,
-    val endStateDesc: String?
+    val endStateDesc: String?,
+    val refundTag: String? = null,
+    val code: String? = null,
+    val positionId: Int? = null,
+    val positionName: String? = null
 ) : ISearchSelectEntity {
     override fun getSearchId(): Int = id
 
     override fun getTitle(): String = buyerPhone
 
-    fun endStateVal(): String = if (1050 == endState) "故障结束" else ""
+    fun endStateVal(): String = if (1050 == endState) "故障结束订单" else ""
+
+    fun shopPositionName(): String =
+        shopName + if (positionName.isNullOrEmpty()) "" else "-$positionName"
 
     override fun getContent(): Array<String> = arrayOf(
         shopName,
         "$deviceName ${if (skuList.isNullOrEmpty()) "" else skuList.first().skuName}",
         orderNo
     )
+
+    val hasRefundMoney: Boolean
+        get() = refundTag?.split(",")?.contains("1") ?: false
+
+    val hasRefundCoupon: Boolean
+        get() = refundTag?.split(",")?.contains("2") ?: false
 
     fun getConfigureTitle(): String =
         skuList.sortedBy { item -> DeviceCategory.isDispenser(item.goodsCategoryCode) }

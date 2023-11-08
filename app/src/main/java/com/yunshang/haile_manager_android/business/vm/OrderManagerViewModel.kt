@@ -10,13 +10,15 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.OrderService
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.OrderListEntity
+import com.yunshang.haile_manager_android.data.entities.ShopAndPositionSelectEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import com.yunshang.haile_manager_android.data.rule.DeviceIndicatorEntity
 import com.yunshang.haile_manager_android.data.rule.IndicatorEntity
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.util.Date
+import java.util.*
 
 /**
  * Title :
@@ -40,7 +42,12 @@ class OrderManagerViewModel : BaseViewModel() {
     val mOrderCountStr: MutableLiveData<String> = MutableLiveData()
 
     // 选择的店铺
-    val selectDepartment: MutableLiveData<SearchSelectParam> by lazy {
+    val selectDepartments: MutableLiveData<MutableList<SearchSelectParam>?> by lazy {
+        MutableLiveData()
+    }
+
+    // 选择的店铺点位
+    val selectDepartmentPositions: MutableLiveData<MutableList<ShopAndPositionSelectEntity>?> by lazy {
         MutableLiveData()
     }
 
@@ -88,40 +95,68 @@ class OrderManagerViewModel : BaseViewModel() {
     val orderStatus: MutableLiveData<List<IndicatorEntity<String>>> = MutableLiveData(
         arrayListOf(
             IndicatorEntity("全部", 0, ""),
-            IndicatorEntity("待支付", 0, "100"),
-            IndicatorEntity("进行中", 0, "50"),
-            IndicatorEntity("已支付", 0, "500"),
-            IndicatorEntity("已完成", 0, "1000"),
-            IndicatorEntity("已退款", 0, "2099"),
-            IndicatorEntity("已取消", 0, "400"),
-            IndicatorEntity("超时关闭", 0, "401"),
+            IndicatorEntity("待支付", 0, "1"),
+            IndicatorEntity("进行中", 0, "2"),
+            IndicatorEntity("已完成", 0, "3"),
+            IndicatorEntity("已退款", 0, "4"),
         )
     )
+
+    val selectErrorStatus: MutableLiveData<Int> by lazy {
+        MutableLiveData()
+    }
+    val errorStatus: List<DeviceIndicatorEntity<Int>> =
+        arrayListOf(
+            DeviceIndicatorEntity("故障订单", MutableLiveData(0), 431),
+            DeviceIndicatorEntity("预约", MutableLiveData(0), 300),
+            DeviceIndicatorEntity("超时关闭", MutableLiveData(0), 401),
+        )
 
     fun requestOrderList(
         page: Int,
         pageSize: Int,
         result: (listWrapper: ResponseList<OrderListEntity>?) -> Unit
-
     ) {
         launch({
             val params: HashMap<String, Any> = hashMapOf(
                 "page" to page,
                 "pageSize" to pageSize,
-                "orderStatus" to (curOrderStatus.value ?: ""),
+                "newOrderStatus" to (curOrderStatus.value ?: ""),
                 "searchType" to if (searchKey.value.isNullOrEmpty()) 1 else 2,
                 "searchStr" to (searchKey.value?.trim() ?: ""),
             )
+
             // 店铺
-            selectDepartment.value?.let {
-                params["shopId"] = it.id
-            }
+            params["shopIds"] = selectDepartments.value?.map { it.id }?.joinToString(",") ?: ""
+            // 点位
+            params["positionIds"] = selectDepartmentPositions.value?.flatMap { item ->
+                item.positionList?.mapNotNull { pos -> pos.id } ?: listOf()
+            }?.joinToString(",") ?: ""
             // 时间
             startTime.value?.let {
                 params["startTime"] = DateTimeUtils.formatDateTime(it, "yyyy-MM-dd") + " 00:00:00"
             }
             endTime.value?.let {
                 params["endTime"] = DateTimeUtils.formatDateTime(it, "yyyy-MM-dd") + " 23:59:59"
+            }
+
+            if (1 == page){
+                ApiRepository.dealApiResult(
+                    mOrderRepo.requestSummaryCount(params)
+                )?.let {
+                    errorStatus[0].num.postValue(it.faultCount)
+                    errorStatus[1].num.postValue(it.reserveCount)
+                    errorStatus[2].num.postValue(it.closeCount)
+                }
+            }
+
+            // 特殊筛选数量
+            selectErrorStatus.value?.let {
+                if (300 == it) {
+                    params["orderType"] = 300
+                } else {
+                    params["orderStatus"] = it
+                }
             }
 
             val listWrapper = ApiRepository.dealApiResult(

@@ -140,7 +140,7 @@
     <string name="device_no">设备编号</string>
     <string name="device_search_hint">搜索设备名称/模块编码 (IMEI）/设备编码</string>
     <string name="department">所属门店</string>
-    <string name="belong_to_pt">所属点位</string>
+    <string name="belong_to_pt">所属营业点</string>
     <string name="department_empty">请先选择门店</string>
     <string name="device_category">设备类型</string>
     <string name="device_model">设备型号</string>
@@ -305,28 +305,28 @@
     <string name="free_device">免费设备</string>
 
     <string name="shop_manage">门店管理</string>
-    <string name="pt_manage">点位管理</string>
+    <string name="pt_manage">营业点管理</string>
     <string name="add_shop">新增门店</string>
     <string name="update_shop">编辑门店</string>
-    <string name="add_pt">新增点位</string>
-    <string name="update_pt">编辑点位</string>
-    <string name="pt">点位</string>
-    <string name="pt_name">点位名称</string>
-    <string name="pt_detail">点位详情</string>
-    <string name="pt_id">点位编号</string>
+    <string name="add_pt">新增营业点</string>
+    <string name="update_pt">编辑营业点</string>
+    <string name="pt">营业点</string>
+    <string name="pt_name">营业点名称</string>
+    <string name="pt_detail">营业点详情</string>
+    <string name="pt_id">营业点编号</string>
     <string name="orientation">定位</string>
     <string name="sex">性别</string>
     <string name="apply_sex">适用性别</string>
     <string name="shop_pay_setting">支付设置</string>
     <string name="shop_pay_config">支付配置</string>
     <string name="shop_search_hint">搜索门店名称</string>
-    <string name="shop_position_search_hint">搜索门店或点位名称</string>
-    <string name="shop_num_hint">全部%1$d家门店，%2$d个点位</string>
+    <string name="shop_position_search_hint">搜索门店或营业点名称</string>
+    <string name="shop_num_hint">全部%1$d家门店，%2$d个营业点</string>
     <string name="total_income">总收益</string>
     <string name="total_earnings">总收入</string>
     <string name="device_num">设备数</string>
-    <string name="pt_info">点位信息</string>
-    <string name="pt_id_info">点位编号%1$s信息</string>
+    <string name="pt_info">营业点信息</string>
+    <string name="pt_id_info">营业点编号%1$s信息</string>
     <string name="shop_id">门店编号</string>
     <string name="shop_id_info">门店编号%1$d信息</string>
     <string name="shop_info">门店信息</string>
@@ -355,7 +355,7 @@
     <string name="select_district">请选择区/县</string>
     <string name="shop_detail">门店详情</string>
     <string name="shop_base_info">门店基础信息</string>
-    <string name="pt_base_info">点位基础信息</string>
+    <string name="pt_base_info">营业点基础信息</string>
     <string name="creator">创建人</string>
     <string name="create_time">创建时间</string>
     <string name="appointment">预约</string>
@@ -365,9 +365,9 @@
     <string name="call_phone">拨打电话</string>
     <string name="executive_logging">执行记录</string>
     <string name="copy_success">已复制到贴粘板</string>
-    <string name="search_shop_hint">请输入门店或点位名称</string>
+    <string name="search_shop_hint">请输入门店或营业点名称</string>
     <string name="shop_delete_hint">是否确定要删除该门店么？</string>
-    <string name="pt_delete_hint">是否确定要删除该点位么？</string>
+    <string name="pt_delete_hint">是否确定要删除该营业点么？</string>
 
     <string name="update_floor">修改楼层</string>
 
@@ -401,6 +401,8 @@
     <string name="no_of_payment">支付单号</string>
     <string name="time_of_payment">支付时间</string>
     <string name="reason_for_end">结束原因</string>
+    <string name="time_of_refund_money">退款时间</string>
+    <string name="time_of_refund_coupon">返券时间</string>
     <string name="reason_for_refund">退款原因：</string>
     <string name="refund_amount">退款金额：</string>
     <string name="refund_haixin">退款海星：</string>
@@ -425,11 +427,14 @@
     <string name="full_discount_coupon">满减券</string>
     <string name="full_discount_coupon_default">满0可用</string>
     <string name="appointment_order">预约订单</string>
+    <string name="normal_order">正常订单</string>
     <string name="cancel_order">取消订单</string>
     <string name="cancel_order_hint">请输入取消原因</string>
     <string name="appoint_time">预约时间</string>
     <string name="cancel_appoint_reason">取消原因</string>
     <string name="appoint_dealLine">请在 %1$s 使用</string>
+    <string name="refund_coupon">已返券</string>
+    <string name="refund_money">已退款</string>
 
     <string name="staff_manager">人员管理</string>
     <string name="add_staff">添加人员</string>

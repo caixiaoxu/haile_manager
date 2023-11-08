@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.ui.activity.order
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -22,11 +23,14 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams.SearchSele
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.OrderListEntity
+import com.yunshang.haile_manager_android.data.rule.DeviceIndicatorEntity
 import com.yunshang.haile_manager_android.databinding.ActivityOrderManagerBinding
+import com.yunshang.haile_manager_android.databinding.ItemDeviceManagerErrorStatusBinding
 import com.yunshang.haile_manager_android.databinding.ItemOrderListBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.yunshang.haile_manager_android.ui.activity.common.ShopPositionSelectorActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
@@ -51,15 +55,18 @@ class OrderManagerActivity :
     private val startSearchSelect =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             it.data?.let { intent ->
-                intent.getStringExtra(SearchSelectTypeParam.ResultData)?.let { json ->
-
-                    GsonUtils.json2List(json, SearchSelectParam::class.java)?.let { selected ->
-                        when (it.resultCode) {
-                            SearchSelectTypeParam.ShopResultCode -> {
-                                mViewModel.selectDepartment.value =
-                                    if (selected.isNotEmpty()) selected[0] else null
-                            }
+                when (it.resultCode) {
+                    SearchSelectTypeParam.ShopResultCode -> {
+                        intent.getStringExtra(SearchSelectTypeParam.ResultData)?.let { json ->
+                            GsonUtils.json2List(json, SearchSelectParam::class.java)
+                                ?.let { selected ->
+                                    mViewModel.selectDepartments.value = selected
+                                }
                         }
+                    }
+                    IntentParams.ShopPositionSelectorParams.ShopPositionSelectorResultCode -> {
+                        mViewModel.selectDepartmentPositions.value =
+                            IntentParams.ShopPositionSelectorParams.parseSelectList(intent)
                     }
                 }
             }
@@ -157,8 +164,23 @@ class OrderManagerActivity :
         }
 
         // 选择店铺
-        mViewModel.selectDepartment.observe(this) {
-            mBinding.tvOrderCategoryDepartment.text = it?.name ?: ""
+        mViewModel.selectDepartments.observe(this) {
+            mBinding.tvOrderCategoryDepartment.text = when (val count: Int = (it?.size ?: 0)) {
+                0 -> ""
+                1 -> it?.firstOrNull()?.name ?: ""
+                else -> "已选中${count}个门店"
+            }
+            mBinding.rvOrderManagerList.requestRefresh()
+        }
+        // 选择店铺点位
+        mViewModel.selectDepartmentPositions.observe(this) {
+            val list = it?.flatMap { item -> item.positionList ?: listOf() }
+            mBinding.tvOrderCategoryDepartmentPosition.text =
+                when (val count: Int = (list?.size ?: 0)) {
+                    0 -> ""
+                    1 -> list?.firstOrNull()?.name ?: ""
+                    else -> "已选中${count}个营业点"
+                }
             mBinding.rvOrderManagerList.requestRefresh()
         }
 
@@ -177,29 +199,19 @@ class OrderManagerActivity :
 
         if (mViewModel.searchKey.value.isNullOrEmpty()) {
             mBinding.barOrderManagerTitle.getRightBtn().run {
-                setText(R.string.appointment_order)
-                setTextColor(
-                    ContextCompat.getColor(
-                        this@OrderManagerActivity,
-                        R.color.colorPrimary
-                    )
-                )
+                setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.icon_search, 0)
                 setOnClickListener {
                     startActivity(
                         Intent(
                             this@OrderManagerActivity,
-                            AppointmentOrderActivity::class.java
-                        )
-                    )
+                            SearchActivity::class.java
+                        ).apply {
+                            putExtra(SearchType.SearchType, SearchType.Order)
+                        })
                 }
             }
         }
 
-        mBinding.viewOrderManagerSearchBg.setOnClickListener {
-            startActivity(Intent(this@OrderManagerActivity, SearchActivity::class.java).apply {
-                putExtra(SearchType.SearchType, SearchType.Order)
-            })
-        }
         mBinding.tvOrderCategoryTime.setOnClickListener {
             dateDialog.show(
                 supportFragmentManager,
@@ -218,12 +230,34 @@ class OrderManagerActivity :
                     putExtras(
                         SearchSelectTypeParam.pack(
                             SearchSelectTypeParam.SearchSelectTypeShop,
-                            mustSelect = false
+                            mustSelect = false,
+                            moreSelect = true
                         )
                     )
                 }
             )
         }
+
+        // 点位
+        mBinding.tvOrderCategoryDepartmentPosition.setOnClickListener {
+            startSearchSelect.launch(
+                Intent(
+                    this@OrderManagerActivity,
+                    ShopPositionSelectorActivity::class.java
+                ).apply {
+                    putExtras(
+                        IntentParams.ShopPositionSelectorParams.pack(
+                            mustSelect = false,
+                            selectList = mViewModel.selectDepartmentPositions.value,
+                            shopIdList = mViewModel.selectDepartments.value?.map { item -> item.id }
+                                ?.toIntArray()
+                        )
+                    )
+                }
+            )
+        }
+
+        buildErrorStatus()
 
         // 刷新
         mBinding.tvOrderManagerListRefresh.setOnClickListener {
@@ -255,6 +289,39 @@ class OrderManagerActivity :
                     }
                 }
             }
+    }
+
+    /**
+     * 构建异常状态界面
+     */
+    private fun buildErrorStatus() {
+        mBinding.llOrderErrorStatusList.buildChild<ItemDeviceManagerErrorStatusBinding, DeviceIndicatorEntity<Int>>(
+            mViewModel.errorStatus
+        ) { _, childBinding, data ->
+            data.num.observe(this@OrderManagerActivity) {
+                childBinding.tvDeviceManagerErrorStatus.text =
+                    com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
+                        data.title + (if (it > 0) " $it" else " 0") + "单",
+                        arrayOf(
+                            ForegroundColorSpan(
+                                ContextCompat.getColor(this, R.color.common_txt_color)
+                            )
+                        ), 0, data.title.length
+                    )
+            }
+
+            mViewModel.selectErrorStatus.observe(this) {
+                childBinding.tvDeviceManagerErrorStatus.setBackgroundResource(if (data.value == it) R.drawable.shape_device_manager_error_status_selected_bg else R.drawable.shape_device_manager_error_status_bg)
+            }
+
+            childBinding.tvDeviceManagerErrorStatus.setOnClickListener {
+                if (mViewModel.selectErrorStatus.value == data.value)
+                    mViewModel.selectErrorStatus.value = null
+                else
+                    mViewModel.selectErrorStatus.value = data.value
+                mBinding.rvOrderManagerList.requestRefresh()
+            }
+        }
     }
 
     override fun initData() {

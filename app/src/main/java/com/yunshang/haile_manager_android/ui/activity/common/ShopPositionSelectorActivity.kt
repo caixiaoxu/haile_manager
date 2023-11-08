@@ -96,6 +96,8 @@ class ShopPositionSelectorActivity :
         mViewModel.canSelectAll = IntentParams.ShopPositionSelectorParams.parseCanSelectAll(intent)
         mViewModel.oldShopPositionList =
             IntentParams.ShopPositionSelectorParams.parseSelectList(intent)
+
+        mViewModel.shopIdList = IntentParams.ShopPositionSelectorParams.parseShopIdList(intent)
     }
 
     override fun initEvent() {

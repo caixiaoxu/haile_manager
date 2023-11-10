@@ -66,6 +66,8 @@
     <string name="device">设备</string>
     <string name="idle">空闲</string>
     <string name="running">运行</string>
+    <string name="unfold">展开</string>
+    <string name="fold">收起</string>
 
     <string name="empty_content">暂无内容信息</string>
     <string name="empty_device">暂无设备信息</string>
@@ -311,6 +313,7 @@
     <string name="add_pt">新增营业点</string>
     <string name="update_pt">编辑营业点</string>
     <string name="pt">营业点</string>
+    <string name="pt_num">营业点数量</string>
     <string name="pt_name">营业点名称</string>
     <string name="pt_detail">营业点详情</string>
     <string name="pt_id">营业点编号</string>
@@ -322,8 +325,11 @@
     <string name="shop_search_hint">搜索门店名称</string>
     <string name="shop_position_search_hint">搜索门店或营业点名称</string>
     <string name="shop_num_hint">全部%1$d家门店，%2$d个营业点</string>
+    <string name="shop_total_income">门店总收益</string>
     <string name="total_income">总收益</string>
     <string name="total_earnings">总收入</string>
+    <string name="shop_device_num">门店设备数</string>
+    <string name="pt_device_num">营业点设备数</string>
     <string name="device_num">设备数</string>
     <string name="pt_info">营业点信息</string>
     <string name="pt_id_info">营业点编号%1$s信息</string>
@@ -503,6 +509,7 @@
     <string name="recharge_account_search_hint">搜索手机号</string>
     <string name="recharge_account_num_hint">全部%1$d人</string>
     <string name="detail">明细</string>
+    <string name="details">详情</string>
     <string name="recycler">回收</string>
     <string name="user_detail">用户明细</string>
     <string name="haixin_recycle">海星回收</string>

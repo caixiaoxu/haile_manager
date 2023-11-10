@@ -19,11 +19,9 @@ data class ShopEntity(
     val name: String? = null,
     val income: Double? = null,
     val deviceNum: Int? = null,
-
+    val shopTypeName: String? = null,
     val positionCount: Int? = null,// 点位
 ) : BaseObservable() {
-    @Transient
-    var page = 1
 
     // 点位列表
     @Transient
@@ -32,11 +30,7 @@ data class ShopEntity(
     @Transient
     var _fold = true
 
-    @Transient
-    var _hasMore = true
-
     init {
-        page = 1
         _fold = true
         _positionList = mutableListOf()
     }
@@ -56,14 +50,5 @@ data class ShopEntity(
         set(value) {
             _fold = value
             notifyPropertyChanged(BR.fold)
-        }
-
-    // 还有更多
-    @get:Bindable
-    var hasMore: Boolean
-        get() = _hasMore
-        set(value) {
-            _hasMore = value
-            notifyPropertyChanged(BR.hasMore)
         }
 }

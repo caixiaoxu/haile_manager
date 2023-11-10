@@ -78,42 +78,22 @@ class ShopManagerViewModel : BaseViewModel() {
      * 请求点位列表
      */
     fun requestPositionList(
-        context: Context,
         shop: ShopEntity,
         callBack: () -> Unit
     ) {
         launch({
             ApiRepository.dealApiResult(
-                mRepo.requestPositionList(
+                mRepo.requestPositionListNew(
                     hashMapOf(
-                        "page" to shop.page,
-                        "pageSize" to 20,
                         "shopId" to shop.id,
                     )
                 )
             )?.let { result ->
-                if (!result.items.isNullOrEmpty()) {
-                    val list = mutableListOf<ShopPositionEntity>()
-                    list.addAll(shop.positionList)
-                    list.addAll(result.items!!)
-                    shop.positionList = list
-                    shop.fold = !shop.fold
-                }
-                val hasMore = shop.positionList.size < result.total
-                if (hasMore) {
-                    shop.page++
-                }
-                shop.hasMore = hasMore
+                shop.positionList = result
+                shop.fold = !shop.fold
                 withContext(Dispatchers.Main) {
                     callBack()
                 }
-            } ?: run {
-                shop.hasMore = false
-            }
-        }, {
-            shop.hasMore = false
-            withContext(Dispatchers.Main) {
-                SToast.showToast(context, it.message ?: "")
             }
         })
     }

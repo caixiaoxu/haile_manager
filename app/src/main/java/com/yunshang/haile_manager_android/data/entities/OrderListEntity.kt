@@ -44,6 +44,7 @@ data class OrderListEntity(
     val shopName: String,
     val skuList: List<Sku>,
     val state: Int,
+    val stateDesc: String,
     val appointmentState: Int,
     val canCancelReserve: Boolean,
     val endState: Int,

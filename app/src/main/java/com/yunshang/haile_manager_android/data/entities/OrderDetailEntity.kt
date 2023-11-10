@@ -66,6 +66,7 @@ data class OrderDetailEntity(
     val shopName: String,
     val skuList: List<Sku>,
     val state: Int,
+    val stateDesc: String,
     val appointmentInfo: AppointmentInfo?,
     val appointmentTime: String,
     val canCancelReserve: Boolean,

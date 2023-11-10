@@ -57,7 +57,7 @@
             android:drawableEnd="@drawable/icon_arrow_right"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
-            android:text="@{OrderParam.orderStatusList(item.state)}"
+            android:text="@{item.stateDesc}"
             app:layout_constraintBottom_toBottomOf="@id/tv_order_list_no"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_order_list_no"

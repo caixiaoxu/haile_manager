@@ -27,6 +27,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.yunshang.haile_manager_android.ui.view.MultiTypeTextView
+            android:id="@+id/tv_withdraw_record_status"
+            style="@style/Font_12_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{item.statusVal}"
+            app:bgResIds="@{item.multiTypeBgRes}"
+            android:layout_marginStart="12dp"
+            app:layout_constraintStart_toEndOf="@id/iv_withdraw_record_main"
+            app:layout_constraintTop_toTopOf="@id/iv_withdraw_record_main"
+            app:txtColors="@{item.multiTypeTxtColors}"
+            app:type="@{item.multiType}"
+            tools:text="待审核" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_withdraw_record_title"
             style="@style/Font_14_333333"
@@ -66,19 +80,6 @@
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="-2000.00" />
 
-        <com.yunshang.haile_manager_android.ui.view.MultiTypeTextView
-            android:id="@+id/tv_withdraw_record_status"
-            style="@style/Font_12_999999"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{item.statusVal}"
-            app:bgResIds="@{item.multiTypeBgRes}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_withdraw_record_amount"
-            app:txtColors="@{item.multiTypeTxtColors}"
-            app:type="@{item.multiType}"
-            tools:text="待审核" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

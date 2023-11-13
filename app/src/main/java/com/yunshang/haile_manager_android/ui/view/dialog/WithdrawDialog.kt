@@ -7,6 +7,7 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.FragmentManager
+import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.entities.WithdrawCalculateEntity
 import com.yunshang.haile_manager_android.databinding.DialogWithdrawBinding
@@ -49,9 +50,10 @@ class WithdrawDialog private constructor(private val builder: Builder) : AppComp
         super.onViewCreated(view, savedInstanceState)
 
         //内容
-        mBinding.tvWithdrawDialogAmount.text = builder.withdrawCalculate.realAmount
+        mBinding.tvWithdrawDialogAmount.text = builder.withdrawCalculate.totalAmount
         mBinding.tvWithdrawDialogServiceCharge.text = builder.withdrawCalculate.feeAmount
         mBinding.tvWithdrawDialogRate.text = "${builder.withdrawCalculate.cashOutRate * 1.0 / 100}%"
+        mBinding.tvWithdrawDialogArrivalAmount.text = StringUtils.getString(R.string.unit_money) + builder.withdrawCalculate.realAmount
 
         //拒绝按钮
         mBinding.btnWithdrawDialogNo.setOnClickListener {

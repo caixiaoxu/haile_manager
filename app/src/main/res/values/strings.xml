@@ -624,6 +624,7 @@
     <string name="service_charge">手续费</string>
     <string name="rate">费率</string>
     <string name="cash_out_amount">提现金额</string>
+    <string name="arrival_amount">到账金额</string>
     <string name="cash_out_time">提现时间</string>
     <string name="cash_out_bank">提现银行</string>
     <string name="cash_out_way">提现方式</string>

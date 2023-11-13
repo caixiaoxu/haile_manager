@@ -146,7 +146,7 @@ interface CapitalService {
     /**
      * 提现金额计算接口
      */
-    @POST("/wallet/cashOut/calculate")
+    @POST("/wallet/cashOut/calculate/v2")
     suspend fun calculateWithdraw(@Body body: RequestBody): ResponseWrapper<WithdrawCalculateEntity>
 
     /**

@@ -241,6 +241,7 @@ class DeviceFunConfigurationV2Activity :
         mViewModel.spuId = IntentParams.DeviceFunConfigurationV2Params.parseSpuId(intent)
         mViewModel.categoryCode.value = IntentParams.DeviceParams.parseCategoryCode(intent)
         mViewModel.communicationType = IntentParams.DeviceParams.parseCommunicationType(intent)
+        mViewModel.shopId = IntentParams.ShopParams.parseShopId(intent)
 
         mViewModel.oldConfigureList =
             IntentParams.DeviceFunConfigurationV2Params.parseSkuExtAttrDto(intent)

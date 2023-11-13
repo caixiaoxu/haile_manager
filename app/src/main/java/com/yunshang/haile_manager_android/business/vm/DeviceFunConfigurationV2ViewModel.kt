@@ -44,6 +44,8 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
     // spuid
     var spuId: Int = -1
 
+    var shopId: Int? = null
+
     // 设备类型
     val categoryCode: MutableLiveData<String> by lazy {
         MutableLiveData()
@@ -175,7 +177,8 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
                         hashMapOf(
                             "spuId" to spuId,
                             "priceType" to selectPriceModel.value?.id,
-                            "priceCalculateMode" to selectCalculateModel.value?.id
+                            "priceCalculateMode" to selectCalculateModel.value?.id,
+                            "shopId" to shopId
                         )
                     )
                 )

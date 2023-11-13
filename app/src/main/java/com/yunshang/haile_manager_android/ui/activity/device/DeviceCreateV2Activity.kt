@@ -273,7 +273,8 @@ class DeviceCreateV2Activity :
                             mViewModel.categoryCode.value,
                             mViewModel.deviceCommunicationType,
                             mViewModel.extAttrDtoJson.value,
-                            mViewModel.createDeviceFunConfigure.value
+                            mViewModel.createDeviceFunConfigure.value,
+                            shopId = mViewModel.createDeviceShop.value?.id
                         )
                     )
                 }

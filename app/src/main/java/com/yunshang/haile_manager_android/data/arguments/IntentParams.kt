@@ -110,8 +110,10 @@ object IntentParams {
         /**
          * 包装参数
          */
-        fun pack(shopId: Int, shopName: String? = null): Bundle = Bundle().apply {
-            putInt(ShopId, shopId)
+        fun pack(shopId: Int?, shopName: String? = null): Bundle = Bundle().apply {
+            shopId?.let {
+                putInt(ShopId, shopId)
+            }
             shopName?.let {
                 putString(ShopName, shopName)
             }
@@ -533,6 +535,7 @@ object IntentParams {
             extJson: String? = null,
             skuExtAttrDto: MutableList<SkuFunConfigurationV2Param>? = null,
             goodId: Int? = null,
+            shopId: Int? = null,
             title: String? = null
         ): Bundle = Bundle().apply {
             spuId?.let {
@@ -553,6 +556,7 @@ object IntentParams {
             goodId?.let {
                 putInt(GoodId, goodId)
             }
+            putAll(ShopParams.pack(shopId))
             title?.let {
                 putString(Title, it)
             }

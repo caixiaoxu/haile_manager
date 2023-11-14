@@ -140,7 +140,7 @@ class OrderManagerViewModel : BaseViewModel() {
                 params["endTime"] = DateTimeUtils.formatDateTime(it, "yyyy-MM-dd") + " 23:59:59"
             }
 
-            if (1 == page){
+            if (1 == page && curOrderStatus.value.isNullOrEmpty()){
                 ApiRepository.dealApiResult(
                     mOrderRepo.requestSummaryCount(params)
                 )?.let {
@@ -150,12 +150,14 @@ class OrderManagerViewModel : BaseViewModel() {
                 }
             }
 
-            // 特殊筛选数量
-            selectErrorStatus.value?.let {
-                if (300 == it) {
-                    params["orderType"] = 300
-                } else {
-                    params["orderStatus"] = it
+            if (curOrderStatus.value.isNullOrEmpty()){
+                // 特殊筛选数量
+                selectErrorStatus.value?.let {
+                    if (300 == it) {
+                        params["orderType"] = 300
+                    } else {
+                        params["orderStatus"] = it
+                    }
                 }
             }
 

@@ -42,7 +42,7 @@
                 style="@style/Font_16_333333_bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@mipmap/icon_shop_detail_main"
+                android:drawableStart="@mipmap/icon_shop_item_name"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
                 android:paddingVertical="16dp"

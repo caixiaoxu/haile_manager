@@ -22,7 +22,7 @@
             android:background="@color/white"
             app:rightModel="area"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@string/pt_manage" />
+            app:title="@string/pt" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_shop_list_num"

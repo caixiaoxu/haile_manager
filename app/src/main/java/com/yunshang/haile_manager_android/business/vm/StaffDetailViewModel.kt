@@ -76,7 +76,7 @@ class StaffDetailViewModel : BaseViewModel() {
         }
     }
 
-    fun deleteStaff(view: View) {
+    fun deleteStaff() {
         if (-1 == staffId) {
             return
         }

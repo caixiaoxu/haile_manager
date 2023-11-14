@@ -380,7 +380,7 @@
     <string name="operation_setting">运营设置</string>
     <string name="per_flow_charge_display_setting">按流量收费显示设置</string>
     <string name="compensation_setting_name1">异常关单，自动返券</string>
-    <string name="compensation_setting_name1_prompt">开启后，由于异常（包括但不限于，弱网环境、设备故障等）导致订单无法继续，会关闭订单，并白动返券给用户</string>
+    <string name="compensation_setting_name1_prompt">开启后，由于异常（包括但不限于，弱网环境、设备故障等）导致订单无法继续，会关闭订单，并自动返券给用户</string>
     <string name="compensation_setting_name2">异常关单，自动退款</string>
     <string name="compensation_setting_name2_prompt">开启后，由于异常（包括但不限于，弱网环境、设备故障等）导致订单无法继续，会关闭订单，并自动原路退款（包含支付金额、券和海星）</string>
     <string name="per_flow_charge_display_setting_name">按流量收费，用户订单显示用量</string>

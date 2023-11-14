@@ -295,8 +295,24 @@ class ShopManagerActivity :
                 R.layout.item_shop_manager_position, BR.item
             ) { mInternalItemBinding, _, posititon ->
                 // 营业点设备数
+                title = StringUtils.getString(R.string.pt_device_num)
+                value = "${posititon.deviceNum}${StringUtils.getString(R.string.unit_tai)}"
+                start = title.length + 1
+                end = title.length + 1 + value.length
+                // 格式化设备数样式
                 mInternalItemBinding?.tvShopManagerPositionDeviceNum?.text =
-                    "${StringUtils.getString(R.string.pt_device_num)}：${posititon.deviceNum}${StringUtils.getString(R.string.unit_tai)}"
+                    com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
+                        "$title：$value",
+                        arrayOf(
+                            ForegroundColorSpan(
+                                ResourcesCompat.getColor(
+                                    resources,
+                                    R.color.colorPrimary,
+                                    null
+                                )
+                            ),
+                        ), start, end
+                    )
 
                 mInternalItemBinding?.tvShopManagerPositionDeviceNum?.setOnClickListener {
                     if (null != item.id && null != posititon.id && 0 < posititon.deviceNum) {

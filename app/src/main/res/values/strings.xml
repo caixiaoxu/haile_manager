@@ -329,7 +329,7 @@
     <string name="total_income">总收益</string>
     <string name="total_earnings">总收入</string>
     <string name="shop_device_num">门店设备数</string>
-    <string name="pt_device_num">营业点设备数</string>
+    <string name="pt_device_num">营业点设备数量</string>
     <string name="device_num">设备数</string>
     <string name="pt_info">营业点信息</string>
     <string name="pt_id_info">营业点编号%1$s信息</string>

@@ -37,7 +37,8 @@ data class BalanceDetailEntity(
     val settlementTime: String,
     val shopName: String,
     val title: String,
-    val transactionSubType: Int
+    val transactionSubType: Int,
+    val totalAmount: String,
 ) : IIncomeDetailEntity {
 
     override fun mainRes(): Int =
@@ -62,8 +63,9 @@ data class BalanceDetailEntity(
             addItemInfo(revenueNo, R.string.sub_account_order_no, this, true)
             addItemInfo(revenueTime, R.string.sub_account_time, this)
         } else if (cashOutNo.isNotEmpty()) {
+            addItemInfo(cashOutPrice, R.string.arrival_amount, this)
             addItemInfo(cashOutNo, R.string.cash_out_no, this, true)
-            addItemInfo(cashOutPrice, R.string.cash_out_amount, this)
+            addItemInfo(totalAmount, R.string.cash_out_amount, this)
             addItemInfo(serviceCharge, R.string.service_charge, this)
             addItemInfo(cashOutTime, R.string.cash_out_time, this)
             addItemInfo(bank, R.string.cash_out_way, this)

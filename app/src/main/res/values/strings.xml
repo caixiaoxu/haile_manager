@@ -66,6 +66,7 @@
     <string name="device">设备</string>
     <string name="idle">空闲</string>
     <string name="running">运行</string>
+    <string name="sure_export">确认导出</string>
 
     <string name="empty_content">暂无内容信息</string>
     <string name="empty_device">暂无设备信息</string>
@@ -623,6 +624,7 @@
     <string name="cash_out_no">提现单号</string>
     <string name="service_charge">手续费</string>
     <string name="rate">费率</string>
+    <string name="service_charge_rate">手续费率</string>
     <string name="cash_out_amount">提现金额</string>
     <string name="arrival_amount">到账金额</string>
     <string name="cash_out_time">提现时间</string>
@@ -636,6 +638,7 @@
     <string name="sub_account_order_no">分账单号</string>
     <string name="withdraw_record">提现记录</string>
     <string name="export">导出</string>
+    <string name="export_history">导出历史</string>
     <string name="roll_out_to">转出到</string>
     <string name="empty_alipay_account_hint">请先绑定支付宝账号</string>
     <string name="alipay_withdraw_input_hint">可提现金额%1$s元</string>
@@ -805,6 +808,8 @@
 
     <string name="start_time">开始时间</string>
     <string name="end_time">结束时间</string>
+
+    <string name="email">邮箱</string>
 
     <string name="unit_yuan">元</string>
     <string name="unit_tai">台</string>

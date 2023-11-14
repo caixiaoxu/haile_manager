@@ -26,12 +26,12 @@ data class WithdrawRecordEntity(
     val cashOutType: Int,
     val checkTime: String,
     val id: Int,
-    val feeAmount: Int? = null,
-    val totalAmount: Int? = null
+    val feeAmount: Double? = null,
+    val totalAmount: Double? = null
 ) : IMultiTypeEntity {
 
-    fun getRecordAmount(): SpannableString =
-        "${com.lsy.framelib.utils.StringUtils.getString(R.string.cash_out_amount)}：".let { prefix ->
+    val recordAmount: SpannableString
+        get() = "${com.lsy.framelib.utils.StringUtils.getString(R.string.cash_out_amount)}：".let { prefix ->
             StringUtils.formatMultiStyleStr(
                 "$prefix$cashOutPrice",
                 arrayOf(
@@ -40,8 +40,8 @@ data class WithdrawRecordEntity(
             )
         }
 
-    fun getFeeAmount(): SpannableString =
-        "${com.lsy.framelib.utils.StringUtils.getString(R.string.service_charge)}：".let { prefix ->
+    val feeAmountVal: SpannableString
+        get() = "${com.lsy.framelib.utils.StringUtils.getString(R.string.service_charge)}：".let { prefix ->
             StringUtils.formatMultiStyleStr(
                 "$prefix$feeAmount",
                 arrayOf(
@@ -50,8 +50,8 @@ data class WithdrawRecordEntity(
             )
         }
 
-    fun getArrivalAmount(): SpannableString =
-        "${com.lsy.framelib.utils.StringUtils.getString(R.string.arrival_amount)}：".let { prefix ->
+    val arrivalAmount: SpannableString
+        get() = "${com.lsy.framelib.utils.StringUtils.getString(R.string.arrival_amount)}：".let { prefix ->
             StringUtils.formatMultiStyleStr(
                 "$prefix$cashOutPrice",
                 arrayOf(

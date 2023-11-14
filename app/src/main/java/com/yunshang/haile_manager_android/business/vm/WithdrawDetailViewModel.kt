@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.business.vm
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
+import com.yunshang.haile_manager_android.data.entities.WithdrawDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.data.rule.IIncomeDetailEntity
 
@@ -20,7 +21,7 @@ class WithdrawDetailViewModel : BaseViewModel() {
     private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
     var id: Int = -1
 
-    val withDrawViewModel: MutableLiveData<IIncomeDetailEntity> by lazy {
+    val withDrawViewModel: MutableLiveData<WithdrawDetailEntity> by lazy {
         MutableLiveData()
     }
 

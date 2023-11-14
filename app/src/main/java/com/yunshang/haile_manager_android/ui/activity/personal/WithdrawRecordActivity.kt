@@ -57,12 +57,11 @@ class WithdrawRecordActivity : BaseBindingActivity<ActivityWithdrawRecordBinding
                     R.color.common_txt_color
                 )
             )
-            typeface = Typeface.DEFAULT_BOLD
             setOnClickListener {
                 startActivity(
                     Intent(
                         this@WithdrawRecordActivity,
-                        WithdrawRecordActivity::class.java
+                        WithdrawRecordExportActivity::class.java
                     )
                 )
             }

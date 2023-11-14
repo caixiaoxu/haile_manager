@@ -260,4 +260,16 @@ interface CapitalService {
     @POST("/profitStatistics/getDeviceProfitVOPage")
     suspend fun requestShopDeviceRevenueList(@Body body: RequestBody): ResponseWrapper<ResponseList<ShopDeviceRevenueListEntity>>
 
+    /**
+     * 提现导出接口
+     */
+    @POST("/export/task")
+    suspend fun exportWithdraw(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 提现导出接口
+     */
+    @POST("/export/taskList")
+    suspend fun requestExportHistory(@Body body: RequestBody): ResponseWrapper<ResponseList<ExportHistoryEntity>>
+
 }

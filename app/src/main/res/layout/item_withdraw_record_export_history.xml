@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.ExportHistoryEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/shape_sffffff_r8"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_export_history_email"
+            style="@style/font_17_333333"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{item.sendAddress}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_export_history_state"
+            tools:text="1016666666@qq.com" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_export_history_state"
+            style="@style/font_17_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.statusVal}"
+            android:textColor="@{0 == item.status?@color/color_FFA936:2 == item.status?@color/color_FF5219:@color/common_txt_color}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="成功" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_export_history_time"
+            style="@style/Font_14_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{item.createTime}"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_export_history_email"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="23-01-31 09:32" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_export_history_remark"
+            style="@style/Font_14_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.remark}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_export_history_time"
+            tools:text="邮箱错误" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -18,6 +18,10 @@
             type="java.lang.String" />
 
         <variable
+            name="canShow"
+            type="java.lang.Boolean" />
+
+        <variable
             name="showCopy"
             type="java.lang.Boolean" />
     </data>
@@ -27,7 +31,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        app:visibility="@{null != content || content.length() > 0}">
+        app:visibility="@{canShow &amp;&amp; null != content &amp;&amp; content.length() > 0}">
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/Font_14_999999"
@@ -37,6 +41,7 @@
             tools:text="用户手机：" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_item_order_detail_info_content"
             style="@style/Font_14_333333"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

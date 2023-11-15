@@ -45,15 +45,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="58dp">
+                android:paddingBottom="24dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="12dp"
                     android:background="@color/white"
                     android:gravity="center_vertical"
-                    android:paddingHorizontal="16dp">
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/iv_order_detail_main"
@@ -72,23 +72,28 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:text="@{vm.orderDetail.stateDesc}"
-                        app:layout_constraintBottom_toTopOf="@id/tv_order_detail_desc"
+                        app:layout_constraintBottom_toTopOf="@id/tv_order_detail_type"
                         app:layout_constraintStart_toEndOf="@id/iv_order_detail_main"
                         app:layout_constraintTop_toTopOf="@id/iv_order_detail_main"
                         app:layout_constraintVertical_chainStyle="spread_inside"
                         tools:text="已支付" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_order_detail_desc"
-                        style="@style/Font_12_333333"
+                        android:id="@+id/tv_order_detail_type"
+                        style="@style/Font_10_333333"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{OrderParam.orderStatusList(vm.orderDetail.state)}"
-                        android:visibility="gone"
+                        android:background="@{vm.orderDetail.orderType == 300?@drawable/shape_storke88ffa936_r4:@drawable/shape_storke999999_r4}"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="4dp"
+                        android:text="@{vm.orderDetail.orderType == 300?@string/appointment:@string/normal}"
+                        android:textColor="@{vm.orderDetail.orderType == 300?@color/color_FFA936:@color/common_txt_color}"
                         app:layout_constraintBottom_toBottomOf="@id/iv_order_detail_main"
                         app:layout_constraintStart_toStartOf="@id/tv_order_detail_status"
                         app:layout_constraintTop_toBottomOf="@id/tv_order_detail_status"
-                        tools:text="请在 2020/10/10（周三） 20:00 使用" />
+                        tools:background="@drawable/shape_storke88ffa936_r4"
+                        tools:text="正常订单" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout
@@ -99,273 +104,266 @@
 
                     <com.lsy.framelib.ui.weight.SingleTapTextView
                         android:id="@+id/btn_order_detail_device"
+                        style="@style/Font_14_333333"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/Font_14_333333"
-                        android:drawablePadding="4dp"
-                        android:text="@string/look_device"
                         android:drawableTop="@mipmap/icon_order_detail_look_device"
+                        android:drawablePadding="4dp"
                         android:paddingHorizontal="20dp"
-                        android:paddingVertical="24dp"/>
+                        android:paddingVertical="24dp"
+                        android:text="@string/look_device" />
 
                     <com.lsy.framelib.ui.weight.SingleTapTextView
                         android:id="@+id/tv_order_detail_executive_logging"
+                        style="@style/Font_14_333333"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/Font_14_333333"
-                        android:drawablePadding="4dp"
-                        android:text="@string/executive_logging"
                         android:drawableTop="@mipmap/icon_order_detail_executive_logging"
+                        android:drawablePadding="4dp"
                         android:paddingHorizontal="20dp"
-                        android:paddingVertical="24dp"/>
+                        android:paddingVertical="24dp"
+                        android:text="@string/executive_logging" />
 
                     <com.lsy.framelib.ui.weight.SingleTapTextView
                         android:id="@+id/tv_order_detail_buyer_phone_call"
+                        style="@style/Font_14_333333"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/Font_14_333333"
-                        android:drawablePadding="4dp"
-                        android:text="@string/contact_user"
                         android:drawableTop="@mipmap/icon_order_detail_contact_user"
+                        android:drawablePadding="4dp"
                         android:paddingHorizontal="20dp"
-                        android:paddingVertical="24dp"/>
+                        android:paddingVertical="24dp"
+                        android:text="@string/contact_user" />
                 </LinearLayout>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_top_stroke_dividing_mlr16"
-                    android:paddingVertical="12dp"
+                    android:orientation="vertical"
                     android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
                     app:divider="@drawable/divide_size4"
-                    app:showDividers="middle"
-                    android:orientation="vertical">
+                    app:showDividers="middle">
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/font_17_333333_bold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/order_info"
                         android:layout_marginBottom="8dp"
-                        style="@style/font_17_333333"/>
+                        android:text="@string/order_info" />
 
                     <include
                         layout="@layout/item_order_detail_info"
+                        app:canShow='@{true}'
                         app:content='@{vm.orderDetail.buyerPhone}'
-                        app:showCopy="@{true}"
-                        app:itemTitle="@{@string/user_phone1}" />
+                        app:itemTitle='@{@string/user_phone1 + "："}'
+                        app:showCopy="@{true}" />
 
                     <include
                         layout="@layout/item_order_detail_info"
+                        app:canShow='@{true}'
                         app:content='@{vm.orderDetail.orderNo}'
-                        app:showCopy="@{true}"
-                        app:itemTitle="@{@string/order_no}" />
+                        app:itemTitle="@{@string/order_no}"
+                        app:showCopy="@{true}" />
 
                     <include
                         layout="@layout/item_order_detail_info"
+                        app:canShow='@{true}'
                         app:content='@{vm.orderDetail.shopPositionName}'
-                        app:showCopy="@{true}"
-                        app:itemTitle="@{@string/shop_info}" />
+                        app:itemTitle='@{@string/shop_info + "："}' />
 
                     <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
                         android:id="@+id/ll_order_detail_info_device_names"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         app:divider="@drawable/divide_size4"
-                        app:showDividers="middle"
-                        app:itemLayout="@layout/item_order_detail_info"/>
+                        app:itemLayout="@layout/item_order_detail_info"
+                        app:showDividers="middle" />
 
                     <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
                         android:id="@+id/ll_order_detail_info_device_imeis"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         app:divider="@drawable/divide_size4"
-                        app:showDividers="middle"
-                        app:itemLayout="@layout/item_order_detail_info"/>
+                        app:itemLayout="@layout/item_order_detail_info"
+                        app:showDividers="middle" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="@drawable/shape_top_stroke_dividing_mlr16"
                     android:orientation="vertical"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="12dp"
-                    app:divider="@drawable/divide_size8"
+                    app:divider="@drawable/divide_size4"
                     app:showDividers="middle">
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
+                    <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
                         android:id="@+id/ll_order_detail_sku_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
                         android:orientation="vertical"
-                        android:visibility="gone"
-                        app:divider="@drawable/divide_size8"
+                        app:divider="@drawable/divide_size4"
+                        app:itemLayout="@layout/item_order_detail_info"
                         app:showDividers="middle" />
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
+                    <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
                         android:id="@+id/ll_order_detail_coupon_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
                         android:orientation="vertical"
-                        android:visibility="gone"
-                        app:divider="@drawable/divide_size8"
+                        app:divider="@drawable/divide_size4"
+                        app:itemLayout="@layout/item_order_detail_info"
                         app:showDividers="middle" />
 
                     <include
-                        layout="@layout/item_order_detail_item"
-                        app:mStart="@{@dimen/dimen_8}"
-                        app:title="@{@string/total_amount}"
-                        app:value='@{@string/unit_money+vm.orderDetail.originPrice}' />
+                        layout="@layout/item_order_detail_info"
+                        app:canShow='@{true}'
+                        app:content='@{@string/unit_money+vm.orderDetail.originPrice}'
+                        app:itemTitle='@{@string/total_amount}' />
 
                     <include
-                        layout="@layout/item_order_detail_item"
-                        app:mStart="@{@dimen/dimen_8}"
-                        app:title="@{@string/need_pay}"
-                        app:value='@{@string/unit_money+vm.orderDetail.realPrice}' />
+                        layout="@layout/item_order_detail_info"
+                        app:canShow='@{true}'
+                        app:content='@{@string/unit_money+vm.orderDetail.realPrice}'
+                        app:itemTitle='@{@string/need_pay}' />
 
                     <include
-                        layout="@layout/item_order_detail_item"
-                        app:mStart="@{@dimen/dimen_8}"
-                        app:title="@{@string/have_paid}"
-                        app:value='@{@string/unit_money+vm.orderDetail.payPrice}' />
+                        layout="@layout/item_order_detail_info"
+                        app:canShow='@{true}'
+                        app:content='@{@string/unit_money+vm.orderDetail.payPrice}'
+                        app:itemTitle='@{@string/have_paid}' />
 
                     <include
-                        android:id="@+id/include_order_detail_realPrice"
-                        layout="@layout/item_order_detail_item"
-                        app:mStart="@{@dimen/dimen_8}"
-                        app:title="@{@string/real_income}"
-                        app:value='@{@string/unit_money+vm.orderDetail.realPrice}' />
+                        android:id="@+id/item_order_detail_info_real_income"
+                        layout="@layout/item_order_detail_info"
+                        app:canShow='@{true}'
+                        app:content='@{@string/unit_money+vm.orderDetail.realPrice}'
+                        app:itemTitle='@{@string/real_income}' />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
                     android:background="@color/white"
                     android:orientation="vertical"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="12dp"
-                    android:visibility="@{(vm.isAppoint &amp;&amp; vm.orderDetail.appointmentInfo.appointmentReason.length>0)?View.VISIBLE:View.GONE}"
-                    app:divider="@drawable/divide_size8"
+                    app:visibility="@{OrderParam.isRefund(vm.orderDetail.state)}"
+                    app:divider="@drawable/divide_size4"
                     app:showDividers="middle">
 
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/font_17_333333_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/refund_info" />
+
                     <include
-                        layout="@layout/item_order_detail_item"
-                        app:mStart="@{@dimen/dimen_2}"
-                        app:title='@{@string/cancel_appoint_reason +"："}'
-                        app:value='@{vm.orderDetail.refundDesc}' />
+                        layout="@layout/item_order_detail_info"
+                        app:canShow='@{true}'
+                        app:content='@{vm.orderDetail.refundDesc}'
+                        app:itemTitle='@{@string/reason_for_refund}' />
+
+                    <include
+                        layout="@layout/item_order_detail_info"
+                        app:canShow='@{true}'
+                        app:content='@{@string/unit_money+vm.orderDetail.refundPrice}'
+                        app:itemTitle='@{@string/refund_amount}' />
+
+                    <!--                    <include-->
+                    <!--                        layout="@layout/item_order_detail_info"-->
+                    <!--                        app:content='@{vm.orderDetail.refundPrice}'-->
+                    <!--                        app:itemTitle="@{@string/refund_haixin}"/>-->
+
+                    <include
+                        layout="@layout/item_order_detail_info"
+                        app:canShow='@{true}'
+                        app:content='@{vm.orderDetail.refundTime}'
+                        app:itemTitle='@{@string/refund_time}' />
+
+                    <include
+                        layout="@layout/item_order_detail_info"
+                        app:canShow='@{true}'
+                        app:content='@{vm.orderDetail.refundBy}'
+                        app:itemTitle='@{@string/operator}' />
+
+                    <include
+                        layout="@layout/item_order_detail_info"
+                        app:canShow='@{true}'
+                        app:content='@{vm.orderDetail.orderNo}'
+                        app:itemTitle='@{@string/refund_order_no}' />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
                     android:background="@color/white"
                     android:orientation="vertical"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="12dp"
-                    android:visibility="@{OrderParam.isRefund(vm.orderDetail.state)?View.VISIBLE:View.GONE}"
-                    app:divider="@drawable/divide_size8"
+                    app:divider="@drawable/divide_size4"
                     app:showDividers="middle">
 
-                    <include
-                        layout="@layout/item_order_detail_item"
-                        app:mStart="@{@dimen/dimen_2}"
-                        app:title="@{@string/reason_for_refund}"
-                        app:value='@{vm.orderDetail.refundDesc}' />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/font_17_333333_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/order_record" />
 
                     <include
-                        layout="@layout/item_order_detail_item"
-                        app:mStart="@{@dimen/dimen_2}"
-                        app:title="@{@string/refund_amount}"
-                        app:value='@{@string/unit_money+vm.orderDetail.refundPrice}' />
+                        layout="@layout/item_order_detail_info"
+                        app:canShow='@{true}'
+                        app:content='@{vm.orderDetail.createTime}'
+                        app:itemTitle='@{@string/order_time_title}' />
 
                     <include
-                        layout="@layout/item_order_detail_item"
-                        android:visibility="gone"
-                        app:mStart="@{@dimen/dimen_2}"
-                        app:title="@{@string/refund_haixin}"
-                        app:value='@{""}' />
+                        layout="@layout/item_order_detail_info"
+                        app:canShow="@{vm.isAppoint}"
+                        app:content='@{vm.orderDetail.appointTime}'
+                        app:itemTitle='@{@string/appoint_time + "："}' />
 
                     <include
-                        layout="@layout/item_order_detail_item"
-                        app:mStart="@{@dimen/dimen_2}"
-                        app:title='@{@string/refund_time + "："}'
-                        app:value='@{vm.orderDetail.refundTime}' />
+                        layout="@layout/item_order_detail_info"
+                        app:canShow='@{true}'
+                        app:content='@{vm.orderDetail.payMethod}'
+                        app:itemTitle='@{@string/model_of_payment + "："}' />
 
                     <include
-                        layout="@layout/item_order_detail_item"
-                        app:mStart="@{@dimen/dimen_2}"
-                        app:title="@{@string/operator}"
-                        app:value='@{vm.orderDetail.refundBy}' />
+                        layout="@layout/item_order_detail_info"
+                        app:canShow="@{vm.orderDetail.state >= 500}"
+                        app:content='@{vm.orderDetail.payNo}'
+                        app:itemTitle='@{@string/no_of_payment + "："}' />
 
                     <include
-                        layout="@layout/item_order_detail_item"
-                        app:mStart="@{@dimen/dimen_2}"
-                        app:title="@{@string/refund_order_no}"
-                        app:value='@{vm.orderDetail.orderNo}' />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="vertical"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="12dp"
-                    app:divider="@drawable/divide_size8"
-                    app:showDividers="middle">
+                        layout="@layout/item_order_detail_info"
+                        app:canShow="@{vm.orderDetail.state >= 500}"
+                        app:content='@{vm.orderDetail.payTime}'
+                        app:itemTitle='@{@string/time_of_payment + "："}' />
 
                     <include
-                        layout="@layout/item_order_detail_item"
-                        app:mStart="@{@dimen/dimen_2}"
-                        app:title="@{@string/order_time_title}"
-                        app:value='@{vm.orderDetail.createTime}' />
-
-                    <include
-                        layout="@layout/item_order_detail_item"
-                        android:visibility="@{vm.isAppoint?View.VISIBLE:View.GONE}"
-                        app:mStart="@{@dimen/dimen_2}"
-                        app:title='@{@string/appoint_time +"："}'
-                        app:value='@{vm.orderDetail.appointTime}' />
-
-                    <include
-                        layout="@layout/item_order_detail_item"
-                        app:mStart="@{@dimen/dimen_2}"
-                        app:title='@{@string/model_of_payment + "："}'
-                        app:value='@{vm.orderDetail.payMethod}' />
-
-                    <include
-                        layout="@layout/item_order_detail_item"
-                        app:mStart="@{@dimen/dimen_2}"
-                        app:title='@{@string/no_of_payment +"："}'
-                        app:value='@{vm.orderDetail.payNo}'
-                        app:visibility="@{vm.orderDetail.state >= 500 }" />
-
-                    <include
-                        layout="@layout/item_order_detail_item"
-                        app:mStart="@{@dimen/dimen_2}"
-                        app:title='@{@string/time_of_payment +"："}'
-                        app:value='@{vm.orderDetail.payTime}'
-                        app:visibility="@{vm.orderDetail.state >= 500 }" />
-
-                    <include
-                        layout="@layout/item_order_detail_item"
-                        app:mStart="@{@dimen/dimen_2}"
-                        app:title='@{@string/reason_for_end +"："}'
-                        app:value='@{vm.orderDetail.endStateVal}'
-                        app:visibility="@{vm.orderDetail.endStateVal().length() > 0 }" />
+                        layout="@layout/item_order_detail_info"
+                        app:canShow="@{vm.orderDetail.endStateVal().length() > 0}"
+                        app:content='@{vm.orderDetail.endStateVal}'
+                        app:itemTitle='@{@string/reason_for_end + "："}' />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </LinearLayout>
         </ScrollView>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="94dp"
+            android:layout_height="@dimen/page_bottom_h"
             android:background="@drawable/shape_top_stroke_dividing"
             android:gravity="end"
             android:paddingHorizontal="16dp"

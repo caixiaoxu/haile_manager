@@ -112,6 +112,7 @@ data class Sku(
     val orderNo: String,
     val originPrice: String,
     val realPrice: String,
+    val imei: String? = null
 ) {
     val goodsItemInfo: GoodsItemInfoEntity?
         get() = GsonUtils.json2Class(_goodsItemInfo, GoodsItemInfoEntity::class.java)

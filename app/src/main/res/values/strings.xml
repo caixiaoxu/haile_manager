@@ -392,10 +392,13 @@
     <string name="order_num_hint">全部%1$d笔订单</string>
     <string name="order_time">下单时间</string>
     <string name="order_info">订单信息</string>
+    <string name="refund_info">退款信息</string>
+    <string name="order_record">订单记录</string>
     <string name="real_income">实收：</string>
     <string name="order_specs">"%1$s %2$s分钟 ￥%3$s"</string>
     <string name="order_detail">订单详情</string>
     <string name="look_device">查看设备</string>
+    <string name="consumption_item">消费项</string>
     <string name="compensate">补偿</string>
     <string name="compensate_setting">补偿设置</string>
     <string name="refund">退款</string>
@@ -434,8 +437,8 @@
     <string name="num_unit">张</string>
     <string name="full_discount_coupon">满减券</string>
     <string name="full_discount_coupon_default">满0可用</string>
-    <string name="appointment_order">预约订单</string>
-    <string name="normal_order">正常订单</string>
+    <string name="appointment_order">预约</string>
+    <string name="normal">普通</string>
     <string name="cancel_order">取消订单</string>
     <string name="cancel_order_hint">请输入取消原因</string>
     <string name="appoint_time">预约时间</string>

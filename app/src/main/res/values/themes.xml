@@ -412,6 +412,9 @@
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/common_txt_color</item>
     </style>
+    <style name="font_17_333333_bold" parent="font_17_333333">
+        <item name="android:textStyle">bold</item>
+    </style>
 
     <style name="font_17_333333_cccccc">
         <item name="android:textSize">17sp</item>

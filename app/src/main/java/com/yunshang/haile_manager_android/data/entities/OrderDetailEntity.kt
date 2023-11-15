@@ -1,18 +1,10 @@
 package com.yunshang.haile_manager_android.data.entities
 
-import android.text.SpannableString
-import android.text.style.AbsoluteSizeSpan
-import android.text.style.ForegroundColorSpan
-import androidx.core.content.ContextCompat
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.google.gson.annotations.SerializedName
-import com.lsy.framelib.data.constants.Constants
-import com.lsy.framelib.utils.DimensionUtils
 import com.yunshang.haile_manager_android.BR
-import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
-import com.yunshang.haile_manager_android.utils.StringUtils
 
 /**
  * Title :
@@ -56,7 +48,7 @@ data class OrderDetailEntity(
     val _payTime: String,
     val promotionList: List<Promotion>,
     val realPrice: Double,
-    val refundBy: String,
+    val refundBy: String? = null,
     val refundDesc: String,
     val refundNo: String,
     val refundPrice: Double,
@@ -113,19 +105,13 @@ data class OrderDetailEntity(
 
     val skuDeviceTypes: List<Sku>
         get() {
-            val list = hashMapOf<Int,Sku>()
+            val list = hashMapOf<Int, Sku>()
             skuList.forEach {
-                if (null == list[it.goodsId]){
+                if (null == list[it.goodsId]) {
                     list[it.goodsId] = it
                 }
             }
-            return skuList
-
-//            return list.values.joinToString("\n"){item->
-//                val goodName = item.goodsName
-//                val goodId = "（设备编号：${item.goodsId}）"
-//                goodName + goodId
-//            }
+            return list.values.toList()
         }
 
     fun endStateVal(): String = when (endState) {

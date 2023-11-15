@@ -41,17 +41,16 @@
             android:scrollbars="none"
             app:visibility="@{null!=vm.orderDetail}">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="58dp"
-                app:divider="@drawable/divide_size8"
-                app:showDividers="middle">
+                android:paddingBottom="58dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="84dp"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
                     android:background="@color/white"
                     android:gravity="center_vertical"
                     android:paddingHorizontal="16dp">
@@ -67,7 +66,7 @@
                         tools:src="@mipmap/icon_order_detail_main" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_order_detail_statas"
+                        android:id="@+id/tv_order_detail_status"
                         style="@style/Font_16_333333_bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -87,175 +86,103 @@
                         android:text="@{OrderParam.orderStatusList(vm.orderDetail.state)}"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@id/iv_order_detail_main"
-                        app:layout_constraintStart_toStartOf="@id/tv_order_detail_statas"
-                        app:layout_constraintTop_toBottomOf="@id/tv_order_detail_statas"
+                        app:layout_constraintStart_toStartOf="@id/tv_order_detail_status"
+                        app:layout_constraintTop_toBottomOf="@id/tv_order_detail_status"
                         tools:text="请在 2020/10/10（周三） 20:00 使用" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_order_detail_buyer_phone"
-                        style="@style/Font_14_333333_bold"
-                        android:layout_width="0dp"
-                        android:layout_height="44dp"
-                        android:layout_marginEnd="8dp"
-                        android:gravity="center_vertical"
-                        android:paddingStart="16dp"
-                        android:text="@{vm.orderDetail.buyerPhone}"
-                        app:layout_constraintEnd_toStartOf="@id/tv_order_detail_buyer_phone_call"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="RtlSymmetry"
-                        tools:text="18888888888" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_order_detail_buyer_phone_copy"
-                        style="@style/Font_14_f0a258"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:gravity="center_vertical"
-                        android:onClickListener="@{(v)->vm.copyToClipBroad(v,vm.orderDetail.buyerPhone)}"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="16dp"
-                        android:text="@string/copy"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_buyer_phone"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tv_order_detail_buyer_phone" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_order_detail_buyer_phone_call"
-                        style="@style/Font_14_f0a258"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:gravity="center_vertical"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="16dp"
-                        android:text="@string/call_phone"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_buyer_phone"
-                        app:layout_constraintEnd_toStartOf="@id/tv_order_detail_buyer_phone_copy"
-                        app:layout_constraintTop_toTopOf="@id/tv_order_detail_buyer_phone" />
-
-                    <View
-                        android:layout_width="0.5dp"
-                        android:layout_height="17dp"
-                        android:background="@color/dividing_line_color"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_buyer_phone_copy"
-                        app:layout_constraintStart_toStartOf="@id/tv_order_detail_buyer_phone_copy"
-                        app:layout_constraintTop_toTopOf="@id/tv_order_detail_buyer_phone_copy" />
-
-                    <View
-                        style="@style/DividingStyle"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_buyer_phone"
-                        tools:ignore="MissingConstraints" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_order_detail_order_no"
-                        style="@style/Font_14_333333_bold"
-                        android:layout_width="0dp"
-                        android:layout_height="44dp"
-                        android:layout_marginEnd="8dp"
-                        android:gravity="center_vertical"
-                        android:paddingStart="16dp"
-                        android:text="@{vm.orderDetail.orderNo}"
-                        app:layout_constraintEnd_toStartOf="@id/tv_order_detail_executive_logging"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_order_detail_buyer_phone"
-                        tools:ignore="RtlSymmetry"
-                        tools:text="NOWNR124823840293849" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_order_detail_order_no_copy"
-                        style="@style/Font_14_f0a258"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:gravity="center_vertical"
-                        android:onClickListener="@{(v)->vm.copyToClipBroad(v,vm.orderDetail.orderNo)}"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="16dp"
-                        android:text="@string/copy"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_order_no"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tv_order_detail_order_no" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_order_detail_executive_logging"
-                        style="@style/Font_14_f0a258"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:gravity="center_vertical"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="16dp"
-                        android:text="@string/executive_logging"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_order_no"
-                        app:layout_constraintEnd_toStartOf="@id/tv_order_detail_order_no_copy"
-                        app:layout_constraintTop_toTopOf="@id/tv_order_detail_order_no" />
-
-                    <View
-                        android:layout_width="0.5dp"
-                        android:layout_height="17dp"
-                        android:background="@color/dividing_line_color"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_order_no_copy"
-                        app:layout_constraintStart_toStartOf="@id/tv_order_detail_order_no_copy"
-                        app:layout_constraintTop_toTopOf="@id/tv_order_detail_order_no_copy" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="12dp">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_order_detail_shop"
-                        style="@style/Font_14_333333"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@{vm.orderDetail.shopName}"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="所属店铺字段信息" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_order_detail_position"
-                        style="@style/Font_14_333333"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="@{vm.orderDetail.positionName}"
-                        app:layout_constraintTop_toBottomOf="@id/tv_order_detail_shop"
-                        tools:text="点位字段信息" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_order_detail_device"
-                        style="@style/Font_14_333333"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:gravity="center_vertical"
-                        android:text="@{vm.orderDetail.deviceNameNoVal}"
-                        app:layout_constraintEnd_toStartOf="@id/btn_order_detail_device"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_order_detail_position"
-                        tools:text="设备名称" />
+                    android:background="@drawable/shape_top_stroke_dividing_mlr16"
+                    android:orientation="horizontal">
 
                     <com.lsy.framelib.ui.weight.SingleTapTextView
                         android:id="@+id/btn_order_detail_device"
-                        style="@style/Font_14_f0a258"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
+                        style="@style/Font_14_333333"
+                        android:drawablePadding="4dp"
                         android:text="@string/look_device"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_order_detail_device"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tv_order_detail_device"
-                        tools:text="查看设备" />
+                        android:drawableTop="@mipmap/icon_order_detail_look_device"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="24dp"/>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    <com.lsy.framelib.ui.weight.SingleTapTextView
+                        android:id="@+id/tv_order_detail_executive_logging"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Font_14_333333"
+                        android:drawablePadding="4dp"
+                        android:text="@string/executive_logging"
+                        android:drawableTop="@mipmap/icon_order_detail_executive_logging"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="24dp"/>
+
+                    <com.lsy.framelib.ui.weight.SingleTapTextView
+                        android:id="@+id/tv_order_detail_buyer_phone_call"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Font_14_333333"
+                        android:drawablePadding="4dp"
+                        android:text="@string/contact_user"
+                        android:drawableTop="@mipmap/icon_order_detail_contact_user"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="24dp"/>
+                </LinearLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_top_stroke_dividing_mlr16"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="16dp"
+                    app:divider="@drawable/divide_size4"
+                    app:showDividers="middle"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/order_info"
+                        android:layout_marginBottom="8dp"
+                        style="@style/font_17_333333"/>
+
+                    <include
+                        layout="@layout/item_order_detail_info"
+                        app:content='@{vm.orderDetail.buyerPhone}'
+                        app:showCopy="@{true}"
+                        app:itemTitle="@{@string/user_phone1}" />
+
+                    <include
+                        layout="@layout/item_order_detail_info"
+                        app:content='@{vm.orderDetail.orderNo}'
+                        app:showCopy="@{true}"
+                        app:itemTitle="@{@string/order_no}" />
+
+                    <include
+                        layout="@layout/item_order_detail_info"
+                        app:content='@{vm.orderDetail.shopPositionName}'
+                        app:showCopy="@{true}"
+                        app:itemTitle="@{@string/shop_info}" />
+
+                    <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+                        android:id="@+id/ll_order_detail_info_device_names"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:divider="@drawable/divide_size4"
+                        app:showDividers="middle"
+                        app:itemLayout="@layout/item_order_detail_info"/>
+
+                    <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+                        android:id="@+id/ll_order_detail_info_device_imeis"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:divider="@drawable/divide_size4"
+                        app:showDividers="middle"
+                        app:itemLayout="@layout/item_order_detail_info"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
@@ -433,7 +360,7 @@
                         app:value='@{vm.orderDetail.endStateVal}'
                         app:visibility="@{vm.orderDetail.endStateVal().length() > 0 }" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </LinearLayout>
         </ScrollView>
 
         <androidx.appcompat.widget.LinearLayoutCompat

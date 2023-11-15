@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.yunshang.haile_manager_android.utils.StringUtils" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="itemTitle"
+            type="java.lang.String" />
+
+        <variable
+            name="content"
+            type="java.lang.String" />
+
+        <variable
+            name="showCopy"
+            type="java.lang.Boolean" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:visibility="@{null != content || content.length() > 0}">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_14_999999"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:text="@{itemTitle}"
+            tools:text="用户手机：" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_14_333333"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@{content}"
+            tools:text="18888888888" />
+
+        <com.lsy.framelib.ui.weight.SingleTapTextView
+            style="@style/Font_14_f0a258"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="@{showCopy}"
+            android:onClick="@{v->StringUtils.copyToShear(content)}"
+            android:paddingHorizontal="6dp"
+            android:text="@string/copy"
+            android:visibility="@{showCopy?View.VISIBLE:View.INVISIBLE}" />
+
+    </LinearLayout>
+</layout>

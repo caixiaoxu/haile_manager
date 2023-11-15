@@ -23,6 +23,16 @@ data class WithdrawAccountEntity(
     val realName: String,
     val state: Int
 ) {
-    fun cashOutLimit(): String =
-        StringUtils.getString(R.string.alipay_withdraw_hint, maxWithdrawAmount)
+    fun cashOutLimit(): String = try {
+        val max = maxWithdrawAmount.toDouble()
+        val maxVal = (if (max > 10000) max / 10000 else max).let {
+            if ((it * 100).toInt() % 100 == 0) it.toInt() else it
+        }
+        StringUtils.getString(
+            R.string.alipay_withdraw_hint,
+            if (max > 10000) "${maxVal}万" else "$maxVal"
+        )
+    } catch (e: Exception) {
+        ""
+    }
 }

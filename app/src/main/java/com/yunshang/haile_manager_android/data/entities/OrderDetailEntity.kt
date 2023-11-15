@@ -63,7 +63,7 @@ data class OrderDetailEntity(
     @SerializedName("refundTime")
     val _refundTime: String,
     val shopId: Int,
-    val shopName: String,
+    val shopName: String? = null,
     val skuList: List<Sku>,
     val state: Int,
     val appointmentInfo: AppointmentInfo?,
@@ -109,30 +109,34 @@ data class OrderDetailEntity(
     val deviceTypeVal: String
         get() = skuList.firstOrNull()?.deviceType ?: ""
 
-    val deviceNameNoVal: SpannableString
-        get() = skuList.firstOrNull()?.let {
-            val goodName = it.goodsName
-            val goodId = "（${it.deviceType}编号：${it.goodsId}）"
-            val content = goodName + goodId
-            StringUtils.formatMultiStyleStr(
-                content, arrayOf(
-                    AbsoluteSizeSpan(DimensionUtils.sp2px(12f)),
-                    ForegroundColorSpan(
-                        ContextCompat.getColor(
-                            Constants.APP_CONTEXT,
-                            R.color.common_sub_txt_color,
-                        )
-                    ),
-                ), goodName.length, content.length
-            )
-        }
-            ?: SpannableString("")
+    val skuDeviceTypes: List<Sku>
+        get() {
+            val list = hashMapOf<Int,Sku>()
+            skuList.forEach {
+                if (null == list[it.goodsId]){
+                    list[it.goodsId] = it
+                }
+            }
+            return skuList
 
-    fun endStateVal(): String = when(endState){
-        1050->endStateDesc?.let { "故障结束-$it" } ?: ""
-        1000->"正常结束"
-        else->""
+//            return list.values.joinToString("\n"){item->
+//                val goodName = item.goodsName
+//                val goodId = "（设备编号：${item.goodsId}）"
+//                goodName + goodId
+//            }
+        }
+
+    fun endStateVal(): String = when (endState) {
+        1050 -> endStateDesc?.let { "故障结束-$it" } ?: ""
+        1000 -> "正常结束"
+        else -> ""
     }
+
+    val shopPositionName: String
+        get() = if (!shopName.isNullOrEmpty() && !positionName.isNullOrEmpty()) "$shopName-$positionName"
+        else if (!shopName.isNullOrEmpty()) shopName
+        else if (!positionName.isNullOrEmpty()) positionName
+        else ""
 }
 
 data class AppointmentInfo(

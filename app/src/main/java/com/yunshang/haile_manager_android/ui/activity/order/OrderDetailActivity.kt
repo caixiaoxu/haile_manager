@@ -57,33 +57,15 @@ class OrderDetailActivity :
 
         mViewModel.orderDetail.observe(this) {
             it?.let { orderDetail ->
-                if (mViewModel.isAppoint) {
-                    DateTimeUtils.formatDateFromString(orderDetail.appointmentInfo?.appointmentUsageTime)
-                        ?.let { date ->
-                            val dateStr = DateTimeUtils.formatDateTime(date, "yyyy/MM/dd（E）HH:mm")
-                            mBinding.tvOrderDetailStatas.text =
-                                com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
-                                    StringUtils.getString(R.string.appoint_dealLine, dateStr),
-                                    arrayOf(
-                                        ForegroundColorSpan(
-                                            ContextCompat.getColor(
-                                                this@OrderDetailActivity,
-                                                R.color.colorPrimary
-                                            )
-                                        ), 3, 3 + dateStr.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE
-                                    ),
-                                    3, 3 + dateStr.length
-
-                                )
-                            mBinding.tvOrderDetailStatas.visibility = View.VISIBLE
-                        }
-                }
 
                 DateTimeUtils.formatDateFromString(orderDetail._createTime)?.let { date ->
                     val day = (System.currentTimeMillis() - date.time) / (24 * 3600 * 1000)
                     mBinding.tvOrderDetailExecutiveLogging.visibility =
                         if (mViewModel.isAppoint || day > 7) View.GONE else View.VISIBLE
                 }
+
+
+
 
                 mBinding.llOrderDetailSkuList.removeAllViews()
                 mBinding.llOrderDetailSkuList.visibility =

@@ -25,9 +25,11 @@
 
     <color name="hint_color">#FF3B30</color>
     <color name="color_pink">#FC7F6F</color>
+    <color name="color_ff5219">#FF5219</color>
     <color name="color_green">#30C19A</color>
     <color name="second_color_green">#2630C19A</color>
     <color name="color_gray">#CCCCCC</color>
+    <color name="color_f9f9f9">#F9F9F9</color>
     <color name="color_FFA936">#FFA936</color>
     <color name="color_FF5219">#FF5219</color>
 

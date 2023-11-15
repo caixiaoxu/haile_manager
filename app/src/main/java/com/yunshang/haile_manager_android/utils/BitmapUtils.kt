@@ -4,10 +4,12 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import androidx.core.graphics.drawable.DrawableCompat
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.WriterException
@@ -182,4 +184,10 @@ object BitmapUtils {
         return false
     }
 
+    fun tintDrawable(drawable: Drawable?, colors: Int): Drawable? =
+        drawable?.let {
+            DrawableCompat.wrap(drawable).mutate().apply {
+                DrawableCompat.setTint(this, colors)
+            }
+        }
 }

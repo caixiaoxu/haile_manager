@@ -81,7 +81,7 @@ class ShopCreateAndUpdateActivity :
 
     override fun layoutId(): Int = R.layout.activity_shop_create_and_update
 
-    override fun backBtn(): View = mBinding.shopTitleBar.getBackBtn()
+    override fun backBtn(): View = mBinding.barShopEditTitle.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()

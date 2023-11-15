@@ -16,8 +16,10 @@ import com.yunshang.haile_manager_android.BR
  */
 data class AppointmentSettingEntity(
     var settingList: MutableList<SettingItem>? = null,
-    var autoRefund: Int? = null,
-    var shopId: Int? = null
+    var autoRefund: Int? = 1,
+    var shopId: Int? = null,
+    var checkTime: Int? = 10,
+    var reserveMethod: Int? = 1
 ) : BaseObservable() {
     var shopIdList: IntArray? = null
     var settings: MutableList<SettingItem>? = null
@@ -30,7 +32,39 @@ data class AppointmentSettingEntity(
             notifyPropertyChanged(BR.autoRefundVal)
         }
 
-    fun showSettingList(): Boolean = settingList?.any { item -> item.appointSwitchVal } ?: false || autoRefundVal
+    @Transient
+    @get:Bindable
+    var checkTimeVal: String = ""
+        get() = field.ifEmpty { checkTime.toString() }
+        set(value) {
+            field = value
+            try {
+                checkTime = value.toInt()
+            } catch (_: Exception) {
+            }
+            notifyPropertyChanged(BR.reserveMethod1Val)
+        }
+
+    @get:Bindable
+    var reserveMethod1Val: Boolean
+        get() = 1 == reserveMethod
+        set(value) {
+            reserveMethod = if (value) 1 else 2
+            notifyPropertyChanged(BR.reserveMethod1Val)
+            notifyPropertyChanged(BR.reserveMethod2Val)
+        }
+
+    @get:Bindable
+    var reserveMethod2Val: Boolean
+        get() = 2 == reserveMethod
+        set(value) {
+            reserveMethod = if (value) 2 else 1
+            notifyPropertyChanged(BR.reserveMethod1Val)
+            notifyPropertyChanged(BR.reserveMethod2Val)
+        }
+
+    fun showSettingList(): Boolean =
+        settingList?.any { item -> item.appointSwitchVal } ?: false || autoRefundVal
 
     fun showContextList(): String {
         val sb = StringBuilder()
@@ -40,9 +74,14 @@ data class AppointmentSettingEntity(
         if (!tokenCoinList.isNullOrEmpty()) {
             sb.append("\n预约设备类型：${tokenCoinList.joinToString("、") { item -> item.goodsCategoryName ?: "" }}")
         }
-
-        if (autoRefundVal) {
-            sb.append("\n预约不使用自动退款")
+        sb.append("\n预约验证时间：${checkTime}分钟")
+        if (1 == reserveMethod) {
+            sb.append("\n预约后付费")
+        } else if (2 == reserveMethod) {
+            sb.append("\n预约先付费")
+            if (autoRefundVal) {
+                sb.append("\n预约不使用自动退款")
+            }
         }
         return if (sb.isNotEmpty()) sb.substring(1) else ""
     }

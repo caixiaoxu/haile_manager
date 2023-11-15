@@ -178,7 +178,6 @@
             <com.lsy.framelib.ui.weight.SingleTapTextView
                 android:id="@+id/tv_staff_detail_delete"
                 style="@style/CommonStrokeTxtBtnStyle"
-                android:onClick="@{vm::deleteStaff}"
                 android:text="@string/delete_staff"
                 android:visibility="@{shared.hasPersonDeletePermission?View.VISIBLE:View.GONE}" />
 

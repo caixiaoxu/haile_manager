@@ -130,6 +130,7 @@ object IntentParams {
         private const val CanSelectAll = "canSelectAll"
         private const val MustSelect = "mustSelect"
         private const val SelectList = "selectList"
+        private const val ShopIdList = "shopIdList"
 
         /**
          * 包装参数
@@ -139,14 +140,20 @@ object IntentParams {
             showPosition: Boolean = true,
             canSelectAll: Boolean = true,
             mustSelect: Boolean = true,
-            selectList: MutableList<ShopAndPositionSelectEntity>? = null
+            selectList: MutableList<ShopAndPositionSelectEntity>? = null,
+            shopIdList: IntArray? = null
         ): Bundle =
             Bundle().apply {
                 putBoolean(CanMultiSelect, canMultiSelect)
                 putBoolean(ShowPosition, showPosition)
                 putBoolean(CanSelectAll, canSelectAll)
                 putBoolean(MustSelect, mustSelect)
-                putString(SelectList, GsonUtils.any2Json(selectList))
+                selectList?.let {
+                    putString(SelectList, GsonUtils.any2Json(selectList))
+                }
+                shopIdList?.let {
+                    putIntArray(ShopIdList, shopIdList)
+                }
             }
 
         fun parseCanMultiSelect(intent: Intent): Boolean =
@@ -160,6 +167,8 @@ object IntentParams {
 
         fun parseMustSelect(intent: Intent): Boolean =
             intent.getBooleanExtra(MustSelect, true)
+
+        fun parseShopIdList(intent: Intent): IntArray? = intent.getIntArrayExtra(ShopIdList)
 
         /**
          * 包装返回参数

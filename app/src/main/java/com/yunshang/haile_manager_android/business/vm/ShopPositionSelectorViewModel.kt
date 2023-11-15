@@ -30,6 +30,9 @@ class ShopPositionSelectorViewModel : BaseViewModel() {
     // 是否可全选
     var canSelectAll: Boolean = true
 
+    // 只显示对应的门店信息
+    var shopIdList: IntArray? = null
+
     // 搜索内容
     val searchContent: MutableLiveData<String> = MutableLiveData()
 
@@ -73,11 +76,14 @@ class ShopPositionSelectorViewModel : BaseViewModel() {
                 )
             )
             originShopPositionList.clear()
-            result?.let {
-                dealOldSelectList(result)
-                originShopPositionList.addAll(it)
+            val list = shopIdList?.let { shopIds ->
+                result?.filter { item -> (null != item.id && item.id in shopIds) }?.toMutableList()
+            } ?: result
+            list?.let {
+                dealOldSelectList(list)
+                originShopPositionList.addAll(list)
             }
-            shopPositionList.postValue(result)
+            shopPositionList.postValue(list)
         })
     }
 

@@ -22,47 +22,32 @@
         android:paddingHorizontal="16dp">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_order_list_no"
-            style="@style/Font_12_999999"
-            android:layout_width="0dp"
-            android:layout_height="44dp"
-            android:gravity="center_vertical"
-            android:text='@{@string/order_no + "：" +item.orderNo}'
-            app:layout_constraintEnd_toStartOf="@id/tv_order_list_date"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="订单号：18814822697" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_order_list_date"
-            style="@style/Font_12_999999"
+            android:id="@+id/tv_order_list_type"
+            style="@style/Font_12_ffffff"
             android:layout_width="wrap_content"
-            android:layout_height="44dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_sf0a258_r6"
             android:gravity="center_vertical"
-            android:text='@{item.createTime}'
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="2018-06-12 11:08:00" />
-
-        <View
-            style="@style/DividingStyle"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="2dp"
+            android:text="@{item.orderType == 300?@string/appointment_order:@string/normal_order}"
             app:layout_constraintBottom_toBottomOf="@id/tv_order_list_no"
-            tools:ignore="MissingConstraints" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_order_list_no"
+            tools:text="正常订单" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_order_list_device_name"
-            style="@style/Font_16_333333_bold"
+            android:id="@+id/tv_order_list_no"
+            style="@style/Font_14_333333"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:layout_marginEnd="20dp"
+            android:layout_height="44dp"
+            android:layout_marginHorizontal="8dp"
+            android:gravity="center_vertical"
+            android:text='@{item.orderNo}'
             app:layout_constraintEnd_toStartOf="@id/tv_order_list_status"
-            android:text="@{item.getConfigureTitle}"
-            app:layout_constraintTop_toBottomOf="@id/tv_order_list_no"
-            tools:text="1号洗衣机" />
+            app:layout_constraintStart_toEndOf="@id/tv_order_list_type"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="18814822697" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_order_list_status"
@@ -72,11 +57,29 @@
             android:drawableEnd="@drawable/icon_arrow_right"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
-            android:text="@{OrderParam.orderStatusList(item.state)}"
-            app:layout_constraintBottom_toBottomOf="@id/tv_order_list_device_name"
+            android:text="@{item.stateDesc}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_order_list_no"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_order_list_device_name"
+            app:layout_constraintTop_toTopOf="@id/tv_order_list_no"
             tools:text="待支付" />
+
+        <View
+            style="@style/DividingStyle"
+            app:layout_constraintBottom_toBottomOf="@id/tv_order_list_no"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_order_list_device_name"
+            style="@style/Font_16_333333_bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="20dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{item.getConfigureTitle}"
+            app:layout_constraintTop_toBottomOf="@id/tv_order_list_no"
+            tools:text="1号洗衣机" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_order_list_user"
@@ -84,52 +87,102 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
             android:drawableStart="@mipmap/icon_order_list_user"
             android:drawablePadding="4dp"
             android:text='@{@string/order_user+"（"+item.buyerPhone+"）"}'
+            app:layout_constraintEnd_toStartOf="@id/tv_order_list_coupon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_order_list_device_name"
-            app:layout_constraintEnd_toStartOf="@id/tv_order_list_end_status"
             tools:text="下单用户（18814822697）" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_order_list_end_status"
-            style="@style/font_12_ff3b30"
+            android:id="@+id/tv_order_list_coupon"
+            style="@style/Font_10_333333"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:drawableEnd="@drawable/shape_sff3b30_dot"
-            android:drawablePadding="8dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/shape_scccccc_r4"
             android:gravity="center_vertical"
-            android:text="@{item.endStateVal}"
-            app:visibility="@{item.endStateVal().length() > 0}"
+            android:paddingHorizontal="4dp"
+            android:text="@string/refund_coupon"
+            app:layout_constraintBottom_toBottomOf="@id/tv_order_list_user"
+            app:layout_constraintEnd_toStartOf="@id/tv_order_list_money"
+            app:layout_constraintTop_toTopOf="@id/tv_order_list_user"
+            app:visibility="@{item.hasRefundCoupon}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_order_list_money"
+            style="@style/Font_10_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_scccccc_r4"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="4dp"
+            android:text="@string/refund_money"
             app:layout_constraintBottom_toBottomOf="@id/tv_order_list_user"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_order_list_user"
-            tools:text="异常结束" />
+            app:visibility="@{item.hasRefundMoney}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_order_list_device"
             style="@style/Font_14_999999"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
             android:drawableStart="@mipmap/icon_order_list_device"
             android:drawablePadding="4dp"
             android:text="@{item.deviceName}"
+            app:layout_constraintEnd_toStartOf="@id/tv_order_list_err_status"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_order_list_user"
             tools:text="3号楼1号吹风机" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_order_list_err_status"
+            style="@style/Font_10_f0a258"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_storke_ff5219_r4"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="4dp"
+            android:text="@{item.endStateVal}"
+            app:visibility="@{item.endStateVal().length() > 0}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_order_list_device"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_order_list_device"
+            tools:text="异常结束订单" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_order_list_shop"
             style="@style/Font_14_999999"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:drawableStart="@mipmap/icon_order_list_shop"
             android:drawablePadding="4dp"
-            android:text="@{item.shopName}"
+            android:maxWidth="260dp"
+            android:text="@{item.shopPositionName}"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_order_list_device"
-            tools:text="浙大紫金港校区3区4号店铺" />
+            tools:text="浙大紫金港校区3区4号店铺-点位名称" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_order_list_date"
+            style="@style/Font_14_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawableStart="@mipmap/icon_order_list_time"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:maxWidth="260dp"
+            android:text='@{item.createTime}'
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_order_list_shop"
+            tools:text="2018-06-12 11:08:00" />
 
         <View
             style="@style/DividingStyle"
@@ -159,7 +212,7 @@
             android:text='@{item.realPrice + "元"}'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_order_list_real_income_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_order_list_shop"
+            app:layout_constraintTop_toBottomOf="@id/tv_order_list_date"
             tools:text="4.00元" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

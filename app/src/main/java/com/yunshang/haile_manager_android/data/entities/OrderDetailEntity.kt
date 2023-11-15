@@ -66,6 +66,7 @@ data class OrderDetailEntity(
     val shopName: String? = null,
     val skuList: List<Sku>,
     val state: Int,
+    val stateDesc: String,
     val appointmentInfo: AppointmentInfo?,
     val appointmentTime: String,
     val canCancelReserve: Boolean,
@@ -74,7 +75,8 @@ data class OrderDetailEntity(
     val completeTime: String? = null,
     val positionId: Int? = null,
     val positionName: String? = null,
-    val code: String? = null
+    val code: String? = null,
+    val refundTag: String? = null,
 ) : BaseObservable() {
     val createTime: String
         get() = DateTimeUtils.formatDateTimeForStr(_createTime, "yyyy-MM-dd HH:mm")
@@ -131,6 +133,13 @@ data class OrderDetailEntity(
         1000 -> "正常结束"
         else -> ""
     }
+
+    val hasRefundMoney: Boolean
+        get() = refundTag?.split(",")?.contains("1") ?: false
+
+    val hasRefundCoupon: Boolean
+        get() = refundTag?.split(",")?.contains("2") ?: false
+
 
     val shopPositionName: String
         get() = if (!shopName.isNullOrEmpty() && !positionName.isNullOrEmpty()) "$shopName-$positionName"

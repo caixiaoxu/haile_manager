@@ -20,7 +20,7 @@
         tools:context=".ui.activity.shop.ShopCreateAndUpdateActivity">
 
         <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
-            android:id="@+id/shop_title_bar"
+            android:id="@+id/bar_shop_edit_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
             app:title="@{null == vm.createAndUpdateEntity.id?@string/add_shop:@string/update_shop}" />

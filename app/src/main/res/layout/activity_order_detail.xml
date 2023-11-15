@@ -71,7 +71,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
-                        android:text="@{vm.isAppoint?OrderParam.getAppointStateName(vm.orderDetail.appointmentInfo.appointmentState):OrderParam.orderStatusList(vm.orderDetail.state)}"
+                        android:text="@{vm.orderDetail.stateDesc}"
                         app:layout_constraintBottom_toTopOf="@id/tv_order_detail_desc"
                         app:layout_constraintStart_toEndOf="@id/iv_order_detail_main"
                         app:layout_constraintTop_toTopOf="@id/iv_order_detail_main"

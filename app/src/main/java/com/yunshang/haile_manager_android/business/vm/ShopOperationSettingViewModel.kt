@@ -1,6 +1,6 @@
 package com.yunshang.haile_manager_android.business.vm
 
-import android.view.View
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
@@ -56,7 +56,13 @@ class ShopOperationSettingViewModel : BaseViewModel() {
         })
     }
 
-    fun save(v: View) {
+    fun save(context: Context) {
+        val checkTime = operationSettingDetail.value?.appointSetting?.checkTime
+        if (null == checkTime || checkTime < 3 || checkTime > 30) {
+            SToast.showToast(context, "请选择选择3-30之间的验证时长")
+            return
+        }
+
         launch({
             ApiRepository.dealApiResult(
                 mShopRepo.saveOperationSetting(
@@ -68,7 +74,7 @@ class ShopOperationSettingViewModel : BaseViewModel() {
                 )
             )
             withContext(Dispatchers.Main) {
-                SToast.showToast(v.context, R.string.save_success)
+                SToast.showToast(context, R.string.save_success)
             }
             LiveDataBus.post(BusEvents.SHOP_DETAILS_STATUS, true)
             jump.postValue(0)

@@ -179,7 +179,7 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
                             "priceType" to selectPriceModel.value?.id,
                             "priceCalculateMode" to selectCalculateModel.value?.id,
                             "shopId" to shopId
-                            )
+                        )
                     )
                 )
             )?.let {

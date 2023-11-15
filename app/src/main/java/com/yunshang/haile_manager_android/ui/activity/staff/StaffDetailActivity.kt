@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -26,6 +27,7 @@ import com.yunshang.haile_manager_android.databinding.ItemStaffDetailPermissionP
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 
 class StaffDetailActivity :
     BaseBusinessActivity<ActivityStaffDetailBinding, StaffDetailViewModel>(
@@ -203,6 +205,15 @@ class StaffDetailActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+
+        mBinding.tvStaffDetailDelete.setOnClickListener {
+            CommonDialog.Builder("确定要删除该人员吗？").apply {
+                negativeTxt = StringUtils.getString(R.string.cancel)
+                setPositiveButton(StringUtils.getString(R.string.sure)) {
+                    mViewModel.deleteStaff()
+                }
+            }.build().show(supportFragmentManager)
+        }
 
         mBinding.tvStaffDetailUpdateShop.setOnClickListener {
             startActivity(

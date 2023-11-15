@@ -33,10 +33,16 @@ interface ShopService {
     suspend fun requestShopList(@Body body: RequestBody): ResponseWrapper<ResponseList<ShopEntity>>
 
     /**
-     * 店铺的点位列表接口
+     * 店铺的点位列表接口（分页）
      */
     @GET("/position/positionListByShopId")
     suspend fun requestPositionList(@QueryMap params: HashMap<String, Any?>): ResponseWrapper<ResponseList<ShopPositionEntity>>
+
+    /**
+     * 店铺的点位列表接口（不分页）
+     */
+    @GET("/position/positionListByShopIdNew")
+    suspend fun requestPositionListNew(@QueryMap params: HashMap<String, Any?>): ResponseWrapper<MutableList<ShopPositionEntity>>
 
     /**
      * 店铺的点位设备数接口

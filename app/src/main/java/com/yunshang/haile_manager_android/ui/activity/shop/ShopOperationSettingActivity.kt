@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.BR
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.ShopOperationSettingViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
@@ -19,6 +20,7 @@ import com.yunshang.haile_manager_android.databinding.ItemShopAppointmentSetting
 import com.yunshang.haile_manager_android.databinding.ItemShopPaySettingsBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 
 class ShopOperationSettingActivity :
     BaseBusinessActivity<ActivityShopOperationSettingBinding, ShopOperationSettingViewModel>(
@@ -85,6 +87,19 @@ class ShopOperationSettingActivity :
         mBinding.tvShopFlowOperationSettingTitle.setOnClickListener {
             AlertDialog.Builder(this@ShopOperationSettingActivity)
                 .setView(R.layout.popup_shop_operation_setting_promt).create().show()
+        }
+
+        mBinding.btnShopParamsSettingSave.setOnClickListener {
+            if (2 == mViewModel.operationSettingDetail.value?.appointSetting?.reserveMethod && 1 != mViewModel.operationSettingDetail.value?.appointSetting?.autoRefund){
+                CommonDialog.Builder("不开启预约不使用，自动退款设置，则只有用户在预约验证时间到期前取消给退款，否则不退款").apply {
+                    negativeTxt = StringUtils.getString(R.string.cancel)
+                    setPositiveButton(StringUtils.getString(R.string.sure)){
+                        mViewModel.save(this@ShopOperationSettingActivity)
+                    }
+                }.build().show(supportFragmentManager)
+            }else {
+                mViewModel.save(this@ShopOperationSettingActivity)
+            }
         }
     }
 

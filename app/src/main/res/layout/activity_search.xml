@@ -74,13 +74,13 @@
             android:id="@+id/ib_search_scan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
             android:background="@color/transparent"
             android:src="@mipmap/icon_search_scan"
-            android:layout_marginEnd="10dp"
-            app:visibility="@{0 == vm.searchType}"
             app:layout_constraintBottom_toBottomOf="@id/view_search_bg"
             app:layout_constraintEnd_toEndOf="@id/view_search_bg"
-            app:layout_constraintTop_toTopOf="@id/view_search_bg" />
+            app:layout_constraintTop_toTopOf="@id/view_search_bg"
+            app:visibility="@{0 == vm.searchType}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_search_search"
@@ -98,12 +98,13 @@
             app:layout_constraintStart_toEndOf="@id/view_search_bg"
             app:layout_constraintTop_toTopOf="@id/view_search_bg" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_search_history"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="16dp"
+            android:orientation="vertical"
             android:paddingHorizontal="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_search_bg">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -114,21 +115,34 @@
                 android:text="@string/search_history"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.helper.widget.Flow
-                android:id="@+id/flow_search_history"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:flow_horizontalBias="0"
-                app:flow_horizontalGap="8dp"
-                app:flow_horizontalStyle="packed"
-                app:flow_verticalGap="12dp"
-                app:flow_wrapMode="chain"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_search_history_title" />
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/sv_search_history"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_search_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.constraintlayout.helper.widget.Flow
+                        android:id="@+id/flow_search_history"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:flow_horizontalBias="0"
+                        app:flow_horizontalGap="8dp"
+                        app:flow_horizontalStyle="packed"
+                        app:flow_verticalGap="12dp"
+                        app:flow_wrapMode="chain"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
 
         <com.yunshang.haile_manager_android.ui.view.StateRecyclerView
             android:id="@+id/rv_search_list1"
@@ -143,9 +157,9 @@
             android:id="@+id/rv_search_list2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="16dp"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_search_bg" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

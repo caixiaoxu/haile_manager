@@ -66,6 +66,8 @@
     <string name="device">设备</string>
     <string name="idle">空闲</string>
     <string name="running">运行</string>
+    <string name="unfold">展开</string>
+    <string name="fold">收起</string>
     <string name="sure_export">确认导出</string>
 
     <string name="empty_content">暂无内容信息</string>
@@ -141,7 +143,7 @@
     <string name="device_no">设备编号</string>
     <string name="device_search_hint">搜索设备名称/模块编码 (IMEI）/设备编码</string>
     <string name="department">所属门店</string>
-    <string name="belong_to_pt">所属点位</string>
+    <string name="belong_to_pt">所属营业点</string>
     <string name="department_empty">请先选择门店</string>
     <string name="device_category">设备类型</string>
     <string name="device_model">设备型号</string>
@@ -306,28 +308,32 @@
     <string name="free_device">免费设备</string>
 
     <string name="shop_manage">门店管理</string>
-    <string name="pt_manage">点位管理</string>
+    <string name="pt_manage">营业点管理</string>
     <string name="add_shop">新增门店</string>
     <string name="update_shop">编辑门店</string>
-    <string name="add_pt">新增点位</string>
-    <string name="update_pt">编辑点位</string>
-    <string name="pt">点位</string>
-    <string name="pt_name">点位名称</string>
-    <string name="pt_detail">点位详情</string>
-    <string name="pt_id">点位编号</string>
+    <string name="add_pt">新增营业点</string>
+    <string name="update_pt">编辑营业点</string>
+    <string name="pt">营业点</string>
+    <string name="pt_num">营业点数量</string>
+    <string name="pt_name">营业点名称</string>
+    <string name="pt_detail">营业点详情</string>
+    <string name="pt_id">营业点编号</string>
     <string name="orientation">定位</string>
     <string name="sex">性别</string>
     <string name="apply_sex">适用性别</string>
     <string name="shop_pay_setting">支付设置</string>
     <string name="shop_pay_config">支付配置</string>
     <string name="shop_search_hint">搜索门店名称</string>
-    <string name="shop_position_search_hint">搜索门店或点位名称</string>
-    <string name="shop_num_hint">全部%1$d家门店，%2$d个点位</string>
+    <string name="shop_position_search_hint">搜索门店或营业点名称</string>
+    <string name="shop_num_hint">全部%1$d家门店，%2$d个营业点</string>
+    <string name="shop_total_income">门店总收益</string>
     <string name="total_income">总收益</string>
     <string name="total_earnings">总收入</string>
+    <string name="shop_device_num">门店设备数</string>
+    <string name="pt_device_num">营业点设备数量</string>
     <string name="device_num">设备数</string>
-    <string name="pt_info">点位信息</string>
-    <string name="pt_id_info">点位编号%1$s信息</string>
+    <string name="pt_info">营业点信息</string>
+    <string name="pt_id_info">营业点编号%1$s信息</string>
     <string name="shop_id">门店编号</string>
     <string name="shop_id_info">门店编号%1$d信息</string>
     <string name="shop_info">门店信息</string>
@@ -356,7 +362,7 @@
     <string name="select_district">请选择区/县</string>
     <string name="shop_detail">门店详情</string>
     <string name="shop_base_info">门店基础信息</string>
-    <string name="pt_base_info">点位基础信息</string>
+    <string name="pt_base_info">营业点基础信息</string>
     <string name="creator">创建人</string>
     <string name="create_time">创建时间</string>
     <string name="appointment">预约</string>
@@ -366,16 +372,16 @@
     <string name="call_phone">拨打电话</string>
     <string name="executive_logging">执行记录</string>
     <string name="copy_success">已复制到贴粘板</string>
-    <string name="search_shop_hint">请输入门店或点位名称</string>
+    <string name="search_shop_hint">请输入门店或营业点名称</string>
     <string name="shop_delete_hint">是否确定要删除该门店么？</string>
-    <string name="pt_delete_hint">是否确定要删除该点位么？</string>
+    <string name="pt_delete_hint">是否确定要删除该营业点么？</string>
 
     <string name="update_floor">修改楼层</string>
 
     <string name="operation_setting">运营设置</string>
     <string name="per_flow_charge_display_setting">按流量收费显示设置</string>
     <string name="compensation_setting_name1">异常关单，自动返券</string>
-    <string name="compensation_setting_name1_prompt">开启后，由于异常（包括但不限于，弱网环境、设备故障等）导致订单无法继续，会关闭订单，并白动返券给用户</string>
+    <string name="compensation_setting_name1_prompt">开启后，由于异常（包括但不限于，弱网环境、设备故障等）导致订单无法继续，会关闭订单，并自动返券给用户</string>
     <string name="compensation_setting_name2">异常关单，自动退款</string>
     <string name="compensation_setting_name2_prompt">开启后，由于异常（包括但不限于，弱网环境、设备故障等）导致订单无法继续，会关闭订单，并自动原路退款（包含支付金额、券和海星）</string>
     <string name="per_flow_charge_display_setting_name">按流量收费，用户订单显示用量</string>
@@ -403,6 +409,8 @@
     <string name="no_of_payment">支付单号</string>
     <string name="time_of_payment">支付时间</string>
     <string name="reason_for_end">结束原因</string>
+    <string name="time_of_refund_money">退款时间</string>
+    <string name="time_of_refund_coupon">返券时间</string>
     <string name="reason_for_refund">退款原因：</string>
     <string name="refund_amount">退款金额：</string>
     <string name="refund_haixin">退款海星：</string>
@@ -427,11 +435,14 @@
     <string name="full_discount_coupon">满减券</string>
     <string name="full_discount_coupon_default">满0可用</string>
     <string name="appointment_order">预约订单</string>
+    <string name="normal_order">正常订单</string>
     <string name="cancel_order">取消订单</string>
     <string name="cancel_order_hint">请输入取消原因</string>
     <string name="appoint_time">预约时间</string>
     <string name="cancel_appoint_reason">取消原因</string>
     <string name="appoint_dealLine">请在 %1$s 使用</string>
+    <string name="refund_coupon">已返券</string>
+    <string name="refund_money">已退款</string>
 
     <string name="staff_manager">人员管理</string>
     <string name="add_staff">添加人员</string>
@@ -500,6 +511,7 @@
     <string name="recharge_account_search_hint">搜索手机号</string>
     <string name="recharge_account_num_hint">全部%1$d人</string>
     <string name="detail">明细</string>
+    <string name="details">详情</string>
     <string name="recycler">回收</string>
     <string name="user_detail">用户明细</string>
     <string name="haixin_recycle">海星回收</string>
@@ -585,8 +597,13 @@
 
     <string name="appointment_device_category">预约设备类型</string>
     <string name="appointment_rule">预约规则</string>
+    <string name="proof_time">验证时间</string>
     <string name="appointment_rule_refund">预约不使用，自动退款</string>
-    <string name="appointment_rule_prompt">不选择，则仅限以下两种情况退款：\n1.若用户在预约生效时间的10分钟之前取消。\n2.若预约生效时间前5分钟，上一笔订单未结束。</string>
+    <string name="appointment_rule_prompt">预约成功后，到使用时间，给到用户用于验证的最长时间。没有在验证时间内完成验证，则订单取消。</string>
+    <string name="appointment_rule_item1">先预约后收费</string>
+    <string name="appointment_rule_item1_prompt">预约不收费，使用时再收费</string>
+    <string name="appointment_rule_item2">预约先收费</string>
+    <string name="appointment_rule_item2_prompt">预约时收费，收费后才会预约成功</string>
 
     <string name="main_tab_personal">我的</string>
     <string name="admin">管理员</string>

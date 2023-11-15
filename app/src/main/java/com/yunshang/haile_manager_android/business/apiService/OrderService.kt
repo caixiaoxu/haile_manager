@@ -5,6 +5,7 @@ import com.lsy.framelib.network.response.ResponseWrapper
 import com.yunshang.haile_manager_android.data.entities.OrderDetailEntity
 import com.yunshang.haile_manager_android.data.entities.OrderExecutiveLoggingEntity
 import com.yunshang.haile_manager_android.data.entities.OrderListEntity
+import com.yunshang.haile_manager_android.data.entities.OrderSummaryCountEntity
 import okhttp3.RequestBody
 import retrofit2.http.*
 
@@ -25,6 +26,12 @@ interface OrderService {
      */
     @GET("/order/list")
     suspend fun requestOrderList(@QueryMap params: HashMap<String, @JvmSuppressWildcards Any>): ResponseWrapper<ResponseList<OrderListEntity>>
+
+    /**
+     * 订单特殊筛选数量接口
+     */
+    @GET("/order/summaryCount")
+    suspend fun requestSummaryCount(@QueryMap params: HashMap<String, @JvmSuppressWildcards Any>): ResponseWrapper<OrderSummaryCountEntity>
 
     /**
      * 订单详情接口

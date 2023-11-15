@@ -230,11 +230,11 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
 
         val childCount = mBinding.clSearchHistory.childCount
         if (childCount > 2) {
-            mBinding.clSearchHistory.removeViews(2, childCount - 2)
+            mBinding.clSearchHistory.removeViews(1, childCount - 1)
         }
         val inflater = LayoutInflater.from(this)
         SPRepository.searchHistory?.let { history ->
-            history.filter { item -> item.type == mViewModel.searchType }
+            history.filter { item -> item.type == mViewModel.searchType }.reversed()
                 .forEachIndexed { index, searchParam ->
                     DataBindingUtil.inflate<ItemSearchHistoryFlowBinding>(
                         inflater,
@@ -305,11 +305,14 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
         val keyword = mViewModel.searchKey.value?.trim()
         if (!keyword.isNullOrEmpty() && !autoSearch) {
             SoftKeyboardUtils.hideShowKeyboard(mBinding.etSearchKey)
-            val list = SPRepository.searchHistory ?: mutableListOf()
+            var list = SPRepository.searchHistory ?: mutableListOf()
             list.find { item -> item.type == mViewModel.searchType && item.keyword == keyword }
                 ?.let { params ->
                     list.remove(params)
                 }
+            if (list.size >= 15){
+                list = list.subList(list.size - 14,list.size)
+            }
             list.add(SearchParam(mViewModel.searchType, keyword))
             SPRepository.searchHistory = list
         }

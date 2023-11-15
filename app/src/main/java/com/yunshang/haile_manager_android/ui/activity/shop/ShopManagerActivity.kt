@@ -9,6 +9,9 @@ import android.text.style.StyleSpan
 import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -16,9 +19,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
+import com.lsy.framelib.ui.weight.SingleTapTextView
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
+import com.lsy.framelib.utils.ViewUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
@@ -36,15 +41,14 @@ import com.yunshang.haile_manager_android.databinding.ItemShopManagerPositionBin
 import com.yunshang.haile_manager_android.databinding.PopupShopOperateManagerBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
-import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeCalendarActivity
 import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
-import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 import com.yunshang.haile_manager_android.ui.view.dialog.DeviceCategoryDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.ui.view.refresh.CustomDividerItemDecoration
+import com.yunshang.haile_manager_android.utils.BitmapUtils
 import com.yunshang.haile_manager_android.utils.NumberUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 
@@ -56,13 +60,60 @@ class ShopManagerActivity :
 
     override fun layoutId(): Int = R.layout.activity_shop_manager
 
-    override fun backBtn(): View = mBinding.shopTitleBar.getBackBtn()
+    override fun backBtn(): View = mBinding.barShopTitle.getBackBtn()
 
     /**
      * 设置标题右侧按钮
      */
     private fun initRightBtn() {
-        mBinding.shopTitleBar.getRightBtn(true).run {
+        mBinding.barShopTitle.getRightArea().removeAllViews()
+        mBinding.barShopTitle.getRightArea().run {
+            val padding = DimensionUtils.dip2px(this@ShopManagerActivity, 8f)
+            addView(AppCompatImageButton(this@ShopManagerActivity).apply {
+                setImageDrawable(
+                    BitmapUtils.tintDrawable(
+                        ContextCompat.getDrawable(
+                            this@ShopManagerActivity,
+                            R.mipmap.icon_search
+                        ),
+                        ContextCompat.getColor(this@ShopManagerActivity, R.color.common_txt_color)
+                    )
+                )
+                setBackgroundColor(Color.TRANSPARENT)
+                setPadding(padding, padding, padding, padding)
+                setOnClickListener {
+                    startActivity(
+                        Intent(
+                            this@ShopManagerActivity,
+                            SearchActivity::class.java
+                        ).apply {
+                            putExtra(SearchType.SearchType, SearchType.Shop)
+                        })
+                }
+            }, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+
+            addView(SingleTapTextView(this@ShopManagerActivity).apply {
+                setText(R.string.operate)
+                textSize = 14f
+                setTextColor(Color.WHITE)
+                val ph = DimensionUtils.dip2px(this@ShopManagerActivity, 12f)
+                val pV = DimensionUtils.dip2px(this@ShopManagerActivity, 4f)
+                setPadding(ph, pV, ph, pV)
+                setBackgroundResource(R.drawable.shape_sf0a258_r22)
+                setOnClickListener {
+                    showDeviceOperateView()
+                }
+                layoutParams =
+                    LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    ).also { lp ->
+                        lp.marginStart = padding
+                        lp.marginEnd = padding
+                    }
+            })
+        }
+        mBinding.barShopTitle.getRightBtn(true).run {
             setText(R.string.operate_manager)
             setCompoundDrawablesRelativeWithIntrinsicBounds(
                 R.mipmap.icon_add, 0, 0, 0
@@ -77,13 +128,6 @@ class ShopManagerActivity :
     override fun initView() {
         window.statusBarColor = Color.WHITE
 
-        // 搜索界面
-        mBinding.viewShopManagerSearchBg.setOnClickListener {
-            startActivity(Intent(this@ShopManagerActivity, SearchActivity::class.java).apply {
-                putExtra(SearchType.SearchType, SearchType.Shop)
-            })
-        }
-
         // 刷新
         mBinding.tvShopManagerListRefresh.setOnClickListener {
             mBinding.rvShopList.requestRefresh()
@@ -95,7 +139,7 @@ class ShopManagerActivity :
                 this,
                 DividerItemDecoration.VERTICAL
             ).apply {
-                ResourcesCompat.getDrawable(resources, R.drawable.divide_size8, null)?.let {
+                ResourcesCompat.getDrawable(resources, R.drawable.divide_size12, null)?.let {
                     setDrawable(it)
                 }
             })
@@ -123,13 +167,36 @@ class ShopManagerActivity :
         BR.item
     ) { mItemBinding, _, item ->
         mItemBinding?.share = mSharedViewModel
+
+        // 点位数
+        mItemBinding?.btnItemShopPositionFold?.setOnClickListener {
+            if (item.fold) {
+                if (item.positionCount.isGreaterThan0() && item.positionList.isEmpty()) {
+                    mViewModel.requestPositionList(item) {
+                        (mItemBinding.rvShopPositionList.adapter as CommonRecyclerAdapter<*, ShopPositionEntity>).refreshList(
+                            item.positionList,
+                            true
+                        )
+                    }
+                } else {
+                    item.fold = false
+                }
+            } else {
+                item.fold = true
+            }
+        }
+        mItemBinding?.tvItemShopPositionNum?.text =
+            "${StringUtils.getString(R.string.pt_num)}：${item.positionCount}${
+                StringUtils.getString(R.string.unit_ge)
+            }"
+
+        // 总收益
         var title =
-            StringUtils.getString(R.string.total_income)
+            StringUtils.getString(R.string.shop_total_income)
         var value =
             StringUtils.getString(R.string.unit_money) + NumberUtils.keepTwoDecimals(item.income)
         var start = title.length + 1
         var end = title.length + 1 + value.length
-        // 格式化总收益样式
         mItemBinding?.tvItemShopTotalIncome?.text =
             com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
                 "$title：$value",
@@ -142,7 +209,6 @@ class ShopManagerActivity :
                         )
                     ),
                     AbsoluteSizeSpan(DimensionUtils.sp2px(18f, this@ShopManagerActivity)),
-                    //                        StyleSpan(Typeface.BOLD),
                     TypefaceSpan("money"),
                 ), start, end
             )
@@ -161,39 +227,8 @@ class ShopManagerActivity :
                     putExtra(IncomeCalendarActivity.ProfitSearchId, item.id)
                 })
         }
-
-        // 点位数
-        title = StringUtils.getString(R.string.pt)
-        value = item.positionCount.toString()
-        start = title.length + 1
-        end = title.length + 1 + value.length
-        // 格式化样式
-        mItemBinding?.tvItemShopPositionNum?.text =
-            com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
-                "$title：$value",
-                arrayOf(
-                    AbsoluteSizeSpan(DimensionUtils.sp2px(16f, this@ShopManagerActivity)),
-                    StyleSpan(Typeface.BOLD),
-                ), start, end
-            )
-        mItemBinding?.tvItemShopPositionNum?.setOnClickListener {
-            if (item.fold) {
-                if (item.positionCount.isGreaterThan0() && item.positionList.isEmpty()) {
-                    mViewModel.requestPositionList(it.context, item) {
-                        (mItemBinding.rvShopPositionList.adapter as CommonRecyclerAdapter<*, ShopPositionEntity>).refreshList(
-                            item.positionList,
-                            true
-                        )
-                    }
-                } else {
-                    item.fold = false
-                }
-            } else {
-                item.fold = true
-            }
-        }
         // 设备数
-        title = StringUtils.getString(R.string.device_num)
+        title = StringUtils.getString(R.string.shop_device_num)
         value = item.deviceNum.toString()
         start = title.length + 1
         end = title.length + 1 + value.length
@@ -202,8 +237,15 @@ class ShopManagerActivity :
             com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
                 "$title：$value",
                 arrayOf(
-                    AbsoluteSizeSpan(DimensionUtils.sp2px(16f, this@ShopManagerActivity)),
-                    StyleSpan(Typeface.BOLD),
+                    ForegroundColorSpan(
+                        ResourcesCompat.getColor(
+                            resources,
+                            R.color.colorPrimary,
+                            null
+                        )
+                    ),
+                    AbsoluteSizeSpan(DimensionUtils.sp2px(18f, this@ShopManagerActivity)),
+                    TypefaceSpan("money"),
                 ), start, end
             )
         mItemBinding?.tvItemShopDeviceNum?.setOnClickListener {
@@ -237,7 +279,7 @@ class ShopManagerActivity :
         // 点位列表
         mItemBinding?.rvShopPositionList?.layoutManager = LinearLayoutManager(this)
         if ((mItemBinding?.rvShopPositionList?.itemDecorationCount ?: 0) == 0) {
-            ContextCompat.getDrawable(this, R.drawable.divide_size8)?.let {
+            ContextCompat.getDrawable(this, R.drawable.divder_efefef)?.let {
                 mItemBinding?.rvShopPositionList?.addItemDecoration(
                     CustomDividerItemDecoration(
                         this,
@@ -252,9 +294,9 @@ class ShopManagerActivity :
             CommonRecyclerAdapter<ItemShopManagerPositionBinding, ShopPositionEntity>(
                 R.layout.item_shop_manager_position, BR.item
             ) { mInternalItemBinding, _, posititon ->
-                // 设备数
-                title = StringUtils.getString(R.string.device_num)
-                value = posititon.deviceNum.toString()
+                // 营业点设备数
+                title = StringUtils.getString(R.string.pt_device_num)
+                value = "${posititon.deviceNum}${StringUtils.getString(R.string.unit_tai)}"
                 start = title.length + 1
                 end = title.length + 1 + value.length
                 // 格式化设备数样式
@@ -262,8 +304,13 @@ class ShopManagerActivity :
                     com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
                         "$title：$value",
                         arrayOf(
-                            AbsoluteSizeSpan(DimensionUtils.sp2px(16f, this@ShopManagerActivity)),
-                            StyleSpan(Typeface.BOLD),
+                            ForegroundColorSpan(
+                                ResourcesCompat.getColor(
+                                    resources,
+                                    R.color.colorPrimary,
+                                    null
+                                )
+                            ),
                         ), start, end
                     )
 
@@ -314,19 +361,10 @@ class ShopManagerActivity :
                 true
             )
         }
-        // 加载更多
-        mItemBinding?.tvShopPositionMore?.setOnClickListener {
-            mViewModel.requestPositionList(it.context, item) {
-                (mItemBinding.rvShopPositionList.adapter as CommonRecyclerAdapter<*, ShopPositionEntity>).refreshList(
-                    item.positionList,
-                    true
-                )
-            }
-        }
 
         // 进入详情
-        mItemBinding?.root?.setOnClickListener {
-            if (true == mSharedViewModel.hasShopInfoPermission.value && null != item.id) {
+        mItemBinding?.llItemShopName?.setOnClickListener {
+            if (!ViewUtils.isFastDoubleClick() && true == mSharedViewModel.hasShopInfoPermission.value && null != item.id) {
                 startActivity(Intent(
                     this@ShopManagerActivity,
                     ShopDetailActivity::class.java
@@ -346,7 +384,7 @@ class ShopManagerActivity :
         val popupWindow = TranslucencePopupWindow(
             mPopupBinding.root,
             window,
-            DimensionUtils.dip2px(this@ShopManagerActivity, 110f)
+            DimensionUtils.dip2px(this@ShopManagerActivity, 124f)
         )
 
         mPopupBinding.tvShopOperateAddShop.setOnClickListener {
@@ -370,7 +408,7 @@ class ShopManagerActivity :
         }
         mPopupBinding.tvShopOperateBatchSetting.setOnClickListener {
             popupWindow.dismiss()
-            startActivity(Intent(this@ShopManagerActivity,ShopBatchSettingActivity::class.java))
+            startActivity(Intent(this@ShopManagerActivity, ShopBatchSettingActivity::class.java))
         }
         popupWindow.showAsDropDown(
             this,

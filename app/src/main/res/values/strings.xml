@@ -660,7 +660,7 @@
     <string name="sub_account_order_no">分账单号</string>
     <string name="withdraw_record">提现记录</string>
     <string name="export">导出</string>
-    <string name="export_history">导出历史</string>
+    <string name="export_history">历史导出</string>
     <string name="roll_out_to">转出到</string>
     <string name="roll_out_amount">转出金额 </string>
     <string name="empty_alipay_account_hint">请先绑定支付宝账号</string>

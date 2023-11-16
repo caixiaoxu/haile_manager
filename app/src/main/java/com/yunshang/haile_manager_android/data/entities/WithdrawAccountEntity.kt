@@ -23,6 +23,12 @@ data class WithdrawAccountEntity(
     val realName: String,
     val state: Int
 ) {
+
+    val cashOutAccountVal: String
+        get() = if (null != cashOutAccount && cashOutAccount.length > 7)
+            com.yunshang.haile_manager_android.utils.StringUtils.formatPhone(cashOutAccount)
+        else cashOutAccount
+
     fun cashOutLimit(): String = try {
         val max = maxWithdrawAmount.toDouble()
         val maxVal = (if (max > 10000) max / 10000 else max).let {

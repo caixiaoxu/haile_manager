@@ -63,7 +63,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@{item.typeVal}"
+            android:text="余额提现"
             app:layout_constraintEnd_toStartOf="@id/tv_withdraw_record_fee_amount"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="@id/tv_withdraw_record_status"

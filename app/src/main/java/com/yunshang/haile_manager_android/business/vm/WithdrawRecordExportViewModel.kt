@@ -11,6 +11,7 @@ import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.business.apiService.LoginUserService
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -64,7 +65,9 @@ class WithdrawRecordExportViewModel : BaseViewModel() {
      */
     private fun checkSubmit(): Boolean =
         null != startTime.value && null != endTime.value && !email.value.isNullOrEmpty()
-                && email.value!!.length >= 5 && email.value!!.length <= 50 && email.value!!.contains("@")
+                && email.value!!.length >= 5 && email.value!!.length <= 50 && email.value!!.contains(
+            "@"
+        )
 
     fun export(v: View) {
         launch({
@@ -90,9 +93,10 @@ class WithdrawRecordExportViewModel : BaseViewModel() {
                 )
             )
 
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 SToast.showToast(v.context, "导出成功")
             }
+            SPRepository.withdrawExportEmail = email.value
             jump.postValue(1)
         })
     }

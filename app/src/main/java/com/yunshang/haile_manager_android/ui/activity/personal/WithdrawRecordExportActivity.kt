@@ -2,12 +2,12 @@ package com.yunshang.haile_manager_android.ui.activity.personal
 
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Typeface
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.WithdrawRecordExportViewModel
+import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.databinding.ActivityWithdrawRecordExportBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
@@ -87,6 +87,8 @@ class WithdrawRecordExportActivity :
                 }
             }.build().show(supportFragmentManager, mViewModel.endTime.value)
         }
+
+        mViewModel.email.value = SPRepository.withdrawExportEmail ?: ""
     }
 
     override fun initData() {

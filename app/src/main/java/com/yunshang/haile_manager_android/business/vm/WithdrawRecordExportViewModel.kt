@@ -32,7 +32,7 @@ class WithdrawRecordExportViewModel : BaseViewModel() {
     val startTime: MutableLiveData<Date> by lazy { MutableLiveData() }
 
     val startTimeVal: LiveData<String> = startTime.map {
-        DateTimeUtils.formatDateTime(it, "yyyy-MM-dd HH:mm:ss")
+        DateTimeUtils.formatDateTime(it, "yyyy-MM-dd")
     }
 
     val endTime: MutableLiveData<Date> by lazy {
@@ -40,7 +40,7 @@ class WithdrawRecordExportViewModel : BaseViewModel() {
     }
 
     val endTimeVal: LiveData<String> = endTime.map {
-        DateTimeUtils.formatDateTime(it, "yyyy-MM-dd HH:mm:ss")
+        DateTimeUtils.formatDateTime(it, "yyyy-MM-dd")
     }
 
     val email: MutableLiveData<String> by lazy { MutableLiveData() }

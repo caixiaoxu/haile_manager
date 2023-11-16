@@ -102,7 +102,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="@string/start_time"
+                android:text="@string/end_time"
                 app:layout_constraintEnd_toStartOf="@id/iv_withdraw_record_export_end_time"
                 app:layout_constraintStart_toEndOf="@id/tv_withdraw_record_export_end_time_tag"
                 app:layout_constraintTop_toTopOf="parent" />

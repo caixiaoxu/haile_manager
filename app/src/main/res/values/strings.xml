@@ -662,6 +662,7 @@
     <string name="export">导出</string>
     <string name="export_history">导出历史</string>
     <string name="roll_out_to">转出到</string>
+    <string name="roll_out_amount">转出金额 </string>
     <string name="empty_alipay_account_hint">请先绑定支付宝账号</string>
     <string name="alipay_withdraw_input_hint">可提现金额%1$s元</string>
     <string name="alipay_withdraw_hint">每日可提现额度为%1$s元</string>

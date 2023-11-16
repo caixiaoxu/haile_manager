@@ -164,7 +164,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="12dp"
-            android:text="提示：可在账户上保留部分余额，避免余额不足导致的退款失败"
+            android:text="可在账户上保留部分余额，避免余额不足导致的退款失败"
             app:layout_constraintTop_toBottomOf="@id/view_wallet_withdraw_amount" />
 
         <com.yunshang.haile_manager_android.ui.view.CommonButton

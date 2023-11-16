@@ -14,7 +14,7 @@ import com.yunshang.haile_manager_android.R
  * 作者姓名 修改时间 版本号 描述
  */
 data class WithdrawAccountEntity(
-    val cashOutAccount: String,
+    val cashOutAccount: String? = null,
     val cashOutRate: Int,
     val cashOutType: Int,
     val exist: Boolean,
@@ -24,7 +24,7 @@ data class WithdrawAccountEntity(
     val state: Int
 ) {
 
-    val cashOutAccountVal: String
+    val cashOutAccountVal: String?
         get() = if (null != cashOutAccount && cashOutAccount.length > 7)
             com.yunshang.haile_manager_android.utils.StringUtils.formatPhone(cashOutAccount)
         else cashOutAccount

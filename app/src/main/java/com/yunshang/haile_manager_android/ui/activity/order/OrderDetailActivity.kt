@@ -86,7 +86,6 @@ class OrderDetailActivity :
                     childBinding.content =
                         "${data.skuName}/${data.unitValue} ￥${data.originUnitPrice}"
                     childBinding.canShow = true
-                    childBinding.showCopy = true
                 }
 
                 mBinding.llOrderDetailCouponList.buildChild<ItemOrderDetailInfoBinding, Promotion>(
@@ -95,7 +94,6 @@ class OrderDetailActivity :
                     childBinding.itemTitle = "${data.title}："
                     childBinding.content = "-￥${data.discountPrice}"
                     childBinding.canShow = true
-                    childBinding.showCopy = true
                 }
             }
         }

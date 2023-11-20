@@ -95,21 +95,17 @@ class BankCardActivity : BaseBusinessActivity<ActivityBankCardBinding, BankCardV
                 return@setOnClickListener
             }
 
-            if (!mViewModel.subAccountAgreement) {
-                SubAccountAgreementBottomSheetDialog.Builder(if (2 == authInfo.verifyType) authInfo.companyName else authInfo.idCardName).apply {
+            SubAccountAgreementBottomSheetDialog.Builder(if (2 == authInfo.verifyType) authInfo.companyName else authInfo.idCardName)
+                .apply {
                     onValueSureListener =
                         object : SubAccountAgreementBottomSheetDialog.OnValueSureListener {
                             override fun onValue(isChecked: Boolean) {
                                 if (isChecked) {
-                                    mViewModel.subAccountAgreement
                                     goWithdrawPage()
                                 }
                             }
                         }
                 }.build().show(supportFragmentManager)
-            } else {
-                goWithdrawPage()
-            }
         }
 
         mBinding.clBankCard.setOnClickListener {

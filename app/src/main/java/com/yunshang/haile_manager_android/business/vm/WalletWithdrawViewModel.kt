@@ -1,10 +1,13 @@
 package com.yunshang.haile_manager_android.business.vm
 
 import android.view.View
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.entities.WithdrawAccountEntity
@@ -27,9 +30,55 @@ class WalletWithdrawViewModel : BaseViewModel() {
     private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
 
     var balanceTotal: String = ""
+    var accountFrozen: String = ""
+
+    var withDrawType: Int? = null
 
     val withdrawAccount: MutableLiveData<WithdrawAccountEntity> by lazy {
         MutableLiveData()
+    }
+
+    val withdrawErr: MutableLiveData<String> by lazy {
+        MutableLiveData()
+    }
+
+    val cashOutLimit: LiveData<String> = withdrawAccount.map { account ->
+        val build = StringBuilder()
+        if (3 == account.cashOutType) {
+            try {
+                val frozen = accountFrozen.toDouble()
+                val frozenVal = (if (frozen > 10000) frozen / 10000 else frozen).let {
+                    if ((it * 100).toInt() % 100 == 0) it.toInt() else it
+                }
+                build.append(
+                    com.lsy.framelib.utils.StringUtils.getString(R.string.bank_withdraw_hint)
+                )
+                build.append(
+                    "，" + com.lsy.framelib.utils.StringUtils.getString(
+                        R.string.bank_withdraw_hint2,
+                        if (frozen > 10000) "${frozenVal}万" else "$frozenVal"
+                    ) + "\n"
+                )
+            } catch (e: Exception) {
+                ""
+            }
+        }
+
+        try {
+            val max = account.maxWithdrawAmount!!.toDouble()
+            val maxVal = (if (max > 10000) max / 10000 else max).let {
+                if ((it * 100).toInt() % 100 == 0) it.toInt() else it
+            }
+            build.append(
+                com.lsy.framelib.utils.StringUtils.getString(
+                    R.string.alipay_withdraw_hint,
+                    if (max > 10000) "${maxVal}万" else "$maxVal"
+                )
+            )
+        } catch (e: Exception) {
+            ""
+        }
+        build.toString()
     }
 
     val withdrawAmount: MutableLiveData<String> by lazy {
@@ -39,6 +88,9 @@ class WalletWithdrawViewModel : BaseViewModel() {
     // 是否可提交
     val canSubmit: MediatorLiveData<Boolean> = MediatorLiveData(false).apply {
         addSource(withdrawAmount) {
+            value = checkSubmit()
+        }
+        addSource(withdrawErr) {
             value = checkSubmit()
         }
         addSource(withdrawAccount) {
@@ -54,7 +106,7 @@ class WalletWithdrawViewModel : BaseViewModel() {
     } catch (e: Exception) {
         e.printStackTrace()
         false
-    } && null != withdrawAccount.value?.id
+    } && null != withdrawAccount.value?.id && withdrawErr.value.isNullOrEmpty()
 
     val withdrawCalculate: MutableLiveData<WithdrawCalculateEntity> by lazy {
         MutableLiveData()
@@ -64,7 +116,11 @@ class WalletWithdrawViewModel : BaseViewModel() {
         launch({
             ApiRepository.dealApiResult(
                 mCapitalRepo.requestWithdrawAccount(
-                    ApiRepository.createRequestBody("")
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "cashOutAccountType" to withDrawType
+                        )
+                    )
                 )
             )?.let {
                 withdrawAccount.postValue(it)
@@ -91,7 +147,8 @@ class WalletWithdrawViewModel : BaseViewModel() {
                 mCapitalRepo.calculateWithdraw(
                     ApiRepository.createRequestBody(
                         hashMapOf(
-                            "withdrawAmount" to withdrawAmount.value!!
+                            "withdrawAmount" to withdrawAmount.value!!,
+                            "cashOutAccountType" to withDrawType
                         )
                     )
                 )
@@ -107,7 +164,8 @@ class WalletWithdrawViewModel : BaseViewModel() {
                 mCapitalRepo.balanceWithdraw(
                     ApiRepository.createRequestBody(
                         hashMapOf(
-                            "withdrawAmount" to amount
+                            "withdrawAmount" to amount,
+                            "cashOutAccountType" to withDrawType
                         )
                     )
                 )

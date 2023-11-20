@@ -11,9 +11,11 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.BalanceTotalEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.databinding.ActivityWalletBinding
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -57,12 +59,21 @@ class WalletActivity : BaseBindingActivity<ActivityWalletBinding>() {
                         negativeTxt = StringUtils.getString(R.string.cancel)
                         setPositiveButton("去认证") {
                             startActivity(
-                                Intent(
-                                    this@WalletActivity,
-                                    RealNameAuthActivity::class.java
-                                ).apply {
-                                    authInfo?.let {
-                                        putExtras(IntentParams.RealNameAuthParams.pack(it))
+                                if (1 == authInfo?.status) {
+                                    Intent(
+                                        this@WalletActivity,
+                                        BindSmsVerifyActivity::class.java
+                                    ).apply {
+                                        putExtras(IntentParams.BindSmsVerifyParams.pack(2))
+                                    }
+                                } else {
+                                    Intent(
+                                        this@WalletActivity,
+                                        RealNameAuthActivity::class.java
+                                    ).apply {
+                                        authInfo?.let {
+                                            putExtras(IntentParams.RealNameAuthParams.pack(it))
+                                        }
                                     }
                                 }
                             )
@@ -71,11 +82,33 @@ class WalletActivity : BaseBindingActivity<ActivityWalletBinding>() {
                     .show(supportFragmentManager)
                 return@setOnClickListener
             }
-            startActivity(Intent(this@WalletActivity, WalletWithdrawActivity::class.java).apply {
-                putExtras(
-                    IntentParams.WalletWithdrawParams.pack(balanceTotal?.totalAmount ?: "")
-                )
-            })
+            val list = listOf(
+                SearchSelectParam(0, "提现至支付宝"),
+                SearchSelectParam(1, "提现至银行卡"),
+            )
+            CommonBottomSheetDialog.Builder(StringUtils.getString(R.string.wallet_withdraw), list)
+                .apply {
+                    showClose = false
+                    isClickClose = true
+                    onValueSureListener = object :
+                        CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
+                        override fun onValue(data: SearchSelectParam?) {
+                            startActivity(
+                                Intent(
+                                    this@WalletActivity,
+                                    WalletWithdrawActivity::class.java
+                                ).apply {
+                                    putExtras(
+                                        IntentParams.WalletWithdrawParams.pack(
+                                            if (0 == data?.id) balanceTotal?.availableAmount else balanceTotal?.candyPayAvailableAmount,
+                                            if (1 == data?.id) balanceTotal?.candyPayAvailableAmount else null,
+                                            if (0 == data?.id) 1 else 3
+                                        )
+                                    )
+                                })
+                        }
+                    }
+                }.build().show(supportFragmentManager)
         }
 
         mBinding.btnWalletCharge.setOnClickListener {

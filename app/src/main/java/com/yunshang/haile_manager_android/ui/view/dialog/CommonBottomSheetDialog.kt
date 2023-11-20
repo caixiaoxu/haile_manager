@@ -15,6 +15,7 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.rule.ICommonBottomItemEntity
 import com.yunshang.haile_manager_android.databinding.DialogCommonBottomSheetBinding
 import com.yunshang.haile_manager_android.databinding.ItemCommonBottomSheetDialogBinding
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 
 
 /**
@@ -64,6 +65,7 @@ class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(p
         super.onViewCreated(view, savedInstanceState)
 
         // 关闭
+        mBinding.tvCommonDialogClose.visibility(builder.showClose)
         mBinding.tvCommonDialogClose.setOnClickListener {
             dismiss()
         }
@@ -76,6 +78,7 @@ class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(p
         mBinding.clCommonDialogTitle.visibility =
             if (builder.title.isEmpty()) View.GONE else View.VISIBLE
 
+        mBinding.tvCommonDialogSure.visibility(!builder.isCancelable)
         // 确定
         mBinding.tvCommonDialogSure.setOnClickListener {
             if (builder.mustSelect && null == curEntity) {
@@ -121,7 +124,7 @@ class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(p
                         setOnCheckedChangeListener { _, isChecked ->
                             if (isChecked) {
                                 curEntity = data
-                                if (builder.title.isEmpty()) {
+                                if (builder.title.isEmpty() || builder.isClickClose) {
                                     dismiss()
                                     builder.onValueSureListener?.onValue(curEntity)
                                 }
@@ -161,6 +164,12 @@ class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(p
 
         // 已选择的数据
         var selectData: D? = null
+
+        // 是否显示关闭
+        var showClose = true
+
+        // 点击关闭
+        var isClickClose = false
 
         /**
          * 构建

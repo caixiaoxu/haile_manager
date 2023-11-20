@@ -12,8 +12,10 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.WalletWithdrawViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.extend.isGreaterThan0
 import com.yunshang.haile_manager_android.databinding.ActivityWalletWithdrawBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.loadImage
 import com.yunshang.haile_manager_android.ui.view.dialog.WithdrawDialog
 
 class WalletWithdrawActivity :
@@ -29,6 +31,10 @@ class WalletWithdrawActivity :
 
         mViewModel.balanceTotal =
             IntentParams.WalletWithdrawParams.parseTotalBalance(intent)?.trim() ?: ""
+        mViewModel.accountFrozen =
+            IntentParams.WalletWithdrawParams.parseAccountFrozen(intent)?.trim() ?: ""
+        mViewModel.withDrawType = IntentParams.WalletWithdrawParams.parseWithdrawType(intent)
+            .let { if (it.isGreaterThan0()) it else null }
     }
 
     override fun initEvent() {
@@ -37,44 +43,48 @@ class WalletWithdrawActivity :
             mViewModel.requestBindAccount()
         }
 
+        mViewModel.withdrawAccount.observe(this) {
+            // 图标
+            if (1 == it.cashOutType) {
+                mBinding.ivWalletWithdrawAlipayAccount.loadImage(R.mipmap.icon_withdraw_alipay)
+            } else {
+                mBinding.ivWalletWithdrawAlipayAccount.loadImage(url = it.icon)
+            }
+            // 提示
+            mBinding.tvWalletWithdrawAlipayAccount.setHint(if (1 == it.cashOutType) R.string.empty_alipay_account_hint else R.string.empty_bank_account_hint)
+            // 内容
+            mBinding.tvWalletWithdrawAlipayAccount.text = if (true == it.exist) {
+                "${if (1 == it.cashOutType) "支付宝账号" else (it.bank ?: "其他银行")}（${
+                    it.cashOutAccount?.let { outAccount ->
+                        if (outAccount.length > 4) {
+                            outAccount.substring(outAccount.length - 4)
+                        } else {
+                            outAccount
+                        }
+                    } ?: ""
+                }）"
+            } else ""
+        }
+
         mViewModel.withdrawAmount.observe(this) {
-            try {
+            mViewModel.withdrawErr.value = try {
                 val amount = it.toDouble()
                 val balanceTotal = mViewModel.balanceTotal.toDouble()
-                val maxAmount = mViewModel.withdrawAccount.value!!.maxWithdrawAmount.toDouble()
+                val maxAmount = mViewModel.withdrawAccount.value!!.maxWithdrawAmount!!.toDouble()
                 if (!it.isNullOrEmpty() && amount < 1) {
-                    mBinding.tvWalletWithdrawHint.setTextColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.hint_color
-                        )
-                    )
-                    mBinding.tvWalletWithdrawHint.text = "最低提现1.0元"
-                } else {
-                    mBinding.tvWalletWithdrawHint.setTextColor(
-                        ContextCompat.getColor(
-                            this,
-                            R.color.common_txt_color
-                        )
-                    )
-                    mBinding.tvWalletWithdrawHint.text =
-                        mViewModel.withdrawAccount.value?.cashOutLimit() ?: ""
-                }
-                if (amount > balanceTotal) {
-                    selectAllAmount(mViewModel.balanceTotal)
+                    "提现金额不能小于1.00元"
+                } else if (amount > balanceTotal) {
+                    "输入金额超过可提现金额"
                 } else if (balanceTotal > maxAmount && amount > maxAmount) {
-                    selectAllAmount(mViewModel.withdrawAccount.value!!.maxWithdrawAmount)
-                }
+                    val maxVal =
+                        (if (maxAmount > 10000) maxAmount / 10000 else maxAmount).let { max ->
+                            if ((max * 100).toInt() % 100 == 0) max.toInt() else max
+                        }
+                    "每日可提现额度上限为${if (maxAmount > 10000) "${maxVal}万" else "$maxVal"}元"
+                } else ""
             } catch (e: Exception) {
                 e.printStackTrace()
-                mBinding.tvWalletWithdrawHint.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.common_txt_color
-                    )
-                )
-                mBinding.tvWalletWithdrawHint.text =
-                    mViewModel.withdrawAccount.value?.cashOutLimit() ?: ""
+                ""
             }
         }
 
@@ -138,8 +148,8 @@ class WalletWithdrawActivity :
         mBinding.tvWalletWithdrawAmountAll.setOnClickListener {
             try {
                 val balanceTotal = mViewModel.balanceTotal.toDouble()
-                val maxAmount = mViewModel.withdrawAccount.value!!.maxWithdrawAmount.toDouble()
-                selectAllAmount(if (balanceTotal > maxAmount) mViewModel.withdrawAccount.value!!.maxWithdrawAmount else mViewModel.balanceTotal)
+                val maxAmount = mViewModel.withdrawAccount.value!!.maxWithdrawAmount!!.toDouble()
+                selectAllAmount(if (balanceTotal > maxAmount) mViewModel.withdrawAccount.value!!.maxWithdrawAmount!! else mViewModel.balanceTotal)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

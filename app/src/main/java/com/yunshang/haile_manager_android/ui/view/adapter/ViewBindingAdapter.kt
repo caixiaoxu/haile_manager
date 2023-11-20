@@ -95,7 +95,7 @@ object ViewBindingAdapter {
      */
     @BindingAdapter("imgRes", "imgUrl", "imgCenterUrl", "imgHeadUrl", requireAll = false)
     @JvmStatic
-    fun ImageView.loadImage(res: Int?, url: String?, imgCenterUrl: String?, imgHeadUrl: String?) {
+    fun ImageView.loadImage(res: Int?=null, url: String?=null, imgCenterUrl: String?=null, imgHeadUrl: String?=null) {
         res?.let {
             setImageResource(res)
         }

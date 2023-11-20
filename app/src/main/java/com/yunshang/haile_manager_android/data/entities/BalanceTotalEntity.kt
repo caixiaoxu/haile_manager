@@ -14,4 +14,6 @@ data class BalanceTotalEntity(
     val totalAmount: String,
     val availableAmount: String?,
     val candyPayAmount: String?,
+    val candyPayAvailableAmount: String? = null,
+    val candyPayFreezeAmount: String? = null,
 )

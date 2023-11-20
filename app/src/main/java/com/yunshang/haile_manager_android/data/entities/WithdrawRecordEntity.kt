@@ -27,7 +27,8 @@ data class WithdrawRecordEntity(
     val checkTime: String,
     val id: Int,
     val feeAmount: Double? = null,
-    val totalAmount: Double? = null
+    val totalAmount: Double? = null,
+    val icon: String? = null,
 ) : IMultiTypeEntity {
 
     val recordAmount: SpannableString

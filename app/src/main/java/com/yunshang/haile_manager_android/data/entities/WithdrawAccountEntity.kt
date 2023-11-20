@@ -14,31 +14,14 @@ import com.yunshang.haile_manager_android.R
  * 作者姓名 修改时间 版本号 描述
  */
 data class WithdrawAccountEntity(
+    val bank: String? = null,
     val cashOutAccount: String? = null,
-    val cashOutRate: Int,
-    val cashOutType: Int,
-    val exist: Boolean,
-    val id: Int,
-    val maxWithdrawAmount: String,
-    val realName: String,
-    val state: Int
-) {
-
-    val cashOutAccountVal: String?
-        get() = if (null != cashOutAccount && cashOutAccount.length > 7)
-            com.yunshang.haile_manager_android.utils.StringUtils.formatPhone(cashOutAccount)
-        else cashOutAccount
-
-    fun cashOutLimit(): String = try {
-        val max = maxWithdrawAmount.toDouble()
-        val maxVal = (if (max > 10000) max / 10000 else max).let {
-            if ((it * 100).toInt() % 100 == 0) it.toInt() else it
-        }
-        StringUtils.getString(
-            R.string.alipay_withdraw_hint,
-            if (max > 10000) "${maxVal}万" else "$maxVal"
-        )
-    } catch (e: Exception) {
-        ""
-    }
-}
+    val cashOutRate: Int? = null,
+    val cashOutType: Int? = null,
+    val exist: Boolean? = null,
+    val icon: String? = null,
+    val id: Int? = null,
+    val maxWithdrawAmount: String? = null,
+    val realName: String? = null,
+    val state: Int? = null
+)

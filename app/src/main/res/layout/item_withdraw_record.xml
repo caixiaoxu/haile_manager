@@ -24,7 +24,8 @@
             android:id="@+id/iv_withdraw_record_main"
             android:layout_width="37dp"
             android:layout_height="37dp"
-            android:src="@mipmap/icon_withdraw_record_alipay_main"
+            app:imgUrl="@{item.icon}"
+            tools:src="@mipmap/icon_withdraw_record_alipay_main"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

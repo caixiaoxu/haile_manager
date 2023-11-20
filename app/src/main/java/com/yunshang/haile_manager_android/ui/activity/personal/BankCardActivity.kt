@@ -17,6 +17,7 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.databinding.ActivityBankCardBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
+import com.yunshang.haile_manager_android.ui.view.dialog.SubAccountAgreementBottomSheetDialog
 
 class BankCardActivity : BaseBusinessActivity<ActivityBankCardBinding, BankCardViewModel>(
     BankCardViewModel::class.java, BR.vm
@@ -94,15 +95,21 @@ class BankCardActivity : BaseBusinessActivity<ActivityBankCardBinding, BankCardV
                 return@setOnClickListener
             }
 
-            startActivity(
-                Intent(
-                    this@BankCardActivity,
-                    BindSmsVerifyActivity::class.java
-                ).apply {
-                    putExtras(intent)
-                    putExtras(IntentParams.BindSmsVerifyParams.pack(1))
-                }
-            )
+            if (!mViewModel.subAccountAgreement) {
+                SubAccountAgreementBottomSheetDialog.Builder(if (2 == authInfo.verifyType) authInfo.companyName else authInfo.idCardName).apply {
+                    onValueSureListener =
+                        object : SubAccountAgreementBottomSheetDialog.OnValueSureListener {
+                            override fun onValue(isChecked: Boolean) {
+                                if (isChecked) {
+                                    mViewModel.subAccountAgreement
+                                    goWithdrawPage()
+                                }
+                            }
+                        }
+                }.build().show(supportFragmentManager)
+            } else {
+                goWithdrawPage()
+            }
         }
 
         mBinding.clBankCard.setOnClickListener {
@@ -112,6 +119,18 @@ class BankCardActivity : BaseBusinessActivity<ActivityBankCardBinding, BankCardV
                 })
             }
         }
+    }
+
+    private fun goWithdrawPage() {
+        startActivity(
+            Intent(
+                this@BankCardActivity,
+                BindSmsVerifyActivity::class.java
+            ).apply {
+                putExtras(intent)
+                putExtras(IntentParams.BindSmsVerifyParams.pack(1))
+            }
+        )
     }
 
     private fun showSettlementInstrcuctionsDialog() {

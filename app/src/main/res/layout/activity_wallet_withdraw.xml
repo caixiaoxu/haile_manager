@@ -44,10 +44,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="@string/roll_out_to"
+            android:layout_marginStart="12dp"
             app:layout_constraintBottom_toTopOf="@id/tv_wallet_withdraw_alipay_account"
-            app:layout_constraintStart_toStartOf="@id/tv_wallet_withdraw_alipay_account"
+            app:layout_constraintStart_toStartOf="@id/view_wallet_withdraw_alipay_account"
             app:layout_constraintTop_toTopOf="@id/view_wallet_withdraw_alipay_account"
             app:layout_constraintVertical_chainStyle="spread_inside" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_wallet_withdraw_alipay_account"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="12dp"
+            app:visibility="@{vm.withdrawAccount.exist}"
+            app:layout_constraintStart_toStartOf="@id/view_wallet_withdraw_alipay_account"
+            app:layout_constraintTop_toTopOf="@id/tv_wallet_withdraw_alipay_account"
+            app:layout_constraintBottom_toBottomOf="@id/tv_wallet_withdraw_alipay_account"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_wallet_withdraw_alipay_account"
@@ -58,13 +69,10 @@
             android:layout_marginBottom="12dp"
             android:drawablePadding="12dp"
             android:gravity="center_vertical"
-            android:hint="@string/empty_alipay_account_hint"
-            android:text="@{vm.withdrawAccount.cashOutAccountVal}"
             app:drawE="@{!vm.withdrawAccount.exist?R.drawable.icon_arrow_right:0}"
-            app:drawS="@{vm.withdrawAccount.exist?R.mipmap.icon_withdraw_alipay:0}"
             app:layout_constraintBottom_toBottomOf="@id/view_wallet_withdraw_alipay_account"
             app:layout_constraintEnd_toStartOf="@id/tv_wallet_withdraw_alipay_account_update"
-            app:layout_constraintStart_toStartOf="@id/view_wallet_withdraw_alipay_account"
+            app:layout_constraintStart_toEndOf="@id/iv_wallet_withdraw_alipay_account"
             app:layout_constraintTop_toBottomOf="@id/tv_wallet_withdraw_alipay_account_title"
             tools:text="支付宝账号（2697）" />
 
@@ -80,82 +88,96 @@
             app:layout_constraintEnd_toEndOf="@id/view_wallet_withdraw_alipay_account"
             app:layout_constraintTop_toTopOf="@id/tv_wallet_withdraw_alipay_account" />
 
-        <View
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/view_wallet_withdraw_amount"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="8dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
             android:background="@drawable/shape_sffffff_r8"
-            app:layout_constraintTop_toBottomOf="@id/view_wallet_withdraw_alipay_account" />
+            app:layout_constraintTop_toBottomOf="@id/view_wallet_withdraw_alipay_account" >
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_wallet_withdraw_amount_title"
-            style="@style/Font_14_333333"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/roll_out_amount"
-            app:layout_constraintStart_toStartOf="@id/tv_wallet_withdraw_amount_unit"
-            app:layout_constraintTop_toTopOf="@id/view_wallet_withdraw_amount"
-            app:layout_constraintVertical_chainStyle="packed" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_wallet_withdraw_amount_title"
+                style="@style/Font_14_333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/roll_out_amount"
+                app:layout_constraintStart_toStartOf="@id/tv_wallet_withdraw_amount_unit"
+                app:layout_constraintTop_toTopOf="@id/view_wallet_withdraw_amount"
+                app:layout_constraintVertical_chainStyle="packed" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_wallet_withdraw_amount_unit"
-            style="@style/Font_32_333333"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:text="@string/unit_money"
-            app:layout_constraintBottom_toBottomOf="@id/et_wallet_withdraw_amount"
-            app:layout_constraintStart_toStartOf="@id/view_wallet_withdraw_amount"
-            app:layout_constraintTop_toTopOf="@id/et_wallet_withdraw_amount" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_wallet_withdraw_amount_unit"
+                style="@style/Font_32_333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/unit_money"
+                app:layout_constraintBottom_toBottomOf="@id/et_wallet_withdraw_amount"
+                app:layout_constraintStart_toStartOf="@id/view_wallet_withdraw_amount"
+                app:layout_constraintTop_toTopOf="@id/et_wallet_withdraw_amount" />
 
-        <com.yunshang.haile_manager_android.ui.view.AmountEditText
-            android:id="@+id/et_wallet_withdraw_amount"
-            style="@style/Font_16_333333_cccccc"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/transparent"
-            android:hint="@{@string/alipay_withdraw_input_hint(vm.balanceTotal)}"
-            android:paddingVertical="20dp"
-            android:text="@={vm.withdrawAmount}"
-            app:layout_constraintEnd_toStartOf="@id/tv_wallet_withdraw_amount_all"
-            app:layout_constraintStart_toEndOf="@id/tv_wallet_withdraw_amount_unit"
-            app:layout_constraintTop_toBottomOf="@id/tv_wallet_withdraw_amount_title"
-            app:maxInputLen="8" />
+            <com.yunshang.haile_manager_android.ui.view.AmountEditText
+                android:id="@+id/et_wallet_withdraw_amount"
+                style="@style/Font_16_333333_cccccc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/transparent"
+                android:hint="@{@string/alipay_withdraw_input_hint(vm.balanceTotal)}"
+                android:paddingVertical="20dp"
+                android:text="@={vm.withdrawAmount}"
+                app:layout_constraintEnd_toStartOf="@id/tv_wallet_withdraw_amount_all"
+                app:layout_constraintStart_toEndOf="@id/tv_wallet_withdraw_amount_unit"
+                app:layout_constraintTop_toBottomOf="@id/tv_wallet_withdraw_amount_title"
+                app:maxInputLen="8" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_wallet_withdraw_amount_all"
-            style="@style/Font_14_f0a258"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:text="@string/all"
-            app:layout_constraintBottom_toBottomOf="@id/et_wallet_withdraw_amount"
-            app:layout_constraintEnd_toEndOf="@id/view_wallet_withdraw_amount"
-            app:layout_constraintTop_toTopOf="@id/et_wallet_withdraw_amount" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_wallet_withdraw_amount_all"
+                style="@style/Font_14_f0a258"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/all"
+                app:layout_constraintBottom_toBottomOf="@id/et_wallet_withdraw_amount"
+                app:layout_constraintEnd_toEndOf="@id/view_wallet_withdraw_amount"
+                app:layout_constraintTop_toTopOf="@id/et_wallet_withdraw_amount" />
 
-        <View
-            style="@style/DividingStyle"
-            android:layout_width="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/et_wallet_withdraw_amount"
-            app:layout_constraintEnd_toEndOf="@id/tv_wallet_withdraw_amount_all"
-            app:layout_constraintStart_toStartOf="@id/tv_wallet_withdraw_amount_unit" />
+            <View
+                style="@style/DividingStyle"
+                android:layout_width="0dp"
+                android:backgroundTint="@{(null == vm.withdrawErr || 0 == vm.withdrawErr.length())?@color/dividing_line_color:@color/color_FF5219}"
+                app:layout_constraintBottom_toBottomOf="@id/et_wallet_withdraw_amount"
+                app:layout_constraintEnd_toEndOf="@id/tv_wallet_withdraw_amount_all"
+                app:layout_constraintStart_toStartOf="@id/tv_wallet_withdraw_amount_unit" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_wallet_withdraw_hint"
-            style="@style/Font_12_333333"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="12dp"
-            android:text="@{vm.withdrawAccount.cashOutLimit()}"
-            app:layout_constraintEnd_toEndOf="@id/view_wallet_withdraw_amount"
-            app:layout_constraintStart_toStartOf="@id/view_wallet_withdraw_amount"
-            app:layout_constraintTop_toBottomOf="@id/et_wallet_withdraw_amount" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_wallet_withdraw_err"
+                style="@style/font_14_ff5219"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{vm.withdrawErr}"
+                android:layout_marginTop="12dp"
+                app:visibility="@{!(null == vm.withdrawErr || 0 == vm.withdrawErr.length())}"
+                tools:text="输入金额超过可提现金额"
+                app:layout_constraintEnd_toEndOf="@id/view_wallet_withdraw_amount"
+                app:layout_constraintStart_toStartOf="@id/view_wallet_withdraw_amount"
+                app:layout_constraintTop_toBottomOf="@id/et_wallet_withdraw_amount" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_wallet_withdraw_hint"
+                style="@style/Font_12_333333"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@{vm.cashOutLimit}"
+                app:layout_constraintEnd_toEndOf="@id/view_wallet_withdraw_amount"
+                app:layout_constraintStart_toStartOf="@id/view_wallet_withdraw_amount"
+                app:layout_constraintTop_toBottomOf="@id/tv_wallet_withdraw_err" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_withdraw_prompt"
@@ -164,6 +186,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="12dp"
+            app:visibility="@{1 == vm.withdrawAccount.cashOutType}"
             android:text="可在账户上保留部分余额，避免余额不足导致的退款失败"
             app:layout_constraintTop_toBottomOf="@id/view_wallet_withdraw_amount" />
 

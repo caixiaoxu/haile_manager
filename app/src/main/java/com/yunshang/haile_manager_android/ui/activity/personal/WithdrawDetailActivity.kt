@@ -11,6 +11,7 @@ import com.yunshang.haile_manager_android.databinding.ActivityIncomeDetailBindin
 import com.yunshang.haile_manager_android.databinding.ItemIncomeDetailInfoBinding
 import com.yunshang.haile_manager_android.databinding.ItemIncomeDetailWithdrawInfoBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.loadImage
 
 class WithdrawDetailActivity :
     BaseBusinessActivity<ActivityIncomeDetailBinding, WithdrawDetailViewModel>(
@@ -44,6 +45,7 @@ class WithdrawDetailActivity :
                     childBinding.value = data.value
                     childBinding.canCopy = data.canCopy
                 }
+                mBinding.ivIncomeDetailMain.loadImage(url = it.icon)
             }
         }
     }

@@ -293,6 +293,10 @@
     <string name="batch_flow_setting_prompt">按流量收费时，用户订单是否显示用量</string>
     <string name="select_shops_hint">具体门店信息</string>
 
+    <string name="sub_account_agreement">分账协议</string>
+    <string name="agreement_prompt">我已阅读所有内容</string>
+    <string name="agree_and_next">同意并继续</string>
+
     <string name="price_model">价格模式</string>
     <string name="price_model_type1">固定</string>
     <string name="price_model_type2">单价</string>
@@ -664,7 +668,10 @@
     <string name="roll_out_to">转出到</string>
     <string name="roll_out_amount">转出金额 </string>
     <string name="empty_alipay_account_hint">请先绑定支付宝账号</string>
+    <string name="empty_bank_account_hint">请先绑定银行卡</string>
     <string name="alipay_withdraw_input_hint">可提现金额%1$s元</string>
+    <string name="bank_withdraw_hint">今日收入部分不可提现次日可提现</string>
+    <string name="bank_withdraw_hint2">冻结金额为%1$s元</string>
     <string name="alipay_withdraw_hint">每日可提现额度为%1$s元</string>
     <string name="bind_alipay_account">绑定支付宝账号</string>
     <string name="bind_alipay">绑定支付宝</string>

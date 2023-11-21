@@ -101,7 +101,7 @@ class WalletActivity : BaseBindingActivity<ActivityWalletBinding>() {
                                     putExtras(
                                         IntentParams.WalletWithdrawParams.pack(
                                             if (0 == data?.id) balanceTotal?.availableAmount else balanceTotal?.candyPayAvailableAmount,
-                                            if (1 == data?.id) balanceTotal?.candyPayAvailableAmount else null,
+                                            if (1 == data?.id) balanceTotal?.candyPayFreezeAmount else null,
                                             if (0 == data?.id) 1 else 3
                                         )
                                     )

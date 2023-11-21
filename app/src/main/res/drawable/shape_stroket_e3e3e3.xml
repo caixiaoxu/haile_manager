@@ -7,7 +7,7 @@
     </item>
     <item android:top="1dp"> <!--设置底部有边框-->
         <shape>
-            <solid android:color="#ffffff" />  <!-- 主体背景颜色 -->
+            <solid android:color="#E1F2F2F6" />  <!-- 主体背景颜色 -->
         </shape>
     </item>
 </layer-list>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.DeviceRepairsEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        android:background="@color/white">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_device_repairs_search_device_name"
+            style="@style/Font_17_black85_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{item.deviceName}"
+            app:layout_constraintEnd_toStartOf="@id/tv_device_repairs_search_status"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1号洗衣房01号洗衣机" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_device_repairs_search_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{10 == item.replyStatus?@string/no_reply:@string/replied}"
+            android:textColor="@{10 == item.replyStatus?@color/colorPrimary:@color/color_black_85}"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_device_repairs_search_device_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_device_repairs_search_device_name"
+            tools:text="未回复" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/iv_device_repairs_search_shop"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            style="@style/Font_14_black45"
+            android:text='@{@string/shop_info + "："}'
+            tools:text="门店信息："
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_device_repairs_shop" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_device_repairs_shop"
+            style="@style/Font_14_black45"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{item.shopName}"
+            app:layout_constraintStart_toEndOf="@id/iv_device_repairs_search_shop"
+            app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_search_device_name"
+            tools:text="浙大紫金港校区3区4号店铺" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/iv_device_repairs_search_position"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            style="@style/Font_14_black45"
+            android:text='@{@string/pt + "："}'
+            tools:text="营业点："
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_device_repairs_search_position" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_device_repairs_search_position"
+            style="@style/Font_14_black45"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{item.pointName}"
+            app:layout_constraintStart_toEndOf="@id/iv_device_repairs_search_position"
+            app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_shop"
+            tools:text="点位名称" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/iv_device_repairs_date"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            style="@style/Font_14_black45"
+            android:text='@{@string/last_repairs_time + "："}'
+            tools:text="最后报修时间："
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_device_repairs_date" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_device_repairs_date"
+            style="@style/Font_14_black45"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text='@{item.createTime}'
+            app:layout_constraintStart_toEndOf="@id/iv_device_repairs_date"
+            app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_search_position"
+            tools:text="2023-03-07 12:22" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

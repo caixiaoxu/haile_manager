@@ -223,4 +223,13 @@ interface DeviceService {
 
     @POST("/goods/getGoodsCountPercentVOList")
     suspend fun requestGoodsCountPercents(@Body params: RequestBody): ResponseWrapper<MutableList<DeviceStateCountPercentEntity>>
+
+    @POST("/deviceFix/list")
+    suspend fun requestDeviceRepairsList(@Body params: RequestBody): ResponseWrapper<ResponseList<DeviceRepairsEntity>>
+
+    @POST("/deviceFix/list/byDevice")
+    suspend fun requestDeviceRepairsListByDevice(@Body params: RequestBody): ResponseWrapper<ResponseList<DeviceRepairsEntity>>
+
+    @POST("/deviceFix/reply/batch")
+    suspend fun replyDeviceRepairs(@Body params: RequestBody): ResponseWrapper<Any>
 }

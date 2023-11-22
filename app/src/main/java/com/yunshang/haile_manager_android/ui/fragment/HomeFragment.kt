@@ -4,7 +4,6 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Rect
-import android.net.Uri
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -54,6 +53,7 @@ import com.yunshang.haile_manager_android.ui.view.chart.CustomMarkerView
 import com.yunshang.haile_manager_android.ui.view.dialog.DeviceCategoryDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
+import com.yunshang.haile_manager_android.utils.DialogUtils
 import com.yunshang.haile_manager_android.utils.StringUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import com.yunshang.haile_manager_android.web.WebViewActivity
@@ -73,6 +73,8 @@ import java.util.*
  */
 class HomeFragment :
     BaseBusinessFragment<FragmentHomeBinding, HomeViewModel>(HomeViewModel::class.java, BR.vm) {
+    private val permissions = SystemPermissionHelper.cameraPermissions()
+        .plus(SystemPermissionHelper.readWritePermissions())
 
     // 权限
     private val requestMultiplePermission =
@@ -146,10 +148,14 @@ class HomeFragment :
         }
 
         mBinding.ibHomeScan.setOnClickListener {
-            requestMultiplePermission.launch(
-                SystemPermissionHelper.cameraPermissions()
-                    .plus(SystemPermissionHelper.readWritePermissions())
-            )
+            DialogUtils.checkPermissionDialog(
+                requireContext(),
+                childFragmentManager,
+                permissions,
+                "需要相机权限和媒体读取权限来扫描或读取设备码"
+            ) {
+                requestMultiplePermission.launch(permissions)
+            }
         }
 
         mBinding.clHomeIncome.setOnClickListener {

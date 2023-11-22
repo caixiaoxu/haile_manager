@@ -1,18 +1,10 @@
 package com.yunshang.haile_manager_android.data.entities
 
-import android.text.SpannableString
-import android.text.style.AbsoluteSizeSpan
-import android.text.style.ForegroundColorSpan
-import androidx.core.content.ContextCompat
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.google.gson.annotations.SerializedName
-import com.lsy.framelib.data.constants.Constants
-import com.lsy.framelib.utils.DimensionUtils
 import com.yunshang.haile_manager_android.BR
-import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
-import com.yunshang.haile_manager_android.utils.StringUtils
 
 /**
  * Title :
@@ -56,14 +48,14 @@ data class OrderDetailEntity(
     val _payTime: String,
     val promotionList: List<Promotion>,
     val realPrice: Double,
-    val refundBy: String,
+    val refundBy: String? = null,
     val refundDesc: String,
     val refundNo: String,
     val refundPrice: Double,
     @SerializedName("refundTime")
     val _refundTime: String,
     val shopId: Int,
-    val shopName: String,
+    val shopName: String? = null,
     val skuList: List<Sku>,
     val state: Int,
     val stateDesc: String,
@@ -111,29 +103,21 @@ data class OrderDetailEntity(
     val deviceTypeVal: String
         get() = skuList.firstOrNull()?.deviceType ?: ""
 
-    val deviceNameNoVal: SpannableString
-        get() = skuList.firstOrNull()?.let {
-            val goodName = it.goodsName
-            val goodId = "（${it.deviceType}编号：${it.goodsId}）"
-            val content = goodName + goodId
-            StringUtils.formatMultiStyleStr(
-                content, arrayOf(
-                    AbsoluteSizeSpan(DimensionUtils.sp2px(12f)),
-                    ForegroundColorSpan(
-                        ContextCompat.getColor(
-                            Constants.APP_CONTEXT,
-                            R.color.common_sub_txt_color,
-                        )
-                    ),
-                ), goodName.length, content.length
-            )
+    val skuDeviceTypes: List<Sku>
+        get() {
+            val list = hashMapOf<Int, Sku>()
+            skuList.forEach {
+                if (null == list[it.goodsId]) {
+                    list[it.goodsId] = it
+                }
+            }
+            return list.values.toList()
         }
-            ?: SpannableString("")
 
-    fun endStateVal(): String = when(endState){
-        1050->endStateDesc?.let { "故障结束-$it" } ?: ""
-        1000->"正常结束"
-        else->""
+    fun endStateVal(): String = when (endState) {
+        1050 -> endStateDesc?.let { "故障结束-$it" } ?: ""
+        1000 -> "正常结束"
+        else -> ""
     }
 
     val hasRefundMoney: Boolean
@@ -142,6 +126,12 @@ data class OrderDetailEntity(
     val hasRefundCoupon: Boolean
         get() = refundTag?.split(",")?.contains("2") ?: false
 
+
+    val shopPositionName: String
+        get() = if (!shopName.isNullOrEmpty() && !positionName.isNullOrEmpty()) "$shopName-$positionName"
+        else if (!shopName.isNullOrEmpty()) shopName
+        else if (!positionName.isNullOrEmpty()) positionName
+        else ""
 }
 
 data class AppointmentInfo(

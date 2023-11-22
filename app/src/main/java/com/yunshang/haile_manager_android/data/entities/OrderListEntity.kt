@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.data.entities
 import com.google.gson.annotations.SerializedName
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
+import com.yunshang.haile_manager_android.data.extend.toRemove0Str
 import com.yunshang.haile_manager_android.data.rule.ISearchSelectEntity
 
 /**
@@ -112,12 +113,13 @@ data class Sku(
     val orderNo: String,
     val originPrice: String,
     val realPrice: String,
+    val imei: String? = null
 ) {
     val goodsItemInfo: GoodsItemInfoEntity?
         get() = GsonUtils.json2Class(_goodsItemInfo, GoodsItemInfoEntity::class.java)
 
     val unitValue: String
-        get() = skuUnit + if (1 == priceCalculateMode) {
+        get() = skuUnit.toRemove0Str() + if (1 == priceCalculateMode) {
             // 流量
             if (1 == unitCode) "ml" else "L"
         } else {

@@ -80,7 +80,7 @@
             style="@style/Font_12_333333"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
-            android:background="@drawable/shape_stroke_4_cccccc"
+            android:background="@drawable/shape_strokeblack25_r4"
             android:gravity="center"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"

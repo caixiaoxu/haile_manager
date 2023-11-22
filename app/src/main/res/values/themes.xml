@@ -403,6 +403,30 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
+    <style name="font_17_ff5219">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/color_FF5219</item>
+    </style>
+
+    <style name="font_17_333333">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/common_txt_color</item>
+    </style>
+    <style name="font_17_333333_bold" parent="font_17_333333">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="font_17_333333_cccccc">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/common_txt_color</item>
+        <item name="hintTextColor">@color/common_txt_hint_color</item>
+    </style>
+
+    <style name="font_17_999999">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/common_sub_txt_color</item>
+    </style>
+
     <style name="Font_18_f0a258">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/colorPrimary</item>

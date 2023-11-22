@@ -37,6 +37,8 @@ object SPRepository {
 
     private const val SP_SEARCH_HISTORY = "sp_search_history"
 
+    private const val SP_WITHDRAW_EXPORT_EMAIL_HISTORY = "sp_withdraw_export_email_history"
+
     private val sp: SPUtils by lazy { SPUtils.getInstance(SP_NAME) }
 
     /**
@@ -59,6 +61,13 @@ object SPRepository {
     var isAgreeAgreement: Boolean
         get() = sp.getBoolean(SP_AGREE_AGREEMENT, false)
         set(value) = sp.put(SP_AGREE_AGREEMENT, value)
+
+    /**
+     * 提现导出邮箱
+     */
+    var withdrawExportEmail: String?
+        get() = sp.getString(SP_WITHDRAW_EXPORT_EMAIL_HISTORY)
+        set(value) = sp.put(SP_WITHDRAW_EXPORT_EMAIL_HISTORY, value)
 
     /**
      * 判断是否已登录

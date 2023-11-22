@@ -12,73 +12,103 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="62dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/shape_sffffff_r8"
-        android:paddingHorizontal="12dp">
+        android:paddingHorizontal="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="12dp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_withdraw_record_main"
             android:layout_width="37dp"
             android:layout_height="37dp"
             android:src="@mipmap/icon_withdraw_record_alipay_main"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_withdraw_record_title"
-            style="@style/Font_14_333333"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:text="@{item.typeVal}"
-            app:layout_constraintBottom_toTopOf="@id/tv_withdraw_record_time"
-            app:layout_constraintEnd_toStartOf="@id/tv_withdraw_record_amount"
-            app:layout_constraintStart_toEndOf="@id/iv_withdraw_record_main"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="余额提现" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_withdraw_record_time"
-            style="@style/Font_12_999999"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{item.cashOutTime}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/tv_withdraw_record_title"
-            app:layout_constraintStart_toStartOf="@id/tv_withdraw_record_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_withdraw_record_title"
-            tools:text="2023/1/11 08:10:21" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_withdraw_record_amount"
-            style="@style/Font_16_333333"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/money"
-            android:text="@{item.getAmount}"
-            app:layout_constraintBottom_toTopOf="@id/tv_withdraw_record_status"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="-2000.00" />
-
         <com.yunshang.haile_manager_android.ui.view.MultiTypeTextView
             android:id="@+id/tv_withdraw_record_status"
-            style="@style/Font_12_999999"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
             android:text="@{item.statusVal}"
+            android:textSize="14sp"
             app:bgResIds="@{item.multiTypeBgRes}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_withdraw_record_amount"
+            app:layout_constraintEnd_toStartOf="@id/tv_withdraw_record_amount"
+            app:layout_constraintStart_toEndOf="@id/iv_withdraw_record_main"
+            app:layout_constraintTop_toTopOf="@id/iv_withdraw_record_main"
+            app:layout_constraintVertical_chainStyle="spread_inside"
             app:txtColors="@{item.multiTypeTxtColors}"
             app:type="@{item.multiType}"
             tools:text="待审核" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_withdraw_record_amount"
+            style="@style/Font_14_333333"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/money"
+            android:gravity="end"
+            android:text="@{item.recordAmount}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_withdraw_record_status"
+            app:layout_constraintTop_toTopOf="@id/tv_withdraw_record_status"
+            tools:text="提现金额：-2000.00" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_withdraw_record_title"
+            style="@style/Font_14_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="余额提现"
+            app:layout_constraintEnd_toStartOf="@id/tv_withdraw_record_fee_amount"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@id/tv_withdraw_record_status"
+            app:layout_constraintTop_toBottomOf="@id/tv_withdraw_record_status"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="余额提现" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_withdraw_record_fee_amount"
+            style="@style/Font_14_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/money"
+            android:gravity="end"
+            android:text="@{item.feeAmountVal}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_withdraw_record_title"
+            app:layout_constraintTop_toTopOf="@id/tv_withdraw_record_title"
+            tools:text="手续费：-2000.00" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_withdraw_record_time"
+            style="@style/Font_14_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@{item.cashOutTime}"
+            app:layout_constraintEnd_toStartOf="@id/tv_withdraw_record_arrival_amount"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@id/tv_withdraw_record_status"
+            app:layout_constraintTop_toBottomOf="@id/tv_withdraw_record_title"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="2023-1-11 08:10" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_withdraw_record_arrival_amount"
+            style="@style/Font_14_999999"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/money"
+            android:gravity="end"
+            android:text="@{item.arrivalAmount}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_withdraw_record_time"
+            app:layout_constraintTop_toTopOf="@id/tv_withdraw_record_time"
+            tools:text="到账金额 ：2000.00" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

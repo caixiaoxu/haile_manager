@@ -16,22 +16,31 @@ import com.yunshang.haile_manager_android.data.rule.IncomeDetailInfo
  * 作者姓名 修改时间 版本号 描述
  */
 data class WithdrawDetailEntity(
-    val cashOutPrice: Double,
+    val cashOutPrice: String,
     val cashOutStatus: Int,
     val cashOutTime: String,
     val checkTime: String,
-    val fee: Double,
+    val fee: String,
     val id: Int,
     val receiptNo: String,
     val receiptType: Int,
-    val remark: String
+    val remark: String,
+    val totalAmount: String,
+    val cashOutRate:String
 ) : IIncomeDetailEntity {
-    override fun mainRes(): Int = R.mipmap.icon_withdraw_record_alipay_main
+    override fun mainRes(): Int = R.mipmap.icon_withdraw_record_detail_alipay_main
 
-    override fun getTotalStr(): String = cashOutPrice.toString()
+    override fun getTotalStr(): String = totalAmount.toString()
 
     override fun getTag(): String =
         StringUtils.getStringArray(R.array.withdraw_status_arr)[cashOutStatus]
+
+    fun getWithdrawInfoList(): ArrayList<IncomeDetailInfo> =arrayListOf<IncomeDetailInfo>().apply {
+        add(IncomeDetailInfo(StringUtils.getString(R.string.cash_out_amount), totalAmount))
+        add(IncomeDetailInfo(StringUtils.getString(R.string.service_charge_rate), "${cashOutRate}%"))
+        add(IncomeDetailInfo(StringUtils.getString(R.string.service_charge), fee))
+        add(IncomeDetailInfo(StringUtils.getString(R.string.arrival_amount), cashOutPrice))
+    }
 
     override fun getInfoList(): ArrayList<IncomeDetailInfo> =
         arrayListOf<IncomeDetailInfo>().apply {

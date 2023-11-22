@@ -30,5 +30,14 @@
     <color name="second_color_green">#2630C19A</color>
     <color name="color_gray">#CCCCCC</color>
     <color name="color_f9f9f9">#F9F9F9</color>
+    <color name="color_FFA936">#FFA936</color>
+    <color name="color_88FFA936">#88FFA936</color>
+    <color name="color_FF5219">#FF5219</color>
 
+    <color name="color_black_85">#D8000000</color>
+    <color name="color_black_65">#A6000000</color>
+    <color name="color_black_45">#72000000</color>
+    <color name="color_black_25">#40000000</color>
+    <color name="color_black_15">#26000000</color>
+    <color name="color_black_5">#13000000</color>
 </resources>

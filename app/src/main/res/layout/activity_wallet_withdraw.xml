@@ -59,7 +59,7 @@
             android:drawablePadding="12dp"
             android:gravity="center_vertical"
             android:hint="@string/empty_alipay_account_hint"
-            android:text="@{vm.withdrawAccount.cashOutAccount}"
+            android:text="@{vm.withdrawAccount.cashOutAccountVal}"
             app:drawE="@{!vm.withdrawAccount.exist?R.drawable.icon_arrow_right:0}"
             app:drawS="@{vm.withdrawAccount.exist?R.mipmap.icon_withdraw_alipay:0}"
             app:layout_constraintBottom_toBottomOf="@id/view_wallet_withdraw_alipay_account"
@@ -95,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="@string/roll_out_to"
+            android:text="@string/roll_out_amount"
             app:layout_constraintStart_toStartOf="@id/tv_wallet_withdraw_amount_unit"
             app:layout_constraintTop_toTopOf="@id/view_wallet_withdraw_amount"
             app:layout_constraintVertical_chainStyle="packed" />
@@ -164,7 +164,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="12dp"
-            android:text="提示：可在账户上保留部分余额，避免余额不足导致的退款失败"
+            android:text="可在账户上保留部分余额，避免余额不足导致的退款失败"
             app:layout_constraintTop_toBottomOf="@id/view_wallet_withdraw_amount" />
 
         <com.yunshang.haile_manager_android.ui.view.CommonButton

@@ -50,15 +50,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:layout_marginBottom="12dp"
                 android:text="@{detail.tag}"
                 tools:text="提现" />
+
+            <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+                android:id="@+id/ll_income_detail_withdraw_infos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="12dp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:divider="@drawable/divide_size4"
+                app:showDividers="middle"
+                app:itemLayout="@layout/item_income_detail_withdraw_info" />
 
             <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
                 android:id="@+id/ll_income_detail_infos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:paddingVertical="12dp"
                 android:orientation="vertical"
+                app:divider="@drawable/divide_size4"
+                app:showDividers="middle"
+                android:background="@drawable/shape_top_stroke_dividing_mlr16"
                 app:itemLayout="@layout/item_income_detail_info" />
 
             <FrameLayout
@@ -82,8 +97,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_income_detail_main"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:imgRes="@{detail.mainRes()}"
             app:layout_constraintEnd_toEndOf="parent"

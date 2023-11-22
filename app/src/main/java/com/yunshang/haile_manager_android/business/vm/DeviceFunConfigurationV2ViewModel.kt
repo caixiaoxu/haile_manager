@@ -230,7 +230,8 @@ class DeviceFunConfigurationV2ViewModel : BaseViewModel() {
 
             val channelCount = spuExtAttrDto.value?.channelCount
             if (channelCount.isGreaterThan0()) {
-                val openSize = configureList.count { item -> item.soldStateVal && !item.channelCode.isNullOrEmpty() }
+                val openSize =
+                    configureList.count { item -> item.soldStateVal && !item.channelCode.isNullOrEmpty() }
                 if (openSize != channelCount) {
                     SToast.showToast(context, "功能开启数需要与通道保持一致并对应")
                     return@let

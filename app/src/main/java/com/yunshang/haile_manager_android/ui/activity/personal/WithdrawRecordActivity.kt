@@ -2,8 +2,10 @@ package com.yunshang.haile_manager_android.ui.activity.personal
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.ui.base.activity.BaseBindingActivity
@@ -46,6 +48,24 @@ class WithdrawRecordActivity : BaseBindingActivity<ActivityWithdrawRecordBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.statusBarColor = Color.WHITE
+        mBinding.barWithdrawRecordTitle.getRightBtn().run {
+            setText(R.string.export)
+            textSize = 14f
+            setTextColor(
+                ContextCompat.getColor(
+                    this@WithdrawRecordActivity,
+                    R.color.common_txt_color
+                )
+            )
+            setOnClickListener {
+                startActivity(
+                    Intent(
+                        this@WithdrawRecordActivity,
+                        WithdrawRecordExportActivity::class.java
+                    )
+                )
+            }
+        }
 
         mBinding.rvWithdrawRecordList.layoutManager = LinearLayoutManager(this)
         mBinding.rvWithdrawRecordList.adapter = adapter

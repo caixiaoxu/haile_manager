@@ -242,6 +242,7 @@ class DeviceFunConfigurationV2Activity :
         mViewModel.categoryCode.value = IntentParams.DeviceParams.parseCategoryCode(intent)
         mViewModel.communicationType = IntentParams.DeviceParams.parseCommunicationType(intent)
         mViewModel.shopId = IntentParams.ShopParams.parseShopId(intent)
+            .let { if (it.isGreaterThan0()) it else null }
 
         mViewModel.oldConfigureList =
             IntentParams.DeviceFunConfigurationV2Params.parseSkuExtAttrDto(intent)

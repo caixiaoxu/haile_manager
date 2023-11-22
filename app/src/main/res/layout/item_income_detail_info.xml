@@ -26,7 +26,6 @@
         android:layout_height="44dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingVertical="12dp"
         tools:showIn="@layout/activity_income_detail">
 
         <androidx.appcompat.widget.AppCompatTextView

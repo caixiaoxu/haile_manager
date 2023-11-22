@@ -129,18 +129,21 @@ class WalletWithdrawActivity :
         }
 
         mBinding.viewWalletWithdrawAlipayAccount.setOnClickListener {
-            mViewModel.sendWithdrawOperateSms {
-                if (it) {
-                    startActivity(
-                        Intent(
-                            this@WalletWithdrawActivity,
-                            WithdrawBindAlipayActivity::class.java
-                        ).apply {
-                            mViewModel.withdrawAccount.value?.id?.let { id ->
-                                putExtras(IntentParams.CommonParams.pack(id))
+            // 只有支付宝可修改
+            if (1 == mViewModel.withdrawAccount.value?.cashOutType) {
+                mViewModel.sendWithdrawOperateSms {
+                    if (it) {
+                        startActivity(
+                            Intent(
+                                this@WalletWithdrawActivity,
+                                WithdrawBindAlipayActivity::class.java
+                            ).apply {
+                                mViewModel.withdrawAccount.value?.id?.let { id ->
+                                    putExtras(IntentParams.CommonParams.pack(id))
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
             }
         }

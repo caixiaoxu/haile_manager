@@ -41,7 +41,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".DeviceRepairsReplyListActivity"
+            android:name=".ui.activity.device.DeviceRepairsReplyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.device.DeviceRepairsReplyListActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.device.DeviceRepairsActivity"

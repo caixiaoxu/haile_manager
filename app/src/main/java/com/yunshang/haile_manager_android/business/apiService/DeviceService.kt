@@ -228,7 +228,7 @@ interface DeviceService {
     suspend fun requestDeviceRepairsList(@Body params: RequestBody): ResponseWrapper<ResponseList<DeviceRepairsEntity>>
 
     @POST("/deviceFix/list/byDevice")
-    suspend fun requestDeviceRepairsListByDevice(@Body params: RequestBody): ResponseWrapper<ResponseList<DeviceRepairsEntity>>
+    suspend fun requestDeviceRepairsListByDevice(@Body params: RequestBody): ResponseWrapper<DeviceRepairsResponseEntity>
 
     @POST("/deviceFix/reply/batch")
     suspend fun replyDeviceRepairs(@Body params: RequestBody): ResponseWrapper<Any>

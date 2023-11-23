@@ -29,6 +29,7 @@ import com.yunshang.haile_manager_android.databinding.*
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceDetailActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivity
+import com.yunshang.haile_manager_android.ui.activity.device.DeviceRepairsReplyListActivity
 import com.yunshang.haile_manager_android.ui.activity.order.AppointmentOrderActivity
 import com.yunshang.haile_manager_android.ui.activity.order.OrderDetailActivity
 import com.yunshang.haile_manager_android.ui.activity.order.OrderManagerActivity
@@ -192,6 +193,15 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
             BR.item
         ) { mBinding, _, item ->
             mBinding?.root?.setOnClickListener {
+                item.deviceId?.let { deviceId ->
+                    startActivity(
+                        Intent(
+                            this@SearchActivity,
+                            DeviceRepairsReplyListActivity::class.java
+                        ).apply {
+                            putExtras(IntentParams.CommonParams.pack(deviceId))
+                        })
+                }
             }
         }
     }

@@ -41,13 +41,25 @@ class DeviceRepairsActivity :
         CommonRecyclerAdapter<ItemDeviceRepairsBinding, DeviceRepairsEntity>(
             R.layout.item_device_repairs,
             BR.item
-        ) { mItemBinding, pos, item ->
+        ) { mItemBinding, _, item ->
             mViewModel.isBatch.observe(this) {
                 mItemBinding?.isBatch = it
             }
-            mItemBinding?.cbDeviceRepairsSelect?.setOnCheckedChangeListener { _, isChecked ->
-                item.selected = isChecked
-                refreshSelectBatchNum()
+            mItemBinding?.root?.setOnClickListener {
+                if (true == mViewModel.isBatch.value) {
+                    item.selected = !item.selected
+                    refreshSelectBatchNum()
+                } else {
+                    item.deviceId?.let { deviceId ->
+                        startActivity(
+                            Intent(
+                                this@DeviceRepairsActivity,
+                                DeviceRepairsReplyListActivity::class.java
+                            ).apply {
+                                putExtras(IntentParams.CommonParams.pack(deviceId))
+                            })
+                    }
+                }
             }
         }
     }

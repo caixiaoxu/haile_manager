@@ -95,7 +95,7 @@ class BankCardActivity : BaseBusinessActivity<ActivityBankCardBinding, BankCardV
                 return@setOnClickListener
             }
 
-            SubAccountAgreementBottomSheetDialog.Builder(if (2 == authInfo.verifyType) authInfo.companyName else authInfo.idCardName)
+            SubAccountAgreementBottomSheetDialog.Builder(if (3 == authInfo.verifyType) authInfo.companyName else authInfo.idCardName)
                 .apply {
                     onValueSureListener =
                         object : SubAccountAgreementBottomSheetDialog.OnValueSureListener {

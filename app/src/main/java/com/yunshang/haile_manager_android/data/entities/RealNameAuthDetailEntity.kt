@@ -103,22 +103,9 @@ data class RealNameAuthDetailEntity(
     @get:Bindable
     var idCardExpirationDateValue: String?
         get() = idCardExpirationDate?.let { date ->
-            date.split(" - ").let { arr ->
+            date.split(",").let { arr ->
                 if (arr.size >= 2) {
-                    val startIndate =
-                        DateTimeUtils.formatDateTimeForStr(
-                            arr[0].trim(),
-                            "yyyy/MM/dd",
-                            "yyyy-MM-dd"
-                        )
-                    val endIndate =
-                        DateTimeUtils.formatDateTimeForStr(
-                            arr[1].trim(),
-                            "yyyy/MM/dd",
-                            "yyyy-MM-dd"
-                        )
-
-                    "$startIndate 至 $endIndate"
+                    "${arr[0].trim()} 至 ${arr[1].trim()}"
                 } else ""
             }
         }
@@ -137,7 +124,7 @@ data class RealNameAuthDetailEntity(
         get() = StringUtils.getString(R.string.type)
 
     val nameTitle: String
-        get() = StringUtils.getString(if (2 == verifyType) R.string.legal_person_name else R.string.name)
+        get() = StringUtils.getString(if (3 == verifyType) R.string.legal_person_name else R.string.name)
 
     val idCardTitle: String
         get() = StringUtils.getString(R.string.id_card)

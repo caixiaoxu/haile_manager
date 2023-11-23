@@ -108,7 +108,7 @@ class BankCardBindViewModel : BaseViewModel() {
                 return
             }
 
-            if (2 == merchantType) {
+            if (3 == merchantType) {
                 if (bankCardParams.value?.licenceForOpeningAccountImage.isNullOrEmpty()) {
                     SToast.showToast(v.context, "请先上传开户许可证")
                     return

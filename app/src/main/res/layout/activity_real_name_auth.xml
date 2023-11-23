@@ -131,7 +131,7 @@
                         layout="@layout/item_bank_detail_info"
                         app:content="@{vm.authInfo.companyName}"
                         app:title="@{vm.authInfo.companyNameTitle}"
-                        app:visibility="@{2 == vm.authInfo.verifyType}" />
+                        app:visibility="@{3 == vm.authInfo.verifyType}" />
 
                     <include
                         layout="@layout/item_bank_detail_info"

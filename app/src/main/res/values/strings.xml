@@ -784,7 +784,7 @@
     </string-array>
     <string-array name="verify_type_arr">
         <item>个人</item>
-        <item>个体工商记</item>
+        <item>个体工商户</item>
         <item>企业</item>
     </string-array>
     <string-array name="indate_type_arr">

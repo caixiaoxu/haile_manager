@@ -126,6 +126,7 @@ class DeviceRepairsReplyListActivity :
                                 mViewModel.curStatus = if (0 == id) null else id
                                 onPageSelected(index)
                                 notifyDataSetChanged()
+                                mBinding.rvDeviceRepairsReplyList.requestRefresh()
                             }
                         }
                     }

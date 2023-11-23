@@ -31,6 +31,8 @@ class DeviceRepairsReplyListViewModel : BaseViewModel() {
 
     val isBatch: MutableLiveData<Boolean> = MutableLiveData(false)
 
+    var curStatus: Int? = null
+
     val isAll: MutableLiveData<Boolean> = MutableLiveData(false)
 
     val selectBatchNum: MutableLiveData<String> by lazy {
@@ -50,13 +52,13 @@ class DeviceRepairsReplyListViewModel : BaseViewModel() {
                             "page" to page,
                             "pageSize" to pageSize,
                             "deviceId" to deviceId,
-                            "replyStatus" to null // 10 未回复，20 已回复
+                            "replyStatus" to curStatus // 10 未回复，20 已回复
                         )
                     )
                 )
             )
             withContext(Dispatchers.Main) {
-                callBack(result?.let {res->
+                callBack(result?.let { res ->
                     ResponseList(
                         res.page,
                         res.pageSize,

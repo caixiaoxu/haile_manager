@@ -482,6 +482,7 @@
     <string name="reply">回复</string>
     <string name="selected">已选择</string>
     <string name="submit_reply">提交回复</string>
+    <string name="repairs_user">报修用户</string>
 
     <string name="home_marketing_title">营销中心</string>
     <string name="discount_manager">折扣优惠</string>

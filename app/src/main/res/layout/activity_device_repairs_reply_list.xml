@@ -58,6 +58,7 @@
                         android:layout_marginStart="12dp"
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:text="@{vm.deviceName}"
                         tools:text="1号洗衣房01号洗衣机"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/iv_device_repairs_reply_list_main"
@@ -71,6 +72,7 @@
                         android:paddingHorizontal="4dp"
                         android:layout_marginTop="4dp"
                         tools:text="洗衣机"
+                        android:text="@{vm.categoryName}"
                         android:background="@drawable/shape_storke999999_r4"
                         app:layout_constraintStart_toStartOf="@id/tv_device_repairs_reply_list_device_name"
                         app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_reply_list_device_name" />
@@ -81,6 +83,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
+                        android:text="@{vm.shopPositionName}"
                         tools:text="浙大紫金港校区东区-研究楼A楼"
                         app:layout_constraintStart_toStartOf="@id/tv_device_repairs_reply_list_device_name"
                         app:layout_constraintTop_toBottomOf="@id/iv_device_repairs_reply_list_device_category" />

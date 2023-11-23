@@ -6,15 +6,18 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.network.response.ResponseList
+import com.lsy.framelib.utils.DimensionUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DeviceRepairsReplyListViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.DeviceRepairsEntity
+import com.yunshang.haile_manager_android.data.extend.isGreaterThan0
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceRepairsReplyListBinding
-import com.yunshang.haile_manager_android.databinding.ItemDeviceRepairsBinding
+import com.yunshang.haile_manager_android.databinding.ItemDeviceRepairsReplyListBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.view.IndicatorPagerTitleView
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
@@ -22,7 +25,6 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNav
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView
 
 class DeviceRepairsReplyListActivity :
     BaseBusinessActivity<ActivityDeviceRepairsReplyListBinding, DeviceRepairsReplyListViewModel>(
@@ -30,18 +32,21 @@ class DeviceRepairsReplyListActivity :
     ) {
 
     private val mAdapter by lazy {
-        CommonRecyclerAdapter<ItemDeviceRepairsBinding, DeviceRepairsEntity>(
-            R.layout.item_device_repairs,
+        CommonRecyclerAdapter<ItemDeviceRepairsReplyListBinding, DeviceRepairsEntity>(
+            R.layout.item_device_repairs_reply_list,
             BR.item
         ) { mItemBinding, _, item ->
             mViewModel.isBatch.observe(this) {
                 mItemBinding?.isBatch = it
             }
+            mItemBinding?.cbDeviceRepairsReplyListSelect?.setOnCheckedChangeListener { _, isChecked ->
+                item.selected = isChecked
+                refreshSelectBatchNum()
+            }
+
             mItemBinding?.root?.setOnClickListener {
                 if (true == mViewModel.isBatch.value) {
-                    item.selected = !item.selected
-                    refreshSelectBatchNum()
-                } else {
+                    return@setOnClickListener
                 }
             }
         }
@@ -86,9 +91,9 @@ class DeviceRepairsReplyListActivity :
         initRightBtn()
 
         val navigators = listOf(
-            SearchSelectParam(0,"全部"),
-            SearchSelectParam(10,"未回复"),
-            SearchSelectParam(20,"已回复"),
+            SearchSelectParam(0, "全部"),
+            SearchSelectParam(10, "未回复"),
+            SearchSelectParam(20, "已回复"),
         )
 
         mBinding.indicatorMineOrderStatus.navigator = CommonNavigator(this).apply {
@@ -99,7 +104,9 @@ class DeviceRepairsReplyListActivity :
                     context: Context?,
                     index: Int
                 ): IPagerTitleView {
-                    return SimplePagerTitleView(context).apply {
+                    return IndicatorPagerTitleView(context).apply {
+                        normalFontSize = 14f
+                        selectFontSize = 14f
                         normalColor = ContextCompat.getColor(
                             this@DeviceRepairsReplyListActivity,
                             R.color.color_black_65
@@ -109,9 +116,14 @@ class DeviceRepairsReplyListActivity :
                             R.color.color_black_85
                         )
                         navigators[index].run {
-                            text = title
+                            text = name
+                            if (1 == index) {
+                                mViewModel.noRelyNum.observe(this@DeviceRepairsReplyListActivity) {
+                                    text = "$name${if (it.isGreaterThan0()) " $it" else ""}"
+                                }
+                            }
                             setOnClickListener {
-                                mViewModel.curStatus = id
+                                mViewModel.curStatus = if (0 == id) null else id
                                 onPageSelected(index)
                                 notifyDataSetChanged()
                             }
@@ -121,7 +133,11 @@ class DeviceRepairsReplyListActivity :
 
                 override fun getIndicator(context: Context?): IPagerIndicator {
                     return LinePagerIndicator(context).apply {
-                        mode = LinePagerIndicator.MODE_WRAP_CONTENT
+                        mode = LinePagerIndicator.MODE_EXACTLY
+                        lineWidth = DimensionUtils.dip2px(this@DeviceRepairsReplyListActivity, 20f)
+                            .toFloat()
+                        lineHeight =
+                            DimensionUtils.dip2px(this@DeviceRepairsReplyListActivity, 3f).toFloat()
                         setColors(
                             ContextCompat.getColor(
                                 this@DeviceRepairsReplyListActivity,
@@ -131,6 +147,7 @@ class DeviceRepairsReplyListActivity :
                     }
                 }
             }
+            isAdjustMode = true
         }
 
         mBinding.rvDeviceRepairsReplyList.layoutManager = LinearLayoutManager(this)
@@ -181,6 +198,6 @@ class DeviceRepairsReplyListActivity :
     }
 
     override fun initData() {
-
+        mBinding.rvDeviceRepairsReplyList.requestRefresh()
     }
 }

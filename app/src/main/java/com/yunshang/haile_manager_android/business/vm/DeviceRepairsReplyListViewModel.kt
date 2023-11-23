@@ -39,6 +39,22 @@ class DeviceRepairsReplyListViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
+    val noRelyNum: MutableLiveData<Int> by lazy {
+        MutableLiveData()
+    }
+
+    val deviceName: MutableLiveData<String> by lazy {
+        MutableLiveData()
+    }
+
+    val categoryName: MutableLiveData<String> by lazy {
+        MutableLiveData()
+    }
+
+    val shopPositionName: MutableLiveData<String> by lazy {
+        MutableLiveData()
+    }
+
     fun requestDeviceRepairsList(
         page: Int,
         pageSize: Int,
@@ -58,6 +74,10 @@ class DeviceRepairsReplyListViewModel : BaseViewModel() {
                 )
             )
             withContext(Dispatchers.Main) {
+                noRelyNum.postValue(result?.notRepliedCount)
+                deviceName.postValue(result?.items?.firstOrNull()?.deviceName)
+                categoryName.postValue(result?.items?.firstOrNull()?.goodsCategoryName)
+                shopPositionName.postValue(result?.items?.firstOrNull()?.shopPositionName)
                 callBack(result?.let { res ->
                     ResponseList(
                         res.page,

@@ -45,20 +45,23 @@ class DeviceRepairsActivity :
             mViewModel.isBatch.observe(this) {
                 mItemBinding?.isBatch = it
             }
+            mItemBinding?.cbDeviceRepairsSelect?.setOnCheckedChangeListener { _, isChecked ->
+                item.selected = isChecked
+                refreshSelectBatchNum()
+            }
+
             mItemBinding?.root?.setOnClickListener {
                 if (true == mViewModel.isBatch.value) {
-                    item.selected = !item.selected
-                    refreshSelectBatchNum()
-                } else {
-                    item.deviceId?.let { deviceId ->
-                        startActivity(
-                            Intent(
-                                this@DeviceRepairsActivity,
-                                DeviceRepairsReplyListActivity::class.java
-                            ).apply {
-                                putExtras(IntentParams.CommonParams.pack(deviceId))
-                            })
-                    }
+                    return@setOnClickListener
+                }
+                item.deviceId?.let { deviceId ->
+                    startActivity(
+                        Intent(
+                            this@DeviceRepairsActivity,
+                            DeviceRepairsReplyListActivity::class.java
+                        ).apply {
+                            putExtras(IntentParams.CommonParams.pack(deviceId))
+                        })
                 }
             }
         }

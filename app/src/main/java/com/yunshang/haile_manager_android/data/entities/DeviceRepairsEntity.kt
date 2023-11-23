@@ -25,7 +25,7 @@ data class DeviceRepairsEntity(
     val goodsCategoryCode: String? = null,
     val goodsCategoryName: String? = null,
     val id: Int? = null,
-    val pics: List<Int>? = null,
+    val pics: List<String>? = null,
     val pointName: String? = null,
     val replyDTOS: List<ReplyDTOS>? = null,
     val replyStatus: Int? = null,

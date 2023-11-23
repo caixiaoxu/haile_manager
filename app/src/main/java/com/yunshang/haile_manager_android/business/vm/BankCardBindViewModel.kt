@@ -167,9 +167,7 @@ class BankCardBindViewModel : BaseViewModel() {
                     authInfo.value?.verifyType?.let {
                         bankCardParams.value?.merchantType = it
                     }
-                    authInfo.value?.idCardName?.let {
-                        bankCardParams.value?.bankAccountName = it
-                    }
+                    bankCardParams.value?.bankAccountName = realName
                     ApiRepository.dealApiResult(
                         mCapitalService.createBankCard(
                             ApiRepository.createRequestBody(

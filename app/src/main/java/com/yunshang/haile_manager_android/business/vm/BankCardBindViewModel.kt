@@ -179,7 +179,7 @@ class BankCardBindViewModel : BaseViewModel() {
                     )
                 }
 
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     SToast.showToast(v.context, R.string.submit_success)
                 }
 
@@ -196,5 +196,6 @@ class BankCardBindViewModel : BaseViewModel() {
         get() = (authInfo.value?.verifyTypeName ?: bankCardParams.value?.typeVal)
 
     val realName: String?
-        get() = (authInfo.value?.idCardName ?: bankCardParams.value?.bankAccountName)
+        get() = ((if (3 == authInfo.value?.verifyType) authInfo.value?.companyName else authInfo.value?.idCardName)
+            ?: bankCardParams.value?.bankAccountName)
 }

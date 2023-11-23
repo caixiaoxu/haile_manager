@@ -91,7 +91,6 @@
                     android:inputType="number"
                     android:maxLength="19"
                     app:itemContent="@={parentVm.bankCardParams.bankAccountNoVal}"
-                    app:tailDrawable="@mipmap/icon_card_no_take"
                     app:title="@string/card_no"
                     app:type="input" />
 

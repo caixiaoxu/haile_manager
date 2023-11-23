@@ -297,7 +297,7 @@
                 android:id="@+id/btn_bank_card_rebinding"
                 style="@style/CommonStrokeTxtBtnStyle"
                 android:text="@string/rebinding"
-                app:visibility="@{1 != vm.bankCardDetail.state}" />
+                app:visibility="@{2 == vm.bankCardDetail.state}" />
 
         </LinearLayout>
     </LinearLayout>

@@ -127,7 +127,7 @@ data class RealNameAuthDetailEntity(
         get() = StringUtils.getString(if (3 == verifyType) R.string.legal_person_name else R.string.name)
 
     val idCardTitle: String
-        get() = StringUtils.getString(R.string.id_card)
+        get() = StringUtils.getString(if (3 == verifyType) R.string.legal_person_idcard else R.string.id_card)
 
     val indateTypeTitle: String
         get() = StringUtils.getString(R.string.indate_type)

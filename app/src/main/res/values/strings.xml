@@ -694,7 +694,7 @@
     </string-array>
     <string-array name="withdraw_status_arr">
         <item>待审核</item>
-        <item>提现中</item>
+        <item>待审核</item>
         <item>提现成功</item>
         <item>提现失败</item>
         <item>提现失败</item>

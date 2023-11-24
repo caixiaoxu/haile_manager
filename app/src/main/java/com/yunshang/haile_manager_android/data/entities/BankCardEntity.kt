@@ -47,7 +47,7 @@ data class BankCardEntity(
 //            sb.append(bankAccountNo.substring(len - 4))
 
             if (len >= 4){
-                sb.append("•••• •••• •••• ")
+                sb.append("••••  ••••  •••• ")
                 sb.append(bankAccountNo.substring(len - 4))
             }
             return sb.toString()

@@ -101,14 +101,8 @@ class WalletWithdrawViewModel : BaseViewModel() {
     /**
      * 检测是否可提交
      */
-    private fun checkSubmit(): Boolean = try {
-        null != withdrawAmount.value && null != withdrawAccount.value
-                && withdrawAmount.value!!.toDouble() >= withdrawAccount.value!!.minWithdrawAmount!!.toDouble()
-                && withdrawAmount.value!!.toDouble() <= withdrawAccount.value!!.maxWithdrawAmount!!.toDouble()
-    } catch (e: Exception) {
-        e.printStackTrace()
-        false
-    } && null != withdrawAccount.value?.id && withdrawErr.value.isNullOrEmpty()
+    private fun checkSubmit(): Boolean =
+        null != withdrawAmount.value && null != withdrawAccount.value?.id && withdrawErr.value.isNullOrEmpty()
 
     val withdrawCalculate: MutableLiveData<WithdrawCalculateEntity> by lazy {
         MutableLiveData()

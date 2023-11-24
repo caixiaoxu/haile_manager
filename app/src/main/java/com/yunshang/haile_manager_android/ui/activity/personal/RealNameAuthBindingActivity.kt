@@ -135,8 +135,9 @@ class RealNameAuthBindingActivity :
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
                         date2?.let {
                             mViewModel.authInfo.value?.idCardExpirationDate =
-                                "${DateTimeUtils.formatDateTime(date1, "yyyy-MM-dd")} - " +
-                                        "${DateTimeUtils.formatDateTime(date2, "yyyy-MM-dd")}"
+                                "${
+                                    DateTimeUtils.formatDateTime(date1, "yyyy-MM-dd")
+                                },${DateTimeUtils.formatDateTime(date2, "yyyy-MM-dd")}"
                         }
                     }
                 }

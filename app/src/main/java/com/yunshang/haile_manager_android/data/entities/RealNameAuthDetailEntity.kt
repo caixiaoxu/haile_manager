@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
-import com.yunshang.haile_manager_android.utils.DateTimeUtils
 
 /**
  * Title :
@@ -106,7 +105,13 @@ data class RealNameAuthDetailEntity(
             date.split(",").let { arr ->
                 if (arr.size >= 2) {
                     "${arr[0].trim()} 至 ${arr[1].trim()}"
-                } else ""
+                } else {
+                    date.split(" - ").let { arr1 ->
+                        if (arr1.size >= 2) {
+                            "${arr1[0].trim()} 至 ${arr1[1].trim()}"
+                        } else ""
+                    }
+                }
             }
         }
         set(value) {

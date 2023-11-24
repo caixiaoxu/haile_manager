@@ -1,6 +1,5 @@
 package com.yunshang.haile_manager_android.ui.view.adapter
 
-import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -12,6 +11,7 @@ import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import com.bumptech.glide.Glide
 import com.lsy.framelib.utils.DimensionUtils
+import com.yunshang.haile_manager_android.data.extend.isGreaterThan0
 import com.yunshang.haile_manager_android.ui.view.*
 import com.yunshang.haile_manager_android.utils.GlideUtils
 import com.yunshang.haile_manager_android.utils.StringUtils
@@ -95,9 +95,14 @@ object ViewBindingAdapter {
      */
     @BindingAdapter("imgRes", "imgUrl", "imgCenterUrl", "imgHeadUrl", requireAll = false)
     @JvmStatic
-    fun ImageView.loadImage(res: Int?, url: String?, imgCenterUrl: String?, imgHeadUrl: String?) {
-        res?.let {
-            setImageResource(res)
+    fun ImageView.loadImage(
+        res: Int? = null,
+        url: String? = null,
+        imgCenterUrl: String? = null,
+        imgHeadUrl: String? = null
+    ) {
+        if (res.isGreaterThan0()) {
+            setImageResource(res!!)
         }
         url?.let {
             Glide.with(this).load(url).fitCenter().into(this)

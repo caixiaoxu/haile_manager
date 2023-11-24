@@ -23,12 +23,12 @@
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/cb_device_repairs_select"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginStart="6dp"
             android:layout_marginEnd="10dp"
-            android:button="@null"
             android:background="@color/transparent"
+            android:button="@null"
             android:checked="@{item.selected}"
             android:drawableStart="@drawable/selector_login_agreement"
             android:enabled="@{10 == item.replyStatus}"

@@ -43,7 +43,7 @@
             tools:text="未回复" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/iv_device_repairs_search_shop"
+            android:id="@+id/tv_device_repairs_search_shop_title"
             android:layout_width="72dp"
             android:layout_height="wrap_content"
             style="@style/Font_14_black45"
@@ -59,12 +59,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="@{item.shopName}"
-            app:layout_constraintStart_toEndOf="@id/iv_device_repairs_search_shop"
+            app:layout_constraintStart_toEndOf="@id/tv_device_repairs_search_shop_title"
             app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_search_device_name"
             tools:text="浙大紫金港校区3区4号店铺" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/iv_device_repairs_search_position"
+            android:id="@+id/tv_device_repairs_search_position_title"
             android:layout_width="72dp"
             android:layout_height="wrap_content"
             style="@style/Font_14_black45"
@@ -80,12 +80,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="@{item.pointName}"
-            app:layout_constraintStart_toEndOf="@id/iv_device_repairs_search_position"
+            app:layout_constraintStart_toEndOf="@id/tv_device_repairs_search_position_title"
             app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_shop"
             tools:text="点位名称" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/iv_device_repairs_date"
+            android:id="@+id/tv_device_repairs_search_date_title"
             android:layout_width="72dp"
             android:layout_height="wrap_content"
             style="@style/Font_14_black45"
@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text='@{item.createTime}'
-            app:layout_constraintStart_toEndOf="@id/iv_device_repairs_date"
+            app:layout_constraintStart_toEndOf="@id/tv_device_repairs_search_date_title"
             app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_search_position"
             tools:text="2023-03-07 12:22" />
 

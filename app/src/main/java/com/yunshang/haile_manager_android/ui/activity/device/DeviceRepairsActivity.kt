@@ -9,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.ui.weight.SingleTapTextView
 import com.lsy.framelib.utils.DimensionUtils
@@ -16,6 +17,7 @@ import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.DeviceRepairsViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
@@ -97,6 +99,17 @@ class DeviceRepairsActivity :
 
     override fun backBtn(): View = mBinding.barDeviceRepairsTitle.getBackBtn()
 
+    override fun initEvent() {
+        super.initEvent()
+
+        mViewModel.isBatch.observe(this) {
+            if (!it) resetSelectBatchNum()
+        }
+        LiveDataBus.with(BusEvents.DEVICE_FAULT_REPAIRS_REPLY_STATUS)?.observe(this) {
+            mBinding.rvDeviceRepairsList.requestRefresh()
+        }
+    }
+
     /**
      * 设置标题右侧按钮
      */
@@ -141,11 +154,7 @@ class DeviceRepairsActivity :
                 val pV = DimensionUtils.dip2px(this@DeviceRepairsActivity, 4f)
                 setPadding(ph, pV, ph, pV)
                 setOnClickListener {
-                    mViewModel.isBatch.value = !(mViewModel.isBatch.value ?: false).apply {
-                        if (!this) {
-                            resetSelectBatchNum()
-                        }
-                    }
+                    mViewModel.isBatch.value = !(mViewModel.isBatch.value ?: false)
                 }
                 layoutParams =
                     LinearLayout.LayoutParams(
@@ -272,7 +281,20 @@ class DeviceRepairsActivity :
         }
 
         mBinding.btnDeviceRepairsReply.setOnClickListener {
-
+            val ids =
+                mAdapter.list.filter { item -> item.selected }.mapNotNull { item -> item.deviceId }
+                    .toIntArray()
+            if (ids.isNotEmpty()) {
+                startActivity(
+                    Intent(
+                        this@DeviceRepairsActivity,
+                        DeviceRepairsBatchReplyActivity::class.java
+                    ).apply {
+                        putExtras(IntentParams.DeviceFaultRepairsParams.pack(deviceIdList = ids))
+                    }
+                )
+                mViewModel.isBatch.value = false
+            }
         }
     }
 

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="content"
+            type="com.yunshang.haile_manager_android.business.vm.DeviceRepairsReplyViewModel.ReplyContent" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@color/white"
+        android:paddingTop="12dp"
+        android:paddingBottom="8dp"
+
+        tools:showIn="@layout/activity_device_repairs_reply">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_device_repairs_reply_reply_title_tag"
+            style="@style/font_17_ff5219"
+            android:layout_width="16dp"
+            android:layout_height="0dp"
+            android:gravity="end|center_vertical"
+            android:paddingEnd="2dp"
+            android:text="*"
+            app:layout_constraintBottom_toBottomOf="@id/tv_device_repairs_reply_reply_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_device_repairs_reply_reply_title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_device_repairs_reply_reply_title"
+            style="@style/Font_17_black85"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/shop_reply"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_device_repairs_reply_reply_title_tag"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_device_repairs_reply_content"
+            style="@style/Font_17_black85_black45"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/transparent"
+            android:gravity="start|top"
+            android:hint="@string/please_input"
+            android:maxLength="300"
+            android:minHeight="64dp"
+            android:text="@={content.replyContent}"
+            app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_reply_reply_title" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_14_ccccccc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{content.replyContentNum}'
+            app:layout_constraintEnd_toEndOf="@id/et_device_repairs_reply_content"
+            app:layout_constraintTop_toBottomOf="@id/et_device_repairs_reply_content"
+            tools:text="1/300" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

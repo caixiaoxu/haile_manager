@@ -41,6 +41,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.device.DeviceRepairsBatchReplyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.common.PicBrowseActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.device.DeviceRepairsReplyActivity"
             android:exported="false" />
         <activity

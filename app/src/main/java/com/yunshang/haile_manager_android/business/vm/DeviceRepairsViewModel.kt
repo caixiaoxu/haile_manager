@@ -39,7 +39,7 @@ class DeviceRepairsViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
-    val selectShopVal:LiveData<String> = selectShopList.map {
+    val selectShopVal: LiveData<String> = selectShopList.map {
         when (val count: Int? = it?.size) {
             null, 0 -> ""
             1 -> it.firstOrNull()?.name ?: ""
@@ -52,7 +52,7 @@ class DeviceRepairsViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
-    val selectPositionVal:LiveData<String> = selectPositionList.map {
+    val selectPositionVal: LiveData<String> = selectPositionList.map {
         when (val count: Int? = it?.size) {
             null, 0 -> ""
             1 -> it.firstOrNull()?.name ?: ""
@@ -68,7 +68,7 @@ class DeviceRepairsViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
-    val selectDeviceCategoryVal:LiveData<String> = selectDeviceCategoryList.map {
+    val selectDeviceCategoryVal: LiveData<String> = selectDeviceCategoryList.map {
         when (val count: Int? = it?.size) {
             null, 0 -> "全部设备"
             1 -> it.firstOrNull()?.categoryName ?: "全部设备"
@@ -147,6 +147,7 @@ class DeviceRepairsViewModel : BaseViewModel() {
         val selectNum = list.count { item -> item.selected }
         selectBatchNum.value =
             if (0 == selectNum) "" else "${StringUtils.getString(R.string.selected)} $selectNum"
-        isAll.value = list.all { item -> 10 != item.replyStatus || item.selected }
+        isAll.value =
+            if (list.isNotEmpty()) list.all { item -> 10 != item.replyStatus || item.selected } else false
     }
 }

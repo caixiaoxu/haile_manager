@@ -1,14 +1,17 @@
 package com.yunshang.haile_manager_android.ui.activity.device
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.DeviceRepairsReplyListViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
@@ -48,6 +51,15 @@ class DeviceRepairsReplyListActivity :
                 if (true == mViewModel.isBatch.value) {
                     return@setOnClickListener
                 }
+                item.id?.let { id ->
+                    startActivity(
+                        Intent(
+                            this@DeviceRepairsReplyListActivity,
+                            DeviceRepairsReplyActivity::class.java
+                        ).apply {
+                            putExtras(IntentParams.CommonParams.pack(id))
+                        })
+                }
             }
         }
     }
@@ -59,6 +71,20 @@ class DeviceRepairsReplyListActivity :
     override fun initIntent() {
         super.initIntent()
         mViewModel.deviceId = IntentParams.CommonParams.parseId(intent)
+    }
+
+    override fun initEvent() {
+        super.initEvent()
+
+        mViewModel.isBatch.observe(this) {
+            if (!it) {
+                resetSelectBatchNum()
+            }
+        }
+
+        LiveDataBus.with(BusEvents.DEVICE_FAULT_REPAIRS_REPLY_STATUS)?.observe(this) {
+            mBinding.rvDeviceRepairsReplyList.requestRefresh()
+        }
     }
 
     /**
@@ -77,11 +103,7 @@ class DeviceRepairsReplyListActivity :
                 )
             )
             setOnClickListener {
-                mViewModel.isBatch.value = !(mViewModel.isBatch.value ?: false).apply {
-                    if (!this) {
-                        resetSelectBatchNum()
-                    }
-                }
+                mViewModel.isBatch.value = !(mViewModel.isBatch.value ?: false)
             }
         }
     }
@@ -176,7 +198,19 @@ class DeviceRepairsReplyListActivity :
         }
 
         mBinding.btnDeviceRepairsReplyListReply.setOnClickListener {
-
+            val ids = mAdapter.list.filter { item -> item.selected }.mapNotNull { item -> item.id }
+                .toIntArray()
+            if (ids.isNotEmpty()) {
+                startActivity(
+                    Intent(
+                        this@DeviceRepairsReplyListActivity,
+                        DeviceRepairsBatchReplyActivity::class.java
+                    ).apply {
+                        putExtras(IntentParams.DeviceFaultRepairsParams.pack(ids))
+                    }
+                )
+                mViewModel.isBatch.value = false
+            }
         }
     }
 

@@ -105,6 +105,7 @@ class DeviceRepairsReplyListViewModel : BaseViewModel() {
         val selectNum = list.count { item -> item.selected }
         selectBatchNum.value =
             if (0 == selectNum) "" else "${StringUtils.getString(R.string.selected)} $selectNum"
-        isAll.value = list.all { item -> 10 != item.replyStatus || item.selected }
+        isAll.value =
+            if (list.isNotEmpty()) list.all { item -> 10 != item.replyStatus || item.selected } else false
     }
 }

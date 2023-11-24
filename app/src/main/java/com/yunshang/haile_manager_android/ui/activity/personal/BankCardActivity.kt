@@ -18,6 +18,7 @@ import com.yunshang.haile_manager_android.databinding.ActivityBankCardBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.SubAccountAgreementBottomSheetDialog
+import com.yunshang.haile_manager_android.utils.GlideUtils
 
 class BankCardActivity : BaseBusinessActivity<ActivityBankCardBinding, BankCardViewModel>(
     BankCardViewModel::class.java, BR.vm
@@ -31,6 +32,11 @@ class BankCardActivity : BaseBusinessActivity<ActivityBankCardBinding, BankCardV
         super.initEvent()
         mViewModel.bankCard.observe(this) {
             it?.let {
+                GlideUtils.loadImage(
+                    mBinding.ivBankCardMain,
+                    it.bankImage,
+                    default = R.mipmap.icon_bank_main_default
+                )
                 val no = it.bankCardNo
                 mBinding.tvBankCardNo.text =
                     com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(

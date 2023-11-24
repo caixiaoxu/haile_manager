@@ -17,6 +17,7 @@ import com.yunshang.haile_manager_android.databinding.ActivityWalletWithdrawBind
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.loadImage
 import com.yunshang.haile_manager_android.ui.view.dialog.WithdrawDialog
+import com.yunshang.haile_manager_android.utils.GlideUtils
 
 class WalletWithdrawActivity :
     BaseBusinessActivity<ActivityWalletWithdrawBinding, WalletWithdrawViewModel>(
@@ -48,8 +49,13 @@ class WalletWithdrawActivity :
             if (1 == it.cashOutType) {
                 mBinding.ivWalletWithdrawAlipayAccount.loadImage(R.mipmap.icon_withdraw_alipay)
             } else {
-                mBinding.ivWalletWithdrawAlipayAccount.loadImage(url = it.icon)
+                GlideUtils.loadImage(
+                    mBinding.ivWalletWithdrawAlipayAccount,
+                    it.icon,
+                    default = R.mipmap.icon_bank_main_default
+                )
             }
+
             // 提示
             mBinding.tvWalletWithdrawAlipayAccount.setHint(if (1 == it.cashOutType) R.string.empty_alipay_account_hint else R.string.empty_bank_account_hint)
             // 内容

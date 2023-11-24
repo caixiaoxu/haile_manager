@@ -71,9 +71,7 @@ class WalletActivity : BaseBindingActivity<ActivityWalletBinding>() {
                                         this@WalletActivity,
                                         RealNameAuthActivity::class.java
                                     ).apply {
-                                        authInfo?.let {
-                                            putExtras(IntentParams.RealNameAuthParams.pack(it))
-                                        }
+                                        putExtras(IntentParams.RealNameAuthParams.pack(authInfo))
                                     }
                                 }
                             )

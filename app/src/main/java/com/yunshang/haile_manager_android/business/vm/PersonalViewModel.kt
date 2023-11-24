@@ -109,12 +109,14 @@ class PersonalViewModel : BaseViewModel() {
     fun requestRealNameAuthAsync() {
         launch({
             requestRealNameAuth()
-        }, {})
+        }, {}, showLoading = false)
     }
 
     private suspend fun requestRealNameAuth() {
-        ApiRepository.dealApiResult(mUserRepo.requestRealNameAuthDetail())?.let {
-            personalItems.find { item -> item?.title == R.string.real_name }?.run {
+        val authInfo = ApiRepository.dealApiResult(mUserRepo.requestRealNameAuthDetail())
+
+        personalItems.find { item -> item?.title == R.string.real_name }?.run {
+            authInfo?.let {
                 val params = IntentParams.RealNameAuthParams.pack(it)
                 it.status?.let { status ->
                     tag?.postValue(StringUtils.getStringArray(R.array.verify_status_arr)[status - 1])
@@ -126,7 +128,13 @@ class PersonalViewModel : BaseViewModel() {
                     clz = RealNameAuthActivity::class.java
                     bundle = params
                 }
+            } ?: run {
+                tag?.postValue(StringUtils.getStringArray(R.array.verify_status_arr)[0])
+                clz = BindSmsVerifyActivity::class.java
+                bundle = IntentParams.BindSmsVerifyParams.pack(2)
             }
+        }
+        authInfo?.let {
             personalItems.find { item -> item?.title == R.string.wallet }?.run {
                 bundle = IntentParams.WalletParams.pack(it)
             }

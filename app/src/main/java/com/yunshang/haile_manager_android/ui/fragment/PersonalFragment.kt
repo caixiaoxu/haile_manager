@@ -164,6 +164,7 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
         super.onHiddenChanged(hidden)
         if (!hidden) {
             mViewModel.requestBalanceAsync()
+            mViewModel.requestRealNameAuthAsync()
         }
     }
 

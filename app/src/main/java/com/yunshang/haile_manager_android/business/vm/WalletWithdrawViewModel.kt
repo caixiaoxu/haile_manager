@@ -102,7 +102,9 @@ class WalletWithdrawViewModel : BaseViewModel() {
      * 检测是否可提交
      */
     private fun checkSubmit(): Boolean = try {
-        null != withdrawAmount.value && withdrawAmount.value!!.toDouble() >= 1.0
+        null != withdrawAmount.value && null != withdrawAccount.value
+                && withdrawAmount.value!!.toDouble() >= withdrawAccount.value!!.minWithdrawAmount!!.toDouble()
+                && withdrawAmount.value!!.toDouble() <= withdrawAccount.value!!.maxWithdrawAmount!!.toDouble()
     } catch (e: Exception) {
         e.printStackTrace()
         false

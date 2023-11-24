@@ -17,6 +17,7 @@ import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.databinding.ActivityWalletBinding
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -80,33 +81,53 @@ class WalletActivity : BaseBindingActivity<ActivityWalletBinding>() {
                     .show(supportFragmentManager)
                 return@setOnClickListener
             }
-            val list = listOf(
-                SearchSelectParam(0, "提现至支付宝"),
-                SearchSelectParam(1, "提现至银行卡"),
-            )
-            CommonBottomSheetDialog.Builder(StringUtils.getString(R.string.wallet_withdraw), list)
-                .apply {
-                    showClose = false
-                    isClickClose = true
-                    onValueSureListener = object :
-                        CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
-                        override fun onValue(data: SearchSelectParam?) {
-                            startActivity(
-                                Intent(
-                                    this@WalletActivity,
-                                    WalletWithdrawActivity::class.java
-                                ).apply {
-                                    putExtras(
-                                        IntentParams.WalletWithdrawParams.pack(
-                                            if (0 == data?.id) balanceTotal?.availableAmount else balanceTotal?.candyPayAvailableAmount,
-                                            if (1 == data?.id) balanceTotal?.candyPayFreezeAmount else null,
-                                            if (0 == data?.id) 1 else 3
+
+            if (UserPermissionUtils.hasWalletBankPermission()) {
+                val list = listOf(
+                    SearchSelectParam(0, "提现至支付宝"),
+                    SearchSelectParam(1, "提现至银行卡"),
+                )
+                CommonBottomSheetDialog.Builder(
+                    StringUtils.getString(R.string.wallet_withdraw),
+                    list
+                )
+                    .apply {
+                        showClose = false
+                        isClickClose = true
+                        onValueSureListener = object :
+                            CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
+                            override fun onValue(data: SearchSelectParam?) {
+                                startActivity(
+                                    Intent(
+                                        this@WalletActivity,
+                                        WalletWithdrawActivity::class.java
+                                    ).apply {
+                                        putExtras(
+                                            IntentParams.WalletWithdrawParams.pack(
+                                                if (0 == data?.id) balanceTotal?.availableAmount else balanceTotal?.candyPayAvailableAmount,
+                                                if (1 == data?.id) balanceTotal?.candyPayFreezeAmount else null,
+                                                if (0 == data?.id) 1 else 3
+                                            )
                                         )
-                                    )
-                                })
+                                    })
+                            }
                         }
-                    }
-                }.build().show(supportFragmentManager)
+                    }.build().show(supportFragmentManager)
+            } else {
+                startActivity(
+                    Intent(
+                        this@WalletActivity,
+                        WalletWithdrawActivity::class.java
+                    ).apply {
+                        putExtras(
+                            IntentParams.WalletWithdrawParams.pack(
+                                balanceTotal?.availableAmount,
+                                null,
+                                1
+                            )
+                        )
+                    })
+            }
         }
 
         mBinding.btnWalletCharge.setOnClickListener {

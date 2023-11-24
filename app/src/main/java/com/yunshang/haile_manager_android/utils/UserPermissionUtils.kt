@@ -861,4 +861,18 @@ object UserPermissionUtils {
         return null != userPermissionsMap["league:announcement"]
     }
     /** ------------------------公告权限------------------------  */
+
+    /** ------------------------银行卡权限------------------------  */
+
+    /**
+     * 是否含有银行卡权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasWalletBankPermission(): Boolean {
+        return null != userPermissionsMap["league:wallet:bank"]
+    }
+    /** ------------------------银行卡权限------------------------  */
 }

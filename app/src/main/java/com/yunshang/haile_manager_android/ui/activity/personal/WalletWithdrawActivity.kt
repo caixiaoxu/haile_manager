@@ -76,9 +76,10 @@ class WalletWithdrawActivity :
             mViewModel.withdrawErr.value = try {
                 val amount = it.toDouble()
                 val balanceTotal = mViewModel.balanceTotal.toDouble()
+                val minAmount = mViewModel.withdrawAccount.value!!.minWithdrawAmount!!.toDouble()
                 val maxAmount = mViewModel.withdrawAccount.value!!.maxWithdrawAmount!!.toDouble()
-                if (!it.isNullOrEmpty() && amount < 1) {
-                    "提现金额不能小于1.00元"
+                if (!it.isNullOrEmpty() && amount < minAmount) {
+                    "提现金额不能小于${minAmount}元"
                 } else if (amount > balanceTotal) {
                     "输入金额超过可提现金额"
                 } else if (balanceTotal > maxAmount && amount > maxAmount) {

@@ -22,6 +22,7 @@ data class WithdrawAccountEntity(
     val icon: String? = null,
     val id: Int? = null,
     val maxWithdrawAmount: String? = null,
+    val minWithdrawAmount: String? = null,
     val realName: String? = null,
     val state: Int? = null
 )

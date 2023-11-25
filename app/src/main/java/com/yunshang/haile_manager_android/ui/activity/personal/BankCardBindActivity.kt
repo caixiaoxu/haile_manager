@@ -3,7 +3,6 @@ package com.yunshang.haile_manager_android.ui.activity.personal
 import android.content.Intent
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R

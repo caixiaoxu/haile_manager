@@ -1,14 +1,12 @@
 package com.yunshang.haile_manager_android.business.vm
 
 import android.content.Context
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.exception.CommonCustomException
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
-import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.business.apiService.CommonService
 import com.yunshang.haile_manager_android.business.event.BusEvents

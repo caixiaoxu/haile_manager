@@ -152,9 +152,9 @@
                     style="@style/MultiTypePaddingHItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:visibility="@{3 == vm.authInfo.verifyType}"
+                    app:visibility="@{1 != vm.authInfo.verifyType}"
                     app:itemContent="@={vm.authInfo.companyName}"
-                    app:title="@string/company_name"
+                    app:title="@{2 == vm.authInfo.verifyType?@string/name1:@string/company_name}"
                     app:titleContentSpace="40dp"
                     app:titleW="64dp"
                     app:type="input" />

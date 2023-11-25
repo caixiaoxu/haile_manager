@@ -1,6 +1,10 @@
 package com.yunshang.haile_manager_android.ui.activity.personal
 
+import android.content.Intent
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
+import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.BankCardBindViewModel
@@ -8,11 +12,26 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.BankCardDetailEntity
 import com.yunshang.haile_manager_android.databinding.ActivityBankCardBindBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 
 class BankCardBindActivity :
     BaseBusinessActivity<ActivityBankCardBindBinding, BankCardBindViewModel>(
         BankCardBindViewModel::class.java, BR.vm
     ) {
+
+    // 跳转短信验证界面
+    private val startSms =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+                it.data?.let { resultData ->
+                    IntentParams.WithdrawBindAlipayParams.parseAuthCode(resultData)
+                        ?.let { authCode ->
+                            mViewModel.authCode = authCode
+                            nextOrSubmit()
+                        }
+                }
+            }
+        }
 
     override fun layoutId(): Int = R.layout.activity_bank_card_bind
 
@@ -65,6 +84,35 @@ class BankCardBindActivity :
     }
 
     override fun initView() {
+        mBinding.btnBankCardSubmit.setOnClickListener {
+            nextOrSubmit()
+        }
+    }
+
+    private fun nextOrSubmit() {
+        mViewModel.nextOrSubmit(this@BankCardBindActivity) { success, msg ->
+            CommonDialog.Builder(msg).apply {
+                title = StringUtils.getString(R.string.tip)
+                isCancelable = false
+                isNegativeShow = !success
+                negativeTxt = StringUtils.getString(R.string.cancel)
+                if (!success) {
+                    setPositiveButton("获取授权码") {
+                        startSms.launch(
+                            Intent(
+                                this@BankCardBindActivity,
+                                BindSmsVerifyActivity::class.java
+                            ).apply {
+                                putExtras(IntentParams.BindSmsVerifyParams.pack(6, true))
+                            })
+                    }
+                } else {
+                    setPositiveButton("确定返回") {
+                        finish()
+                    }
+                }
+            }.build().show(supportFragmentManager)
+        }
     }
 
     override fun initData() {

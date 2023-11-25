@@ -133,7 +133,7 @@ class RealNameAuthBindingViewModel : BaseViewModel() {
             return
         }
 
-        if (3 == authInfo.value?.verifyType && authInfo.value?.companyName.isNullOrEmpty()) {
+        if (1 != authInfo.value?.verifyType && authInfo.value?.companyName.isNullOrEmpty()) {
             SToast.showToast(v.context, R.string.empty_company_name)
             return
         }

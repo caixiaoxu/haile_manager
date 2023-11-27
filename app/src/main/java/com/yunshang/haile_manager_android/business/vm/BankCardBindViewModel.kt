@@ -1,12 +1,12 @@
 package com.yunshang.haile_manager_android.business.vm
 
-import android.view.View
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.async.LiveDataBus
+import com.lsy.framelib.network.exception.CommonCustomException
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
-import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.business.apiService.CommonService
 import com.yunshang.haile_manager_android.business.event.BusEvents
@@ -81,72 +81,72 @@ class BankCardBindViewModel : BaseViewModel() {
         }
     }
 
-    fun nextOrSubmit(v: View) {
+    fun nextOrSubmit(context: Context, callBack: (success: Boolean, msg: String) -> Unit) {
         if (0 == bindPage.value) {
             if (bankCardParams.value?.bankAccountNoVal.isNullOrEmpty()) {
-                SToast.showToast(v.context, "请先输入卡号")
+                SToast.showToast(context, "请先输入卡号")
                 return
             }
             if (bankCardParams.value?.bankAreaVal.isNullOrEmpty()) {
-                SToast.showToast(v.context, "请先选择开户行区域")
+                SToast.showToast(context, "请先选择开户行区域")
                 return
             }
             if (bankCardParams.value?.bankNameVal.isNullOrEmpty()) {
-                SToast.showToast(v.context, "请先选择开户银行")
+                SToast.showToast(context, "请先选择开户银行")
                 return
             }
             if (bankCardParams.value?.subBankNameVal.isNullOrEmpty()) {
-                SToast.showToast(v.context, "请先选择开户支行")
+                SToast.showToast(context, "请先选择开户支行")
                 return
             }
             if (bankCardParams.value?.subBankCodeVal.isNullOrEmpty()) {
-                SToast.showToast(v.context, "请先选择支行联行号")
+                SToast.showToast(context, "请先选择支行联行号")
                 return
             }
             if (bankCardParams.value?.bankMobileNoVal.isNullOrEmpty()) {
-                SToast.showToast(v.context, "请先输入开户手机号")
+                SToast.showToast(context, "请先输入开户手机号")
                 return
             }
 
-            if (2 == merchantType) {
+            if (3 == merchantType) {
                 if (bankCardParams.value?.licenceForOpeningAccountImage.isNullOrEmpty()) {
-                    SToast.showToast(v.context, "请先上传开户许可证")
+                    SToast.showToast(context, "请先上传开户许可证")
                     return
                 }
             } else {
                 if (bankCardParams.value?.bankCardImage.isNullOrEmpty()) {
-                    SToast.showToast(v.context, "请先上传银行卡照片")
+                    SToast.showToast(context, "请先上传银行卡照片")
                     return
                 }
             }
             bindPage.value = 1
         } else {
             if (bankCardParams.value?.merchantNameAlias.isNullOrEmpty()) {
-                SToast.showToast(v.context, "请先输入商户简称")
+                SToast.showToast(context, "请先输入商户简称")
                 return
             }
             if (bankCardParams.value?.area.isNullOrEmpty()) {
-                SToast.showToast(v.context, "请先输入所在地区")
+                SToast.showToast(context, "请先输入所在地区")
                 return
             }
             if (bankCardParams.value?.address.isNullOrEmpty()) {
-                SToast.showToast(v.context, "请先输入详细地址")
+                SToast.showToast(context, "请先输入详细地址")
                 return
             }
             if (bankCardParams.value?.contactName.isNullOrEmpty()) {
-                SToast.showToast(v.context, "请先输入负责人")
+                SToast.showToast(context, "请先输入负责人")
                 return
             }
             if (bankCardParams.value?.contactPhone.isNullOrEmpty()) {
-                SToast.showToast(v.context, "请先输入负责人手机号")
+                SToast.showToast(context, "请先输入负责人手机号")
                 return
             }
             if (bankCardParams.value?.doorImage.isNullOrEmpty()) {
-                SToast.showToast(v.context, "请先上传门店招牌照片")
+                SToast.showToast(context, "请先上传门店招牌照片")
                 return
             }
             if (bankCardParams.value?.deviceImage.isNullOrEmpty()) {
-                SToast.showToast(v.context, "请先上传设备场景照片")
+                SToast.showToast(context, "请先上传设备场景照片")
                 return
             }
             bankCardParams.value?.authCode = authCode
@@ -167,9 +167,7 @@ class BankCardBindViewModel : BaseViewModel() {
                     authInfo.value?.verifyType?.let {
                         bankCardParams.value?.merchantType = it
                     }
-                    authInfo.value?.idCardName?.let {
-                        bankCardParams.value?.bankAccountName = it
-                    }
+                    bankCardParams.value?.bankAccountName = realName
                     ApiRepository.dealApiResult(
                         mCapitalService.createBankCard(
                             ApiRepository.createRequestBody(
@@ -179,12 +177,26 @@ class BankCardBindViewModel : BaseViewModel() {
                     )
                 }
 
-                withContext(Dispatchers.Main){
-                    SToast.showToast(v.context, R.string.submit_success)
+                withContext(Dispatchers.Main) {
+                    callBack(true,"银行卡信息提交成功，等待审核中")
                 }
 
                 LiveDataBus.post(BusEvents.BANK_LIST_STATUS, true)
                 jump.postValue(0)
+            }, {
+                withContext(Dispatchers.Main) {
+                    if (it is CommonCustomException) {
+                        // 验证超时特殊处理
+                        if (it.code == 100005){
+                            callBack(false,it.message ?:"请求失败")
+                        } else {
+                            it.message?.let { it1 -> SToast.showToast(msg = it1) }
+                        }
+                    } else {
+                        SToast.showToast(msg = "网络开小差~")
+                    }
+                    Timber.d("请求失败或异常$it")
+                }
             })
         }
     }
@@ -196,5 +208,6 @@ class BankCardBindViewModel : BaseViewModel() {
         get() = (authInfo.value?.verifyTypeName ?: bankCardParams.value?.typeVal)
 
     val realName: String?
-        get() = (authInfo.value?.idCardName ?: bankCardParams.value?.bankAccountName)
+        get() = ((if (3 == authInfo.value?.verifyType) authInfo.value?.companyName else authInfo.value?.idCardName)
+            ?: bankCardParams.value?.bankAccountName)
 }

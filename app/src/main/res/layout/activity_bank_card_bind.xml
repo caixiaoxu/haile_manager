@@ -42,7 +42,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
                 android:layout_marginTop="8dp"
-                android:onClick="@{vm::nextOrSubmit}"
                 android:text="@{1 == vm.bindPage?@string/save:@string/next}" />
 
         </FrameLayout>

@@ -17,6 +17,8 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.databinding.ActivityBankCardBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
+import com.yunshang.haile_manager_android.ui.view.dialog.SubAccountAgreementBottomSheetDialog
+import com.yunshang.haile_manager_android.utils.GlideUtils
 
 class BankCardActivity : BaseBusinessActivity<ActivityBankCardBinding, BankCardViewModel>(
     BankCardViewModel::class.java, BR.vm
@@ -30,6 +32,11 @@ class BankCardActivity : BaseBusinessActivity<ActivityBankCardBinding, BankCardV
         super.initEvent()
         mViewModel.bankCard.observe(this) {
             it?.let {
+                GlideUtils.loadImage(
+                    mBinding.ivBankCardMain,
+                    it.bankImage,
+                    default = R.mipmap.icon_bank_main_default
+                )
                 val no = it.bankCardNo
                 mBinding.tvBankCardNo.text =
                     com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
@@ -70,7 +77,7 @@ class BankCardActivity : BaseBusinessActivity<ActivityBankCardBinding, BankCardV
                         negativeTxt = StringUtils.getString(R.string.i_know)
                         setPositiveButton("去认证") {
                             startActivity(
-                                if (1 == authInfo?.status) {
+                                if (null == authInfo || 1 == authInfo.status) {
                                     Intent(
                                         this@BankCardActivity,
                                         BindSmsVerifyActivity::class.java
@@ -82,9 +89,7 @@ class BankCardActivity : BaseBusinessActivity<ActivityBankCardBinding, BankCardV
                                         this@BankCardActivity,
                                         RealNameAuthActivity::class.java
                                     ).apply {
-                                        authInfo?.let {
-                                            putExtras(IntentParams.RealNameAuthParams.pack(it))
-                                        }
+                                        putExtras(IntentParams.RealNameAuthParams.pack(authInfo))
                                     }
                                 }
                             )
@@ -94,15 +99,17 @@ class BankCardActivity : BaseBusinessActivity<ActivityBankCardBinding, BankCardV
                 return@setOnClickListener
             }
 
-            startActivity(
-                Intent(
-                    this@BankCardActivity,
-                    BindSmsVerifyActivity::class.java
-                ).apply {
-                    putExtras(intent)
-                    putExtras(IntentParams.BindSmsVerifyParams.pack(1))
-                }
-            )
+            SubAccountAgreementBottomSheetDialog.Builder(if (3 == authInfo.verifyType) authInfo.companyName else authInfo.idCardName)
+                .apply {
+                    onValueSureListener =
+                        object : SubAccountAgreementBottomSheetDialog.OnValueSureListener {
+                            override fun onValue(isChecked: Boolean) {
+                                if (isChecked) {
+                                    goWithdrawPage()
+                                }
+                            }
+                        }
+                }.build().show(supportFragmentManager)
         }
 
         mBinding.clBankCard.setOnClickListener {
@@ -112,6 +119,18 @@ class BankCardActivity : BaseBusinessActivity<ActivityBankCardBinding, BankCardV
                 })
             }
         }
+    }
+
+    private fun goWithdrawPage() {
+        startActivity(
+            Intent(
+                this@BankCardActivity,
+                BindSmsVerifyActivity::class.java
+            ).apply {
+                putExtras(intent)
+                putExtras(IntentParams.BindSmsVerifyParams.pack(1))
+            }
+        )
     }
 
     private fun showSettlementInstrcuctionsDialog() {

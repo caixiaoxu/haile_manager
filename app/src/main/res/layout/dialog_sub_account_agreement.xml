@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:background="@drawable/shape_sffffff_rt12"
+    android:orientation="vertical"
+    android:paddingBottom="34dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/tv_sub_account_agreement_close"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:paddingHorizontal="16dp"
+            android:src="@mipmap/icon_close_x"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_16_333333"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="@string/sub_account_agreement"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <WebView
+        android:id="@+id/wv_sub_account_agreement"
+        android:layout_width="match_parent"
+        android:layout_height="540dp"
+        android:background="@color/white"
+        android:orientation="vertical" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/cb_sub_account_agreement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@null"
+        android:gravity="center"
+        android:background="@color/transparent"
+        android:layout_marginTop="8dp"
+        style="@style/Font_12_999999"
+        android:drawablePadding="4dp"
+        android:text="@string/agreement_prompt"
+        android:drawableStart="@drawable/selector_sub_account_agreement_check"/>
+
+    <com.yunshang.haile_manager_android.ui.view.CommonButton
+        android:id="@+id/btn_sub_account_agreement"
+        style="@style/CommonMatchBtnStyle1"
+        android:layout_marginHorizontal="16dp"
+        android:enabled="false"
+        android:layout_marginTop="16dp"
+        android:text="@string/agree_and_next" />
+</LinearLayout>

@@ -144,7 +144,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="44dp"
                             android:gravity="center_vertical"
-                            android:text="@{2 == vm.bankCardDetail.merchantType?@string/open_bank_licence:@string/bank_card_pic}"
+                            android:text="@{3 == vm.bankCardDetail.merchantType?@string/open_bank_licence:@string/bank_card_pic}"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.appcompat.widget.AppCompatImageView
@@ -160,7 +160,7 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/shape_s88000000_rb8"
                             android:gravity="center"
-                            android:text="@{2 == vm.bankCardDetail.merchantType?@string/open_bank_licence:@string/bank_card_pic}"
+                            android:text="@{3 == vm.bankCardDetail.merchantType?@string/open_bank_licence:@string/bank_card_pic}"
                             app:layout_constraintBottom_toBottomOf="@id/iv_bank_card_detail_bank_pic"
                             app:layout_constraintEnd_toEndOf="@id/iv_bank_card_detail_bank_pic"
                             app:layout_constraintStart_toStartOf="@id/iv_bank_card_detail_bank_pic" />
@@ -297,7 +297,7 @@
                 android:id="@+id/btn_bank_card_rebinding"
                 style="@style/CommonStrokeTxtBtnStyle"
                 android:text="@string/rebinding"
-                app:visibility="@{1 != vm.bankCardDetail.state}" />
+                app:visibility="@{2 == vm.bankCardDetail.state}" />
 
         </LinearLayout>
     </LinearLayout>

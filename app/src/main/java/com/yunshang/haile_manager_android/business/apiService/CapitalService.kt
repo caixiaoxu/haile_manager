@@ -92,7 +92,7 @@ interface CapitalService {
     /**
      * 查询提现账号接口
      */
-    @POST("/wallet/cashOutAccount/info")
+    @POST("/wallet/cashOutAccount/info/v2")
     suspend fun requestWithdrawAccount(@Body body: RequestBody): ResponseWrapper<WithdrawAccountEntity>
 
     /**

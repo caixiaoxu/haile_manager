@@ -64,7 +64,7 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
             if (null == item) {
                 //null，把之前的加入布局，并创建新的group
                 if (null != group) {
-                    group.visibility(group.children.any { view-> View.VISIBLE == view.visibility })
+                    group.visibility(group.children.any { view -> View.VISIBLE == view.visibility })
                     mBinding.llPersonalItems.addView(group)
                 }
                 group = createItemGroup()
@@ -90,6 +90,13 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
                     }
                 }
                 when (item.title) {
+                    R.string.bank_card -> {
+                        mPersonalItemBinding.root.visibility(UserPermissionUtils.hasWalletBankPermission())
+                        mSharedViewModel.hasWalletBankPermission.observe(this) {
+                            mPersonalItemBinding.root.visibility(it)
+                            group.visibility(group.children.any { view -> View.VISIBLE == view.visibility })
+                        }
+                    }
                     R.string.real_name -> {
                         mPersonalItemBinding.tvPersonalItemValue.textSize = 10f
                         mPersonalItemBinding.tvPersonalItemValue.setTextColor(Color.WHITE)
@@ -104,7 +111,7 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
                         mPersonalItemBinding.root.visibility(!isSpecialRole && UserPermissionUtils.hasProfitCalendarPermission())
                         mSharedViewModel.hasProfitCalendarPermission.observe(this) {
                             mPersonalItemBinding.root.visibility(!isSpecialRole && it)
-                            group.visibility(group.children.any { view-> View.VISIBLE == view.visibility })
+                            group.visibility(group.children.any { view -> View.VISIBLE == view.visibility })
                         }
                     }
                     R.string.income_statistics -> {
@@ -113,7 +120,7 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
                         mPersonalItemBinding.root.visibility(!isSpecialRole && UserPermissionUtils.hasProfitDetailPermission())
                         mSharedViewModel.hasProfitDetailPermission.observe(this) {
                             mPersonalItemBinding.root.visibility(!isSpecialRole && it)
-                            group.visibility(group.children.any { view-> View.VISIBLE == view.visibility })
+                            group.visibility(group.children.any { view -> View.VISIBLE == view.visibility })
                         }
                     }
                 }
@@ -164,6 +171,7 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
         super.onHiddenChanged(hidden)
         if (!hidden) {
             mViewModel.requestBalanceAsync()
+            mViewModel.requestRealNameAuthAsync()
         }
     }
 

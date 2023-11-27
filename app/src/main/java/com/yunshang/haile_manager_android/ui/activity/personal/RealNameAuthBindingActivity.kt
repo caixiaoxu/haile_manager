@@ -1,8 +1,6 @@
 package com.yunshang.haile_manager_android.ui.activity.personal
 
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.view.View
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -11,10 +9,8 @@ import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.RealNameAuthBindingViewModel
-import com.yunshang.haile_manager_android.business.vm.RealNameAuthViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
-import com.yunshang.haile_manager_android.data.entities.BankCardDetailEntity
 import com.yunshang.haile_manager_android.data.entities.RealNameAuthDetailEntity
 import com.yunshang.haile_manager_android.databinding.ActivityRealNameAuthBindingBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -139,8 +135,9 @@ class RealNameAuthBindingActivity :
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
                         date2?.let {
                             mViewModel.authInfo.value?.idCardExpirationDate =
-                                "${DateTimeUtils.formatDateTime(date1, "yyyy-MM-dd")} - " +
-                                        "${DateTimeUtils.formatDateTime(date2, "yyyy-MM-dd")}"
+                                "${
+                                    DateTimeUtils.formatDateTime(date1, "yyyy-MM-dd")
+                                },${DateTimeUtils.formatDateTime(date2, "yyyy-MM-dd")}"
                         }
                     }
                 }

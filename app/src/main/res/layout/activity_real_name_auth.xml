@@ -15,7 +15,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:orientation="vertical"
         tools:context=".ui.activity.personal.RealNameAuthActivity">
 
@@ -23,250 +22,214 @@
             android:id="@+id/bar_real_name_auth_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/common_btn_h"
+            android:background="@drawable/shape_bottom_stroke_dividing"
             app:rightModel="text"
             app:title="@string/real_name" />
-
-        <View style="@style/DividingStyle" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            app:visibility="@{null != vm.authInfo}"
             android:scrollbars="none">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingVertical="16dp"
-                app:divider="@drawable/divder_efefef"
-                app:dividerPadding="16dp"
-                app:showDividers="middle">
+                android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_real_name_auth_result"
-                        style="@style/Font_18_333333_bold"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@{vm.verifyStatusValue}"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="认证失败" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_real_name_auth_reason"
-                        style="@style/Font_12_999999"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:paddingBottom="19dp"
-                        android:text="@{vm.authInfo.reason}"
-                        app:layout_constraintTop_toBottomOf="@id/tv_real_name_auth_result"
-                        tools:text="您的身份证照片审核未通过，请重新拍摄" />
-
-                    <androidx.constraintlayout.widget.Group
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:visibility="@{vm.isSubmit?View.GONE:View.VISIBLE}"
-                        app:constraint_referenced_ids="tv_real_name_auth_result,tv_real_name_auth_reason" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/Font_12_999999"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="12dp"
-                        android:text="@string/auth_info"
-                        app:layout_constraintTop_toBottomOf="@id/tv_real_name_auth_reason" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/item_real_name_auth_type"
-                    style="@style/MultiTypeItemStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="@{vm.isSubmit}"
+                    android:background="@color/white"
                     android:paddingHorizontal="16dp"
-                    app:itemContent="@{vm.authInfo.verifyTypeName}"
-                    app:showArrow="true"
-                    app:title="@string/type"
-                    app:titleContentSpace="40dp"
-                    app:titleW="64dp"
-                    app:type="info" />
+                    android:paddingTop="24dp"
+                    android:paddingBottom="16dp">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="16dp"
-                    android:visibility="@{(null == vm.authInfo || null == vm.authInfo.verifyType)?View.GONE:View.VISIBLE}">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_id_photo_title"
-                        style="@style/Font_16_333333"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:paddingVertical="16dp"
-                        android:text="@{1 != vm.authInfo.verifyType?@string/company_license:@string/id_card}"
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_bank_card_icon"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:src="@mipmap/icon_real_name_auth_result"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iv_id_card_front"
-                        android:layout_width="314dp"
-                        android:layout_height="169dp"
-                        android:layout_marginTop="16dp"
-                        android:clickable="@{vm.isSubmit}"
-                        android:background="@mipmap/bg_id_card_front"
-                        app:imgCenterUrl="@{vm.authInfo.idCardFont}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_id_photo_title" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iv_id_card_back"
-                        android:layout_width="314dp"
-                        android:layout_height="169dp"
-                        android:layout_marginTop="12dp"
-                        android:clickable="@{vm.isSubmit}"
-                        android:background="@mipmap/bg_id_card_back"
-                        app:imgCenterUrl="@{vm.authInfo.idCardReverse}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/iv_id_card_front" />
-
-                    <androidx.constraintlayout.widget.Group
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_bank_card_status"
+                        style="@style/Font_16_333333_bold"
                         android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:visibility="@{1 == vm.authInfo.verifyType?View.VISIBLE:View.GONE}"
-                        app:constraint_referenced_ids="iv_id_card_front,iv_id_card_back" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iv_business_license"
-                        android:layout_width="314dp"
-                        android:layout_height="169dp"
-                        android:layout_marginTop="12dp"
-                        android:clickable="@{vm.isSubmit}"
-                        android:background="@mipmap/bg_business_license"
-                        android:visibility="@{1 == vm.authInfo.verifyType?View.GONE:View.VISIBLE}"
-                        app:imgCenterUrl="@{vm.authInfo.companyLicense}"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="@{vm.authInfo.verifyStatusValue}"
+                        app:layout_constraintBottom_toTopOf="@id/tv_bank_card_reason"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/iv_id_card_back" />
+                        app:layout_constraintStart_toEndOf="@id/iv_bank_card_icon"
+                        app:layout_constraintTop_toTopOf="@id/iv_bank_card_icon"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        tools:text="绑定成功" />
 
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_bank_card_reason"
+                        style="@style/Font_12_999999"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@{vm.authInfo.reason}"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_bank_card_icon"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/tv_bank_card_status"
+                        app:layout_constraintTop_toBottomOf="@id/tv_bank_card_status"
+                        app:visibility="@{4 == vm.authInfo.status}"
+                        tools:text="失败原因具体字段显示区域" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/tv_real_name_auth_company_name"
-                    style="@style/MultiTypeItemStyle"
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="@{vm.isSubmit}"
-                    android:paddingHorizontal="16dp"
-                    android:visibility="@{(null == vm.authInfo.verifyType || 1 == vm.authInfo.verifyType)?View.GONE:View.VISIBLE}"
-                    app:itemContent="@={vm.authInfo.companyName}"
-                    app:title="@string/company_name"
-                    app:titleContentSpace="40dp"
-                    app:titleW="64dp"
-                    app:type="input" />
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:paddingVertical="16dp"
+                    app:divider="@drawable/divder_efefef"
+                    app:dividerPadding="12dp"
+                    app:showDividers="middle">
 
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/tv_real_name_auth_company_id"
-                    style="@style/MultiTypeItemStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="16dp"
-                    android:enabled="@{vm.isSubmit}"
-                    android:maxLength="18"
-                    android:visibility="@{(null == vm.authInfo.verifyType || 1 == vm.authInfo.verifyType)?View.GONE:View.VISIBLE}"
-                    app:itemContent="@={vm.authInfo.companyUsci}"
-                    app:title="@string/company_id"
-                    app:titleContentSpace="40dp"
-                    app:titleW="64dp"
-                    app:type="input" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_14_333333_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="16dp"
+                        android:text="@string/auth_info" />
 
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/tv_real_name_auth_name"
-                    style="@style/MultiTypeItemStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="16dp"
-                    android:enabled="@{vm.isSubmit}"
-                    android:visibility="@{(null == vm.authInfo.verifyType || 1 != vm.authInfo.verifyType)?View.GONE:View.VISIBLE}"
-                    app:itemContent="@={vm.authInfo.idCardName}"
-                    app:title="@string/name"
-                    app:titleContentSpace="40dp"
-                    app:titleW="64dp"
-                    app:type="input" />
+                    <include
+                        layout="@layout/item_bank_detail_info"
+                        app:content="@{vm.authInfo.verifyTypeName}"
+                        app:title="@{vm.authInfo.typeTitle}" />
 
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/tv_real_name_auth_id_card_number"
-                    style="@style/MultiTypeItemStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:digits="0123456789Xx"
-                    android:paddingHorizontal="16dp"
-                    android:enabled="@{vm.isSubmit}"
-                    android:maxLength="18"
-                    android:visibility="@{(null == vm.authInfo.verifyType || 1 != vm.authInfo.verifyType)?View.GONE:View.VISIBLE}"
-                    app:itemContent="@={vm.authInfo.idCardNo}"
-                    app:title="@string/id_card_number"
-                    app:titleContentSpace="40dp"
-                    app:titleW="64dp"
-                    app:type="input" />
+                    <include
+                        layout="@layout/item_bank_detail_info"
+                        app:content="@{vm.authInfo.idCardName}"
+                        app:title="@{vm.authInfo.nameTitle}" />
 
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/tv_real_name_auth_id_card_indate_type"
-                    style="@style/MultiTypeItemStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="16dp"
-                    android:enabled="@{vm.isSubmit}"
-                    android:visibility="@{(null == vm.authInfo.verifyType || 1 != vm.authInfo.verifyType)?View.GONE:View.VISIBLE}"
-                    app:itemContent="@{vm.authInfo.idCardExpirationTypeName}"
-                    app:showArrow="true"
-                    app:title="@string/indate_type"
-                    app:titleContentSpace="40dp"
-                    app:titleW="64dp"
-                    app:type="info" />
+                    <include
+                        layout="@layout/item_bank_detail_info"
+                        app:content="@{vm.authInfo.idCardNo}"
+                        app:title="@{vm.authInfo.idCardTitle}" />
 
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/tv_real_name_auth_id_card_indate"
-                    style="@style/MultiTypeItemStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="@{vm.isSubmit}"
-                    android:paddingHorizontal="16dp"
-                    android:visibility="@{(null == vm.authInfo.verifyType || 1 != vm.authInfo.verifyType || 1 != vm.authInfo.idCardExpirationType)?View.GONE:View.VISIBLE}"
-                    app:itemContent="@{vm.authInfo.idCardExpirationDateValue}"
-                    app:showArrow="true"
-                    app:title="@string/id_card_indate"
-                    app:titleContentSpace="40dp"
-                    app:titleW="64dp"
-                    app:type="info" />
+                    <include
+                        layout="@layout/item_bank_detail_info"
+                        app:content="@{vm.authInfo.idCardExpirationTypeName}"
+                        app:title="@{vm.authInfo.indateTypeTitle}" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"/>
+                    <include
+                        layout="@layout/item_bank_detail_info"
+                        app:content="@{vm.authInfo.idCardExpirationDateValue}"
+                        app:visibility="@{2 != vm.authInfo.idCardExpirationType}"
+                        app:title="@{vm.authInfo.idCardIndateTitle}" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                    <include
+                        layout="@layout/item_bank_detail_info"
+                        app:content="@{vm.authInfo.companyName}"
+                        app:title="@{vm.authInfo.companyNameTitle}"
+                        app:visibility="@{3 == vm.authInfo.verifyType}" />
+
+                    <include
+                        layout="@layout/item_bank_detail_info"
+                        app:content="@{vm.authInfo.companyUsci}"
+                        app:title="@{vm.authInfo.companyUsciTitle}"
+                        app:visibility="@{1 != vm.authInfo.verifyType}" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        app:visibility="@{1 != vm.authInfo.verifyType}"
+                        android:paddingHorizontal="16dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_real_name_auth_company_license_pic"
+                            style="@style/Font_14_999999"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/company_license"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_real_name_auth_company_license_pic"
+                            android:layout_width="166dp"
+                            android:layout_height="106dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_real_name_auth_company_license_pic" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_14_ffffff"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shape_s88000000_rb8"
+                            android:gravity="center"
+                            android:text="@string/company_license_prompt"
+                            app:layout_constraintBottom_toBottomOf="@id/iv_real_name_auth_company_license_pic"
+                            app:layout_constraintEnd_toEndOf="@id/iv_real_name_auth_company_license_pic"
+                            app:layout_constraintStart_toStartOf="@id/iv_real_name_auth_company_license_pic" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:paddingHorizontal="16dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_real_name_auth_id_card"
+                            style="@style/Font_14_999999"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/id_card"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_real_name_auth_id_card_front"
+                            android:layout_width="166dp"
+                            android:layout_height="106dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_real_name_auth_id_card" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_14_ffffff"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shape_s88000000_rb8"
+                            android:gravity="center"
+                            android:text="@string/id_card_front"
+                            app:layout_constraintBottom_toBottomOf="@id/iv_real_name_auth_id_card_front"
+                            app:layout_constraintEnd_toEndOf="@id/iv_real_name_auth_id_card_front"
+                            app:layout_constraintStart_toStartOf="@id/iv_real_name_auth_id_card_front" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_real_name_auth_id_card_back"
+                            android:layout_width="166dp"
+                            android:layout_height="106dp"
+                            android:layout_marginStart="12dp"
+                            app:layout_constraintStart_toEndOf="@id/iv_real_name_auth_id_card_front"
+                            app:layout_constraintTop_toTopOf="@id/iv_real_name_auth_id_card_front" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_14_ffffff"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shape_s88000000_rb8"
+                            android:gravity="center"
+                            android:text="@string/id_card_back"
+                            app:layout_constraintBottom_toBottomOf="@id/iv_real_name_auth_id_card_back"
+                            app:layout_constraintEnd_toEndOf="@id/iv_real_name_auth_id_card_back"
+                            app:layout_constraintStart_toStartOf="@id/iv_real_name_auth_id_card_back" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-
-        <View
-            android:layout_marginTop="24dp"
-            style="@style/DividingStyle"/>
-
-        <com.lsy.framelib.ui.weight.SingleTapButton
-            style="@style/CommonMatchBtnStyle1"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="40dp"
-            android:onClick="@{vm::submit}"
-            android:text="@string/submit_data"
-            app:visibility="@{null != vm.authInfo &amp;&amp; vm.isSubmit()}" />
     </LinearLayout>
 </layout>

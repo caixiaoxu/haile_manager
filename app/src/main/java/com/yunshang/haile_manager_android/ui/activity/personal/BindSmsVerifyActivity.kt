@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.ui.activity.personal
 import android.content.Intent
 import android.graphics.Color
 import android.view.View
+import com.lsy.framelib.utils.SoftKeyboardUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.BindSmsVerifyViewModel
@@ -82,12 +83,21 @@ class BindSmsVerifyActivity :
     override fun initView() {
         window.statusBarColor = Color.WHITE
         mBinding.etBindAlipaySms.isLongClickable = false
+        mBinding.etBindAlipaySms.isFocusable = true
+        mBinding.etBindAlipaySms.isFocusableInTouchMode = true
+        mBinding.etBindAlipaySms.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                SoftKeyboardUtils.showKeyboard(mBinding.etBindAlipaySms)
+            }
+        }
     }
 
     override fun initData() {
         mViewModel.sendOperateSms() {
             if (!it) {
                 finish()
+            } else {
+                mBinding.etBindAlipaySms.requestFocus()
             }
         }
     }

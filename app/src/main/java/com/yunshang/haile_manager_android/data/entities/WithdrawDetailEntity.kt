@@ -26,9 +26,11 @@ data class WithdrawDetailEntity(
     val receiptType: Int,
     val remark: String,
     val totalAmount: String,
-    val cashOutRate:String
+    val cashOutRate:String,
+    val bank: String? = null,
+    val icon: String? = null,
 ) : IIncomeDetailEntity {
-    override fun mainRes(): Int = R.mipmap.icon_withdraw_record_detail_alipay_main
+    override fun mainRes(): Int = 0
 
     override fun getTotalStr(): String = totalAmount.toString()
 

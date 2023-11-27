@@ -39,6 +39,8 @@ data class BalanceDetailEntity(
     val title: String,
     val transactionSubType: Int,
     val totalAmount: String,
+    val icon: String? = null,
+    val receiptType: String? = null,
 ) : IIncomeDetailEntity {
 
     override fun mainRes(): Int =

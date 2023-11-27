@@ -2,7 +2,6 @@ package com.yunshang.haile_manager_android.ui.activity.personal
 
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -19,6 +18,7 @@ import com.yunshang.haile_manager_android.databinding.ActivityWithdrawRecordBind
 import com.yunshang.haile_manager_android.databinding.ItemWithdrawRecordBinding
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+import com.yunshang.haile_manager_android.utils.GlideUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -33,6 +33,14 @@ class WithdrawRecordActivity : BaseBindingActivity<ActivityWithdrawRecordBinding
         CommonRecyclerAdapter<ItemWithdrawRecordBinding, WithdrawRecordEntity>(
             R.layout.item_withdraw_record, BR.item
         ) { itemBinding, _, item ->
+
+            itemBinding?.ivWithdrawRecordMain?.let {imageView->
+                GlideUtils.loadImage(
+                    imageView,
+                    item.icon,
+                    default = if (item.cashOutType == 1) R.mipmap.icon_withdraw_record_detail_alipay_main else R.mipmap.icon_bank_main_default
+                )
+            }
             itemBinding?.root?.setOnClickListener {
                 startActivity(
                     Intent(

@@ -107,7 +107,7 @@ class OrderManagerViewModel : BaseViewModel() {
     }
     val errorStatus: List<DeviceIndicatorEntity<Int>> =
         arrayListOf(
-            DeviceIndicatorEntity("故障订单", MutableLiveData(0), 431),
+            DeviceIndicatorEntity("故障订单", MutableLiveData(0), 1050),
             DeviceIndicatorEntity("预约", MutableLiveData(0), 300),
             DeviceIndicatorEntity("超时关闭", MutableLiveData(0), 401),
         )
@@ -140,7 +140,7 @@ class OrderManagerViewModel : BaseViewModel() {
                 params["endTime"] = DateTimeUtils.formatDateTime(it, "yyyy-MM-dd") + " 23:59:59"
             }
 
-            if (1 == page && curOrderStatus.value.isNullOrEmpty()){
+            if (1 == page && curOrderStatus.value.isNullOrEmpty()) {
                 ApiRepository.dealApiResult(
                     mOrderRepo.requestSummaryCount(params)
                 )?.let {
@@ -150,13 +150,19 @@ class OrderManagerViewModel : BaseViewModel() {
                 }
             }
 
-            if (curOrderStatus.value.isNullOrEmpty()){
+            if (curOrderStatus.value.isNullOrEmpty()) {
                 // 特殊筛选数量
                 selectErrorStatus.value?.let {
-                    if (300 == it) {
-                        params["orderType"] = 300
-                    } else {
-                        params["orderStatus"] = it
+                    when (it) {
+                        300 -> {
+                            params["orderType"] = 300
+                        }
+                        1050 -> {
+                            params["endState"] = 1050
+                        }
+                        else -> {
+                            params["orderStatus"] = it
+                        }
                     }
                 }
             }

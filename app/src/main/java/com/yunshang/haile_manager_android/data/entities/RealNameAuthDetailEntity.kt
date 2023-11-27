@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
-import com.yunshang.haile_manager_android.utils.DateTimeUtils
 
 /**
  * Title :
@@ -103,23 +102,16 @@ data class RealNameAuthDetailEntity(
     @get:Bindable
     var idCardExpirationDateValue: String?
         get() = idCardExpirationDate?.let { date ->
-            date.split(" - ").let { arr ->
+            date.split(",").let { arr ->
                 if (arr.size >= 2) {
-                    val startIndate =
-                        DateTimeUtils.formatDateTimeForStr(
-                            arr[0].trim(),
-                            "yyyy/MM/dd",
-                            "yyyy-MM-dd"
-                        )
-                    val endIndate =
-                        DateTimeUtils.formatDateTimeForStr(
-                            arr[1].trim(),
-                            "yyyy/MM/dd",
-                            "yyyy-MM-dd"
-                        )
-
-                    "$startIndate 至 $endIndate"
-                } else ""
+                    "${arr[0].trim()} 至 ${arr[1].trim()}"
+                } else {
+                    date.split(" - ").let { arr1 ->
+                        if (arr1.size >= 2) {
+                            "${arr1[0].trim()} 至 ${arr1[1].trim()}"
+                        } else ""
+                    }
+                }
             }
         }
         set(value) {
@@ -137,10 +129,10 @@ data class RealNameAuthDetailEntity(
         get() = StringUtils.getString(R.string.type)
 
     val nameTitle: String
-        get() = StringUtils.getString(if (2 == verifyType) R.string.legal_person_name else R.string.name)
+        get() = StringUtils.getString(if (3 == verifyType) R.string.legal_person_name else R.string.name)
 
     val idCardTitle: String
-        get() = StringUtils.getString(R.string.id_card)
+        get() = StringUtils.getString(if (3 == verifyType) R.string.legal_person_idcard else R.string.id_card)
 
     val indateTypeTitle: String
         get() = StringUtils.getString(R.string.indate_type)

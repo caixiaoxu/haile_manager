@@ -141,7 +141,7 @@ class BankCardBindCardInfoFragment :
                 if (isSuccess && !result.isNullOrEmpty()) {
                     mActivityViewModel.uploadBankPhoto(result[0].cutPath) { isTrue, url ->
                         if (isTrue) {
-                            if (2 == mActivityViewModel.merchantType) {
+                            if (3 == mActivityViewModel.merchantType) {
                                 mActivityViewModel.bankCardParams.value?.licenceForOpeningAccountImage =
                                     url
                             } else {
@@ -158,7 +158,7 @@ class BankCardBindCardInfoFragment :
     private fun loadBankLicence() {
         mActivityViewModel.bankCardParams.value?.let { bankCard ->
             mBinding.ivOpenBankLicence.let { imageView ->
-                if (2 == mActivityViewModel.merchantType) {
+                if (3 == mActivityViewModel.merchantType) {
                     GlideUtils.glideDefaultFactory(
                         imageView,
                         bankCard.licenceForOpeningAccountImage,

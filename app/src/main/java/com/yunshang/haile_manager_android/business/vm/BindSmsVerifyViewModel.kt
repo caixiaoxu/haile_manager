@@ -31,7 +31,7 @@ class BindSmsVerifyViewModel : BaseViewModel() {
     val titleVal: LiveData<String> = verifyType.map {
         when (it) {
             0 -> StringUtils.getString(R.string.bind_alipay_account)
-            1, 3, 4, 5 -> StringUtils.getString(R.string.add_bank_card)
+            1, 3, 4, 5, 6 -> StringUtils.getString(R.string.add_bank_card)
             2 -> StringUtils.getString(R.string.real_name)
             else -> ""
         }
@@ -40,7 +40,7 @@ class BindSmsVerifyViewModel : BaseViewModel() {
     val contentVal: LiveData<String> = verifyType.map {
         when (it) {
             0 -> StringUtils.getString(R.string.bind_alipay)
-            1, 3, 4, 5 -> StringUtils.getString(R.string.add_bank_card)
+            1, 3, 4, 5, 6 -> StringUtils.getString(R.string.add_bank_card)
             2 -> StringUtils.getString(R.string.real_name)
             else -> ""
         }
@@ -83,7 +83,7 @@ class BindSmsVerifyViewModel : BaseViewModel() {
             ApiRepository.dealApiResult(
                 when (verifyType.value) {
                     0 -> mCapitalRepo.sendCashOutOperateSms(body)
-                    1, 3, 4, 5 -> mCapitalRepo.sendBankOperateSms(body)
+                    1, 3, 4, 5, 6 -> mCapitalRepo.sendBankOperateSms(body)
                     else -> mCapitalRepo.sendRealNameOperateSms(body)
                 }
             )
@@ -107,7 +107,7 @@ class BindSmsVerifyViewModel : BaseViewModel() {
             ApiRepository.dealApiResult(
                 when (verifyType.value) {
                     0 -> mCapitalRepo.checkCashOutOperateSms(body)
-                    1,3,4,5 -> mCapitalRepo.checkBankOperateSms(body)
+                    1, 3, 4, 5, 6 -> mCapitalRepo.checkBankOperateSms(body)
                     else -> mCapitalRepo.checkRealNameOperateSms(body)
                 }
             )?.let {

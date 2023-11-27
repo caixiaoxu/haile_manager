@@ -23,7 +23,7 @@
             app:rightModel="text"
             app:title="@string/bank_card" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.lsy.framelib.ui.weight.SingleTapTextView
             android:id="@+id/tv_bank_card_add"
             style="@style/Font_16_333333"
             android:layout_width="match_parent"
@@ -54,7 +54,6 @@
                 android:id="@+id/iv_bank_card_main"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                app:imgUrl="@{vm.bankCard.bankImage}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,9 +61,9 @@
                 android:id="@+id/tv_bank_card_name"
                 style="@style/Font_18_333333_bold"
                 android:layout_width="0dp"
-                android:text="@{vm.bankCard.nameVal}"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
+                android:text="@{vm.bankCard.nameVal}"
                 app:layout_constraintEnd_toStartOf="@id/tv_bank_card_status"
                 app:layout_constraintStart_toEndOf="@id/iv_bank_card_main"
                 app:layout_constraintTop_toTopOf="parent"
@@ -73,9 +72,9 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_bank_card_status"
                 style="@style/Font_14_333333"
-                android:text="@{vm.bankCard.stateVal}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{vm.bankCard.stateVal}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="绑定成功" />
@@ -84,8 +83,8 @@
                 android:id="@+id/tv_bank_card_type"
                 style="@style/Font_14_999999"
                 android:layout_width="0dp"
-                android:text="@{vm.bankCard.bankCardTypeName}"
                 android:layout_height="wrap_content"
+                android:text="@{vm.bankCard.bankCardTypeName}"
                 app:layout_constraintEnd_toEndOf="@id/tv_bank_card_name"
                 app:layout_constraintStart_toStartOf="@id/tv_bank_card_name"
                 app:layout_constraintTop_toBottomOf="@id/tv_bank_card_name"

@@ -44,6 +44,8 @@ class SharedViewModel : ViewModel() {
         hasUserPermission.map { UserPermissionUtils.hasMessagePermission() }
     val hasProfitCalendarPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasProfitCalendarPermission() }
+    val hasWalletBankPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasWalletBankPermission() }
     val hasProfitDetailPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasProfitDetailPermission() }
 

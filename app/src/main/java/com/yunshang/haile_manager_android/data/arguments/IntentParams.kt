@@ -752,18 +752,33 @@ object IntentParams {
 
     object WalletWithdrawParams {
         private const val TotalBalance = "totalBalance"
+        private const val AccountFrozen = "AccountFrozen"
+        private const val WithdrawType = "WithdrawType"
 
         /**
          * 包装参数
+         * @param withdrawType 1--支付宝, 2--微信, 3--银行卡
          */
-        fun pack(balance: String): Bundle = Bundle().apply {
-            putString(TotalBalance, balance)
-        }
+        fun pack(balance: String?, accountFrozen: String?, withdrawType: Int? = null): Bundle =
+            Bundle().apply {
+                putString(TotalBalance, balance)
+                putString(AccountFrozen, accountFrozen)
+                withdrawType?.let {
+                    putInt(WithdrawType, withdrawType)
+                }
+            }
 
         /**
          * 解析TotalBalance
          */
         fun parseTotalBalance(intent: Intent): String? = intent.getStringExtra(TotalBalance)
+
+        /**
+         * 解析AccountFrozen
+         */
+        fun parseAccountFrozen(intent: Intent): String? = intent.getStringExtra(AccountFrozen)
+
+        fun parseWithdrawType(intent: Intent): Int = intent.getIntExtra(WithdrawType, -1)
     }
 
     object BindSmsVerifyParams {

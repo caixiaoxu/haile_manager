@@ -176,7 +176,7 @@ data class BankCardDetailEntity(
         get() = StringUtils.getString(R.string.open_bank_reserved_phone)
 
     val bankCardPic: String
-        get() = (if (2 == merchantType) licenceForOpeningAccountImage else bankCardImage) ?: ""
+        get() = (if (3 == merchantType) licenceForOpeningAccountImage else bankCardImage) ?: ""
 
     val shopSimpleNameTitle: String
         get() = StringUtils.getString(R.string.shop_simple_name)

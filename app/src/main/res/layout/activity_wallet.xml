@@ -115,15 +115,6 @@
                 app:layout_constraintStart_toStartOf="@id/tv_wallet_money_available"
                 app:layout_constraintTop_toBottomOf="@id/tv_wallet_money_available" />
 
-            <View
-                android:id="@+id/view_wallet_money_other_center"
-                android:layout_width="2dp"
-                android:layout_height="55dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_wallet_money_candyPay"
                 android:layout_width="0dp"
@@ -149,6 +140,16 @@
                 app:layout_constraintEnd_toEndOf="@id/tv_wallet_money_candyPay"
                 app:layout_constraintStart_toStartOf="@id/tv_wallet_money_candyPay"
                 app:layout_constraintTop_toBottomOf="@id/tv_wallet_money_candyPay" />
+
+            <View
+                android:id="@+id/view_wallet_money_other_center"
+                android:layout_width="2dp"
+                android:layout_height="55dp"
+                android:background="@color/dividing_line_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

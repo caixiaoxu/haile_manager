@@ -155,7 +155,7 @@ class SubAccountCreateActivity :
         // 生效日
         mBinding.itemSubAccountCreateActiveDate.onSelectedEvent = {
             DateSelectorDialog.Builder().apply {
-                minDate = Calendar.getInstance().apply { time = Date() }
+                minDate = Calendar.getInstance().apply { time = DateTimeUtils.addDay(Date(), 1) }
                 onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
                     override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
                         mViewModel.effectiveDate.value = date1

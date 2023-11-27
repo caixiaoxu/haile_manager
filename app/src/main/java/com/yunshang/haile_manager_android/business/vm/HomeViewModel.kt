@@ -115,7 +115,7 @@ class HomeViewModel : BaseViewModel() {
                 StringUtils.getString(R.string.device_repairs),
                 R.mipmap.icon_device_repairs,
                 DeviceRepairsActivity::class.java,
-                UserPermissionUtils.hasAnnouncementPermission()
+                UserPermissionUtils.hasRepairsPermission()
             ),
         )
     )

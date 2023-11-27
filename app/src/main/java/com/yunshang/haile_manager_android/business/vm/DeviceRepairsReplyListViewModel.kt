@@ -1,6 +1,8 @@
 package com.yunshang.haile_manager_android.business.vm
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.lsy.framelib.network.exception.CommonCustomException
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.ui.base.BaseViewModel
@@ -35,8 +37,10 @@ class DeviceRepairsReplyListViewModel : BaseViewModel() {
 
     val isAll: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    val selectBatchNum: MutableLiveData<String> by lazy {
-        MutableLiveData()
+    val selectBatchNum: MutableLiveData<Int> = MutableLiveData(0)
+
+    val selectBatchNumVal: LiveData<String> = selectBatchNum.map {
+        if (0 == it) "" else "${StringUtils.getString(R.string.selected)} $it"
     }
 
     val noRelyNum: MutableLiveData<Int> by lazy {
@@ -102,9 +106,7 @@ class DeviceRepairsReplyListViewModel : BaseViewModel() {
     }
 
     fun refreshSelectBatchNum(list: MutableList<DeviceRepairsEntity>) {
-        val selectNum = list.count { item -> item.selected }
-        selectBatchNum.value =
-            if (0 == selectNum) "" else "${StringUtils.getString(R.string.selected)} $selectNum"
+        selectBatchNum.value = list.count { item -> item.selected }
         isAll.value =
             if (list.isNotEmpty()) list.all { item -> 10 != item.replyStatus || item.selected } else false
     }

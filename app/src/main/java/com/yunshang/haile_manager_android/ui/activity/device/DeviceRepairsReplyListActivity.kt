@@ -23,6 +23,7 @@ import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.IndicatorPagerTitleView
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
@@ -49,6 +50,8 @@ class DeviceRepairsReplyListActivity :
 
             mItemBinding?.root?.setOnClickListener {
                 if (true == mViewModel.isBatch.value) {
+                    item.selected = !item.selected
+                    refreshSelectBatchNum()
                     return@setOnClickListener
                 }
                 item.id?.let { id ->
@@ -110,7 +113,9 @@ class DeviceRepairsReplyListActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
-        initRightBtn()
+        if (UserPermissionUtils.hasRepairsReplyPermission()){
+            initRightBtn()
+        }
 
         val navigators = listOf(
             SearchSelectParam(0, "全部"),

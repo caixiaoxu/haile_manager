@@ -15,6 +15,7 @@ import com.yunshang.haile_manager_android.BR
  * 作者姓名 修改时间 版本号 描述
  */
 data class DeviceRepairsEntity(
+    val lastReportTime: String? = null,
     val createTime: String? = null,
     val creator: Int? = null,
     val description: String? = null,

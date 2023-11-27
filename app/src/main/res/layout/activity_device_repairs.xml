@@ -129,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="@{vm.selectBatchNum}"
+                android:text="@{vm.selectBatchNumVal}"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="已选择 1" />
 
@@ -142,9 +142,10 @@
             android:paddingTop="12dp"
             app:visibility="@{vm.isBatch}">
 
-            <com.lsy.framelib.ui.weight.SingleTapButton
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
                 android:id="@+id/btn_device_repairs_reply"
                 style="@style/CommonMatchBtnStyle1"
+                android:enabled="@{vm.selectBatchNum > 0}"
                 android:layout_marginHorizontal="16dp"
                 android:text="@string/reply" />
 

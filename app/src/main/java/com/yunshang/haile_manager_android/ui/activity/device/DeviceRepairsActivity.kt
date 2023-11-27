@@ -22,6 +22,7 @@ import com.yunshang.haile_manager_android.business.vm.DeviceRepairsViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.SearchType
+import com.yunshang.haile_manager_android.data.entities.DeviceCategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceRepairsEntity
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceRepairsBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceRepairsBinding
@@ -31,8 +32,10 @@ import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioAc
 import com.yunshang.haile_manager_android.ui.activity.common.ShopPositionSelectorActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
+import com.yunshang.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.BitmapUtils
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 
 class DeviceRepairsActivity :
     BaseBusinessActivity<ActivityDeviceRepairsBinding, DeviceRepairsViewModel>(
@@ -54,6 +57,8 @@ class DeviceRepairsActivity :
 
             mItemBinding?.root?.setOnClickListener {
                 if (true == mViewModel.isBatch.value) {
+                    item.selected = !item.selected
+                    refreshSelectBatchNum()
                     return@setOnClickListener
                 }
                 item.deviceId?.let { deviceId ->
@@ -170,7 +175,9 @@ class DeviceRepairsActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
-        initRightBtn()
+        if (UserPermissionUtils.hasRepairsReplyPermission()) {
+            initRightBtn()
+        }
 
         // 全部门店
         mBinding.tvDeviceRepairsShop.setOnClickListener {
@@ -221,18 +228,22 @@ class DeviceRepairsActivity :
                 SToast.showToast(this@DeviceRepairsActivity, "请先选择门店")
                 return@setOnClickListener
             }
-//            mViewModel.categoryList.value?.let { list ->
-//                MultiSelectBottomSheetDialog.Builder<CategoryEntity>("设备类型", list).apply {
-//                    onValueSureListener =
-//                        object : MultiSelectBottomSheetDialog.OnValueSureListener<CategoryEntity> {
-//                            override fun onValue(
-//                                selectData: List<CategoryEntity>,
-//                                allSelectData: List<CategoryEntity>
-//                            ) {
-//                            }
-//                        }
-//                }.build().show(supportFragmentManager)
-//            }
+            mViewModel.categoryList.value?.let { list ->
+                MultiSelectBottomSheetDialog.Builder("设备类型", list).apply {
+                    isCanSelectEmpty = true
+                    onValueSureListener =
+                        object :
+                            MultiSelectBottomSheetDialog.OnValueSureListener<DeviceCategoryEntity> {
+                            override fun onValue(
+                                selectData: List<DeviceCategoryEntity>,
+                                allSelectData: List<DeviceCategoryEntity>
+                            ) {
+                                mViewModel.selectDeviceCategoryList.value = selectData
+                                mBinding.rvDeviceRepairsList.requestRefresh()
+                            }
+                        }
+                }.build().show(supportFragmentManager)
+            }
         }
 
         // 状态
@@ -246,6 +257,7 @@ class DeviceRepairsActivity :
             CommonBottomSheetDialog.Builder(
                 "", list
             ).apply {
+                selectData = mViewModel.selectStatus.value
                 onValueSureListener =
                     object : CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
                         override fun onValue(data: SearchSelectParam?) {
@@ -266,7 +278,9 @@ class DeviceRepairsActivity :
                     pageSize: Int,
                     callBack: (responseList: ResponseList<out DeviceRepairsEntity>?) -> Unit
                 ) {
-                    mViewModel.requestDeviceRepairsList(page, pageSize, callBack)
+                    if (UserPermissionUtils.hasRepairsListPermission()) {
+                        mViewModel.requestDeviceRepairsList(page, pageSize, callBack)
+                    }
                 }
             }
 

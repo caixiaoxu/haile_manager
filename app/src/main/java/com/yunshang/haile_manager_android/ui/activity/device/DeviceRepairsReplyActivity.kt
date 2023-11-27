@@ -87,6 +87,7 @@ class DeviceRepairsReplyActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+        mBinding.shared = mSharedViewModel
     }
 
     override fun initData() {

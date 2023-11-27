@@ -603,6 +603,7 @@ object UserPermissionUtils {
     fun hasVipPermission(): Boolean {
         return null != userPermissionsMap["league:vip"]
     }
+
     /**
      * 是否含有方案列表权限
      *
@@ -875,4 +876,40 @@ object UserPermissionUtils {
         return null != userPermissionsMap["league:wallet:bank"]
     }
     /** ------------------------银行卡权限------------------------  */
+
+    /** ------------------------报修权限------------------------  */
+
+    /**
+     * 是否含有报修权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasRepairsPermission(): Boolean {
+        return true// null != userPermissionsMap["league:normal:deviceFix"]
+    }
+
+    /**
+     * 是否含有设备报修列表权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasRepairsListPermission(): Boolean {
+        return true //null != userPermissionsMap["league:normal:deviceFix:list"]
+    }
+
+    /**
+     * 是否含有设备报修回复权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasRepairsReplyPermission(): Boolean {
+        return true //null != userPermissionsMap["league:normal:deviceFix:reply"]
+    }
+    /** ------------------------报修权限------------------------  */
 }

@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="6dp"
-                android:text='@{@string/last_repairs_time + "：" + item.createTime}'
+                android:text='@{@string/last_repairs_time + "：" + item.lastReportTime}'
                 app:layout_constraintStart_toEndOf="@id/iv_device_repairs_date"
                 app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_shop"
                 tools:text="最后报修时间：2023-03-07 12:22" />

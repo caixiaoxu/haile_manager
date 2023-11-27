@@ -8,6 +8,10 @@
         <import type="android.view.View" />
 
         <variable
+            name="shared"
+            type="com.yunshang.haile_manager_android.business.vm.SharedViewModel" />
+
+        <variable
             name="vm"
             type="com.yunshang.haile_manager_android.business.vm.DeviceRepairsReplyViewModel" />
     </data>
@@ -108,7 +112,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:layout_marginTop="4dp"
-                        android:text="@{vm.repairsDetails.createTime}"
+                        android:text="@{vm.repairsDetails.lastReportTime}"
                         app:layout_constraintStart_toEndOf="@id/tv_device_repairs_reply_time_title"
                         app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_reply_user"
                         tools:text="2023-02-20 12:12:12" />
@@ -284,18 +288,18 @@
                 <include
                     android:id="@+id/include_device_repairs_reply"
                     layout="@layout/include_device_repairs_reply"
-                    android:visibility="@{10 == vm.repairsDetails.replyStatus?View.VISIBLE:View.GONE}"
+                    android:visibility="@{(10 == vm.repairsDetails.replyStatus &amp;&amp; shared.hasRepairsReplyPermission)?View.VISIBLE:View.GONE}"
                     app:content="@{vm.replyContent}" />
 
                 <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
                     android:id="@+id/ll_device_repairs_reply_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
                     android:background="@color/white"
                     android:orientation="vertical"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="12dp"
-                    android:layout_marginTop="12dp"
                     app:divider="@drawable/divide_size12"
                     app:itemLayout="@layout/item_device_repairs_reply"
                     app:showDividers="middle"
@@ -317,14 +321,14 @@
             android:layout_height="@dimen/page_bottom_h"
             android:background="@color/white"
             android:paddingTop="12dp"
-            app:visibility="@{10 == vm.repairsDetails.replyStatus}">
+            app:visibility="@{10 == vm.repairsDetails.replyStatus &amp;&amp; shared.hasRepairsReplyPermission}">
 
             <com.yunshang.haile_manager_android.ui.view.CommonButton
                 android:id="@+id/btn_device_repairs_reply_submit"
                 style="@style/CommonMatchBtnStyle1"
                 android:layout_marginHorizontal="16dp"
-                android:onClick="@{vm::replyFaultRepairs}"
                 android:enabled="@{null != vm.replyContent.replyContent &amp;&amp; vm.replyContent.replyContent.length() > 0}"
+                android:onClick="@{vm::replyFaultRepairs}"
                 android:text="@string/submit_reply" />
         </FrameLayout>
     </LinearLayout>

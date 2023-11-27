@@ -117,7 +117,7 @@
                 android:background="@color/transparent"
                 android:button="@null"
                 android:checked="@{vm.isAll}"
-                android:drawableStart="@drawable/selector_login_agreement"
+                android:drawableStart="@drawable/selector_checked"
                 android:drawablePadding="14dp"
                 android:gravity="center"
                 android:text="@string/select_all"

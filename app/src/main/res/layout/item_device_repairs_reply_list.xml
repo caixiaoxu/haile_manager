@@ -30,7 +30,7 @@
             android:background="@color/transparent"
             android:button="@null"
             android:checked="@{item.selected}"
-            android:drawableStart="@drawable/selector_login_agreement"
+            android:drawableStart="@drawable/selector_checked"
             android:enabled="@{10 == item.replyStatus}"
             app:visibility="@{isBatch}" />
 

@@ -19,7 +19,7 @@ data class AppointmentSettingEntity(
     var autoRefund: Int? = 1,
     var shopId: Int? = null,
     var checkTime: Int? = 10,
-    var reserveMethod: Int? = 1
+    var reserveMethod: Int? = 2
 ) : BaseObservable() {
     var shopIdList: IntArray? = null
     var settings: MutableList<SettingItem>? = null

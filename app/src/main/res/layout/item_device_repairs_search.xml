@@ -89,7 +89,7 @@
             android:layout_width="72dp"
             android:layout_height="wrap_content"
             style="@style/Font_14_black45"
-            android:text='@{@string/last_repairs_time + "："}'
+            android:text='@{@string/last_repairs_time1 + "："}'
             tools:text="最后报修时间："
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_device_repairs_date" />

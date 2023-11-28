@@ -26,7 +26,8 @@
         <include
             android:id="@+id/include_device_repairs_batch_reply"
             layout="@layout/include_device_repairs_reply"
-            app:content="@{vm.replyContent}" />
+            app:content="@{vm.replyContent}"
+            app:isBatch="@{true}" />
 
         <com.yunshang.haile_manager_android.ui.view.CommonButton
             android:id="@+id/btn_device_repairs_batch_reply_submit"

@@ -62,6 +62,8 @@
                 android:text="@{10 == item.replyStatus?@string/no_reply:@string/replied}"
                 android:textColor="@{10 == item.replyStatus?@color/colorPrimary:@color/color_black_85}"
                 android:textSize="14sp"
+                android:drawablePadding="8dp"
+                android:drawableEnd="@drawable/icon_arrow_right"
                 app:layout_constraintBottom_toBottomOf="@id/tv_device_repairs_user"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_device_repairs_user"
@@ -99,7 +101,7 @@
                 android:layout_height="46dp"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text='@{@string/last_repairs_time + "：" + item.lastReportTime}'
+                android:text='@{@string/last_repairs_time + "：" + item.createTime}'
                 app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_fault_desc"
                 tools:text="最后报修时间：2023-03-07 12:22" />
 

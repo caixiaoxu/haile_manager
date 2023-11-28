@@ -483,6 +483,7 @@
     <string name="replied">已回复</string>
     <string name="no_reply">未回复</string>
     <string name="last_repairs_time">最后报修时间</string>
+    <string name="last_repairs_time1">最后报修\n时间</string>
     <string name="batch_reply">批量回复</string>
     <string name="reply">回复</string>
     <string name="selected">已选择</string>
@@ -493,6 +494,7 @@
     <string name="fault_type">故障类型</string>
     <string name="fault_desc">故障描述</string>
     <string name="shop_reply">商家回复</string>
+    <string name="reply_content">回复内容</string>
 
     <string name="pic_browse">图片浏览</string>
 

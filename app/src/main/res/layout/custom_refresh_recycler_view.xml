@@ -26,9 +26,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:visibility="gone"
+            android:layout_marginTop="150dp"
             style="@style/Font_14_999999"
             android:drawableTop="@mipmap/icon_list_content_empty"
-            android:layout_gravity="center"
+            android:layout_gravity="center_horizontal"
             tools:text ="暂无内容信息"/>
     </FrameLayout>
 

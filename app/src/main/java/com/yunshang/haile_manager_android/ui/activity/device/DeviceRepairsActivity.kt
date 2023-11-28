@@ -14,6 +14,7 @@ import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.ui.weight.SingleTapTextView
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -22,6 +23,7 @@ import com.yunshang.haile_manager_android.business.vm.DeviceRepairsViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.SearchType
+import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceCategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceRepairsEntity
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceRepairsBinding
@@ -61,15 +63,13 @@ class DeviceRepairsActivity :
                     refreshSelectBatchNum()
                     return@setOnClickListener
                 }
-                item.deviceId?.let { deviceId ->
-                    startActivity(
-                        Intent(
-                            this@DeviceRepairsActivity,
-                            DeviceRepairsReplyListActivity::class.java
-                        ).apply {
-                            putExtras(IntentParams.CommonParams.pack(deviceId))
-                        })
-                }
+                startActivity(
+                    Intent(
+                        this@DeviceRepairsActivity,
+                        DeviceRepairsReplyListActivity::class.java
+                    ).apply {
+                        putExtras(IntentParams.DeviceRepairsReplyListParams.pack(item))
+                    })
             }
         }
     }
@@ -224,19 +224,15 @@ class DeviceRepairsActivity :
 
         // 设备类型
         mBinding.tvDeviceRepairsDevice.setOnClickListener {
-            if (mViewModel.selectShopList.value.isNullOrEmpty()) {
-                SToast.showToast(this@DeviceRepairsActivity, "请先选择门店")
-                return@setOnClickListener
-            }
             mViewModel.categoryList.value?.let { list ->
-                MultiSelectBottomSheetDialog.Builder("设备类型", list).apply {
+                MultiSelectBottomSheetDialog.Builder("设备类型（可多选）", list).apply {
                     isCanSelectEmpty = true
                     onValueSureListener =
                         object :
-                            MultiSelectBottomSheetDialog.OnValueSureListener<DeviceCategoryEntity> {
+                            MultiSelectBottomSheetDialog.OnValueSureListener<CategoryEntity> {
                             override fun onValue(
-                                selectData: List<DeviceCategoryEntity>,
-                                allSelectData: List<DeviceCategoryEntity>
+                                selectData: List<CategoryEntity>,
+                                allSelectData: List<CategoryEntity>
                             ) {
                                 mViewModel.selectDeviceCategoryList.value = selectData
                                 mBinding.rvDeviceRepairsList.requestRefresh()

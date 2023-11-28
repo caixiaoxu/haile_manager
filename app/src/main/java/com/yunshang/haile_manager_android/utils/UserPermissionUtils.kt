@@ -887,7 +887,7 @@ object UserPermissionUtils {
      */
     @JvmStatic
     fun hasRepairsPermission(): Boolean {
-        return true// null != userPermissionsMap["league:normal:deviceFix"]
+        return null != userPermissionsMap["league:normal:deviceFix"]
     }
 
     /**
@@ -898,7 +898,7 @@ object UserPermissionUtils {
      */
     @JvmStatic
     fun hasRepairsListPermission(): Boolean {
-        return true //null != userPermissionsMap["league:normal:deviceFix:list"]
+        return null != userPermissionsMap["league:normal:deviceFix:list"]
     }
 
     /**
@@ -909,7 +909,7 @@ object UserPermissionUtils {
      */
     @JvmStatic
     fun hasRepairsReplyPermission(): Boolean {
-        return true //null != userPermissionsMap["league:normal:deviceFix:reply"]
+        return null != userPermissionsMap["league:normal:deviceFix:reply"]
     }
     /** ------------------------报修权限------------------------  */
 }

@@ -9,9 +9,10 @@ import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.apiService.CategoryService
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
-import com.yunshang.haile_manager_android.data.entities.DeviceCategoryEntity
+import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceRepairsEntity
 import com.yunshang.haile_manager_android.data.entities.ShopAndPositionSelectEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
@@ -31,6 +32,7 @@ import timber.log.Timber
  */
 class DeviceRepairsViewModel : BaseViewModel() {
     private val mDeviceRepo = ApiRepository.apiClient(DeviceService::class.java)
+    private val mCategoryRepo = ApiRepository.apiClient(CategoryService::class.java)
 
     val isBatch: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -53,25 +55,26 @@ class DeviceRepairsViewModel : BaseViewModel() {
     }
 
     val selectPositionVal: LiveData<String> = selectPositionList.map {
-        when (val count: Int? = it?.size) {
+        val positionList = it?.flatMap { item -> item.positionList ?: listOf() }
+        when (val count: Int? = positionList?.size) {
             null, 0 -> ""
-            1 -> it.firstOrNull()?.name ?: ""
+            1 -> positionList.firstOrNull()?.name ?: ""
             else -> "选择${count}个"
         }
     }
 
     // 设备类型
-    val categoryList: MutableLiveData<List<DeviceCategoryEntity>> = MutableLiveData()
+    val categoryList: MutableLiveData<List<CategoryEntity>> = MutableLiveData()
 
     // 选择的设备类型
-    val selectDeviceCategoryList: MutableLiveData<List<DeviceCategoryEntity>?> by lazy {
+    val selectDeviceCategoryList: MutableLiveData<List<CategoryEntity>?> by lazy {
         MutableLiveData()
     }
 
     val selectDeviceCategoryVal: LiveData<String> = selectDeviceCategoryList.map {
         when (val count: Int? = it?.size) {
             null, 0 -> "全部设备"
-            1 -> it.firstOrNull()?.categoryName ?: "全部设备"
+            1 -> it.firstOrNull()?.name ?: "全部设备"
             else -> "选择${count}个"
         }
     }
@@ -93,14 +96,17 @@ class DeviceRepairsViewModel : BaseViewModel() {
         launch({
             // 类目
             ApiRepository.dealApiResult(
-                mDeviceRepo.requestGoodsCategoryList(
-                    ApiRepository.createRequestBody(
-                        hashMapOf(
-                            "shopIdList" to selectShopList.value?.map { it.id }
-                        )
-                    )
-                )
+                mCategoryRepo.category(1)
             )?.let {
+                it.add(
+                    0,
+                    CategoryEntity(
+                        id = 0,
+                        name = StringUtils.getString(R.string.all_device)
+                    ).apply {
+                        onlyOne = true
+                        isCheck = selectDeviceCategoryList.value?.contains(this) ?:false
+                    })
                 categoryList.postValue(it)
             }
         })
@@ -122,7 +128,7 @@ class DeviceRepairsViewModel : BaseViewModel() {
                             "positionIds" to selectPositionList.value?.flatMap { item ->
                                 item.positionList?.mapNotNull { pos -> pos.id } ?: listOf()
                             },
-                            "categoryCodes" to selectDeviceCategoryList.value?.map { item -> item.categoryCode },
+                            "categoryCodes" to selectDeviceCategoryList.value?.mapNotNull { item -> item.code },
                             "replyStatus" to if (0 == selectStatus.value?.id) null else selectStatus.value?.id
                         )
                     )

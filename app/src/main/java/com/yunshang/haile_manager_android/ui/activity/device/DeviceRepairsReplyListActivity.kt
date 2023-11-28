@@ -73,7 +73,7 @@ class DeviceRepairsReplyListActivity :
 
     override fun initIntent() {
         super.initIntent()
-        mViewModel.deviceId = IntentParams.CommonParams.parseId(intent)
+        mViewModel.deviceRepairs = IntentParams.DeviceRepairsReplyListParams.parseDeviceRepairs(intent)
     }
 
     override fun initEvent() {

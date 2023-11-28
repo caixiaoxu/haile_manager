@@ -1079,6 +1079,22 @@ object IntentParams {
         fun parseDeviceIdList(intent: Intent): IntArray? = intent.getIntArrayExtra(DeviceIdList)
     }
 
+    object DeviceRepairsReplyListParams {
+        private const val DeviceRepairs = "deviceRepairs"
+
+        /**
+         * 包装参数
+         */
+        fun pack(deviceRepairs: DeviceRepairsEntity): Bundle =
+            Bundle().apply { putString(DeviceRepairs, GsonUtils.any2Json(deviceRepairs)) }
+
+        fun parseDeviceRepairs(intent: Intent): DeviceRepairsEntity? =
+            GsonUtils.json2Class(
+                intent.getStringExtra(DeviceRepairs),
+                DeviceRepairsEntity::class.java
+            )
+    }
+
     object MessageSettingParams {
         private const val SubTypeList = "subTypeList"
 

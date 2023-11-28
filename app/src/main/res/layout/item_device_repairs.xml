@@ -61,6 +61,8 @@
                 android:text="@{10 == item.replyStatus?@string/no_reply:@string/replied}"
                 android:textColor="@{10 == item.replyStatus?@color/colorPrimary:@color/color_black_85}"
                 android:textSize="14sp"
+                android:drawablePadding="8dp"
+                android:drawableEnd="@drawable/icon_arrow_right"
                 app:layout_constraintBottom_toBottomOf="@id/tv_device_repairs_device_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_device_repairs_device_name"

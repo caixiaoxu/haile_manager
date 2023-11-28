@@ -29,7 +29,7 @@ import timber.log.Timber
 class DeviceRepairsReplyListViewModel : BaseViewModel() {
     private val mDeviceRepo = ApiRepository.apiClient(DeviceService::class.java)
 
-    var deviceId: Int? = null
+    var deviceRepairs: DeviceRepairsEntity? = null
 
     val isBatch: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -71,7 +71,7 @@ class DeviceRepairsReplyListViewModel : BaseViewModel() {
                         hashMapOf(
                             "page" to page,
                             "pageSize" to pageSize,
-                            "deviceId" to deviceId,
+                            "deviceId" to deviceRepairs?.deviceId,
                             "replyStatus" to curStatus // 10 未回复，20 已回复
                         )
                     )

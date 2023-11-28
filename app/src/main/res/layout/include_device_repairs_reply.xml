@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="isBatch"
+            type="java.lang.Boolean" />
 
         <variable
             name="content"
@@ -38,7 +41,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="@string/shop_reply"
+            android:text="@{isBatch?@string/reply_content:@string/shop_reply}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_device_repairs_reply_reply_title_tag"
             app:layout_constraintTop_toTopOf="parent" />

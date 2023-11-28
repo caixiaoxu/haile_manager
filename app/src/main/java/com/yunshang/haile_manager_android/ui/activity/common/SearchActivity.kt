@@ -193,15 +193,13 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
             BR.item
         ) { mBinding, _, item ->
             mBinding?.root?.setOnClickListener {
-                item.deviceId?.let { deviceId ->
-                    startActivity(
-                        Intent(
-                            this@SearchActivity,
-                            DeviceRepairsReplyListActivity::class.java
-                        ).apply {
-                            putExtras(IntentParams.CommonParams.pack(deviceId))
-                        })
-                }
+                startActivity(
+                    Intent(
+                        this@SearchActivity,
+                        DeviceRepairsReplyListActivity::class.java
+                    ).apply {
+                        putExtras(IntentParams.DeviceRepairsReplyListParams.pack(item))
+                    })
             }
         }
     }

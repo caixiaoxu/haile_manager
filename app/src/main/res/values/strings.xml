@@ -550,6 +550,7 @@
     <string name="item_sub_account_shop_title">分账门店：%1$s（%2$s）</string>
 
     <string name="issue_coupons">发券</string>
+    <string name="batch_invalid">批量作废</string>
     <string name="issue_coupons_user">发券用户</string>
     <string-array name="coupon_type">
         <item></item>

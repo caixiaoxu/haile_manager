@@ -3,8 +3,10 @@ package com.yunshang.haile_manager_android.ui.activity.coupon
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -23,8 +25,11 @@ import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.CouponEntity
 import com.yunshang.haile_manager_android.databinding.ActivityCouponManageBinding
 import com.yunshang.haile_manager_android.databinding.ItemCouponListBinding
+import com.yunshang.haile_manager_android.databinding.PopupCouponOperateManagerBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.yunshang.haile_manager_android.ui.view.IndicatorPagerTitleView
+import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
@@ -34,8 +39,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.WrapPagerIndicator
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator
 
 class CouponManageActivity :
     BaseBusinessActivity<ActivityCouponManageBinding, CouponManageViewModel>(
@@ -89,21 +93,47 @@ class CouponManageActivity :
     private fun initRightBtn() {
         if (UserPermissionUtils.hasSendCouponPermission()) {
             mBinding.barCouponManageTitle.getRightBtn(true).run {
-                setText(R.string.issue_coupons)
+                setText(R.string.operate)
                 setCompoundDrawablesRelativeWithIntrinsicBounds(
                     R.mipmap.icon_add, 0, 0, 0
                 )
                 compoundDrawablePadding = DimensionUtils.dip2px(this@CouponManageActivity, 4f)
                 setOnClickListener {
-                    startActivity(
-                        Intent(
-                            this@CouponManageActivity,
-                            IssueCouponsActivity::class.java
-                        )
-                    )
+                    showDeviceOperateView()
                 }
             }
         }
+    }
+
+    /**
+     * 显示设备管理界面
+     */
+    private fun AppCompatTextView.showDeviceOperateView() {
+        val mPopupBinding =
+            PopupCouponOperateManagerBinding.inflate(LayoutInflater.from(this@CouponManageActivity))
+        val popupWindow = TranslucencePopupWindow(
+            mPopupBinding.root,
+            window,
+            DimensionUtils.dip2px(this@CouponManageActivity, 110f)
+        )
+
+        mPopupBinding.tvCouponOperateIssue.setOnClickListener {
+            popupWindow.dismiss()
+            startActivity(
+                Intent(
+                    this@CouponManageActivity,
+                    IssueCouponsActivity::class.java
+                )
+            )
+        }
+        mPopupBinding.tvCouponOperateBatchInvalid.setOnClickListener {
+            popupWindow.dismiss()
+        }
+        popupWindow.showAsDropDown(
+            this,
+            -DimensionUtils.dip2px(this@CouponManageActivity, 16f),
+            0
+        )
     }
 
     override fun initEvent() {
@@ -146,9 +176,17 @@ class CouponManageActivity :
                 override fun getCount(): Int = mViewModel.couponStatus.size
 
                 override fun getTitleView(context: Context?, index: Int): IPagerTitleView {
-                    return SimplePagerTitleView(context).apply {
-                        normalColor = Color.parseColor("#666666")
-                        selectedColor = Color.WHITE
+                    return IndicatorPagerTitleView(context).apply {
+                        normalColor = ContextCompat.getColor(
+                            this@CouponManageActivity,
+                            R.color.color_black_65
+                        )
+                        selectedColor = ContextCompat.getColor(
+                            this@CouponManageActivity,
+                            R.color.color_black_85
+                        )
+                        normalFontSize = 14f
+                        selectFontSize = 14f
                         mViewModel.couponStatus[index].run {
                             num.observe(this@CouponManageActivity) { n ->
                                 text = title + if (0 < n) " $n" else " 0"
@@ -163,15 +201,18 @@ class CouponManageActivity :
                 }
 
                 override fun getIndicator(context: Context?): IPagerIndicator {
-                    return WrapPagerIndicator(context).apply {
-                        verticalPadding =
-                            DimensionUtils.dip2px(this@CouponManageActivity, 4f)
-                        fillColor = ContextCompat.getColor(
-                            this@CouponManageActivity,
-                            R.color.colorPrimary
-                        )
+                    return LinePagerIndicator(context).apply {
+                        mode = LinePagerIndicator.MODE_EXACTLY
+                        lineWidth = DimensionUtils.dip2px(this@CouponManageActivity, 20f).toFloat()
+                        lineHeight = DimensionUtils.dip2px(this@CouponManageActivity, 3f).toFloat()
                         roundRadius =
-                            DimensionUtils.dip2px(this@CouponManageActivity, 14f).toFloat()
+                            DimensionUtils.dip2px(this@CouponManageActivity, 1.5f).toFloat()
+                        setColors(
+                            ContextCompat.getColor(
+                                this@CouponManageActivity,
+                                R.color.color_black_85
+                            )
+                        )
                     }
                 }
             }

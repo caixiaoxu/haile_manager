@@ -1,5 +1,7 @@
 package com.yunshang.haile_manager_android.data.entities
 
+import androidx.core.content.ContextCompat
+import com.lsy.framelib.data.constants.Constants
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
@@ -60,6 +62,15 @@ data class CouponEntity(
             32 -> "已作废"
             else -> ""
         }
+
+    val stateColor: Int
+        get() = ContextCompat.getColor(
+            Constants.APP_CONTEXT, when (state) {
+                1 -> R.color.color_FFA936
+                32 -> R.color.color_F7612F
+                else -> R.color.color_black_85
+            }
+        )
 
     val title: String
         get() = "${StringUtils.getStringArray(R.array.coupon_type)[couponType]} ${

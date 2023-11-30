@@ -197,6 +197,19 @@
         <item name="android:textColorHint">@color/common_txt_color</item>
     </style>
 
+    <style name="CouponManagerCategoryBtnStyle" parent="Font_14_black85">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxWidth">96dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:drawableEnd">@mipmap/icon_triangle_down</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColorHint">@color/color_black_85</item>
+    </style>
+
     <style name="StrokeBtnStyle" parent="Font_14_333333">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -342,6 +355,16 @@
         <item name="android:textColor">@color/common_sub_txt_color</item>
     </style>
 
+    <style name="Font_14_black65">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_black_65</item>
+    </style>
+
+    <style name="Font_14_black85">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_black_85</item>
+    </style>
+
     <style name="Font_14_333333_999999">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/common_txt_color</item>
@@ -414,11 +437,11 @@
         <item name="android:textColor">@color/color_FF5219</item>
     </style>
 
-    <style name="font_17_333333">
+    <style name="font_17_black85">
         <item name="android:textSize">17sp</item>
-        <item name="android:textColor">@color/common_txt_color</item>
+        <item name="android:textColor">@color/color_black_85</item>
     </style>
-    <style name="font_17_333333_bold" parent="font_17_333333">
+    <style name="font_17_black85_bold" parent="font_17_black85">
         <item name="android:textStyle">bold</item>
     </style>
 

@@ -393,7 +393,7 @@
     <string name="per_flow_charge_display_setting_name_prompt">饮水和淋浴有该设置，只针对用户看到的订单内容</string>
 
     <string name="order_manager">订单管理</string>
-    <string name="order_search_hint">搜索手机号或订单编号或设备IMEI</string>
+    <string name="order_search_hint">搜索手机号/订单编号/IMEI</string>
     <string name="order_num_hint">全部%1$d笔订单</string>
     <string name="order_time">下单时间</string>
     <string name="order_info">订单信息</string>
@@ -598,7 +598,7 @@
 
     <string name="home_msg_title">最近消息</string>
     <string name="home_msg_num">条新消息</string>
-    <string name="search_order_hint">请输入订单编号或手机号</string>
+    <string name="search_order_hint">请输入订单编号/手机号/IMEI</string>
 
     <string name="date_time_title">请选择时间</string>
     <string name="to">至</string>

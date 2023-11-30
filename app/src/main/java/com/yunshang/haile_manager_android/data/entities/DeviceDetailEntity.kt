@@ -109,6 +109,9 @@ data class DeviceDetailEntity(
     fun getAssociationImeiTitle(): String = StringUtils.getString(R.string.imei)
     fun showOrderNo(): Boolean = errorDeviceOrderNo.isNullOrEmpty()
 
+    fun appointmentEnabledVal(): String =
+        if (shopAppointmentEnabled && true == appointmentEnabled) "开启" else "关闭"
+
     fun getLaundryStateName(): String {
         if (null == dosingVOS) return ""
         dosingVOS.find { it.liquidType == 1 }.let {
@@ -222,6 +225,9 @@ data class DeviceDetailEntity(
     fun hasImeiCode(): Boolean = !imei.isNullOrEmpty()
 
     fun getImeiTitle(): String = StringUtils.getString(R.string.imei_title)
+    fun hasAppointmentEnabled(): Boolean = null != appointmentEnabled
+
+    fun getAppointmentEnabledTitle(): String = StringUtils.getString(R.string.appointment_status)
     fun hasCreator(): Boolean = 0 != creatorId && !creatorName.isNullOrEmpty()
 
     fun getCreatorTitle(): String = StringUtils.getString(R.string.creator)

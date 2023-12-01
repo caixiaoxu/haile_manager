@@ -185,7 +185,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:orientation="vertical"
-                    app:divider="@color/dividing_line_color"
+                    app:divider="@drawable/divder_efefef"
                     app:dividerPadding="16dp"
                     app:itemLayout="@layout/item_shop_position_detail_phone"
                     app:layout_constraintTop_toBottomOf="@id/ll_position_detail_base_info"

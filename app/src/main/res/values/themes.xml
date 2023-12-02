@@ -286,6 +286,11 @@
         <item name="android:textColor">@color/common_txt_hint_color</item>
     </style>
 
+    <style name="Font_12_black25">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_black_25</item>
+    </style>
+
     <style name="Font_12_999999">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/common_sub_txt_color</item>
@@ -317,6 +322,11 @@
     <style name="font_14_ff5219">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/color_FF5219</item>
+    </style>
+
+    <style name="Font_14_black25">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_black_25</item>
     </style>
 
     <style name="Font_14_333333">
@@ -368,6 +378,15 @@
         <item name="android:textColor">@color/common_txt_hint_color</item>
     </style>
 
+    <style name="font_15_171a1d">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/color_171A1D</item>
+    </style>
+
+    <style name="font_15_171a1d_bold" parent="font_15_171a1d">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Font_16_cccccc">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/common_txt_hint_color</item>
@@ -414,10 +433,20 @@
         <item name="android:textColor">@color/color_FF5219</item>
     </style>
 
+    <style name="font_17_black85">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/color_black_85</item>
+    </style>
+
+    <style name="font_17_black85_black45" parent="font_17_black85">
+        <item name="android:textColorHint">@color/color_black_45</item>
+    </style>
+
     <style name="font_17_333333">
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/common_txt_color</item>
     </style>
+
     <style name="font_17_333333_bold" parent="font_17_333333">
         <item name="android:textStyle">bold</item>
     </style>

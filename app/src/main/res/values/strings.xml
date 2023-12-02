@@ -149,6 +149,7 @@
     <string name="device_category">设备类型</string>
     <string name="device_model">设备型号</string>
     <string name="floor">楼层</string>
+    <string name="floor_f">楼层（F）</string>
     <string name="floor_hint">请输入设备所在楼层</string>
     <string name="device_model_empty">请先选择设备型号</string>
     <string name="network_status">网络状态</string>
@@ -317,6 +318,8 @@
     <string name="add_shop">新增门店</string>
     <string name="update_shop">编辑门店</string>
     <string name="add_pt">新增营业点</string>
+    <string name="add_pt1">添加营业点</string>
+    <string name="add_pt_prompt1">可以添加多个营业点</string>
     <string name="update_pt">编辑营业点</string>
     <string name="pt">营业点</string>
     <string name="pt_num">营业点数量</string>
@@ -818,6 +821,8 @@
     <string name="cancel_account">注销账号</string>
     <string name="contact_platform">联系平台</string>
     <string name="contact_user">联系用户</string>
+    <string name="contact_phone">联系电话</string>
+    <string name="add_contact_phone">添加联系电话</string>
     <string name="platform_phone">400-661-1751</string>
     <string name="cancel_account_hint">注销后您的身份、账户信息、钱包余额、订单信息等都会被清空且无法找回请谨慎操作。</string>
     <string name="cancel_account_sure">确定注销</string>

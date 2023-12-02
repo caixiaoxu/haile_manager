@@ -26,90 +26,399 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_marginVertical="12dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="vertical"
-                app:divider="@drawable/divder_efefef"
-                app:dividerPadding="16dp"
-                app:showDividers="middle">
+                android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/Font_12_999999"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_shop_position_create_shop"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:background="@color/white"
+                    android:paddingEnd="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_shop_tag"
+                        style="@style/font_17_ff5219"
+                        android:layout_width="16dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="*"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_shop_position_create_shop_title" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_shop_title"
+                        style="@style/font_17_black85"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:text="@string/department"
+                        app:layout_constraintEnd_toStartOf="@id/iv_shop_position_create_shop_right"
+                        app:layout_constraintStart_toEndOf="@id/tv_shop_position_create_shop_tag"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_shop_position_create_shop_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_arrow_right"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_shop_content"
+                        style="@style/font_17_black85_black45"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@{vm.positionParam.shopName}"
+                        android:background="@color/transparent"
+                        app:layout_constraintEnd_toEndOf="@id/tv_shop_position_create_shop_title"
+                        app:layout_constraintStart_toStartOf="@id/tv_shop_position_create_shop_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_shop_position_create_shop_title"
+                        tools:text="门店名称字段显示区域超过换行" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="8dp"
+                    android:background="@drawable/shape_top_stroke_dividing_mlr16"
+                    android:paddingEnd="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_add_pt_tag"
+                        style="@style/font_17_ff5219"
+                        android:layout_width="16dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="*"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_shop_position_create_add_pt_title" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_add_pt_title"
+                        style="@style/font_17_black85"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:text="@string/add_pt1"
+                        app:layout_constraintEnd_toStartOf="@id/ib_shop_position_create_add_pt"
+                        app:layout_constraintStart_toEndOf="@id/tv_shop_position_create_add_pt_tag"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <com.lsy.framelib.ui.weight.SingleTapImageButton
+                        android:id="@+id/ib_shop_position_create_add_pt"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@mipmap/icon_position_create_add"
+                        android:background="@color/transparent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_add_pt_content"
+                        style="@style/Font_12_black25"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/add_pt_prompt1"
+                        android:background="@color/transparent"
+                        app:layout_constraintEnd_toEndOf="@id/tv_shop_position_create_add_pt_title"
+                        app:layout_constraintStart_toStartOf="@id/tv_shop_position_create_add_pt_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_shop_position_create_add_pt_title" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+                    android:id="@+id/ll_shop_position_create_add_pt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_top_stroke_dividing_mlr16"
                     android:paddingHorizontal="16dp"
-                    android:text='@{null == vm.positionCode?@string/pt_info:@string/pt_id_info(vm.positionCode)}' />
+                    app:itemLayout="@layout/item_shop_position_create_position"
+                    android:orientation="vertical"/>
 
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/item_position_shop"
-                    style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@{vm.positionParam.shopName}"
-                    app:showArrow="true"
-                    app:title="@string/department"
-                    app:type="info" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_shop_position_create_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/white"
+                    android:paddingEnd="16dp">
 
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/item_position_name"
-                    style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@={vm.positionParam.name}"
-                    android:maxLength="20"
-                    app:title="@string/pt_name"
-                    app:type="input" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_location_tag"
+                        style="@style/font_17_ff5219"
+                        android:layout_width="16dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="*"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_shop_position_create_location_title" />
 
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/item_position_location"
-                    style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@{vm.positionParam.location}"
-                    app:showArrow="true"
-                    app:title="@string/orientation"
-                    app:type="info" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_location_title"
+                        style="@style/font_17_black85"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:text="@string/orientation"
+                        app:layout_constraintEnd_toStartOf="@id/iv_shop_position_create_location_right"
+                        app:layout_constraintStart_toEndOf="@id/tv_shop_position_create_location_tag"
+                        app:layout_constraintTop_toTopOf="parent"/>
 
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/item_position_address"
-                    style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@={vm.positionParam.addressVal}"
-                    android:maxLength="50"
-                    app:title="@string/location_detail"
-                    app:type="input" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_shop_position_create_location_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_arrow_right"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/item_position_sex"
-                    style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@{vm.positionParam.sexNameVal}"
-                    app:showArrow="true"
-                    app:title="@string/apply_sex"
-                    app:type="info" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_location_content"
+                        style="@style/font_17_black85_black45"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:hint="@string/please_select"
+                        android:text="@{vm.positionParam.location}"
+                        android:background="@color/transparent"
+                        app:layout_constraintEnd_toEndOf="@id/tv_shop_position_create_location_title"
+                        app:layout_constraintStart_toStartOf="@id/tv_shop_position_create_location_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_shop_position_create_location_title" />
 
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/item_position_business_hours"
-                    style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@{vm.positionParam.workTimeValue}"
-                    app:showArrow="true"
-                    app:title="@string/business_hours"
-                    app:type="info" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:background="@drawable/shape_top_stroke_dividing_mlr16"
+                    android:paddingEnd="16dp">
 
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/item_position_business_phone"
-                    style="@style/MultiTypePaddingHItemStyle"
-                    android:maxLength="20"
-                    android:digits="0123456789-"
-                    app:itemContent="@={vm.positionParam.serviceTelephone}"
-                    app:title="@string/business_phone"
-                    app:type="input" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_address_tag"
+                        style="@style/font_17_ff5219"
+                        android:layout_width="16dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="*"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_shop_position_create_address_title" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_address_title"
+                        style="@style/font_17_black85"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:text="@string/location_detail"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tv_shop_position_create_address_tag"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/tv_shop_position_create_address_content"
+                        style="@style/font_17_black85_black45"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:background="@color/transparent"
+                        android:text="@={vm.positionParam.addressVal}"
+                        android:hint="@string/please_input"
+                        app:layout_constraintEnd_toEndOf="@id/tv_shop_position_create_address_title"
+                        app:layout_constraintStart_toStartOf="@id/tv_shop_position_create_address_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_shop_position_create_address_title" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_shop_position_create_sex"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:background="@drawable/shape_top_stroke_dividing_mlr16"
+                    android:paddingEnd="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_sex_tag"
+                        style="@style/font_17_ff5219"
+                        android:layout_width="16dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="*"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_shop_position_create_sex_title" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_sex_title"
+                        style="@style/font_17_black85"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:text="@string/sex"
+                        app:layout_constraintEnd_toStartOf="@id/iv_shop_position_create_sex_right"
+                        app:layout_constraintStart_toEndOf="@id/tv_shop_position_create_sex_tag"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_shop_position_create_sex_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_arrow_right"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_sex_content"
+                        style="@style/font_17_black85_black45"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:hint="@string/please_select"
+                        android:background="@color/transparent"
+                        android:text="@{vm.positionParam.sexNameVal}"
+                        app:layout_constraintEnd_toEndOf="@id/tv_shop_position_create_sex_title"
+                        app:layout_constraintStart_toStartOf="@id/tv_shop_position_create_sex_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_shop_position_create_sex_title" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_shop_position_create_business_hours"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:background="@drawable/shape_top_stroke_dividing_mlr16"
+                    android:paddingEnd="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_business_hours_tag"
+                        style="@style/font_17_ff5219"
+                        android:layout_width="16dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="*"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_shop_position_create_business_hours_title" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_business_hours_title"
+                        style="@style/font_17_black85"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:text="@string/business_hours"
+                        app:layout_constraintEnd_toStartOf="@id/iv_shop_position_create_business_hours_right"
+                        app:layout_constraintStart_toEndOf="@id/tv_shop_position_create_business_hours_tag"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_shop_position_create_business_hours_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_arrow_right"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_business_hours_content"
+                        style="@style/font_17_black85_black45"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:hint="@string/please_select"
+                        android:background="@color/transparent"
+                        android:text="@{vm.positionParam.workTimeValue}"
+                        app:layout_constraintEnd_toEndOf="@id/tv_shop_position_create_business_hours_title"
+                        app:layout_constraintStart_toStartOf="@id/tv_shop_position_create_business_hours_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_shop_position_create_business_hours_title" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="8dp"
+                    android:background="@color/white"
+                    android:layout_marginTop="12dp"
+                    android:paddingEnd="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_business_phone_tag"
+                        style="@style/font_17_ff5219"
+                        android:layout_width="16dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="*"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_shop_position_create_business_phone_title" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_business_phone_title"
+                        style="@style/font_17_black85"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:text="@string/business_phone"
+                        app:layout_constraintEnd_toStartOf="@id/ib_shop_position_create_business_phone_add"
+                        app:layout_constraintStart_toEndOf="@id/tv_shop_position_create_business_phone_tag"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <com.lsy.framelib.ui.weight.SingleTapImageButton
+                        android:id="@+id/ib_shop_position_create_business_phone_add"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@mipmap/icon_position_create_add"
+                        android:background="@color/transparent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_position_create_business_phone_content"
+                        style="@style/Font_12_black25"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/add_pt_prompt1"
+                        android:background="@color/transparent"
+                        app:layout_constraintEnd_toEndOf="@id/tv_shop_position_create_business_phone_title"
+                        app:layout_constraintStart_toStartOf="@id/tv_shop_position_create_business_phone_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_shop_position_create_business_phone_title" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+                    android:id="@+id/ll_shop_position_create_business_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:itemLayout="@layout/item_shop_position_create_business_phone"
+                    android:background="@drawable/shape_top_stroke_dividing_mlr16"
+                    android:paddingHorizontal="16dp"
+                    android:orientation="vertical"/>
+            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/page_bottom_h"
-            android:paddingTop="8dp"
-            android:background="@drawable/shape_top_stroke_dividing">
+            android:background="@drawable/shape_top_stroke_dividing"
+            android:paddingTop="8dp">
+
             <com.yunshang.haile_manager_android.ui.view.CommonButton
                 android:id="@+id/btn_shop_create_submit"
                 style="@style/CommonMatchBtnStyle1"

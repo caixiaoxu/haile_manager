@@ -19,17 +19,23 @@ import com.yunshang.haile_manager_android.R
  */
 data class ShopPositionCreateParam(
     var id: Int? = null,
-    var name: String? = null,//名称
-    var shopId: Int? = null,//门店Id
-//    var area: String? = null,//地区
-    var address: String? = null,//地址
+    var shopId: Int? = null,
+    var nameAndFloorList: MutableList<NameAndFloor>? = null,
     var lat: Double? = null,
     var lng: Double? = null,
+//    var area: String? = null,
+    var address: String? = null,//地址
+//    var name: String? = null,
+//    var floorCode: String? = null,
+    var sex: Int? = 2,
     var workTime: String? = null,
     var workTimeStr: String? = null,
-    var serviceTelephone: String? = null,
-    var sex: Int? = 2
+    var serviceTelephone: String? = null
 ) : BaseObservable() {
+
+    init {
+        nameAndFloorList = mutableListOf()
+    }
 
     @Transient
     @get:Bindable
@@ -174,3 +180,10 @@ data class BusinessHourParams(
     val weekDays: List<Int>,
     val workTime: String
 )
+
+data class NameAndFloor(
+    val name: String? = null,
+    val floorCode: String? = null
+) {
+    fun floorCodeVal(): String = floorCode ?: "未填楼层"
+}

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="build"
+            type="com.yunshang.haile_manager_android.ui.view.dialog.PositionCreateSheetDialog.Builder" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_sffffff_rt12"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_position_create_title"
+            android:layout_width="match_parent"
+            android:layout_height="52dp">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/tv_position_create_close"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:paddingHorizontal="16dp"
+                android:src="@mipmap/icon_close_x"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_position_create_title"
+                style="@style/font_15_171a1d_bold"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_position_create_save"
+                style="@style/Font_14_ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:alpha="0.4"
+                android:background="@drawable/shape_sf0a258_r14"
+                android:enabled="false"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:text="@string/save"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:background="@drawable/divder_efefef" />
+
+        <com.yunshang.haile_manager_android.ui.view.MaxHeightScrollView
+            android:layout_width="match_parent"
+            android:layout_height="289dp"
+            android:scrollbars="none"
+            app:maxHeight="289dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingVertical="12dp"
+                    android:paddingEnd="16dp"
+                    app:visibility="@{0 == build.addType}"
+                    tools:visibility="visible">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_position_create_position_name_tag"
+                        style="@style/font_17_ff5219"
+                        android:layout_width="16dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="*"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_position_create_position_name_title" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_position_create_position_name_title"
+                        style="@style/font_17_black85"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:text="@string/pt_name"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tv_position_create_position_name_tag"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/tv_position_create_position_name_content"
+                        style="@style/font_17_black85_black45"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:background="@color/transparent"
+                        android:hint="@string/please_input"
+                        android:text="@={build.positionName}"
+                        app:layout_constraintEnd_toEndOf="@id/tv_position_create_position_name_title"
+                        app:layout_constraintStart_toStartOf="@id/tv_position_create_position_name_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_position_create_position_name_title" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_top_stroke_dividing_mlr16"
+                    android:paddingVertical="12dp"
+                    android:paddingEnd="16dp"
+                    app:visibility="@{0 == build.addType}"
+                    tools:visibility="visible">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_position_create_position_floor_tag"
+                        style="@style/font_17_ff5219"
+                        android:layout_width="16dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="*"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_position_create_position_floor_title" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_position_create_position_floor_title"
+                        style="@style/font_17_black85"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:text="@string/floor_f"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tv_position_create_position_floor_tag"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/tv_position_create_position_floor_content"
+                        style="@style/font_17_black85_black45"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:background="@color/transparent"
+                        android:hint="@string/please_input"
+                        android:inputType="number"
+                        android:text="@={build.positionFloor}"
+                        app:layout_constraintEnd_toEndOf="@id/tv_position_create_position_floor_title"
+                        app:layout_constraintStart_toStartOf="@id/tv_position_create_position_floor_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_position_create_position_floor_title" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_top_stroke_dividing_mlr16"
+                    android:paddingVertical="12dp"
+                    android:paddingEnd="16dp"
+                    app:visibility="@{1 == build.addType}"
+                    tools:visibility="visible">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_position_create_business_phone_tag"
+                        style="@style/font_17_ff5219"
+                        android:layout_width="16dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="*"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_position_create_business_phone_title" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_position_create_business_phone_title"
+                        style="@style/font_17_black85"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:text="@string/contact_phone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tv_position_create_business_phone_tag"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/tv_position_create_business_phone_content"
+                        style="@style/font_17_black85_black45"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:background="@color/transparent"
+                        android:hint="@string/please_input"
+                        android:inputType="phone"
+                        android:text="@={build.contactPhone}"
+                        app:layout_constraintEnd_toEndOf="@id/tv_position_create_business_phone_title"
+                        app:layout_constraintStart_toStartOf="@id/tv_position_create_business_phone_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_position_create_business_phone_title" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </com.yunshang.haile_manager_android.ui.view.MaxHeightScrollView>
+
+    </LinearLayout>
+</layout>

@@ -47,6 +47,7 @@ data class ShopPositionDetailEntity(
     val districtName: String? = null,
     val provinceId: Int? = null,
     val provinceName: String? = null,
+    val floorCode: String? = null
 ) : BaseObservable() {
 
     @get:Bindable

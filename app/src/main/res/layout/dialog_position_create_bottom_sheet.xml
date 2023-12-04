@@ -125,19 +125,9 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_top_stroke_dividing_mlr16"
                     android:paddingVertical="12dp"
-                    android:paddingEnd="16dp"
+                    android:paddingHorizontal="16dp"
                     app:visibility="@{0 == build.addType}"
                     tools:visibility="visible">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_position_create_position_floor_tag"
-                        style="@style/font_17_ff5219"
-                        android:layout_width="16dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="*"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tv_position_create_position_floor_title" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_position_create_position_floor_title"
@@ -147,7 +137,7 @@
                         android:layout_marginEnd="12dp"
                         android:text="@string/floor_f"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/tv_position_create_position_floor_tag"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatEditText
@@ -157,8 +147,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:background="@color/transparent"
+                        android:digits="0123456789-"
                         android:hint="@string/please_input"
                         android:inputType="number"
+                        android:maxLength="3"
                         android:text="@={build.positionFloor}"
                         app:layout_constraintEnd_toEndOf="@id/tv_position_create_position_floor_title"
                         app:layout_constraintStart_toStartOf="@id/tv_position_create_position_floor_title"

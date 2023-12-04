@@ -127,17 +127,13 @@ class PositionCreateSheetDialog private constructor(private val builder: Builder
             addSource(positionName) {
                 value = checkSave()
             }
-            addSource(positionFloor) {
-                value = checkSave()
-            }
             addSource(contactPhone) {
                 value = checkSave()
             }
         }
 
         private fun checkSave(): Boolean =
-            (0 == addType && !positionName.value.isNullOrEmpty() && !positionFloor.value.isNullOrEmpty())
-                    || (1 == addType && !contactPhone.value.isNullOrEmpty())
+            (0 == addType && !positionName.value.isNullOrEmpty()) || (1 == addType && !contactPhone.value.isNullOrEmpty())
 
         /**
          * 构建

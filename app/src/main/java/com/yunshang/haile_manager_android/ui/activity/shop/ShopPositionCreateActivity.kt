@@ -123,7 +123,7 @@ class ShopPositionCreateActivity :
             if (mViewModel.positionParam.value?.nameAndFloorList?.let { it.size < 20 } != false) {
                 showAddPositionDialog(-1)
             } else {
-                SToast.showToast(this@ShopPositionCreateActivity, "营业点最多添加2个")
+                SToast.showToast(this@ShopPositionCreateActivity, "营业点最多添加20个")
             }
         }
 
@@ -204,7 +204,7 @@ class ShopPositionCreateActivity :
             ) {
                 showContactPhoneDialog(-1)
             } else {
-                SToast.showToast(this@ShopPositionCreateActivity, "客服电话最多添加2个")
+                SToast.showToast(this@ShopPositionCreateActivity, "客服电话最多添加3个")
             }
         }
     }
@@ -218,7 +218,7 @@ class ShopPositionCreateActivity :
         PositionCreateSheetDialog.Builder(0) { value1, value2 ->
             mViewModel.positionParam.value?.nameAndFloorList?.let { list ->
                 val pot = NameAndFloor(value1, value2)
-                if (-1 == index) list.add(pot)
+                if (-1 == index) list.add(0, pot)
                 else list[index] = pot
             }
             buildPositionListView()
@@ -242,7 +242,7 @@ class ShopPositionCreateActivity :
             if (!value1.isNullOrEmpty()) {
                 val phoneList = mViewModel.positionParam.value?.serviceTelephone?.split(",")
                     ?.toMutableList() ?: mutableListOf()
-                if (-1 == index) phoneList.add(value1)
+                if (-1 == index) phoneList.add(0, value1)
                 else phoneList[index] = value1
                 mViewModel.positionParam.value?.serviceTelephone = phoneList.joinToString(",")
                 buildContactListView()
@@ -258,13 +258,18 @@ class ShopPositionCreateActivity :
      * 构建营业点列表布局
      */
     private fun buildPositionListView() {
+        val list = mViewModel.positionParam.value?.nameAndFloorList?.toList()
         mBinding.llShopPositionCreateAddPt.buildChild<ItemShopPositionCreatePositionBinding, NameAndFloor>(
-            mViewModel.positionParam.value?.nameAndFloorList?.toList()
+            list
         ) { index, childBinding, data ->
             childBinding.child = data
+            childBinding.showDel = list?.let { it.size > 1 } ?: false
+            childBinding.tvShopPositionCreatePositionFloorDetail.setOnClickListener {
+                showAddPositionDialog(index, data)
+            }
             childBinding.ibShopPositionCreatePositionDel.setOnClickListener {
                 mViewModel.positionParam.value?.nameAndFloorList?.removeAt(index)
-                mBinding.llShopPositionCreateAddPt.removeViewAt(index)
+                buildPositionListView()
             }
         }
     }
@@ -273,10 +278,12 @@ class ShopPositionCreateActivity :
      * 构建联系人电话列表布局
      */
     private fun buildContactListView() {
+        val list = mViewModel.positionParam.value?.serviceTelephone?.split(",")
         mBinding.llShopPositionCreateBusinessPhone.buildChild<ItemShopPositionCreateBusinessPhoneBinding, String>(
-            mViewModel.positionParam.value?.serviceTelephone?.split(",")
+            list
         ) { index, childBinding, data ->
             childBinding.phone = data
+            childBinding.showDel = list?.let { it.size > 1 } ?: false
             childBinding.tvShopPositionCreateBusinessPhoneUpdate.setOnClickListener {
                 showContactPhoneDialog(index, data)
             }
@@ -285,7 +292,7 @@ class ShopPositionCreateActivity :
                     ?.toMutableList() ?: mutableListOf()
                 phoneList.removeAt(index)
                 mViewModel.positionParam.value?.serviceTelephone = phoneList.joinToString(",")
-                mBinding.llShopPositionCreateBusinessPhone.removeViewAt(index)
+                buildContactListView()
             }
         }
     }

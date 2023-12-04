@@ -66,8 +66,17 @@ class DeviceManagerActivity :
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             it.data?.let { intent ->
                 when (it.resultCode) {
+                    IntentParams.SearchSelectTypeParam.ShopResultCode -> {
+                        intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)
+                            ?.let { json ->
+                                GsonUtils.json2List(json, SearchSelectParam::class.java)
+                                    ?.let { selected ->
+                                        mViewModel.selectDepartments.value = selected
+                                    }
+                            }
+                    }
                     IntentParams.ShopPositionSelectorParams.ShopPositionSelectorResultCode -> {
-                        mViewModel.selectDepartment.value =
+                        mViewModel.selectDepartmentPositions.value =
                             IntentParams.ShopPositionSelectorParams.parseSelectList(intent)
                     }
                     IntentParams.SearchSelectTypeParam.DeviceModelResultCode -> {
@@ -157,7 +166,11 @@ class DeviceManagerActivity :
         super.initIntent()
         mViewModel.searchKey.value = IntentParams.SearchParams.parseKeyWord(intent)
         IntentParams.DeviceManagerParams.parseShop(intent)?.let {
-            mViewModel.selectDepartment.value = mutableListOf(it)
+            if (null != it.id && null != it.name) {
+                mViewModel.selectDepartments.value =
+                    mutableListOf(SearchSelectParam(it.id, it.name))
+            }
+            mViewModel.selectDepartmentPositions.value = mutableListOf(it)
         }
         mViewModel.bigCategoryType = IntentParams.DeviceManagerParams.parseCategoryBigType(intent)
     }
@@ -244,12 +257,36 @@ class DeviceManagerActivity :
             startSearchSelect.launch(
                 Intent(
                     this@DeviceManagerActivity,
+                    SearchSelectRadioActivity::class.java
+                ).apply {
+                    putExtras(
+                        IntentParams.SearchSelectTypeParam.pack(
+                            IntentParams.SearchSelectTypeParam.SearchSelectTypeShop,
+                            mustSelect = false,
+                            moreSelect = true
+                        )
+                    )
+                }
+            )
+        }
+
+        // 所属营业点
+        mBinding.tvDeviceCategoryPt.setOnClickListener {
+            if (mViewModel.selectDepartments.value.isNullOrEmpty()) {
+                SToast.showToast(this@DeviceManagerActivity, "请先选择门店")
+                return@setOnClickListener
+            }
+            startSearchSelect.launch(
+                Intent(
+                    this@DeviceManagerActivity,
                     ShopPositionSelectorActivity::class.java
                 ).apply {
                     putExtras(
                         IntentParams.ShopPositionSelectorParams.pack(
                             mustSelect = false,
-                            selectList = mViewModel.selectDepartment.value
+                            selectList = mViewModel.selectDepartmentPositions.value,
+                            shopIdList = mViewModel.selectDepartments.value?.map { item -> item.id }
+                                ?.toIntArray()
                         )
                     )
                 }
@@ -455,12 +492,24 @@ class DeviceManagerActivity :
         }
 
         // 选择店铺
-        mViewModel.selectDepartment.observe(this) {
+        mViewModel.selectDepartments.observe(this) {
             mBinding.tvDeviceCategoryDepartment.text = when (val count: Int = (it?.size ?: 0)) {
                 0 -> ""
                 1 -> it?.firstOrNull()?.name ?: ""
                 else -> "已选中${count}个门店"
             }
+            mBinding.rvDeviceManagerList.requestRefresh()
+        }
+
+        // 选择店铺点位
+        mViewModel.selectDepartmentPositions.observe(this) {
+            val list = it?.flatMap { item -> item.positionList ?: listOf() }
+            mBinding.tvDeviceCategoryPt.text =
+                when (val count: Int = (list?.size ?: 0)) {
+                    0 -> ""
+                    1 -> list?.firstOrNull()?.name ?: ""
+                    else -> "已选中${count}个营业点"
+                }
             mBinding.rvDeviceManagerList.requestRefresh()
         }
 

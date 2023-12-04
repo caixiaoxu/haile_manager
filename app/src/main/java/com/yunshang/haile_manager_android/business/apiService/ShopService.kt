@@ -186,6 +186,12 @@ interface ShopService {
     suspend fun createPosition(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
+     * 创建点位（批量）
+     */
+    @POST("/position/addSubOrganizationPositions")
+    suspend fun batchCreatePosition(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
      * 修改点位
      */
     @POST("/position/updateSubOrganizationPosition")

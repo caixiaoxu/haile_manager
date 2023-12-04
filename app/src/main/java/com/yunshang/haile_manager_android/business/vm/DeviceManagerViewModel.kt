@@ -49,7 +49,12 @@ class DeviceManagerViewModel : BaseViewModel() {
     val mDeviceCountStr: MutableLiveData<String> = MutableLiveData()
 
     // 选择的店铺
-    val selectDepartment: MutableLiveData<MutableList<ShopAndPositionSelectEntity>?> by lazy {
+    val selectDepartments: MutableLiveData<MutableList<SearchSelectParam>?> by lazy {
+        MutableLiveData()
+    }
+
+    // 选择的店铺点位
+    val selectDepartmentPositions: MutableLiveData<MutableList<ShopAndPositionSelectEntity>?> by lazy {
         MutableLiveData()
     }
 
@@ -95,6 +100,7 @@ class DeviceManagerViewModel : BaseViewModel() {
             DeviceIndicatorEntity("出水故障", MutableLiveData(0), 3),
             DeviceIndicatorEntity("免费设备", MutableLiveData(0), 4),
             DeviceIndicatorEntity("电磁阀异常", MutableLiveData(0), 5),
+            DeviceIndicatorEntity("3天未使用", MutableLiveData(0), 6),
         )
 
     /**
@@ -143,18 +149,18 @@ class DeviceManagerViewModel : BaseViewModel() {
      * 状态数量
      */
     private suspend fun requestDeviceStatusTotals() {
-
         val params = hashMapOf<String, Any>()
         // 店铺
-        selectDepartment.value?.mapNotNull { item -> item.id }?.joinToString(",")?.let {
+        selectDepartments.value?.map { it.id }?.joinToString(",")?.let {
             params["shopIdList"] = it
         }
-        //点位
-        selectDepartment.value?.flatMap { item ->
+        // 点位
+        selectDepartmentPositions.value?.flatMap { item ->
             item.positionList?.mapNotNull { pos -> pos.id } ?: listOf()
         }?.joinToString(",")?.let {
             params["positionIdList"] = it
         }
+
         // 设备类型
         selectDeviceCategory.value?.let {
             params["categoryIdList"] = it.joinToString(",") { item -> item.id.toString() }
@@ -192,6 +198,7 @@ class DeviceManagerViewModel : BaseViewModel() {
                 status[2].num.postValue(total.waterErrorCount)
                 status[3].num.postValue(total.freeWaterCount)
                 status[4].num.postValue(total.solenoidValveErrorCount)
+                status[5].num.postValue(total.unused3Count)
             }
         }
     }
@@ -251,14 +258,14 @@ class DeviceManagerViewModel : BaseViewModel() {
                 params["keywords"] = it
             }
             // 店铺
-            val shopIdList = selectDepartment.value?.mapNotNull { item -> item.id } ?: listOf()
+            val shopIdList = selectDepartments.value?.map { it.id } ?: listOf()
             if (isPost) {
                 params["shopIdList"] = shopIdList
             } else {
                 params["shopIdList"] = shopIdList.joinToString(",")
             }
             //点位
-            val positionIdList = selectDepartment.value?.flatMap { item ->
+            val positionIdList = selectDepartmentPositions.value?.flatMap { item ->
                 item.positionList?.mapNotNull { pos -> pos.id } ?: listOf()
             } ?: listOf()
             if (isPost) {

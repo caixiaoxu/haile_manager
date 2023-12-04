@@ -14,6 +14,7 @@ import com.yunshang.haile_manager_android.data.arguments.NameAndFloor
 import com.yunshang.haile_manager_android.data.arguments.ShopParam
 import com.yunshang.haile_manager_android.data.arguments.ShopPositionCreateParam
 import com.yunshang.haile_manager_android.data.entities.ShopPositionDetailEntity
+import com.yunshang.haile_manager_android.data.extend.isGreaterThan0
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -58,9 +59,8 @@ class ShopPositionCreateViewModel : BaseViewModel() {
             positionParam.value = ShopPositionCreateParam(
                 it.id,
                 it.shopId,
-                mutableListOf(
-                    NameAndFloor(it.name, it.floorCode)
-                ),
+                name = it.name,
+                floorCode = it.floorCode,
                 sex = it.sex,
                 serviceTelephone = it.serviceTelephone
             ).apply {
@@ -97,9 +97,16 @@ class ShopPositionCreateViewModel : BaseViewModel() {
             return
         }
 
-        if (positionParam.value?.nameAndFloorList.isNullOrEmpty()) {
-            SToast.showToast(v.context, "请先输入营业点")
-            return
+        if (positionParam.value?.id.isGreaterThan0()) {
+            if (positionParam.value?.name.isNullOrEmpty()) {
+                SToast.showToast(v.context, "请先输入营业点名")
+                return
+            }
+        } else {
+            if (positionParam.value?.nameAndFloorList.isNullOrEmpty()) {
+                SToast.showToast(v.context, "请先添加营业点")
+                return
+            }
         }
         if (null == positionParam.value?.lat || null == positionParam.value?.lng) {
             SToast.showToast(v.context, "请选择定位点")
@@ -131,7 +138,7 @@ class ShopPositionCreateViewModel : BaseViewModel() {
         launch({
             ApiRepository.dealApiResult(
                 if (null == positionParam.value?.id) {
-                    mShopRepo.createPosition(body)
+                    mShopRepo.batchCreatePosition(body)
                 } else {
                     mShopRepo.updatePosition(body)
                 }

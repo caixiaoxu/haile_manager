@@ -25,8 +25,8 @@ data class ShopPositionCreateParam(
     var lng: Double? = null,
 //    var area: String? = null,
     var address: String? = null,//地址
-//    var name: String? = null,
-//    var floorCode: String? = null,
+    var name: String? = null,
+    var floorCode: String? = null,
     var sex: Int? = 2,
     var workTime: String? = null,
     var workTimeStr: String? = null,
@@ -182,8 +182,8 @@ data class BusinessHourParams(
 )
 
 data class NameAndFloor(
-    val name: String? = null,
-    val floorCode: String? = null
+    var name: String? = null,
+    var floorCode: String? = null
 ) {
-    fun floorCodeVal(): String = floorCode ?: "未填楼层"
+    fun floorCodeVal(): String = if (floorCode.isNullOrEmpty()) "未填楼层" else "${floorCode}F"
 }

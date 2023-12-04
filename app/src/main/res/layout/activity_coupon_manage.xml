@@ -26,7 +26,8 @@
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
@@ -110,5 +111,54 @@
                 android:paddingHorizontal="12dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/shape_top_stroke_dividing"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            app:visibility="@{vm.isBatch}">
+
+            <com.yunshang.haile_manager_android.ui.view.ClickCheckBox
+                android:id="@+id/cb_coupon_manage_all"
+                style="@style/font_17_black85"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:button="@null"
+                android:checked="@{vm.isAll}"
+                android:drawableStart="@drawable/selector_checked"
+                android:drawablePadding="14dp"
+                android:gravity="center"
+                android:text="@string/select_all"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/font_17_black85"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@{vm.selectBatchNumVal}"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="已选择 1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/page_bottom_h"
+            android:background="@drawable/shape_top_stroke_dividing"
+            android:paddingTop="12dp"
+            app:visibility="@{vm.isBatch}">
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_coupon_manager_cancellation"
+                style="@style/CommonMatchBtnStyle1"
+                android:enabled="@{vm.selectBatchNum > 0}"
+                android:layout_marginHorizontal="16dp"
+                android:text="@string/cancellation" />
+        </FrameLayout>
     </LinearLayout>
 </layout>

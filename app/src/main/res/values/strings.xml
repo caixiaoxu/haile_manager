@@ -482,6 +482,7 @@
     <string name="work_order_manager">工单管理</string>
     <string name="notice_manager">公告管理</string>
 
+    <string name="selected">已选择</string>
     <string name="home_marketing_title">营销中心</string>
     <string name="discount_manager">折扣优惠</string>
     <string name="discount_time_title">特惠时间：%s</string>

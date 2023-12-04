@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -32,6 +33,7 @@ import com.yunshang.haile_manager_android.ui.view.IndicatorPagerTitleView
 import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
@@ -71,7 +73,23 @@ class CouponManageActivity :
             R.layout.item_coupon_list,
             BR.item
         ) { mItemBinding, _, item ->
+            mViewModel.isBatch.observe(this) {
+                mItemBinding?.isBatch = it
+            }
+            mItemBinding?.cbDeviceRepairsSelect?.setOnCheckedChangeListener { _, isChecked ->
+                if (1 == item.state) {
+                    item.selected = isChecked
+                    refreshSelectBatchNum()
+                }
+            }
             mItemBinding?.root?.setOnClickListener {
+                if (true == mViewModel.isBatch.value) {
+                    if (1 == item.state) {
+                        item.selected = !item.selected
+                        refreshSelectBatchNum()
+                    }
+                    return@setOnClickListener
+                }
                 startActivity(
                     Intent(
                         this@CouponManageActivity,
@@ -86,6 +104,13 @@ class CouponManageActivity :
     override fun layoutId(): Int = R.layout.activity_coupon_manage
 
     override fun backBtn(): View = mBinding.barCouponManageTitle.getBackBtn()
+
+    override fun onBackListener() {
+        if (mViewModel.isBatch.value == true) {
+            mViewModel.isBatch.value = false
+        } else
+            super.onBackListener()
+    }
 
     /**
      * 设置标题右侧按钮
@@ -128,6 +153,7 @@ class CouponManageActivity :
         }
         mPopupBinding.tvCouponOperateBatchInvalid.setOnClickListener {
             popupWindow.dismiss()
+            mViewModel.isBatch.value = true
         }
         popupWindow.showAsDropDown(
             this,
@@ -308,6 +334,41 @@ class CouponManageActivity :
                     mViewModel.requestCouponList(page, pageSize, callBack)
                 }
             }
+
+        mBinding.cbCouponManageAll.setOnCheckClickListener {
+            if (!mBinding.cbCouponManageAll.isChecked) {
+                selectAll()
+            } else {
+                resetSelectBatchNum()
+            }
+            true
+        }
+        mBinding.btnCouponManagerCancellation.setOnClickListener {
+            CommonDialog.Builder("是否作废").apply {
+                negativeTxt = StringUtils.getString(R.string.cancel)
+                setPositiveButton(StringUtils.getString(R.string.cancellation)) {
+                    mViewModel.abandonCoupon(this@CouponManageActivity, mAdapter.list)
+                }
+            }.build().show(supportFragmentManager)
+        }
+    }
+
+    private fun selectAll() {
+        mAdapter.list.forEach {
+            it.selected = 1 == it.state
+        }
+        mViewModel.refreshSelectBatchNum(mAdapter.list)
+    }
+
+    private fun resetSelectBatchNum() {
+        mAdapter.list.forEach {
+            it.selected = false
+        }
+        mViewModel.refreshSelectBatchNum(mAdapter.list)
+    }
+
+    private fun refreshSelectBatchNum() {
+        mViewModel.refreshSelectBatchNum(mAdapter.list)
     }
 
     override fun initData() {

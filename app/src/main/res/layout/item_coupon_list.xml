@@ -6,73 +6,96 @@
     <data>
 
         <variable
+            name="isBatch"
+            type="java.lang.Boolean" />
+
+        <variable
             name="item"
             type="com.yunshang.haile_manager_android.data.entities.CouponEntity" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_ffffff_r8"
         android:layout_marginBottom="12dp"
-        android:padding="16dp">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_item_coupon_list_type_price"
-            style="@style/font_17_black85_bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{item.title}"
-            app:layout_constraintEnd_toStartOf="@id/tv_item_coupon_list_state"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="折扣券 8.8折" />
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cb_device_repairs_select"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/transparent"
+            android:button="@null"
+            android:checked="@{item.selected}"
+            android:drawableStart="@drawable/selector_checked"
+            android:enabled="@{1 == item.state}"
+            app:visibility="@{isBatch}" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_item_coupon_list_state"
-            style="@style/Font_14_333333"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/icon_arrow_right"
-            android:drawablePadding="8dp"
-            android:text="@{item.stateVal}"
-            android:textColor="@{item.stateColor}"
-            app:layout_constraintBottom_toBottomOf="@id/tv_item_coupon_list_type_price"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_item_coupon_list_type_price"
-            tools:text="未使用" />
-
-        <View
-            style="@style/DividingStyle"
-            app:layout_constraintBottom_toTopOf="@id/tv_item_coupon_list_user"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_coupon_list_type_price"
-            tools:ignore="MissingConstraints" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_item_coupon_list_user"
-            style="@style/Font_14_black65"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:gravity="center_vertical"
-            android:drawableStart="@mipmap/icon_order_list_user"
-            android:drawablePadding="4dp"
-            android:text="@{item.user}"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_coupon_list_type_price"
-            tools:text="用户手机号：18814822697" />
+            android:background="@drawable/shape_ffffff_r8"
+            android:padding="16dp">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_item_coupon_list_validity"
-            style="@style/Font_14_black65"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:gravity="center_vertical"
-            android:drawableStart="@mipmap/icon_order_list_time"
-            android:drawablePadding="4dp"
-            android:text="@{item.validity}"
-            app:layout_constraintTop_toBottomOf="@id/tv_item_coupon_list_user"
-            tools:text="有效期：2023-10-11至2023-11-11" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_item_coupon_list_type_price"
+                style="@style/font_17_black85_bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{item.title}"
+                app:layout_constraintEnd_toStartOf="@id/tv_item_coupon_list_state"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="折扣券 8.8折" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_item_coupon_list_state"
+                style="@style/Font_14_333333"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/icon_arrow_right"
+                android:drawablePadding="8dp"
+                android:text="@{item.stateVal}"
+                android:textColor="@{item.stateColor}"
+                app:layout_constraintBottom_toBottomOf="@id/tv_item_coupon_list_type_price"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_item_coupon_list_type_price"
+                tools:text="未使用" />
+
+            <View
+                style="@style/DividingStyle"
+                app:layout_constraintBottom_toTopOf="@id/tv_item_coupon_list_user"
+                app:layout_constraintTop_toBottomOf="@id/tv_item_coupon_list_type_price"
+                tools:ignore="MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_item_coupon_list_user"
+                style="@style/Font_14_black65"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:drawableStart="@mipmap/icon_order_list_user"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                android:text="@{item.user}"
+                app:layout_constraintTop_toBottomOf="@id/tv_item_coupon_list_type_price"
+                tools:text="用户手机号：18814822697" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_item_coupon_list_validity"
+                style="@style/Font_14_black65"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:drawableStart="@mipmap/icon_order_list_time"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                android:text="@{item.validity}"
+                app:layout_constraintTop_toBottomOf="@id/tv_item_coupon_list_user"
+                tools:text="有效期：2023-10-11至2023-11-11" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

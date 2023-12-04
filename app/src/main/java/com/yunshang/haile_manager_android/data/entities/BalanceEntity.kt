@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.data.entities
 
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.StringUtils
 import java.util.*
@@ -29,7 +30,10 @@ data class BalanceEntity(
 
     fun timeStr(): String = DateTimeUtils.formatDateTimeForStr(cashOutTime, "MM/dd HH:mm:ss")
 
-    fun amountStr(): String = StringUtils.formatNumberStrOfStr(capital) ?: ""
+    fun amountStr(): String = capital.formatMoney(true)
+
+    val balanceVal: String
+        get() = balance.formatMoney()
 }
 
 data class BalanceListEntity(val month: Date?, val balanceEntity: BalanceEntity?)

@@ -20,6 +20,7 @@ import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.ShopDeviceRevenueListEntity
 import com.yunshang.haile_manager_android.data.entities.ShopRevenueDetailEntity
 import com.yunshang.haile_manager_android.data.entities.UserFund
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.databinding.ActivityIncomeShopStatisticsBinding
 import com.yunshang.haile_manager_android.databinding.ItemIncomeShopStatisticsListBinding
 import com.yunshang.haile_manager_android.databinding.ItemIncomeStatisticsDeviceInfoBinding
@@ -252,7 +253,7 @@ class IncomeShopStatisticsActivity :
         mViewModel.totalRevenue.observe(this) {
             it?.let { total ->
                 mBinding.tvIncomeShopStatisticsRevenue.text = StringUtils.formatMultiStyleStr(
-                    "¥ ${total.revenue}", arrayOf(
+                    "¥ ${total.revenue.formatMoney()}", arrayOf(
                         VerticalBottomSpan(DimensionUtils.sp2px(24f).toFloat(), -3f)
                     ), 0, 2
                 )

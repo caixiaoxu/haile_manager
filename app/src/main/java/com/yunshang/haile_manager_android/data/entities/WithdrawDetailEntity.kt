@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.data.entities
 
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.data.rule.IIncomeDetailEntity
 import com.yunshang.haile_manager_android.data.rule.IncomeDetailInfo
 
@@ -38,10 +39,10 @@ data class WithdrawDetailEntity(
         StringUtils.getStringArray(R.array.withdraw_status_arr)[cashOutStatus]
 
     fun getWithdrawInfoList(): ArrayList<IncomeDetailInfo> =arrayListOf<IncomeDetailInfo>().apply {
-        add(IncomeDetailInfo(StringUtils.getString(R.string.cash_out_amount), totalAmount))
+        add(IncomeDetailInfo(StringUtils.getString(R.string.cash_out_amount), totalAmount.formatMoney()))
         add(IncomeDetailInfo(StringUtils.getString(R.string.service_charge_rate), "${cashOutRate}%"))
-        add(IncomeDetailInfo(StringUtils.getString(R.string.service_charge), fee))
-        add(IncomeDetailInfo(StringUtils.getString(R.string.arrival_amount), cashOutPrice))
+        add(IncomeDetailInfo(StringUtils.getString(R.string.service_charge), fee.formatMoney()))
+        add(IncomeDetailInfo(StringUtils.getString(R.string.arrival_amount), cashOutPrice.formatMoney()))
     }
 
     override fun getInfoList(): ArrayList<IncomeDetailInfo> =

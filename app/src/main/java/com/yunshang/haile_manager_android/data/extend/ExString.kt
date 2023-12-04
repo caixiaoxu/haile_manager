@@ -28,7 +28,7 @@ fun String?.toRemove0Str(): String = if (this.isNullOrEmpty()) "" else try {
     ""
 }
 
-fun String?.formatMoney(): String {
+fun String?.formatMoney(symbol: Boolean = false): String {
     if (this.isNullOrEmpty()) return ""
 
     // 如果已经格式化了不处理
@@ -38,12 +38,12 @@ fun String?.formatMoney(): String {
     return if (this.matches("-?\\d+(\\.\\d+)?".toRegex())) {
         try {
             // 有小数点就转double
-            if (this.contains(".")) this.toDouble().formatMoney()
-            else this.toInt().formatMoney()
+            if (this.contains(".")) this.toDouble().formatMoney(symbol)
+            else this.toInt().formatMoney(symbol)
         } catch (e: Exception) {
-            ""
+            this
         }
-    } else ""
+    } else this
 }
 
 fun String?.toDefaultInt(def: Int = 0): Int = if (this.isNullOrEmpty()) def else try {

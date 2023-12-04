@@ -13,7 +13,6 @@ import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.R
 import java.io.UnsupportedEncodingException
 import java.text.DecimalFormat
-import java.util.regex.Pattern
 
 
 /**

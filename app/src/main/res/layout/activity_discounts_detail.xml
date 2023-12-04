@@ -142,7 +142,7 @@
 
                     <include
                         layout="@layout/item_device_detail_base_info"
-                        app:content='@{vm.discountsDetail.discountVO}'
+                        app:content='@{vm.discountsDetail.discountVOVal}'
                         app:show="@{vm.discountsDetail.hasDiscount}"
                         app:showCopy="@{false}"
                         app:title="@{@string/discount_value_title}" />

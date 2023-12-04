@@ -17,6 +17,7 @@ import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.HaiXinSchemeConfigsDetailViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.RewardsConfig
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.databinding.ActivityHaixinSchemeConfigsDetailBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopDetailAppointmentBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -80,8 +81,8 @@ class HaiXinSchemeConfigsDetailActivity :
                         }：${
                             StringUtils.getString(
                                 R.string.scheme_config_title,
-                                data.reach!! * 1.0 / schemeDetail.exchangeRate,
-                                data.reward!! * 1.0 / schemeDetail.exchangeRate
+                                (data.reach!! * 1.0 / schemeDetail.exchangeRate).formatMoney(),
+                                (data.reward!! * 1.0 / schemeDetail.exchangeRate).formatMoney()
                             )
                         }"
                     }

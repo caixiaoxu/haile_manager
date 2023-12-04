@@ -1,5 +1,7 @@
 package com.yunshang.haile_manager_android.data.entities
 
+import com.yunshang.haile_manager_android.data.extend.formatMoney
+
 /**
  * Title :
  * Author: Lsy
@@ -17,4 +19,7 @@ data class RefundRecordEntity(
     val state: Int,
     val stateDesc: String,
     val userId: Int
-)
+) {
+    val refundPriceVal: String
+        get() = refundPrice.formatMoney()
+}

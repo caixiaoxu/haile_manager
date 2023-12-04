@@ -30,6 +30,7 @@ import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceEntity
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.data.rule.DeviceIndicatorEntity
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceManagerBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceListBinding
@@ -105,7 +106,7 @@ class DeviceManagerActivity :
             val title =
                 StringUtils.getString(R.string.total_income)
             val value =
-                StringUtils.getString(R.string.unit_money) + NumberUtils.keepTwoDecimals(item.income)
+                StringUtils.getString(R.string.unit_money) + item.income.formatMoney()
             val start = title.length + 1
             val end = title.length + 1 + value.length
             // 格式化总收益样式

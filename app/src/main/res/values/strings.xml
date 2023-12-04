@@ -511,7 +511,7 @@
     <string name="success_album_hint">已保存至相册...</string>
     <string name="scheme_info">方案信息</string>
     <string name="scheme_config_index">方案%1$d</string>
-    <string name="scheme_config_title">满%1$.2f元赠送%2$.2f元</string>
+    <string name="scheme_config_title">满%1s元赠送%2s元</string>
     <string name="scheme_config_create_title">海星充值方案配置</string>
     <string name="scheme_name">方案名称</string>
     <string name="hai_xin">海星</string>

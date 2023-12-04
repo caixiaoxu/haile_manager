@@ -14,6 +14,7 @@ import com.yunshang.haile_manager_android.business.vm.OrderDetailViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.Promotion
 import com.yunshang.haile_manager_android.data.entities.Sku
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.databinding.ActivityOrderDetailBinding
 import com.yunshang.haile_manager_android.databinding.ItemOrderDetailInfoBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -84,7 +85,7 @@ class OrderDetailActivity :
                     childBinding.itemTitle =
                         if (0 == index) "${StringUtils.getString(R.string.consumption_item)}：" else ""
                     childBinding.content =
-                        "${data.skuName}/${data.unitValue} ￥${data.originUnitPrice}"
+                        "${data.skuName}/${data.unitValue} ￥${data.originUnitPrice.formatMoney()}"
                     childBinding.canShow = true
                 }
 
@@ -92,7 +93,7 @@ class OrderDetailActivity :
                     orderDetail.promotionList
                 ) { _, childBinding, data ->
                     childBinding.itemTitle = "${data.title}："
-                    childBinding.content = "-￥${data.discountPrice}"
+                    childBinding.content = "-￥${data.discountPrice.formatMoney()}"
                     childBinding.canShow = true
                 }
             }

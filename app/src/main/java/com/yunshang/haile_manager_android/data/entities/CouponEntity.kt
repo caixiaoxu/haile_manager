@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.data.entities
 
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 
 /**
@@ -64,7 +65,7 @@ data class CouponEntity(
     val title: String
         get() = "${StringUtils.getStringArray(R.array.coupon_type)[couponType]} ${
             if (3 == couponType) percentage + "折" else if (4 == couponType) {
-                if (0.0 == specifiedPrice) "免费" else "${specifiedPrice}元"
+                if (0.0 == specifiedPrice) "免费" else "${specifiedPrice.formatMoney()}元"
             } else reduce + "元"
         }"
 

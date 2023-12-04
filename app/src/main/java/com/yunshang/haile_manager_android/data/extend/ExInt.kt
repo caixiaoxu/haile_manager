@@ -1,5 +1,7 @@
 package com.yunshang.haile_manager_android.data.extend
 
+import java.text.DecimalFormat
+
 /**
  * Title :
  * Author: Lsy
@@ -13,3 +15,11 @@ package com.yunshang.haile_manager_android.data.extend
 fun Int?.hasVal(): Boolean = null != this && -1 != this
 
 fun Int?.isGreaterThan0(): Boolean = null != this && 0 < this
+
+fun Int?.formatMoney(symbol: Boolean = false): String = this?.let {
+    (if (symbol && this > 0) "+" else "") + try {
+        DecimalFormat("#,###").format(this)
+    } catch (e: Exception) {
+        ""
+    }
+} ?: ""

@@ -26,8 +26,9 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginVertical="12dp"
             android:scrollbars="none"
-            app:layout_constraintBottom_toTopOf="@id/view_position_detail_bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bar_position_detail_title"
             app:visibility="@{null!=vm.positionDetail}">
 
@@ -38,7 +39,7 @@
                 <View
                     android:id="@+id/bg_position_detail_title"
                     android:layout_width="match_parent"
-                    android:layout_height="84dp"
+                    android:layout_height="66dp"
                     android:background="@color/white"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,15 +48,15 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="24dp"
                     android:scaleType="fitXY"
                     android:src="@mipmap/icon_position_detail_main"
+                    app:layout_constraintBottom_toBottomOf="@id/bg_position_detail_title"
                     app:layout_constraintStart_toStartOf="@id/bg_position_detail_title"
                     app:layout_constraintTop_toTopOf="@id/bg_position_detail_title" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_position_detail_title"
-                    style="@style/Font_16_333333"
+                    style="@style/font_17_black85_bold"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="12dp"
@@ -70,19 +71,34 @@
                     tools:text="1号店铺" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_position_detail_pt_type"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_strokeblack25_r4"
+                    android:paddingHorizontal="4dp"
+                    android:text="@string/pt"
+                    android:textColor="@color/color_black_85"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_position_detail_main"
+                    app:layout_constraintStart_toStartOf="@id/tv_position_detail_title"
+                    tools:background="@drawable/shape_strokeblack25_r4"
+                    tools:textColor="@color/color_black_85" />
+
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_position_detail_type"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@{1 == vm.positionDetail.stateVal?@drawable/shape_s26f0a258_r4:@drawable/shape_sf7f7f7_r4}"
+                    android:layout_marginStart="4dp"
+                    android:background="@{1 == vm.positionDetail.stateVal?@drawable/shape_strokeffa936_r4:@drawable/shape_strokeblack25_r4}"
                     android:paddingHorizontal="4dp"
-                    android:paddingVertical="2dp"
                     android:text="@{vm.positionDetail.stateNameVal}"
-                    android:textColor="@{1 == vm.positionDetail.stateVal?@color/colorPrimary:@color/common_txt_color}"
+                    android:textColor="@{1 == vm.positionDetail.stateVal?@color/color_FFA936:@color/color_black_85}"
                     android:textSize="10sp"
-                    app:layout_constraintBottom_toBottomOf="@id/iv_position_detail_main"
-                    app:layout_constraintStart_toEndOf="@id/tv_position_detail_title"
-                    app:layout_constraintStart_toStartOf="@id/tv_position_detail_title"
-                    tools:text="停用" />
+                    app:layout_constraintStart_toEndOf="@id/tv_position_detail_pt_type"
+                    app:layout_constraintTop_toTopOf="@id/tv_position_detail_pt_type"
+                    tools:background="@drawable/shape_strokeffa936_r4"
+                    tools:text="已停用"
+                    tools:textColor="@color/color_FFA936" />
 
                 <com.yunshang.haile_manager_android.ui.view.ClickSwitchView
                     android:id="@+id/switch_position_detail_open"
@@ -96,126 +112,158 @@
                     app:layout_constraintTop_toTopOf="@id/bg_position_detail_title"
                     app:track="@drawable/selector_default_switch_track" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_position_detail_base_info"
-                    style="@style/ShopDetailTitleItemStyle"
+                <LinearLayout
+                    android:id="@+id/ll_shop_position_detail_operate_area"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/pt_base_info"
-                    app:layout_constraintTop_toBottomOf="@id/bg_position_detail_title" />
+                    android:layout_height="102dp"
+                    android:background="@drawable/shape_top_stroke_dividing_mlr16"
+                    android:orientation="horizontal"
+                    android:weightSum="4"
+                    app:layout_constraintTop_toBottomOf="@id/bg_position_detail_title">
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/ll_position_detail_base_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="vertical"
-                    app:divider="@drawable/divder_efefef"
-                    app:dividerPadding="12dp"
-                    app:layout_constraintTop_toBottomOf="@id/tv_position_detail_base_info"
-                    app:showDividers="middle">
+                    <FrameLayout
+                        android:id="@+id/btn_position_detail_edit"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
 
-                    <include
-                        layout="@layout/item_device_detail_base_info"
-                        app:content='@{vm.positionDetail.code}'
-                        app:show="@{true}"
-                        app:showCopy="@{false}"
-                        app:title="@{@string/pt_id}" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_14_black85"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:drawableTop="@mipmap/icon_device_update"
+                            android:drawablePadding="4dp"
+                            android:gravity="center"
+                            android:text="@string/edit" />
+                    </FrameLayout>
 
-                    <include
-                        layout="@layout/item_device_detail_base_info"
-                        app:content='@{vm.positionDetail.shopName + "（"+ vm.positionDetail.shopId +"）"}'
-                        app:show="@{vm.positionDetail.hasShopName}"
-                        app:showCopy="@{false}"
-                        app:title="@{@string/department}" />
+                    <FrameLayout
+                        android:id="@+id/btn_position_detail_delete"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
 
-                    <include
-                        layout="@layout/item_device_detail_base_info"
-                        app:content='@{vm.positionDetail.areaVal}'
-                        app:show="@{vm.positionDetail.hasArea}"
-                        app:showCopy="@{false}"
-                        app:title="@{@string/area}" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Font_14_black85"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:drawableTop="@mipmap/icon_device_update"
+                            android:drawablePadding="4dp"
+                            android:gravity="center"
+                            android:text="@string/delete" />
+                    </FrameLayout>
 
-                    <include
-                        layout="@layout/item_device_detail_base_info"
-                        app:content='@{vm.positionDetail.orientationVal}'
-                        app:show="@{vm.positionDetail.hasOrientation}"
-                        app:showCopy="@{false}"
-                        app:title="@{@string/orientation}" />
-
-                    <include
-                        layout="@layout/item_device_detail_base_info"
-                        app:content='@{vm.positionDetail.address}'
-                        app:show="@{vm.positionDetail.hasAddress}"
-                        app:showCopy="@{false}"
-                        app:title="@{@string/location_detail}" />
-
-                    <include
-                        layout="@layout/item_device_detail_base_info"
-                        app:content='@{vm.positionDetail.sexNameVal}'
-                        app:show="@{vm.positionDetail.hasSex}"
-                        app:showCopy="@{false}"
-                        app:title="@{@string/apply_sex}" />
-
-                    <include
-                        layout="@layout/item_device_detail_base_info"
-                        app:content="@{vm.positionDetail.workTimeVal}"
-                        app:show="@{vm.positionDetail.hasWorkTime}"
-                        app:showCopy="@{false}"
-                        app:title="@{@string/business_hours}" />
-
-                    <include
-                        layout="@layout/item_device_detail_base_info"
-                        app:content="@{vm.positionDetail.creator}"
-                        app:show="@{vm.positionDetail.hasCreator}"
-                        app:showCopy="@{false}"
-                        app:title="@{@string/creator}" />
-
-                    <include
-                        layout="@layout/item_device_detail_base_info"
-                        app:content="@{vm.positionDetail.createTime}"
-                        app:show="@{vm.positionDetail.hasCreateTime}"
-                        app:showCopy="@{false}"
-                        app:title="@{@string/create_time}" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                </LinearLayout>
 
                 <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
                     android:id="@+id/ll_shop_position_detail_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shape_top_stroke_dividing_mlr16"
                     android:orientation="vertical"
-                    app:divider="@drawable/divder_efefef"
-                    app:dividerPadding="16dp"
-                    app:itemLayout="@layout/item_shop_position_detail_phone"
-                    app:layout_constraintTop_toBottomOf="@id/ll_position_detail_base_info"
-                    app:showDividers="middle" />
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:divider="@drawable/divide_size4"
+                    app:itemLayout="@layout/item_order_detail_info"
+                    app:layout_constraintTop_toBottomOf="@id/ll_shop_position_detail_operate_area"
+                    app:showDividers="middle">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/font_17_black85_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/business_phone" />
+
+                </com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:divider="@drawable/divide_size4"
+                    app:layout_constraintTop_toBottomOf="@id/ll_shop_position_detail_phone"
+                    app:showDividers="middle">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/font_17_333333_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/base_info" />
+
+                    <include
+                        layout="@layout/item_order_detail_info"
+                        app:canShow='@{true}'
+                        app:content='@{vm.positionDetail.code}'
+                        app:itemTitle='@{@string/pt_id + "："}'
+                        app:showCopy="@{false}" />
+
+                    <include
+                        layout="@layout/item_order_detail_info"
+                        app:canShow="@{vm.positionDetail.hasShopName}"
+                        app:content='@{vm.positionDetail.shopName + "（"+ vm.positionDetail.shopId +"）"}'
+                        app:itemTitle='@{@string/department+ "："}'
+                        app:showCopy="@{false}" />
+
+                    <include
+                        layout="@layout/item_order_detail_info"
+                        app:canShow="@{vm.positionDetail.hasArea}"
+                        app:content='@{vm.positionDetail.areaVal}'
+                        app:itemTitle='@{@string/area+"："}'
+                        app:showCopy="@{false}" />
+
+                    <include
+                        layout="@layout/item_order_detail_info"
+                        app:canShow="@{vm.positionDetail.hasOrientation}"
+                        app:content='@{vm.positionDetail.orientationVal}'
+                        app:itemTitle='@{@string/orientation+"："}'
+                        app:showCopy="@{false}" />
+
+                    <include
+                        layout="@layout/item_order_detail_info"
+                        app:canShow="@{vm.positionDetail.hasAddress}"
+                        app:content='@{vm.positionDetail.address}'
+                        app:itemTitle='@{@string/location_detail+"："}'
+                        app:showCopy="@{false}" />
+
+                    <include
+                        layout="@layout/item_order_detail_info"
+                        app:canShow="@{vm.positionDetail.hasSex}"
+                        app:content='@{vm.positionDetail.sexNameVal}'
+                        app:itemTitle='@{@string/apply_sex+"："}'
+                        app:showCopy="@{false}" />
+
+                    <include
+                        layout="@layout/item_order_detail_info"
+                        app:canShow="@{vm.positionDetail.hasWorkTime}"
+                        app:content="@{vm.positionDetail.workTimeVal}"
+                        app:itemTitle='@{@string/business_hours+"："}'
+                        app:showCopy="@{false}" />
+
+                    <include
+                        layout="@layout/item_order_detail_info"
+                        app:canShow="@{vm.positionDetail.hasCreator}"
+                        app:content="@{vm.positionDetail.creator}"
+                        app:itemTitle='@{@string/creator+"："}'
+                        app:showCopy="@{false}" />
+
+                    <include
+                        layout="@layout/item_order_detail_info"
+                        app:canShow="@{vm.positionDetail.hasCreateTime}"
+                        app:content="@{vm.positionDetail.createTime}"
+                        app:itemTitle='@{@string/create_time+"："}'
+                        app:showCopy="@{false}" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
-
-        <LinearLayout
-            android:id="@+id/view_position_detail_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/page_bottom_h"
-            android:background="@drawable/shape_top_stroke_dividing"
-            android:gravity="end"
-            android:orientation="horizontal"
-            android:paddingTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:visibility="@{null!=vm.positionDetail}">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/btn_position_detail_edit"
-                style="@style/CommonStrokeTxtBtnStyle"
-                android:layout_marginEnd="8dp"
-                android:text="@string/edit" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/btn_position_detail_delete"
-                style="@style/CommonStrokeTxtBtnStyle"
-                android:layout_marginEnd="16dp"
-                android:text="@string/delete" />
-
-        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -164,7 +164,7 @@
                         layout="@layout/item_order_detail_info"
                         app:canShow='@{true}'
                         app:content='@{vm.orderDetail.orderNo}'
-                        app:itemTitle="@{@string/order_no}"
+                        app:itemTitle='@{@string/order_no + "："}'
                         app:showCopy="@{true}" />
 
                     <include

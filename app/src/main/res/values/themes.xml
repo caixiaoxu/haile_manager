@@ -28,6 +28,7 @@
         <item name="android:layout_marginStart">12dp</item>
         <item name="android:layout_marginEnd">12dp</item>
     </style>
+
     <style name="DividingStyleM16" parent="DividingStyle">
         <item name="android:layout_marginStart">16dp</item>
         <item name="android:layout_marginEnd">16dp</item>
@@ -378,6 +379,11 @@
         <item name="android:textColor">@color/common_txt_hint_color</item>
     </style>
 
+    <style name="Font_14_black85">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_black_85</item>
+    </style>
+
     <style name="font_15_171a1d">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/color_171A1D</item>
@@ -436,6 +442,10 @@
     <style name="font_17_black85">
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/color_black_85</item>
+    </style>
+
+    <style name="font_17_black85_bold" parent="font_17_black85">
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="font_17_black85_black45" parent="font_17_black85">

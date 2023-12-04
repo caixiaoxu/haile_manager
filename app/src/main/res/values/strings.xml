@@ -371,6 +371,7 @@
     <string name="shop_detail">门店详情</string>
     <string name="shop_base_info">门店基础信息</string>
     <string name="pt_base_info">营业点基础信息</string>
+    <string name="base_info">基础信息</string>
     <string name="creator">创建人</string>
     <string name="create_time">创建时间</string>
     <string name="appointment">预约</string>

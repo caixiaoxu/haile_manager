@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="@{@string/unit_money+device.revenue}"
+            android:text="@{@string/unit_money+device.revenueVal}"
             tools:text="¥20.00" />
     </LinearLayout>
 </layout>

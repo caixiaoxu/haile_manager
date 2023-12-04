@@ -4,6 +4,7 @@ import androidx.core.content.ContextCompat
 import com.lsy.framelib.data.constants.Constants
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.data.rule.IMultiTypeEntity
 
 /**
@@ -26,11 +27,13 @@ data class IncomeExpensesDetailEntity(
     val shopId: Int,
     val shopName: String,
     val transactionType: Int
-): IMultiTypeEntity{
-    fun amountVal() = com.yunshang.haile_manager_android.utils.StringUtils.formatNumberStr(if (1 == transactionType) amount else -amount)
+) : IMultiTypeEntity {
+    fun amountVal() = (if (1 == transactionType) amount else -amount).formatMoney(true)
     fun getOrderTime() =
         StringUtils.getString(if (1 == transactionType) R.string.pay_time else R.string.refund_time) + "：" + businessTime
-    fun transactionTypeVal() = StringUtils.getString(if (1 == transactionType) R.string.earning else R.string.expend)
+
+    fun transactionTypeVal() =
+        StringUtils.getString(if (1 == transactionType) R.string.earning else R.string.expend)
 
     override fun getMultiType(): Int = if (transactionType == 1) 0 else 1
 

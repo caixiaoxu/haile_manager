@@ -11,6 +11,7 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.HaiXinRechargeListViewModel
 import com.yunshang.haile_manager_android.data.entities.HaixinRechargeEntity
 import com.yunshang.haile_manager_android.data.entities.HaixinRechargeListEntity
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.databinding.ActivityHaixinRechargeListBinding
 import com.yunshang.haile_manager_android.databinding.ItemHaixinRechargeBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -41,7 +42,7 @@ class HaiXinRechargeListActivity :
                     mItemBinding?.tvHaixinRechargeMonth?.text =
                         DateTimeUtils.formatDateTime(item.month, "yyyy年MM月")
                     mItemBinding?.tvHaixinRechargeAmount?.text =
-                        "${item.haiXinTotalEntity?.amount}${StringUtils.getString(R.string.unit_yuan)}"
+                        "${item.haiXinTotalEntity?.amount.formatMoney()}${StringUtils.getString(R.string.unit_yuan)}"
                     mItemBinding?.tvHaixinRechargeHaixin?.text =
                         "${item.haiXinTotalEntity?.tokenCoinAmount}${StringUtils.getString(R.string.unit_ge)}"
                     mItemBinding?.groupItemMonth?.visibility = View.VISIBLE

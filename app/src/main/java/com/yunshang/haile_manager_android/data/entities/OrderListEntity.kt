@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.data.entities
 import com.google.gson.annotations.SerializedName
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.data.extend.toRemove0Str
 import com.yunshang.haile_manager_android.data.rule.ISearchSelectEntity
 
@@ -55,6 +56,11 @@ data class OrderListEntity(
     val positionId: Int? = null,
     val positionName: String? = null
 ) : ISearchSelectEntity {
+
+    val realPriceVal: String
+        get() = realPrice.formatMoney()
+
+
     override fun getSearchId(): Int = id
 
     override fun getTitle(): String = buyerPhone

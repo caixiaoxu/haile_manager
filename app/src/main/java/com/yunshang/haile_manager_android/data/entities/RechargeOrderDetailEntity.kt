@@ -1,6 +1,7 @@
 package com.yunshang.haile_manager_android.data.entities
 
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.data.extend.toRemove0Str
 import com.yunshang.haile_manager_android.data.rule.IIncomeDetailEntity
 import com.yunshang.haile_manager_android.data.rule.IncomeDetailInfo
 
@@ -42,11 +43,11 @@ data class RechargeOrderDetailEntity(
         ),
         IncomeDetailInfo(
             com.lsy.framelib.utils.StringUtils.getString(R.string.reach_starfish),
-            "$principalAmount"
+            "$principalAmount".toRemove0Str()
         ),
         IncomeDetailInfo(
             com.lsy.framelib.utils.StringUtils.getString(R.string.reward_starfish),
-            "$presentAmount"
+            "$presentAmount".toRemove0Str()
         ),
         IncomeDetailInfo(
             com.lsy.framelib.utils.StringUtils.getString(R.string.time_of_payment),

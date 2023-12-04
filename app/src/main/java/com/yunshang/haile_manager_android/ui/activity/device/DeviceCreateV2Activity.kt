@@ -71,7 +71,8 @@ class DeviceCreateV2Activity :
                     val originCodeTrim = it.trim()
                     if (isAttrImei) {
                         Timber.i("IMEI:$it")
-                        if (StringUtils.isImeiCode(originCodeTrim)) mViewModel.washImeiCode.value = originCodeTrim
+                        if (StringUtils.isImeiCode(originCodeTrim)) mViewModel.washImeiCode.value =
+                            originCodeTrim
                         else SToast.showToast(this, R.string.imei_code_error1)
                     } else {
                         mViewModel.codeStr = originCodeTrim
@@ -103,6 +104,7 @@ class DeviceCreateV2Activity :
                             ?.firstOrNull()
                             ?.let {
                                 mViewModel.createDeviceShop.value = it
+                                mViewModel.requestPositionDetail()
                             }
                     }
                 }

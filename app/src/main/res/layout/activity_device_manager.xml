@@ -103,6 +103,11 @@
                                 android:hint="@string/department" />
 
                             <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tv_device_category_pt"
+                                style="@style/DeviceManagerCategoryBtnStyle"
+                                android:hint="@string/belong_to_pt" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/tv_device_category_category"
                                 style="@style/DeviceManagerCategoryBtnStyle"
                                 android:hint="@string/device_category" />

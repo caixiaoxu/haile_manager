@@ -34,7 +34,7 @@
             android:layout_marginEnd="8dp"
             android:drawableEnd="@drawable/icon_arrow_right_with_padding"
             android:fontFamily="@font/money"
-            android:text='@{@string/unit_money + item.revenue}'
+            android:text='@{@string/unit_money + item.revenueVal}'
             app:layout_constraintBottom_toBottomOf="@id/tv_income_statistics_shop_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_income_statistics_shop_name"

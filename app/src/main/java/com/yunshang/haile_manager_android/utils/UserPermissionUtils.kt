@@ -230,6 +230,28 @@ object UserPermissionUtils {
     }
 
     /**
+     * 是否含有设备修改模块权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasDeviceUpdateModulePermission(): Boolean {
+        return null != userPermissionsMap["league:normal:goods:update:module"]
+    }
+
+    /**
+     * 是否含有设备迁移权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasDeviceExchangePermission(): Boolean {
+        return null != userPermissionsMap["league:normal:goods:exchange"]
+    }
+
+    /**
      * 是否含有设备管理停用/启用权限
      *
      *
@@ -603,6 +625,7 @@ object UserPermissionUtils {
     fun hasVipPermission(): Boolean {
         return null != userPermissionsMap["league:vip"]
     }
+
     /**
      * 是否含有方案列表权限
      *

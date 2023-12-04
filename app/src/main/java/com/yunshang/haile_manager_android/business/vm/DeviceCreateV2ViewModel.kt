@@ -10,6 +10,7 @@ import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
+import com.yunshang.haile_manager_android.business.apiService.ShopService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.ShopAndPositionSelectEntity
@@ -32,6 +33,7 @@ import kotlinx.coroutines.withContext
  */
 class DeviceCreateV2ViewModel : BaseViewModel() {
     private val mRepo = ApiRepository.apiClient(DeviceService::class.java)
+    private val mShopRepo = ApiRepository.apiClient(ShopService::class.java)
 
     // 付款码
     val payCode: MutableLiveData<String> by lazy {
@@ -222,6 +224,21 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
         deviceIgnorePayCodeFlag = ignorePayCodeFlag
         extAttrDtoJson.postValue(extJson)
         createDeviceFunConfigure.value = null
+    }
+
+    /**
+     * 请求点位详情
+     */
+    fun requestPositionDetail() {
+        val positionId = createDeviceShop.value?.positionList?.firstOrNull()?.id
+        if (!positionId.hasVal()) return
+        launch({
+            ApiRepository.dealApiResult(
+                mShopRepo.requestPositionDetail(positionId!!)
+            )?.floorCode?.let { floor ->
+                floorCode.postValue(floor)
+            }
+        })
     }
 
     fun save(view: View) {

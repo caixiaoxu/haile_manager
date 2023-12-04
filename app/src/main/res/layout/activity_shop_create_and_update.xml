@@ -99,13 +99,13 @@
                     app:type="input"
                     app:visibility="@{null != vm.createAndUpdateEntity.shopTypeVal}" />
 
-                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
-                    android:id="@+id/mtiv_shop_create_location_floor"
-                    style="@style/MultiTypePaddingHItemStyle"
-                    app:itemContent="@={vm.createAndUpdateEntity.mansionValue}"
-                    app:title="@string/location_floor"
-                    app:type="input"
-                    app:visibility="@{null != vm.createAndUpdateEntity.shopTypeVal &amp;&amp; 1 == vm.createAndUpdateEntity.shopTypeVal}" />
+<!--                <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView-->
+<!--                    android:id="@+id/mtiv_shop_create_location_floor"-->
+<!--                    style="@style/MultiTypePaddingHItemStyle"-->
+<!--                    app:itemContent="@={vm.createAndUpdateEntity.mansionValue}"-->
+<!--                    app:title="@string/location_floor"-->
+<!--                    app:type="input"-->
+<!--                    app:visibility="@{null != vm.createAndUpdateEntity.shopTypeVal &amp;&amp; 1 == vm.createAndUpdateEntity.shopTypeVal}" />-->
             </androidx.appcompat.widget.LinearLayoutCompat>
         </ScrollView>
 

@@ -149,6 +149,7 @@
     <string name="device_category">设备类型</string>
     <string name="device_model">设备型号</string>
     <string name="floor">楼层</string>
+    <string name="floor_f">楼层（F）</string>
     <string name="floor_hint">请输入设备所在楼层</string>
     <string name="device_model_empty">请先选择设备型号</string>
     <string name="network_status">网络状态</string>
@@ -317,6 +318,8 @@
     <string name="add_shop">新增门店</string>
     <string name="update_shop">编辑门店</string>
     <string name="add_pt">新增营业点</string>
+    <string name="add_pt1">添加营业点</string>
+    <string name="add_pt_prompt1">可以添加多个营业点</string>
     <string name="update_pt">编辑营业点</string>
     <string name="pt">营业点</string>
     <string name="pt_num">营业点数量</string>
@@ -368,6 +371,7 @@
     <string name="shop_detail">门店详情</string>
     <string name="shop_base_info">门店基础信息</string>
     <string name="pt_base_info">营业点基础信息</string>
+    <string name="base_info">基础信息</string>
     <string name="creator">创建人</string>
     <string name="create_time">创建时间</string>
     <string name="appointment">预约</string>
@@ -393,7 +397,7 @@
     <string name="per_flow_charge_display_setting_name_prompt">饮水和淋浴有该设置，只针对用户看到的订单内容</string>
 
     <string name="order_manager">订单管理</string>
-    <string name="order_search_hint">搜索手机号或订单编号或设备IMEI</string>
+    <string name="order_search_hint">搜索手机号/订单编号/IMEI</string>
     <string name="order_num_hint">全部%1$d笔订单</string>
     <string name="order_time">下单时间</string>
     <string name="order_info">订单信息</string>
@@ -507,7 +511,7 @@
     <string name="success_album_hint">已保存至相册...</string>
     <string name="scheme_info">方案信息</string>
     <string name="scheme_config_index">方案%1$d</string>
-    <string name="scheme_config_title">满%1$.2f元赠送%2$.2f元</string>
+    <string name="scheme_config_title">满%1s元赠送%2s元</string>
     <string name="scheme_config_create_title">海星充值方案配置</string>
     <string name="scheme_name">方案名称</string>
     <string name="hai_xin">海星</string>
@@ -599,7 +603,7 @@
 
     <string name="home_msg_title">最近消息</string>
     <string name="home_msg_num">条新消息</string>
-    <string name="search_order_hint">请输入订单编号或手机号</string>
+    <string name="search_order_hint">请输入订单编号/手机号/IMEI</string>
 
     <string name="date_time_title">请选择时间</string>
     <string name="to">至</string>
@@ -819,6 +823,8 @@
     <string name="cancel_account">注销账号</string>
     <string name="contact_platform">联系平台</string>
     <string name="contact_user">联系用户</string>
+    <string name="contact_phone">联系电话</string>
+    <string name="add_contact_phone">添加联系电话</string>
     <string name="platform_phone">400-661-1751</string>
     <string name="cancel_account_hint">注销后您的身份、账户信息、钱包余额、订单信息等都会被清空且无法找回请谨慎操作。</string>
     <string name="cancel_account_sure">确定注销</string>

@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.data.entities
 
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 
 /**
@@ -71,7 +72,7 @@ data class CouponDetailEntity(
         get() = StringUtils.getStringArray(R.array.coupon_type)[couponType]
 
     val reduceVal: String
-        get() = reduce + StringUtils.getString(R.string.unit_yuan)
+        get() = reduce.formatMoney() + StringUtils.getString(R.string.unit_yuan)
 
     val percentageVal: String
         get() = percentage + StringUtils.getString(R.string.unit_folds)
@@ -80,13 +81,16 @@ data class CouponDetailEntity(
         get() = StringUtils.getStringArray(R.array.experiential_coupon_type)[if (0.0 == specifiedPrice) 0 else 1]
 
     val specifiedPriceVal: String
-        get() = specifiedPrice.toString() + StringUtils.getString(R.string.unit_yuan)
+        get() = specifiedPrice.formatMoney() + StringUtils.getString(R.string.unit_yuan)
 
     val maxDiscountPriceVal: String
-        get() = maxDiscountPrice + StringUtils.getString(R.string.unit_yuan)
+        get() = maxDiscountPrice.formatMoney() + StringUtils.getString(R.string.unit_yuan)
 
     val orderReachPriceVal: String
-        get() = StringUtils.getString(R.string.coupon_condition_value, orderReachPrice)
+        get() = StringUtils.getString(
+            R.string.coupon_condition_value,
+            orderReachPrice.formatMoney()
+        )
 
     val indateVal: String
         get() = DateTimeUtils.formatDateTimeForStr(

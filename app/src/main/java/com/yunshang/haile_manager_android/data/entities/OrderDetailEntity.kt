@@ -4,6 +4,7 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.google.gson.annotations.SerializedName
 import com.yunshang.haile_manager_android.BR
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 
 /**
@@ -70,6 +71,15 @@ data class OrderDetailEntity(
     val code: String? = null,
     val refundTag: String? = null,
 ) : BaseObservable() {
+    val originPriceVal: String
+        get() = originPrice.formatMoney()
+    val realPriceVal: String
+        get() = realPrice.formatMoney()
+    val payPriceVal: String
+        get() = payPrice.formatMoney()
+    val refundPriceVal: String
+        get() = refundPrice.formatMoney()
+
     val createTime: String
         get() = DateTimeUtils.formatDateTimeForStr(_createTime, "yyyy-MM-dd HH:mm")
     val appointTime: String

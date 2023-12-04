@@ -112,6 +112,11 @@ class WalletWithdrawActivity :
                 }.build().show(supportFragmentManager)
             }
         }
+
+        // 监听银行卡添加刷新
+        LiveDataBus.with(BusEvents.BANK_LIST_STATUS)?.observe(this) {
+            mViewModel.requestBindAccount()
+        }
     }
 
     override fun initView() {

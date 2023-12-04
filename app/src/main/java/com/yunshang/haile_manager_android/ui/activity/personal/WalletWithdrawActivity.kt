@@ -152,6 +152,16 @@ class WalletWithdrawActivity :
                         )
                     }
                 }
+            } else {
+                // 没有银行卡跳转到银行卡列表
+                if (true != mViewModel.withdrawAccount.value?.exist) {
+                    startActivity(
+                        Intent(
+                            this@WalletWithdrawActivity,
+                            BankCardActivity::class.java
+                        )
+                    )
+                }
             }
         }
 

@@ -31,6 +31,7 @@ import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.activity.common.ShopPositionSelectorActivity
+import com.yunshang.haile_manager_android.ui.view.IndicatorPagerTitleView
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
@@ -40,6 +41,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.WrapPagerIndicator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView
 import timber.log.Timber
@@ -129,9 +131,17 @@ class OrderManagerActivity :
                     override fun getCount(): Int = list.size
 
                     override fun getTitleView(context: Context?, index: Int): IPagerTitleView {
-                        return SimplePagerTitleView(context).apply {
-                            normalColor = Color.parseColor("#666666")
-                            selectedColor = Color.WHITE
+                        return IndicatorPagerTitleView(context).apply {
+                            normalColor = ContextCompat.getColor(
+                                this@OrderManagerActivity,
+                                R.color.color_black_65
+                            )
+                            selectedColor = ContextCompat.getColor(
+                                this@OrderManagerActivity,
+                                R.color.color_black_85
+                            )
+                            normalFontSize = 14f
+                            selectFontSize = 14f
                             list[index].run {
                                 text = title
                                 setOnClickListener {
@@ -144,14 +154,18 @@ class OrderManagerActivity :
                     }
 
                     override fun getIndicator(context: Context?): IPagerIndicator {
-                        return WrapPagerIndicator(context).apply {
-                            verticalPadding = DimensionUtils.dip2px(this@OrderManagerActivity, 4f)
-                            fillColor = ContextCompat.getColor(
-                                this@OrderManagerActivity,
-                                R.color.colorPrimary
-                            )
+                        return LinePagerIndicator(context).apply {
+                            mode = LinePagerIndicator.MODE_EXACTLY
+                            lineWidth = DimensionUtils.dip2px(this@OrderManagerActivity, 20f).toFloat()
+                            lineHeight = DimensionUtils.dip2px(this@OrderManagerActivity, 3f).toFloat()
                             roundRadius =
-                                DimensionUtils.dip2px(this@OrderManagerActivity, 14f).toFloat()
+                                DimensionUtils.dip2px(this@OrderManagerActivity, 1.5f).toFloat()
+                            setColors(
+                                ContextCompat.getColor(
+                                    this@OrderManagerActivity,
+                                    R.color.color_black_85
+                                )
+                            )
                         }
                     }
                 }

@@ -232,7 +232,7 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
         mBinding.etSearchKey.onTextChange = { auto ->
             if (SearchType.Device == mViewModel.searchType || SearchType.Shop == mViewModel.searchType) {
                 search(auto)
-            } else if (SearchType.Order == mViewModel.searchType && !auto) {
+            } else if ((SearchType.Order == mViewModel.searchType || SearchType.DeviceRepairs == mViewModel.searchType) && !auto) {
                 search(false)
             }
         }

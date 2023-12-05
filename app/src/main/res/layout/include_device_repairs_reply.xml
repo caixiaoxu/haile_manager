@@ -37,7 +37,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_device_repairs_reply_reply_title"
-            style="@style/Font_17_black85"
+            style="@style/font_17_black85"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -48,7 +48,7 @@
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/et_device_repairs_reply_content"
-            style="@style/Font_17_black85_black45"
+            style="@style/font_17_black85_black45"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"

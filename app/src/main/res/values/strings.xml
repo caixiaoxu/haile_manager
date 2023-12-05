@@ -549,6 +549,7 @@
     <string name="haixin_recycle_reach_title">回收充值海星</string>
     <string name="haixin_recycle_reward_title">回收赠送海星</string>
     <string name="user_phone">用户手机号</string>
+    <string name="search_user_phone">搜索用户手机号</string>
     <string name="user_phone1">用户手机</string>
     <string name="user_account">用户账户</string>
     <string name="maximum_recycle">最多回收</string>

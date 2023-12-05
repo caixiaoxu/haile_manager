@@ -38,6 +38,8 @@ class CouponManageViewModel : BaseViewModel() {
 
     val isBatch: MutableLiveData<Boolean> = MutableLiveData(false)
 
+    var keyword: String? = null
+
     val couponStatus: List<DeviceIndicatorEntity<Int?>> =
         arrayListOf(
             DeviceIndicatorEntity("全部", MutableLiveData(0), null),
@@ -149,6 +151,7 @@ class CouponManageViewModel : BaseViewModel() {
                         hashMapOf<String, Any?>(
                             "page" to page,
                             "pageSize" to pageSize,
+                            "phone" to keyword,
                             "assetStatus" to curCouponStatus.value,
                             "couponType" to selectCouponType.value,
                         ).also { params ->

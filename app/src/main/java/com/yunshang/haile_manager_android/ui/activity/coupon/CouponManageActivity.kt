@@ -67,6 +67,8 @@ class CouponManageActivity :
                                     val shopId = selected.first().id
                                     mViewModel.selectShop.value = if (0 == shopId) null else shopId
                                     mBinding.tvCouponDepartment.text = selected.first().name
+
+                                    mBinding.rvCouponList.requestRefresh()
                                 }
                             }
                         }
@@ -118,6 +120,12 @@ class CouponManageActivity :
             resetSelectBatchNum()
         } else
             super.onBackListener()
+    }
+
+    override fun initIntent() {
+        super.initIntent()
+
+        mViewModel.keyword = IntentParams.SearchParams.parseKeyWord(intent)
     }
 
     /**
@@ -214,21 +222,6 @@ class CouponManageActivity :
             mBinding.rvCouponList.requestRefresh()
         }
 
-        // 券类型监听
-        mViewModel.selectCouponType.observe(this) {
-            mBinding.rvCouponList.requestRefresh()
-        }
-
-        // 店铺监听
-        mViewModel.selectShop.observe(this) {
-            mBinding.rvCouponList.requestRefresh()
-        }
-
-        // 设备类型监听
-        mViewModel.selectCategory.observe(this) {
-            mBinding.rvCouponList.requestRefresh()
-        }
-
         LiveDataBus.with(BusEvents.COUPON_LIST_STATUS)?.observe(this) {
             mBinding.rvCouponList.requestRefresh()
             mViewModel.isBatch.value = false
@@ -302,6 +295,8 @@ class CouponManageActivity :
                             mBinding.tvCouponType.text = data?.name
                             mViewModel.selectCouponType.value =
                                 if (-1 == data?.id) null else data?.id
+
+                            mBinding.rvCouponList.requestRefresh()
                         }
                     }
             }.build().show(supportFragmentManager)
@@ -344,6 +339,8 @@ class CouponManageActivity :
                                 mViewModel.selectCategory.value =
                                     if (0 == first.id) null else first.id
                                 mBinding.tvCouponCategory.text = first.name
+
+                                mBinding.rvCouponList.requestRefresh()
                             }
                         }
                     }

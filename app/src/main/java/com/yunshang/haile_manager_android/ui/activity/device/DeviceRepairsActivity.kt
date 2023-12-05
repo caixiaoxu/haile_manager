@@ -246,8 +246,8 @@ class DeviceRepairsActivity :
         mBinding.tvDeviceRepairsStatus.setOnClickListener {
             val list = listOf(
                 SearchSelectParam(0, "全部状态"),
-                SearchSelectParam(10, "已回复"),
-                SearchSelectParam(20, "未回复"),
+                SearchSelectParam(20, "已回复"),
+                SearchSelectParam(10, "未回复"),
             )
 
             CommonBottomSheetDialog.Builder(

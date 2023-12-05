@@ -151,6 +151,7 @@
                 android:layout_height="0dp"
                 android:drawableEnd="@drawable/icon_arrow_right"
                 android:gravity="center"
+                android:drawablePadding="4dp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_item_shop_total_income"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_item_shop_total_income"

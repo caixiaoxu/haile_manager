@@ -156,8 +156,10 @@ class OrderManagerActivity :
                     override fun getIndicator(context: Context?): IPagerIndicator {
                         return LinePagerIndicator(context).apply {
                             mode = LinePagerIndicator.MODE_EXACTLY
-                            lineWidth = DimensionUtils.dip2px(this@OrderManagerActivity, 20f).toFloat()
-                            lineHeight = DimensionUtils.dip2px(this@OrderManagerActivity, 3f).toFloat()
+                            lineWidth =
+                                DimensionUtils.dip2px(this@OrderManagerActivity, 20f).toFloat()
+                            lineHeight =
+                                DimensionUtils.dip2px(this@OrderManagerActivity, 3f).toFloat()
                             roundRadius =
                                 DimensionUtils.dip2px(this@OrderManagerActivity, 1.5f).toFloat()
                             setColors(
@@ -305,17 +307,16 @@ class OrderManagerActivity :
         ) { _, childBinding, data ->
             data.num.observe(this@OrderManagerActivity) {
                 childBinding.tvDeviceManagerErrorStatus.text =
-                    com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
-                        data.title + (if (it > 0) " $it" else " 0") + "单",
-                        arrayOf(
-                            ForegroundColorSpan(
-                                ContextCompat.getColor(this, R.color.common_txt_color)
-                            )
-                        ), 0, data.title.length
-                    )
+                    data.title + (if (it > 0) " $it" else " 0") + "单"
             }
 
             mViewModel.selectErrorStatus.observe(this) {
+                childBinding.tvDeviceManagerErrorStatus.setTextColor(
+                    ContextCompat.getColor(
+                        this@OrderManagerActivity,
+                        if (data.value == it) R.color.colorPrimary else R.color.color_black_85
+                    )
+                )
                 childBinding.tvDeviceManagerErrorStatus.setBackgroundResource(if (data.value == it) R.drawable.shape_device_manager_error_status_selected_bg else R.drawable.shape_device_manager_error_status_bg)
             }
 

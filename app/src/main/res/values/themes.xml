@@ -305,6 +305,11 @@
         <item name="android:textColor">@color/color_black_25</item>
     </style>
 
+    <style name="Font_12_black85">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_black_85</item>
+    </style>
+
     <style name="Font_12_999999">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/common_sub_txt_color</item>

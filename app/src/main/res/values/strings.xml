@@ -694,7 +694,7 @@
     <string name="roll_out_to">转出到</string>
     <string name="roll_out_amount">转出金额 </string>
     <string name="empty_alipay_account_hint">请先绑定支付宝账号</string>
-    <string name="empty_bank_account_hint">请先绑定银行卡</string>
+    <string name="empty_bank_account_hint">请先绑定银行卡&#160;&#160;&#160;去添加</string>
     <string name="alipay_withdraw_input_hint">可提现金额%1$s元</string>
     <string name="bank_withdraw_hint">今日收入部分不可提现次日可提现</string>
     <string name="bank_withdraw_hint2">冻结金额为%1$s元</string>

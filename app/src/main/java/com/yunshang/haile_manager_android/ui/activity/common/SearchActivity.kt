@@ -285,7 +285,7 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
 
     private fun buildHistoryView() {
         val childCount = mBinding.clSearchHistory.childCount
-        if (childCount > 2) {
+        if (childCount > 1) {
             mBinding.clSearchHistory.removeViews(1, childCount - 1)
         }
         val inflater = LayoutInflater.from(this)

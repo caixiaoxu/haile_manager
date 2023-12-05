@@ -18,19 +18,19 @@
             android:id="@+id/rv_refresh_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none" />
+            android:scrollbars="none"
+            android:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_list_status"
+            style="@style/Font_14_999999"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:visibility="gone"
-            android:layout_marginTop="150dp"
-            style="@style/Font_14_999999"
-            android:drawableTop="@mipmap/icon_list_content_empty"
             android:layout_gravity="center_horizontal"
-            tools:text ="暂无内容信息"/>
+            android:layout_marginTop="150dp"
+            android:drawableTop="@mipmap/icon_list_content_empty"
+            android:gravity="center"
+            tools:text="暂无内容信息" />
     </FrameLayout>
 
     <com.scwang.smart.refresh.footer.ClassicsFooter

@@ -11,6 +11,7 @@ import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.business.apiService.OrderService
 import com.yunshang.haile_manager_android.business.apiService.ShopService
 import com.yunshang.haile_manager_android.data.common.SearchType
+import com.yunshang.haile_manager_android.data.entities.DeviceRepairsEntity
 import com.yunshang.haile_manager_android.data.entities.ShopAndPositionSearchEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.data.rule.ISearchSelectEntity
@@ -106,6 +107,33 @@ class SearchViewModel : BaseViewModel() {
     }
 
     /**
+     * 搜索设备列表
+     */
+    fun searchDeviceRepairsList(
+        page: Int,
+        pageSize: Int,
+        result: ((responseList: ResponseList<DeviceRepairsEntity>?) -> Unit)?
+    ) {
+        launch({
+            ApiRepository.dealApiResult(
+                mDeviceRepo.requestDeviceRepairsList(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "page" to page,
+                            "pageSize" to pageSize,
+                            "deviceName" to (searchKey.value?.trim() ?: ""),
+                        )
+                    )
+                )
+            )?.let {
+                withContext(Dispatchers.Main) {
+                    result?.invoke(it)
+                }
+            }
+        })
+    }
+
+    /**
      * 搜索店铺列表
      */
     fun searchShopList(
@@ -126,7 +154,7 @@ class SearchViewModel : BaseViewModel() {
             }
         }, {
             withContext(Dispatchers.Main) {
-                it.message?.let {msg->
+                it.message?.let { msg ->
                     SToast.showToast(msg = msg)
                 }
                 result.invoke(null)

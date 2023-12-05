@@ -20,6 +20,7 @@ import com.yunshang.haile_manager_android.business.vm.SearchViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchParam
 import com.yunshang.haile_manager_android.data.common.SearchType
+import com.yunshang.haile_manager_android.data.entities.DeviceRepairsEntity
 import com.yunshang.haile_manager_android.data.entities.ShopAndPositionSearchEntity
 import com.yunshang.haile_manager_android.data.entities.ShopPositionSearch
 import com.yunshang.haile_manager_android.data.model.SPRepository
@@ -28,6 +29,7 @@ import com.yunshang.haile_manager_android.databinding.*
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceDetailActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivity
+import com.yunshang.haile_manager_android.ui.activity.device.DeviceRepairsReplyListActivity
 import com.yunshang.haile_manager_android.ui.activity.order.AppointmentOrderActivity
 import com.yunshang.haile_manager_android.ui.activity.order.OrderDetailActivity
 import com.yunshang.haile_manager_android.ui.activity.order.OrderManagerActivity
@@ -185,6 +187,23 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
         }
     }
 
+    private val mDeviceRepairsAdapter: CommonRecyclerAdapter<ItemDeviceRepairsSearchBinding, DeviceRepairsEntity> by lazy {
+        CommonRecyclerAdapter(
+            R.layout.item_device_repairs_search,
+            BR.item
+        ) { mBinding, _, item ->
+            mBinding?.root?.setOnClickListener {
+                startActivity(
+                    Intent(
+                        this@SearchActivity,
+                        DeviceRepairsReplyListActivity::class.java
+                    ).apply {
+                        putExtras(IntentParams.DeviceRepairsReplyListParams.pack(item))
+                    })
+            }
+        }
+    }
+
     override fun layoutId(): Int = R.layout.activity_search
 
     override fun initIntent() {
@@ -255,31 +274,49 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
         } else {
             mBinding.rvSearchList2.enableRefresh = false
             mBinding.rvSearchList2.layoutManager = LinearLayoutManager(this)
-            if (SearchType.Device == mViewModel.searchType) {
-                mBinding.rvSearchList2.listStatusImgResId = R.mipmap.icon_list_device_empty
-                mBinding.rvSearchList2.listStatusTxtResId = R.string.empty_device
-                mBinding.rvSearchList2.adapter = mDeviceAdapter
-            } else {
-                mBinding.rvSearchList2.adapter = mAdapter
-            }
-            mBinding.rvSearchList2.requestData =
-                object : CommonRefreshRecyclerView.OnRequestDataListener<ISearchSelectEntity>() {
-                    override fun requestData(
-                        isRefresh: Boolean,
-                        page: Int,
-                        pageSize: Int,
-                        callBack: (responseList: ResponseList<out ISearchSelectEntity>?) -> Unit
-                    ) {
-                        if ((SearchType.Device == mViewModel.searchType
-                                    && UserPermissionUtils.hasDeviceListPermission())
-                            || (SearchType.Order == mViewModel.searchType
-                                    && UserPermissionUtils.hasOrderListPermission())
-                            || SearchType.AppointOrder == mViewModel.searchType
+            if (SearchType.DeviceRepairs == mViewModel.searchType) {
+                mBinding.rvSearchList2.adapter = mDeviceRepairsAdapter
+                mBinding.rvSearchList2.requestData =
+                    object :
+                        CommonRefreshRecyclerView.OnRequestDataListener<DeviceRepairsEntity>() {
+                        override fun requestData(
+                            isRefresh: Boolean,
+                            page: Int,
+                            pageSize: Int,
+                            callBack: (responseList: ResponseList<out DeviceRepairsEntity>?) -> Unit
                         ) {
-                            mViewModel.searchList(page, pageSize, false, result2 = callBack)
+                            mViewModel.searchDeviceRepairsList(page, pageSize, callBack)
                         }
                     }
+            } else {
+                if (SearchType.Device == mViewModel.searchType) {
+                    mBinding.rvSearchList2.listStatusImgResId = R.mipmap.icon_list_device_empty
+                    mBinding.rvSearchList2.listStatusTxtResId = R.string.empty_device
+                    mBinding.rvSearchList2.adapter = mDeviceAdapter
+                } else {
+                    mBinding.rvSearchList2.adapter = mAdapter
                 }
+                mBinding.rvSearchList2.requestData =
+                    object :
+                        CommonRefreshRecyclerView.OnRequestDataListener<ISearchSelectEntity>() {
+                        override fun requestData(
+                            isRefresh: Boolean,
+                            page: Int,
+                            pageSize: Int,
+                            callBack: (responseList: ResponseList<out ISearchSelectEntity>?) -> Unit
+                        ) {
+                            if ((SearchType.Device == mViewModel.searchType
+                                        && UserPermissionUtils.hasDeviceListPermission())
+                                || (SearchType.Order == mViewModel.searchType
+                                        && UserPermissionUtils.hasOrderListPermission())
+                                || SearchType.AppointOrder == mViewModel.searchType
+                            ) {
+                                mViewModel.searchList(page, pageSize, false, result2 = callBack)
+                            }
+                        }
+                    }
+            }
+
         }
     }
 
@@ -360,6 +397,17 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                         ).apply {
                             putExtras(IntentParams.SearchParams.pack(mViewModel.searchKey.value))
                         })
+                }
+            }
+            SearchType.DeviceRepairs -> {
+                if (keyword.isNullOrEmpty()) {
+                    mBinding.clSearchHistory.visibility = View.VISIBLE
+                    mBinding.rvSearchList2.visibility = View.GONE
+                } else {
+                    mBinding.rvSearchList2.requestRefresh(true)
+                    mBinding.clSearchHistory.visibility = View.GONE
+                    // 显示搜索列表
+                    mBinding.rvSearchList2.visibility = View.VISIBLE
                 }
             }
             SearchType.Order -> startActivity(

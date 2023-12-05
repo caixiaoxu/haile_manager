@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="shared"
+            type="com.yunshang.haile_manager_android.business.vm.SharedViewModel" />
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.DeviceRepairsReplyViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.device.DeviceRepairsReplyActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_device_repairs_reply_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@color/white"
+            app:title="@string/device_repairs" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingVertical="12dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_repairs_reply_title"
+                        style="@style/Font_17_black85_bold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/repairs_info"
+                        app:layout_constraintEnd_toStartOf="@id/tv_device_repairs_reply_status"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_repairs_reply_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{10 == vm.repairsDetails.replyStatus?@string/no_reply:@string/replied}"
+                        android:textColor="@{10 == vm.repairsDetails.replyStatus?@color/colorPrimary:@color/color_black_85}"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_device_repairs_reply_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_device_repairs_reply_title"
+                        tools:text="未回复" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_repairs_reply_user_title"
+                        style="@style/Font_14_black45"
+                        android:layout_width="72dp"
+                        android:layout_height="wrap_content"
+                        android:text='@{@string/repairs_user + "："}'
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_device_repairs_reply_user"
+                        tools:text="报修用户：" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_repairs_reply_user"
+                        style="@style/Font_14_black85"
+                        android:layout_width="260dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="12dp"
+                        android:text="@{vm.repairsDetails.userAccount}"
+                        app:layout_constraintStart_toEndOf="@id/tv_device_repairs_reply_user_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_reply_title"
+                        tools:text="18888888888" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_repairs_reply_time_title"
+                        style="@style/Font_14_black45"
+                        android:layout_width="72dp"
+                        android:layout_height="wrap_content"
+                        android:text='@{@string/repairs_time + "："}'
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_device_repairs_reply_time"
+                        tools:text="报修时间：" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_repairs_reply_time"
+                        style="@style/Font_14_black85"
+                        android:layout_width="260dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"
+                        android:text="@{vm.repairsDetails.createTime}"
+                        app:layout_constraintStart_toEndOf="@id/tv_device_repairs_reply_time_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_reply_user"
+                        tools:text="2023-02-20 12:12:12" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_repairs_reply_fault_type_title"
+                        style="@style/Font_14_black45"
+                        android:layout_width="72dp"
+                        android:layout_height="wrap_content"
+                        android:text='@{@string/fault_type + "："}'
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_device_repairs_reply_fault_type"
+                        tools:text="故障类型：" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_repairs_reply_fault_type"
+                        style="@style/Font_14_black85"
+                        android:layout_width="260dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"
+                        android:text='@{vm.repairsDetails.fixSubTypeName}'
+                        app:layout_constraintStart_toEndOf="@id/tv_device_repairs_reply_fault_type_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_reply_time"
+                        tools:text="设备损坏" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_repairs_reply_fault_desc_title"
+                        style="@style/Font_14_black45"
+                        android:layout_width="72dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text='@{@string/fault_desc + "："}'
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_reply_fault_type"
+                        tools:text="故障描述：" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_repairs_reply_fault_desc"
+                        style="@style/Font_14_black85"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"
+                        android:text='@{vm.repairsDetails.description}'
+                        app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_reply_fault_desc_title"
+                        tools:text="设备盖子上面有很严重的锈，滴下来的水把我的衣服都搞坏了。" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_device_repairs_reply_fault_pic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_reply_fault_desc">
+
+                        <androidx.constraintlayout.helper.widget.Flow
+                            android:id="@+id/flow_device_repairs_reply_fault_pic"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:flow_horizontalBias="0"
+                            app:flow_horizontalGap="12dp"
+                            app:flow_horizontalStyle="packed"
+                            app:flow_verticalGap="12dp"
+                            app:flow_wrapMode="chain"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <View
+                        style="@style/DividingStyle"
+                        app:layout_constraintBottom_toTopOf="@id/tv_device_repairs_reply_device_title"
+                        app:layout_constraintTop_toBottomOf="@id/cl_device_repairs_reply_fault_pic"
+                        tools:ignore="MissingConstraints" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_repairs_reply_device_title"
+                        style="@style/Font_17_black85_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/device_info"
+                        app:layout_constraintTop_toBottomOf="@id/cl_device_repairs_reply_fault_pic" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_repairs_reply_device_name_title"
+                        style="@style/Font_14_black45"
+                        android:layout_width="72dp"
+                        android:layout_height="wrap_content"
+                        android:text='@{@string/device_name + "："}'
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_device_repairs_reply_device_name"
+                        tools:text="设备名称：" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_repairs_reply_device_name"
+                        style="@style/Font_14_black85"
+                        android:layout_width="260dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="12dp"
+                        android:text="@{vm.repairsDetails.deviceName}"
+                        app:layout_constraintStart_toEndOf="@id/tv_device_repairs_reply_device_name_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_reply_device_title"
+                        tools:text="3楼左2洗衣机" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_repairs_reply_device_category_title"
+                        style="@style/Font_14_black45"
+                        android:layout_width="72dp"
+                        android:layout_height="wrap_content"
+                        android:text='@{@string/device_category + "："}'
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_device_repairs_reply_device_category"
+                        tools:text="设备类型：" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_repairs_reply_device_category"
+                        style="@style/Font_14_black85"
+                        android:layout_width="260dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"
+                        android:text="@{vm.repairsDetails.goodsCategoryName}"
+                        app:layout_constraintStart_toEndOf="@id/tv_device_repairs_reply_device_category_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_reply_device_name"
+                        tools:text="洗衣机" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_repairs_reply_device_shop_title"
+                        style="@style/Font_14_black45"
+                        android:layout_width="72dp"
+                        android:layout_height="wrap_content"
+                        android:text='@{@string/shop_name + "："}'
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_device_repairs_reply_device_shop"
+                        tools:text="门店名称：" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_repairs_reply_device_shop"
+                        style="@style/Font_14_black85"
+                        android:layout_width="260dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"
+                        android:text="@{vm.repairsDetails.shopName}"
+                        app:layout_constraintStart_toEndOf="@id/tv_device_repairs_reply_device_shop_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_reply_device_category_title"
+                        tools:text="浙大紫金港校区门店" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_repairs_reply_device_position_title"
+                        style="@style/Font_14_black45"
+                        android:layout_width="72dp"
+                        android:layout_height="wrap_content"
+                        android:text='@{@string/pt + "："}'
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_device_repairs_reply_device_position"
+                        tools:text="营业点：" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_device_repairs_reply_device_position"
+                        style="@style/Font_14_black85"
+                        android:layout_width="260dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"
+                        android:text="@{vm.repairsDetails.pointName}"
+                        app:layout_constraintStart_toEndOf="@id/tv_device_repairs_reply_device_position_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_reply_device_shop"
+                        tools:text="研究生A楼" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <include
+                    android:id="@+id/include_device_repairs_reply"
+                    layout="@layout/include_device_repairs_reply"
+                    android:visibility="@{(10 == vm.repairsDetails.replyStatus &amp;&amp; shared.hasRepairsReplyPermission)?View.VISIBLE:View.GONE}"
+                    app:content="@{vm.replyContent}" />
+
+                <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+                    android:id="@+id/ll_device_repairs_reply_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp"
+                    app:divider="@drawable/divide_size12"
+                    app:itemLayout="@layout/item_device_repairs_reply"
+                    app:showDividers="middle"
+                    app:visibility="@{20 == vm.repairsDetails.replyStatus}">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_17_black85_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/shop_reply"
+                        app:layout_constraintTop_toBottomOf="@id/cl_device_repairs_reply_fault_pic" />
+
+                </com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/page_bottom_h"
+            android:background="@color/white"
+            android:paddingTop="12dp"
+            app:visibility="@{10 == vm.repairsDetails.replyStatus &amp;&amp; shared.hasRepairsReplyPermission}">
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_device_repairs_reply_submit"
+                style="@style/CommonMatchBtnStyle1"
+                android:layout_marginHorizontal="16dp"
+                android:enabled="@{null != vm.replyContent.replyContent &amp;&amp; vm.replyContent.replyContent.length() > 0}"
+                android:onClick="@{vm::replyFaultRepairs}"
+                android:text="@string/submit_reply" />
+        </FrameLayout>
+    </LinearLayout>
+</layout>

@@ -121,6 +121,8 @@ class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(p
                             setBackgroundColor(Color.TRANSPARENT)
                         }
 
+                        isChecked = builder.selectData == data
+
                         setOnCheckedChangeListener { _, isChecked ->
                             if (isChecked) {
                                 curEntity = data
@@ -130,8 +132,6 @@ class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(p
                                 }
                             }
                         }
-
-                        isChecked = builder.selectData == data
                     },
                     ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,

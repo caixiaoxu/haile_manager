@@ -270,14 +270,7 @@ class DeviceDetailModel : BaseViewModel() {
 
         launch({
             if (0 == type || 1 == type) {
-                val detail = ApiRepository.dealApiResult(mDeviceRepo.deviceDetail(goodsId))
-                detail?.let {
-                    deviceDetail.postValue(detail)
-                    isOpen.postValue(1 == detail.soldState)
-                    name.postValue(detail.name)
-                    code.postValue(detail.code)
-                    imei.postValue(detail.imei)
-                }
+                requestDeviceDetails()
             }
 
             if (0 == type || 2 == type) {
@@ -287,6 +280,17 @@ class DeviceDetailModel : BaseViewModel() {
                 }
             }
         })
+    }
+
+    private suspend fun requestDeviceDetails() {
+        val detail = ApiRepository.dealApiResult(mDeviceRepo.deviceDetail(goodsId))
+        detail?.let {
+            deviceDetail.postValue(detail)
+            isOpen.postValue(1 == detail.soldState)
+            name.postValue(detail.name)
+            code.postValue(detail.code)
+            imei.postValue(detail.imei)
+        }
     }
 
 
@@ -387,7 +391,7 @@ class DeviceDetailModel : BaseViewModel() {
                     }
                 }
             }
-            requestData(1)
+            requestDeviceDetails()
             LiveDataBus.post(BusEvents.DEVICE_LIST_STATUS, true)
         })
     }
@@ -434,6 +438,7 @@ class DeviceDetailModel : BaseViewModel() {
                     )
                 )
             )
+            requestDeviceDetails()
             withContext(Dispatchers.Main) {
                 callBack()
             }

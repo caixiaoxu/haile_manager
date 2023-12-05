@@ -19,7 +19,7 @@ data class AppointmentSettingEntity(
     var autoRefund: Int? = 1,
     var shopId: Int? = null,
     var checkTime: Int? = 10,
-    var reserveMethod: Int? = 1
+    var reserveMethod: Int? = 2
 ) : BaseObservable() {
     var shopIdList: IntArray? = null
     var settings: MutableList<SettingItem>? = null
@@ -75,14 +75,14 @@ data class AppointmentSettingEntity(
             sb.append("\n预约设备类型：${tokenCoinList.joinToString("、") { item -> item.goodsCategoryName ?: "" }}")
         }
         sb.append("\n预约验证时间：${checkTime}分钟")
-        if (1 == reserveMethod) {
-            sb.append("\n预约后付费")
-        } else if (2 == reserveMethod) {
-            sb.append("\n预约先付费")
-            if (autoRefundVal) {
-                sb.append("\n预约不使用自动退款")
-            }
-        }
+//        if (1 == reserveMethod) {
+//            sb.append("\n预约后付费")
+//        } else if (2 == reserveMethod) {
+//            sb.append("\n预约先付费")
+//            if (autoRefundVal) {
+//                sb.append("\n预约不使用自动退款")
+//            }
+//        }
         return if (sb.isNotEmpty()) sb.substring(1) else ""
     }
 }

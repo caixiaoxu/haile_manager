@@ -247,32 +247,15 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
             search()
         }
 
-        val childCount = mBinding.clSearchHistory.childCount
-        if (childCount > 2) {
-            mBinding.clSearchHistory.removeViews(1, childCount - 1)
+        mBinding.btnSearchHistoryClear.setOnClickListener {
+            // 清空历史
+            val list = SPRepository.searchHistory ?: mutableListOf()
+            list.removeAll(list.filter { item -> item.type == mViewModel.searchType })
+            SPRepository.searchHistory = list
+            buildHistoryView()
         }
-        val inflater = LayoutInflater.from(this)
-        SPRepository.searchHistory?.let { history ->
-            history.filter { item -> item.type == mViewModel.searchType }.reversed()
-                .forEachIndexed { index, searchParam ->
-                    DataBindingUtil.inflate<ItemSearchHistoryFlowBinding>(
-                        inflater,
-                        R.layout.item_search_history_flow, null, false
-                    ).also { itemBinding ->
-                        itemBinding.name = searchParam.keyword
-                        itemBinding.root.id = index + 1
-                        itemBinding.root.setOnClickListener {
-                            mBinding.etSearchKey.clearFocus()
-                            mViewModel.searchKey.value = searchParam.keyword.trim()
-                            search(true)
-                        }
-                        mBinding.clSearchHistory.addView(itemBinding.root)
-                    }
-                }
-            // 设置id
-            val idList = IntArray(history.size) { it + 1 }
-            mBinding.flowSearchHistory.referencedIds = idList
-        }
+
+        buildHistoryView()
 
         // 店铺搜索和（设备、订单）搜索响应数据格式不一
         if (SearchType.Shop == mViewModel.searchType) {
@@ -334,6 +317,35 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                     }
             }
 
+        }
+    }
+
+    private fun buildHistoryView() {
+        val childCount = mBinding.clSearchHistory.childCount
+        if (childCount > 2) {
+            mBinding.clSearchHistory.removeViews(1, childCount - 1)
+        }
+        val inflater = LayoutInflater.from(this)
+        SPRepository.searchHistory?.let { history ->
+            history.filter { item -> item.type == mViewModel.searchType }.reversed()
+                .forEachIndexed { index, searchParam ->
+                    DataBindingUtil.inflate<ItemSearchHistoryFlowBinding>(
+                        inflater,
+                        R.layout.item_search_history_flow, null, false
+                    ).also { itemBinding ->
+                        itemBinding.name = searchParam.keyword
+                        itemBinding.root.id = index + 1
+                        itemBinding.root.setOnClickListener {
+                            mBinding.etSearchKey.clearFocus()
+                            mViewModel.searchKey.value = searchParam.keyword.trim()
+                            search(true)
+                        }
+                        mBinding.clSearchHistory.addView(itemBinding.root)
+                    }
+                }
+            // 设置id
+            val idList = IntArray(history.size) { it + 1 }
+            mBinding.flowSearchHistory.referencedIds = idList
         }
     }
 

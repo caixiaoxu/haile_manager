@@ -91,20 +91,20 @@
                         app:layout_constraintTop_toBottomOf="@id/tv_device_detail_name"
                         tools:text="已停用" />
 
-<!--                    <androidx.appcompat.widget.AppCompatTextView-->
-<!--                        android:id="@+id/tv_device_detail_error"-->
-<!--                        style="@style/font_10_fc7f6f"-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginStart="4dp"-->
-<!--                        android:background="@drawable/shape_s26fc7f6f_r4"-->
-<!--                        android:paddingHorizontal="4dp"-->
-<!--                        android:paddingVertical="2dp"-->
-<!--                        android:text="@{vm.deviceDetail.getReason}"-->
-<!--                        android:visibility="@{(0 == vm.deviceDetail.getReason().length)?View.GONE:View.VISIBLE}"-->
-<!--                        app:layout_constraintStart_toEndOf="@id/tv_device_detail_status"-->
-<!--                        app:layout_constraintTop_toTopOf="@id/tv_device_detail_status"-->
-<!--                        tools:text="排水异常0401" />-->
+                    <!--                    <androidx.appcompat.widget.AppCompatTextView-->
+                    <!--                        android:id="@+id/tv_device_detail_error"-->
+                    <!--                        style="@style/font_10_fc7f6f"-->
+                    <!--                        android:layout_width="0dp"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="4dp"-->
+                    <!--                        android:background="@drawable/shape_s26fc7f6f_r4"-->
+                    <!--                        android:paddingHorizontal="4dp"-->
+                    <!--                        android:paddingVertical="2dp"-->
+                    <!--                        android:text="@{vm.deviceDetail.getReason}"-->
+                    <!--                        android:visibility="@{(0 == vm.deviceDetail.getReason().length)?View.GONE:View.VISIBLE}"-->
+                    <!--                        app:layout_constraintStart_toEndOf="@id/tv_device_detail_status"-->
+                    <!--                        app:layout_constraintTop_toTopOf="@id/tv_device_detail_status"-->
+                    <!--                        tools:text="排水异常0401" />-->
 
                     <com.yunshang.haile_manager_android.ui.view.ClickSwitchView
                         android:id="@+id/switch_device_detail_open"
@@ -522,12 +522,12 @@
                             app:showCopy="@{false}"
                             app:title="@{vm.deviceDetail.getCommunicationTypeTitle}" />
 
-<!--                        <include-->
-<!--                            layout="@layout/item_device_detail_base_info"-->
-<!--                            app:content="@{vm.deviceDetail.company}"-->
-<!--                            app:show="@{vm.deviceDetail.hasCompany}"-->
-<!--                            app:showCopy="@{false}"-->
-<!--                            app:title="@{vm.deviceDetail.getCompanyTitle}" />-->
+                        <!--                        <include-->
+                        <!--                            layout="@layout/item_device_detail_base_info"-->
+                        <!--                            app:content="@{vm.deviceDetail.company}"-->
+                        <!--                            app:show="@{vm.deviceDetail.hasCompany}"-->
+                        <!--                            app:showCopy="@{false}"-->
+                        <!--                            app:title="@{vm.deviceDetail.getCompanyTitle}" />-->
 
                         <include
                             layout="@layout/item_device_detail_base_info"
@@ -542,6 +542,13 @@
                             app:show="@{vm.deviceDetail.hasImeiCode}"
                             app:showCopy="@{true}"
                             app:title="@{vm.deviceDetail.getImeiTitle}" />
+
+                        <include
+                            layout="@layout/item_device_detail_base_info"
+                            app:content="@{vm.deviceDetail.appointmentEnabledVal}"
+                            app:show="@{vm.deviceDetail.hasAppointmentEnabled}"
+                            app:showCopy="@{false}"
+                            app:title="@{vm.deviceDetail.getAppointmentEnabledTitle}" />
 
                         <include
                             layout="@layout/item_device_detail_base_info"

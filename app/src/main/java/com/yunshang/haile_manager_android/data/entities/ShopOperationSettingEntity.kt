@@ -107,8 +107,8 @@ data class ShopOperationSettingEntity(
 }
 
 data class OperationCompensationSetting(
-    var autoCompensateCoupon: Int? = null,
-    var autoRefundMoney: Int? = null,
+    var autoCompensateCoupon: Int? = 0,
+    var autoRefundMoney: Int? = 0,
     val shopId: Int? = null
 ) : BaseObservable() {
     var shopIdList: IntArray? = null
@@ -145,7 +145,7 @@ data class OperationCompensationSetting(
 
 data class OperationFlowSetting(
     val shopId: Int? = null,
-    var volumeVisibleState: Int? = null
+    var volumeVisibleState: Int? = 0
 ) : BaseObservable() {
     var shopIdList: IntArray? = null
 
@@ -160,7 +160,7 @@ data class OperationFlowSetting(
 
 data class FreeSelfClearSettings(
     var shopId: Int? = null,
-    var volumeVisibleState: Int? = null
+    var volumeVisibleState: Int? = 0
 ) : BaseObservable() {
     var shopIdList: IntArray? = null
 

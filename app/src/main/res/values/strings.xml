@@ -286,6 +286,8 @@
 
     <string name="batch_pay_setting">批量支付设置</string>
     <string name="batch_pay_setting_prompt">设置海星、免密支付的强制和提示</string>
+    <string name="batch_self_clean_setting">批量筒自洁设置</string>
+    <string name="batch_self_clean_setting_prompt">设置洗衣机洗鞋机支付前免费筒自洁</string>
     <string name="batch_compensation_setting">批量补偿设置</string>
     <string name="batch_compensation_setting_prompt">异常订单的补偿规则</string>
     <string name="batch_appointment_setting">批量预约设置</string>
@@ -391,6 +393,12 @@
     <string name="compensation_setting_name2_prompt">开启后，由于异常（包括但不限于，弱网环境、设备故障等）导致订单无法继续，会关闭订单，并自动原路退款（包含支付金额、券和海星）</string>
     <string name="per_flow_charge_display_setting_name">按流量收费，用户订单显示用量</string>
     <string name="per_flow_charge_display_setting_name_prompt">饮水和淋浴有该设置，只针对用户看到的订单内容</string>
+    <string name="self_clean_setting_name">洗衣机/洗鞋机支付前免费筒自洁</string>
+    <string name="self_clean_setting_name1">洗衣机支付前免费筒自洁</string>
+    <string name="self_clean_setting_name2">洗鞋机支付前免费筒自洁</string>
+    <string name="self_clean_setting_prompt">开启后，洗衣机/洗鞋机订单（非筒自洁功能），在支付前可使用免费的筒自洁功能，然后再支付去启动订单中的洗衣/洗鞋功能</string>
+    <string name="self_clean_setting_prompt1">开启后，洗衣机订单（非筒自洁功能），在支付前可使用免费的筒自洁功能，然后再支付去启动订单中的洗衣功能</string>
+    <string name="self_clean_setting_prompt2">开启后，洗鞋机订单（非筒自洁功能），在支付前可使用免费的筒自洁功能，然后再支付去启动订单中的洗鞋功能</string>
 
     <string name="order_manager">订单管理</string>
     <string name="order_search_hint">搜索手机号/订单编号/IMEI</string>
@@ -406,6 +414,7 @@
     <string name="consumption_item">消费项</string>
     <string name="compensate">补偿</string>
     <string name="compensate_setting">补偿设置</string>
+    <string name="self_clean_setting">筒自洁设置</string>
     <string name="refund">退款</string>
     <string name="order_user">下单用户</string>
     <string name="copy_order_no">复制订单号</string>
@@ -640,6 +649,7 @@
     <string name="earnings_detail">收益详情</string>
     <string name="check_order_detail">查看订单详情</string>
     <string name="pay_time">支付时间</string>
+    <string name="pay_time_prompt">待支付页面，给到用户用于支付的最长时间，没有在支付时间内完成支付，则订单取消</string>
     <string name="settlement_time">结算时间</string>
     <string name="account_balance">账户余额</string>
     <string name="income_detail">收入详情</string>

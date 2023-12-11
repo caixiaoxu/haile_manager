@@ -50,6 +50,9 @@
             android:name=".ui.activity.shop.ShopBatchCompensationSettingActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.activity.shop.ShopSelfCleanSettingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.shop.ShopBatchSettingActivity"
             android:exported="false" />
         <activity

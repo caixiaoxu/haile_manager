@@ -226,4 +226,10 @@ interface ShopService {
      */
     @POST("/shop/batchSaveOperationSetting")
     suspend fun saveBatchFlowSetting(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 批量筒自洁设置
+     */
+    @POST("/shop/batchSaveFreeSelfClearSetting")
+    suspend fun saveBatchSelfCleanSetting(@Body body: RequestBody): ResponseWrapper<Any>
 }

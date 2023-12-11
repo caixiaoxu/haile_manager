@@ -30,6 +30,15 @@ class ShopBatchSettingActivity :
                 )
             )
         }
+        // 批量筒自洁设置
+        mBinding.clShopBatchSettingSelfCleanSetting.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@ShopBatchSettingActivity,
+                    ShopSelfCleanSettingActivity::class.java
+                )
+            )
+        }
         // 批量补偿设置
         mBinding.clShopBatchSettingCompensationSetting.setOnClickListener {
             startActivity(

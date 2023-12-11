@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingHorizontal="16dp"
+    android:paddingBottom="32dp"
     android:background="@drawable/shape_sffffff_rt12"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingBottom="34dp">
+    tools:context="com.yunshang.haile_manager_android.ui.view.dialog.NumberPickerDialog">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_common_dialog_title"
@@ -32,7 +36,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_common_dialog_sure"
+            android:id="@+id/btn_number_sure"
             style="@style/Font_14_f0a258"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -43,33 +47,9 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View style="@style/DividingStyle"/>
-
-    <com.yunshang.haile_manager_android.ui.view.MaxHeightScrollView
+    <com.contrarywind.view.WheelView
+        android:id="@+id/wv_number"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none"
-        app:maxHeight="540dp">
-
-        <RadioGroup
-            android:id="@+id/ll_dialog_common_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </com.yunshang.haile_manager_android.ui.view.MaxHeightScrollView>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="@color/dividing_line_color" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_common_dialog_cancel"
-        style="@style/CommonBottomSheetStyle"
-        android:text="@string/cancel" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="@color/dividing_line_color" />
+        android:layout_height="wrap_content" />
 </LinearLayout>

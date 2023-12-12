@@ -1,5 +1,7 @@
 package com.yunshang.haile_manager_android.data.entities
 
+import com.yunshang.haile_manager_android.data.rule.IMultiSelectBottomItemEntity
+
 /**
  * Title :
  * Author: Lsy
@@ -14,4 +16,8 @@ data class DeviceCategoryEntity(
     val categoryCode: String? = "",
     val categoryId: Int? = null,
     val categoryName: String? = ""
-)
+) : IMultiSelectBottomItemEntity {
+    override var isCheck: Boolean = false
+    override var onlyOne: Boolean = false
+    override fun getTitle(): String = categoryName ?: ""
+}

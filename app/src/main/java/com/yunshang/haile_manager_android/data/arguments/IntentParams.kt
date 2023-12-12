@@ -46,6 +46,22 @@ object IntentParams {
         fun parsePhone(intent: Intent): String? = intent.getStringExtra(Phone)
     }
 
+    object PicParams {
+        private const val Url = "url"
+
+        /**
+         * 包装参数
+         */
+        fun pack(url: String): Bundle = Bundle().apply {
+            putString(Url, url)
+        }
+
+        /**
+         * 解析Url
+         */
+        fun parseUrl(intent: Intent): String? = intent.getStringExtra(Url)
+    }
+
     object UserParams {
         private const val UserId = "userId"
         private const val UserName = "userName"
@@ -1040,6 +1056,43 @@ object IntentParams {
 
         fun parseCity(intent: Intent): String? = intent.getStringExtra(City)
         fun parseShopTypeName(intent: Intent): String? = intent.getStringExtra(ShopTypeName)
+    }
+
+    object DeviceFaultRepairsParams {
+        private const val FaultIdList = "faultIdList"
+        private const val DeviceIdList = "deviceIdList"
+
+        /**
+         * 包装参数
+         */
+        fun pack(faultIdList: IntArray? = null, deviceIdList: IntArray? = null): Bundle =
+            Bundle().apply {
+                faultIdList?.let {
+                    putIntArray(FaultIdList, faultIdList)
+                }
+                deviceIdList?.let {
+                    putIntArray(DeviceIdList, deviceIdList)
+                }
+            }
+
+        fun parseFaultIdList(intent: Intent): IntArray? = intent.getIntArrayExtra(FaultIdList)
+        fun parseDeviceIdList(intent: Intent): IntArray? = intent.getIntArrayExtra(DeviceIdList)
+    }
+
+    object DeviceRepairsReplyListParams {
+        private const val DeviceRepairs = "deviceRepairs"
+
+        /**
+         * 包装参数
+         */
+        fun pack(deviceRepairs: DeviceRepairsEntity): Bundle =
+            Bundle().apply { putString(DeviceRepairs, GsonUtils.any2Json(deviceRepairs)) }
+
+        fun parseDeviceRepairs(intent: Intent): DeviceRepairsEntity? =
+            GsonUtils.json2Class(
+                intent.getStringExtra(DeviceRepairs),
+                DeviceRepairsEntity::class.java
+            )
     }
 
     object MessageSettingParams {

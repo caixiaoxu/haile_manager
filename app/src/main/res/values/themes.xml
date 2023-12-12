@@ -342,6 +342,24 @@
         <item name="android:textColor">@color/common_sub_txt_color</item>
     </style>
 
+    <style name="Font_14_black25">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_black_25</item>
+    </style>
+    <style name="Font_14_black65">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_black_65</item>
+    </style>
+
+    <style name="Font_14_black85">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_black_85</item>
+    </style>
+
+    <style name="Font_14_black85_bold" parent="Font_14_black85">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="Font_14_333333_999999">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/common_txt_color</item>
@@ -357,6 +375,11 @@
     <style name="Font_14_f0a258">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="Font_14_black45">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_black_45</item>
     </style>
 
     <style name="Font_14_f0a258_bold" parent="Font_14_f0a258">
@@ -431,6 +454,19 @@
     <style name="font_17_999999">
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/common_sub_txt_color</item>
+    </style>
+
+    <style name="Font_17_black85">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/color_black_85</item>
+    </style>
+
+    <style name="Font_17_black85_black45" parent="Font_17_black85">
+        <item name="android:textColorHint">@color/color_black_45</item>
+    </style>
+
+    <style name="Font_17_black85_bold" parent="Font_17_black85">
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Font_18_f0a258">

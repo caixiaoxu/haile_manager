@@ -74,15 +74,24 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
 
     // 空状态图
     var listStatusImgResId: Int = R.mipmap.icon_list_content_empty
+        set(value) {
+            field = value
+            buildEmptyView()
+        }
 
     // 空状态图
     var listStatusTxtResId: Int = R.string.empty_content
+        set(value) {
+            field = value
+            buildEmptyView()
+        }
 
     init {
         mBinding = CustomRefreshRecyclerViewBinding.bind(
             LayoutInflater.from(context).inflate(R.layout.custom_refresh_recycler_view, null, false)
         )
         addView(mBinding.root)
+        buildEmptyView()
 
         // 刷新
         mBinding.refreshLayout.setOnRefreshListener {
@@ -93,6 +102,13 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
         mBinding.refreshLayout.setOnLoadMoreListener {
             requestData(false)
         }
+    }
+
+    private fun buildEmptyView() {
+        mBinding.tvListStatus.setText(listStatusTxtResId)
+        mBinding.tvListStatus.setCompoundDrawablesWithIntrinsicBounds(
+            0, listStatusImgResId, 0, 0
+        )
     }
 
     fun recyclerView() = mBinding.rvRefreshList
@@ -179,13 +195,6 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
         if (isRefresh && 0 == it.total) {
             mBinding.rvRefreshList.visibility = View.GONE
             mBinding.tvListStatus.visibility = View.VISIBLE
-            mBinding.tvListStatus.setText(listStatusTxtResId)
-            mBinding.tvListStatus.setCompoundDrawablesWithIntrinsicBounds(
-                0,
-                listStatusImgResId,
-                0,
-                0
-            )
         } else {
             mBinding.rvRefreshList.visibility = View.VISIBLE
             mBinding.tvListStatus.visibility = View.GONE

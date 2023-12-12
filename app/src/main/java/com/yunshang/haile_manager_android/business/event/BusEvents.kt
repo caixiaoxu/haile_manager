@@ -51,4 +51,6 @@ object BusEvents {
     const val BANK_LIST_DELETE_STATUS = "bank_list_delete_status"
 
     const val COUPON_LIST_STATUS = "coupon_list_status"
+
+    const val DEVICE_FAULT_REPAIRS_REPLY_STATUS = "device_fault_repairs_reply_status"
 }

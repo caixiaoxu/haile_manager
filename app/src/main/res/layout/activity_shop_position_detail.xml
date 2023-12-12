@@ -207,6 +207,13 @@
 
                     <include
                         layout="@layout/item_order_detail_info"
+                        app:canShow='@{null != vm.positionDetail.floorCode &amp;&amp; vm.positionDetail.floorCode.length() > 0}'
+                        app:content='@{vm.positionDetail.floorCode + "F"}'
+                        app:itemTitle='@{@string/floor + "："}'
+                        app:showCopy="@{false}" />
+
+                    <include
+                        layout="@layout/item_order_detail_info"
                         app:canShow="@{vm.positionDetail.hasShopName}"
                         app:content='@{vm.positionDetail.shopName + "（"+ vm.positionDetail.shopId +"）"}'
                         app:itemTitle='@{@string/department+ "："}'

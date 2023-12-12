@@ -108,6 +108,16 @@
                                 android:hint="@string/belong_to_pt" />
 
                             <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tv_device_category_network_status"
+                                style="@style/DeviceManagerCategoryBtnStyle"
+                                android:hint="@string/network_status" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tv_device_category_device_status"
+                                style="@style/DeviceManagerCategoryBtnStyle"
+                                android:hint="@string/device_status" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/tv_device_category_category"
                                 style="@style/DeviceManagerCategoryBtnStyle"
                                 android:hint="@string/device_category" />
@@ -118,15 +128,6 @@
                                 android:hint="@string/device_model"
                                 android:visibility="@{null == vm.selectDeviceCategory?View.GONE:View.VISIBLE}" />
 
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/tv_device_category_network_status"
-                                style="@style/DeviceManagerCategoryBtnStyle"
-                                android:hint="@string/network_status" />
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/tv_device_category_device_status"
-                                style="@style/DeviceManagerCategoryBtnStyle"
-                                android:hint="@string/device_status" />
                         </LinearLayout>
                     </HorizontalScrollView>
 

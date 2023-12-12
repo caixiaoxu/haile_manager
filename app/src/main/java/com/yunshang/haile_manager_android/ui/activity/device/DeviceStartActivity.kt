@@ -40,8 +40,8 @@ class DeviceStartActivity :
         mViewModel.categoryCode = intent.getStringExtra(DeviceCategory.CategoryCode)
         intent.getStringExtra(Items)?.let {
             GsonUtils.json2List(it, SkuFunConfigurationV2Param::class.java)?.let { list ->
-                mViewModel.items = list.filter { item -> 1 == item.soldState }.map { item ->
-                    val filterList = item.extAttrDto.items.filter { attr -> attr.isEnabled }
+                mViewModel.items = list.map { item ->
+                    val filterList = item.extAttrDto.items
                     if (DeviceCategory.isWashingOrShoes(mViewModel.categoryCode)) {
                         val attr = filterList.firstOrNull()
                         val times = attr?.unitAmount?.let { unit -> listOf(unit) } ?: listOf()

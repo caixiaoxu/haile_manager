@@ -1,11 +1,7 @@
 package com.yunshang.haile_manager_android.ui.activity.device
 
 import android.graphics.Color
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.LinearLayout
-import androidx.appcompat.widget.AppCompatRadioButton
-import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
@@ -15,6 +11,7 @@ import com.yunshang.haile_manager_android.data.arguments.DeviceConfigSelectParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.SkuFunConfigurationV2Param
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceStartBinding
+import com.yunshang.haile_manager_android.databinding.ItemDeviceStartBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 
@@ -67,28 +64,20 @@ class DeviceStartActivity :
                 if (DeviceCategory.isDryerOrHair(mViewModel.categoryCode)
                     || DeviceCategory.isDispenser(mViewModel.categoryCode)
                 ) {
-                    mBinding.rgDeviceStartTimeList.removeAllViews()
-                    val timeW = DimensionUtils.dip2px(dipValue = 70f)
-                    val timeH = DimensionUtils.dip2px(dipValue = 28f)
-                    val mR = DimensionUtils.dip2px(dipValue = 8f)
-                    item.times.forEachIndexed { index, time ->
-                        mBinding.rgDeviceStartTimeList.addView(
-                            LayoutInflater.from(this@DeviceStartActivity)
-                                .inflate(R.layout.item_device_start, null, false).apply {
-                                    (this as AppCompatRadioButton).run {
-                                        text =
-                                            "${time}${if (DeviceCategory.isDispenser(mViewModel.categoryCode)) "ml" else "分钟"}"
-                                        setOnCheckedChangeListener { _, isChecked ->
-                                            if (isChecked) {
-                                                mViewModel.selectTime.value = time
-                                            }
-                                        }
-                                    }
-                                },
-                            LinearLayout.LayoutParams(timeW, timeH).apply {
-                                setMargins(if (index > 0) mR else 0, 0, 0, 0)
-                            }
-                        )
+                    mViewModel.selectTime.value = null
+                    mBinding.clDeviceStartTimeList.buildChild<ItemDeviceStartBinding, String>(
+                        item.times,
+                        R.layout.item_device_start
+                    ) { _, childBinding, time ->
+                        childBinding.rbDeviceStart.text =
+                            "${time}${if (DeviceCategory.isDispenser(mViewModel.categoryCode)) "ml" else "分钟"}"
+                        childBinding.rbDeviceStart.setOnRadioClickListener {
+                            mViewModel.selectTime.value = time
+                            true
+                        }
+                        mViewModel.selectTime.observe(this) { select ->
+                            childBinding.rbDeviceStart.isChecked = select == time
+                        }
                     }
                     mBinding.scrollDeviceStartTimeList.visibility = View.VISIBLE
                 }

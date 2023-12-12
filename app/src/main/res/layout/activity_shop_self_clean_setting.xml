@@ -64,81 +64,37 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_top_stroke_dividing_mlr16"
             android:paddingHorizontal="16dp"
-            android:paddingTop="10dp"
             android:paddingBottom="16dp"
+            android:paddingTop="4dp"
             app:visibility="@{null != vm.selectShops}">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_shop_self_clean_setting_wash_title"
+                android:id="@+id/tv_shop_self_clean_setting_title"
                 style="@style/Font_16_333333"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/self_clean_setting_name1"
-                app:layout_constraintBottom_toBottomOf="@id/switch_shop_self_clean_setting_wash"
-                app:layout_constraintEnd_toStartOf="@id/switch_shop_self_clean_setting_wash"
+                android:text="@string/self_clean_setting_name"
+                app:layout_constraintBottom_toBottomOf="@id/switch_shop_self_clean_setting"
+                app:layout_constraintEnd_toStartOf="@id/switch_shop_self_clean_setting"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@id/switch_shop_self_clean_setting" />
 
             <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switch_shop_self_clean_setting_wash"
+                android:id="@+id/switch_shop_self_clean_setting"
                 style="@style/CustomSwitchStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="@={vm.selfCleanSetting.volumeVisibleStateVal}"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/Font_12_999999"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/self_clean_setting_prompt1"
-                app:layout_constraintEnd_toStartOf="@id/switch_shop_self_clean_setting_wash"
-                app:layout_constraintStart_toStartOf="@id/tv_shop_self_clean_setting_wash_title"
-                app:layout_constraintTop_toBottomOf="@id/switch_shop_self_clean_setting_wash" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_top_stroke_dividing_mlr16"
-            android:paddingHorizontal="16dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="16dp"
-            app:visibility="@{null != vm.selectShops}">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_shop_self_clean_setting_shoes_title"
-                style="@style/Font_16_333333"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/self_clean_setting_name2"
-                app:layout_constraintBottom_toBottomOf="@id/switch_shop_self_clean_setting_shoes"
-                app:layout_constraintEnd_toStartOf="@id/switch_shop_self_clean_setting_shoes"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switch_shop_self_clean_setting_shoes"
-                style="@style/CustomSwitchStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="@={vm.selfCleanSetting.volumeVisibleStateVal}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/Font_12_999999"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/self_clean_setting_prompt2"
-                app:layout_constraintEnd_toStartOf="@id/switch_shop_self_clean_setting_shoes"
-                app:layout_constraintStart_toStartOf="@id/tv_shop_self_clean_setting_shoes_title"
-                app:layout_constraintTop_toBottomOf="@id/switch_shop_self_clean_setting_shoes" />
+                android:text="@string/self_clean_setting_prompt"
+                app:layout_constraintTop_toBottomOf="@id/switch_shop_self_clean_setting" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View

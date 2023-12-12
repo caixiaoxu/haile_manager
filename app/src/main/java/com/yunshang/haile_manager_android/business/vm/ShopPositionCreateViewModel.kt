@@ -76,15 +76,26 @@ class ShopPositionCreateViewModel : BaseViewModel() {
                 }
                 changeWorkTime(it.workTimeArr(), it.workTime)
             }
-        } ?: run {
-            positionParam.value?.changeWorkTime(
-                mutableListOf(
-                    BusinessHourEntity(
-                        ShopParam.businessDay,
-                        "00:00-23:59"
-                    )
-                )
-            )
+        }
+    }
+
+    fun requestLastPositionDetail(callBack: () -> Unit) {
+        if (positionParam.value?.serviceTelephone.isNullOrEmpty() || positionParam.value?.workTimeStr.isNullOrEmpty()){
+            launch({
+                ApiRepository.dealApiResult(
+                    mShopRepo.requestLastPositionDetails(positionParam.value?.shopId)
+                )?.let {
+                    if (positionParam.value?.serviceTelephone.isNullOrEmpty()){
+                        positionParam.value?.serviceTelephone = it.serviceTelephone
+                    }
+                    if (positionParam.value?.workTimeStr.isNullOrEmpty()){
+                        positionParam.value?.changeWorkTime(it.workTimeArr(), it.workTime)
+                    }
+                    withContext(Dispatchers.Main) {
+                        callBack()
+                    }
+                }
+            })
         }
     }
 

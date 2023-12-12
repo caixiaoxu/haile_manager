@@ -36,6 +36,9 @@ class ShopPositionCreateActivity :
                             GsonUtils.json2List(json, SearchSelectParam::class.java)
                                 ?.firstOrNull()?.let { first ->
                                     mViewModel.positionParam.value?.changeShop(first.id, first.name)
+                                    mViewModel.requestLastPositionDetail(){
+                                        buildContactListView()
+                                    }
                                 }
                         }
                 }

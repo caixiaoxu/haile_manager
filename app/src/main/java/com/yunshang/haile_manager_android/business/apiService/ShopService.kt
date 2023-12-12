@@ -232,4 +232,10 @@ interface ShopService {
      */
     @POST("/shop/batchSaveOperationSetting")
     suspend fun saveBatchFlowSetting(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 获取最新点位详情
+     */
+    @GET("/position/getLatest")
+    suspend fun requestLastPositionDetails(@Query("shopId") shopId: Int?): ResponseWrapper<ShopPositionDetailEntity>
 }

@@ -64,6 +64,7 @@ class ShopDetailViewModel : BaseViewModel() {
                     showItem2 = null != compensationSetting
                     showItem3 = !appointSetting?.settingList.isNullOrEmpty()
                     showItem4 = null != operationSetting
+                    showItem5 = null != freeSelfClearSettingDetailDTO
                 })
             }
         })

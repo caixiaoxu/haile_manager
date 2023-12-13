@@ -233,7 +233,7 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
         mBinding.etSearchKey.onTextChange = { auto ->
             if (SearchType.Device == mViewModel.searchType || SearchType.Shop == mViewModel.searchType) {
                 search(auto)
-            } else if (SearchType.Order == mViewModel.searchType && !auto) {
+            } else if ((SearchType.Order == mViewModel.searchType || SearchType.DeviceRepairs == mViewModel.searchType) && !auto) {
                 search(false)
             }
         }
@@ -323,7 +323,7 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
 
     private fun buildHistoryView() {
         val childCount = mBinding.clSearchHistory.childCount
-        if (childCount > 2) {
+        if (childCount > 1) {
             mBinding.clSearchHistory.removeViews(1, childCount - 1)
         }
         val inflater = LayoutInflater.from(this)

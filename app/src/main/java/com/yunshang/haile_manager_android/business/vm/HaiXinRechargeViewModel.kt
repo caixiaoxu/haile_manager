@@ -4,8 +4,6 @@ import android.view.View
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
-import com.lsy.framelib.utils.SToast
-import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.HaiXinService
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.model.ApiRepository
@@ -114,7 +112,7 @@ class HaiXinRechargeViewModel : BaseViewModel() {
                         hashMapOf(
                             "account" to userPhone.value!!,
                             "shopId" to selectShop.value!!.id,
-                            "presentAmount" to rewardVal.value!!
+                            "presentAmount" to rewardHaiXinVal.value!!
                         )
                     )
                 )

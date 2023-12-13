@@ -21,6 +21,7 @@ import com.yunshang.haile_manager_android.databinding.ItemShopPaySettingsBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
+import com.yunshang.haile_manager_android.ui.view.dialog.NumberPickerDialog
 
 class ShopOperationSettingActivity :
     BaseBusinessActivity<ActivityShopOperationSettingBinding, ShopOperationSettingViewModel>(
@@ -88,16 +89,28 @@ class ShopOperationSettingActivity :
             AlertDialog.Builder(this@ShopOperationSettingActivity)
                 .setView(R.layout.popup_shop_operation_setting_promt).create().show()
         }
+        mBinding.clShopPaySettingsPayTime.setOnClickListener {
+            NumberPickerDialog.Builder(
+                5, 20, try {
+                    mViewModel.operationSettingDetail.value?.paymentSetting?.payTimeVal?.toInt()
+                        ?: 10
+                } catch (e: Exception) {
+                    10
+                }, StringUtils.getString(R.string.pay_time)
+            ) {
+                mViewModel.operationSettingDetail.value?.paymentSetting?.payTimeVal = it.toString()
+            }.build().show(supportFragmentManager)
+        }
 
         mBinding.btnShopParamsSettingSave.setOnClickListener {
-            if (2 == mViewModel.operationSettingDetail.value?.appointSetting?.reserveMethod && 1 != mViewModel.operationSettingDetail.value?.appointSetting?.autoRefund){
+            if (2 == mViewModel.operationSettingDetail.value?.appointSetting?.reserveMethod && 1 != mViewModel.operationSettingDetail.value?.appointSetting?.autoRefund) {
                 CommonDialog.Builder("不开启预约不使用，自动退款设置，则只有用户在预约验证时间到期前取消给退款，否则不退款").apply {
                     negativeTxt = StringUtils.getString(R.string.cancel)
-                    setPositiveButton(StringUtils.getString(R.string.sure)){
+                    setPositiveButton(StringUtils.getString(R.string.sure)) {
                         mViewModel.save(this@ShopOperationSettingActivity)
                     }
                 }.build().show(supportFragmentManager)
-            }else {
+            } else {
                 mViewModel.save(this@ShopOperationSettingActivity)
             }
         }

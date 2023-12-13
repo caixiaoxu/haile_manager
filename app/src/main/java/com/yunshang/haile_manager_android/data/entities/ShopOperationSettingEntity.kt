@@ -20,8 +20,10 @@ data class ShopOperationSettingEntity(
     val paymentSetting: ShopPaySettingsEntity? = null,
     val compensationSetting: OperationCompensationSetting? = null,
     val appointSetting: AppointmentSettingEntity? = null,
-    val operationSetting: OperationFlowSetting? = null
+    val operationSetting: OperationFlowSetting? = null,
+    var freeSelfClearSettingDetailDTO: FreeSelfClearSettings? = null
 ) : BaseObservable() {
+    var freeSelfClearSettingsForm: FreeSelfClearSettings? = null
 
     @Transient
     @get:Bindable
@@ -86,11 +88,27 @@ data class ShopOperationSettingEntity(
             field = value
             notifyPropertyChanged(BR.showItem4Content)
         }
+
+    @Transient
+    @get:Bindable
+    var showItem5: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.showItem5)
+        }
+
+    @Transient
+    @get:Bindable
+    var showItem5Content: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.showItem5Content)
+        }
 }
 
 data class OperationCompensationSetting(
-    var autoCompensateCoupon: Int? = null,
-    var autoRefundMoney: Int? = null,
+    var autoCompensateCoupon: Int? = 1,
+    var autoRefundMoney: Int? = 1,
     val shopId: Int? = null
 ) : BaseObservable() {
     var shopIdList: IntArray? = null
@@ -127,7 +145,22 @@ data class OperationCompensationSetting(
 
 data class OperationFlowSetting(
     val shopId: Int? = null,
-    var volumeVisibleState: Int? = null
+    var volumeVisibleState: Int? = 1
+) : BaseObservable() {
+    var shopIdList: IntArray? = null
+
+    @get:Bindable
+    var volumeVisibleStateVal: Boolean
+        get() = 1 == volumeVisibleState
+        set(value) {
+            volumeVisibleState = if (value) 1 else 0
+            notifyPropertyChanged(BR.volumeVisibleStateVal)
+        }
+}
+
+data class FreeSelfClearSettings(
+    var shopId: Int? = null,
+    var volumeVisibleState: Int? = 1
 ) : BaseObservable() {
     var shopIdList: IntArray? = null
 

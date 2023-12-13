@@ -527,6 +527,11 @@
         <item name="android:textColor">@color/common_txt_color</item>
     </style>
 
+    <style name="Font_22_333333">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/common_txt_color</item>
+    </style>
+
     <style name="Font_24_333333">
         <item name="android:textSize">24sp</item>
         <item name="android:textColor">@color/common_txt_color</item>

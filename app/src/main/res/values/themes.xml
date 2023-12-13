@@ -329,11 +329,6 @@
         <item name="android:textColor">@color/color_FF5219</item>
     </style>
 
-    <style name="Font_14_black25">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/color_black_25</item>
-    </style>
-
     <style name="Font_14_333333">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/common_txt_color</item>
@@ -364,11 +359,6 @@
     <style name="Font_14_black65">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/color_black_65</item>
-    </style>
-
-    <style name="Font_14_black85">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/color_black_85</item>
     </style>
 
     <style name="Font_14_black85_bold" parent="Font_14_black85">

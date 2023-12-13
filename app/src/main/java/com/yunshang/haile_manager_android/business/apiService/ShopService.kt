@@ -232,4 +232,10 @@ interface ShopService {
      */
     @POST("/shop/batchSaveFreeSelfClearSetting")
     suspend fun saveBatchSelfCleanSetting(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 批量附近下单设置
+     */
+    @POST("/shop/batchSaveNearOrderSetting")
+    suspend fun saveBatchNearByOrderSetting(@Body body: RequestBody): ResponseWrapper<Any>
 }

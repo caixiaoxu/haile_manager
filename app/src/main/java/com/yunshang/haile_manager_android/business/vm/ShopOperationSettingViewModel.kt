@@ -46,6 +46,8 @@ class ShopOperationSettingViewModel : BaseViewModel() {
                 operationSettingDetail.postValue(it.apply {
                     appointSetting?.settingList = appointSetting?.settings
                     appointSetting?.settings = null
+                    nearOrderSettingsForm = nearOrderSettingDetailDTO
+                    nearOrderSettingDetailDTO = null
                     freeSelfClearSettingsForm = freeSelfClearSettingDetailDTO
                     freeSelfClearSettingDetailDTO = null
 
@@ -53,6 +55,7 @@ class ShopOperationSettingViewModel : BaseViewModel() {
                     showItem2 = null != compensationSetting
                     showItem3 = !appointSetting?.settingList.isNullOrEmpty()
                     showItem4 = null != operationSetting
+                    showItem6 = null != nearOrderSettingsForm
                     showItem5 = null != freeSelfClearSettingsForm
                 })
             }

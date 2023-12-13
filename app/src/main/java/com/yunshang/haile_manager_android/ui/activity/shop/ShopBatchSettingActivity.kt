@@ -48,6 +48,16 @@ class ShopBatchSettingActivity :
                 )
             )
         }
+        // 批量补偿设置
+        mBinding.clShopBatchSettingNearByOrderSetting.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@ShopBatchSettingActivity,
+                    ShopNearByOrderSettingActivity::class.java
+                )
+            )
+        }
+
         // 批量预约设置
         mBinding.clShopBatchSettingAppointmentSetting.setOnClickListener {
             startActivity(

@@ -47,6 +47,7 @@ class SearchViewModel : BaseViewModel() {
         StringUtils.getString(R.string.recharge_account_search_hint),
         StringUtils.getString(R.string.sub_account_search_hint),
         StringUtils.getString(R.string.device_name),
+        StringUtils.getString(R.string.search_user_phone),
     )
 
     // 搜索内容

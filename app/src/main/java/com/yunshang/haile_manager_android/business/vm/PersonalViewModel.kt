@@ -41,7 +41,7 @@ class PersonalViewModel : BaseViewModel() {
             IncomeCalendarActivity::class.java,
             Bundle().apply {
                 putInt(IncomeCalendarActivity.ProfitType, 4)
-            }
+            },
         ),
         PersonalItem(
             R.mipmap.icon_personal_income,

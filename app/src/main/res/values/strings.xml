@@ -504,7 +504,6 @@
     <string name="fault_desc">故障描述</string>
     <string name="shop_reply">商家回复</string>
     <string name="reply_content">回复内容</string>
-
     <string name="pic_browse">图片浏览</string>
 
     <string name="home_marketing_title">营销中心</string>
@@ -555,6 +554,7 @@
     <string name="haixin_recycle_reach_title">回收充值海星</string>
     <string name="haixin_recycle_reward_title">回收赠送海星</string>
     <string name="user_phone">用户手机号</string>
+    <string name="search_user_phone">搜索用户手机号</string>
     <string name="user_phone1">用户手机</string>
     <string name="user_account">用户账户</string>
     <string name="maximum_recycle">最多回收</string>
@@ -579,6 +579,7 @@
     <string name="item_sub_account_shop_title">分账门店：%1$s（%2$s）</string>
 
     <string name="issue_coupons">发券</string>
+    <string name="batch_invalid">批量作废</string>
     <string name="issue_coupons_user">发券用户</string>
     <string-array name="coupon_type">
         <item></item>

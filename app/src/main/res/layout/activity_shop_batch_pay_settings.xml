@@ -58,7 +58,6 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:orientation="vertical"
                 app:divider="@drawable/divder_efefef"
                 app:dividerPadding="16dp"
@@ -68,13 +67,53 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Font_16_333333_bold"
                     android:layout_width="match_parent"
+                    android:background="@color/white"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     android:text="@string/shop_pay_setting" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_shop_pay_settings_pay_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_pay_settings_pay_time_title"
+                        style="@style/Font_16_333333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pay_time"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_pay_settings_pay_time"
+                        style="@style/Font_16_333333"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:drawableEnd="@drawable/icon_arrow_right"
+                        android:text="@{@string/unit_minute_num_str(vm.shopPaySettings.payTimeVal)}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tv_shop_pay_settings_pay_time_title"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_12_999999"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/pay_time_prompt"
+                        app:layout_constraintTop_toBottomOf="@id/tv_shop_pay_settings_pay_time_title" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="54dp"
+                    android:background="@color/white"
+                    android:layout_marginTop="8dp"
                     android:paddingHorizontal="16dp">
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -101,6 +140,7 @@
                     android:id="@+id/ll_shop_pay_settings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:background="@color/white"
                     android:orientation="vertical"
                     app:divider="@drawable/divder_efefef"

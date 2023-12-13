@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="child"
+            type="com.yunshang.haile_manager_android.data.entities.ReplyDTOS" />
+    </data>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_device_repairs_reply_content"
+        style="@style/Font_14_black85"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@{child.replyContent}"
+        tools:text="感谢您的反馈，这边对发生的事表示抱歉我们会赠予你一张价值5元的优惠券。" />
+</layout>

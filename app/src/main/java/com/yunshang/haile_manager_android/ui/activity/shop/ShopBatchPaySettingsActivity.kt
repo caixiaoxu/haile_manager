@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -20,6 +21,7 @@ import com.yunshang.haile_manager_android.databinding.ActivityShopBatchPaySettin
 import com.yunshang.haile_manager_android.databinding.ItemShopPaySettingsBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
+import com.yunshang.haile_manager_android.ui.view.dialog.NumberPickerDialog
 
 class ShopBatchPaySettingsActivity :
     BaseBusinessActivity<ActivityShopBatchPaySettingsBinding, ShopPayBatchSettingsViewModel>(
@@ -48,7 +50,7 @@ class ShopBatchPaySettingsActivity :
 
     override fun initEvent() {
         super.initEvent()
-        mViewModel.selectShops.observe(this){
+        mViewModel.selectShops.observe(this) {
             mViewModel.requestData()
         }
 
@@ -75,13 +77,24 @@ class ShopBatchPaySettingsActivity :
             }
         }
 
-        mViewModel.jump.observe(this){
+        mViewModel.jump.observe(this) {
             finish()
         }
     }
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+        mBinding.clShopPaySettingsPayTime.setOnClickListener {
+            NumberPickerDialog.Builder(
+                5, 20, try {
+                    mViewModel.shopPaySettings.value?.payTimeVal?.toInt() ?: 10
+                } catch (e: Exception) {
+                    10
+                }, StringUtils.getString(R.string.pay_time)
+            ) {
+                mViewModel.shopPaySettings.value?.payTimeVal = it.toString()
+            }.build().show(supportFragmentManager)
+        }
         mBinding.llShopBatchPaySettingShops.setOnClickListener {
             startSearchSelect.launch(Intent(
                 this@ShopBatchPaySettingsActivity,

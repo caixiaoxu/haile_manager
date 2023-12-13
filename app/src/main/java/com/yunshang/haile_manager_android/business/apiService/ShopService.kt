@@ -234,6 +234,12 @@ interface ShopService {
     suspend fun saveBatchFlowSetting(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
+     * 批量筒自洁设置
+     */
+    @POST("/shop/batchSaveFreeSelfClearSetting")
+    suspend fun saveBatchSelfCleanSetting(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
      * 获取最新点位详情
      */
     @GET("/position/getLatest")

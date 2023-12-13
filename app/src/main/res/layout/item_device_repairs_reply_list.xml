@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="isBatch"
+            type="java.lang.Boolean" />
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.DeviceRepairsEntity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cb_device_repairs_reply_list_select"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/transparent"
+            android:button="@null"
+            android:checked="@{item.selected}"
+            android:drawableStart="@drawable/selector_checked"
+            android:enabled="@{10 == item.replyStatus}"
+            app:visibility="@{isBatch}" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_ffffff_r8"
+            android:paddingHorizontal="16dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_device_repairs_user"
+                style="@style/Font_14_black85_bold"
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_marginEnd="16dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:text='@{@string/repairs_user + "：" + item.userAccount}'
+                app:layout_constraintEnd_toStartOf="@id/tv_device_repairs_status"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="报修用户：18888888888" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_device_repairs_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{10 == item.replyStatus?@string/no_reply:@string/replied}"
+                android:textColor="@{10 == item.replyStatus?@color/colorPrimary:@color/color_black_85}"
+                android:textSize="14sp"
+                android:drawablePadding="8dp"
+                android:drawableEnd="@drawable/icon_arrow_right"
+                app:layout_constraintBottom_toBottomOf="@id/tv_device_repairs_user"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_device_repairs_user"
+                tools:text="未回复" />
+
+            <View
+                style="@style/DividingStyle"
+                app:layout_constraintBottom_toBottomOf="@id/tv_device_repairs_user"
+                tools:ignore="MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_device_repairs_fault_type"
+                style="@style/Font_17_black85"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@{item.fixSubTypeName}"
+                app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_user"
+                tools:text="设备损坏"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_device_repairs_fault_desc"
+                style="@style/Font_14_black65"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{item.description}"
+                tools:text="设备盖子上面有很严重的锈，滴下来的水把我衣服都搞坏了。"
+                app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_fault_type" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_device_repairs_date"
+                style="@style/Font_14_black25"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text='@{@string/last_repairs_time + "：" + item.createTime}'
+                app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_fault_desc"
+                tools:text="最后报修时间：2023-03-07 12:22" />
+
+            <View
+                style="@style/DividingStyle"
+                app:layout_constraintTop_toTopOf="@id/tv_device_repairs_date"
+                tools:ignore="MissingConstraints" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</layout>

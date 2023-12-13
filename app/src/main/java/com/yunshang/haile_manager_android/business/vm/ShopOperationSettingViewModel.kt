@@ -46,11 +46,14 @@ class ShopOperationSettingViewModel : BaseViewModel() {
                 operationSettingDetail.postValue(it.apply {
                     appointSetting?.settingList = appointSetting?.settings
                     appointSetting?.settings = null
+                    freeSelfClearSettingsForm = freeSelfClearSettingDetailDTO
+                    freeSelfClearSettingDetailDTO = null
 
                     showItem1 = null != paymentSetting
                     showItem2 = null != compensationSetting
                     showItem3 = !appointSetting?.settingList.isNullOrEmpty()
                     showItem4 = null != operationSetting
+                    showItem5 = null != freeSelfClearSettingsForm
                 })
             }
         })

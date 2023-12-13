@@ -18,4 +18,11 @@ data class SearchSelectParam(
     val origin: String? = null,
 ) : ICommonBottomItemEntity {
     override fun getTitle(): String = name
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is SearchSelectParam) return false
+        else if (id == other.id) return true
+        return super.equals(other)
+    }
 }

@@ -111,16 +111,6 @@ class ShopManagerActivity :
                     }
             })
         }
-        mBinding.barShopTitle.getRightBtn(true).run {
-            setText(R.string.operate_manager)
-            setCompoundDrawablesRelativeWithIntrinsicBounds(
-                R.mipmap.icon_add, 0, 0, 0
-            )
-            compoundDrawablePadding = DimensionUtils.dip2px(this@ShopManagerActivity, 4f)
-            setOnClickListener {
-                showDeviceOperateView()
-            }
-        }
     }
 
     override fun initView() {

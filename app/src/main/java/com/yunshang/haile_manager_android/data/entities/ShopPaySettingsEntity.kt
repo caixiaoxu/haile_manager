@@ -20,7 +20,8 @@ data class ShopPaySettingsEntity(
     var tokenCoinAllowRefund: Int? = null,
     val goodsSettingList: List<GoodsSetting>? = null,
     var shopIdList: List<Int>? = null,
-    var shopId: Int? = null
+    var shopId: Int? = null,
+    var payTime: String? = "10"
 ) : BaseObservable() {
 
     @get:Bindable
@@ -29,6 +30,14 @@ data class ShopPaySettingsEntity(
         set(value) {
             tokenCoinAllowRefund = if (value) 1 else 0
             notifyPropertyChanged(BR.tokenCoinAllowRefundVal)
+        }
+
+    @get:Bindable
+    var payTimeVal: String
+        get() = payTime ?:""
+        set(value) {
+            payTime = value
+            notifyPropertyChanged(BR.payTimeVal)
         }
 
     fun showSettingList(): Boolean =

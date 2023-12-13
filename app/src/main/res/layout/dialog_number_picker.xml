@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingHorizontal="16dp"
+    android:paddingBottom="32dp"
+    android:background="@drawable/shape_sffffff_rt12"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="com.yunshang.haile_manager_android.ui.view.dialog.NumberPickerDialog">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_common_dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/tv_common_dialog_close"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:paddingHorizontal="16dp"
+            android:src="@mipmap/icon_close_x"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_common_dialog_title"
+            style="@style/Font_16_333333"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btn_number_sure"
+            style="@style/Font_14_f0a258"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:text="@string/sure"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.contrarywind.view.WheelView
+        android:id="@+id/wv_number"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

@@ -235,4 +235,7 @@ interface DeviceService {
 
     @POST("/deviceFix/reply/batch")
     suspend fun replyDeviceRepairs(@Body params: RequestBody): ResponseWrapper<Any>
+
+    @POST("/goods/transfer")
+    suspend fun transferDevice(@Body params: RequestBody): ResponseWrapper<Any>
 }

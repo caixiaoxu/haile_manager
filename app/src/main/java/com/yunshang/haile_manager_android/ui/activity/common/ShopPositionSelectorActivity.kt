@@ -116,6 +116,12 @@ class ShopPositionSelectorActivity :
     override fun initView() {
         window.statusBarColor = Color.WHITE
 
+        IntentParams.ShopPositionSelectorParams.parseShopTitle(
+            intent
+        )?.let { title ->
+            mBinding.barShopPositionSelectTitle.setTitle(title)
+        } ?: mBinding.barShopPositionSelectTitle.setTitle(R.string.coupon_shop)
+
         mBinding.btnShopPositionSelectAll.setOnClickListener {
             mViewModel.shopPositionList.value?.let { list ->
                 val isSelect = !mViewModel.isAll.value!!

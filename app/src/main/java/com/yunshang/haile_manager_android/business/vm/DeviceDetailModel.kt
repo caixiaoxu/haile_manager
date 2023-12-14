@@ -14,6 +14,8 @@ import com.yunshang.haile_manager_android.data.arguments.ItemShowParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.DeviceAdvancedSettingEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceDetailEntity
+import com.yunshang.haile_manager_android.data.extend.hasVal
+import com.yunshang.haile_manager_android.data.extend.isGreaterThan0
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import kotlinx.coroutines.Dispatchers
@@ -528,6 +530,27 @@ class DeviceDetailModel : BaseViewModel() {
             withContext(Dispatchers.Main) {
                 SToast.showToast(msg = "操作成功")
             }
+        })
+    }
+
+    fun transferDevice(positionId: Int?) {
+        if (null == positionId || !goodsId.hasVal()) return
+        launch({
+            ApiRepository.dealApiResult(
+                mDeviceRepo.transferDevice(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "goodsIds" to listOf(goodsId),
+                            "positionId" to positionId,
+                        )
+                    )
+                )
+            )
+
+            LiveDataBus.post(BusEvents.DEVICE_LIST_STATUS, true)
+            LiveDataBus.post(BusEvents.SHOP_LIST_STATUS, true)
+
+            requestDeviceDetails()
         })
     }
 }

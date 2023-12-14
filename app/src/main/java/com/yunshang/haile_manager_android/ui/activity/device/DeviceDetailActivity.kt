@@ -49,7 +49,13 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
                 IntentParams.ShopPositionSelectorParams.ShopPositionSelectorResultCode -> {
-                    IntentParams.ShopPositionSelectorParams.parseSelectList(intent)
+                    result.data?.let { intent ->
+                        mViewModel.transferDevice(
+                            IntentParams.ShopPositionSelectorParams.parseSelectList(
+                                intent
+                            )?.firstOrNull()?.positionList?.firstOrNull()?.id
+                        )
+                    }
                 }
                 IntentParams.DeviceParamsUpdateParams.ResultCode -> {
                     result.data?.let { intent ->
@@ -514,6 +520,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                                     canMultiSelect = false,
                                     canSelectAll = false,
                                     mustSelect = false,
+                                    title = "选择营业点"
                                 )
                             )
                         }

@@ -3,7 +3,6 @@ package com.yunshang.haile_manager_android.ui.view.refresh
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
@@ -11,6 +10,7 @@ import com.lsy.framelib.network.response.ResponseList
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.databinding.CustomRefreshRecyclerViewBinding
 import com.yunshang.haile_manager_android.ui.view.adapter.BaseRecyclerAdapter
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 
 /**
  * Title :
@@ -192,19 +192,18 @@ class CommonRefreshRecyclerView<D> @JvmOverloads constructor(
         }
 
         // 显示空状态
-        if (isRefresh && 0 == it.total) {
-            mBinding.rvRefreshList.visibility = View.GONE
-            mBinding.tvListStatus.visibility = View.VISIBLE
-        } else {
-            mBinding.rvRefreshList.visibility = View.VISIBLE
-            mBinding.tvListStatus.visibility = View.GONE
-        }
+        showRecyclerView(isRefresh && 0 == it.total)
 
         // 刷新数据
         adapter?.refreshList(it.items, isRefresh)
 
         // 判断列表数量 >= 总数据数量
         mBinding.refreshLayout.setEnableLoadMore((adapter?.itemCount ?: 0) < it.total)
+    }
+
+    fun showRecyclerView(isHide: Boolean) {
+        mBinding.rvRefreshList.visibility(!isHide)
+        mBinding.tvListStatus.visibility(isHide)
     }
 
     /**

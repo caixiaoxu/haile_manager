@@ -198,6 +198,14 @@ class DeviceDetailModel : BaseViewModel() {
             jump.postValue(6)
         },
         ItemShowParam(
+            R.string.device_transfer,
+            R.mipmap.icon_device_device_transfer,
+            MutableLiveData(UserPermissionUtils.hasDeviceExchangePermission())
+        ) {
+            //设备转移事件
+            jump.postValue(15)
+        },
+        ItemShowParam(
             R.string.update_func_price,
             R.mipmap.icon_device_update,
             MutableLiveData(UserPermissionUtils.hasDeviceUpdatePermission())
@@ -221,13 +229,6 @@ class DeviceDetailModel : BaseViewModel() {
             //修改设备名称事件
             jump.postValue(13)
         },
-//        ItemShowParam(
-//            StringUtils.getString(R.string.device_transfer),
-//            R.mipmap.icon_device_device_transfer,
-//            MutableLiveData(true)
-//        ) {
-//            //设备转移事件
-//        },
         ItemShowParam(
             R.string.device_appointment_setting,
             R.mipmap.icon_device_device_appointment_setting,

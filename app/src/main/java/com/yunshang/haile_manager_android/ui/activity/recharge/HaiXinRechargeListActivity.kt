@@ -129,7 +129,7 @@ class HaiXinRechargeListActivity :
                     }.time
                 }
 
-                mBinding.rvBalanceList.showRecyclerView(false)
+                mBinding.rvHaixinRechargeList.showRecyclerView(false)
 
                 // 刷新数据
                 mAdapter.refreshList(list, isRefresh)

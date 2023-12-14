@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.yunshang.haile_manager_android.ui.view.UpTriangleBackgroundLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="109dp"
-    android:layout_height="140dp"
+    android:layout_height="178dp"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -44,4 +44,19 @@
         android:gravity="center"
         android:paddingHorizontal="16dp"
         android:text="@string/batch_start" />
+
+    <View
+        style="@style/DividingStyle"
+        android:layout_marginHorizontal="12dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_device_operate_transfer"
+        style="@style/Font_14_333333"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:drawableStart="@mipmap/icon_device_operate_transfer"
+        android:drawablePadding="4dp"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:text="@string/batch_transfer" />
 </com.yunshang.haile_manager_android.ui.view.UpTriangleBackgroundLinearLayout>

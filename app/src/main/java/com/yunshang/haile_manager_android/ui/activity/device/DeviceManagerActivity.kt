@@ -8,7 +8,10 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -16,6 +19,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
+import com.lsy.framelib.ui.weight.SingleTapTextView
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.StringUtils
@@ -40,19 +44,21 @@ import com.yunshang.haile_manager_android.ui.activity.common.SearchActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.activity.common.ShopPositionSelectorActivity
 import com.yunshang.haile_manager_android.ui.activity.personal.IncomeCalendarActivity
+import com.yunshang.haile_manager_android.ui.view.IndicatorPagerTitleView
 import com.yunshang.haile_manager_android.ui.view.TranslucencePopupWindow
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+import com.yunshang.haile_manager_android.utils.BitmapUtils
 import com.yunshang.haile_manager_android.utils.NumberUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.WrapPagerIndicator
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator
 
 
 class DeviceManagerActivity :
@@ -87,11 +93,52 @@ class DeviceManagerActivity :
             }
         }
 
+    // 跳转转移界面
+    private val selectTransferNext =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                IntentParams.ShopPositionSelectorParams.ShopPositionSelectorResultCode -> {
+                    result.data?.let { intent ->
+                        val positionId = IntentParams.ShopPositionSelectorParams.parseSelectList(
+                            intent
+                        )?.firstOrNull()?.positionList?.firstOrNull()?.id
+
+                        val selectItems = mAdapter.list.filter { item -> item.selected }
+                        // 判断是否有关联设备
+                        if (true) {
+                            transferDevices(positionId, selectItems)
+                        } else {
+                            CommonDialog.Builder("该设备存在关联设备，转移操作，会同步转移关联的设备。若不需要则请先解除关联").apply {
+                                title = StringUtils.getString(R.string.tip)
+                                negativeTxt = StringUtils.getString(R.string.cancel)
+                                setPositiveButton(StringUtils.getString(R.string.sure)) {
+                                    transferDevices(positionId, selectItems)
+                                }
+                            }.build().show(supportFragmentManager)
+                        }
+                    }
+                }
+            }
+        }
+
+    private fun transferDevices(
+        positionId: Int?,
+        selectItems: List<DeviceEntity>
+    ) {
+        mViewModel.transferDevice(positionId, selectItems.map { item -> item.id }) {
+            mViewModel.isBatch.value = false
+            mBinding.rvDeviceManagerList.requestRefresh()
+        }
+    }
+
     private val mAdapter by lazy {
         CommonRecyclerAdapter<ItemDeviceListBinding, DeviceEntity>(
             R.layout.item_device_list,
             BR.item
         ) { mItemBinding, _, item ->
+            mViewModel.isBatch.observe(this) {
+                mItemBinding?.isBatch = it
+            }
 
             val title =
                 StringUtils.getString(R.string.total_income)
@@ -132,8 +179,18 @@ class DeviceManagerActivity :
                     })
             }
 
+            mItemBinding?.cbDeviceRepairsSelect?.setOnCheckedChangeListener { _, isChecked ->
+                item.selected = isChecked
+                refreshSelectBatchNum()
+            }
             // 进入详情
             mItemBinding?.root?.setOnClickListener {
+                if (true == mViewModel.isBatch.value) {
+                    item.selected = !item.selected
+                    refreshSelectBatchNum()
+                    return@setOnClickListener
+                }
+
                 if (UserPermissionUtils.hasDeviceInfoPermission()) {
                     // 设备详情
                     startActivity(
@@ -153,6 +210,13 @@ class DeviceManagerActivity :
 
     override fun backBtn(): View = mBinding.barDeviceTitle.getBackBtn()
 
+    override fun onBackListener() {
+        if (true == mViewModel.isBatch.value)
+            mViewModel.isBatch.value = false
+        else
+            super.onBackListener()
+    }
+
     override fun initIntent() {
         super.initIntent()
         mViewModel.searchKey.value = IntentParams.SearchParams.parseKeyWord(intent)
@@ -167,15 +231,53 @@ class DeviceManagerActivity :
      */
     private fun initRightBtn() {
         if (mViewModel.searchKey.value.isNullOrEmpty()) {
-            mBinding.barDeviceTitle.getRightBtn(true).run {
-                setText(R.string.operate_manager)
-                setCompoundDrawablesRelativeWithIntrinsicBounds(
-                    R.mipmap.icon_add, 0, 0, 0
-                )
-                compoundDrawablePadding = DimensionUtils.dip2px(this@DeviceManagerActivity, 4f)
-                setOnClickListener {
-                    showDeviceOperateView()
-                }
+            mBinding.barDeviceTitle.getRightArea().run {
+                val padding = DimensionUtils.dip2px(this@DeviceManagerActivity, 8f)
+                addView(AppCompatImageButton(this@DeviceManagerActivity).apply {
+                    setImageDrawable(
+                        BitmapUtils.tintDrawable(
+                            ContextCompat.getDrawable(
+                                this@DeviceManagerActivity,
+                                R.mipmap.icon_search
+                            ),
+                            ContextCompat.getColor(
+                                this@DeviceManagerActivity,
+                                R.color.common_txt_color
+                            )
+                        )
+                    )
+                    setBackgroundColor(Color.TRANSPARENT)
+                    setOnClickListener {
+                        startActivity(
+                            Intent(
+                                this@DeviceManagerActivity,
+                                SearchActivity::class.java
+                            ).apply {
+                                putExtra(SearchType.SearchType, SearchType.Device)
+                            })
+                    }
+                }, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+
+                addView(SingleTapTextView(this@DeviceManagerActivity).apply {
+                    setText(R.string.operate)
+                    textSize = 14f
+                    setTextColor(Color.WHITE)
+                    val ph = DimensionUtils.dip2px(this@DeviceManagerActivity, 12f)
+                    val pV = DimensionUtils.dip2px(this@DeviceManagerActivity, 4f)
+                    setPadding(ph, pV, ph, pV)
+                    setBackgroundResource(R.drawable.shape_sf0a258_r22)
+                    setOnClickListener {
+                        showDeviceOperateView()
+                    }
+                    layoutParams =
+                        LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        ).also { lp ->
+                            lp.marginStart = padding
+                            lp.marginEnd = padding
+                        }
+                })
             }
         }
     }
@@ -219,6 +321,10 @@ class DeviceManagerActivity :
                 )
             )
         }
+        mPopupBinding.tvDeviceOperateTransfer.setOnClickListener {
+            popupWindow.dismiss()
+            mViewModel.isBatch.value = true
+        }
         popupWindow.showAsDropDown(
             this,
             -DimensionUtils.dip2px(this@DeviceManagerActivity, 16f),
@@ -228,16 +334,6 @@ class DeviceManagerActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
-
-        mBinding.viewDeviceManagerSearchBg.setOnClickListener {
-            startActivity(
-                Intent(
-                    this@DeviceManagerActivity,
-                    SearchActivity::class.java
-                ).apply {
-                    putExtra(SearchType.SearchType, SearchType.Device)
-                })
-        }
 
         // 所属门店
         mBinding.tvDeviceCategoryDepartment.setOnClickListener {
@@ -330,9 +426,17 @@ class DeviceManagerActivity :
                 override fun getCount(): Int = mViewModel.deviceStatus.size
 
                 override fun getTitleView(context: Context?, index: Int): IPagerTitleView {
-                    return SimplePagerTitleView(context).apply {
-                        normalColor = Color.parseColor("#666666")
-                        selectedColor = Color.WHITE
+                    return IndicatorPagerTitleView(context).apply {
+                        normalColor = ContextCompat.getColor(
+                            this@DeviceManagerActivity,
+                            R.color.color_black_65
+                        )
+                        selectedColor = ContextCompat.getColor(
+                            this@DeviceManagerActivity,
+                            R.color.color_black_85
+                        )
+                        normalFontSize = 14f
+                        selectFontSize = 14f
                         mViewModel.deviceStatus[index].run {
                             num.observe(this@DeviceManagerActivity) { n ->
                                 text = title + if (0 < n) " $n" else " 0"
@@ -347,15 +451,20 @@ class DeviceManagerActivity :
                 }
 
                 override fun getIndicator(context: Context?): IPagerIndicator {
-                    return WrapPagerIndicator(context).apply {
-                        verticalPadding =
-                            DimensionUtils.dip2px(this@DeviceManagerActivity, 4f)
-                        fillColor = ContextCompat.getColor(
-                            this@DeviceManagerActivity,
-                            R.color.colorPrimary
-                        )
+                    return LinePagerIndicator(context).apply {
+                        mode = LinePagerIndicator.MODE_EXACTLY
+                        lineWidth =
+                            DimensionUtils.dip2px(this@DeviceManagerActivity, 20f).toFloat()
+                        lineHeight =
+                            DimensionUtils.dip2px(this@DeviceManagerActivity, 3f).toFloat()
                         roundRadius =
-                            DimensionUtils.dip2px(this@DeviceManagerActivity, 14f).toFloat()
+                            DimensionUtils.dip2px(this@DeviceManagerActivity, 1.5f).toFloat()
+                        setColors(
+                            ContextCompat.getColor(
+                                this@DeviceManagerActivity,
+                                R.color.color_black_85
+                            )
+                        )
                     }
                 }
             }
@@ -393,6 +502,35 @@ class DeviceManagerActivity :
                     }
                 }
             }
+
+        // 全选
+        mBinding.cbDeviceManagerTransferAll.setOnCheckClickListener {
+            if (!mBinding.cbDeviceManagerTransferAll.isChecked) {
+                selectAll()
+            } else {
+                resetSelectBatchNum()
+            }
+
+            true
+        }
+        mBinding.btnDeviceManagerTransfer.setOnClickListener {
+            // 设备转移
+            selectTransferNext.launch(
+                Intent(
+                    this@DeviceManagerActivity,
+                    ShopPositionSelectorActivity::class.java
+                ).apply {
+                    putExtras(
+                        IntentParams.ShopPositionSelectorParams.pack(
+                            canMultiSelect = false,
+                            canSelectAll = false,
+                            mustSelect = false,
+                            title = "选择营业点"
+                        )
+                    )
+                }
+            )
+        }
     }
 
     /**
@@ -424,14 +562,7 @@ class DeviceManagerActivity :
         ) { _, childBinding, data ->
             data.num.observe(this@DeviceManagerActivity) {
                 childBinding.tvDeviceManagerErrorStatus.text =
-                    com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
-                        data.title + if (it > 0) " $it" else " 0",
-                        arrayOf(
-                            ForegroundColorSpan(
-                                ContextCompat.getColor(this, R.color.common_txt_color)
-                            )
-                        ), 0, data.title.length
-                    )
+                    data.title + if (it > 0) " $it" else " 0"
             }
 
             mViewModel.selectErrorStatus.observe(this) {
@@ -449,9 +580,14 @@ class DeviceManagerActivity :
 
     override fun initEvent() {
         super.initEvent()
+
         mSharedViewModel.hasDeviceAddPermission.observe(this) {
             if (it)
                 initRightBtn()
+        }
+
+        mViewModel.isBatch.observe(this) {
+            if (!it) resetSelectBatchNum()
         }
 
         // 选择店铺
@@ -547,6 +683,22 @@ class DeviceManagerActivity :
                 }
                 .build()
         deviceCategoryDialog.show(supportFragmentManager)
+    }
+
+
+    private fun selectAll() {
+        mViewModel.refreshSelectBatchNum(mAdapter.list)
+    }
+
+    private fun resetSelectBatchNum() {
+        mAdapter.list.forEach {
+            it.selected = false
+        }
+        mViewModel.refreshSelectBatchNum(mAdapter.list)
+    }
+
+    private fun refreshSelectBatchNum() {
+        mViewModel.refreshSelectBatchNum(mAdapter.list)
     }
 
     override fun initData() {

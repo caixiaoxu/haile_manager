@@ -15,7 +15,6 @@ import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.DeviceAdvancedSettingEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceDetailEntity
 import com.yunshang.haile_manager_android.data.extend.hasVal
-import com.yunshang.haile_manager_android.data.extend.isGreaterThan0
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import kotlinx.coroutines.Dispatchers

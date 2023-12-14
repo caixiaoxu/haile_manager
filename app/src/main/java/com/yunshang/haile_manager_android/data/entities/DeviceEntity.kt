@@ -2,8 +2,11 @@ package com.yunshang.haile_manager_android.data.entities
 
 import android.graphics.Color
 import androidx.core.content.ContextCompat
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import com.lsy.framelib.data.constants.Constants
 import com.lsy.framelib.utils.StringUtils
+import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.rule.IMultiTypeEntity
@@ -54,12 +57,16 @@ data class DeviceEntity(
     val faultReason: String,//故障原因
     val freeFlag: Boolean,//是否免费
     val format: String?,//持续时间
-) : ISearchSelectEntity, IMultiTypeEntity {
+) : ISearchSelectEntity, IMultiTypeEntity, BaseObservable() {
+    @Transient
+    @get:Bindable
+    var selected:Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.selected)
+        }
 
-    fun getDeviceCategoryAndNo() = if (id > 0)
-        "${StringUtils.getString(R.string.device_category_no)}：${categoryName} $id"
-    else
-        "${StringUtils.getString(R.string.device_category)}：${categoryName}"
+    fun getDeviceNo() = "${StringUtils.getString(R.string.device_no)}：$id"
 
     val formatVal: String
         get() = if (format.isNullOrEmpty()) "" else StringUtils.getString(R.string.time_of_duration) + format
@@ -143,7 +150,7 @@ data class DeviceEntity(
     fun isIotShow(): Boolean = 0 != iotStatus
     override fun getSearchId(): Int = id
 
-    override fun getTitle(): String = getDeviceCategoryAndNo()
+    override fun getTitle(): String = getDeviceNo()
 
     override fun getContent(): Array<String> = arrayOf(
         name, shopName

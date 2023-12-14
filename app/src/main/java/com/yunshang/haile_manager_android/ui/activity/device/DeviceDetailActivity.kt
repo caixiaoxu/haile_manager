@@ -50,11 +50,20 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
             when (result.resultCode) {
                 IntentParams.ShopPositionSelectorParams.ShopPositionSelectorResultCode -> {
                     result.data?.let { intent ->
-                        mViewModel.transferDevice(
-                            IntentParams.ShopPositionSelectorParams.parseSelectList(
-                                intent
-                            )?.firstOrNull()?.positionList?.firstOrNull()?.id
-                        )
+                        val positionId = IntentParams.ShopPositionSelectorParams.parseSelectList(
+                            intent
+                        )?.firstOrNull()?.positionList?.firstOrNull()?.id
+                        if (null == mViewModel.deviceDetail.value?.relatedGoodsDetailVo) {
+                            mViewModel.transferDevice(positionId)
+                        } else {
+                            CommonDialog.Builder("该设备存在关联设备，转移操作，会同步转移关联的设备。若不需要则请先解除关联").apply {
+                                title = StringUtils.getString(R.string.tip)
+                                negativeTxt = StringUtils.getString(R.string.cancel)
+                                setPositiveButton(StringUtils.getString(R.string.sure)) {
+                                    mViewModel.transferDevice(positionId)
+                                }
+                            }.build().show(supportFragmentManager)
+                        }
                     }
                 }
                 IntentParams.DeviceParamsUpdateParams.ResultCode -> {

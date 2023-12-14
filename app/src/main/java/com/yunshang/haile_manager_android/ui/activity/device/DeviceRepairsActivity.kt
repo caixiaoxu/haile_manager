@@ -14,7 +14,6 @@ import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.ui.weight.SingleTapTextView
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
-import com.lsy.framelib.utils.StringUtils
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -24,7 +23,6 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
-import com.yunshang.haile_manager_android.data.entities.DeviceCategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceRepairsEntity
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceRepairsBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceRepairsBinding

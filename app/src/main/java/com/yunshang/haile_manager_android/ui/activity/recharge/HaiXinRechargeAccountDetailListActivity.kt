@@ -156,6 +156,8 @@ class HaiXinRechargeAccountDetailListActivity :
                     }.time
                 }
 
+                mBinding.rvBalanceList.showRecyclerView(false)
+
                 // 刷新数据
                 mAdapter.refreshList(list, isRefresh)
                 return true

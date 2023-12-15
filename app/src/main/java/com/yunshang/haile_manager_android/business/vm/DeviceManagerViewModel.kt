@@ -307,6 +307,25 @@ class DeviceManagerViewModel : BaseViewModel() {
         isAll.value = if (list.isNotEmpty()) list.all { item -> item.selected } else false
     }
 
+    fun preTransferDevice(positionId: Int?, goodsId: List<Int>, callBack: (type: Int?) -> Unit) {
+        if (null == positionId || goodsId.isEmpty()) return
+        launch({
+            val result = ApiRepository.dealApiResult(
+                mDeviceRepo.preTransferDevice(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "goodsIds" to goodsId,
+                            "positionId" to positionId,
+                        )
+                    )
+                )
+            )
+            withContext(Dispatchers.Main) {
+                callBack(result)
+            }
+        })
+    }
+
     fun transferDevice(positionId: Int?, goodsId: List<Int>, callBack: () -> Unit) {
         if (null == positionId || goodsId.isEmpty()) return
         launch({

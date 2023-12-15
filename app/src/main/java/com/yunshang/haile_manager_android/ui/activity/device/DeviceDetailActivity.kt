@@ -53,17 +53,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                         val positionId = IntentParams.ShopPositionSelectorParams.parseSelectList(
                             intent
                         )?.firstOrNull()?.positionList?.firstOrNull()?.id
-                        if (null == mViewModel.deviceDetail.value?.relatedGoodsDetailVo) {
-                            mViewModel.transferDevice(positionId)
-                        } else {
-                            CommonDialog.Builder("该设备存在关联设备，转移操作，会同步转移关联的设备。若不需要则请先解除关联").apply {
-                                title = StringUtils.getString(R.string.tip)
-                                negativeTxt = StringUtils.getString(R.string.cancel)
-                                setPositiveButton(StringUtils.getString(R.string.sure)) {
-                                    mViewModel.transferDevice(positionId)
-                                }
-                            }.build().show(supportFragmentManager)
-                        }
+                        preTransferDevices(positionId)
                     }
                 }
                 IntentParams.DeviceParamsUpdateParams.ResultCode -> {
@@ -94,6 +84,24 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                 }
             }
         }
+
+    private fun preTransferDevices(
+        positionId: Int?
+    ) {
+        mViewModel.preTransferDevice(positionId) {
+            if (0 == it) {
+                mViewModel.transferDevice(positionId)
+            } else {
+                CommonDialog.Builder("该设备存在关联设备，转移操作，会同步转移关联的设备。若不需要则请先解除关联").apply {
+                    title = StringUtils.getString(R.string.tip)
+                    negativeTxt = StringUtils.getString(R.string.cancel)
+                    setPositiveButton(StringUtils.getString(R.string.sure)) {
+                        mViewModel.transferDevice(positionId)
+                    }
+                }.build().show(supportFragmentManager)
+            }
+        }
+    }
 
     private var isDeviceActivateType: Int = 1
 

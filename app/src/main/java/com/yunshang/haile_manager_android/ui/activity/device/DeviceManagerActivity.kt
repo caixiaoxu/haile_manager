@@ -3,6 +3,8 @@ package com.yunshang.haile_manager_android.ui.activity.device
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.Handler
+import android.os.Looper
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.TypefaceSpan
@@ -53,7 +55,6 @@ import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.BitmapUtils
-import com.yunshang.haile_manager_android.utils.NumberUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
@@ -115,21 +116,30 @@ class DeviceManagerActivity :
 
                         val selectItems = mAdapter.list.filter { item -> item.selected }
                         // 判断是否有关联设备
-                        if (true) {
-                            transferDevices(positionId, selectItems)
-                        } else {
-                            CommonDialog.Builder("该设备存在关联设备，转移操作，会同步转移关联的设备。若不需要则请先解除关联").apply {
-                                title = StringUtils.getString(R.string.tip)
-                                negativeTxt = StringUtils.getString(R.string.cancel)
-                                setPositiveButton(StringUtils.getString(R.string.sure)) {
-                                    transferDevices(positionId, selectItems)
-                                }
-                            }.build().show(supportFragmentManager)
-                        }
+                        preTransferDevices(positionId, selectItems)
                     }
                 }
             }
         }
+
+    private fun preTransferDevices(
+        positionId: Int?,
+        selectItems: List<DeviceEntity>
+    ) {
+        mViewModel.preTransferDevice(positionId, selectItems.map { item -> item.id }) {
+            if (0 == it) {
+                transferDevices(positionId, selectItems)
+            } else {
+                CommonDialog.Builder("该设备存在关联设备，转移操作，会同步转移关联的设备。若不需要则请先解除关联").apply {
+                    title = StringUtils.getString(R.string.tip)
+                    negativeTxt = StringUtils.getString(R.string.cancel)
+                    setPositiveButton(StringUtils.getString(R.string.sure)) {
+                        transferDevices(positionId, selectItems)
+                    }
+                }.build().show(supportFragmentManager)
+            }
+        }
+    }
 
     private fun transferDevices(
         positionId: Int?,
@@ -137,7 +147,9 @@ class DeviceManagerActivity :
     ) {
         mViewModel.transferDevice(positionId, selectItems.map { item -> item.id }) {
             mViewModel.isBatch.value = false
-            mBinding.rvDeviceManagerList.requestRefresh()
+            Handler(Looper.getMainLooper()).postDelayed({
+                mBinding.rvDeviceManagerList.requestRefresh()
+            }, 500)
         }
     }
 
@@ -237,7 +249,8 @@ class DeviceManagerActivity :
             }
             mViewModel.selectDepartmentPositions.value = mutableListOf(it)
         }
-        mViewModel.bigCategoryType = IntentParams.DeviceManagerParams.parseCategoryBigType(intent)
+        mViewModel.bigCategoryType =
+            IntentParams.DeviceManagerParams.parseCategoryBigType(intent)
     }
 
     /**
@@ -726,7 +739,8 @@ class DeviceManagerActivity :
                         object :
                             CommonBottomSheetDialog.OnValueSureListener<CategoryEntity> {
                             override fun onValue(data: CategoryEntity?) {
-                                mViewModel.selectDeviceCategory.value = data?.let { listOf(data) }
+                                mViewModel.selectDeviceCategory.value =
+                                    data?.let { listOf(data) }
                                 mViewModel.selectDeviceModel.value = null
                             }
                         }

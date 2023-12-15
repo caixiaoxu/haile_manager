@@ -53,7 +53,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                         val positionId = IntentParams.ShopPositionSelectorParams.parseSelectList(
                             intent
                         )?.firstOrNull()?.positionList?.firstOrNull()?.id
-                        preTransferDevices(positionId)
+                        mViewModel.transferDevice(positionId)
                     }
                 }
                 IntentParams.DeviceParamsUpdateParams.ResultCode -> {
@@ -85,22 +85,38 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
             }
         }
 
-    private fun preTransferDevices(
-        positionId: Int?
-    ) {
-        mViewModel.preTransferDevice(positionId) {
+    private fun preTransferDevices() {
+        mViewModel.preTransferDevice() {
             if (0 == it) {
-                mViewModel.transferDevice(positionId)
+                transferDevices()
             } else {
                 CommonDialog.Builder("该设备存在关联设备，转移操作，会同步转移关联的设备。若不需要则请先解除关联").apply {
                     title = StringUtils.getString(R.string.tip)
                     negativeTxt = StringUtils.getString(R.string.cancel)
                     setPositiveButton(StringUtils.getString(R.string.sure)) {
-                        mViewModel.transferDevice(positionId)
+                        transferDevices()
                     }
                 }.build().show(supportFragmentManager)
             }
         }
+    }
+
+    private fun transferDevices(){
+        startNext.launch(
+            Intent(
+                this@DeviceDetailActivity,
+                ShopPositionSelectorActivity::class.java
+            ).apply {
+                putExtras(
+                    IntentParams.ShopPositionSelectorParams.pack(
+                        canMultiSelect = false,
+                        canSelectAll = false,
+                        mustSelect = false,
+                        title = "选择营业点"
+                    )
+                )
+            }
+        )
     }
 
     private var isDeviceActivateType: Int = 1
@@ -527,21 +543,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                 }
                 15 -> {
                     // 设备转移
-                    startNext.launch(
-                        Intent(
-                            this@DeviceDetailActivity,
-                            ShopPositionSelectorActivity::class.java
-                        ).apply {
-                            putExtras(
-                                IntentParams.ShopPositionSelectorParams.pack(
-                                    canMultiSelect = false,
-                                    canSelectAll = false,
-                                    mustSelect = false,
-                                    title = "选择营业点"
-                                )
-                            )
-                        }
-                    )
+                    preTransferDevices()
                 }
             }
         }

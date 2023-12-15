@@ -532,15 +532,14 @@ class DeviceDetailModel : BaseViewModel() {
         })
     }
 
-    fun preTransferDevice(positionId: Int?, callBack: (type: Int?) -> Unit) {
-        if (null == positionId || !goodsId.hasVal()) return
+    fun preTransferDevice(callBack: (type: Int?) -> Unit) {
+        if (!goodsId.hasVal()) return
         launch({
             val result = ApiRepository.dealApiResult(
                 mDeviceRepo.preTransferDevice(
                     ApiRepository.createRequestBody(
                         hashMapOf(
                             "goodsIds" to listOf(goodsId),
-                            "positionId" to positionId,
                         )
                     )
                 )

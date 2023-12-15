@@ -115,42 +115,49 @@ class DeviceManagerActivity :
                         )?.firstOrNull()?.positionList?.firstOrNull()?.id
 
                         val selectItems = mAdapter.list.filter { item -> item.selected }
-                        // 判断是否有关联设备
-                        preTransferDevices(positionId, selectItems)
+                        mViewModel.transferDevice(positionId, selectItems.map { item -> item.id }) {
+                            mViewModel.isBatch.value = false
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                mBinding.rvDeviceManagerList.requestRefresh()
+                            }, 500)
+                        }
                     }
                 }
             }
         }
 
-    private fun preTransferDevices(
-        positionId: Int?,
-        selectItems: List<DeviceEntity>
-    ) {
-        mViewModel.preTransferDevice(positionId, selectItems.map { item -> item.id }) {
+    private fun preTransferDevices(selectItems: List<DeviceEntity>) {
+        mViewModel.preTransferDevice(selectItems.map { item -> item.id }) {
             if (0 == it) {
-                transferDevices(positionId, selectItems)
+                transferDevices()
             } else {
                 CommonDialog.Builder("该设备存在关联设备，转移操作，会同步转移关联的设备。若不需要则请先解除关联").apply {
                     title = StringUtils.getString(R.string.tip)
                     negativeTxt = StringUtils.getString(R.string.cancel)
                     setPositiveButton(StringUtils.getString(R.string.sure)) {
-                        transferDevices(positionId, selectItems)
+                        transferDevices()
                     }
                 }.build().show(supportFragmentManager)
             }
         }
     }
 
-    private fun transferDevices(
-        positionId: Int?,
-        selectItems: List<DeviceEntity>
-    ) {
-        mViewModel.transferDevice(positionId, selectItems.map { item -> item.id }) {
-            mViewModel.isBatch.value = false
-            Handler(Looper.getMainLooper()).postDelayed({
-                mBinding.rvDeviceManagerList.requestRefresh()
-            }, 500)
-        }
+    private fun transferDevices() {
+        selectTransferNext.launch(
+            Intent(
+                this@DeviceManagerActivity,
+                ShopPositionSelectorActivity::class.java
+            ).apply {
+                putExtras(
+                    IntentParams.ShopPositionSelectorParams.pack(
+                        canMultiSelect = false,
+                        canSelectAll = false,
+                        mustSelect = false,
+                        title = "选择营业点"
+                    )
+                )
+            }
+        )
     }
 
     private val mAdapter by lazy {
@@ -566,21 +573,8 @@ class DeviceManagerActivity :
         }
         mBinding.btnDeviceManagerTransfer.setOnClickListener {
             // 设备转移
-            selectTransferNext.launch(
-                Intent(
-                    this@DeviceManagerActivity,
-                    ShopPositionSelectorActivity::class.java
-                ).apply {
-                    putExtras(
-                        IntentParams.ShopPositionSelectorParams.pack(
-                            canMultiSelect = false,
-                            canSelectAll = false,
-                            mustSelect = false,
-                            title = "选择营业点"
-                        )
-                    )
-                }
-            )
+            val selectItems = mAdapter.list.filter { item -> item.selected }
+            preTransferDevices(selectItems)
         }
     }
 

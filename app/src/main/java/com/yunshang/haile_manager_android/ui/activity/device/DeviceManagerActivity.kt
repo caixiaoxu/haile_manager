@@ -737,6 +737,9 @@ class DeviceManagerActivity :
 
 
     private fun selectAll() {
+        mAdapter.list.forEach {
+            it.selected = true
+        }
         mViewModel.refreshSelectBatchNum(mAdapter.list)
     }
 

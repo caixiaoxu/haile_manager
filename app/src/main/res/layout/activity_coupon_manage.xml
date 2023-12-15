@@ -61,17 +61,17 @@
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_coupon_type"
-                            style="@style/CouponManagerCategoryBtnStyle"
+                            style="@style/DeviceManagerCategoryBtnNewStyle"
                             android:hint="@string/all_coupon" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_coupon_department"
-                            style="@style/CouponManagerCategoryBtnStyle"
+                            style="@style/DeviceManagerCategoryBtnNewStyle"
                             android:hint="@string/all_shop" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_coupon_category"
-                            style="@style/CouponManagerCategoryBtnStyle"
+                            style="@style/DeviceManagerCategoryBtnNewStyle"
                             android:hint="@string/all_device" />
                     </LinearLayout>
                 </HorizontalScrollView>

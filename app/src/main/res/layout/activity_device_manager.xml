@@ -167,7 +167,7 @@
 
             <com.yunshang.haile_manager_android.ui.view.ClickCheckBox
                 android:id="@+id/cb_device_manager_transfer_all"
-                style="@style/Font_17_black85"
+                style="@style/font_17_black85"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@color/transparent"
@@ -181,7 +181,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/Font_17_black85"
+                style="@style/font_17_black85"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"

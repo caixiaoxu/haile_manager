@@ -159,7 +159,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_item_device_name"
-                style="@style/Font_17_black85_bold"
+                style="@style/font_17_black85_bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"

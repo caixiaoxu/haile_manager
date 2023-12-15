@@ -1,7 +1,7 @@
 package com.yunshang.haile_manager_android.data.entities
 
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
-import com.yunshang.haile_manager_android.utils.StringUtils
 import java.util.*
 
 /**
@@ -25,7 +25,7 @@ data class HaixinRechargeEntity(
 
     fun timeStr(): String = DateTimeUtils.formatDateTimeForStr(createTime, "MM/dd HH:mm:ss")
 
-    fun amountStr(): String = StringUtils.formatNumberStr(amount)
+    fun amountStr(): String = amount.formatMoney(true)
 }
 
 data class HaixinRechargeListEntity(

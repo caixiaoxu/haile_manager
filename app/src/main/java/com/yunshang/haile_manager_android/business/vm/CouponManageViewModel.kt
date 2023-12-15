@@ -1,6 +1,10 @@
 package com.yunshang.haile_manager_android.business.vm
 
+import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
@@ -8,6 +12,7 @@ import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CategoryService
 import com.yunshang.haile_manager_android.business.apiService.DiscountsService
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.CouponEntity
@@ -30,6 +35,10 @@ import timber.log.Timber
 class CouponManageViewModel : BaseViewModel() {
     private val mDiscountsRepo = ApiRepository.apiClient(DiscountsService::class.java)
     private val mCategoryRepo = ApiRepository.apiClient(CategoryService::class.java)
+
+    val isBatch: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    var keyword: String? = null
 
     val couponStatus: List<DeviceIndicatorEntity<Int?>> =
         arrayListOf(
@@ -68,28 +77,33 @@ class CouponManageViewModel : BaseViewModel() {
     // 券数量
     val mCouponCountStr: MutableLiveData<String> = MutableLiveData()
 
+    val isAll: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    val selectBatchNum: MutableLiveData<Int> = MutableLiveData(0)
+
+    val selectBatchNumVal: LiveData<String> = selectBatchNum.map {
+        if (0 == it) "" else "${StringUtils.getString(R.string.selected)} $it"
+    }
+
     /**
-     * 请求设备类型
+     * 请求设备类型U
      */
-    fun requestData(type: Int = 0) {
+    fun requestData() {
         launch({
-            requestCouponNum()
-            if (0 == type) {
-                ApiRepository.dealApiResult(
-                    mCategoryRepo.category(1)
-                )?.let {
-                    it.add(
-                        0,
-                        CategoryEntity(
-                            id = 0,
-                            name = StringUtils.getString(R.string.all_device)
-                        ).apply {
-                            onlyOne = true
-                        })
-                    categoryList.postValue(it)
-                }
+            ApiRepository.dealApiResult(
+                mCategoryRepo.category(1)
+            )?.let {
+                it.add(
+                    0,
+                    CategoryEntity(
+                        id = 0,
+                        name = StringUtils.getString(R.string.all_device)
+                    ).apply {
+                        onlyOne = true
+                    })
+                categoryList.postValue(it)
             }
-        })
+        }, showLoading = false)
     }
 
     private suspend fun requestCouponNum() {
@@ -127,12 +141,17 @@ class CouponManageViewModel : BaseViewModel() {
         result: (listWrapper: ResponseList<CouponEntity>?) -> Unit
     ) {
         launch({
+            if (1 == page) {
+                requestCouponNum()
+            }
+
             val couponList = ApiRepository.dealApiResult(
                 mDiscountsRepo.requestCouponList(
                     ApiRepository.createRequestBody(
                         hashMapOf<String, Any?>(
                             "page" to page,
                             "pageSize" to pageSize,
+                            "phone" to keyword,
                             "assetStatus" to curCouponStatus.value,
                             "couponType" to selectCouponType.value,
                         ).also { params ->
@@ -158,6 +177,36 @@ class CouponManageViewModel : BaseViewModel() {
                 it.message?.let { it1 -> SToast.showToast(msg = it1) }
                 result.invoke(null)
             }
-        }, null)
+        })
+    }
+
+
+    /**
+     * 废弃优惠券
+     */
+    fun abandonCoupon(context: Context, list: MutableList<CouponEntity>) {
+        val idList = list.filter { item -> item.selected }.map { it.id }
+        if (idList.isNullOrEmpty()) return
+        launch({
+            ApiRepository.dealApiResult(
+                mDiscountsRepo.abandonCoupon(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "assetIds" to idList
+                        )
+                    )
+                )
+            )
+            withContext(Dispatchers.Main) {
+                SToast.showToast(context, "批量作废成功")
+            }
+            LiveDataBus.post(BusEvents.COUPON_LIST_STATUS, true)
+        })
+    }
+
+    fun refreshSelectBatchNum(list: MutableList<CouponEntity>) {
+        selectBatchNum.value = list.count { item -> item.selected }
+        isAll.value =
+            if (list.isNotEmpty()) list.all { item -> 1 != item.state || item.selected } else false
     }
 }

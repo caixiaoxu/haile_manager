@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.data.entities
 
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 
 /**
  * Title :
@@ -43,4 +44,7 @@ data class UserTokenCoinRefundItemRecordVO(
     val refundPrice: Double,
     val shopId: Int,
     val shopName: String
-)
+) {
+    val refundPriceVal: String
+        get() = refundPrice.formatMoney()
+}

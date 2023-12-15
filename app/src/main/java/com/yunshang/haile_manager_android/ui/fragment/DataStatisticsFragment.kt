@@ -20,6 +20,7 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DataStatisticsShopListEntity
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.databinding.FragmentDataStatisticsBinding
 import com.yunshang.haile_manager_android.databinding.ItemDataStatisticsBinding
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
@@ -56,21 +57,21 @@ class DataStatisticsFragment :
                 // 总收益
                 refreshItemView(
                     mItemBinding.includeDataStatisticsItems.tvDataStatisticsTotalRevenue,
-                    item.revenue,
+                    item.revenue.formatMoney(),
                     mItemBinding.includeDataStatisticsItems.tvDataStatisticsTotalRevenueTrend,
                     item.revenueCompare, true
                 )
                 // 总收入
                 refreshItemView(
                     mItemBinding.includeDataStatisticsItems.tvDataStatisticsTotalEarnings,
-                    item.income,
+                    item.income.formatMoney(),
                     mItemBinding.includeDataStatisticsItems.tvDataStatisticsTotalEarningsTrend,
                     item.incomeCompare, true
                 )
                 // 总支出
                 refreshItemView(
                     mItemBinding.includeDataStatisticsItems.tvDataStatisticsTotalExpend,
-                    item.expend,
+                    item.expend.formatMoney(),
                     mItemBinding.includeDataStatisticsItems.tvDataStatisticsTotalExpendTrend,
                     item.expendCompare, true
                 )
@@ -174,21 +175,21 @@ class DataStatisticsFragment :
                 // 总收益
                 refreshItemView(
                     mBinding.includeDataStatisticsTotal.tvDataStatisticsTotalRevenue,
-                    total.revenue,
+                    total.revenue.formatMoney(),
                     mBinding.includeDataStatisticsTotal.tvDataStatisticsTotalRevenueTrend,
                     total.revenueCompare, true
                 )
                 // 总收入
                 refreshItemView(
                     mBinding.includeDataStatisticsTotal.tvDataStatisticsTotalEarnings,
-                    total.income,
+                    total.income.formatMoney(),
                     mBinding.includeDataStatisticsTotal.tvDataStatisticsTotalEarningsTrend,
                     total.incomeCompare, true
                 )
                 // 总支出
                 refreshItemView(
                     mBinding.includeDataStatisticsTotal.tvDataStatisticsTotalExpend,
-                    total.expend,
+                    total.expend.formatMoney(),
                     mBinding.includeDataStatisticsTotal.tvDataStatisticsTotalExpendTrend,
                     total.expendCompare, true
                 )

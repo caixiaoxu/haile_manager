@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.yunshang.haile_manager_android.utils.StringUtils" />
+
+        <variable
+            name="phone"
+            type="java.lang.String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/white"
+        tools:showIn="@layout/activity_shop_position_detail">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_position_detail_service_phone"
+            style="@style/ShopDetailTitleItemStyle"
+            android:layout_width="wrap_content"
+            android:background="@color/white"
+            android:text='@{@string/business_phone+"："+phone}'
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_position_detail_service_phone_copy"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:Text="客服电话：18888888888" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_position_detail_service_phone_copy"
+            style="@style/ShopDetailTitleItemStyle"
+            android:layout_width="wrap_content"
+            android:onClick="@{v->StringUtils.copyToShear(phone)}"
+            android:text="@string/copy_phone"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_position_detail_service_phone"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:Text="客服电话：18888888888" />
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="17dp"
+            android:background="@color/dividing_line_color"
+            app:layout_constraintBottom_toBottomOf="@id/tv_position_detail_service_phone_copy"
+            app:layout_constraintStart_toStartOf="@id/tv_position_detail_service_phone_copy"
+            app:layout_constraintTop_toTopOf="@id/tv_position_detail_service_phone_copy" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

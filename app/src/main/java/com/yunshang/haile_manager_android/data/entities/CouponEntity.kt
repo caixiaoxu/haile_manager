@@ -1,7 +1,13 @@
 package com.yunshang.haile_manager_android.data.entities
 
+import androidx.core.content.ContextCompat
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import com.lsy.framelib.data.constants.Constants
 import com.lsy.framelib.utils.StringUtils
+import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 
 /**
@@ -50,7 +56,14 @@ data class CouponEntity(
     val usedTime: String,
     val usedTradeNo: String,
     val value: String
-) {
+) : BaseObservable() {
+    @Transient
+    @get:Bindable
+    var selected:Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.selected)
+        }
 
     val stateVal: String
         get() = when (state) {
@@ -61,10 +74,19 @@ data class CouponEntity(
             else -> ""
         }
 
+    val stateColor: Int
+        get() = ContextCompat.getColor(
+            Constants.APP_CONTEXT, when (state) {
+                1 -> R.color.color_FFA936
+                32 -> R.color.color_F7612F
+                else -> R.color.color_black_85
+            }
+        )
+
     val title: String
         get() = "${StringUtils.getStringArray(R.array.coupon_type)[couponType]} ${
             if (3 == couponType) percentage + "折" else if (4 == couponType) {
-                if (0.0 == specifiedPrice) "免费" else "${specifiedPrice}元"
+                if (0.0 == specifiedPrice) "免费" else "${specifiedPrice.formatMoney()}元"
             } else reduce + "元"
         }"
 

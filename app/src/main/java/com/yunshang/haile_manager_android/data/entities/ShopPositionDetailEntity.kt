@@ -47,6 +47,7 @@ data class ShopPositionDetailEntity(
     val districtName: String? = null,
     val provinceId: Int? = null,
     val provinceName: String? = null,
+    val floorCode: String? = null
 ) : BaseObservable() {
 
     @get:Bindable
@@ -60,7 +61,7 @@ data class ShopPositionDetailEntity(
 
     @get:Bindable
     val stateNameVal: String
-        get() = StringUtils.getString(if (1 == stateVal) R.string.enable else R.string.disEnable)
+        get() = StringUtils.getString(if (1 == stateVal) R.string.enabled else R.string.out_of_service)
 
     fun hasShopName(): Boolean = shopId.hasVal() && !shopName.isNullOrEmpty()
 

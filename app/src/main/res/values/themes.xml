@@ -28,6 +28,7 @@
         <item name="android:layout_marginStart">12dp</item>
         <item name="android:layout_marginEnd">12dp</item>
     </style>
+
     <style name="DividingStyleM16" parent="DividingStyle">
         <item name="android:layout_marginStart">16dp</item>
         <item name="android:layout_marginEnd">16dp</item>
@@ -56,6 +57,10 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
+    </style>
+
+    <style name="KeyboardBottomSheetDialogStyle" parent="CommonBottomSheetDialogStyle">
+        <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
     <style name="BottomSheetStyleWrapper" parent="Widget.MaterialComponents.BottomSheet.Modal">
@@ -309,6 +314,16 @@
         <item name="android:textColor">@color/common_txt_hint_color</item>
     </style>
 
+    <style name="Font_12_black25">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_black_25</item>
+    </style>
+
+    <style name="Font_12_black85">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_black_85</item>
+    </style>
+
     <style name="Font_12_999999">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/common_sub_txt_color</item>
@@ -369,6 +384,7 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/color_black_25</item>
     </style>
+
     <style name="Font_14_black65">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/color_black_65</item>
@@ -412,6 +428,15 @@
     <style name="Font_14_ccccccc">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/common_txt_hint_color</item>
+    </style>
+
+    <style name="font_15_171a1d">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/color_171A1D</item>
+    </style>
+
+    <style name="font_15_171a1d_bold" parent="font_15_171a1d">
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Font_16_cccccc">
@@ -460,10 +485,24 @@
         <item name="android:textColor">@color/color_ff5219</item>
     </style>
 
+    <style name="font_17_black85">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/color_black_85</item>
+    </style>
+
+    <style name="font_17_black85_bold" parent="font_17_black85">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="font_17_black85_black45" parent="font_17_black85">
+        <item name="android:textColorHint">@color/color_black_45</item>
+    </style>
+
     <style name="font_17_333333">
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/common_txt_color</item>
     </style>
+
     <style name="font_17_333333_bold" parent="font_17_333333">
         <item name="android:textStyle">bold</item>
     </style>
@@ -477,19 +516,6 @@
     <style name="font_17_999999">
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/common_sub_txt_color</item>
-    </style>
-
-    <style name="Font_17_black85">
-        <item name="android:textSize">17sp</item>
-        <item name="android:textColor">@color/color_black_85</item>
-    </style>
-
-    <style name="Font_17_black85_black45" parent="Font_17_black85">
-        <item name="android:textColorHint">@color/color_black_45</item>
-    </style>
-
-    <style name="Font_17_black85_bold" parent="Font_17_black85">
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Font_18_f0a258">

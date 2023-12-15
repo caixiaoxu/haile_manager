@@ -4,6 +4,7 @@ import androidx.core.content.ContextCompat
 import com.lsy.framelib.data.constants.Constants
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.entities.IncomeCalendarEntity
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.data.rule.ICalendarEntity
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import java.util.Calendar
@@ -25,7 +26,7 @@ data class CalendarEntity(override var type: Int, val day: String? = null) : ICa
     fun initIncome(incomeEntity: IncomeCalendarEntity?) {
         incomeEntity?.let {
             type = if (incomeEntity.amount >= 0) 1 else 2
-            value = "${incomeEntity.amount}"
+            value = "${incomeEntity.amount.formatMoney()}"
         }
     }
 

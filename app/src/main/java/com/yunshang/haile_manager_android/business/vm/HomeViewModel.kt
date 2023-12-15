@@ -14,6 +14,7 @@ import com.yunshang.haile_manager_android.business.apiService.MessageService
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.HomeIncomeEntity
 import com.yunshang.haile_manager_android.data.entities.MessageEntity
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.ui.activity.coupon.CouponManageActivity
 import com.yunshang.haile_manager_android.ui.activity.coupon.IssueCouponsActivity
@@ -199,7 +200,7 @@ class HomeViewModel : BaseViewModel() {
                 mCapitalRepo.totalIncomeToady(
                     ApiRepository.createRequestBody("")
                 )
-            )
+            ).formatMoney()
         )
     }
 

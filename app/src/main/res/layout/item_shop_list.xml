@@ -22,10 +22,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/shape_ffffff_r8"
         android:orientation="vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="8dp">
+        android:paddingHorizontal="16dp">
 
         <LinearLayout
             android:id="@+id/ll_item_shop_name"
@@ -129,6 +128,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_item_shop_total_income"
                 style="@style/Font_14_333333"
@@ -149,8 +149,9 @@
                 style="@style/Font_14_333333"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:drawableEnd="@drawable/icon_arrow_right_with_padding"
+                android:drawableEnd="@drawable/icon_arrow_right"
                 android:gravity="center"
+                android:drawablePadding="4dp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_item_shop_total_income"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_item_shop_total_income"

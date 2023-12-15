@@ -18,7 +18,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_device_repairs_search_device_name"
-            style="@style/Font_17_black85_bold"
+            style="@style/font_17_black85_bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"

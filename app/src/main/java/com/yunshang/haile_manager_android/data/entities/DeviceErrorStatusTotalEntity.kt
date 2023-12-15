@@ -15,5 +15,6 @@ data class DeviceErrorStatusTotalEntity(
     val offlineCount: Int,
     val solenoidValveErrorCount: Int,
     val unusedCount: Int,
-    val waterErrorCount: Int
+    val waterErrorCount: Int,
+    val unused3Count: Int
 )

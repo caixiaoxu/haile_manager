@@ -46,7 +46,7 @@ class CustomFlowListConstraintLayout @JvmOverloads constructor(
     fun <B : ViewDataBinding, D> buildChild(
         itemList: List<D>?,
         layoutId: Int?,
-        layoutParams: LinearLayoutCompat.LayoutParams? = null,
+        layoutParams: LayoutParams? = null,
         start: Int? = null,
         onChildBinding: (index: Int, childBinding: B, data: D) -> Unit
     ) {
@@ -73,9 +73,9 @@ class CustomFlowListConstraintLayout @JvmOverloads constructor(
             itemBinding.root.id = index + 1
             addView(
                 itemBinding.root,
-                layoutParams ?: LinearLayoutCompat.LayoutParams(
-                    LinearLayoutCompat.LayoutParams.WRAP_CONTENT,
-                    LinearLayoutCompat.LayoutParams.WRAP_CONTENT
+                layoutParams ?: LayoutParams(
+                    LayoutParams.WRAP_CONTENT,
+                    LayoutParams.WRAP_CONTENT
                 )
             )
         }

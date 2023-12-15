@@ -45,6 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginVertical="12dp"
                 android:paddingBottom="24dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -147,7 +148,7 @@
                     app:showDividers="middle">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/font_17_333333_bold"
+                        style="@style/font_17_black85_bold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
@@ -164,7 +165,7 @@
                         layout="@layout/item_order_detail_info"
                         app:canShow='@{true}'
                         app:content='@{vm.orderDetail.orderNo}'
-                        app:itemTitle="@{@string/order_no}"
+                        app:itemTitle='@{@string/order_no + "："}'
                         app:showCopy="@{true}" />
 
                     <include
@@ -224,26 +225,26 @@
                     <include
                         layout="@layout/item_order_detail_info"
                         app:canShow='@{true}'
-                        app:content='@{@string/unit_money+vm.orderDetail.originPrice}'
+                        app:content='@{@string/unit_money+vm.orderDetail.originPriceVal}'
                         app:itemTitle='@{@string/total_amount}' />
 
                     <include
                         layout="@layout/item_order_detail_info"
                         app:canShow='@{true}'
-                        app:content='@{@string/unit_money+vm.orderDetail.realPrice}'
+                        app:content='@{@string/unit_money+vm.orderDetail.realPriceVal}'
                         app:itemTitle='@{@string/need_pay}' />
 
                     <include
                         layout="@layout/item_order_detail_info"
-                        app:canShow='@{true}'
-                        app:content='@{@string/unit_money+vm.orderDetail.payPrice}'
+                        app:canShow='@{vm.orderDetail.payPrice > 0}'
+                        app:content='@{@string/unit_money+vm.orderDetail.payPriceVal}'
                         app:itemTitle='@{@string/have_paid}' />
 
                     <include
                         android:id="@+id/item_order_detail_info_real_income"
                         layout="@layout/item_order_detail_info"
                         app:canShow='@{true}'
-                        app:content='@{@string/unit_money+vm.orderDetail.realPrice}'
+                        app:content='@{@string/unit_money+vm.orderDetail.realPriceVal}'
                         app:itemTitle='@{@string/real_income}' />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -256,12 +257,12 @@
                     android:orientation="vertical"
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="12dp"
-                    app:visibility="@{OrderParam.isRefund(vm.orderDetail.state)}"
                     app:divider="@drawable/divide_size4"
-                    app:showDividers="middle">
+                    app:showDividers="middle"
+                    app:visibility="@{OrderParam.isRefund(vm.orderDetail.state)}">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/font_17_333333_bold"
+                        style="@style/font_17_black85_bold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
@@ -276,7 +277,7 @@
                     <include
                         layout="@layout/item_order_detail_info"
                         app:canShow='@{true}'
-                        app:content='@{@string/unit_money+vm.orderDetail.refundPrice}'
+                        app:content='@{@string/unit_money+vm.orderDetail.refundPriceVal}'
                         app:itemTitle='@{@string/refund_amount}' />
 
                     <!--                    <include-->
@@ -316,7 +317,7 @@
                     app:showDividers="middle">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/font_17_333333_bold"
+                        style="@style/font_17_black85_bold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"

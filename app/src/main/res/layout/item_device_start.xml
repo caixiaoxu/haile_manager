@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.AppCompatRadioButton xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:text="20分钟"
-    android:layout_width="70dp"
-    android:layout_height="28dp"
-    android:background="@drawable/selector_f7f7f7_f0a258_r14"
-    android:button="@null"
-    android:gravity="center"
-    android:textColor="@color/selector_ffffff_333333"
-    android:textSize="14sp" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.yunshang.haile_manager_android.ui.view.ClickRadioButton
+        android:id="@+id/rb_device_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="4dp"
+        android:background="@drawable/selector_f7f7f7_f0a258_r14"
+        android:button="@null"
+        android:gravity="center"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:textColor="@color/selector_ffffff_333333"
+        android:textSize="14sp"
+        tools:text="20分钟" />
+</layout>

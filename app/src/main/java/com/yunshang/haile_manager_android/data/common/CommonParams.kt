@@ -139,8 +139,11 @@ object SearchType {
     // 分账
     const val SubAccount = 6
 
-    // 分账
+    // 设备报修
     const val DeviceRepairs = 7
+
+    // 优惠券搜索
+    const val Coupon = 8
 
     @IntDef(
         Device,
@@ -150,7 +153,8 @@ object SearchType {
         HaiXinRefundRecord,
         HaiXinRechargeAccount,
         SubAccount,
-        DeviceRepairs
+        DeviceRepairs,
+        Coupon
     )
     @Retention(AnnotationRetention.SOURCE)
     annotation class ISearchType

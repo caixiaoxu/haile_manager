@@ -186,6 +186,12 @@ interface ShopService {
     suspend fun createPosition(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
+     * 创建点位（批量）
+     */
+    @POST("/position/addSubOrganizationPositions")
+    suspend fun batchCreatePosition(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
      * 修改点位
      */
     @POST("/position/updateSubOrganizationPosition")
@@ -232,4 +238,10 @@ interface ShopService {
      */
     @POST("/shop/batchSaveFreeSelfClearSetting")
     suspend fun saveBatchSelfCleanSetting(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 获取最新点位详情
+     */
+    @GET("/position/getLatest")
+    suspend fun requestLastPositionDetails(@Query("shopId") shopId: Int?): ResponseWrapper<ShopPositionDetailEntity>
 }

@@ -13,6 +13,7 @@ import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.BalanceTotalEntity
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.databinding.ActivityWalletBinding
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
@@ -149,11 +150,11 @@ class WalletActivity : BaseBindingActivity<ActivityWalletBinding>() {
             ApiRepository.dealApiResult(mCapitalRepo.requestBalance())?.let {
                 balanceTotal = it
                 withContext(Dispatchers.Main) {
-                    mBinding.tvWalletMoney.text = it.totalAmount
+                    mBinding.tvWalletMoney.text = it.totalAmount.formatMoney()
                     mBinding.tvWalletMoneyAvailableAmount.text =
-                        StringUtils.getString(R.string.unit_money) + (it.availableAmount ?: "0")
+                        StringUtils.getString(R.string.unit_money) + (it.availableAmount ?: "0.00").formatMoney()
                     mBinding.tvWalletMoneyCandyPayAmount.text =
-                        StringUtils.getString(R.string.unit_money) + (it.candyPayAmount ?: "0")
+                        StringUtils.getString(R.string.unit_money) + (it.candyPayAmount ?: "0.00").formatMoney()
                 }
             }
         })

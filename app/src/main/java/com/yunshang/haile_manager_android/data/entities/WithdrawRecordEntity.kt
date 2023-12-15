@@ -6,6 +6,7 @@ import android.text.style.StyleSpan
 import androidx.core.content.ContextCompat
 import com.lsy.framelib.data.constants.Constants
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.data.rule.IMultiTypeEntity
 import com.yunshang.haile_manager_android.utils.StringUtils
 
@@ -34,7 +35,7 @@ data class WithdrawRecordEntity(
     val recordAmount: SpannableString
         get() = "${com.lsy.framelib.utils.StringUtils.getString(R.string.cash_out_amount)}：".let { prefix ->
             StringUtils.formatMultiStyleStr(
-                "$prefix$cashOutPrice",
+                "$prefix${cashOutPrice.formatMoney()}",
                 arrayOf(
                     StyleSpan(Typeface.NORMAL),
                 ), 0, prefix.length
@@ -44,7 +45,7 @@ data class WithdrawRecordEntity(
     val feeAmountVal: SpannableString
         get() = "${com.lsy.framelib.utils.StringUtils.getString(R.string.service_charge)}：".let { prefix ->
             StringUtils.formatMultiStyleStr(
-                "$prefix$feeAmount",
+                "$prefix${feeAmount.formatMoney()}",
                 arrayOf(
                     StyleSpan(Typeface.NORMAL),
                 ), 0, prefix.length
@@ -54,7 +55,7 @@ data class WithdrawRecordEntity(
     val arrivalAmount: SpannableString
         get() = "${com.lsy.framelib.utils.StringUtils.getString(R.string.arrival_amount)}：".let { prefix ->
             StringUtils.formatMultiStyleStr(
-                "$prefix$cashOutPrice",
+                "$prefix${cashOutPrice.formatMoney()}",
                 arrayOf(
                     StyleSpan(Typeface.NORMAL),
                 ), 0, prefix.length

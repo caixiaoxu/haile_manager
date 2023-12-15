@@ -2,10 +2,8 @@ package com.yunshang.haile_manager_android.ui.activity.shop
 
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Typeface
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.View
@@ -34,6 +32,7 @@ import com.yunshang.haile_manager_android.data.entities.ShopAndPositionSelectEnt
 import com.yunshang.haile_manager_android.data.entities.ShopEntity
 import com.yunshang.haile_manager_android.data.entities.ShopPositionEntity
 import com.yunshang.haile_manager_android.data.entities.ShopPositionSelect
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.data.extend.isGreaterThan0
 import com.yunshang.haile_manager_android.databinding.ActivityShopManagerBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopListBinding
@@ -49,7 +48,6 @@ import com.yunshang.haile_manager_android.ui.view.dialog.DeviceCategoryDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.ui.view.refresh.CustomDividerItemDecoration
 import com.yunshang.haile_manager_android.utils.BitmapUtils
-import com.yunshang.haile_manager_android.utils.NumberUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 
 class ShopManagerActivity :
@@ -184,7 +182,7 @@ class ShopManagerActivity :
         var title =
             StringUtils.getString(R.string.shop_total_income)
         var value =
-            StringUtils.getString(R.string.unit_money) + NumberUtils.keepTwoDecimals(item.income)
+            StringUtils.getString(R.string.unit_money) + item.income.formatMoney()
         var start = title.length + 1
         var end = title.length + 1 + value.length
         mItemBinding?.tvItemShopTotalIncome?.text =

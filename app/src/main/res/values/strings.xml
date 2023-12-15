@@ -149,6 +149,7 @@
     <string name="device_category">设备类型</string>
     <string name="device_model">设备型号</string>
     <string name="floor">楼层</string>
+    <string name="floor_f">楼层（F）</string>
     <string name="floor_hint">请输入设备所在楼层</string>
     <string name="device_model_empty">请先选择设备型号</string>
     <string name="network_status">网络状态</string>
@@ -319,6 +320,8 @@
     <string name="add_shop">新增门店</string>
     <string name="update_shop">编辑门店</string>
     <string name="add_pt">新增营业点</string>
+    <string name="add_pt1">添加营业点</string>
+    <string name="add_pt_prompt1">可以添加多个营业点</string>
     <string name="update_pt">编辑营业点</string>
     <string name="pt">营业点</string>
     <string name="pt_num">营业点数量</string>
@@ -370,6 +373,7 @@
     <string name="shop_detail">门店详情</string>
     <string name="shop_base_info">门店基础信息</string>
     <string name="pt_base_info">营业点基础信息</string>
+    <string name="base_info">基础信息</string>
     <string name="creator">创建人</string>
     <string name="create_time">创建时间</string>
     <string name="appointment">预约</string>
@@ -500,7 +504,6 @@
     <string name="fault_desc">故障描述</string>
     <string name="shop_reply">商家回复</string>
     <string name="reply_content">回复内容</string>
-
     <string name="pic_browse">图片浏览</string>
 
     <string name="home_marketing_title">营销中心</string>
@@ -532,7 +535,7 @@
     <string name="success_album_hint">已保存至相册...</string>
     <string name="scheme_info">方案信息</string>
     <string name="scheme_config_index">方案%1$d</string>
-    <string name="scheme_config_title">满%1$.2f元赠送%2$.2f元</string>
+    <string name="scheme_config_title">满%1s元赠送%2s元</string>
     <string name="scheme_config_create_title">海星充值方案配置</string>
     <string name="scheme_name">方案名称</string>
     <string name="hai_xin">海星</string>
@@ -551,6 +554,7 @@
     <string name="haixin_recycle_reach_title">回收充值海星</string>
     <string name="haixin_recycle_reward_title">回收赠送海星</string>
     <string name="user_phone">用户手机号</string>
+    <string name="search_user_phone">搜索用户手机号</string>
     <string name="user_phone1">用户手机</string>
     <string name="user_account">用户账户</string>
     <string name="maximum_recycle">最多回收</string>
@@ -575,6 +579,7 @@
     <string name="item_sub_account_shop_title">分账门店：%1$s（%2$s）</string>
 
     <string name="issue_coupons">发券</string>
+    <string name="batch_invalid">批量作废</string>
     <string name="issue_coupons_user">发券用户</string>
     <string-array name="coupon_type">
         <item></item>
@@ -844,6 +849,8 @@
     <string name="cancel_account">注销账号</string>
     <string name="contact_platform">联系平台</string>
     <string name="contact_user">联系用户</string>
+    <string name="contact_phone">联系电话</string>
+    <string name="add_contact_phone">添加联系电话</string>
     <string name="platform_phone">400-661-1751</string>
     <string name="cancel_account_hint">注销后您的身份、账户信息、钱包余额、订单信息等都会被清空且无法找回请谨慎操作。</string>
     <string name="cancel_account_sure">确定注销</string>

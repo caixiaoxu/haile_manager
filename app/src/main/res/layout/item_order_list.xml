@@ -18,8 +18,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_ffffff_r8"
         android:layout_marginBottom="12dp"
+        android:background="@drawable/shape_ffffff_r8"
         android:paddingHorizontal="16dp">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -27,14 +27,16 @@
             style="@style/Font_12_ffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_sf0a258_r6"
+            android:background="@{item.orderType == 300?@drawable/shape_sf0a258_r6:@drawable/shape_sf1f2f3_r6}"
             android:gravity="center_vertical"
             android:paddingHorizontal="6dp"
             android:paddingVertical="2dp"
             android:text="@{item.orderType == 300?@string/appointment:@string/normal}"
+            android:textColor="@{item.orderType == 300?@color/white:@color/color_black_85}"
             app:layout_constraintBottom_toBottomOf="@id/tv_order_list_no"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_order_list_no"
+            tools:background="@drawable/shape_sf1f2f3_r6"
             tools:text="普通" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -210,7 +212,7 @@
             android:layout_marginTop="12dp"
             android:fontFamily="@font/money"
             android:gravity="center_vertical"
-            android:text='@{item.realPrice + "元"}'
+            android:text='@{item.realPriceVal + "元"}'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_order_list_real_income_title"
             app:layout_constraintTop_toBottomOf="@id/tv_order_list_date"

@@ -58,14 +58,21 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
             startActivity(Intent(context, ChangeOrganizationActivity::class.java))
         }
 
-        // items
+        buildPersonalItems()
+    }
+
+    /**
+     * 构建个人item
+     */
+    private fun buildPersonalItems(){
+        mBinding.llPersonalItems.removeAllViews()
         var group: LinearLayoutCompat? = null
         for (item in mViewModel.personalItems) {
             if (null == item) {
                 //null，把之前的加入布局，并创建新的group
                 if (null != group) {
-                    group.visibility(group.children.any { view -> View.VISIBLE == view.visibility })
                     mBinding.llPersonalItems.addView(group)
+                    group.visibility(group.children.any { view -> View.VISIBLE == view.visibility })
                 }
                 group = createItemGroup()
             } else {
@@ -109,19 +116,11 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
                         val isSpecialRole =
                             StaffParam.isSpecialRole(mSharedViewModel.userInfo.value?.userInfo?.tagName)
                         mPersonalItemBinding.root.visibility(!isSpecialRole && UserPermissionUtils.hasProfitCalendarPermission())
-                        mSharedViewModel.hasProfitCalendarPermission.observe(this) {
-                            mPersonalItemBinding.root.visibility(!isSpecialRole && it)
-                            group.visibility(group.children.any { view -> View.VISIBLE == view.visibility })
-                        }
                     }
                     R.string.income_statistics -> {
                         val isSpecialRole =
                             StaffParam.isSpecialRole(mSharedViewModel.userInfo.value?.userInfo?.tagName)
                         mPersonalItemBinding.root.visibility(!isSpecialRole && UserPermissionUtils.hasProfitDetailPermission())
-                        mSharedViewModel.hasProfitDetailPermission.observe(this) {
-                            mPersonalItemBinding.root.visibility(!isSpecialRole && it)
-                            group.visibility(group.children.any { view -> View.VISIBLE == view.visibility })
-                        }
                     }
                 }
 
@@ -143,10 +142,12 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
         setBackgroundResource(R.drawable.shape_sffffff_r8)
         dividerDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.divder_efefef)
         showDividers = LinearLayoutCompat.SHOW_DIVIDER_MIDDLE
-        layoutParams = LayoutParams(
+        layoutParams = LinearLayoutCompat.LayoutParams(
             LayoutParams.MATCH_PARENT,
             LayoutParams.WRAP_CONTENT
-        )
+        ).apply {
+            setMargins(0, DimensionUtils.dip2px(requireContext(), 12f), 0, 0)
+        }
     }
 
     override fun initEvent() {
@@ -154,6 +155,10 @@ class PersonalFragment : BaseBusinessFragment<FragmentPersonalBinding, PersonalV
 
         LiveDataBus.with(BusEvents.BALANCE_STATUS)?.observe(this) {
             mViewModel.requestBalanceAsync()
+        }
+
+        mSharedViewModel.hasUserPermission.observe(this){
+            buildPersonalItems()
         }
     }
 

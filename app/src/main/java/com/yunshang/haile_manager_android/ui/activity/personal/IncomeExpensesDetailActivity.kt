@@ -17,6 +17,7 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.IncomeExpensesDetailEntity
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.databinding.ActivityIncomeExpensesDetailBinding
 import com.yunshang.haile_manager_android.databinding.ItemIncomeExpensesDetailBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -121,12 +122,12 @@ class IncomeExpensesDetailActivity :
         mViewModel.totalRevenue.observe(this) {
             it?.let { total ->
                 mBinding.tvIncomeExpensesDetailTotal.text = StringUtils.formatMultiStyleStr(
-                    "¥ ${total.revenue}", arrayOf(
+                    "¥ ${total.revenue.formatMoney()}", arrayOf(
                         VerticalBottomSpan(DimensionUtils.sp2px(24f).toFloat(), -3f)
                     ), 0, 2
                 )
                 mBinding.tvIncomeExpensesDetailTotalCategory.text =
-                    "总收入 ¥${total.income}      总支出 ¥${total.expend}"
+                    "总收入 ¥${total.income.formatMoney()}      总支出 ¥${total.expend.formatMoney()}"
             }
         }
     }

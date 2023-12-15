@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.HaiXinService
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.ui.activity.recharge.*
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
@@ -85,7 +86,7 @@ class HaiXinRechargeConfigsViewModel : BaseViewModel() {
                     )
                 )
             )?.let {
-                rechargeConfigItems[0]!!.value!!.postValue("${it.tokenCoinAmount}")
+                rechargeConfigItems[0]!!.value!!.postValue("${it.tokenCoinAmount.formatMoney()}")
             }
             ApiRepository.dealApiResult(
                 mHaiXinRepo.requestRefundQrCode()

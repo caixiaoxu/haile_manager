@@ -27,6 +27,7 @@ import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.data.rule.ISearchSelectEntity
 import com.yunshang.haile_manager_android.databinding.*
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.activity.coupon.CouponManageActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceDetailActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceRepairsReplyListActivity
@@ -442,6 +443,13 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                 Intent(
                     this@SearchActivity,
                     SubAccountManagerActivity::class.java
+                ).apply {
+                    putExtras(IntentParams.SearchParams.pack(mViewModel.searchKey.value))
+                })
+            SearchType.Coupon -> startActivity(
+                Intent(
+                    this@SearchActivity,
+                    CouponManageActivity::class.java
                 ).apply {
                     putExtras(IntentParams.SearchParams.pack(mViewModel.searchKey.value))
                 })

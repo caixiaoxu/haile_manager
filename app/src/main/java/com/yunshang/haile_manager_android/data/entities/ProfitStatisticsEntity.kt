@@ -4,6 +4,7 @@ import androidx.core.content.ContextCompat
 import com.lsy.framelib.data.constants.Constants
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.data.rule.IMultiTypeEntity
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.NumberUtils
@@ -29,8 +30,7 @@ data class ProfitStatisticsEntity(
     val transactionType: Int, //收支类型 1:收入；2:支出
     val businessTime: String,
 ) : IMultiTypeEntity {
-    fun amountVal() =
-        com.yunshang.haile_manager_android.utils.StringUtils.formatNumberStr(if (1 == transactionType) amount else -amount)
+    fun amountVal() = (if (1 == transactionType) amount else -amount).formatMoney(true)
 
     fun getOrderTime() =
         StringUtils.getString(if (1 == transactionType) R.string.pay_time else R.string.refund_time) + "：" + businessTime

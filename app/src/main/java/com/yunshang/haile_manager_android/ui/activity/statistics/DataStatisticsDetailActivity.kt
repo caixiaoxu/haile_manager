@@ -17,6 +17,7 @@ import com.yunshang.haile_manager_android.business.vm.DataStatisticsDetailViewMo
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.databinding.ActivityDataStatisticsDetailBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
@@ -144,7 +145,7 @@ class DataStatisticsDetailActivity :
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsDeviceFrequencyTitle,
                         "总退款金额",
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsDeviceFrequency,
-                        orderStatistics.orderRefundAmount,
+                        orderStatistics.orderRefundAmount.formatMoney(),
                         mBinding.includeDataStatisticsDetailOrder.includeDataStatisticsDetailItems.tvDataStatisticsDeviceFrequencyTrend,
                         orderStatistics.orderRefundAmountCompare
                     )

@@ -8,6 +8,7 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.business.apiService.LoginUserService
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.ui.activity.personal.*
 
@@ -40,7 +41,7 @@ class PersonalViewModel : BaseViewModel() {
             IncomeCalendarActivity::class.java,
             Bundle().apply {
                 putInt(IncomeCalendarActivity.ProfitType, 4)
-            }
+            },
         ),
         PersonalItem(
             R.mipmap.icon_personal_income,
@@ -101,7 +102,7 @@ class PersonalViewModel : BaseViewModel() {
     private suspend fun requestBalance() {
         ApiRepository.dealApiResult(mCapitalRepo.requestBalance())?.let {
             personalItems.find { item -> item?.title == R.string.wallet }?.run {
-                value?.postValue(it.totalAmount)
+                value?.postValue(it.totalAmount.formatMoney())
             }
         }
     }

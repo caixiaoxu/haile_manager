@@ -168,20 +168,28 @@ object DateTimeUtils {
      */
     @JvmStatic
     fun formatDateTimeStartParam(date: Date?): String =
-        "${formatDateTime(date, "yyyy-MM-dd")} 00:00:00"
+        formatDateTime(date, "yyyy-MM-dd").let {
+            if (it.isNotEmpty()) "$it 00:00:00" else it
+        }
 
     fun formatDateTimeYearStartParam(date: Date?): String =
-        "${formatDateTime(date, "yyyy")}-01-01 00:00:00"
+        formatDateTime(date, "yyyy").let {
+            if (it.isNotEmpty()) "${it}-01-01 00:00:00" else it
+        }
 
     /**
      * 格式化结束日期参数
      */
     @JvmStatic
     fun formatDateTimeEndParam(date: Date?): String =
-        "${formatDateTime(date, "yyyy-MM-dd")} 23:59:59"
+        formatDateTime(date, "yyyy-MM-dd").let {
+            if (it.isNotEmpty()) "$it 23:59:59" else it
+        }
 
     fun formatDateTimeYearEndParam(date: Date?): String =
-        "${formatDateTime(date, "yyyy")}-12-31 23:59:59"
+        formatDateTime(date, "yyyy").let {
+            if (it.isNotEmpty()) "${it}-12-31 23:59:59" else it
+        }
 
     /**
      * 格式化

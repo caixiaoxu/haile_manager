@@ -13,7 +13,11 @@ import com.yunshang.haile_manager_android.databinding.ActivityInvoiceWithdrawFee
 import com.yunshang.haile_manager_android.databinding.ItemInvoiceWithdrawFeeBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
+import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+import com.yunshang.haile_manager_android.utils.DateTimeUtils
+import timber.log.Timber
+import java.util.*
 
 class InvoiceWithdrawFeeActivity :
     BaseBusinessActivity<ActivityInvoiceWithdrawFeeBinding, InvoiceWithdrawFeeViewModel>(
@@ -41,8 +45,34 @@ class InvoiceWithdrawFeeActivity :
 
     override fun backBtn(): View = mBinding.barInvoiceWithdrawFeeTitle.getBackBtn()
 
+    private val dateDialog by lazy {
+        DateSelectorDialog.Builder().apply {
+            selectModel = 1
+            maxDate = Calendar.getInstance().apply { time = Date() }
+            onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
+                override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
+                    Timber.i("----选择的开始日期${DateTimeUtils.formatDateTime(date1, "yyyy-MM-dd")}")
+                    Timber.i("----选择的结束日期${DateTimeUtils.formatDateTime(date2, "yyyy-MM-dd")}")
+                    //更换时间
+                    mViewModel.startTime.value = date1
+                    mViewModel.endTime.value = date2
+
+                    mBinding.rvInvoiceWithdrawFeeList.requestRefresh()
+                }
+            }
+        }.build()
+    }
+
     override fun initView() {
         window.statusBarColor = Color.WHITE
+
+        mBinding.tvInvoiceWithdrawFeeTime.setOnClickListener {
+            dateDialog.show(
+                supportFragmentManager,
+                mViewModel.startTime.value,
+                mViewModel.endTime.value
+            )
+        }
 
         mBinding.rvInvoiceWithdrawFeeList.layoutManager = LinearLayoutManager(this)
         mBinding.rvInvoiceWithdrawFeeList.adapter = mAdapter

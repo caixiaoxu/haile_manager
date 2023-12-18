@@ -1,6 +1,7 @@
 package com.yunshang.haile_manager_android.business.vm
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.lsy.framelib.network.exception.CommonCustomException
@@ -14,9 +15,11 @@ import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.data.entities.DeviceRepairsEntity
 import com.yunshang.haile_manager_android.data.entities.InvoiceWithdrawFeeEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.util.*
 
 /**
  * Title :
@@ -28,8 +31,43 @@ import timber.log.Timber
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class InvoiceWithdrawFeeViewModel: BaseViewModel() {
+class InvoiceWithdrawFeeViewModel : BaseViewModel() {
     private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
+
+    // 时间区间
+    val startTime: MutableLiveData<Date> = MutableLiveData(DateTimeUtils.curMonthFirst)
+    val endTime: MutableLiveData<Date> = MutableLiveData(Date())
+
+    // 时间区间
+    val timeStr: MediatorLiveData<String> =
+        MediatorLiveData(StringUtils.getString(R.string.order_time)).apply {
+            addSource(startTime) {
+                value = timeFormat()
+            }
+            addSource(endTime) {
+                value = timeFormat()
+            }
+        }
+
+    private fun timeFormat() =
+        if (null != startTime.value && null != endTime.value) {
+            if (DateTimeUtils.isSameDay(startTime.value!!, endTime.value!!)) {
+                DateTimeUtils.formatDateTime(
+                    startTime.value,
+                    "MM-dd"
+                )
+            } else {
+                val formatStr = if (DateTimeUtils.isSameYear(
+                        startTime.value!!,
+                        endTime.value!!
+                    )
+                ) "MM-dd" else "yyyy-MM-dd"
+
+                "${
+                    DateTimeUtils.formatDateTime(startTime.value, formatStr)
+                } 至 ${DateTimeUtils.formatDateTime(endTime.value, formatStr)}"
+            }
+        } else StringUtils.getString(R.string.cash_out_time)
 
     val isAll: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -57,6 +95,8 @@ class InvoiceWithdrawFeeViewModel: BaseViewModel() {
                         hashMapOf(
                             "page" to page,
                             "pageSize" to pageSize,
+                            "applyStartDate" to DateTimeUtils.formatDateTimeStartParam(startTime.value),
+                            "applyEndDate" to DateTimeUtils.formatDateTimeStartParam(startTime.value),
                         )
                     )
                 )

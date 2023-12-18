@@ -16,7 +16,7 @@ import java.util.*
  * 作者姓名 修改时间 版本号 描述
  */
 interface ICalendarEntity {
-    var type: Int // 默认-1不显示，0无值，1正值，2负值
+    var type: Int // 默认-1:不显示，0:无值，1:正值，2:负值，3:0值
     val color: IntArray
 
     fun getDate(): Date?
@@ -33,7 +33,7 @@ interface ICalendarEntity {
      * 获取当前的类型颜色
      */
     val curTypeBGColor: Int
-        get() = color[if (0 == type) 1 else type]
+        get() = color[if (0 == type || 3 == type) 1 else type]
 
     /**
      * 获取当前的类型颜色

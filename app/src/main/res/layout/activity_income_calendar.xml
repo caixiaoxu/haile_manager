@@ -104,14 +104,12 @@
                     android:id="@+id/rv_income_calendar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/dividing_line_color"
-                    android:padding="1dp" />
+                    android:background="@color/page_bg" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="8dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@color/dividing_line_color" />
+                    android:background="@color/page_bg" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

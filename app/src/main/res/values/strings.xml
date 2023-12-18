@@ -566,7 +566,7 @@
     <string name="refuse_refund_input_hint">请输入拒绝的原因</string>
     <string name="go_recharge">去充值</string>
 
-    <string name="home_capital_title">资金管理</string>
+    <string name="home_capital_title">账务管理</string>
     <string name="sub_account_manager">分账管理</string>
     <string name="sub_account_search_hint">搜索关键字</string>
     <string name="sub_account_shop">分账门店</string>
@@ -577,6 +577,12 @@
     <string name="sub_account_detail">分账详情</string>
     <string name="sub_account_person">分账人员</string>
     <string name="item_sub_account_shop_title">分账门店：%1$s（%2$s）</string>
+
+    <string name="invoice_manager">发票管理</string>
+    <string name="invoice_withdraw_fee">提现手续费</string>
+    <string name="invoice_title">发票抬头</string>
+    <string name="invoice_history">发票历史</string>
+    <string name="invoice_explain">发票说明</string>
 
     <string name="issue_coupons">发券</string>
     <string name="batch_invalid">批量作废</string>

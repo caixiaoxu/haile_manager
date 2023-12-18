@@ -21,6 +21,7 @@ import com.yunshang.haile_manager_android.ui.activity.coupon.IssueCouponsActivit
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceRepairsActivity
 import com.yunshang.haile_manager_android.ui.activity.discounts.DiscountsManagerActivity
+import com.yunshang.haile_manager_android.ui.activity.invoice.InvoiceManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.notice.NoticeManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.order.OrderManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.recharge.HaiXinRechargeConfigsActivity
@@ -159,6 +160,12 @@ class HomeViewModel : BaseViewModel() {
                 R.mipmap.icon_sub_account_manager,
                 SubAccountManagerActivity::class.java,
                 UserPermissionUtils.hasDistributionPermission()
+            ),
+            FunItem(
+                StringUtils.getString(R.string.invoice_manager),
+                R.mipmap.icon_invoice_manager,
+                InvoiceManagerActivity::class.java,
+                UserPermissionUtils.hasInvoicePermission()
             ),
         )
     )

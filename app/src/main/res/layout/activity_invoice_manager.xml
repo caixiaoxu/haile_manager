@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:divider="@drawable/divide_size12"
+        app:showDividers="middle"
+        android:orientation="vertical"
+        tools:context=".ui.activity.invoice.InvoiceManagerActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_invoice_manager_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            app:title="@string/invoice_manager"
+            android:background="@drawable/shape_bottom_stroke_dividing"/>
+        
+        <com.lsy.framelib.ui.weight.SingleTapTextView
+            android:id="@+id/tv_invoice_manager_withdraw_fee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:background="@drawable/shape_ffffff_r8"
+            android:drawablePadding="8dp"
+            android:drawableStart="@mipmap/icon_invoice_withdraw_fee"
+            style="@style/font_17_black85"
+            android:gravity="center_vertical"
+            android:text="@string/invoice_withdraw_fee"
+            android:drawableEnd="@drawable/icon_arrow_right"
+            android:padding="16dp"/>
+
+        <com.lsy.framelib.ui.weight.SingleTapTextView
+            android:id="@+id/tv_invoice_manager_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:background="@drawable/shape_ffffff_r8"
+            android:drawablePadding="8dp"
+            android:drawableStart="@mipmap/icon_invoice_title"
+            style="@style/font_17_black85"
+            android:gravity="center_vertical"
+            android:text="@string/invoice_title"
+            android:drawableEnd="@drawable/icon_arrow_right"
+            android:padding="16dp"/>
+
+        <com.lsy.framelib.ui.weight.SingleTapTextView
+            android:id="@+id/tv_invoice_manager_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:background="@drawable/shape_ffffff_r8"
+            android:drawablePadding="8dp"
+            android:drawableStart="@mipmap/icon_invoice_history"
+            style="@style/font_17_black85"
+            android:gravity="center_vertical"
+            android:text="@string/invoice_history"
+            android:drawableEnd="@drawable/icon_arrow_right"
+            android:padding="16dp"/>
+
+        <com.lsy.framelib.ui.weight.SingleTapTextView
+            android:id="@+id/tv_invoice_manager_explain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="12dp"
+            android:background="@drawable/shape_ffffff_r8"
+            android:drawablePadding="8dp"
+            android:drawableStart="@mipmap/icon_invoice_explain"
+            style="@style/font_17_black85"
+            android:gravity="center_vertical"
+            android:text="@string/invoice_explain"
+            android:drawableEnd="@drawable/icon_arrow_right"
+            android:padding="16dp"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

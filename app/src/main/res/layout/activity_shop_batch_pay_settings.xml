@@ -45,7 +45,7 @@
                 android:layout_marginStart="74dp"
                 android:drawableEnd="@drawable/icon_arrow_right"
                 android:gravity="center_vertical"
-                android:hint="@string/select_shops_hint"
+                android:hint="@string/please_select"
                 android:text="@{vm.selectShopNames}" />
         </LinearLayout>
 

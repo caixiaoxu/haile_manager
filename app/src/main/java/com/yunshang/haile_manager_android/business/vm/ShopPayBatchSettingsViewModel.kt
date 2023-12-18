@@ -50,7 +50,11 @@ class ShopPayBatchSettingsViewModel : BaseViewModel() {
             //有shopId就请求店铺模版
             ApiRepository.dealApiResult(
                 mShopRepo.getShopPaySettingsTemplate(
-                    ApiRepository.createRequestBody("")
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "shopIdList" to listOf<Int>()
+                        )
+                    )
                 )
             )?.let {
                 shopPaySettings.postValue(it)

@@ -46,16 +46,11 @@ class ShopPayBatchSettingsViewModel : BaseViewModel() {
     }
 
     fun requestData() {
-        if (selectShops.value.isNullOrEmpty()) return
         launch({
             //有shopId就请求店铺模版
             ApiRepository.dealApiResult(
                 mShopRepo.getShopPaySettingsTemplate(
-                    ApiRepository.createRequestBody(
-                        hashMapOf(
-                            "shopIdList" to selectShops.value?.map { it.id }?.toIntArray()
-                        )
-                    )
+                    ApiRepository.createRequestBody("")
                 )
             )?.let {
                 shopPaySettings.postValue(it)
@@ -64,7 +59,9 @@ class ShopPayBatchSettingsViewModel : BaseViewModel() {
     }
 
     fun save(v: View) {
-        if (selectShops.value.isNullOrEmpty() || null == shopPaySettings.value) return
+        if (selectShops.value.isNullOrEmpty() || null == shopPaySettings.value) {
+            return
+        }
         launch({
             shopPaySettings.value?.shopIdList = selectShops.value?.map { it.id }
             ApiRepository.dealApiResult(

@@ -41,11 +41,9 @@ class ShopBatchCompensationSettingViewModel : BaseViewModel() {
         }
     }
 
-    val batchCompensationSetting: MutableLiveData<OperationCompensationSetting> by lazy {
-        MutableLiveData(
-            OperationCompensationSetting()
-        )
-    }
+    val batchCompensationSetting: MutableLiveData<OperationCompensationSetting> = MutableLiveData(
+        OperationCompensationSetting()
+    )
 
 
     fun save(v: View) {

@@ -265,7 +265,7 @@
                 android:id="@+id/btn_appointment_setting_save"
                 style="@style/CommonMatchBtnStyle1"
                 android:layout_marginHorizontal="14dp"
-                android:enabled="@{null != vm.appointmentSetting}"
+                android:enabled="@{null != vm.appointmentSetting &amp;&amp; null != vm.selectShops}"
                 android:text="@string/save" />
         </FrameLayout>
     </LinearLayout>

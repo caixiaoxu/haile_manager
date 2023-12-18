@@ -217,12 +217,6 @@ class IncomeCalendarActivity :
         }
 
         mBinding.rvIncomeCalendar.layoutManager = GridLayoutManager(this, arr.size)
-        mBinding.rvIncomeCalendar.addItemDecoration(
-            GridSpaceItemDecoration(
-                DimensionUtils.dip2px(this@IncomeCalendarActivity, 1f),
-                DimensionUtils.dip2px(this@IncomeCalendarActivity, 1f),
-            )
-        )
         mBinding.rvIncomeCalendar.adapter = mIncomeAdapter
 
         // 收支切换

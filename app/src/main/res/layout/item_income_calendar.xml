@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/money"
             android:text='@{item.afterToday?"--":item.value}'
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:visibility="@{-1 == item.type?View.GONE:View.VISIBLE}"
             tools:text="2333.00" />
 

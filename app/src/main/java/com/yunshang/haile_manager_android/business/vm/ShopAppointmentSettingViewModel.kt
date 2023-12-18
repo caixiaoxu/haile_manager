@@ -46,8 +46,6 @@ class ShopAppointmentSettingViewModel : BaseViewModel() {
     }
 
     fun requestData() {
-        if (selectShops.value.isNullOrEmpty()) return
-
         launch({
             ApiRepository.dealApiResult(mRepo.requestShopBatchAppointmentSettingList())
                 ?.let { result ->

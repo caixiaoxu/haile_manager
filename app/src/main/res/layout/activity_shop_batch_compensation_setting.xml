@@ -55,8 +55,7 @@
             android:layout_marginTop="8dp"
             android:background="@color/white"
             android:paddingHorizontal="16dp"
-            android:paddingVertical="16dp"
-            app:visibility="@{null != vm.selectShops}">
+            android:paddingVertical="16dp">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_shop_compensation_coupon_operation_setting_title"

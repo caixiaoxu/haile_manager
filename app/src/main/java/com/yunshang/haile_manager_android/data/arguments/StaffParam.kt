@@ -18,7 +18,7 @@ object StaffParam {
     private val specialRole = "合伙人"
 
     @JvmStatic
-    fun isSpecialRole(role: String?) = role == specialRole
+    fun isSpecialRole(role: String?) = false // role == specialRole
 }
 
 data class StaffPermissionParams(

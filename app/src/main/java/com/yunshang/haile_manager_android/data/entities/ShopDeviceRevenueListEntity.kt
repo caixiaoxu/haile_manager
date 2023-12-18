@@ -1,5 +1,7 @@
 package com.yunshang.haile_manager_android.data.entities
 
+import com.yunshang.haile_manager_android.data.extend.formatMoney
+
 /**
  * Title :
  * Author: Lsy
@@ -14,4 +16,7 @@ data class ShopDeviceRevenueListEntity(
     val id: Int,
     val name: String,
     val revenue: String
-)
+) {
+    val revenueVal: String
+        get() = revenue.formatMoney()
+}

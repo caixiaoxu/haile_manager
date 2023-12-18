@@ -10,6 +10,7 @@ import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.utils.MPPointF
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.entities.HomeIncomeEntity
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import java.text.ParseException
 import kotlin.math.pow
@@ -64,7 +65,7 @@ class CustomMarkerView(context: Context?, layoutResource: Int) :
             bgColor = Color.parseColor("#F0A258")
             exception.printStackTrace()
         }
-        tvTrendAmount.text = "¥${curBean?.amount}"
+        tvTrendAmount.text = "¥${curBean?.amount.formatMoney()}"
         //设置数据在该方法之前
         super.refreshContent(e, highlight)
     }

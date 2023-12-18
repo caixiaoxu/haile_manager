@@ -54,7 +54,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:visibility="@{null != vm.selectShops}"
             android:background="@color/white"
             android:padding="16dp"
             android:text="@string/self_clean_setting" />
@@ -65,8 +64,7 @@
             android:background="@drawable/shape_top_stroke_dividing_mlr16"
             android:paddingHorizontal="16dp"
             android:paddingBottom="16dp"
-            android:paddingTop="4dp"
-            app:visibility="@{null != vm.selectShops}">
+            android:paddingTop="4dp">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_shop_self_clean_setting_title"

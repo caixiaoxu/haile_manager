@@ -1,6 +1,7 @@
 package com.yunshang.haile_manager_android.data.entities
 
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.data.rule.IIncomeDetailEntity
 import com.yunshang.haile_manager_android.data.rule.IncomeDetailInfo
 import com.yunshang.haile_manager_android.utils.StringUtils
@@ -65,10 +66,10 @@ data class BalanceDetailEntity(
             addItemInfo(revenueNo, R.string.sub_account_order_no, this, true)
             addItemInfo(revenueTime, R.string.sub_account_time, this)
         } else if (cashOutNo.isNotEmpty()) {
-            addItemInfo(cashOutPrice, R.string.arrival_amount, this)
+            addItemInfo(cashOutPrice.formatMoney(), R.string.arrival_amount, this)
             addItemInfo(cashOutNo, R.string.cash_out_no, this, true)
-            addItemInfo(totalAmount, R.string.cash_out_amount, this)
-            addItemInfo(serviceCharge, R.string.service_charge, this)
+            addItemInfo(totalAmount.formatMoney(), R.string.cash_out_amount, this)
+            addItemInfo(serviceCharge.formatMoney(), R.string.service_charge, this)
             addItemInfo(cashOutTime, R.string.cash_out_time, this)
             addItemInfo(bank, R.string.cash_out_way, this)
         } else {

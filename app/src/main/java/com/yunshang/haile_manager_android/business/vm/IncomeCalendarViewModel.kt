@@ -11,9 +11,9 @@ import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.data.arguments.CalendarEntity
 import com.yunshang.haile_manager_android.data.entities.IncomeCalendarEntity
 import com.yunshang.haile_manager_android.data.entities.ProfitStatisticsEntity
+import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
-import com.yunshang.haile_manager_android.utils.StringUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -158,9 +158,9 @@ class IncomeCalendarViewModel : BaseViewModel() {
                 )
             )?.let {
                 if (isMonth) {
-                    totalIncome.postValue(StringUtils.formatNumberStrOfStr(it))
+                    totalIncome.postValue(it.formatMoney(true))
                 } else {
-                    totalIncomeForDay.postValue(StringUtils.formatNumberStrOfStr(it))
+                    totalIncomeForDay.postValue(it.formatMoney(true))
                 }
             }
         })

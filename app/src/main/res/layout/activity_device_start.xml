@@ -54,19 +54,26 @@
 
             <View style="@style/DividingStyle" />
 
-            <HorizontalScrollView
+            <com.yunshang.haile_manager_android.ui.view.MaxHeightScrollView
                 android:id="@+id/scroll_device_start_time_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:scrollbars="none"
                 android:layout_marginTop="12dp"
-                android:visibility="gone">
+                app:maxHeight="300dp">
 
-                <RadioGroup
-                    android:id="@+id/rg_device_start_time_list"
-                    android:layout_width="wrap_content"
+                <com.yunshang.haile_manager_android.ui.view.CustomFlowListConstraintLayout
+                    android:id="@+id/cl_device_start_time_list"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" />
-            </HorizontalScrollView>
+                    app:flow_horizontalBias="0"
+                    app:flow_horizontalGap="8dp"
+                    app:flow_horizontalStyle="packed"
+                    app:flow_verticalGap="8dp"
+                    app:flow_wrapMode="chain" />
+
+            </com.yunshang.haile_manager_android.ui.view.MaxHeightScrollView>
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/Font_12_333333"

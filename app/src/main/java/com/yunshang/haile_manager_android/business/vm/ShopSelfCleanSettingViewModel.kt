@@ -44,9 +44,8 @@ class ShopSelfCleanSettingViewModel : BaseViewModel() {
         }
     }
 
-    val selfCleanSetting: MutableLiveData<FreeSelfClearSettings> by lazy {
+    val selfCleanSetting: MutableLiveData<FreeSelfClearSettings> =
         MutableLiveData(FreeSelfClearSettings())
-    }
 
     fun save(v: View) {
         if (selectShops.value.isNullOrEmpty() || null == selfCleanSetting.value) return

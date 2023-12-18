@@ -103,15 +103,9 @@
                                 android:hint="@string/department" />
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/tv_device_category_category"
+                                android:id="@+id/tv_device_category_pt"
                                 style="@style/DeviceManagerCategoryBtnStyle"
-                                android:hint="@string/device_category" />
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/tv_device_category_model"
-                                style="@style/DeviceManagerCategoryBtnStyle"
-                                android:hint="@string/device_model"
-                                android:visibility="@{null == vm.selectDeviceCategory?View.GONE:View.VISIBLE}" />
+                                android:hint="@string/belong_to_pt" />
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/tv_device_category_network_status"
@@ -122,6 +116,18 @@
                                 android:id="@+id/tv_device_category_device_status"
                                 style="@style/DeviceManagerCategoryBtnStyle"
                                 android:hint="@string/device_status" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tv_device_category_category"
+                                style="@style/DeviceManagerCategoryBtnStyle"
+                                android:hint="@string/device_category" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tv_device_category_model"
+                                style="@style/DeviceManagerCategoryBtnStyle"
+                                android:hint="@string/device_model"
+                                android:visibility="@{null == vm.selectDeviceCategory?View.GONE:View.VISIBLE}" />
+
                         </LinearLayout>
                     </HorizontalScrollView>
 

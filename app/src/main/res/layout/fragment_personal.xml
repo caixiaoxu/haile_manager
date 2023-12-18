@@ -153,14 +153,11 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <LinearLayout
             android:id="@+id/ll_personal_items"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="vertical"
-            app:divider="@drawable/divide_size8"
-            app:showDividers="middle" />
+            android:orientation="vertical"/>
 
     </LinearLayout>
 </layout>

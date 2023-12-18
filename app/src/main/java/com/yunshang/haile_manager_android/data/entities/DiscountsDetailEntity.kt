@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.data.entities
 
 import com.yunshang.haile_manager_android.data.arguments.DiscountsParam
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
+import com.yunshang.haile_manager_android.data.extend.toRemove0Str
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 
 /**
@@ -35,6 +36,9 @@ data class DiscountsDetailEntity(
     val weekDayList: List<Int>?,
     val weekDayMode: Int
 ) {
+    val discountVOVal: String
+        get() = discountVO.toRemove0Str()
+
     val shopStr: String
         get() = shop.joinToString("，") { it.name }
 

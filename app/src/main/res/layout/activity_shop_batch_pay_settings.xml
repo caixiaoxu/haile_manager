@@ -219,7 +219,7 @@
                 android:id="@+id/btn_shop_pay_settings_save"
                 style="@style/CommonMatchBtnStyle1"
                 android:layout_marginHorizontal="14dp"
-                android:enabled="@{null != vm.shopPaySettings &amp;&amp; null != vm.shopPaySettings}"
+                android:enabled="@{null != vm.shopPaySettings &amp;&amp; null != vm.selectShops}"
                 android:onClick="@{vm::save}"
                 android:text="@string/save" />
         </FrameLayout>

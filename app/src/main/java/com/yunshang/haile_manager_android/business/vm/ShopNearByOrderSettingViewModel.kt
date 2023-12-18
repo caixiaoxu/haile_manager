@@ -45,9 +45,7 @@ class ShopNearByOrderSettingViewModel : BaseViewModel() {
         }
     }
 
-    val nearByOrderSetting: MutableLiveData<NearOrderSettings> by lazy {
-        MutableLiveData(NearOrderSettings())
-    }
+    val nearByOrderSetting: MutableLiveData<NearOrderSettings> = MutableLiveData(NearOrderSettings())
 
     fun save(v: View) {
         if (selectShops.value.isNullOrEmpty() || null == nearByOrderSetting.value) return

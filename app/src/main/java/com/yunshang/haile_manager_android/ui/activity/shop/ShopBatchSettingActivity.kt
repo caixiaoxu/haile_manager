@@ -48,7 +48,7 @@ class ShopBatchSettingActivity :
                 )
             )
         }
-        // 批量补偿设置
+        // 批量附近设置
         mBinding.clShopBatchSettingNearByOrderSetting.setOnClickListener {
             startActivity(
                 Intent(

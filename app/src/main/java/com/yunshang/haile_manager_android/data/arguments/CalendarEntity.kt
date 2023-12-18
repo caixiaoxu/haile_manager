@@ -26,7 +26,7 @@ data class CalendarEntity(override var type: Int, val day: String? = null) : ICa
     fun initIncome(incomeEntity: IncomeCalendarEntity?) {
         incomeEntity?.let {
             type = if (incomeEntity.amount >= 0) 1 else 2
-            value = "${incomeEntity.amount.formatMoney()}"
+            value = "${incomeEntity.amount}"
         }
     }
 

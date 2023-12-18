@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.data.entities
 
+import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.yunshang.haile_manager_android.BR
 
@@ -25,10 +26,10 @@ data class InvoiceWithdrawFeeEntity(
     val invoiceCreatorId: Int? = null,
     val invoiceCreatorName: String? = null,
     val invoiceStatus: Int? = null
-){
+) : BaseObservable() {
     @Transient
     @get:Bindable
-    var selected:Boolean = false
+    var selected: Boolean = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.selected)

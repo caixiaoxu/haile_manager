@@ -11,7 +11,7 @@ package com.yunshang.haile_manager_android.data.entities
  * 作者姓名 修改时间 版本号 描述
  */
 data class IncomeCalendarEntity(
-    val amount: Double,
+    var amount: Double,
     val date: String,
     val dateWeek: String
 )

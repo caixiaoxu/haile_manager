@@ -272,4 +272,10 @@ interface CapitalService {
     @POST("/export/taskList")
     suspend fun requestExportHistory(@Body body: RequestBody): ResponseWrapper<ResponseList<ExportHistoryEntity>>
 
+    /**
+     * 发票提现手续费接口
+     */
+    @POST("/invoice/cashOut/list")
+    suspend fun requestInvoiceCashOutList(@Body body: RequestBody): ResponseWrapper<ResponseList<InvoiceWithdrawFeeEntity>>
+
 }

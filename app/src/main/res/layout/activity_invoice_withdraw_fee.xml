@@ -29,14 +29,25 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_order_category_department"
+                android:id="@+id/tv_invoice_withdraw_fee_time"
                 style="@style/Font_14_333333_333333"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="16dp"
                 android:drawableEnd="@mipmap/icon_order_filter_triangle"
                 android:gravity="center"
-                tools:text="@string/department" />
+                tools:text="05-14 至 06-24" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_invoice_withdraw_operator"
+                style="@style/Font_14_333333_333333"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:drawableEnd="@mipmap/icon_order_filter_triangle"
+                android:gravity="center"
+                android:hint="@string/invoice_operator"
+                tools:text="提现人" />
 
         </LinearLayout>
     </LinearLayout>

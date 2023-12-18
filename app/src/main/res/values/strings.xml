@@ -583,6 +583,7 @@
     <string name="invoice_title">发票抬头</string>
     <string name="invoice_history">发票历史</string>
     <string name="invoice_explain">发票说明</string>
+    <string name="invoice_operator">提现人</string>
 
     <string name="issue_coupons">发券</string>
     <string name="batch_invalid">批量作废</string>

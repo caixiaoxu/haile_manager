@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.ui.activity.invoice
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import com.lsy.framelib.ui.base.activity.BaseBindingActivity
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.databinding.ActivityInvoiceManagerBinding
@@ -10,6 +11,8 @@ import com.yunshang.haile_manager_android.databinding.ActivityInvoiceManagerBind
 class InvoiceManagerActivity : BaseBindingActivity<ActivityInvoiceManagerBinding>() {
 
     override fun layoutId(): Int = R.layout.activity_invoice_manager
+
+    override fun backBtn(): View = mBinding.barInvoiceManagerTitle.getBackBtn()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

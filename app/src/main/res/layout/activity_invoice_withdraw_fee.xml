@@ -39,7 +39,7 @@
                 tools:text="05-14 至 06-24" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_invoice_withdraw_operator"
+                android:id="@+id/tv_invoice_withdraw_fee_operator"
                 style="@style/Font_14_333333_333333"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -50,5 +50,60 @@
                 tools:text="提现人" />
 
         </LinearLayout>
+
+        <com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+            android:id="@+id/rv_invoice_withdraw_fee_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingHorizontal="12dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/shape_top_stroke_dividing"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp">
+
+            <com.yunshang.haile_manager_android.ui.view.ClickCheckBox
+                android:id="@+id/cb_invoice_withdraw_fee_all"
+                style="@style/font_17_black85"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:button="@null"
+                android:checked="@{vm.isAll}"
+                android:drawableStart="@drawable/selector_checked"
+                android:drawablePadding="14dp"
+                android:gravity="center"
+                android:text="@string/select_all"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/font_17_black85"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@{vm.selectBatchNumVal}"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="已选择 1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/page_bottom_h"
+            android:background="@drawable/shape_top_stroke_dividing"
+            android:paddingTop="12dp">
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_invoice_withdraw_fee_open"
+                style="@style/CommonMatchBtnStyle1"
+                android:enabled="@{vm.selectBatchNum > 0}"
+                android:layout_marginHorizontal="16dp"
+                android:text="@string/invoice_open" />
+
+        </FrameLayout>
     </LinearLayout>
 </layout>

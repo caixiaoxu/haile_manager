@@ -830,7 +830,7 @@ object UserPermissionUtils {
      */
     @JvmStatic
     fun hasInvoicePermission(): Boolean {
-        return null != userPermissionsMap["league:funds:distribution"]
+        return null != userPermissionsMap["league:finance:invoice"]
     }
     /** ------------------------发票管理权限------------------------  */
     /** ------------------------设备监控权限------------------------  */

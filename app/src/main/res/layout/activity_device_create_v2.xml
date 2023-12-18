@@ -68,7 +68,7 @@
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_device_create_pay_code"
                     style="@style/MultiTypePaddingHItemStyle"
-                    android:hint="@string/scan_hint"
+                    android:hint="@string/scan_pay_hint"
                     app:itemContent="@{vm.payCode}"
                     app:tailDrawable="@mipmap/icon_device_scan"
                     app:title="@string/pay_code"

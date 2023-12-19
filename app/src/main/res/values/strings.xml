@@ -602,6 +602,7 @@
     <string name="company_address_hint">请填写公司地址</string>
     <string name="setting_default_invoice_title">设为默认抬头</string>
     <string name="setting_default_invoice_title_prompt">每次开票会默认填写该抬头信息</string>
+    <string name="invoice_title_details">发票抬头详情</string>
 
     <string name="issue_coupons">发券</string>
     <string name="batch_invalid">批量作废</string>

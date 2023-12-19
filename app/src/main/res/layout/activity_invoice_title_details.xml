@@ -4,15 +4,71 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="com.yunshang.haile_manager_android.business.vm.InvoiceTitleDetailsViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".ui.activity.invoice.InvoiceTitleAddActivity">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_invoice_title_details_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            app:rightModel="text"
+            app:title="@string/invoice_title_details" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:background="@drawable/shape_ffffff_r8"
+            android:padding="12dp"
+            android:orientation="vertical"
+            app:divider="@drawable/divide_size4"
+            app:showDividers="middle">
+
+            <include
+                layout="@layout/item_invoice_title_details"
+                app:title="@{@string/invoice_title_type}"
+                app:content="@{vm.invoiceTitle.isPersonalVal}"/>
+
+            <include
+                layout="@layout/item_invoice_title_details"
+                app:title="@{@string/invoice_title_type}"
+                app:content="@{vm.invoiceTitle.titleVal}"/>
+
+            <include
+                layout="@layout/item_invoice_title_details"
+                app:title="@{@string/invoice_title_type}"
+                app:content="@{vm.invoiceTitle.taxNoVal}"/>
+
+            <include
+                layout="@layout/item_invoice_title_details"
+                app:title="@{@string/company_number}"
+                app:content="@{vm.invoiceTitle.bankNameVal}"/>
+
+            <include
+                layout="@layout/item_invoice_title_details"
+                app:title="@{@string/open_bank}"
+                app:content="@{vm.invoiceTitle.bankAccountVal}"/>
+
+            <include
+                layout="@layout/item_invoice_title_details"
+                app:title="@{@string/bank_account}"
+                app:content="@{vm.invoiceTitle.phoneVal}"/>
+
+            <include
+                layout="@layout/item_invoice_title_details"
+                app:title="@{@string/company_address}"
+                app:content="@{vm.invoiceTitle.addressVal}"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </LinearLayout>
 </layout>

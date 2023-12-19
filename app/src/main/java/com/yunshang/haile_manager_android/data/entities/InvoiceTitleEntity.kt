@@ -2,7 +2,9 @@ package com.yunshang.haile_manager_android.data.entities
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
+import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
+import com.yunshang.haile_manager_android.R
 
 /**
  * Title :
@@ -58,6 +60,10 @@ data class InvoiceTitleEntity(
             notifyPropertyChanged(BR.invoiceTitleType1Val)
             notifyPropertyChanged(BR.canSubmit)
         }
+
+    @get:Bindable
+    val isPersonalVal: String
+        get() = StringUtils.getString(if (1 == isPersonal) R.string.invoice_title_type1 else R.string.invoice_title_type0)
 
     @get:Bindable
     var titleVal: String

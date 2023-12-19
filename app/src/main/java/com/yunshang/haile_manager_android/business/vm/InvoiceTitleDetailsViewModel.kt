@@ -1,6 +1,8 @@
 package com.yunshang.haile_manager_android.business.vm
 
+import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.yunshang.haile_manager_android.data.entities.InvoiceTitleEntity
 
 /**
  * Title :
@@ -12,5 +14,9 @@ import com.lsy.framelib.ui.base.BaseViewModel
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class InvoiceTitleDetailsViewModel: BaseViewModel() {
+class InvoiceTitleDetailsViewModel : BaseViewModel() {
+    val invoiceTitle: MutableLiveData<InvoiceTitleEntity> by lazy {
+        MutableLiveData()
+    }
+
 }

@@ -117,5 +117,6 @@ class InvoiceWithdrawFeeActivity :
     }
 
     override fun initData() {
+        mBinding.rvInvoiceWithdrawFeeList.requestRefresh()
     }
 }

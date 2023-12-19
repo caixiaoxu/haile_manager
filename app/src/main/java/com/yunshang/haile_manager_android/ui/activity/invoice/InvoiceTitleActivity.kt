@@ -1,5 +1,7 @@
 package com.yunshang.haile_manager_android.ui.activity.invoice
 
+import android.graphics.Color
+import android.view.View
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.InvoiceTitleViewModel
@@ -15,7 +17,13 @@ class InvoiceTitleActivity :
 
     override fun layoutId(): Int = R.layout.activity_invoice_title
 
+    override fun backBtn(): View = mBinding.barInvoiceTitleTitle.getBackBtn()
+
     override fun initView() {
+        window.statusBarColor = Color.WHITE
+
+
+
     }
 
     override fun initData() {

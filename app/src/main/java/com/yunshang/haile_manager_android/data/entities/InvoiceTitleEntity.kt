@@ -68,6 +68,10 @@ data class InvoiceTitleEntity(
             notifyPropertyChanged(BR.canSubmit)
         }
 
+    fun clearTitleVal() {
+        titleVal = ""
+    }
+
     @get:Bindable
     var taxNoVal: String
         get() = taxNo ?: ""
@@ -76,6 +80,10 @@ data class InvoiceTitleEntity(
             notifyPropertyChanged(BR.taxNoVal)
             notifyPropertyChanged(BR.canSubmit)
         }
+
+    fun clearTaxNoVal() {
+        taxNoVal = ""
+    }
 
     @get:Bindable
     var bankNameVal: String
@@ -100,6 +108,10 @@ data class InvoiceTitleEntity(
             notifyPropertyChanged(BR.canSubmit)
         }
 
+    fun clearBankAccountVal() {
+        bankAccountVal = ""
+    }
+
     @get:Bindable
     var phoneVal: String
         get() = phone ?: ""
@@ -109,14 +121,24 @@ data class InvoiceTitleEntity(
             notifyPropertyChanged(BR.canSubmit)
         }
 
+    fun clearPhoneVal() {
+        phoneVal = ""
+    }
+
     @get:Bindable
     var addressVal: String
         get() = address ?: ""
         set(value) {
             address = value
             notifyPropertyChanged(BR.addressVal)
+            notifyPropertyChanged(BR.addressValNumVal)
             notifyPropertyChanged(BR.canSubmit)
         }
+
+    @get:Bindable
+    val addressValNumVal: String
+        get() = "${if (address.isNullOrEmpty()) 0 else address!!.length}/50"
+
 
     @get:Bindable
     var defaultVal: Boolean
@@ -129,8 +151,5 @@ data class InvoiceTitleEntity(
 
     @get:Bindable
     val canSubmit: Boolean
-        get() = null != isPersonal && !title.isNullOrEmpty() && !taxNo.isNullOrEmpty()
-                && !bankName.isNullOrEmpty() && !bankAccount.isNullOrEmpty() && !phone.isNullOrEmpty()
-                && !addressVal.isNullOrEmpty() && null != isDefault
-
+        get() = null != isPersonal && !title.isNullOrEmpty() && title!!.length >= 15 && (if (1 == isPersonal) !taxNo.isNullOrEmpty() else true)
 }

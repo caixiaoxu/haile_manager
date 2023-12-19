@@ -55,4 +55,5 @@ object BusEvents {
     const val DEVICE_FAULT_REPAIRS_REPLY_STATUS = "device_fault_repairs_reply_status"
 
     const val INVOICE_TITLE_LIST_STATUS = "invoice_title_list_status"
+    const val INVOICE_TITLE_DETAILS_STATUS = "invoice_title_details_status"
 }

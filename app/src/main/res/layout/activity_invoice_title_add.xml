@@ -52,23 +52,38 @@
                         android:padding="16dp">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            style="@style/font_17_black85"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
-                            android:text="@string/invoice_title_type" />
+                            android:text="@string/invoice_title_type"
+                            android:textColor="@{null == vm.invoiceTitleAddParams.id?@color/color_black_85:@color/color_black_25}"
+                            android:textSize="17sp" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/font_17_black25"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@color/transparent"
+                            android:gravity="center_vertical"
+                            tools:text="企业单位"
+                            tools:visibility="gone"
+                            android:text="@{vm.invoiceTitleAddParams.invoiceTitleType1Val?@string/invoice_title_type0:@string/invoice_title_type1}"
+                            app:visibility="@{null != vm.invoiceTitleAddParams.id}" />
 
                         <androidx.appcompat.widget.AppCompatRadioButton
                             android:id="@+id/rb_invoice_title_add_type0"
                             style="@style/font_17_black85"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:background="@color/transparent"
                             android:button="@null"
                             android:checked="@={vm.invoiceTitleAddParams.invoiceTitleType0Val}"
                             android:drawableStart="@drawable/selector_checked"
                             android:drawablePadding="14dp"
                             android:gravity="center_vertical"
                             android:minHeight="0dp"
-                            android:text="@string/invoice_title_type0" />
+                            android:text="@string/invoice_title_type0"
+                            app:visibility="@{null == vm.invoiceTitleAddParams.id}" />
 
                         <androidx.appcompat.widget.AppCompatRadioButton
                             android:id="@+id/rb_invoice_title_add_type1"
@@ -76,13 +91,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="24dp"
+                            android:background="@color/transparent"
                             android:button="@null"
                             android:checked="@={vm.invoiceTitleAddParams.invoiceTitleType1Val}"
                             android:drawableStart="@drawable/selector_checked"
                             android:drawablePadding="14dp"
                             android:gravity="center_vertical"
                             android:minHeight="0dp"
-                            android:text="@string/invoice_title_type1" />
+                            android:text="@string/invoice_title_type1"
+                            app:visibility="@{null == vm.invoiceTitleAddParams.id}" />
                     </RadioGroup>
 
                     <LinearLayout
@@ -109,12 +126,24 @@
 
                         <androidx.appcompat.widget.AppCompatEditText
                             style="@style/font_17_black85_black45"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:background="@color/transparent"
                             android:gravity="center_vertical"
                             android:hint="@string/invoice_title_hint"
+                            android:maxLength="40"
                             android:text="@={vm.invoiceTitleAddParams.titleVal}" />
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent"
+                            android:onClick="@{(v)->vm.invoiceTitleAddParams.clearTitleVal()}"
+                            android:paddingHorizontal="8dp"
+                            android:src="@mipmap/icon_input_clear"
+                            app:visibility="@{vm.invoiceTitleAddParams.titleVal.length() > 0}"
+                            tools:visibility="visible" />
 
                     </LinearLayout>
 
@@ -143,12 +172,24 @@
 
                         <androidx.appcompat.widget.AppCompatEditText
                             style="@style/font_17_black85_black45"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:background="@color/transparent"
                             android:gravity="center_vertical"
                             android:hint="@string/company_number_hint"
+                            android:maxLength="20"
                             android:text="@={vm.invoiceTitleAddParams.taxNoVal}" />
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent"
+                            android:onClick="@{(v)->vm.invoiceTitleAddParams.clearTaxNoVal()}"
+                            android:paddingHorizontal="8dp"
+                            android:src="@mipmap/icon_input_clear"
+                            app:visibility="@{vm.invoiceTitleAddParams.taxNoVal.length() > 0}"
+                            tools:visibility="visible" />
 
                     </LinearLayout>
 
@@ -210,12 +251,25 @@
 
                         <androidx.appcompat.widget.AppCompatEditText
                             style="@style/font_17_black85_black45"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:background="@color/transparent"
                             android:gravity="center_vertical"
+                            android:maxLength="20"
+                            android:inputType="number"
                             android:hint="@string/bank_account_hint"
                             android:text="@={vm.invoiceTitleAddParams.bankAccountVal}" />
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent"
+                            android:onClick="@{(v)->vm.invoiceTitleAddParams.clearBankAccountVal()}"
+                            android:paddingHorizontal="8dp"
+                            android:src="@mipmap/icon_input_clear"
+                            app:visibility="@{vm.invoiceTitleAddParams.bankAccountVal.length() > 0}"
+                            tools:visibility="visible" />
 
                     </LinearLayout>
 
@@ -235,13 +289,25 @@
 
                         <androidx.appcompat.widget.AppCompatEditText
                             style="@style/font_17_black85_black45"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:background="@color/transparent"
                             android:gravity="center_vertical"
                             android:hint="@string/company_phone_hint"
+                            android:maxLength="20"
                             android:inputType="phone"
                             android:text="@={vm.invoiceTitleAddParams.phoneVal}" />
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent"
+                            android:onClick="@{(v)->vm.invoiceTitleAddParams.clearPhoneVal()}"
+                            android:paddingHorizontal="8dp"
+                            android:src="@mipmap/icon_input_clear"
+                            app:visibility="@{vm.invoiceTitleAddParams.phoneVal.length() > 0}"
+                            tools:visibility="visible" />
 
                     </LinearLayout>
 
@@ -259,14 +325,30 @@
                             android:layout_height="wrap_content"
                             android:text="@string/company_address" />
 
-                        <androidx.appcompat.widget.AppCompatEditText
-                            style="@style/font_17_black85_black45"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/transparent"
-                            android:gravity="center_vertical"
-                            android:hint="@string/company_address_hint"
-                            android:text="@={vm.invoiceTitleAddParams.addressVal}" />
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="7dp"
+                            android:gravity="end"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                style="@style/font_17_black85_black45"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/transparent"
+                                android:gravity="center_vertical"
+                                android:maxLength="50"
+                                android:hint="@string/company_address_hint"
+                                android:text="@={vm.invoiceTitleAddParams.addressVal}" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/Font_14_66171A1D"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{vm.invoiceTitleAddParams.addressValNumVal}"
+                                tools:text="24/50" />
+                        </LinearLayout>
 
                     </LinearLayout>
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -326,8 +408,9 @@
             <com.yunshang.haile_manager_android.ui.view.CommonButton
                 android:id="@+id/btn_invoice_title_add_save"
                 style="@style/CommonMatchBtnStyle1"
-                android:enabled="@{vm.invoiceTitleAddParams.canSubmit}"
                 android:layout_marginHorizontal="16dp"
+                android:enabled="@{vm.invoiceTitleAddParams.canSubmit}"
+                android:onClick="@{vm::save}"
                 android:text="@string/save" />
         </FrameLayout>
     </LinearLayout>

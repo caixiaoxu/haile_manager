@@ -290,4 +290,16 @@ interface CapitalService {
     @POST("/invoice/template/list")
     suspend fun requestInvoiceTitleList(@Body body: RequestBody): ResponseWrapper<MutableList<InvoiceTitleEntity>>
 
+    /**
+     * 发票抬头新增接口
+     */
+    @POST("/invoice/template/create")
+    suspend fun createInvoiceTitle(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 发票抬头修改接口
+     */
+    @POST("/invoice/template/edit")
+    suspend fun updateInvoiceTitle(@Body body: RequestBody): ResponseWrapper<Any>
+
 }

@@ -495,6 +495,11 @@
         <item name="android:textColor">@color/color_FF5219</item>
     </style>
 
+    <style name="font_17_black25">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/color_black_25</item>
+    </style>
+
     <style name="font_17_black85">
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/color_black_85</item>

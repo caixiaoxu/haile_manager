@@ -75,13 +75,14 @@ class DeviceCreateV2Activity :
                             originCodeTrim
                         else SToast.showToast(this, R.string.imei_code_error1)
                     } else {
-                        mViewModel.codeStr = originCodeTrim
                         StringUtils.getPayImeiCode(originCodeTrim)?.let { code ->
+                            mViewModel.codeStr = originCodeTrim
                             mViewModel.payCode.value = code
                             mViewModel.imeiCode.value = code
                         } ?: run {
                             val payCode = StringUtils.getPayCode(originCodeTrim)
                             if (null != payCode) {
+                                mViewModel.codeStr = originCodeTrim
                                 mViewModel.payCode.value = payCode
                             } else if (StringUtils.isImeiCode(originCodeTrim)) {
                                 mViewModel.imeiCode.value = originCodeTrim

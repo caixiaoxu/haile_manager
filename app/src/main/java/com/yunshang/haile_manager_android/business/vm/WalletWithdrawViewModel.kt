@@ -154,13 +154,13 @@ class WalletWithdrawViewModel : BaseViewModel() {
         })
     }
 
-    fun withdraw(amount: String, callBack: (isSuccess: Boolean) -> Unit) {
+    fun withdraw(callBack: (isSuccess: Boolean) -> Unit) {
         launch({
             ApiRepository.dealApiResult(
                 mCapitalRepo.balanceWithdraw(
                     ApiRepository.createRequestBody(
                         hashMapOf(
-                            "withdrawAmount" to amount,
+                            "withdrawAmount" to withdrawAmount.value!!,
                             "cashOutAccountType" to withDrawType
                         )
                     )

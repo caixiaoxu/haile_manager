@@ -56,10 +56,6 @@ class ShopAppointmentSettingActivity :
 
     override fun initEvent() {
         super.initEvent()
-        mViewModel.selectShops.observe(this) {
-            mViewModel.requestData()
-        }
-
         mViewModel.appointmentSetting.observe(this) {
             mAdapter.refreshList(it.settingList, true)
         }

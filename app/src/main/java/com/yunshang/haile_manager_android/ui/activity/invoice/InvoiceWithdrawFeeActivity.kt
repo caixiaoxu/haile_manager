@@ -4,15 +4,17 @@ import android.graphics.Color
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.network.response.ResponseList
+import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.InvoiceWithdrawFeeViewModel
-import com.yunshang.haile_manager_android.data.entities.DeviceRepairsEntity
+import com.yunshang.haile_manager_android.data.entities.InvoiceUserEntity
 import com.yunshang.haile_manager_android.data.entities.InvoiceWithdrawFeeEntity
 import com.yunshang.haile_manager_android.databinding.ActivityInvoiceWithdrawFeeBinding
 import com.yunshang.haile_manager_android.databinding.ItemInvoiceWithdrawFeeBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
+import com.yunshang.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
@@ -72,6 +74,25 @@ class InvoiceWithdrawFeeActivity :
                 mViewModel.startTime.value,
                 mViewModel.endTime.value
             )
+        }
+        mBinding.tvInvoiceWithdrawFeeOperator.setOnClickListener {
+            mViewModel.invoiceUserList.value?.let { userList ->
+                MultiSelectBottomSheetDialog.Builder(
+                    StringUtils.getString(R.string.invoice_operator),
+                    userList
+                ).apply {
+                    isCanSelectEmpty = true
+                    onValueSureListener = object :
+                        MultiSelectBottomSheetDialog.OnValueSureListener<InvoiceUserEntity> {
+                        override fun onValue(
+                            selectData: List<InvoiceUserEntity>,
+                            allSelectData: List<InvoiceUserEntity>
+                        ) {
+                            mViewModel.selectInvoiceUserList.value = selectData
+                        }
+                    }
+                }.build().show(supportFragmentManager)
+            }
         }
 
         mBinding.rvInvoiceWithdrawFeeList.layoutManager = LinearLayoutManager(this)

@@ -588,6 +588,20 @@
     <string name="invoice_open_no">未开票</string>
     <string name="invoice_open_yes">已开票</string>
     <string name="add_invoice_title">新增发票抬头</string>
+    <string name="invoice_title_type">抬头类型</string>
+    <string name="invoice_title_type0">企业单位</string>
+    <string name="invoice_title_type1">个人</string>
+    <string name="invoice_title_hint">请填写公司名称</string>
+    <string name="company_number">公司税号</string>
+    <string name="company_number_hint">请填写公司税号</string>
+    <string name="open_bank_hint">请填写公司开户银行名称</string>
+    <string name="bank_account_hint">请填写公司开户银行账号</string>
+    <string name="company_phone">公司电话</string>
+    <string name="company_phone_hint">请填写公司联系电话</string>
+    <string name="company_address">公司地址</string>
+    <string name="company_address_hint">请填写公司地址</string>
+    <string name="setting_default_invoice_title">设为默认抬头</string>
+    <string name="setting_default_invoice_title_prompt">每次开票会默认填写该抬头信息</string>
 
     <string name="issue_coupons">发券</string>
     <string name="batch_invalid">批量作废</string>

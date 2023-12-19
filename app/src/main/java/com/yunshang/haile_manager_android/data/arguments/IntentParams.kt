@@ -1172,4 +1172,20 @@ object IntentParams {
         fun parseAutoWebTitle(intent: Intent): Boolean = intent.getBooleanExtra(AutoWebTitle, true)
         fun parseNoCache(intent: Intent): Boolean = intent.getBooleanExtra(NoCache, false)
     }
+
+    object InvoiceTitleParams {
+        private const val InvoiceTitle = "invoiceTitle"
+
+        /**
+         * 包装参数
+         */
+        fun pack(invoiceTitle: InvoiceTitleEntity?): Bundle =
+            Bundle().apply { putString(InvoiceTitle, GsonUtils.any2Json(invoiceTitle)) }
+
+        fun parseInvoiceTitle(intent: Intent): InvoiceTitleEntity? =
+            GsonUtils.json2Class(
+                intent.getStringExtra(InvoiceTitle),
+                InvoiceTitleEntity::class.java
+            )
+    }
 }

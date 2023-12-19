@@ -48,6 +48,7 @@
                 android:drawableEnd="@mipmap/icon_order_filter_triangle"
                 android:gravity="center"
                 android:hint="@string/invoice_operator"
+                android:text="@{vm.selectInvoiceUserVal}"
                 tools:text="提现人" />
 
         </LinearLayout>

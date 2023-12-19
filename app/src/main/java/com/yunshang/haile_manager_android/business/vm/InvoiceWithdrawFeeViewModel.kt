@@ -13,6 +13,7 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.data.entities.DeviceRepairsEntity
+import com.yunshang.haile_manager_android.data.entities.InvoiceUserEntity
 import com.yunshang.haile_manager_android.data.entities.InvoiceWithdrawFeeEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
@@ -83,12 +84,33 @@ class InvoiceWithdrawFeeViewModel : BaseViewModel() {
             if (list.isNotEmpty()) list.all { item -> 2 != item.invoiceStatus || item.selected } else false
     }
 
+    val invoiceUserList: MutableLiveData<List<InvoiceUserEntity>> by lazy {
+        MutableLiveData()
+    }
+
+    val selectInvoiceUserList: MutableLiveData<List<InvoiceUserEntity>> by lazy {
+        MutableLiveData()
+    }
+
+    val selectInvoiceUserVal: LiveData<String> = selectInvoiceUserList.map {
+        if (it.isNullOrEmpty()) ""
+        else "已选${it.size}个"
+    }
+
     fun requestInvoiceWithdrawFeeList(
         page: Int,
         pageSize: Int,
         callBack: (responseList: ResponseList<out InvoiceWithdrawFeeEntity>?) -> Unit
     ) {
         launch({
+            if (invoiceUserList.value.isNullOrEmpty()) {
+                ApiRepository.dealApiResult(
+                    mCapitalRepo.requestInvoiceUserList()
+                )?.let {
+                    invoiceUserList.postValue(it)
+                }
+            }
+
             val result = ApiRepository.dealApiResult(
                 mCapitalRepo.requestInvoiceCashOutList(
                     ApiRepository.createRequestBody(
@@ -97,6 +119,7 @@ class InvoiceWithdrawFeeViewModel : BaseViewModel() {
                             "pageSize" to pageSize,
                             "applyStartDate" to DateTimeUtils.formatDateTimeStartParam(startTime.value),
                             "applyEndDate" to DateTimeUtils.formatDateTimeStartParam(startTime.value),
+                            "accountIds" to selectInvoiceUserList.value?.mapNotNull { it.id }
                         )
                     )
                 )

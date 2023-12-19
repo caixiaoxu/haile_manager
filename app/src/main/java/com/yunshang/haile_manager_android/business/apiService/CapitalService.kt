@@ -278,4 +278,16 @@ interface CapitalService {
     @POST("/invoice/cashOut/list")
     suspend fun requestInvoiceCashOutList(@Body body: RequestBody): ResponseWrapper<ResponseList<InvoiceWithdrawFeeEntity>>
 
+    /**
+     * 发票提现人列表接口
+     */
+    @POST("/invoice/user/list")
+    suspend fun requestInvoiceUserList(): ResponseWrapper<MutableList<InvoiceUserEntity>>
+
+    /**
+     * 发票抬头列表接口
+     */
+    @POST("/invoice/template/list")
+    suspend fun requestInvoiceTitleList(@Body body: RequestBody): ResponseWrapper<MutableList<InvoiceTitleEntity>>
+
 }

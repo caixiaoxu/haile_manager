@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.InvoiceTitleAddViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.invoice.InvoiceTitleAddActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_invoice_title_add_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            app:title="@string/add_invoice_title" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:divider="@drawable/divder_efefef"
+                    app:dividerPadding="16dp"
+                    app:showDividers="middle">
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="16dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/font_17_black85"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/invoice_title_type" />
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/rb_invoice_title_add_type0"
+                            style="@style/font_17_black85"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:button="@null"
+                            android:checked="@={vm.invoiceTitleAddParams.invoiceTitleType0Val}"
+                            android:drawableStart="@drawable/selector_checked"
+                            android:drawablePadding="14dp"
+                            android:gravity="center_vertical"
+                            android:minHeight="0dp"
+                            android:text="@string/invoice_title_type0" />
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/rb_invoice_title_add_type1"
+                            style="@style/font_17_black85"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:button="@null"
+                            android:checked="@={vm.invoiceTitleAddParams.invoiceTitleType1Val}"
+                            android:drawableStart="@drawable/selector_checked"
+                            android:drawablePadding="14dp"
+                            android:gravity="center_vertical"
+                            android:minHeight="0dp"
+                            android:text="@string/invoice_title_type1" />
+                    </RadioGroup>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:gravity="top"
+                        android:paddingVertical="16dp"
+                        android:paddingEnd="16dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/font_17_ff5219"
+                            android:layout_width="16dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingEnd="2dp"
+                            android:text="*" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/font_17_black85"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/invoice_title" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            style="@style/font_17_black85_black45"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent"
+                            android:gravity="center_vertical"
+                            android:hint="@string/invoice_title_hint"
+                            android:text="@={vm.invoiceTitleAddParams.titleVal}" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:gravity="top"
+                        android:paddingVertical="16dp"
+                        android:paddingEnd="16dp"
+                        app:visibility="@{vm.invoiceTitleAddParams.invoiceTitleType0Val}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/font_17_ff5219"
+                            android:layout_width="16dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingEnd="2dp"
+                            android:text="*" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/font_17_black85"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/company_number" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            style="@style/font_17_black85_black45"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent"
+                            android:gravity="center_vertical"
+                            android:hint="@string/company_number_hint"
+                            android:text="@={vm.invoiceTitleAddParams.taxNoVal}" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:gravity="top"
+                        android:paddingHorizontal="16dp"
+                        android:paddingTop="16dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/font_17_black85"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/open_bank" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="7dp"
+                            android:gravity="end"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                style="@style/font_17_black85_black45"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/transparent"
+                                android:gravity="center_vertical"
+                                android:hint="@string/open_bank_hint"
+                                android:maxLength="50"
+                                android:text="@={vm.invoiceTitleAddParams.bankNameVal}" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/Font_14_66171A1D"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{vm.invoiceTitleAddParams.bankNameNumVal}"
+                                tools:text="24/50" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:gravity="top"
+                        android:padding="16dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/font_17_black85"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/bank_account" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            style="@style/font_17_black85_black45"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent"
+                            android:gravity="center_vertical"
+                            android:hint="@string/bank_account_hint"
+                            android:text="@={vm.invoiceTitleAddParams.bankAccountVal}" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:gravity="top"
+                        android:padding="16dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/font_17_black85"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/company_phone" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            style="@style/font_17_black85_black45"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent"
+                            android:gravity="center_vertical"
+                            android:hint="@string/company_phone_hint"
+                            android:inputType="phone"
+                            android:text="@={vm.invoiceTitleAddParams.phoneVal}" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:gravity="top"
+                        android:padding="16dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/font_17_black85"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/company_address" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            style="@style/font_17_black85_black45"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/transparent"
+                            android:gravity="center_vertical"
+                            android:hint="@string/company_address_hint"
+                            android:text="@={vm.invoiceTitleAddParams.addressVal}" />
+
+                    </LinearLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/white"
+                    android:padding="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_invoice_title_add_default_title"
+                        style="@style/font_17_black85"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/setting_default_invoice_title"
+                        app:layout_constraintEnd_toStartOf="@id/switch_invoice_title_add_default"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_invoice_title_add_default_prompt"
+                        style="@style/Font_14_black45"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/setting_default_invoice_title_prompt"
+                        app:layout_constraintEnd_toEndOf="@id/tv_invoice_title_add_default_title"
+                        app:layout_constraintStart_toStartOf="@id/tv_invoice_title_add_default_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_invoice_title_add_default_title" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_invoice_title_add_default"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={vm.invoiceTitleAddParams.isDefaultVal}"
+                        android:minHeight="0dp"
+                        android:thumb="@drawable/selector_default_switch_thumb"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:track="@drawable/selector_default_switch_track" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/page_bottom_h"
+            android:background="@drawable/shape_top_stroke_dividing"
+            android:paddingTop="12dp">
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_invoice_title_add_save"
+                style="@style/CommonMatchBtnStyle1"
+                android:layout_marginHorizontal="16dp"
+                android:text="@string/save" />
+        </FrameLayout>
+    </LinearLayout>
+</layout>

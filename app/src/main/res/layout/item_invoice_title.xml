@@ -23,7 +23,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="56dp"
-            android:text="@{item.name}"
+            android:text="@{item.title}"
             app:layout_constraintEnd_toStartOf="@id/iv_invoice_title_right"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

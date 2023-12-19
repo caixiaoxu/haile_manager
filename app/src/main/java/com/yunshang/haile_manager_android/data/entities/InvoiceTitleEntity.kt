@@ -23,22 +23,22 @@ data class InvoiceTitleEntity(
     var phone: String? = null,
     var address: String? = null,
     var isDefault: Int? = null,
-
-    val business: String? = null,
-    val context: String? = null,
-    val createTime: String? = null,
-    val creatorId: Int? = null,
-    val deleteFlag: Int? = null,
-    val email: String? = null,
     val id: Int? = null,
-    val lastEditor: Int? = null,
-    val name: String? = null,
-    val smsPhone: String? = null,
-    val taxpayer: String? = null,
-    val type: Int? = null,
-    val updateTime: String? = null,
-    val userId: Int? = null,
-    val version: Int? = null
+//
+//    val business: String? = null,
+//    val context: String? = null,
+//    val createTime: String? = null,
+//    val creatorId: Int? = null,
+//    val deleteFlag: Int? = null,
+//    val email: String? = null,
+//    val lastEditor: Int? = null,
+//    val name: String? = null,
+//    val smsPhone: String? = null,
+//    val taxpayer: String? = null,
+//    val type: Int? = null,
+//    val updateTime: String? = null,
+//    val userId: Int? = null,
+//    val version: Int? = null
 ) : BaseObservable() {
 
     @get:Bindable
@@ -47,6 +47,7 @@ data class InvoiceTitleEntity(
         set(value) {
             isPersonal = if (value) 0 else 1
             notifyPropertyChanged(BR.invoiceTitleType0Val)
+            notifyPropertyChanged(BR.canSubmit)
         }
 
     @get:Bindable
@@ -55,6 +56,7 @@ data class InvoiceTitleEntity(
         set(value) {
             isPersonal = if (value) 1 else 0
             notifyPropertyChanged(BR.invoiceTitleType1Val)
+            notifyPropertyChanged(BR.canSubmit)
         }
 
     @get:Bindable
@@ -63,6 +65,7 @@ data class InvoiceTitleEntity(
         set(value) {
             title = value
             notifyPropertyChanged(BR.titleVal)
+            notifyPropertyChanged(BR.canSubmit)
         }
 
     @get:Bindable
@@ -71,6 +74,7 @@ data class InvoiceTitleEntity(
         set(value) {
             taxNo = value
             notifyPropertyChanged(BR.taxNoVal)
+            notifyPropertyChanged(BR.canSubmit)
         }
 
     @get:Bindable
@@ -80,6 +84,7 @@ data class InvoiceTitleEntity(
             bankName = value
             notifyPropertyChanged(BR.bankNameVal)
             notifyPropertyChanged(BR.bankNameNumVal)
+            notifyPropertyChanged(BR.canSubmit)
         }
 
     @get:Bindable
@@ -92,6 +97,7 @@ data class InvoiceTitleEntity(
         set(value) {
             bankAccount = value
             notifyPropertyChanged(BR.bankAccountVal)
+            notifyPropertyChanged(BR.canSubmit)
         }
 
     @get:Bindable
@@ -100,6 +106,7 @@ data class InvoiceTitleEntity(
         set(value) {
             phone = value
             notifyPropertyChanged(BR.phoneVal)
+            notifyPropertyChanged(BR.canSubmit)
         }
 
     @get:Bindable
@@ -108,13 +115,22 @@ data class InvoiceTitleEntity(
         set(value) {
             address = value
             notifyPropertyChanged(BR.addressVal)
+            notifyPropertyChanged(BR.canSubmit)
         }
 
     @get:Bindable
-    var isDefaultVal: Boolean
+    var defaultVal: Boolean
         get() = 1 == isDefault
         set(value) {
             isDefault = if (value) 1 else 0
-            notifyPropertyChanged(BR.isDefaultVal)
+            notifyPropertyChanged(BR.defaultVal)
+            notifyPropertyChanged(BR.canSubmit)
         }
+
+    @get:Bindable
+    val canSubmit: Boolean
+        get() = null != isPersonal && !title.isNullOrEmpty() && !taxNo.isNullOrEmpty()
+                && !bankName.isNullOrEmpty() && !bankAccount.isNullOrEmpty() && !phone.isNullOrEmpty()
+                && !addressVal.isNullOrEmpty() && null != isDefault
+
 }

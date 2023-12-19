@@ -158,7 +158,8 @@
                         android:background="@color/white"
                         android:gravity="top"
                         android:paddingHorizontal="16dp"
-                        android:paddingTop="16dp">
+                        android:paddingTop="16dp"
+                        app:visibility="@{vm.invoiceTitleAddParams.invoiceTitleType0Val}">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/font_17_black85"
@@ -198,7 +199,8 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:gravity="top"
-                        android:padding="16dp">
+                        android:padding="16dp"
+                        app:visibility="@{vm.invoiceTitleAddParams.invoiceTitleType0Val}">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/font_17_black85"
@@ -222,7 +224,8 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:gravity="top"
-                        android:padding="16dp">
+                        android:padding="16dp"
+                        app:visibility="@{vm.invoiceTitleAddParams.invoiceTitleType0Val}">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/font_17_black85"
@@ -247,7 +250,8 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:gravity="top"
-                        android:padding="16dp">
+                        android:padding="16dp"
+                        app:visibility="@{vm.invoiceTitleAddParams.invoiceTitleType0Val}">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/font_17_black85"
@@ -301,7 +305,7 @@
                         android:id="@+id/switch_invoice_title_add_default"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="@={vm.invoiceTitleAddParams.isDefaultVal}"
+                        android:checked="@={vm.invoiceTitleAddParams.defaultVal}"
                         android:minHeight="0dp"
                         android:thumb="@drawable/selector_default_switch_thumb"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -322,6 +326,7 @@
             <com.yunshang.haile_manager_android.ui.view.CommonButton
                 android:id="@+id/btn_invoice_title_add_save"
                 style="@style/CommonMatchBtnStyle1"
+                android:enabled="@{vm.invoiceTitleAddParams.canSubmit}"
                 android:layout_marginHorizontal="16dp"
                 android:text="@string/save" />
         </FrameLayout>

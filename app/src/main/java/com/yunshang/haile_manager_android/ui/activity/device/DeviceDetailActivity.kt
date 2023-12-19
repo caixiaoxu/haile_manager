@@ -53,7 +53,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                         val positionId = IntentParams.ShopPositionSelectorParams.parseSelectList(
                             intent
                         )?.firstOrNull()?.positionList?.firstOrNull()?.id
-                        mViewModel.transferDevice(positionId)
+                        mViewModel.transferDevice(this@DeviceDetailActivity,positionId)
                     }
                 }
                 IntentParams.DeviceParamsUpdateParams.ResultCode -> {

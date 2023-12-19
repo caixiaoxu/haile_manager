@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.business.vm
 
+import android.content.Context
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -550,7 +551,7 @@ class DeviceDetailModel : BaseViewModel() {
         })
     }
 
-    fun transferDevice(positionId: Int?) {
+    fun transferDevice(context: Context, positionId: Int?) {
         if (null == positionId || !goodsId.hasVal()) return
         launch({
             ApiRepository.dealApiResult(
@@ -568,6 +569,9 @@ class DeviceDetailModel : BaseViewModel() {
             LiveDataBus.post(BusEvents.SHOP_LIST_STATUS, true)
 
             requestDeviceDetails()
+            withContext(Dispatchers.Main) {
+                SToast.showToast(context, R.string.operate_success)
+            }
         })
     }
 }

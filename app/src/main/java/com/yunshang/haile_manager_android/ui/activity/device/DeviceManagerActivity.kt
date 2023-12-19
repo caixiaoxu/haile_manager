@@ -56,6 +56,8 @@ import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.BitmapUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
@@ -116,6 +118,7 @@ class DeviceManagerActivity :
 
                         val selectItems = mAdapter.list.filter { item -> item.selected }
                         mViewModel.transferDevice(positionId, selectItems.map { item -> item.id }) {
+                            SToast.showToast(this@DeviceManagerActivity, R.string.operate_success)
                             mViewModel.isBatch.value = false
                             Handler(Looper.getMainLooper()).postDelayed({
                                 mBinding.rvDeviceManagerList.requestRefresh()
@@ -131,7 +134,7 @@ class DeviceManagerActivity :
             if (0 == it) {
                 transferDevices()
             } else {
-                CommonDialog.Builder("该设备存在关联设备，转移操作，会同步转移关联的设备。若不需要则请先解除关联").apply {
+                CommonDialog.Builder("选中设备的关联设备未被选中，转移操作，会同步转移关联的设备。若不需要则请先解除关联").apply {
                     title = StringUtils.getString(R.string.tip)
                     negativeTxt = StringUtils.getString(R.string.cancel)
                     setPositiveButton(StringUtils.getString(R.string.sure)) {

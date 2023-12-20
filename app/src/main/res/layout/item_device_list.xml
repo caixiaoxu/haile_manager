@@ -247,6 +247,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_strokeblack25_r4"
                     android:paddingHorizontal="4dp"
+                    app:visibility="@{item.formatVal.length() > 0}"
                     android:text="@{item.formatVal}"
                     tools:text="持续运行23小时" />
             </androidx.appcompat.widget.LinearLayoutCompat>

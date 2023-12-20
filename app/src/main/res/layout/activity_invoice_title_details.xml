@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.yunshang.haile_manager_android.business.vm.InvoiceTitleDetailsViewModel" />
@@ -29,45 +31,50 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             android:background="@drawable/shape_ffffff_r8"
-            android:padding="12dp"
             android:orientation="vertical"
+            android:padding="12dp"
             app:divider="@drawable/divide_size4"
             app:showDividers="middle">
 
             <include
                 layout="@layout/item_invoice_title_details"
-                app:title="@{@string/invoice_title_type}"
-                app:content="@{vm.invoiceTitle.isPersonalVal}"/>
+                app:content="@{vm.invoiceTitle.isPersonalVal()}"
+                app:title="@{@string/invoice_title_type}" />
 
             <include
                 layout="@layout/item_invoice_title_details"
-                app:title="@{@string/invoice_title_type}"
-                app:content="@{vm.invoiceTitle.titleVal}"/>
+                app:content="@{vm.invoiceTitle.titleVal}"
+                app:title="@{@string/invoice_title_type}" />
 
             <include
                 layout="@layout/item_invoice_title_details"
-                app:title="@{@string/invoice_title_type}"
-                app:content="@{vm.invoiceTitle.taxNoVal}"/>
+                android:visibility="@{vm.invoiceTitle.invoiceTitleType0Val?View.VISIBLE:View.GONE}"
+                app:content="@{vm.invoiceTitle.taxNoVal}"
+                app:title="@{@string/invoice_title_type}" />
 
             <include
                 layout="@layout/item_invoice_title_details"
-                app:title="@{@string/company_number}"
-                app:content="@{vm.invoiceTitle.bankNameVal}"/>
+                android:visibility="@{vm.invoiceTitle.invoiceTitleType0Val?View.VISIBLE:View.GONE}"
+                app:content="@{vm.invoiceTitle.bankNameVal}"
+                app:title="@{@string/company_number}" />
 
             <include
                 layout="@layout/item_invoice_title_details"
-                app:title="@{@string/open_bank}"
-                app:content="@{vm.invoiceTitle.bankAccountVal}"/>
+                android:visibility="@{vm.invoiceTitle.invoiceTitleType0Val?View.VISIBLE:View.GONE}"
+                app:content="@{vm.invoiceTitle.bankAccountVal}"
+                app:title="@{@string/open_bank}" />
 
             <include
                 layout="@layout/item_invoice_title_details"
-                app:title="@{@string/bank_account}"
-                app:content="@{vm.invoiceTitle.phoneVal}"/>
+                android:visibility="@{vm.invoiceTitle.invoiceTitleType0Val?View.VISIBLE:View.GONE}"
+                app:content="@{vm.invoiceTitle.phoneVal}"
+                app:title="@{@string/bank_account}" />
 
             <include
                 layout="@layout/item_invoice_title_details"
-                app:title="@{@string/company_address}"
-                app:content="@{vm.invoiceTitle.addressVal}"/>
+                android:visibility="@{vm.invoiceTitle.invoiceTitleType0Val?View.VISIBLE:View.GONE}"
+                app:content="@{vm.invoiceTitle.addressVal}"
+                app:title="@{@string/company_address}" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </LinearLayout>

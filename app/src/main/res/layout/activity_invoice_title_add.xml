@@ -67,7 +67,7 @@
                             android:gravity="center_vertical"
                             tools:text="企业单位"
                             tools:visibility="gone"
-                            android:text="@{vm.invoiceTitleAddParams.isPersonalVal}"
+                            android:text="@{vm.invoiceTitleAddParams.isPersonalVal()}"
                             app:visibility="@{null != vm.invoiceTitleAddParams.id}" />
 
                         <androidx.appcompat.widget.AppCompatRadioButton

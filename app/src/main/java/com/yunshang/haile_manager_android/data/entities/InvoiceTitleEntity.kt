@@ -61,9 +61,8 @@ data class InvoiceTitleEntity(
             notifyPropertyChanged(BR.canSubmit)
         }
 
-    @get:Bindable
-    val isPersonalVal: String
-        get() = StringUtils.getString(if (1 == isPersonal) R.string.invoice_title_type1 else R.string.invoice_title_type0)
+    fun isPersonalVal(): String =
+        StringUtils.getString(if (1 == isPersonal) R.string.invoice_title_type1 else R.string.invoice_title_type0)
 
     @get:Bindable
     var titleVal: String

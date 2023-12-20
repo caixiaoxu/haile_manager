@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.ui.activity.invoice
 
+import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -116,6 +117,10 @@ class InvoiceWithdrawFeeActivity :
                 resetSelectBatchNum()
             }
             true
+        }
+
+        mBinding.btnInvoiceWithdrawFeeOpen.setOnClickListener {
+            startActivity(Intent(this@InvoiceWithdrawFeeActivity, IssueInvoiceActivity::class.java))
         }
     }
 

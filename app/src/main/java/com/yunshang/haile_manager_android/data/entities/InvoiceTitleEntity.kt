@@ -26,6 +26,7 @@ data class InvoiceTitleEntity(
     var address: String? = null,
     var isDefault: Int? = null,
     val id: Int? = null,
+    val type: Int? = null,
 //
 //    val business: String? = null,
 //    val context: String? = null,
@@ -37,7 +38,6 @@ data class InvoiceTitleEntity(
 //    val name: String? = null,
 //    val smsPhone: String? = null,
 //    val taxpayer: String? = null,
-//    val type: Int? = null,
 //    val updateTime: String? = null,
 //    val userId: Int? = null,
 //    val version: Int? = null
@@ -63,6 +63,8 @@ data class InvoiceTitleEntity(
 
     fun isPersonalVal(): String =
         StringUtils.getString(if (1 == isPersonal) R.string.invoice_title_type1 else R.string.invoice_title_type0)
+    fun typeVal(): String =
+        StringUtils.getString(if (2 == type) R.string.invoice_type2 else R.string.invoice_type1)
 
     @get:Bindable
     var titleVal: String

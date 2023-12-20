@@ -44,31 +44,31 @@
             <include
                 layout="@layout/item_invoice_title_details"
                 app:content="@{vm.invoiceTitle.titleVal}"
-                app:title="@{@string/invoice_title_type}" />
+                app:title="@{@string/invoice_title}" />
 
             <include
                 layout="@layout/item_invoice_title_details"
                 android:visibility="@{vm.invoiceTitle.invoiceTitleType0Val?View.VISIBLE:View.GONE}"
                 app:content="@{vm.invoiceTitle.taxNoVal}"
-                app:title="@{@string/invoice_title_type}" />
-
-            <include
-                layout="@layout/item_invoice_title_details"
-                android:visibility="@{vm.invoiceTitle.invoiceTitleType0Val?View.VISIBLE:View.GONE}"
-                app:content="@{vm.invoiceTitle.bankNameVal}"
                 app:title="@{@string/company_number}" />
 
             <include
                 layout="@layout/item_invoice_title_details"
                 android:visibility="@{vm.invoiceTitle.invoiceTitleType0Val?View.VISIBLE:View.GONE}"
-                app:content="@{vm.invoiceTitle.bankAccountVal}"
+                app:content="@{vm.invoiceTitle.bankNameVal}"
                 app:title="@{@string/open_bank}" />
 
             <include
                 layout="@layout/item_invoice_title_details"
                 android:visibility="@{vm.invoiceTitle.invoiceTitleType0Val?View.VISIBLE:View.GONE}"
-                app:content="@{vm.invoiceTitle.phoneVal}"
+                app:content="@{vm.invoiceTitle.bankAccountVal}"
                 app:title="@{@string/bank_account}" />
+
+            <include
+                layout="@layout/item_invoice_title_details"
+                android:visibility="@{vm.invoiceTitle.invoiceTitleType0Val?View.VISIBLE:View.GONE}"
+                app:content="@{vm.invoiceTitle.phoneVal}"
+                app:title="@{@string/company_phone}" />
 
             <include
                 layout="@layout/item_invoice_title_details"

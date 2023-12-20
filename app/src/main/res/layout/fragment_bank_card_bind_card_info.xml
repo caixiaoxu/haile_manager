@@ -131,8 +131,9 @@
                 <com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
                     android:id="@+id/item_bank_card_bind_card_open_bank_phone"
                     style="@style/MultiTypeItemStyle"
+                    android:digits="0123456789"
                     android:inputType="phone"
-                    android:maxLength="12"
+                    android:maxLength="13"
                     app:itemContent="@={parentVm.bankCardParams.bankMobileNoVal}"
                     app:title="@string/open_bank_phone"
                     app:type="input" />

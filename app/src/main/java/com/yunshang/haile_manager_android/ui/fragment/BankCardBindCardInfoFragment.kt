@@ -56,8 +56,7 @@ class BankCardBindCardInfoFragment :
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == AppCompatActivity.RESULT_OK) {
                 it.data?.let { intent ->
-                    val type = IntentParams.SearchLetterParams.parseSearchLetterType(intent)
-                    when (type) {
+                    when (IntentParams.SearchLetterParams.parseSearchLetterType(intent)) {
                         0 -> {
                             GsonUtils.json2Class(
                                 IntentParams.SearchLetterParams.parseResultData(intent),

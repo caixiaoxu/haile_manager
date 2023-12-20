@@ -244,4 +244,10 @@ interface ShopService {
      */
     @GET("/position/getLatest")
     suspend fun requestLastPositionDetails(@Query("shopId") shopId: Int?): ResponseWrapper<ShopPositionDetailEntity>
+
+    /**
+     * 批量附近下单设置
+     */
+    @POST("/shop/batchSaveNearOrderSetting")
+    suspend fun saveBatchNearByOrderSetting(@Body body: RequestBody): ResponseWrapper<Any>
 }

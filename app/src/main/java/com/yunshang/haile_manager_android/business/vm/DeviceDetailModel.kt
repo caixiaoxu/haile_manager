@@ -178,7 +178,7 @@ class DeviceDetailModel : BaseViewModel() {
         ItemShowParam(
             R.string.change_model,
             R.mipmap.icon_device_change_model,
-            MutableLiveData(true)
+            MutableLiveData(UserPermissionUtils.hasDeviceUpdateModulePermission())
         ) {
             // 更换模块事件
             jump.postValue(3)

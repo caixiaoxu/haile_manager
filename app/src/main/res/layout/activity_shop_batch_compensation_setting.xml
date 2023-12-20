@@ -45,7 +45,7 @@
                 android:layout_marginStart="74dp"
                 android:drawableEnd="@drawable/icon_arrow_right"
                 android:gravity="center_vertical"
-                android:hint="@string/select_shops_hint"
+                android:hint="@string/please_select"
                 android:text="@{vm.selectShopNames}" />
         </LinearLayout>
 
@@ -95,8 +95,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:paddingHorizontal="16dp"
-            android:paddingVertical="16dp"
-            app:visibility="@{null != vm.selectShops}">
+            android:paddingVertical="16dp">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_shop_compensation_money_operation_setting_title"

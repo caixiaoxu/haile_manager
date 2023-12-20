@@ -212,7 +212,6 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:paddingHorizontal="16dp"
-                    android:paddingTop="10dp"
                     android:paddingBottom="16dp"
                     tools:visibility="gone"
                     app:visibility="@{vm.operationSettingDetail.showItem5 &amp;&amp; vm.operationSettingDetail.showItem5Content}">
@@ -348,6 +347,59 @@
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    style="@style/Font_16_333333_bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shape_bottom_stroke_dividing"
+                    android:button="@null"
+                    android:checked="@={vm.operationSettingDetail.showItem6Content}"
+                    android:drawableEnd="@{vm.operationSettingDetail.showItem6Content?@drawable/icon_arrow_down_with_padding:@drawable/icon_arrow_right_with_padding}"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp"
+                    android:text="@string/near_by_order_setting"
+                    app:visibility="@{vm.operationSettingDetail.showItem6}" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingHorizontal="16dp"
+                    android:paddingBottom="16dp"
+                    tools:visibility="visible"
+                    app:visibility="@{vm.operationSettingDetail.showItem6 &amp;&amp; vm.operationSettingDetail.showItem6Content}">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_near_by_order_setting_title"
+                        style="@style/Font_16_333333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/near_by_order_setting_name"
+                        app:layout_constraintEnd_toStartOf="@id/switch_shop_near_by_order_setting"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="@id/switch_shop_near_by_order_setting"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_shop_near_by_order_setting"
+                        style="@style/CustomSwitchStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={vm.operationSettingDetail.nearOrderSettingsForm.volumeVisibleStateVal}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Font_12_999999"
+                        android:text="@string/near_by_order_setting_prompt"
+                        app:layout_constraintTop_toBottomOf="@id/switch_shop_near_by_order_setting" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                     style="@style/Font_16_333333_bold"

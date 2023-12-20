@@ -400,6 +400,10 @@
     <string name="per_flow_charge_display_setting_name_prompt">饮水和淋浴有该设置，只针对用户看到的订单内容</string>
     <string name="self_clean_setting_name">洗衣机/洗鞋机支付前免费筒自洁</string>
     <string name="self_clean_setting_prompt">开启后，洗衣机/洗鞋机订单（非筒自洁功能），在支付前可使用免费的筒自洁功能，然后再支付去启动订单中的洗衣/洗鞋功能</string>
+    <string name="near_by_order_setting">附近下单设置</string>
+    <string name="batch_near_by_order_setting">批量附近下单设置</string>
+    <string name="near_by_order_setting_name">通过附近营业点下单</string>
+    <string name="near_by_order_setting_prompt">针对洗衣机、洗鞋机和烘干机，通过附近营业点可下单使用</string>
 
     <string name="order_manager">订单管理</string>
     <string name="order_search_hint">搜索手机号/订单编号/IMEI</string>

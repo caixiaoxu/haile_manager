@@ -21,8 +21,10 @@ data class ShopOperationSettingEntity(
     val compensationSetting: OperationCompensationSetting? = null,
     val appointSetting: AppointmentSettingEntity? = null,
     val operationSetting: OperationFlowSetting? = null,
-    var freeSelfClearSettingDetailDTO: FreeSelfClearSettings? = null
+    var nearOrderSettingDetailDTO: NearOrderSettings? = null,
+    var freeSelfClearSettingDetailDTO: FreeSelfClearSettings? = null,
 ) : BaseObservable() {
+    var nearOrderSettingsForm: NearOrderSettings? = null
     var freeSelfClearSettingsForm: FreeSelfClearSettings? = null
 
     @Transient
@@ -104,6 +106,22 @@ data class ShopOperationSettingEntity(
             field = value
             notifyPropertyChanged(BR.showItem5Content)
         }
+
+    @Transient
+    @get:Bindable
+    var showItem6: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.showItem6)
+        }
+
+    @Transient
+    @get:Bindable
+    var showItem6Content: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.showItem6Content)
+        }
 }
 
 data class OperationCompensationSetting(
@@ -147,6 +165,21 @@ data class OperationFlowSetting(
     val shopId: Int? = null,
     var volumeVisibleState: Int? = 1
 ) : BaseObservable() {
+    var shopIdList: IntArray? = null
+
+    @get:Bindable
+    var volumeVisibleStateVal: Boolean
+        get() = 1 == volumeVisibleState
+        set(value) {
+            volumeVisibleState = if (value) 1 else 0
+            notifyPropertyChanged(BR.volumeVisibleStateVal)
+        }
+}
+
+data class NearOrderSettings(
+    val shopId: Int? = null,
+    var volumeVisibleState: Int? = null
+): BaseObservable() {
     var shopIdList: IntArray? = null
 
     @get:Bindable

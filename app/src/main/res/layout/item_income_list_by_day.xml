@@ -18,7 +18,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_income_list_order_no"
-            style="@style/Font_16_333333_bold"
+            style="@style/font_17_black85_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{item.shopName}"

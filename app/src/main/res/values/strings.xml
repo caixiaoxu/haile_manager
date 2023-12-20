@@ -600,6 +600,9 @@
     <string name="invoice_type">发票类型</string>
     <string name="invoice_type1">增值税专用发票（电子）</string>
     <string name="invoice_type2">增值税专用发票（纸质）</string>
+    <string name="addressee">收件人</string>
+    <string name="addressee_hint">请填写收件人姓名</string>
+    <string name="addressee_phone_hint">请填写收件人电话</string>
     <string name="invoice_title_type">抬头类型</string>
     <string name="invoice_title_type0">企业单位</string>
     <string name="invoice_title_type1">个人</string>

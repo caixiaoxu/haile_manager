@@ -23,6 +23,7 @@ data class BankCardDetailEntity(
     var bankAccountNo: String? = null,
     var bankCardImage: String? = null,
     var bankCityId: Int? = null,
+    var bankId: Int? = null,
     var bankCode: String? = null,
     var bankDistrictId: Int? = null,
     var bankMobileNo: String? = null,

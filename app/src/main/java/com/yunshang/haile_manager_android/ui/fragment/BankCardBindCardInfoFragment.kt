@@ -57,26 +57,31 @@ class BankCardBindCardInfoFragment :
             if (it.resultCode == AppCompatActivity.RESULT_OK) {
                 it.data?.let { intent ->
                     val type = IntentParams.SearchLetterParams.parseSearchLetterType(intent)
-                    if (0 == type) {
-                        GsonUtils.json2Class(
-                            IntentParams.SearchLetterParams.parseResultData(intent),
-                            BankEntity::class.java
-                        )?.let { bank ->
-                            mActivityViewModel.bankCardParams.value?.bankCodeVal = bank.bankCode
-                            mActivityViewModel.bankCardParams.value?.bankNameVal = bank.bankName
+                    when (type) {
+                        0 -> {
+                            GsonUtils.json2Class(
+                                IntentParams.SearchLetterParams.parseResultData(intent),
+                                BankEntity::class.java
+                            )?.let { bank ->
+                                mActivityViewModel.bankCardParams.value?.bankId = bank.bankId
+                                mActivityViewModel.bankCardParams.value?.bankCodeVal = bank.bankCode
+                                mActivityViewModel.bankCardParams.value?.bankNameVal = bank.bankName
+                            }
                         }
-                    } else if (1 == type) {
-                        GsonUtils.json2Class(
-                            IntentParams.SearchLetterParams.parseResultData(intent),
-                            SubBankEntity::class.java
-                        )?.let { subBank ->
-                            mActivityViewModel.bankCardParams.value?.subBankCodeVal =
-                                subBank.subBankCode
-                            mActivityViewModel.bankCardParams.value?.subBankNameVal =
-                                subBank.subBankName
+                        1 -> {
+                            GsonUtils.json2Class(
+                                IntentParams.SearchLetterParams.parseResultData(intent),
+                                SubBankEntity::class.java
+                            )?.let { subBank ->
+                                mActivityViewModel.bankCardParams.value?.subBankCodeVal =
+                                    subBank.subBankCode
+                                mActivityViewModel.bankCardParams.value?.subBankNameVal =
+                                    subBank.subBankName
+                            }
                         }
-                    } else {
+                        else -> {
 
+                        }
                     }
                 }
             }
@@ -163,14 +168,20 @@ class BankCardBindCardInfoFragment :
                         imageView,
                         bankCard.licenceForOpeningAccountImage,
                         R.mipmap.icon_open_bank_licence
-                    ).transform(CenterCrop(), RoundedCorners(DimensionUtils.dip2px(requireContext(), 8f)))
+                    ).transform(
+                        CenterCrop(),
+                        RoundedCorners(DimensionUtils.dip2px(requireContext(), 8f))
+                    )
                         .into(imageView)
                 } else {
                     GlideUtils.glideDefaultFactory(
                         imageView,
                         bankCard.bankCardImage,
                         R.mipmap.icon_open_bank_card_pic
-                    ).transform(CenterCrop(), RoundedCorners(DimensionUtils.dip2px(requireContext(), 8f)))
+                    ).transform(
+                        CenterCrop(),
+                        RoundedCorners(DimensionUtils.dip2px(requireContext(), 8f))
+                    )
                         .into(imageView)
                 }
             }

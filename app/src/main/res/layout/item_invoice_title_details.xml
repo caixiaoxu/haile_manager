@@ -11,7 +11,7 @@
 
         <variable
             name="content"
-            type="java.lang.String" />
+            type="java.lang.CharSequence" />
     </data>
 
     <LinearLayout
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:gravity="top"
         android:orientation="horizontal"
-        app:visibility="@{content.length() > 0}">
+        app:visibility="@{null != content &amp;&amp; content.length() > 0}">
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/Font_14_black45"

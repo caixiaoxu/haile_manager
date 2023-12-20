@@ -9,6 +9,7 @@ import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.InvoiceWithdrawFeeViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.InvoiceUserEntity
 import com.yunshang.haile_manager_android.data.entities.InvoiceWithdrawFeeEntity
 import com.yunshang.haile_manager_android.databinding.ActivityInvoiceWithdrawFeeBinding
@@ -120,13 +121,19 @@ class InvoiceWithdrawFeeActivity :
         }
 
         mBinding.btnInvoiceWithdrawFeeOpen.setOnClickListener {
-            startActivity(Intent(this@InvoiceWithdrawFeeActivity, IssueInvoiceActivity::class.java))
+            startActivity(
+                Intent(
+                    this@InvoiceWithdrawFeeActivity,
+                    IssueInvoiceActivity::class.java
+                ).apply {
+                    putExtras(IntentParams.IssueInvoiceParams.pack(mAdapter.list.filter { it.selected }))
+                })
         }
     }
 
     private fun selectAll() {
         mAdapter.list.forEach {
-            it.selected = true
+            it.selected = 2 != it.invoiceStatus
         }
         mViewModel.refreshSelectBatchNum(mAdapter.list)
     }

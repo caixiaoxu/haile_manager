@@ -6,10 +6,6 @@
     <data>
 
         <variable
-            name="isBatch"
-            type="java.lang.Boolean" />
-
-        <variable
             name="item"
             type="com.yunshang.haile_manager_android.data.entities.InvoiceWithdrawFeeEntity" />
     </data>
@@ -31,8 +27,7 @@
             android:button="@null"
             android:checked="@{item.selected}"
             android:drawableStart="@drawable/selector_checked"
-            android:enabled="@{2 != item.invoiceStatus}"
-            app:visibility="@{isBatch}" />
+            android:enabled="@{2 != item.invoiceStatus}" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -59,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{2 == item.invoiceStatus?@string/invoice_open_yes:@string/invoice_open_no}"
-                android:textColor="@{2 == item.invoiceStatus?@color/colorPrimary:@color/color_black_85}"
+                android:textColor="@{2 == item.invoiceStatus?@color/color_black_85:@color/colorPrimary}"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_invoice_withdraw_fee_device_name"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +64,8 @@
             <View
                 style="@style/DividingStyle"
                 app:layout_constraintBottom_toTopOf="@id/tv_invoice_withdraw_fee_path"
-                app:layout_constraintTop_toBottomOf="@id/tv_invoice_withdraw_fee_device_name" />
+                app:layout_constraintTop_toBottomOf="@id/tv_invoice_withdraw_fee_device_name"
+                tools:ignore="MissingConstraints" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_invoice_withdraw_fee_path"
@@ -79,7 +75,7 @@
                 android:layout_marginTop="32dp"
                 android:drawableStart="@mipmap/icon_invoice_withdraw_fee_path"
                 android:drawablePadding="4dp"
-                android:text=""
+                android:text="@{item.cashOutTypeVal}"
                 app:layout_constraintTop_toBottomOf="@id/tv_invoice_withdraw_fee_device_name"
                 tools:text="余额提现-支付宝" />
 
@@ -91,6 +87,7 @@
                 android:layout_marginTop="6dp"
                 android:drawableStart="@mipmap/icon_invoice_withdraw_fee_operator"
                 android:drawablePadding="4dp"
+                android:text='@{@string/invoice_operator + "（" + item.account +"）"}'
                 app:layout_constraintTop_toBottomOf="@id/tv_invoice_withdraw_fee_path"
                 tools:text="提现人（14444444444）" />
 
@@ -102,6 +99,7 @@
                 android:layout_marginTop="6dp"
                 android:drawableStart="@mipmap/icon_invoice_withdraw_fee_time"
                 android:drawablePadding="4dp"
+                android:text="@{item.applyTime}"
                 app:layout_constraintTop_toBottomOf="@id/tv_invoice_withdraw_fee_operator"
                 tools:text="2023-01-11 08:08:22" />
 

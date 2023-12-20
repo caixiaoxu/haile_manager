@@ -74,7 +74,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/transparent"
                 android:button="@null"
-                android:checked="@{vm.isAll}"
+                android:checked="@={vm.isAll}"
                 android:drawableStart="@drawable/selector_checked"
                 android:drawablePadding="14dp"
                 android:gravity="center"

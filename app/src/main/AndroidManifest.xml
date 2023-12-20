@@ -41,7 +41,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".IssueInvoiceActivity"
+            android:name=".ui.activity.invoice.IssueInvoiceActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.invoice.InvoiceTitleDetailsActivity"

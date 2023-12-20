@@ -2,7 +2,9 @@ package com.yunshang.haile_manager_android.data.entities
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
+import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
+import com.yunshang.haile_manager_android.R
 
 /**
  * Title :
@@ -21,12 +23,14 @@ data class InvoiceWithdrawFeeEntity(
     val applyTime: String? = null,
     val cashOutAccount: String? = null,
     val cashOutNo: String? = null,
-    val fee: String? = null,
+    val fee: Double = 0.0,
     val invoiceCreateTime: String? = null,
     val invoiceCreatorId: Int? = null,
     val invoiceCreatorName: String? = null,
-    val invoiceStatus: Int? = null
+    val invoiceStatus: Int? = null,
+    val cashOutType: String? = null
 ) : BaseObservable() {
+
     @Transient
     @get:Bindable
     var selected: Boolean = false
@@ -34,4 +38,7 @@ data class InvoiceWithdrawFeeEntity(
             field = value
             notifyPropertyChanged(BR.selected)
         }
+
+    fun cashOutTypeVal() =
+        if ("3" == cashOutType) "银行卡提现" else if ("1" == cashOutType || "2" == cashOutType) "余额提现" else ""
 }

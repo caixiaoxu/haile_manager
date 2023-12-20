@@ -161,8 +161,9 @@
                     android:paddingVertical="12dp">
 
                     <include
+                        android:id="@+id/include_issue_invoice_total"
                         layout="@layout/item_invoice_title_details"
-                        app:content="@{vm.invoiceTitle.addressVal}"
+                        app:content="@{vm.feeTotal}"
                         app:title="@{@string/total_amount1}" />
 
                     <include

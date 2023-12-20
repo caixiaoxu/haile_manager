@@ -473,16 +473,52 @@ class HomeFragment :
                 mViewModel.funcList.value = list.apply { this[3].isShow = it }
             }
         }
+        // 人员权限
+        mSharedViewModel.hasAnnouncementPermission.observe(this) {
+            mViewModel.funcList.value?.let { list ->
+                mViewModel.funcList.value = list.apply { this[5].isShow = it }
+            }
+        }
+        // 设备报修权限
+        mSharedViewModel.hasAnnouncementPermission.observe(this) {
+            mViewModel.funcList.value?.let { list ->
+                mViewModel.funcList.value = list.apply { this[6].isShow = it }
+            }
+        }
         // 优惠权限
         mSharedViewModel.hasMarketingPermission.observe(this) {
             mViewModel.marketingList.value?.let { list ->
                 mViewModel.marketingList.value = list.apply { this[0].isShow = it }
             }
         }
+        // 海星权限
+        mSharedViewModel.hasVipPermission.observe(this) {
+            mViewModel.marketingList.value?.let { list ->
+                mViewModel.marketingList.value = list.apply { this[1].isShow = it }
+            }
+        }
+        // 发券权限
+        mSharedViewModel.hasSendCouponPermission.observe(this) {
+            mViewModel.marketingList.value?.let { list ->
+                mViewModel.marketingList.value = list.apply { this[2].isShow = it }
+            }
+        }
+        // 券管理权限
+        mSharedViewModel.hasCouponListPermission.observe(this) {
+            mViewModel.marketingList.value?.let { list ->
+                mViewModel.marketingList.value = list.apply { this[3].isShow = it }
+            }
+        }
         // 分账权限
         mSharedViewModel.hasDistributionPermission.observe(this) {
             mViewModel.capitalList.value?.let { list ->
                 mViewModel.capitalList.value = list.apply { this[0].isShow = it }
+            }
+        }
+        // 发票权限
+        mSharedViewModel.hasInvoicePermission.observe(this) {
+            mViewModel.capitalList.value?.let { list ->
+                mViewModel.capitalList.value = list.apply { this[1].isShow = it }
             }
         }
 

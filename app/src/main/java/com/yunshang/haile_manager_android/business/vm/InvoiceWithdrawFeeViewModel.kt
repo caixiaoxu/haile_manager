@@ -81,7 +81,7 @@ class InvoiceWithdrawFeeViewModel : BaseViewModel() {
     fun refreshSelectBatchNum(list: MutableList<InvoiceWithdrawFeeEntity>) {
         selectBatchNum.value = list.count { item -> item.selected }
         isAll.value =
-            if (list.isNotEmpty()) list.all { item -> 2 != item.invoiceStatus || item.selected } else false
+            if (list.isNotEmpty()) list.all { item -> 2 == item.invoiceStatus || item.selected } else false
     }
 
     val invoiceUserList: MutableLiveData<List<InvoiceUserEntity>> by lazy {
@@ -118,7 +118,7 @@ class InvoiceWithdrawFeeViewModel : BaseViewModel() {
                             "page" to page,
                             "pageSize" to pageSize,
                             "applyStartDate" to DateTimeUtils.formatDateTimeStartParam(startTime.value),
-                            "applyEndDate" to DateTimeUtils.formatDateTimeStartParam(startTime.value),
+                            "applyEndDate" to DateTimeUtils.formatDateTimeEndParam(endTime.value),
                             "accountIds" to selectInvoiceUserList.value?.mapNotNull { it.id }
                         )
                     )

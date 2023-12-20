@@ -1,8 +1,14 @@
 package com.yunshang.haile_manager_android.business.vm
 
+import android.text.style.ForegroundColorSpan
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.MutableLiveData
+import com.lsy.framelib.data.constants.Constants
 import com.lsy.framelib.ui.base.BaseViewModel
+import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.entities.InvoiceTitleEntity
+import com.yunshang.haile_manager_android.data.entities.InvoiceWithdrawFeeEntity
+import com.yunshang.haile_manager_android.utils.StringUtils
 
 /**
  * Title :
@@ -16,9 +22,26 @@ import com.yunshang.haile_manager_android.data.entities.InvoiceTitleEntity
  */
 class IssueInvoiceViewModel : BaseViewModel() {
 
+    var selectFeeList: List<InvoiceWithdrawFeeEntity>? = null
+
     val isFold: MutableLiveData<Boolean> = MutableLiveData(true)
 
     val invoiceTitle: MutableLiveData<InvoiceTitleEntity> by lazy {
         MutableLiveData()
     }
+
+    fun feeTotal() =
+        (selectFeeList?.fold(0.0) { sum, element -> sum + element.fee } ?: 0.0).let { total ->
+            StringUtils.formatMultiStyleStr(
+                "${total}元", arrayOf(
+                    ForegroundColorSpan(
+                        ResourcesCompat.getColor(
+                            Constants.APP_CONTEXT.resources,
+                            R.color.colorPrimary,
+                            null
+                        )
+                    ),
+                ), 0, total.toString().length
+            )
+        }
 }

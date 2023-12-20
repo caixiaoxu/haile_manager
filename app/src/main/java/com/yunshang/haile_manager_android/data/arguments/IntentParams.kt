@@ -1173,6 +1173,22 @@ object IntentParams {
         fun parseNoCache(intent: Intent): Boolean = intent.getBooleanExtra(NoCache, false)
     }
 
+    object IssueInvoiceParams {
+        private const val WithdrawFeeList = "withdrawFeeList"
+
+        /**
+         * 包装参数
+         */
+        fun pack(feeList: List<InvoiceWithdrawFeeEntity>?): Bundle =
+            Bundle().apply { putString(WithdrawFeeList, GsonUtils.any2Json(feeList)) }
+
+        fun parseInvoiceWithdrawFeeEntity(intent: Intent): List<InvoiceWithdrawFeeEntity>? =
+            GsonUtils.json2List(
+                intent.getStringExtra(WithdrawFeeList),
+                InvoiceWithdrawFeeEntity::class.java
+            )
+    }
+
     object InvoiceTitleParams {
         private const val InvoiceTitle = "invoiceTitle"
 

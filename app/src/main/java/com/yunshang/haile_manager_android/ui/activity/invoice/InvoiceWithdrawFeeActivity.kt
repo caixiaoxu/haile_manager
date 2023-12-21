@@ -52,6 +52,7 @@ class InvoiceWithdrawFeeActivity :
     private val dateDialog by lazy {
         DateSelectorDialog.Builder().apply {
             selectModel = 1
+            minDate = Calendar.getInstance().apply { time = DateTimeUtils.beforeDay(Date(), 366) }
             maxDate = Calendar.getInstance().apply { time = Date() }
             onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
                 override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {

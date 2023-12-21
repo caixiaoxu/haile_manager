@@ -48,8 +48,8 @@
 
                 <include
                     layout="@layout/item_invoice_title_details"
-                    app:content="@{vm.invoiceTitle.isPersonalVal()}"
-                    app:title="@{@string/invoice_title_type}" />
+                    app:content="@{vm.invoiceDetails.code}"
+                    app:title="@{@string/number}" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
         </LinearLayout>

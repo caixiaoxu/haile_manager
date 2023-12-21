@@ -5,8 +5,6 @@
 
     <data>
 
-        <import type="android.view.View" />
-
         <variable
             name="vm"
             type="com.yunshang.haile_manager_android.business.vm.IssueInvoiceViewModel" />
@@ -67,11 +65,13 @@
 
                         <include
                             layout="@layout/item_invoice_title_details"
+                            app:show="@{true}"
                             app:content="@{vm.invoiceTitle.isPersonalVal()}"
                             app:title="@{@string/invoice_title_type}" />
 
                         <include
                             layout="@layout/item_invoice_title_details"
+                            app:show="@{true}"
                             app:content="@{vm.invoiceTitle.typeVal()}"
                             app:title="@{@string/invoice_type}" />
 
@@ -85,7 +85,7 @@
                                 style="@style/Font_14_black45"
                                 android:layout_width="72dp"
                                 android:layout_height="wrap_content"
-                                android:text='@{@string/invoice_title_type + "："}'
+                                android:text='@{@string/invoice_title + "："}'
                                 tools:text="发票抬头：" />
 
                             <androidx.appcompat.widget.AppCompatTextView
@@ -103,37 +103,38 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:drawableEnd="@mipmap/icon_issue_invoice_more"
+                                android:gravity="center"
                                 android:text="@string/more" />
                         </LinearLayout>
 
                         <include
                             layout="@layout/item_invoice_title_details"
-                            android:visibility="@{vm.invoiceTitle.invoiceTitleType0Val &amp;&amp; !vm.isFold?View.VISIBLE:View.GONE}"
                             app:content="@{vm.invoiceTitle.taxNoVal}"
-                            app:title="@{@string/invoice_title_type}" />
-
-                        <include
-                            layout="@layout/item_invoice_title_details"
-                            android:visibility="@{vm.invoiceTitle.invoiceTitleType0Val &amp;&amp; !vm.isFold?View.VISIBLE:View.GONE}"
-                            app:content="@{vm.invoiceTitle.bankNameVal}"
+                            app:show="@{vm.invoiceTitle.invoiceTitleType0Val &amp;&amp; !vm.isFold}"
                             app:title="@{@string/company_number}" />
 
                         <include
                             layout="@layout/item_invoice_title_details"
-                            android:visibility="@{vm.invoiceTitle.invoiceTitleType0Val &amp;&amp; !vm.isFold?View.VISIBLE:View.GONE}"
+                            app:content="@{vm.invoiceTitle.bankNameVal}"
+                            app:show="@{vm.invoiceTitle.invoiceTitleType0Val &amp;&amp; !vm.isFold}"
+                            app:title="@{@string/company_number}" />
+
+                        <include
+                            layout="@layout/item_invoice_title_details"
                             app:content="@{vm.invoiceTitle.bankAccountVal}"
+                            app:show="@{vm.invoiceTitle.invoiceTitleType0Val &amp;&amp; !vm.isFold}"
                             app:title="@{@string/open_bank}" />
 
                         <include
                             layout="@layout/item_invoice_title_details"
-                            android:visibility="@{vm.invoiceTitle.invoiceTitleType0Val &amp;&amp; !vm.isFold?View.VISIBLE:View.GONE}"
                             app:content="@{vm.invoiceTitle.phoneVal}"
+                            app:show="@{vm.invoiceTitle.invoiceTitleType0Val &amp;&amp; !vm.isFold}"
                             app:title="@{@string/bank_account}" />
 
                         <include
                             layout="@layout/item_invoice_title_details"
-                            android:visibility="@{vm.invoiceTitle.invoiceTitleType0Val &amp;&amp; !vm.isFold?View.VISIBLE:View.GONE}"
                             app:content="@{vm.invoiceTitle.addressVal}"
+                            app:show="@{vm.invoiceTitle.invoiceTitleType0Val &amp;&amp; !vm.isFold}"
                             app:title="@{@string/company_address}" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -142,11 +143,13 @@
                         style="@style/Font_12_black85"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/shape_strokeblack25_r4"
                         android:button="@null"
                         android:checked="@={vm.isFold}"
                         android:drawableStart="@drawable/selector_fold"
                         android:minHeight="0dp"
-                        android:paddingTop="16dp"
+                        android:paddingEnd="8dp"
                         android:text="@{vm.isFold?@string/unfold:@string/fold}"
                         tools:text="@string/unfold" />
                 </LinearLayout>
@@ -195,8 +198,8 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:visibility="@{2 == vm.invoiceTitle.type}"
-                        android:paddingVertical="12dp">
+                        android:paddingVertical="12dp"
+                        app:visibility="@{2 == vm.invoiceTitle.type}">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_issue_invoice_addressee_title"
@@ -233,6 +236,7 @@
                             app:layout_constraintStart_toStartOf="@id/tv_issue_invoice_addressee"
                             app:layout_constraintTop_toBottomOf="@id/tv_issue_invoice_addressee" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -279,17 +283,17 @@
                             android:layout_height="wrap_content"
                             android:background="@color/white"
                             android:src="@mipmap/icon_issue_invoice_contact_list"
-                            app:visibility="@{1 == vm.invoiceTitle.type}"
                             app:layout_constraintBottom_toBottomOf="@id/et_issue_invoice_phone"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/et_issue_invoice_phone" />
+                            app:layout_constraintTop_toTopOf="@id/et_issue_invoice_phone"
+                            app:visibility="@{1 == vm.invoiceTitle.type}" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:visibility="@{1 == vm.invoiceTitle.type}"
-                        android:paddingVertical="12dp">
+                        android:paddingVertical="12dp"
+                        app:visibility="@{1 == vm.invoiceTitle.type}">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_issue_invoice_email_title"

@@ -37,7 +37,9 @@ class InvoiceTitleActivity :
                         this@InvoiceTitleActivity,
                         InvoiceTitleDetailsActivity::class.java
                     ).apply {
-                        putExtras(IntentParams.InvoiceTitleParams.pack(item))
+                        item.id?.let { id ->
+                            putExtras(IntentParams.CommonParams.pack(id))
+                        }
                     })
             }
         }
@@ -66,7 +68,13 @@ class InvoiceTitleActivity :
         window.statusBarColor = Color.WHITE
 
         mBinding.customRefreshRecyclerView.refreshLayout.setEnableLoadMore(false)
-        mBinding.customRefreshRecyclerView.tvListStatus.setText(R.string.empty_content)
+        mBinding.customRefreshRecyclerView.tvListStatus.setText(R.string.invoice_title_empty)
+        mBinding.customRefreshRecyclerView.tvListStatus.setCompoundDrawablesWithIntrinsicBounds(
+            0,
+            R.mipmap.icon_list_device_empty,
+            0,
+            0
+        )
         val padding = DimensionUtils.dip2px(this, 12f)
         mBinding.customRefreshRecyclerView.rvRefreshList.setPadding(padding, padding, padding, 0)
         mBinding.customRefreshRecyclerView.rvRefreshList.layoutManager = LinearLayoutManager(this)

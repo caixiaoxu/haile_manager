@@ -54,6 +54,7 @@
     <string name="refuse">拒绝</string>
     <string name="agree">同意</string>
     <string name="i_know">知道了</string>
+    <string name="default1">默认</string>
     <string name="enable">启用</string>
     <string name="disEnable">停用</string>
     <string name="tip">提示</string>
@@ -588,13 +589,14 @@
     <string name="invoice_manager">发票管理</string>
     <string name="invoice_withdraw_fee">提现手续费</string>
     <string name="invoice_title">发票抬头</string>
+    <string name="invoice_title_empty">无发票抬头</string>
     <string name="invoice_history">发票历史</string>
     <string name="invoice_explain">发票说明</string>
     <string name="invoice_operator">提现人</string>
     <string name="invoice_open">去开票</string>
     <string name="issue_invoice">开具发票</string>
     <string name="invoice_details">发票详情</string>
-    <string name="number">编&#160;&#160;号 </string>
+    <string name="number">编&#160;&#160;号</string>
     <string name="invoice_content">发票内容</string>
     <string name="invoice_content_value">*其他现代服务*服务费</string>
     <string name="receive_mode">接收方式</string>
@@ -611,6 +613,7 @@
     <string name="addressee_hint">请填写收件人姓名</string>
     <string name="addressee_phone_hint">请填写收件人电话</string>
     <string name="invoice_title_type">抬头类型</string>
+    <string name="invoice_title_type2">企业</string>
     <string name="invoice_title_type0">企业单位</string>
     <string name="invoice_title_type1">个人</string>
     <string name="invoice_title_hint">请填写公司名称</string>
@@ -619,7 +622,7 @@
     <string name="open_bank_hint">请填写公司开户银行名称</string>
     <string name="bank_account_hint">请填写公司开户银行账号</string>
     <string name="company_phone">公司电话</string>
-    <string name="company_phone_hint">请填写公司联系电话</string>
+    <string name="company_phone_hint">请填写公司公司电话</string>
     <string name="company_address">公司地址</string>
     <string name="company_address_hint">请填写公司地址</string>
     <string name="setting_default_invoice_title">设为默认抬头</string>

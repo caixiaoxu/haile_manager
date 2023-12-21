@@ -26,7 +26,7 @@ data class InvoiceTitleEntity(
     var address: String? = null,
     var isDefault: Int? = null,
     val id: Int? = null,
-    val type: Int? = null,
+    val type: Int? = 1,
 //
 //    val business: String? = null,
 //    val context: String? = null,
@@ -63,6 +63,10 @@ data class InvoiceTitleEntity(
 
     fun isPersonalVal(): String =
         StringUtils.getString(if (1 == isPersonal) R.string.invoice_title_type1 else R.string.invoice_title_type0)
+
+    fun isPersonalVal1(): String =
+        StringUtils.getString(if (1 == isPersonal) R.string.invoice_title_type1 else R.string.invoice_title_type2)
+
     fun typeVal(): String =
         StringUtils.getString(if (2 == type) R.string.invoice_type2 else R.string.invoice_type1)
 
@@ -158,5 +162,5 @@ data class InvoiceTitleEntity(
 
     @get:Bindable
     val canSubmit: Boolean
-        get() = null != isPersonal && !title.isNullOrEmpty() && title!!.length >= 15 && (if (1 == isPersonal) !taxNo.isNullOrEmpty() else true)
+        get() = null != isPersonal && !title.isNullOrEmpty() && (if (1 == isPersonal) !taxNo.isNullOrEmpty() && taxNo!!.length >= 15 else true)
 }

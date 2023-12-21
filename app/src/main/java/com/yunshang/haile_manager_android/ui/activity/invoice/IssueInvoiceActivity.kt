@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.ui.activity.invoice
 
+import android.content.Intent
 import android.graphics.Color
 import android.text.style.ForegroundColorSpan
 import android.view.View
@@ -13,6 +14,7 @@ import com.yunshang.haile_manager_android.databinding.ActivityIssueInvoiceBindin
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonNewDialog
 import com.yunshang.haile_manager_android.utils.StringUtils
 
 class IssueInvoiceActivity :
@@ -33,9 +35,9 @@ class IssueInvoiceActivity :
 
     override fun initEvent() {
         super.initEvent()
-        mViewModel.invoiceTitle.observe(this){
-            if (null == it){
-//                CommonDialog.Builder().build().show(supportFragmentManager)
+        mViewModel.invoiceTitle.observe(this) {
+            if (null == it) {
+                showAddIssueTitleDialog()
             }
         }
     }
@@ -61,6 +63,23 @@ class IssueInvoiceActivity :
 //            }
     }
 
+
+    private fun showAddIssueTitleDialog(){
+        CommonNewDialog.Builder("无可用发票抬头，请先新增发票抬头").apply {
+            title = com.lsy.framelib.utils.StringUtils.getString(R.string.tip)
+            isNegativeShow = false
+            setPositiveButton("去新增发票抬头") {
+                startActivity(
+                    Intent(
+                        this@IssueInvoiceActivity,
+                        InvoiceTitleAddActivity::class.java
+                    )
+                )
+            }
+        }.build().show(supportFragmentManager)
+    }
+
     override fun initData() {
+        mViewModel.requestData()
     }
 }

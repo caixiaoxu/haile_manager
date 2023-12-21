@@ -256,6 +256,11 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
+    <style name="font_10_ffa936">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/color_FFA936</item>
+    </style>
+
     <style name="Font_10_ff5219">
         <item name="android:textSize">10sp</item>
         <item name="android:textColor">@color/color_ff5219</item>
@@ -500,9 +505,27 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
+    <style name="font_17_171a1d">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/color_171A1D</item>
+    </style>
+
+    <style name="font_17_171a1d_bold" parent="font_17_171a1d">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="font_17_ff5219">
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/color_ff5219</item>
+    </style>
+
+    <style name="font_17_f0a258">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="font_17_f0a258_bold" parent="font_17_f0a258">
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="font_17_black25">

@@ -6,8 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.data.constants.Constants
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.data.entities.InvoiceTitleEntity
 import com.yunshang.haile_manager_android.data.entities.InvoiceWithdrawFeeEntity
+import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.StringUtils
 
 /**
@@ -21,6 +23,7 @@ import com.yunshang.haile_manager_android.utils.StringUtils
  * 作者姓名 修改时间 版本号 描述
  */
 class IssueInvoiceViewModel : BaseViewModel() {
+    private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
 
     var selectFeeList: List<InvoiceWithdrawFeeEntity>? = null
 
@@ -44,4 +47,21 @@ class IssueInvoiceViewModel : BaseViewModel() {
                 ), 0, total.toString().length
             )
         }
+
+    val invoiceTitleList: MutableLiveData<MutableList<InvoiceTitleEntity>> by lazy {
+        MutableLiveData()
+    }
+
+    fun requestData() {
+        launch({
+            ApiRepository.dealApiResult(
+                mCapitalRepo.requestInvoiceTitleList(
+                    ApiRepository.createRequestBody(hashMapOf())
+                )
+            )?.let {
+                invoiceTitleList.postValue(it)
+                invoiceTitle.postValue(it.find { item -> item.defaultVal } ?: it.firstOrNull())
+            }
+        })
+    }
 }

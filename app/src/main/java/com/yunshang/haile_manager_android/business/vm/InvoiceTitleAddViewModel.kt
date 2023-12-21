@@ -52,9 +52,9 @@ class InvoiceTitleAddViewModel : BaseViewModel() {
             )
             ApiRepository.dealApiResult(
                 if (invoiceTitleAddParams.value?.id.hasVal()) {
-                    mCapitalRepo.createInvoiceTitle(body)
-                } else {
                     mCapitalRepo.updateInvoiceTitle(body)
+                } else {
+                    mCapitalRepo.createInvoiceTitle(body)
                 }
             )
             withContext(Dispatchers.Main) {

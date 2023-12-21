@@ -119,7 +119,8 @@ class InvoiceWithdrawFeeViewModel : BaseViewModel() {
                             "pageSize" to pageSize,
                             "applyStartDate" to DateTimeUtils.formatDateTimeStartParam(startTime.value),
                             "applyEndDate" to DateTimeUtils.formatDateTimeEndParam(endTime.value),
-                            "accountIds" to selectInvoiceUserList.value?.mapNotNull { it.id }
+                            "accountIds" to selectInvoiceUserList.value?.mapNotNull { it.id },
+                            "invoiceStatus" to -1
                         )
                     )
                 )

@@ -300,6 +300,18 @@ interface CapitalService {
     suspend fun updateInvoiceTitle(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
+     * 发票抬头修改接口
+     */
+    @POST("/invoice/template/detail/{id}")
+    suspend fun requestInvoiceTitleDetails(@Path("id") id: Int): ResponseWrapper<InvoiceTitleEntity>
+
+    /**
+     * 发票抬头删除接口
+     */
+    @POST("/invoice/template/delete")
+    suspend fun deleteInvoiceTitle(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
      * 开票列表接口
      */
     @POST("/invoice/list")

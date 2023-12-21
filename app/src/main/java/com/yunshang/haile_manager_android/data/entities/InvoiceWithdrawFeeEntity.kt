@@ -23,7 +23,7 @@ data class InvoiceWithdrawFeeEntity(
     val applyTime: String? = null,
     val cashOutAccount: String? = null,
     val cashOutNo: String? = null,
-    val fee: Double = 0.0,
+    val fee: Double = 0.00,
     val invoiceCreateTime: String? = null,
     val invoiceCreatorId: Int? = null,
     val invoiceCreatorName: String? = null,

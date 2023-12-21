@@ -89,6 +89,9 @@
             android:name=".ui.activity.personal.WithdrawRecordExportActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.activity.shop.ShopNearByOrderSettingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.shop.ShopBatchCompensationSettingActivity"
             android:exported="false" />
         <activity

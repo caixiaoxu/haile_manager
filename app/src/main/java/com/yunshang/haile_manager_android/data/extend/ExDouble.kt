@@ -23,3 +23,11 @@ fun Double?.formatMoney(symbol: Boolean = false): String = this?.let {
     }
 } ?: ""
 
+fun Double?.formatNumber(symbol: Boolean = false): String = this?.let {
+    (if (symbol && this > 0) "+" else "") + try {
+        DecimalFormat("##0.00").format(BigDecimal(this))
+    } catch (e: Exception) {
+        ""
+    }
+} ?: ""
+

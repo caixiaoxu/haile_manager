@@ -13,15 +13,16 @@ import com.yunshang.haile_manager_android.data.rule.ISearchLetterEntity
  * 作者姓名 修改时间 版本号 描述
  */
 data class BankEntity(
+    val bankId: Int,
     val bankCode: String,
     val bankName: String,
     val firstLetter: String,
     val url: String
-): ISearchLetterEntity() {
+) : ISearchLetterEntity() {
 
     override fun getTitle(): String = bankName
 
     override fun getIcon(): String = url
 
-    override fun getLetter(): String =firstLetter
+    override fun getLetter(): String = firstLetter
 }

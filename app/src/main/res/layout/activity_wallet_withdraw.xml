@@ -148,7 +148,7 @@
             <View
                 style="@style/DividingStyle"
                 android:layout_width="0dp"
-                android:backgroundTint="@{(null == vm.withdrawErr || 0 == vm.withdrawErr.length())?@color/dividing_line_color:@color/color_FF5219}"
+                android:backgroundTint="@{(null == vm.withdrawErr || 0 == vm.withdrawErr.length())?@color/dividing_line_color:@color/color_ff5219}"
                 app:layout_constraintBottom_toBottomOf="@id/et_wallet_withdraw_amount"
                 app:layout_constraintEnd_toEndOf="@id/tv_wallet_withdraw_amount_all"
                 app:layout_constraintStart_toStartOf="@id/tv_wallet_withdraw_amount_unit" />

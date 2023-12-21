@@ -161,6 +161,7 @@
     <string name="new_device">新增设备</string>
     <string name="batch_update">批量修改</string>
     <string name="batch_start">批量启动</string>
+    <string name="batch_transfer">批量转移</string>
     <string name="batch_setting">批量设置</string>
     <string name="scan_input">扫码录入</string>
     <string name="configure_condition">配置条件</string>
@@ -175,8 +176,8 @@
     <string name="device_name_hint">如：XX楼XX层XX号机</string>
     <string name="fun_configure">功能配置</string>
     <string name="add_manager_fun_configure">新增管理配置</string>
-    <string name="scan_hint">扫描模块上的二维码</string>
-    <string name="scan_pay_hint">扫描模块上的付款码</string>
+    <string name="scan_hint">扫描设备上的二维码</string>
+    <string name="scan_pay_hint">扫描设备上的付款码</string>
     <string name="no_configure">未配置</string>
     <string name="configured">已配置</string>
     <string name="pay_code_error">该付款码无效</string>
@@ -400,6 +401,10 @@
     <string name="per_flow_charge_display_setting_name_prompt">饮水和淋浴有该设置，只针对用户看到的订单内容</string>
     <string name="self_clean_setting_name">洗衣机/洗鞋机支付前免费筒自洁</string>
     <string name="self_clean_setting_prompt">开启后，洗衣机/洗鞋机订单（非筒自洁功能），在支付前可使用免费的筒自洁功能，然后再支付去启动订单中的洗衣/洗鞋功能</string>
+    <string name="near_by_order_setting">附近下单设置</string>
+    <string name="batch_near_by_order_setting">批量附近下单设置</string>
+    <string name="near_by_order_setting_name">通过附近营业点下单</string>
+    <string name="near_by_order_setting_prompt">针对洗衣机、洗鞋机和烘干机，通过附近营业点可下单使用</string>
 
     <string name="order_manager">订单管理</string>
     <string name="order_search_hint">搜索手机号/订单编号/IMEI</string>

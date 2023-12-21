@@ -28,6 +28,7 @@ import com.yunshang.haile_manager_android.data.entities.ExtAttrDtoItem
 import com.yunshang.haile_manager_android.data.entities.SkuFunConfigurationV2Param
 import com.yunshang.haile_manager_android.databinding.*
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.activity.common.ShopPositionSelectorActivity
 import com.yunshang.haile_manager_android.ui.activity.common.WeChatQRCodeScanActivity
 import com.yunshang.haile_manager_android.ui.activity.order.OrderDetailActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
@@ -47,6 +48,14 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
     private val startNext =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             when (result.resultCode) {
+                IntentParams.ShopPositionSelectorParams.ShopPositionSelectorResultCode -> {
+                    result.data?.let { intent ->
+                        val positionId = IntentParams.ShopPositionSelectorParams.parseSelectList(
+                            intent
+                        )?.firstOrNull()?.positionList?.firstOrNull()?.id
+                        mViewModel.transferDevice(this@DeviceDetailActivity,positionId)
+                    }
+                }
                 IntentParams.DeviceParamsUpdateParams.ResultCode -> {
                     result.data?.let { intent ->
                         intent.getStringExtra(IntentParams.DeviceParamsUpdateParams.ResultData)
@@ -75,6 +84,40 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                 }
             }
         }
+
+    private fun preTransferDevices() {
+        mViewModel.preTransferDevice() {
+            if (0 == it) {
+                transferDevices()
+            } else {
+                CommonDialog.Builder("该设备存在关联设备，转移操作，会同步转移关联的设备。若不需要则请先解除关联").apply {
+                    title = StringUtils.getString(R.string.tip)
+                    negativeTxt = StringUtils.getString(R.string.cancel)
+                    setPositiveButton(StringUtils.getString(R.string.sure)) {
+                        transferDevices()
+                    }
+                }.build().show(supportFragmentManager)
+            }
+        }
+    }
+
+    private fun transferDevices(){
+        startNext.launch(
+            Intent(
+                this@DeviceDetailActivity,
+                ShopPositionSelectorActivity::class.java
+            ).apply {
+                putExtras(
+                    IntentParams.ShopPositionSelectorParams.pack(
+                        canMultiSelect = false,
+                        canSelectAll = false,
+                        mustSelect = false,
+                        title = "选择营业点"
+                    )
+                )
+            }
+        )
+    }
 
     private var isDeviceActivateType: Int = 1
 
@@ -196,41 +239,26 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
         mViewModel.deviceDetail.observe(this) { detail ->
             mViewModel.deviceDetailFunOperate.forEach { item ->
                 item.show.value = when (item.title) {
-                    // 复位
                     R.string.restart -> !DeviceCategory.isDrinking(detail.categoryCode)
-                    // 启动
                     R.string.start -> !DeviceCategory.isDrinkingOrShower(detail.categoryCode)
-                    // 自清洁
                     R.string.devices_self_clean -> DeviceCategory.isDispenser(detail.categoryCode)
-                    // 桶自洁
                     R.string.self_clean -> DeviceCategory.isWashingOrShoes(detail.categoryCode)
-                    // 更换模块
                     R.string.change_model -> !DeviceCategory.isDispenser(detail.categoryCode)
                             && !DeviceCategory.isDrinkingOrShower(detail.categoryCode)
-                    // 解锁
                     R.string.unlock1 -> DeviceCategory.isDrinkingOrShower(detail.categoryCode)
-                    // 开锁
                     R.string.unlock -> DeviceCategory.isDispenser(detail.categoryCode)
-                    // 更换付款码
                     R.string.change_pay_code -> !DeviceCategory.isDispenser(detail.categoryCode)
                             && !DeviceCategory.isDrinkingOrShower(detail.categoryCode)
-                    // 生成付款码
                     R.string.create_pay_code -> !DeviceCategory.isDispenser(detail.categoryCode) && !DeviceCategory.isShower(
                         detail.categoryCode
                     )
-                    // 修改功能配置
+                    R.string.device_transfer -> true
                     R.string.update_func_price -> true
-                    // 修改设备名称
                     R.string.update_device_name -> true
-                    // 修改参数设置
                     R.string.update_params_setting -> mViewModel.checkSinglePulseQuantity(detail)
-                    // 预约设置
                     R.string.device_appointment_setting -> 20 != detail.communicationType && detail.shopAppointmentEnabled
-                    // 语音设置
                     R.string.device_voice -> DeviceCategory.isDispenser(detail.categoryCode)
-                    // 排空
                     R.string.device_drain -> DeviceCategory.isDispenser(detail.categoryCode)
-                    // 修改楼层
                     R.string.update_floor -> true
                     else -> false
                 }
@@ -512,6 +540,10 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                             )
                         }
                     )
+                }
+                15 -> {
+                    // 设备转移
+                    preTransferDevices()
                 }
             }
         }

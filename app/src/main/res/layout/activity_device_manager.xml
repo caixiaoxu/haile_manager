@@ -30,7 +30,8 @@
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
@@ -38,100 +39,54 @@
                 android:background="@color/page_bg"
                 app:elevation="0dp">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <HorizontalScrollView
+                    android:id="@+id/bg_device_manager_category"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="44dp"
+                    android:background="@drawable/shape_bottom_stroke_dividing"
+                    android:paddingHorizontal="16dp"
+                    android:scrollbars="none"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                    <View
-                        android:id="@+id/view_device_manager_search_parent_bg"
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:background="@drawable/shape_bottom_stroke_dividing"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                    <View
-                        android:id="@+id/view_device_manager_search_bg"
-                        android:layout_width="match_parent"
-                        android:layout_height="36dp"
-                        android:layout_marginHorizontal="12dp"
-                        android:background="@drawable/shape_sf7f7f7_r18"
-                        app:layout_constraintBottom_toBottomOf="@id/view_device_manager_search_parent_bg"
-                        app:layout_constraintTop_toTopOf="@id/view_device_manager_search_parent_bg" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_device_category_department"
+                            style="@style/DeviceManagerCategoryBtnNewStyle"
+                            android:hint="@string/department" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iv_device_manager_search"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_marginStart="12dp"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/icon_search"
-                        app:layout_constraintBottom_toBottomOf="@id/view_device_manager_search_bg"
-                        app:layout_constraintStart_toStartOf="@id/view_device_manager_search_bg"
-                        app:layout_constraintTop_toTopOf="@id/view_device_manager_search_bg" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_device_category_pt"
+                            style="@style/DeviceManagerCategoryBtnNewStyle"
+                            android:hint="@string/belong_to_pt" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/Font_14_999999_999999"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:hint="@string/device_search_hint"
-                        android:text="@{vm.searchKey}"
-                        app:layout_constraintBottom_toBottomOf="@id/view_device_manager_search_bg"
-                        app:layout_constraintEnd_toEndOf="@id/view_device_manager_search_bg"
-                        app:layout_constraintStart_toEndOf="@id/iv_device_manager_search"
-                        app:layout_constraintTop_toTopOf="@id/view_device_manager_search_bg" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_device_category_network_status"
+                            style="@style/DeviceManagerCategoryBtnNewStyle"
+                            android:hint="@string/network_status" />
 
-                    <HorizontalScrollView
-                        android:id="@+id/bg_device_manager_category"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:background="@drawable/shape_bottom_stroke_dividing"
-                        android:paddingHorizontal="16dp"
-                        android:scrollbars="none"
-                        app:layout_constraintTop_toBottomOf="@id/view_device_manager_search_parent_bg">
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_device_category_device_status"
+                            style="@style/DeviceManagerCategoryBtnNewStyle"
+                            android:hint="@string/device_status" />
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_device_category_category"
+                            style="@style/DeviceManagerCategoryBtnNewStyle"
+                            android:hint="@string/device_category" />
 
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/tv_device_category_department"
-                                style="@style/DeviceManagerCategoryBtnStyle"
-                                android:hint="@string/department" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_device_category_model"
+                            style="@style/DeviceManagerCategoryBtnNewStyle"
+                            android:hint="@string/device_model"
+                            android:visibility="@{null == vm.selectDeviceCategory?View.GONE:View.VISIBLE}" />
 
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/tv_device_category_pt"
-                                style="@style/DeviceManagerCategoryBtnStyle"
-                                android:hint="@string/belong_to_pt" />
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/tv_device_category_network_status"
-                                style="@style/DeviceManagerCategoryBtnStyle"
-                                android:hint="@string/network_status" />
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/tv_device_category_device_status"
-                                style="@style/DeviceManagerCategoryBtnStyle"
-                                android:hint="@string/device_status" />
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/tv_device_category_category"
-                                style="@style/DeviceManagerCategoryBtnStyle"
-                                android:hint="@string/device_category" />
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/tv_device_category_model"
-                                style="@style/DeviceManagerCategoryBtnStyle"
-                                android:hint="@string/device_model"
-                                android:visibility="@{null == vm.selectDeviceCategory?View.GONE:View.VISIBLE}" />
-
-                        </LinearLayout>
-                    </HorizontalScrollView>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
+                </HorizontalScrollView>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -140,15 +95,16 @@
                     <net.lucode.hackware.magicindicator.MagicIndicator
                         android:id="@+id/indicator_device_status"
                         android:layout_width="match_parent"
-                        android:layout_height="52dp"
+                        android:layout_height="44dp"
                         android:background="@drawable/shape_bottom_stroke_dividing"
                         android:paddingHorizontal="16dp"
+                        android:paddingBottom="3dp"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <HorizontalScrollView
                         android:id="@+id/sv_device_error_status_list"
                         android:layout_width="match_parent"
-                        android:layout_height="42dp"
+                        android:layout_height="52dp"
                         android:background="@color/white"
                         android:overScrollMode="never"
                         android:scrollbars="none"
@@ -159,19 +115,19 @@
                             android:id="@+id/ll_device_error_status_list"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            app:divider="@drawable/divide_size4"
-                            app:showDividers="middle"
-                            app:itemLayout="@layout/item_device_manager_error_status"
-                            android:paddingHorizontal="16dp"
                             android:gravity="center_vertical"
-                            android:orientation="horizontal"/>
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="16dp"
+                            app:divider="@drawable/divide_size4"
+                            app:itemLayout="@layout/item_device_manager_error_status"
+                            app:showDividers="middle" />
                     </HorizontalScrollView>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_device_manager_list_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="8dp"
+                        android:layout_marginVertical="12dp"
                         android:layout_marginStart="16dp"
                         android:text="@{vm.mDeviceCountStr}"
                         app:layout_constraintStart_toStartOf="parent"
@@ -185,7 +141,7 @@
                         android:drawableStart="@mipmap/icon_refresh"
                         android:drawablePadding="4dp"
                         android:paddingHorizontal="16dp"
-                        android:paddingVertical="8dp"
+                        android:paddingVertical="12dp"
                         android:text="@string/refresh_list"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/sv_device_error_status_list" />
@@ -197,7 +153,58 @@
                 android:id="@+id/rv_device_manager_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingHorizontal="12dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/shape_top_stroke_dividing"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            app:visibility="@{vm.isBatch}">
+
+            <com.yunshang.haile_manager_android.ui.view.ClickCheckBox
+                android:id="@+id/cb_device_manager_transfer_all"
+                style="@style/font_17_black85"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:button="@null"
+                android:checked="@{vm.isAll}"
+                android:drawableStart="@drawable/selector_checked"
+                android:drawablePadding="14dp"
+                android:gravity="center"
+                android:text="@string/select_all"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/font_17_black85"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@{vm.selectBatchNumVal}"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="已选择 1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/page_bottom_h"
+            android:background="@drawable/shape_top_stroke_dividing"
+            android:paddingTop="12dp"
+            app:visibility="@{vm.isBatch}">
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_device_manager_transfer"
+                style="@style/CommonMatchBtnStyle1"
+                android:layout_marginHorizontal="16dp"
+                android:enabled="@{vm.selectBatchNum > 0}"
+                android:text="@string/device_transfer" />
+
+        </FrameLayout>
     </LinearLayout>
 </layout>

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.view.Gravity
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
@@ -28,7 +29,6 @@ import com.yunshang.haile_manager_android.databinding.ItemIncomeCalendarBinding
 import com.yunshang.haile_manager_android.databinding.ItemIncomeListByDayBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.order.OrderDetailActivity
-import com.yunshang.haile_manager_android.ui.view.refresh.GridSpaceItemDecoration
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
@@ -217,12 +217,6 @@ class IncomeCalendarActivity :
         }
 
         mBinding.rvIncomeCalendar.layoutManager = GridLayoutManager(this, arr.size)
-        mBinding.rvIncomeCalendar.addItemDecoration(
-            GridSpaceItemDecoration(
-                DimensionUtils.dip2px(this@IncomeCalendarActivity, 1f),
-                DimensionUtils.dip2px(this@IncomeCalendarActivity, 1f),
-            )
-        )
         mBinding.rvIncomeCalendar.adapter = mIncomeAdapter
 
         // 收支切换
@@ -259,6 +253,8 @@ class IncomeCalendarActivity :
                     setDrawable(it)
                 })
         }
+        (mBinding.rvIncomeListForDate.listStatusTextView().layoutParams as FrameLayout.LayoutParams).topMargin =
+            DimensionUtils.dip2px(this@IncomeCalendarActivity, 80f)
         mBinding.rvIncomeListForDate.adapter = mIncomeListAdapter
         mBinding.rvIncomeListForDate.requestData =
             object : CommonRefreshRecyclerView.OnRequestDataListener<ProfitStatisticsEntity>() {

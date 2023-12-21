@@ -45,7 +45,7 @@
                 android:layout_marginStart="74dp"
                 android:drawableEnd="@drawable/icon_arrow_right"
                 android:gravity="center_vertical"
-                android:hint="@string/select_shops_hint"
+                android:hint="@string/please_select"
                 android:text="@{vm.selectShopNames}" />
         </LinearLayout>
 
@@ -219,7 +219,7 @@
                 android:id="@+id/btn_shop_pay_settings_save"
                 style="@style/CommonMatchBtnStyle1"
                 android:layout_marginHorizontal="14dp"
-                android:enabled="@{null != vm.shopPaySettings}"
+                android:enabled="@{null != vm.shopPaySettings &amp;&amp; null != vm.selectShops}"
                 android:onClick="@{vm::save}"
                 android:text="@string/save" />
         </FrameLayout>

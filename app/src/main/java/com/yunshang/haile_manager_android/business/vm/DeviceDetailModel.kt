@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.business.vm
 
+import android.content.Context
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,6 +15,7 @@ import com.yunshang.haile_manager_android.data.arguments.ItemShowParam
 import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.DeviceAdvancedSettingEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceDetailEntity
+import com.yunshang.haile_manager_android.data.extend.hasVal
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 import kotlinx.coroutines.Dispatchers
@@ -176,7 +178,7 @@ class DeviceDetailModel : BaseViewModel() {
         ItemShowParam(
             R.string.change_model,
             R.mipmap.icon_device_change_model,
-            MutableLiveData(true)
+            MutableLiveData(UserPermissionUtils.hasDeviceUpdateModulePermission())
         ) {
             // 更换模块事件
             jump.postValue(3)
@@ -196,6 +198,14 @@ class DeviceDetailModel : BaseViewModel() {
         ) {
             //生成付款码事件
             jump.postValue(6)
+        },
+        ItemShowParam(
+            R.string.device_transfer,
+            R.mipmap.icon_device_device_transfer,
+            MutableLiveData(UserPermissionUtils.hasDeviceExchangePermission())
+        ) {
+            //设备转移事件
+            jump.postValue(15)
         },
         ItemShowParam(
             R.string.update_func_price,
@@ -221,13 +231,6 @@ class DeviceDetailModel : BaseViewModel() {
             //修改设备名称事件
             jump.postValue(13)
         },
-//        ItemShowParam(
-//            StringUtils.getString(R.string.device_transfer),
-//            R.mipmap.icon_device_device_transfer,
-//            MutableLiveData(true)
-//        ) {
-//            //设备转移事件
-//        },
         ItemShowParam(
             R.string.device_appointment_setting,
             R.mipmap.icon_device_device_appointment_setting,
@@ -526,6 +529,48 @@ class DeviceDetailModel : BaseViewModel() {
             )
             withContext(Dispatchers.Main) {
                 SToast.showToast(msg = "操作成功")
+            }
+        })
+    }
+
+    fun preTransferDevice(callBack: (type: Int?) -> Unit) {
+        if (!goodsId.hasVal()) return
+        launch({
+            val result = ApiRepository.dealApiResult(
+                mDeviceRepo.preTransferDevice(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "goodsIds" to listOf(goodsId),
+                        )
+                    )
+                )
+            )
+            withContext(Dispatchers.Main) {
+                callBack(result)
+            }
+        })
+    }
+
+    fun transferDevice(context: Context, positionId: Int?) {
+        if (null == positionId || !goodsId.hasVal()) return
+        launch({
+            ApiRepository.dealApiResult(
+                mDeviceRepo.transferDevice(
+                    ApiRepository.createRequestBody(
+                        hashMapOf(
+                            "goodsIds" to listOf(goodsId),
+                            "positionId" to positionId,
+                        )
+                    )
+                )
+            )
+
+            LiveDataBus.post(BusEvents.DEVICE_LIST_STATUS, true)
+            LiveDataBus.post(BusEvents.SHOP_LIST_STATUS, true)
+
+            requestDeviceDetails()
+            withContext(Dispatchers.Main) {
+                SToast.showToast(context, R.string.operate_success)
             }
         })
     }

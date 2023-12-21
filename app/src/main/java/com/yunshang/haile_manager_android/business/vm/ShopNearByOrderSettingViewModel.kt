@@ -13,6 +13,7 @@ import com.yunshang.haile_manager_android.business.apiService.ShopService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.FreeSelfClearSettings
+import com.yunshang.haile_manager_android.data.entities.NearOrderSettings
 import com.yunshang.haile_manager_android.data.entities.OperationFlowSetting
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +29,7 @@ import kotlinx.coroutines.withContext
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class ShopSelfCleanSettingViewModel : BaseViewModel() {
+class ShopNearByOrderSettingViewModel : BaseViewModel() {
     private val mRepo = ApiRepository.apiClient(ShopService::class.java)
 
     // 选择的门店
@@ -44,17 +45,16 @@ class ShopSelfCleanSettingViewModel : BaseViewModel() {
         }
     }
 
-    val selfCleanSetting: MutableLiveData<FreeSelfClearSettings> =
-        MutableLiveData(FreeSelfClearSettings())
+    val nearByOrderSetting: MutableLiveData<NearOrderSettings> = MutableLiveData(NearOrderSettings())
 
     fun save(v: View) {
-        if (selectShops.value.isNullOrEmpty() || null == selfCleanSetting.value) return
+        if (selectShops.value.isNullOrEmpty() || null == nearByOrderSetting.value) return
 
         launch({
             ApiRepository.dealApiResult(
-                mRepo.saveBatchSelfCleanSetting(
+                mRepo.saveBatchNearByOrderSetting(
                     ApiRepository.createRequestBody(
-                        GsonUtils.any2Json(selfCleanSetting.value?.apply {
+                        GsonUtils.any2Json(nearByOrderSetting.value?.apply {
                             shopIdList = selectShops.value?.map { it.id }?.toIntArray()
                         })
                     )

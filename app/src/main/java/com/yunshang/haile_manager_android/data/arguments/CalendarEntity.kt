@@ -4,11 +4,10 @@ import androidx.core.content.ContextCompat
 import com.lsy.framelib.data.constants.Constants
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.entities.IncomeCalendarEntity
-import com.yunshang.haile_manager_android.data.extend.formatMoney
+import com.yunshang.haile_manager_android.data.extend.formatNumber
 import com.yunshang.haile_manager_android.data.rule.ICalendarEntity
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
-import java.util.Calendar
-import java.util.Date
+import java.util.*
 
 /**
  * Title :
@@ -25,8 +24,8 @@ data class CalendarEntity(override var type: Int, val day: String? = null) : ICa
 
     fun initIncome(incomeEntity: IncomeCalendarEntity?) {
         incomeEntity?.let {
-            type = if (incomeEntity.amount >= 0) 1 else 2
-            value = "${incomeEntity.amount}"
+            type = if (incomeEntity.amount == 0.0) 3 else if (incomeEntity.amount >= 0) 1 else 2
+            value = "${incomeEntity.amount.formatNumber()}"
         }
     }
 
@@ -34,7 +33,7 @@ data class CalendarEntity(override var type: Int, val day: String? = null) : ICa
         get() = intArrayOf(
             ContextCompat.getColor(
                 Constants.APP_CONTEXT,
-                R.color.color_gray
+                R.color.color_black_25
             ),
             ContextCompat.getColor(
                 Constants.APP_CONTEXT,
@@ -43,6 +42,10 @@ data class CalendarEntity(override var type: Int, val day: String? = null) : ICa
             ContextCompat.getColor(
                 Constants.APP_CONTEXT,
                 R.color.color_green
+            ),
+            ContextCompat.getColor(
+                Constants.APP_CONTEXT,
+                R.color.color_black_45
             ),
         )
 

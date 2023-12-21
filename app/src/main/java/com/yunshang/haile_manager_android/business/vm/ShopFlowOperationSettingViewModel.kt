@@ -43,9 +43,7 @@ class ShopFlowOperationSettingViewModel : BaseViewModel() {
         }
     }
 
-    val flowSetting: MutableLiveData<OperationFlowSetting> by lazy {
-        MutableLiveData(OperationFlowSetting())
-    }
+    val flowSetting: MutableLiveData<OperationFlowSetting> = MutableLiveData(OperationFlowSetting())
 
     fun save(v: View) {
         if (selectShops.value.isNullOrEmpty() || null == flowSetting.value) return

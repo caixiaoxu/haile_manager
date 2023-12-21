@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.InvoiceHistoryDetailsViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.invoice.InvoiceHistoryDetailsActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_invoice_history_details_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            app:title="@string/invoice_details"
+            android:background="@drawable/shape_bottom_stroke_dividing"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:paddingBottom="12dp"
+            android:background="@drawable/shape_ffffff_r8"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Font_24_333333_bold"
+                tools:text="已开票"
+                android:background="@drawable/shape_bottom_stroke_dividing"
+                android:layout_marginHorizontal="16dp"
+                android:paddingVertical="24dp"/>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingHorizontal="12dp"
+                android:orientation="vertical">
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceTitle.isPersonalVal()}"
+                    app:title="@{@string/invoice_title_type}" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

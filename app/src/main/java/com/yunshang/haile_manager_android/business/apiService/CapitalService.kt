@@ -4,10 +4,7 @@ import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.yunshang.haile_manager_android.data.entities.*
 import okhttp3.RequestBody
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 /**
  * Title : 资金接口
@@ -301,5 +298,17 @@ interface CapitalService {
      */
     @POST("/invoice/template/edit")
     suspend fun updateInvoiceTitle(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 开票列表接口
+     */
+    @POST("/invoice/list")
+    suspend fun requestInvoiceList(@Body body: RequestBody): ResponseWrapper<ResponseList<IssueInvoiceDetailsEntity>>
+
+    /**
+     * 开票详情接口
+     */
+    @POST("/invoice/detail/{id}")
+    suspend fun requestInvoiceDetails(@Path("id") id: Int): ResponseWrapper<IssueInvoiceDetailsEntity>
 
 }

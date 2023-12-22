@@ -5,6 +5,7 @@ import androidx.databinding.Bindable
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.data.rule.ICommonNewBottomItemEntity
 
 /**
  * Title :
@@ -41,7 +42,7 @@ data class InvoiceTitleEntity(
 //    val updateTime: String? = null,
 //    val userId: Int? = null,
 //    val version: Int? = null
-) : BaseObservable() {
+) : ICommonNewBottomItemEntity() {
 
     @get:Bindable
     var invoiceTitleType0Val: Boolean
@@ -162,5 +163,5 @@ data class InvoiceTitleEntity(
 
     @get:Bindable
     val canSubmit: Boolean
-        get() = null != isPersonal && !title.isNullOrEmpty() && (if (1 == isPersonal) !taxNo.isNullOrEmpty() && taxNo!!.length >= 15 else true)
+        get() = null != isPersonal && !title.isNullOrEmpty() && (if (0 == isPersonal) !taxNo.isNullOrEmpty() && taxNo!!.length >= 15 else true)
 }

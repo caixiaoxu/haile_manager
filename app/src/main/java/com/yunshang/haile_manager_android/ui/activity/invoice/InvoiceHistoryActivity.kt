@@ -1,26 +1,27 @@
 package com.yunshang.haile_manager_android.ui.activity.invoice
 
+import android.content.Intent
 import android.graphics.Color
+import android.view.LayoutInflater
 import android.view.View
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.InvoiceHistoryViewModel
-import com.yunshang.haile_manager_android.business.vm.InvoiceTitleViewModel
-import com.yunshang.haile_manager_android.business.vm.InvoiceWithdrawFeeViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.InvoiceUserEntity
-import com.yunshang.haile_manager_android.data.entities.InvoiceWithdrawFeeEntity
 import com.yunshang.haile_manager_android.data.entities.IssueInvoiceDetailsEntity
+import com.yunshang.haile_manager_android.data.rule.CommonDialogItemParam
 import com.yunshang.haile_manager_android.databinding.ActivityInvoiceHistoryBinding
-import com.yunshang.haile_manager_android.databinding.ActivityInvoiceTitleBinding
-import com.yunshang.haile_manager_android.databinding.ActivityInvoiceWithdrawFeeBinding
+import com.yunshang.haile_manager_android.databinding.ItemCommonSingleItemBinding
 import com.yunshang.haile_manager_android.databinding.ItemInvoiceHistoryBinding
-import com.yunshang.haile_manager_android.databinding.ItemInvoiceWithdrawFeeBinding
+import com.yunshang.haile_manager_android.databinding.ItemInvoiceOperatorBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
-import com.yunshang.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonNewBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
@@ -36,8 +37,17 @@ class InvoiceHistoryActivity :
             R.layout.item_invoice_history,
             BR.item
         ) { mItemBinding, _, item ->
-
             mItemBinding?.root?.setOnClickListener {
+                startActivity(
+                    Intent(
+                        this@InvoiceHistoryActivity,
+                        InvoiceHistoryDetailsActivity::class.java
+                    ).apply {
+                        item.id?.let {id->
+                            putExtras(IntentParams.CommonParams.pack(id))
+                        }
+                    }
+                )
             }
         }
     }
@@ -74,22 +84,46 @@ class InvoiceHistoryActivity :
                 mViewModel.endTime.value
             )
         }
-        mBinding.tvInvoiceHistoryTime.setOnClickListener {
+        mBinding.tvInvoiceHistoryStatus.setOnClickListener {
+            CommonNewBottomSheetDialog.Builder<CommonDialogItemParam, ItemCommonSingleItemBinding>(
+                StringUtils.getString(R.string.single_select_dialog),
+                mViewModel.invoiceStateList,
+                mustSelect = false,
+                buildItemView = { _, data ->
+                    DataBindingUtil.inflate<ItemCommonSingleItemBinding?>(
+                        LayoutInflater.from(this@InvoiceHistoryActivity),
+                        R.layout.item_common_single_item,
+                        null,
+                        false
+                    ).apply {
+                        child = data
+                        content = data.name
+                    }
+                }
+            ) {
+                mViewModel.selectInvoiceState.value = mViewModel.invoiceStateList.find { item->item.commonItemSelect }
+            }.build().show(supportFragmentManager)
+        }
+        mBinding.tvInvoiceHistoryOperator.setOnClickListener {
             mViewModel.invoiceUserList.value?.let { userList ->
-                MultiSelectBottomSheetDialog.Builder(
-                    StringUtils.getString(R.string.invoice_operator),
-                    userList
-                ).apply {
-                    isCanSelectEmpty = true
-                    onValueSureListener = object :
-                        MultiSelectBottomSheetDialog.OnValueSureListener<InvoiceUserEntity> {
-                        override fun onValue(
-                            selectData: List<InvoiceUserEntity>,
-                            allSelectData: List<InvoiceUserEntity>
-                        ) {
-                            mViewModel.selectInvoiceUserList.value = selectData
+                CommonNewBottomSheetDialog.Builder<InvoiceUserEntity, ItemInvoiceOperatorBinding>(
+                    StringUtils.getString(R.string.multi_select_dialog),
+                    userList,
+                    multiSelect = true,
+                    buildItemView = { _, data ->
+                        DataBindingUtil.inflate<ItemInvoiceOperatorBinding?>(
+                            LayoutInflater.from(this@InvoiceHistoryActivity),
+                            R.layout.item_invoice_operator,
+                            null,
+                            false
+                        ).apply {
+                            child = data
                         }
                     }
+                ) {
+                    mViewModel.selectInvoiceUserList.value =
+                        mViewModel.invoiceUserList.value?.filter { item -> item.commonItemSelect }
+                    mBinding.rvInvoiceHistoryList.requestRefresh()
                 }.build().show(supportFragmentManager)
             }
         }
@@ -110,5 +144,6 @@ class InvoiceHistoryActivity :
     }
 
     override fun initData() {
+        mBinding.rvInvoiceHistoryList.requestRefresh()
     }
 }

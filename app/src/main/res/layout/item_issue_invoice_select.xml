@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="child"
+            type="com.yunshang.haile_manager_android.data.entities.InvoiceTitleEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_bottom_stroke_dividing_ml16"
+        android:padding="16dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_issue_invoice_select_title"
+            android:layout_width="238dp"
+            android:layout_height="wrap_content"
+            android:lineHeight="22dp"
+            android:text="@{child.titleVal}"
+            android:textColor="@{child.commonItemSelect?@color/colorPrimary:@color/color_black_85}"
+            android:textSize="17sp"
+            app:layout_constraintStart_toEndOf="@id/iv_issue_invoice_select_right"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="具体公司名称字段信息超过换行" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_issue_invoice_select_no"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@{child.taxNoVal}"
+            android:textColor="@{child.commonItemSelect?@color/colorPrimary:@color/color_black_85}"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_issue_invoice_select_title"
+            app:layout_constraintStart_toStartOf="@id/tv_issue_invoice_select_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_issue_invoice_select_title"
+            tools:text="2233 3444 4443 5934 75" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_issue_invoice_select_right"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:background="@color/transparent"
+            android:src="@mipmap/icon_common_select"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_issue_invoice_select_title"
+            app:visibility="@{child.commonItemSelect}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

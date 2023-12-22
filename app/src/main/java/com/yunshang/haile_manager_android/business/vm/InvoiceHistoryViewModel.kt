@@ -12,9 +12,9 @@ import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.data.entities.InvoiceUserEntity
-import com.yunshang.haile_manager_android.data.entities.InvoiceWithdrawFeeEntity
 import com.yunshang.haile_manager_android.data.entities.IssueInvoiceDetailsEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import com.yunshang.haile_manager_android.data.rule.CommonDialogItemParam
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -31,7 +31,7 @@ import java.util.*
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-class InvoiceHistoryViewModel: BaseViewModel() {
+class InvoiceHistoryViewModel : BaseViewModel() {
     private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
 
     // 时间区间
@@ -69,6 +69,19 @@ class InvoiceHistoryViewModel: BaseViewModel() {
             }
         } else StringUtils.getString(R.string.issue_invoice_time)
 
+    val invoiceStateList = listOf(
+        CommonDialogItemParam(0, StringUtils.getString(R.string.invoice_opening)),
+        CommonDialogItemParam(2, StringUtils.getString(R.string.invoice_open_yes))
+    )
+
+    val selectInvoiceState:MutableLiveData<CommonDialogItemParam> by lazy {
+        MutableLiveData()
+    }
+
+    val selectInvoiceStateVal:LiveData<String> = selectInvoiceState.map {
+        it?.name ?:""
+    }
+
     val invoiceUserList: MutableLiveData<List<InvoiceUserEntity>> by lazy {
         MutableLiveData()
     }
@@ -104,7 +117,8 @@ class InvoiceHistoryViewModel: BaseViewModel() {
                             "pageSize" to pageSize,
                             "applyStartDate" to DateTimeUtils.formatDateTimeStartParam(startTime.value),
                             "applyEndDate" to DateTimeUtils.formatDateTimeEndParam(endTime.value),
-//                            "creatorId" to selectInvoiceUserList.value?.mapNotNull { it.id }
+                            "status" to selectInvoiceState.value?.id,
+                            "creatorIds" to selectInvoiceUserList.value?.mapNotNull { it.id }
                         )
                     )
                 )

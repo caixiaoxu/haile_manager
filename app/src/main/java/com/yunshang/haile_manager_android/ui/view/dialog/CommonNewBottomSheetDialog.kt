@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -74,8 +73,9 @@ class CommonNewBottomSheetDialog<D : ICommonNewBottomItemEntity, V : ViewDataBin
 
         mBinding.tvCommonNewDialogTitle.text = builder.title
         // 确定
+        mBinding.tvCommonNewDialogSure.visibility(builder.multiSelect)
         mBinding.tvCommonNewDialogSure.setOnClickListener {
-            if (builder.mustSelect && null == curEntity) {
+            if (builder.mustSelect && builder.list?.all { item -> !item.commonItemSelect } == true) {
                 SToast.showToast(context, "您还没有选择选项")
                 return@setOnClickListener
             }
@@ -89,8 +89,12 @@ class CommonNewBottomSheetDialog<D : ICommonNewBottomItemEntity, V : ViewDataBin
         mBinding.btnCommonNew.visibility(builder.showBottomBtn)
         mBinding.btnCommonNew.text = builder.bottomBtnTxt
         mBinding.btnCommonNew.setOnClickListener {
-            if (builder.bottomBtnEvent(builder.list)) {
-                buildSelectItemList()
+            builder.bottomBtnEvent?.let { event ->
+                when (event(builder.list)) {
+                    1 -> buildSelectItemList()
+                    2 -> dismiss()
+                    else -> {}
+                }
             }
         }
     }
@@ -104,21 +108,35 @@ class CommonNewBottomSheetDialog<D : ICommonNewBottomItemEntity, V : ViewDataBin
         if (!builder.list.isNullOrEmpty()) {
             builder.list.forEachIndexed { index, data ->
                 mBinding.llCommonNewDialogChild.addView(
-                    builder.buildItemView(index, data).also { view ->
-                        view.setOnClickListener {
-                            data.select = !data.select
-                            builder.clickItemView(DataBindingUtil.bind(view), data)
+                    builder.buildItemView(index, data).also { binding ->
+                        if (!builder.isCustomItemClick) {
+                            binding.root.setOnClickListener {
+                                if (builder.multiSelect) {
+                                    data.commonItemSelect = !data.commonItemSelect
+                                } else {
+                                    builder.list.forEach {
+                                        it.commonItemSelect =
+                                            if (it == data) builder.mustSelect || !it.commonItemSelect else false
+                                    }
+                                }
+                                builder.clickItemView?.invoke(binding, data)
 
-                            if (!builder.multiSelect) {
-                                builder.onSelectEvent()
-                                dismiss()
+                                if (!builder.multiSelect) {
+                                    builder.onSelectEvent()
+                                    dismiss()
+                                }
                             }
                         }
-                    },
-                    builder.lp
+                    }.root,
+                    builder.lp ?: LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    )
                 )
             }
         }
+
+        mBinding.tvCommonNewEmpty.visibility(builder.list.isNullOrEmpty())
     }
 
     /**
@@ -138,10 +156,11 @@ class CommonNewBottomSheetDialog<D : ICommonNewBottomItemEntity, V : ViewDataBin
         val mustSelect: Boolean = true,// 是否可不选
         val showBottomBtn: Boolean = false,// 是否显示底部按钮
         val bottomBtnTxt: String = "",// 是否显示底部按钮
-        val bottomBtnEvent: (list: List<D>?) -> Boolean,// 是否显示底部事件
-        val lp: LinearLayout.LayoutParams,
-        val buildItemView: (index: Int, data: D) -> View,
-        val clickItemView: (mItemBinding: V?, data: D) -> Unit,
+        val bottomBtnEvent: ((list: List<D>?) -> Int)? = null,// 是否显示底部事件,0不做处理，1刷新选项列表，2关闭弹窗
+        val lp: LinearLayout.LayoutParams? = null,
+        val buildItemView: (index: Int, data: D) -> V,
+        val isCustomItemClick: Boolean = false,
+        val clickItemView: ((mItemBinding: V?, data: D) -> Unit)? = null,
         val onSelectEvent: () -> Unit,
     ) {
         /**

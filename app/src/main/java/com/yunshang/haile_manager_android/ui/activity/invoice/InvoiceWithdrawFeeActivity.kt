@@ -2,21 +2,26 @@ package com.yunshang.haile_manager_android.ui.activity.invoice
 
 import android.content.Intent
 import android.graphics.Color
+import android.view.LayoutInflater
 import android.view.View
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.InvoiceWithdrawFeeViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.InvoiceUserEntity
 import com.yunshang.haile_manager_android.data.entities.InvoiceWithdrawFeeEntity
 import com.yunshang.haile_manager_android.databinding.ActivityInvoiceWithdrawFeeBinding
+import com.yunshang.haile_manager_android.databinding.ItemInvoiceOperatorBinding
 import com.yunshang.haile_manager_android.databinding.ItemInvoiceWithdrawFeeBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
-import com.yunshang.haile_manager_android.ui.view.dialog.MultiSelectBottomSheetDialog
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonNewBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.dateTime.DateSelectorDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
@@ -49,6 +54,15 @@ class InvoiceWithdrawFeeActivity :
 
     override fun backBtn(): View = mBinding.barInvoiceWithdrawFeeTitle.getBackBtn()
 
+    override fun initEvent() {
+        super.initEvent()
+
+        // 监听刷新
+        LiveDataBus.with(BusEvents.INVOICE_FEE_LIST_STATUS)?.observe(this) {
+            mBinding.rvInvoiceWithdrawFeeList.requestRefresh()
+        }
+    }
+
     private val dateDialog by lazy {
         DateSelectorDialog.Builder().apply {
             selectModel = 1
@@ -80,20 +94,25 @@ class InvoiceWithdrawFeeActivity :
         }
         mBinding.tvInvoiceWithdrawFeeOperator.setOnClickListener {
             mViewModel.invoiceUserList.value?.let { userList ->
-                MultiSelectBottomSheetDialog.Builder(
-                    StringUtils.getString(R.string.invoice_operator),
-                    userList
-                ).apply {
-                    isCanSelectEmpty = true
-                    onValueSureListener = object :
-                        MultiSelectBottomSheetDialog.OnValueSureListener<InvoiceUserEntity> {
-                        override fun onValue(
-                            selectData: List<InvoiceUserEntity>,
-                            allSelectData: List<InvoiceUserEntity>
-                        ) {
-                            mViewModel.selectInvoiceUserList.value = selectData
+                CommonNewBottomSheetDialog.Builder<InvoiceUserEntity, ItemInvoiceOperatorBinding>(
+                    StringUtils.getString(R.string.multi_select_dialog),
+                    userList,
+                    multiSelect = true,
+                    buildItemView = { _, data ->
+                        DataBindingUtil.inflate<ItemInvoiceOperatorBinding?>(
+                            LayoutInflater.from(this@InvoiceWithdrawFeeActivity),
+                            R.layout.item_invoice_operator,
+                            null,
+                            false
+                        ).apply {
+                            child = data
                         }
-                    }
+                    },
+                    isCustomItemClick = true
+                ) {
+                    mViewModel.selectInvoiceUserList.value =
+                        mViewModel.invoiceUserList.value?.filter { item -> item.commonItemSelect }
+                    mBinding.rvInvoiceWithdrawFeeList.requestRefresh()
                 }.build().show(supportFragmentManager)
             }
         }

@@ -11,22 +11,37 @@ package com.yunshang.haile_manager_android.data.entities
  * 作者姓名 修改时间 版本号 描述
  */
 data class IssueInvoiceDetailsEntity(
-    val amount: Int? = null,
+    val invoiceTemplateId: Int? = null,
     val chargeType: Int? = null,
+    val amount: Double? = null,
     val code: String? = null,
     val createTime: String? = null,
     val creatorId: Int? = null,
     val id: Int? = null,
     val invoiceTemplate: InvoiceTemplate? = null,
-    val invoiceTemplateId: Int? = null,
     val lastEditor: Int? = null,
     val logisticsName: String? = null,
     val logisticsNo: String? = null,
     val status: Int? = null,
     val type: Int? = null,
     val updateTime: String? = null,
-    val userId: Int? = null
-)
+    val userId: Int? = null,
+    val address: String? = null,
+    val auditingDate: String? = null,
+    val cityId: Int? = null,
+    val cityName: String? = null,
+    val creatorName: String? = null,
+    val districtId: Int? = null,
+    val districtName: String? = null,
+    val email: String? = null,
+    val provinceId: Int? = null,
+    val provinceName: String? = null,
+    val `receiver`: String? = null,
+    val smsPhone: String? = null,
+) {
+    fun areaVal(): String =
+        if (provinceName.isNullOrEmpty() || cityName.isNullOrEmpty() || districtName.isNullOrEmpty()) "" else "$provinceName-$cityName-$districtName"
+}
 
 data class InvoiceTemplate(
     val address: String? = null,
@@ -46,5 +61,5 @@ data class InvoiceTemplate(
     val taxpayer: String? = null,
     val title: String? = null,
     val type: Int? = null,
-    val userId: Int? = null
+    val userId: Int? = null,
 )

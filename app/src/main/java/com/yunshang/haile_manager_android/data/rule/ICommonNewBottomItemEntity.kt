@@ -1,5 +1,9 @@
 package com.yunshang.haile_manager_android.data.rule
 
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import com.yunshang.haile_manager_android.BR
+
 /**
  * Title :
  * Author: Lsy
@@ -10,6 +14,12 @@ package com.yunshang.haile_manager_android.data.rule
  * <author> <time> <version> <desc>
  * 作者姓名 修改时间 版本号 描述
  */
-interface ICommonNewBottomItemEntity {
-    var select: Boolean
+abstract class ICommonNewBottomItemEntity : BaseObservable() {
+    @Transient
+    @get:Bindable
+    var commonItemSelect: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.commonItemSelect)
+        }
 }

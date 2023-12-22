@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
@@ -9,7 +11,66 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_ffffff_r8"
+        android:layout_marginBottom="12dp"
+        android:padding="16dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_invoice_withdraw_fee_device_name"
+            style="@style/font_17_black85_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text='@{@string/invoice_withdraw_fee + " " + item.amount}'
+            app:layout_constraintEnd_toStartOf="@id/tv_invoice_withdraw_fee_status"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="手续费 1.11元" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_invoice_withdraw_fee_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{2 == item.status?@string/invoice_open_yes:@string/invoice_opening}"
+            android:textColor="@{2 == item.status?@color/color_black_85:@color/colorPrimary}"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_invoice_withdraw_fee_device_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_invoice_withdraw_fee_device_name"
+            tools:text="未回复" />
+
+        <View
+            style="@style/DividingStyle"
+            app:layout_constraintBottom_toTopOf="@id/tv_invoice_withdraw_fee_operator"
+            app:layout_constraintTop_toBottomOf="@id/tv_invoice_withdraw_fee_device_name"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_invoice_withdraw_fee_operator"
+            style="@style/Font_14_black65"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="33dp"
+            android:drawableStart="@mipmap/icon_invoice_withdraw_fee_operator"
+            android:drawablePadding="4dp"
+            android:text='@{@string/apply_operator + "（" + item.creatorName +"）"}'
+            app:layout_constraintTop_toBottomOf="@id/tv_invoice_withdraw_fee_device_name"
+            tools:text="提现人（14444444444）" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_invoice_withdraw_fee_time"
+            style="@style/Font_14_black65"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:drawableStart="@mipmap/icon_invoice_withdraw_fee_time"
+            android:drawablePadding="4dp"
+            android:text="@{item.createTime}"
+            app:layout_constraintTop_toBottomOf="@id/tv_invoice_withdraw_fee_operator"
+            tools:text="2023-01-11 08:08:22" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

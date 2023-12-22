@@ -1,6 +1,6 @@
 package com.yunshang.haile_manager_android.data.entities
 
-import com.yunshang.haile_manager_android.data.rule.IMultiSelectBottomItemEntity
+import com.yunshang.haile_manager_android.data.rule.ICommonNewBottomItemEntity
 
 /**
  * Title :
@@ -15,11 +15,5 @@ import com.yunshang.haile_manager_android.data.rule.IMultiSelectBottomItemEntity
 data class InvoiceUserEntity(
     val id: Int? = null,
     val realName: String? = null
-) : IMultiSelectBottomItemEntity {
-
-    override var isCheck: Boolean = false
-    override var onlyOne: Boolean = false
-
-    override fun getTitle(): String = realName ?: ""
-
+) : ICommonNewBottomItemEntity() {
 }

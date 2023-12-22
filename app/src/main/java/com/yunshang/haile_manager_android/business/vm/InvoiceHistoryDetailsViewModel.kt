@@ -1,9 +1,13 @@
 package com.yunshang.haile_manager_android.business.vm
 
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
+import com.lsy.framelib.data.constants.Constants
 import com.lsy.framelib.network.exception.CommonCustomException
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.ui.base.BaseViewModel
@@ -39,6 +43,22 @@ class InvoiceHistoryDetailsViewModel : BaseViewModel() {
 
     val invoiceDetails: MutableLiveData<IssueInvoiceDetailsEntity> by lazy {
         MutableLiveData()
+    }
+
+    val invoiceAmount: LiveData<SpannableString> = invoiceDetails.map {
+        (it.amount)?.let { total ->
+            com.yunshang.haile_manager_android.utils.StringUtils.formatMultiStyleStr(
+                "${total}元", arrayOf(
+                    ForegroundColorSpan(
+                        ResourcesCompat.getColor(
+                            Constants.APP_CONTEXT.resources,
+                            R.color.colorPrimary,
+                            null
+                        )
+                    ),
+                ), 0, total.toString().length
+            )
+        } ?: SpannableString("")
     }
 
     fun requestData() {

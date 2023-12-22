@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="child"
+            type="com.yunshang.haile_manager_android.data.rule.ICommonNewBottomItemEntity" />
+
+        <variable
+            name="content"
+            type="java.lang.String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_bottom_stroke_dividing_ml16"
+        android:padding="16dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_single_select_title"
+            android:layout_width="238dp"
+            android:layout_height="wrap_content"
+            android:text="@{content}"
+            android:textColor="@{child.commonItemSelect?@color/colorPrimary:@color/color_black_85}"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/iv_issue_invoice_select_right"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="具体公司名称字段信息超过换行" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_issue_invoice_select_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:src="@mipmap/icon_common_select"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_single_select_title"
+            app:visibility="@{child.commonItemSelect}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

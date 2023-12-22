@@ -2,7 +2,6 @@ package com.yunshang.haile_manager_android.data.rule
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
-import androidx.lifecycle.MutableLiveData
 import com.yunshang.haile_manager_android.BR
 
 /**

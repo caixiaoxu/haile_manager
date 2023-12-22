@@ -1,6 +1,7 @@
 package com.yunshang.haile_manager_android.ui.activity.invoice
 
 import android.graphics.Color
+import android.view.View
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.InvoiceTitleAddViewModel
@@ -14,6 +15,8 @@ class InvoiceTitleAddActivity :
     ) {
 
     override fun layoutId(): Int = R.layout.activity_invoice_title_add
+
+    override fun backBtn(): View = mBinding.barInvoiceTitleAddTitle.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()

@@ -65,15 +65,55 @@
 
                         <include
                             layout="@layout/item_invoice_title_details"
-                            app:show="@{true}"
                             app:content="@{vm.invoiceTitle.isPersonalVal()}"
+                            app:show="@{true}"
                             app:title="@{@string/invoice_title_type}" />
 
-                        <include
-                            layout="@layout/item_invoice_title_details"
-                            app:show="@{true}"
-                            app:content="@{vm.invoiceTitle.typeVal()}"
-                            app:title="@{@string/invoice_type}" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="top"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/Font_14_black45"
+                                android:layout_width="72dp"
+                                android:layout_height="wrap_content"
+                                android:text='@{@string/invoice_type + "："}'
+                                tools:text="发票类型：" />
+
+                            <RadioGroup
+                                android:id="@+id/rg_issue_invoice_type"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <androidx.appcompat.widget.AppCompatRadioButton
+                                    android:id="@+id/rb_issue_invoice_type1"
+                                    style="@style/Font_14_black85"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="20dp"
+                                    android:layout_marginBottom="4dp"
+                                    android:button="@null"
+                                    android:minHeight="0dp"
+                                    android:background="@color/transparent"
+                                    android:text="@string/invoice_type2"
+                                    app:visibility="@{vm.hasIssuePaperInvoice}" />
+
+                                <androidx.appcompat.widget.AppCompatRadioButton
+                                    android:id="@+id/rb_issue_invoice_type2"
+                                    style="@style/Font_14_black85"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="20dp"
+                                    android:button="@null"
+                                    android:background="@color/transparent"
+                                    android:minHeight="0dp"
+                                    android:text="@string/invoice_type1" />
+
+                            </RadioGroup>
+                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -151,6 +191,7 @@
                         android:minHeight="0dp"
                         android:paddingEnd="8dp"
                         android:text="@{vm.isFold?@string/unfold:@string/fold}"
+                        app:visibility="@{vm.invoiceTitle.invoiceTitleType0Val}"
                         tools:text="@string/unfold" />
                 </LinearLayout>
 
@@ -167,11 +208,13 @@
                         android:id="@+id/include_issue_invoice_total"
                         layout="@layout/item_invoice_title_details"
                         app:content="@{vm.feeTotal}"
+                        app:show="@{true}"
                         app:title="@{@string/total_amount1}" />
 
                     <include
                         layout="@layout/item_invoice_title_details"
                         app:content="@{@string/invoice_content_value}"
+                        app:show="@{true}"
                         app:title="@{@string/invoice_content}" />
 
                 </LinearLayout>
@@ -199,7 +242,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingVertical="12dp"
-                        app:visibility="@{2 == vm.invoiceTitle.type}">
+                        app:visibility="@{2 == vm.createInvoiceParams.typeVal}">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_issue_invoice_addressee_title"
@@ -232,6 +275,8 @@
                             android:layout_marginEnd="12dp"
                             android:background="@color/transparent"
                             android:hint="@string/addressee_hint"
+                            android:maxLength="20"
+                            android:text="@={vm.createInvoiceParams.receiverVal}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="@id/tv_issue_invoice_addressee"
                             app:layout_constraintTop_toBottomOf="@id/tv_issue_invoice_addressee" />
@@ -271,8 +316,11 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:layout_marginEnd="12dp"
+                            android:inputType="phone"
+                            android:maxLength="11"
                             android:background="@color/transparent"
-                            android:hint="@{1 == vm.invoiceTitle.type?@string/addressee_phone_hint:@string/please_input}"
+                            android:hint="@{1 == vm.createInvoiceParams.typeVal?@string/addressee_phone_hint:@string/please_input}"
+                            android:text="@={vm.createInvoiceParams.smsPhoneVal}"
                             app:layout_constraintEnd_toStartOf="@id/ib_issue_invoice_phone"
                             app:layout_constraintStart_toStartOf="@id/tv_issue_invoice_phone"
                             app:layout_constraintTop_toBottomOf="@id/tv_issue_invoice_phone" />
@@ -286,14 +334,14 @@
                             app:layout_constraintBottom_toBottomOf="@id/et_issue_invoice_phone"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/et_issue_invoice_phone"
-                            app:visibility="@{1 == vm.invoiceTitle.type}" />
+                            app:visibility="@{1 == vm.createInvoiceParams.typeVal}"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingVertical="12dp"
-                        app:visibility="@{1 == vm.invoiceTitle.type}">
+                        app:visibility="@{1 == vm.createInvoiceParams.typeVal}">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_issue_invoice_email_title"
@@ -326,6 +374,9 @@
                             android:layout_marginEnd="12dp"
                             android:background="@color/transparent"
                             android:hint="@string/email_hint"
+                            android:maxLength="30"
+                            android:inputType="textEmailAddress"
+                            android:text="@={vm.createInvoiceParams.emailVal}"
                             app:layout_constraintEnd_toStartOf="@id/ib_issue_invoice_email"
                             app:layout_constraintStart_toStartOf="@id/tv_issue_invoice_email"
                             app:layout_constraintTop_toBottomOf="@id/tv_issue_invoice_email" />
@@ -342,10 +393,11 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_issue_invoice_area"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingVertical="12dp"
-                        app:visibility="@{2 == vm.invoiceTitle.type}">
+                        app:visibility="@{2 == vm.createInvoiceParams.typeVal}">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_issue_invoice_area_title"
@@ -378,6 +430,7 @@
                             android:layout_marginTop="4dp"
                             android:background="@color/transparent"
                             android:hint="@string/area_select_title"
+                            android:text="@{vm.createInvoiceParams.areaVal}"
                             app:layout_constraintEnd_toEndOf="@id/tv_issue_invoice_area"
                             app:layout_constraintStart_toStartOf="@id/tv_issue_invoice_area"
                             app:layout_constraintTop_toBottomOf="@id/tv_issue_invoice_area" />
@@ -397,7 +450,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingVertical="12dp"
-                        app:visibility="@{2 == vm.invoiceTitle.type}">
+                        app:visibility="@{2 == vm.createInvoiceParams.typeVal}">
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_issue_invoice_address_title"
@@ -430,7 +483,9 @@
                             android:background="@color/transparent"
                             android:gravity="top"
                             android:hint="@string/address_hint"
+                            android:maxLength="50"
                             android:minHeight="64dp"
+                            android:text="@={vm.createInvoiceParams.addressVal}"
                             app:layout_constraintEnd_toEndOf="@id/tv_issue_invoice_address"
                             app:layout_constraintStart_toStartOf="@id/tv_issue_invoice_address"
                             app:layout_constraintTop_toBottomOf="@id/tv_issue_invoice_address" />
@@ -450,6 +505,8 @@
                 android:id="@+id/btn_issue_invoice"
                 style="@style/CommonMatchBtnStyle1"
                 android:layout_marginHorizontal="16dp"
+                android:enabled="@{vm.createInvoiceParams.canSubmit}"
+                android:onClick="@{vm::submit}"
                 android:text="@string/submit" />
         </FrameLayout>
     </LinearLayout>

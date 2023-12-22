@@ -48,7 +48,7 @@
                 android:drawableEnd="@mipmap/icon_order_filter_triangle"
                 android:gravity="center"
                 android:hint="@string/status"
-                android:text="@{vm.selectInvoiceUserVal}" />
+                android:text="@{vm.selectInvoiceStateVal}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_invoice_history_operator"
@@ -58,7 +58,7 @@
                 android:layout_marginStart="16dp"
                 android:drawableEnd="@mipmap/icon_order_filter_triangle"
                 android:gravity="center"
-                android:hint="@string/invoice_operator"
+                android:hint="@string/cancellation_operator"
                 android:text="@{vm.selectInvoiceUserVal}" />
 
         </LinearLayout>

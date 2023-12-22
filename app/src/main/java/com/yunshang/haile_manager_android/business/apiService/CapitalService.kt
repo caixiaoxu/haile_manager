@@ -312,10 +312,28 @@ interface CapitalService {
     suspend fun deleteInvoiceTitle(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
+     * 是否可开纸质发票接口
+     */
+    @POST("/invoice/specialInvoice")
+    suspend fun requestSpecialInvoice(): ResponseWrapper<Boolean>
+
+    /**
      * 开票列表接口
      */
     @POST("/invoice/list")
     suspend fun requestInvoiceList(@Body body: RequestBody): ResponseWrapper<ResponseList<IssueInvoiceDetailsEntity>>
+
+    /**
+     * 开票列表人接口
+     */
+    @POST("/invoice/template/receiver/list")
+    suspend fun requestInvoiceReceiverList(): ResponseWrapper<MutableList<InvoiceReceiverEntity>>
+
+    /**
+     * 开票接口
+     */
+    @POST("/invoice/create")
+    suspend fun issueInvoice(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
      * 开票详情接口

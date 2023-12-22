@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="com.yunshang.haile_manager_android.business.vm.InvoiceHistoryDetailsViewModel" />
@@ -19,37 +20,126 @@
             android:id="@+id/bar_invoice_history_details_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
-            app:title="@string/invoice_details"
-            android:background="@drawable/shape_bottom_stroke_dividing"/>
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            app:title="@string/invoice_details" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
-            android:paddingBottom="12dp"
             android:background="@drawable/shape_ffffff_r8"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="12dp">
 
             <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_24_333333_bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Font_24_333333_bold"
-                tools:text="已开票"
-                android:background="@drawable/shape_bottom_stroke_dividing"
                 android:layout_marginHorizontal="16dp"
-                android:paddingVertical="24dp"/>
+                android:background="@drawable/shape_bottom_stroke_dividing"
+                android:paddingVertical="24dp"
+                android:text="@{2 == vm.invoiceDetails.status?@string/invoice_open_yes:@string/invoice_opening}"
+                tools:text="已开票" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
+                android:background="@drawable/shape_top_stroke_dividing_mlr16"
+                android:orientation="vertical"
                 android:paddingHorizontal="12dp"
-                android:orientation="vertical">
+                android:paddingTop="16dp"
+                app:divider="@drawable/divide_size4"
+                app:showDividers="middle">
 
                 <include
                     layout="@layout/item_invoice_title_details"
                     app:content="@{vm.invoiceDetails.code}"
+                    app:show="@{true}"
                     app:title="@{@string/number}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceAmount}"
+                    app:show="@{true}"
+                    app:title="@{@string/invoice_amount}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceDetails.creatorName}"
+                    app:show="@{true}"
+                    app:title="@{@string/apply_operator}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceDetails.createTime}"
+                    app:show="@{true}"
+                    app:title="@{@string/apply_time}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceDetails.auditingDate}"
+                    app:show="@{true}"
+                    app:title="@{@string/issue_invoice_time}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceDetails.receiver}"
+                    app:show="@{true}"
+                    app:title="@{@string/addressee}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceDetails.smsPhone}"
+                    app:show="@{true}"
+                    app:title="@{@string/phone}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceDetails.areaVal}"
+                    app:show="@{true}"
+                    app:title="@{@string/shop_area}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceDetails.address}"
+                    app:show="@{true}"
+                    app:title="@{@string/shop_location_detail}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceDetails.invoiceTemplate.title}"
+                    app:show="@{true}"
+                    app:title="@{@string/invoice_title}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceDetails.invoiceTemplate.taxNo}"
+                    app:show="@{true}"
+                    app:title="@{@string/company_number}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceDetails.invoiceTemplate.bankName}"
+                    app:show="@{true}"
+                    app:title="@{@string/open_bank}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceDetails.invoiceTemplate.bankAccount}"
+                    app:show="@{true}"
+                    app:title="@{@string/bank_account}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceDetails.invoiceTemplate.smsPhone}"
+                    app:show="@{true}"
+                    app:title="@{@string/company_phone}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceDetails.invoiceTemplate.address}"
+                    app:show="@{true}"
+                    app:title="@{@string/company_address}" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
         </LinearLayout>

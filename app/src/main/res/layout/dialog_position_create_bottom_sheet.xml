@@ -78,8 +78,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
                     android:paddingVertical="12dp"
+                    android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:paddingEnd="16dp"
                     app:visibility="@{0 == build.addType}"
                     tools:visibility="visible">
@@ -123,7 +123,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shape_top_stroke_dividing_mlr16"
+                    android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:paddingVertical="12dp"
                     android:paddingHorizontal="16dp"
                     app:visibility="@{0 == build.addType}"
@@ -160,8 +160,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shape_top_stroke_dividing_mlr16"
                     android:paddingVertical="12dp"
+                    android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:paddingEnd="16dp"
                     app:visibility="@{1 == build.addType}"
                     tools:visibility="visible">

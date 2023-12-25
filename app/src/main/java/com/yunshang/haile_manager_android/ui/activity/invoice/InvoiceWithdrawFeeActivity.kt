@@ -98,7 +98,7 @@ class InvoiceWithdrawFeeActivity :
                     StringUtils.getString(R.string.multi_select_dialog),
                     userList,
                     multiSelect = true,
-                    buildItemView = { _, data ->
+                    buildItemView = { _, data,_ ->
                         DataBindingUtil.inflate<ItemInvoiceOperatorBinding?>(
                             LayoutInflater.from(this@InvoiceWithdrawFeeActivity),
                             R.layout.item_invoice_operator,

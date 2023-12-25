@@ -341,4 +341,10 @@ interface CapitalService {
     @POST("/invoice/detail/{id}")
     suspend fun requestInvoiceDetails(@Path("id") id: Int): ResponseWrapper<IssueInvoiceDetailsEntity>
 
+    /**
+     * 开票收件人删除接口
+     */
+    @POST("/invoice/template/receiver/delete/{id}")
+    suspend fun deleteInvoiceReceiver(@Path("id") id: Int): ResponseWrapper<Any>
+
 }

@@ -59,6 +59,9 @@ class InvoiceTitleActivity :
         }
 
         // 监听刷新
+        LiveDataBus.with(BusEvents.INVOICE_TITLE_ADD_STATUS)?.observe(this) {
+            mViewModel.requestData()
+        }
         LiveDataBus.with(BusEvents.INVOICE_TITLE_LIST_STATUS)?.observe(this) {
             mViewModel.requestData()
         }

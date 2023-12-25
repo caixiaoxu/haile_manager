@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.data.rule.ICommonNewBottomItemEntity
 import com.yunshang.haile_manager_android.databinding.DialogCommonNewBottomSheetBinding
@@ -86,6 +87,11 @@ class CommonNewBottomSheetDialog<D : ICommonNewBottomItemEntity, V : ViewDataBin
 
         buildSelectItemList()
 
+        mBinding.tvCommonNewEmpty.text = builder.emptyPromptTxt
+        mBinding.tvCommonNewEmpty.setCompoundDrawablesWithIntrinsicBounds(
+            0, builder.emptyPromptImg, 0, 0
+        )
+
         mBinding.btnCommonNew.visibility(builder.showBottomBtn)
         mBinding.btnCommonNew.text = builder.bottomBtnTxt
         mBinding.btnCommonNew.setOnClickListener {
@@ -108,7 +114,9 @@ class CommonNewBottomSheetDialog<D : ICommonNewBottomItemEntity, V : ViewDataBin
         if (!builder.list.isNullOrEmpty()) {
             builder.list.forEachIndexed { index, data ->
                 mBinding.llCommonNewDialogChild.addView(
-                    builder.buildItemView(index, data).also { binding ->
+                    builder.buildItemView(index, data) {
+                        buildSelectItemList()
+                    }.also { binding ->
                         if (!builder.isCustomItemClick) {
                             binding.root.setOnClickListener {
                                 if (builder.multiSelect) {
@@ -158,7 +166,9 @@ class CommonNewBottomSheetDialog<D : ICommonNewBottomItemEntity, V : ViewDataBin
         val bottomBtnTxt: String = "",// 是否显示底部按钮
         val bottomBtnEvent: ((list: List<D>?) -> Int)? = null,// 是否显示底部事件,0不做处理，1刷新选项列表，2关闭弹窗
         val lp: LinearLayout.LayoutParams? = null,
-        val buildItemView: (index: Int, data: D) -> V,
+        val emptyPromptTxt: String = StringUtils.getString(R.string.empty_content),
+        val emptyPromptImg: Int = R.mipmap.icon_list_device_empty,
+        val buildItemView: (index: Int, data: D, refreshSelectItem: () -> Unit) -> V,
         val isCustomItemClick: Boolean = false,
         val clickItemView: ((mItemBinding: V?, data: D) -> Unit)? = null,
         val onSelectEvent: () -> Unit,

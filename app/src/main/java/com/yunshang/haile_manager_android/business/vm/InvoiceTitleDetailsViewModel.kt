@@ -1,8 +1,10 @@
 package com.yunshang.haile_manager_android.business.vm
 
 import androidx.lifecycle.MutableLiveData
+import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
+import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.entities.InvoiceTitleEntity
 import com.yunshang.haile_manager_android.data.extend.hasVal
 import com.yunshang.haile_manager_android.data.model.ApiRepository
@@ -49,8 +51,8 @@ class InvoiceTitleDetailsViewModel : BaseViewModel() {
                     )
                 )
             )
+            LiveDataBus.post(BusEvents.INVOICE_TITLE_LIST_STATUS, true)
             jump.postValue(0)
         })
     }
-
 }

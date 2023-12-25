@@ -58,7 +58,7 @@ class InvoiceTitleDetailsActivity :
                 title = StringUtils.getString(R.string.tip)
                 negativeTxt = StringUtils.getString(R.string.cancel)
                 setPositiveButton(StringUtils.getString(R.string.sure)) {
-
+                    mViewModel.deleteInvoiceTitle()
                 }
             }.build().show(supportFragmentManager)
         }

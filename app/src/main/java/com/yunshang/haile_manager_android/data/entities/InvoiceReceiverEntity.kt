@@ -1,5 +1,8 @@
 package com.yunshang.haile_manager_android.data.entities
 
+import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
+import com.yunshang.haile_manager_android.data.rule.ICommonNewBottomItemEntity
+
 /**
  * Title :
  * Author: Lsy
@@ -23,4 +26,12 @@ data class InvoiceReceiverEntity(
     val `receiver`: String? = null,
     val smsPhone: String? = null,
     val userId: Int? = null
-)
+): ICommonNewBottomItemEntity() {
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is InvoiceReceiverEntity) return false
+        else if (id == other.id) return true
+        return super.equals(other)
+    }
+}

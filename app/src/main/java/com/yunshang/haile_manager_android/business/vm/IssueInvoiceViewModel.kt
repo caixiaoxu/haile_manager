@@ -85,23 +85,13 @@ class IssueInvoiceViewModel : BaseViewModel() {
             )
         }
 
+    // 收件人列表
     val invoiceReceiverList: MutableLiveData<MutableList<InvoiceReceiverEntity>> by lazy {
         MutableLiveData()
     }
 
-    // 是否显示纸质发票
-    val refreshReceiver: MediatorLiveData<Boolean> = MediatorLiveData(false).apply {
-        addSource(hasIssuePaperInvoice) {
-            value = refreshReceiverVal()
-        }
-        addSource(invoiceReceiverList) {
-            value = refreshReceiverVal()
-        }
-    }
-
-    private fun refreshReceiverVal(): Boolean {
-        val receiver = invoiceReceiverList.value?.find { item -> !item.receiver.isNullOrEmpty() }
-        if (true == hasIssuePaperInvoice.value && null != receiver) {
+    fun changeReceiver(receiver: InvoiceReceiverEntity) {
+        if (receiver.email.isNullOrEmpty()) {
             createInvoiceParams.value?.receiverVal = receiver.receiver ?: ""
             createInvoiceParams.value?.smsPhoneVal = receiver.smsPhone ?: ""
             createInvoiceParams.value?.changeArea(
@@ -113,31 +103,58 @@ class IssueInvoiceViewModel : BaseViewModel() {
                 receiver.districtName
             )
             createInvoiceParams.value?.addressVal = receiver.address ?: ""
+        } else {
+            createInvoiceParams.value?.smsPhoneVal = receiver.smsPhone ?: ""
+            createInvoiceParams.value?.emailVal = receiver.email
         }
-        return true
+        createInvoiceParams.value?.receiverId = receiver.id
     }
 
-    fun requestData() {
+    fun requestData(setLastTitle: Boolean = false) {
         launch({
-            ApiRepository.dealApiResult(
-                mCapitalRepo.requestSpecialInvoice()
-            )?.let {
-                canIssuePaperInvoice.postValue(it)
+            if (null == canIssuePaperInvoice.value) {
+                ApiRepository.dealApiResult(
+                    mCapitalRepo.requestSpecialInvoice()
+                )?.let {
+                    canIssuePaperInvoice.postValue(it)
+                }
             }
+
+            if (invoiceReceiverList.value.isNullOrEmpty()) {
+                requestInvoiceReceiverList()
+            }
+
             ApiRepository.dealApiResult(
                 mCapitalRepo.requestInvoiceTitleList(
                     ApiRepository.createRequestBody(hashMapOf())
                 )
             )?.let {
                 invoiceTitleList.postValue(it)
-                invoiceTitle.postValue(it.find { item -> item.defaultVal }?.apply {
+                invoiceTitle.postValue((if (setLastTitle) it.firstOrNull()
+                else it.find { item -> item.defaultVal } ?: it.firstOrNull())?.apply {
                     commonItemSelect = true
-                } ?: it.firstOrNull())
+                })
             }
+        })
+    }
+
+    private suspend fun requestInvoiceReceiverList() {
+        ApiRepository.dealApiResult(
+            mCapitalRepo.requestInvoiceReceiverList()
+        )?.let {
+            invoiceReceiverList.postValue(it)
+        }
+    }
+
+    fun deleteInvoiceTitle(id: Int?, callback: () -> Unit) {
+        if (!id.hasVal()) return
+        launch({
             ApiRepository.dealApiResult(
-                mCapitalRepo.requestInvoiceReceiverList()
-            )?.let {
-                invoiceReceiverList.postValue(it)
+                mCapitalRepo.deleteInvoiceReceiver(id!!)
+            )
+            requestInvoiceReceiverList()
+            withContext(Dispatchers.Main) {
+                callback()
             }
         })
     }
@@ -172,6 +189,9 @@ class IssueInvoiceViewModel : BaseViewModel() {
         var address: String? = null,
         var email: String? = null
     ) : BaseObservable() {
+
+        @Transient
+        var receiverId: Int? = null
 
         fun changeInvoiceTemplateId(templateId: Int?) {
             invoiceTemplateId = templateId
@@ -227,7 +247,7 @@ class IssueInvoiceViewModel : BaseViewModel() {
 
         fun changeArea(
             provinceId: Int?,
-            provice: String?,
+            province: String?,
             cityId: Int?,
             city: String?,
             districtId: Int?,
@@ -236,14 +256,15 @@ class IssueInvoiceViewModel : BaseViewModel() {
             this.provinceId = provinceId
             this.cityId = cityId
             this.districtId = districtId
-            areaVal = (provice ?: "") + (city ?: "") + (district ?: "")
+            areaVal = (province ?: "") + (city ?: "") + (district ?: "")
             notifyPropertyChanged(BR.canSubmit)
         }
 
         @Transient
+        @get:Bindable
         var areaVal: String = ""
             set(value) {
-                field = areaVal
+                field = value
                 notifyPropertyChanged(BR.areaVal)
             }
 

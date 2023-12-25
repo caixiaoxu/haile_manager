@@ -60,8 +60,12 @@ class InvoiceTitleAddViewModel : BaseViewModel() {
             withContext(Dispatchers.Main) {
                 SToast.showToast(v.context, R.string.submit_success)
             }
-            LiveDataBus.post(BusEvents.INVOICE_TITLE_LIST_STATUS, true)
-            LiveDataBus.post(BusEvents.INVOICE_TITLE_DETAILS_STATUS, true)
+            if (invoiceTitleAddParams.value?.id.hasVal()){
+                LiveDataBus.post(BusEvents.INVOICE_TITLE_LIST_STATUS, true)
+                LiveDataBus.post(BusEvents.INVOICE_TITLE_DETAILS_STATUS, true)
+            } else {
+                LiveDataBus.post(BusEvents.INVOICE_TITLE_ADD_STATUS, true)
+            }
             jump.postValue(0)
         })
     }

@@ -1,5 +1,6 @@
 package com.yunshang.haile_manager_android.ui.activity.invoice
 
+import android.graphics.Color
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.InvoiceHistoryDetailsViewModel
@@ -20,6 +21,7 @@ class InvoiceHistoryDetailsActivity :
     }
 
     override fun initView() {
+        window.statusBarColor = Color.WHITE
     }
 
     override fun initData() {

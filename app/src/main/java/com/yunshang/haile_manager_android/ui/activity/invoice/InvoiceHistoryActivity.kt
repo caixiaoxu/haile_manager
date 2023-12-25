@@ -89,7 +89,7 @@ class InvoiceHistoryActivity :
                 StringUtils.getString(R.string.single_select_dialog),
                 mViewModel.invoiceStateList,
                 mustSelect = false,
-                buildItemView = { _, data ->
+                buildItemView = { _, data,_ ->
                     DataBindingUtil.inflate<ItemCommonSingleItemBinding?>(
                         LayoutInflater.from(this@InvoiceHistoryActivity),
                         R.layout.item_common_single_item,
@@ -102,6 +102,7 @@ class InvoiceHistoryActivity :
                 }
             ) {
                 mViewModel.selectInvoiceState.value = mViewModel.invoiceStateList.find { item->item.commonItemSelect }
+                mBinding.rvInvoiceHistoryList.requestRefresh()
             }.build().show(supportFragmentManager)
         }
         mBinding.tvInvoiceHistoryOperator.setOnClickListener {
@@ -110,7 +111,7 @@ class InvoiceHistoryActivity :
                     StringUtils.getString(R.string.multi_select_dialog),
                     userList,
                     multiSelect = true,
-                    buildItemView = { _, data ->
+                    buildItemView = { _, data,_ ->
                         DataBindingUtil.inflate<ItemInvoiceOperatorBinding?>(
                             LayoutInflater.from(this@InvoiceHistoryActivity),
                             R.layout.item_invoice_operator,

@@ -60,7 +60,7 @@
     </style>
 
     <style name="KeyboardBottomSheetDialogStyle" parent="CommonBottomSheetDialogStyle">
-        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:windowSoftInputMode">stateVisible|adjustResize</item>
     </style>
 
     <style name="BottomSheetStyleWrapper" parent="Widget.MaterialComponents.BottomSheet.Modal">

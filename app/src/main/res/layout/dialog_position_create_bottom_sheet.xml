@@ -62,7 +62,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="12dp"
-            android:background="@drawable/divder_efefef" />
+            android:background="@color/page_bg" />
 
         <com.yunshang.haile_manager_android.ui.view.MaxHeightScrollView
             android:layout_width="match_parent"
@@ -106,7 +106,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/tv_position_create_position_name_content"
+                        android:id="@+id/et_position_create_position_name_content"
                         style="@style/font_17_black85_black45"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -141,7 +141,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/tv_position_create_position_floor_content"
+                        android:id="@+id/et_position_create_position_floor_content"
                         style="@style/font_17_black85_black45"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -188,7 +188,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/tv_position_create_business_phone_content"
+                        android:id="@+id/et_position_create_business_phone_content"
                         style="@style/font_17_black85_black45"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

@@ -43,7 +43,7 @@ class InvoiceHistoryActivity :
                         this@InvoiceHistoryActivity,
                         InvoiceHistoryDetailsActivity::class.java
                     ).apply {
-                        item.id?.let {id->
+                        item.id?.let { id ->
                             putExtras(IntentParams.CommonParams.pack(id))
                         }
                     }
@@ -89,7 +89,7 @@ class InvoiceHistoryActivity :
                 StringUtils.getString(R.string.single_select_dialog),
                 mViewModel.invoiceStateList,
                 mustSelect = false,
-                buildItemView = { _, data,_ ->
+                buildItemView = { _, data, _ ->
                     DataBindingUtil.inflate<ItemCommonSingleItemBinding?>(
                         LayoutInflater.from(this@InvoiceHistoryActivity),
                         R.layout.item_common_single_item,
@@ -101,7 +101,8 @@ class InvoiceHistoryActivity :
                     }
                 }
             ) {
-                mViewModel.selectInvoiceState.value = mViewModel.invoiceStateList.find { item->item.commonItemSelect }
+                mViewModel.selectInvoiceState.value =
+                    mViewModel.invoiceStateList.find { item -> item.commonItemSelect }
                 mBinding.rvInvoiceHistoryList.requestRefresh()
             }.build().show(supportFragmentManager)
         }
@@ -111,7 +112,7 @@ class InvoiceHistoryActivity :
                     StringUtils.getString(R.string.multi_select_dialog),
                     userList,
                     multiSelect = true,
-                    buildItemView = { _, data,_ ->
+                    buildItemView = { _, data, _ ->
                         DataBindingUtil.inflate<ItemInvoiceOperatorBinding?>(
                             LayoutInflater.from(this@InvoiceHistoryActivity),
                             R.layout.item_invoice_operator,
@@ -130,6 +131,8 @@ class InvoiceHistoryActivity :
         }
 
         mBinding.rvInvoiceHistoryList.layoutManager = LinearLayoutManager(this)
+        mBinding.rvInvoiceHistoryList.listStatusTxtResId = R.string.invoice_empty
+        mBinding.rvInvoiceHistoryList.listStatusImgResId = R.mipmap.icon_list_device_empty
         mBinding.rvInvoiceHistoryList.adapter = mAdapter
         mBinding.rvInvoiceHistoryList.requestData =
             object : CommonRefreshRecyclerView.OnRequestDataListener<IssueInvoiceDetailsEntity>() {

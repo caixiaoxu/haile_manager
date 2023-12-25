@@ -610,6 +610,7 @@
     <string name="invoice_open_no">未开票</string>
     <string name="invoice_opening">开票中</string>
     <string name="invoice_open_yes">已开票</string>
+    <string name="invoice_empty">无开票信息</string>
     <string name="add_invoice_title">新增发票抬头</string>
     <string name="invoice_type">发票类型</string>
     <string name="issue_invoice_time">开票时间</string>

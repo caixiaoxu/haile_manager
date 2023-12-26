@@ -4,10 +4,7 @@ import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
 import com.yunshang.haile_manager_android.data.entities.*
 import okhttp3.RequestBody
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 /**
  * Title : 资金接口
@@ -271,5 +268,83 @@ interface CapitalService {
      */
     @POST("/export/taskList")
     suspend fun requestExportHistory(@Body body: RequestBody): ResponseWrapper<ResponseList<ExportHistoryEntity>>
+
+    /**
+     * 发票提现手续费接口
+     */
+    @POST("/invoice/cashOut/list")
+    suspend fun requestInvoiceCashOutList(@Body body: RequestBody): ResponseWrapper<ResponseList<InvoiceWithdrawFeeEntity>>
+
+    /**
+     * 发票提现人列表接口
+     */
+    @POST("/invoice/user/list")
+    suspend fun requestInvoiceUserList(): ResponseWrapper<MutableList<InvoiceUserEntity>>
+
+    /**
+     * 发票抬头列表接口
+     */
+    @POST("/invoice/template/list")
+    suspend fun requestInvoiceTitleList(@Body body: RequestBody): ResponseWrapper<MutableList<InvoiceTitleEntity>>
+
+    /**
+     * 发票抬头新增接口
+     */
+    @POST("/invoice/template/create")
+    suspend fun createInvoiceTitle(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 发票抬头修改接口
+     */
+    @POST("/invoice/template/edit")
+    suspend fun updateInvoiceTitle(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 发票抬头修改接口
+     */
+    @POST("/invoice/template/detail/{id}")
+    suspend fun requestInvoiceTitleDetails(@Path("id") id: Int): ResponseWrapper<InvoiceTitleEntity>
+
+    /**
+     * 发票抬头删除接口
+     */
+    @POST("/invoice/template/delete")
+    suspend fun deleteInvoiceTitle(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 是否可开纸质发票接口
+     */
+    @POST("/invoice/specialInvoice")
+    suspend fun requestSpecialInvoice(): ResponseWrapper<Boolean>
+
+    /**
+     * 开票列表接口
+     */
+    @POST("/invoice/list")
+    suspend fun requestInvoiceList(@Body body: RequestBody): ResponseWrapper<ResponseList<IssueInvoiceDetailsEntity>>
+
+    /**
+     * 开票列表人接口
+     */
+    @POST("/invoice/template/receiver/list")
+    suspend fun requestInvoiceReceiverList(): ResponseWrapper<MutableList<InvoiceReceiverEntity>>
+
+    /**
+     * 开票接口
+     */
+    @POST("/invoice/create")
+    suspend fun issueInvoice(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 开票详情接口
+     */
+    @POST("/invoice/detail/{id}")
+    suspend fun requestInvoiceDetails(@Path("id") id: Int): ResponseWrapper<IssueInvoiceDetailsEntity>
+
+    /**
+     * 开票收件人删除接口
+     */
+    @POST("/invoice/template/receiver/delete/{id}")
+    suspend fun deleteInvoiceReceiver(@Path("id") id: Int): ResponseWrapper<Any>
 
 }

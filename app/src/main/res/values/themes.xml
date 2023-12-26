@@ -60,7 +60,7 @@
     </style>
 
     <style name="KeyboardBottomSheetDialogStyle" parent="CommonBottomSheetDialogStyle">
-        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:windowSoftInputMode">stateVisible|adjustResize</item>
     </style>
 
     <style name="BottomSheetStyleWrapper" parent="Widget.MaterialComponents.BottomSheet.Modal">
@@ -256,6 +256,11 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
+    <style name="font_10_ffa936">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/color_FFA936</item>
+    </style>
+
     <style name="Font_10_ff5219">
         <item name="android:textSize">10sp</item>
         <item name="android:textColor">@color/color_ff5219</item>
@@ -264,6 +269,16 @@
     <style name="font_10_000000">
         <item name="android:textSize">10sp</item>
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="font_10_black85">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/color_black_85</item>
+    </style>
+
+    <style name="font_10_18d35e">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/color_18d35e</item>
     </style>
 
     <style name="font_10_ffffff">
@@ -385,6 +400,11 @@
         <item name="android:textColor">@color/color_black_25</item>
     </style>
 
+    <style name="Font_14_black45">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_black_45</item>
+    </style>
+
     <style name="Font_14_black65">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/color_black_65</item>
@@ -416,11 +436,6 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
-    <style name="Font_14_black45">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/color_black_45</item>
-    </style>
-
     <style name="Font_14_f0a258_bold" parent="Font_14_f0a258">
         <item name="android:textStyle">bold</item>
     </style>
@@ -428,6 +443,16 @@
     <style name="Font_14_ccccccc">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/common_txt_hint_color</item>
+    </style>
+
+    <style name="Font_14_66171A1D">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_66171A1D</item>
+    </style>
+
+    <style name="font_15_black45">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/color_black_45</item>
     </style>
 
     <style name="font_15_171a1d">
@@ -480,9 +505,32 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
+    <style name="font_17_171a1d">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/color_171A1D</item>
+    </style>
+
+    <style name="font_17_171a1d_bold" parent="font_17_171a1d">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="font_17_ff5219">
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/color_ff5219</item>
+    </style>
+
+    <style name="font_17_f0a258">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="font_17_f0a258_bold" parent="font_17_f0a258">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="font_17_black25">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/color_black_25</item>
     </style>
 
     <style name="font_17_black85">

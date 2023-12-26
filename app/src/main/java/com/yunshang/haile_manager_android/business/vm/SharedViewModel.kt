@@ -127,6 +127,14 @@ class SharedViewModel : ViewModel() {
     val hasPersonDeletePermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasPersonDeletePermission() }
     /** ---------------------人员权限------------------------- **/
+    /** ---------------------公告权限------------------------- **/
+    val hasAnnouncementPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasAnnouncementPermission() }
+    /** ---------------------公告权限------------------------- **/
+    /** ---------------------设备报修权限------------------------- **/
+    val hasRepairsPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasRepairsPermission() }
+    /** ---------------------设备报修权限------------------------- **/
     /** ---------------------折扣权限------------------------- **/
     val hasMarketingPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasMarketingPermission() }
@@ -142,6 +150,8 @@ class SharedViewModel : ViewModel() {
         hasUserPermission.map { UserPermissionUtils.hasMarketingDeletePermission() }
     /** ---------------------折扣权限------------------------- **/
     /** ---------------------充值权限------------------------- **/
+    val hasVipPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasVipPermission() }
     val hasVipUpdatePermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasVipUpdatePermission() }
     val hasVipDeletePermission: LiveData<Boolean> =
@@ -151,7 +161,12 @@ class SharedViewModel : ViewModel() {
     val hasVipRefundApplyPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasVipRefundApplyPermission() }
     /** ---------------------充值权限------------------------- **/
-
+    /** ---------------------券权限------------------------- **/
+    val hasSendCouponPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasSendCouponPermission() }
+    val hasCouponListPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasCouponListPermission() }
+    /** ---------------------券权限------------------------- **/
     /** ---------------------分账权限------------------------- **/
     val hasDistributionPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasDistributionPermission() }
@@ -164,6 +179,10 @@ class SharedViewModel : ViewModel() {
     val hasDistributionUpdatePermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasDistributionUpdatePermission() }
     /** ---------------------分账权限------------------------- **/
+    /** ---------------------发票权限------------------------- **/
+    val hasInvoicePermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasInvoicePermission() }
+    /** ---------------------发票权限------------------------- **/
     /** ---------------------数据统计权限------------------------- **/
     val hasDataStatisticsListPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasDataStatisticsListPermission() }

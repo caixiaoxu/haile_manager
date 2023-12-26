@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.InvoiceTitleEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/shape_ffffff_r8"
+        android:padding="16dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_invoice_title_name"
+            style="@style/font_17_black85"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="56dp"
+            android:text="@{item.title}"
+            app:layout_constraintEnd_toStartOf="@id/iv_invoice_title_right"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            app:divider="@drawable/divide_size4"
+            app:layout_constraintEnd_toEndOf="@id/tv_invoice_title_name"
+            app:layout_constraintStart_toStartOf="@id/tv_invoice_title_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_invoice_title_name"
+            app:showDividers="middle">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_invoice_title_default"
+                style="@style/Font_10_ff5219"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_strokeffa936_r4"
+                android:paddingHorizontal="4dp"
+                app:visibility="@{item.defaultVal}"
+                android:text="@string/default1" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_invoice_title_type"
+                style="@style/font_10_black85"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@{1 == item.isPersonal?@drawable/shape_stroke18d35e_r4:@drawable/shape_strokeblack25_r4}"
+                android:paddingHorizontal="4dp"
+                android:textColor="@{1 == item.isPersonal?@color/color_18d35e:@color/color_black_85}"
+                android:textSize="10sp"
+                android:text="@{item.isPersonalVal1}"
+                tools:background="@drawable/shape_stroke18d35e_r4"
+                tools:text="企业" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_invoice_title_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_arrow_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

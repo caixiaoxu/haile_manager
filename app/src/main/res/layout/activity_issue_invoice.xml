@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.IssueInvoiceViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.invoice.IssueInvoiceActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_issue_invoice_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            app:title="@string/issue_invoice" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="12dp"
+                android:paddingBottom="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="16dp"
+                    app:visibility="@{null != vm.invoiceTitle}">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/font_17_black85_bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="12dp"
+                        android:text="@string/invoice_details"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_ffffff_r8"
+                        android:orientation="vertical"
+                        app:divider="@drawable/divide_size4"
+                        app:showDividers="middle">
+
+                        <include
+                            layout="@layout/item_invoice_title_details"
+                            app:content="@{vm.invoiceTitle.isPersonalVal()}"
+                            app:show="@{true}"
+                            app:title="@{@string/invoice_title_type}" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="top"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/Font_14_black45"
+                                android:layout_width="72dp"
+                                android:layout_height="wrap_content"
+                                android:text='@{@string/invoice_type + "："}'
+                                tools:text="发票类型：" />
+
+                            <RadioGroup
+                                android:id="@+id/rg_issue_invoice_type"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <androidx.appcompat.widget.AppCompatRadioButton
+                                    android:id="@+id/rb_issue_invoice_type1"
+                                    style="@style/Font_14_black85"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="20dp"
+                                    android:layout_marginBottom="4dp"
+                                    android:button="@null"
+                                    android:minHeight="0dp"
+                                    android:background="@color/transparent"
+                                    android:text="@string/invoice_type2"
+                                    app:visibility="@{vm.hasIssuePaperInvoice}" />
+
+                                <androidx.appcompat.widget.AppCompatRadioButton
+                                    android:id="@+id/rb_issue_invoice_type2"
+                                    style="@style/Font_14_black85"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="20dp"
+                                    android:button="@null"
+                                    android:background="@color/transparent"
+                                    android:minHeight="0dp"
+                                    android:text="@string/invoice_type1" />
+
+                            </RadioGroup>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="top"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/Font_14_black45"
+                                android:layout_width="72dp"
+                                android:layout_height="wrap_content"
+                                android:text='@{@string/invoice_title + "："}'
+                                tools:text="发票抬头：" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/Font_14_black85"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="20dp"
+                                android:layout_weight="1"
+                                android:text="@{vm.invoiceTitle.titleVal}"
+                                tools:text="杭州具体某某责任公司" />
+
+                            <com.lsy.framelib.ui.weight.SingleTapTextView
+                                android:id="@+id/tv_issue_invoice_title_more"
+                                style="@style/Font_14_f0a258"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableEnd="@mipmap/icon_issue_invoice_more"
+                                android:gravity="center"
+                                android:text="@string/more" />
+                        </LinearLayout>
+
+                        <include
+                            layout="@layout/item_invoice_title_details"
+                            app:content="@{vm.invoiceTitle.taxNoVal}"
+                            app:show="@{vm.invoiceTitle.invoiceTitleType0Val &amp;&amp; !vm.isFold}"
+                            app:title="@{@string/company_number}" />
+
+                        <include
+                            layout="@layout/item_invoice_title_details"
+                            app:content="@{vm.invoiceTitle.bankNameVal}"
+                            app:show="@{vm.invoiceTitle.invoiceTitleType0Val &amp;&amp; !vm.isFold}"
+                            app:title="@{@string/company_number}" />
+
+                        <include
+                            layout="@layout/item_invoice_title_details"
+                            app:content="@{vm.invoiceTitle.bankAccountVal}"
+                            app:show="@{vm.invoiceTitle.invoiceTitleType0Val &amp;&amp; !vm.isFold}"
+                            app:title="@{@string/open_bank}" />
+
+                        <include
+                            layout="@layout/item_invoice_title_details"
+                            app:content="@{vm.invoiceTitle.phoneVal}"
+                            app:show="@{vm.invoiceTitle.invoiceTitleType0Val &amp;&amp; !vm.isFold}"
+                            app:title="@{@string/bank_account}" />
+
+                        <include
+                            layout="@layout/item_invoice_title_details"
+                            app:content="@{vm.invoiceTitle.addressVal}"
+                            app:show="@{vm.invoiceTitle.invoiceTitleType0Val &amp;&amp; !vm.isFold}"
+                            app:title="@{@string/company_address}" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        style="@style/Font_12_black85"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/shape_strokeblack25_r4"
+                        android:button="@null"
+                        android:checked="@={vm.isFold}"
+                        android:drawableStart="@drawable/selector_fold"
+                        android:minHeight="0dp"
+                        android:paddingEnd="8dp"
+                        android:text="@{vm.isFold?@string/unfold:@string/fold}"
+                        app:visibility="@{vm.invoiceTitle.invoiceTitleType0Val}"
+                        tools:text="@string/unfold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="12dp">
+
+                    <include
+                        android:id="@+id/include_issue_invoice_total"
+                        layout="@layout/item_invoice_title_details"
+                        app:content="@{vm.feeTotal}"
+                        app:show="@{true}"
+                        app:title="@{@string/total_amount1}" />
+
+                    <include
+                        layout="@layout/item_invoice_title_details"
+                        app:content="@{@string/invoice_content_value}"
+                        app:show="@{true}"
+                        app:title="@{@string/invoice_content}" />
+
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/font_15_black45"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/receive_mode" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:paddingEnd="16dp"
+                    app:divider="@drawable/divder_efefef"
+                    app:dividerPadding="16dp"
+                    app:showDividers="middle">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="12dp"
+                        app:visibility="@{2 == vm.createInvoiceParams.typeVal}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_issue_invoice_addressee_title"
+                            style="@style/font_17_ff5219"
+                            android:layout_width="16dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingEnd="2dp"
+                            android:text="*"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_issue_invoice_addressee"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tv_issue_invoice_addressee" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_issue_invoice_addressee"
+                            style="@style/font_17_black85"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/addressee"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/tv_issue_invoice_addressee_title"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/et_issue_invoice_addressee"
+                            style="@style/font_17_black85_black45"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginEnd="12dp"
+                            android:background="@color/transparent"
+                            android:hint="@string/addressee_hint"
+                            android:maxLength="20"
+                            android:text="@={vm.createInvoiceParams.receiverVal}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="@id/tv_issue_invoice_addressee"
+                            app:layout_constraintTop_toBottomOf="@id/tv_issue_invoice_addressee" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="12dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_issue_invoice_phone_title"
+                            style="@style/font_17_ff5219"
+                            android:layout_width="16dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingEnd="2dp"
+                            android:text="*"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_issue_invoice_phone"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tv_issue_invoice_phone" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_issue_invoice_phone"
+                            style="@style/font_17_black85"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/phone"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/tv_issue_invoice_phone_title"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/et_issue_invoice_phone"
+                            style="@style/font_17_black85_black45"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginEnd="12dp"
+                            android:inputType="phone"
+                            android:maxLength="11"
+                            android:background="@color/transparent"
+                            android:hint="@{1 == vm.createInvoiceParams.typeVal?@string/addressee_phone_hint:@string/please_input}"
+                            android:text="@={vm.createInvoiceParams.smsPhoneVal}"
+                            app:layout_constraintEnd_toStartOf="@id/ib_issue_invoice_phone"
+                            app:layout_constraintStart_toStartOf="@id/tv_issue_invoice_phone"
+                            app:layout_constraintTop_toBottomOf="@id/tv_issue_invoice_phone" />
+
+                        <com.lsy.framelib.ui.weight.SingleTapImageButton
+                            android:id="@+id/ib_issue_invoice_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:src="@mipmap/icon_issue_invoice_contact_list"
+                            app:layout_constraintBottom_toBottomOf="@id/et_issue_invoice_phone"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/et_issue_invoice_phone"
+                            app:visibility="@{1 == vm.createInvoiceParams.typeVal}"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="12dp"
+                        app:visibility="@{1 == vm.createInvoiceParams.typeVal}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_issue_invoice_email_title"
+                            style="@style/font_17_ff5219"
+                            android:layout_width="16dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingEnd="2dp"
+                            android:text="*"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_issue_invoice_email"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tv_issue_invoice_email" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_issue_invoice_email"
+                            style="@style/font_17_black85"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/email1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/tv_issue_invoice_email_title"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/et_issue_invoice_email"
+                            style="@style/font_17_black85_black45"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginEnd="12dp"
+                            android:background="@color/transparent"
+                            android:hint="@string/email_hint"
+                            android:maxLength="30"
+                            android:inputType="textEmailAddress"
+                            android:text="@={vm.createInvoiceParams.emailVal}"
+                            app:layout_constraintEnd_toStartOf="@id/ib_issue_invoice_email"
+                            app:layout_constraintStart_toStartOf="@id/tv_issue_invoice_email"
+                            app:layout_constraintTop_toBottomOf="@id/tv_issue_invoice_email" />
+
+                        <com.lsy.framelib.ui.weight.SingleTapImageButton
+                            android:id="@+id/ib_issue_invoice_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:src="@mipmap/icon_issue_invoice_contact_list"
+                            app:layout_constraintBottom_toBottomOf="@id/et_issue_invoice_email"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/et_issue_invoice_email" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_issue_invoice_area"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="12dp"
+                        app:visibility="@{2 == vm.createInvoiceParams.typeVal}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_issue_invoice_area_title"
+                            style="@style/font_17_ff5219"
+                            android:layout_width="16dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingEnd="2dp"
+                            android:text="*"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_issue_invoice_area"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tv_issue_invoice_area" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_issue_invoice_area"
+                            style="@style/font_17_black85"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:text="@string/shop_area"
+                            app:layout_constraintEnd_toStartOf="@id/iv_issue_invoice_area_right"
+                            app:layout_constraintStart_toEndOf="@id/tv_issue_invoice_area_title"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/et_issue_invoice_area"
+                            style="@style/font_17_black85_black45"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:background="@color/transparent"
+                            android:hint="@string/area_select_title"
+                            android:text="@{vm.createInvoiceParams.areaVal}"
+                            app:layout_constraintEnd_toEndOf="@id/tv_issue_invoice_area"
+                            app:layout_constraintStart_toStartOf="@id/tv_issue_invoice_area"
+                            app:layout_constraintTop_toBottomOf="@id/tv_issue_invoice_area" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/iv_issue_invoice_area_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:src="@drawable/icon_arrow_right"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="12dp"
+                        app:visibility="@{2 == vm.createInvoiceParams.typeVal}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_issue_invoice_address_title"
+                            style="@style/font_17_ff5219"
+                            android:layout_width="16dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingEnd="2dp"
+                            android:text="*"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_issue_invoice_address"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tv_issue_invoice_address" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_issue_invoice_address"
+                            style="@style/font_17_black85"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/shop_location_detail"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/tv_issue_invoice_address_title"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/et_issue_invoice_address"
+                            style="@style/font_17_black85_black45"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:background="@color/transparent"
+                            android:gravity="top"
+                            android:hint="@string/address_hint"
+                            android:maxLength="50"
+                            android:minHeight="64dp"
+                            android:text="@={vm.createInvoiceParams.addressVal}"
+                            app:layout_constraintEnd_toEndOf="@id/tv_issue_invoice_address"
+                            app:layout_constraintStart_toStartOf="@id/tv_issue_invoice_address"
+                            app:layout_constraintTop_toBottomOf="@id/tv_issue_invoice_address" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/page_bottom_h"
+            android:background="@drawable/shape_top_stroke_dividing"
+            android:paddingTop="12dp">
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_issue_invoice"
+                style="@style/CommonMatchBtnStyle1"
+                android:layout_marginHorizontal="16dp"
+                android:enabled="@{vm.createInvoiceParams.canSubmit}"
+                android:onClick="@{vm::submit}"
+                android:text="@string/submit" />
+        </FrameLayout>
+    </LinearLayout>
+</layout>

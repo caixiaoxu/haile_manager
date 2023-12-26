@@ -62,7 +62,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="12dp"
-            android:background="@drawable/divder_efefef" />
+            android:background="@color/page_bg" />
 
         <com.yunshang.haile_manager_android.ui.view.MaxHeightScrollView
             android:layout_width="match_parent"
@@ -78,8 +78,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
                     android:paddingVertical="12dp"
+                    android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:paddingEnd="16dp"
                     app:visibility="@{0 == build.addType}"
                     tools:visibility="visible">
@@ -106,7 +106,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/tv_position_create_position_name_content"
+                        android:id="@+id/et_position_create_position_name_content"
                         style="@style/font_17_black85_black45"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shape_top_stroke_dividing_mlr16"
+                    android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:paddingVertical="12dp"
                     android:paddingHorizontal="16dp"
                     app:visibility="@{0 == build.addType}"
@@ -141,7 +141,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/tv_position_create_position_floor_content"
+                        android:id="@+id/et_position_create_position_floor_content"
                         style="@style/font_17_black85_black45"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -160,8 +160,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shape_top_stroke_dividing_mlr16"
                     android:paddingVertical="12dp"
+                    android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
                     android:paddingEnd="16dp"
                     app:visibility="@{1 == build.addType}"
                     tools:visibility="visible">
@@ -188,7 +188,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/tv_position_create_business_phone_content"
+                        android:id="@+id/et_position_create_business_phone_content"
                         style="@style/font_17_black85_black45"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

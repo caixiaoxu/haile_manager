@@ -12,7 +12,6 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.lsy.framelib.utils.DimensionUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.databinding.DialogPositionCreateBottomSheetBinding
@@ -62,6 +61,13 @@ class PositionCreateSheetDialog private constructor(private val builder: Builder
             false
         )
         mBinding.setVariable(BR.build, builder)
+
+        // 请求焦点并自动显示软键盘
+        if (0 == builder.addType){
+            mBinding.etPositionCreatePositionNameContent.requestFocus()
+        } else {
+            mBinding.etPositionCreateBusinessPhoneContent.requestFocus()
+        }
         return mBinding.root
     }
 
@@ -78,12 +84,12 @@ class PositionCreateSheetDialog private constructor(private val builder: Builder
         mBinding.tvPositionCreateSave.setOnClickListener {
             dismiss()
             if (0 == builder.addType) {
-                builder.callback?.invoke(
+                builder.callback.invoke(
                     builder.positionName.value,
                     builder.positionFloor.value
                 )
             } else {
-                builder.callback?.invoke(builder.contactPhone.value, null)
+                builder.callback.invoke(builder.contactPhone.value, null)
             }
         }
 
@@ -91,8 +97,6 @@ class PositionCreateSheetDialog private constructor(private val builder: Builder
             mBinding.tvPositionCreateSave.alpha = if (it) 1f else 0.4f
             mBinding.tvPositionCreateSave.isEnabled = it
         }
-
-        mBinding.clPositionCreateTitle
     }
 
     /**

@@ -56,8 +56,6 @@ import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.BitmapUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
@@ -330,7 +328,8 @@ class DeviceManagerActivity :
             window,
             DimensionUtils.dip2px(this@DeviceManagerActivity, 110f)
         )
-
+        // 添加设备
+        mPopupBinding.tvDeviceOperateAdd.visibility(UserPermissionUtils.hasDeviceAddPermission())
         mPopupBinding.tvDeviceOperateAdd.setOnClickListener {
             popupWindow.dismiss()
             startActivity(
@@ -340,6 +339,9 @@ class DeviceManagerActivity :
                 )
             )
         }
+
+        // 批量修改
+        mPopupBinding.tvDeviceOperateUpdate.visibility(UserPermissionUtils.hasDeviceUpdatePermission())
         mPopupBinding.tvDeviceOperateUpdate.setOnClickListener {
             popupWindow.dismiss()
             startActivity(
@@ -349,6 +351,8 @@ class DeviceManagerActivity :
                 )
             )
         }
+        // 批量启动
+        mPopupBinding.tvDeviceOperateStart.visibility(UserPermissionUtils.hasDeviceStartPermission())
         mPopupBinding.tvDeviceOperateStart.setOnClickListener {
             popupWindow.dismiss()
             startActivity(
@@ -358,6 +362,8 @@ class DeviceManagerActivity :
                 )
             )
         }
+        //批量迁移
+        mPopupBinding.tvDeviceOperateTransfer.visibility(UserPermissionUtils.hasDeviceExchangePermission())
         mPopupBinding.tvDeviceOperateTransfer.setOnClickListener {
             popupWindow.dismiss()
             mViewModel.isBatch.value = true
@@ -371,6 +377,8 @@ class DeviceManagerActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+
+        initRightBtn()
 
         // 所属门店
         mBinding.tvDeviceCategoryDepartment.setOnClickListener {
@@ -628,11 +636,6 @@ class DeviceManagerActivity :
 
     override fun initEvent() {
         super.initEvent()
-
-        mSharedViewModel.hasDeviceAddPermission.observe(this) {
-            if (it)
-                initRightBtn()
-        }
 
         mViewModel.isBatch.observe(this) {
             if (!it) resetSelectBatchNum()

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="child"
+            type="com.yunshang.haile_manager_android.data.entities.InvoiceUserEntity" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cb_common_multi_item"
+            style="@style/font_17_black85"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/selector_checked"
+            android:drawablePadding="14dp"
+            android:background="@color/transparent"
+            android:checked="@={child.commonItemSelect}"
+            android:button="@null"
+            android:clickable="false"
+            android:minHeight="0dp"
+            android:padding="16dp"
+            android:text="@{child.realName}"
+            tools:text="张三" />
+
+        <View
+            style="@style/DividingStyle"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="52dp" />
+    </FrameLayout>
+</layout>

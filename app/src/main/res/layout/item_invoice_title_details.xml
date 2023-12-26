@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="title"
+            type="java.lang.String" />
+
+        <variable
+            name="content"
+            type="java.lang.CharSequence" />
+
+        <variable
+            name="showTag"
+            type="java.lang.Boolean" />
+        
+        <variable
+            name="show"
+            type="java.lang.Boolean" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:orientation="horizontal"
+        app:visibility="@{show &amp;&amp; null != content &amp;&amp; content.length() > 0}">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/Font_14_black45"
+            android:layout_width="72dp"
+            android:layout_height="22dp"
+            android:gravity="center_vertical"
+            android:text='@{title + "："}'
+            tools:text="公司税号：" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_invoice_details_content"
+            style="@style/Font_14_black85"
+            android:layout_width="wrap_content"
+            android:maxWidth="200dp"
+            android:lineHeight="22dp"
+            android:layout_height="wrap_content"
+            android:text="@{content}"
+            tools:text="具体地址信息展示区域超过长度自动换行显示内容" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="22dp">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="4dp"
+                android:text="@string/default1"
+                style="@style/font_10_ffa936"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                app:visibility="@{showTag}"
+                android:background="@drawable/shape_strokeffa936_r4"
+                android:layout_marginStart="4dp"/>
+        </FrameLayout>
+    </LinearLayout>
+</layout>

@@ -54,6 +54,7 @@
     <string name="refuse">拒绝</string>
     <string name="agree">同意</string>
     <string name="i_know">知道了</string>
+    <string name="default1">默认</string>
     <string name="enable">启用</string>
     <string name="disEnable">停用</string>
     <string name="tip">提示</string>
@@ -70,6 +71,9 @@
     <string name="unfold">展开</string>
     <string name="fold">收起</string>
     <string name="sure_export">确认导出</string>
+    <string name="more">更多</string>
+    <string name="single_select_dialog">单选框</string>
+    <string name="multi_select_dialog">多选框</string>
 
     <string name="empty_content">暂无内容信息</string>
     <string name="empty_device">暂无设备信息</string>
@@ -328,6 +332,7 @@
     <string name="add_pt">新增营业点</string>
     <string name="add_pt1">添加营业点</string>
     <string name="add_pt_prompt1">可以添加多个营业点</string>
+    <string name="add_pt_prompt2">可以添加多个客服电话</string>
     <string name="update_pt">编辑营业点</string>
     <string name="pt">营业点</string>
     <string name="pt_num">营业点数量</string>
@@ -429,6 +434,7 @@
     <string name="order_user">下单用户</string>
     <string name="copy_order_no">复制订单号</string>
     <string name="total_amount">总金额：</string>
+    <string name="total_amount1">总金额</string>
     <string name="need_pay">需支付：</string>
     <string name="have_paid">已支付：</string>
     <string name="order_time_title">下单时间：</string>
@@ -576,7 +582,7 @@
     <string name="refuse_refund_input_hint">请输入拒绝的原因</string>
     <string name="go_recharge">去充值</string>
 
-    <string name="home_capital_title">资金管理</string>
+    <string name="home_capital_title">账务管理</string>
     <string name="sub_account_manager">分账管理</string>
     <string name="sub_account_search_hint">搜索关键字</string>
     <string name="sub_account_shop">分账门店</string>
@@ -587,6 +593,55 @@
     <string name="sub_account_detail">分账详情</string>
     <string name="sub_account_person">分账人员</string>
     <string name="item_sub_account_shop_title">分账门店：%1$s（%2$s）</string>
+
+    <string name="invoice_manager">发票管理</string>
+    <string name="invoice_withdraw_fee">提现手续费</string>
+    <string name="invoice_title">发票抬头</string>
+    <string name="invoice_title_empty">无发票抬头</string>
+    <string name="invoice_history">发票历史</string>
+    <string name="invoice_explain">发票说明</string>
+    <string name="apply_operator">申请人</string>
+    <string name="invoice_operator">提现人</string>
+    <string name="invoice_open">去开票</string>
+    <string name="issue_invoice">开具发票</string>
+    <string name="invoice_details">发票详情</string>
+    <string name="invoice_amount">发票金额</string>
+    <string name="number">编&#160;&#160;号</string>
+    <string name="invoice_content">发票内容</string>
+    <string name="invoice_content_value">*其他现代服务*服务费</string>
+    <string name="receive_mode">接收方式</string>
+    <string name="email_hint">请输入电子邮箱</string>
+    <string name="address_hint">请填写详细地址</string>
+    <string name="invoice_open_no">未开票</string>
+    <string name="invoice_opening">开票中</string>
+    <string name="invoice_open_yes">已开票</string>
+    <string name="invoice_empty">无开票信息</string>
+    <string name="add_invoice_title">新增发票抬头</string>
+    <string name="invoice_type">发票类型</string>
+    <string name="issue_invoice_time">开票时间</string>
+    <string name="invoice_type1">增值税专用发票（电子）</string>
+    <string name="invoice_type2">增值税专用发票（纸质）</string>
+    <string name="addressee">收件人</string>
+    <string name="addressee_hint">请填写收件人姓名</string>
+    <string name="addressee_phone_hint">请填写收件人电话</string>
+    <string name="invoice_title_type">抬头类型</string>
+    <string name="invoice_title_type2">企业</string>
+    <string name="invoice_title_type0">企业单位</string>
+    <string name="invoice_title_type1">个人</string>
+    <string name="invoice_title_hint">请填写公司名称</string>
+    <string name="company_number">公司税号</string>
+    <string name="company_number_hint">请填写公司税号</string>
+    <string name="open_bank_hint">请填写公司开户银行名称</string>
+    <string name="bank_account_hint">请填写公司开户银行账号</string>
+    <string name="company_phone">公司电话</string>
+    <string name="company_phone_hint">请填写公司联系电话</string>
+    <string name="company_address">公司地址</string>
+    <string name="company_address_hint">请填写公司地址</string>
+    <string name="setting_default_invoice_title">设为默认抬头</string>
+    <string name="setting_default_invoice_title_prompt">每次开票会默认填写该抬头信息</string>
+    <string name="invoice_title_details">发票抬头详情</string>
+    <string name="invoice_explain_title">提现手续费发票领取规则</string>
+    <string name="invoice_explain_content">1.电 子 发 票 与 纸 质 发 票 具 有 同 等 的 法 律 效 益 ， 均 支 持 发 票 核 销 。\n\n2.为 用 户 提 供 提 现 手 续 费 业 务 的 电 子 发 票 ， 不 可 重 复 开 具 电 子 发 票 和 纸 质 发 票\n\n3.电 子 发 票 为 用 户 开 具 的 发 票 金 额 为 “用 户 实 际 支 付 金 额”\n\n4.发 票 内 容 ： * 其 他 现 代 服 务 *服 务 费 。\n\n5.账 单 已 任 意 方 式 开 具 发 票 后 ， 不 可 重 复 开 票 。\n\n6.电 子 发 票 会 在 您 申 请 后 的 15 个 工 作 日 内 开 具 完 成 并 发 送 至 您 填 写 的 电 子 邮 箱 地 址 。\n\n注 ： 提 现 手 续 费 为 账 户 余 额 提 现 发 生 的 手 续 费， 提 现 成 功 后 ， 方 可 开 具 发 票 。</string>
 
     <string name="issue_coupons">发券</string>
     <string name="batch_invalid">批量作废</string>
@@ -885,6 +940,7 @@
     <string name="end_time">结束时间</string>
 
     <string name="email">邮箱</string>
+    <string name="email1">电子邮箱</string>
 
     <string name="unit_yuan">元</string>
     <string name="unit_tai">台</string>

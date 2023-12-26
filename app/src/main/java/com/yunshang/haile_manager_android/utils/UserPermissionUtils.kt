@@ -821,6 +821,18 @@ object UserPermissionUtils {
         return null != userPermissionsMap["league:funds:distribution:delete"]
     }
     /** ------------------------分账管理权限------------------------  */
+    /** ------------------------发票管理权限------------------------  */
+    /**
+     * 是否含有发票管理权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasInvoicePermission(): Boolean {
+        return null != userPermissionsMap["league:finance:invoice"]
+    }
+    /** ------------------------发票管理权限------------------------  */
     /** ------------------------设备监控权限------------------------  */
     /**
      * 是否含有设备监控权限

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.InvoiceTitleDetailsViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.invoice.InvoiceTitleAddActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_invoice_title_details_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            app:title="@string/invoice_title_details" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:background="@drawable/shape_ffffff_r8"
+                android:orientation="vertical"
+                android:padding="12dp"
+                app:divider="@drawable/divide_size4"
+                app:showDividers="middle">
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceTitle.isPersonalVal()}"
+                    app:show="@{true}"
+                    app:title="@{@string/invoice_title_type}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceTitle.titleVal}"
+                    app:show="@{true}"
+                    app:showTag="@{vm.invoiceTitle.defaultVal}"
+                    app:title="@{@string/invoice_title}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceTitle.taxNoVal}"
+                    app:show="@{vm.invoiceTitle.invoiceTitleType0Val}"
+                    app:title="@{@string/company_number}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceTitle.bankNameVal}"
+                    app:show="@{vm.invoiceTitle.invoiceTitleType0Val}"
+                    app:title="@{@string/open_bank}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceTitle.bankAccountVal}"
+                    app:show="@{vm.invoiceTitle.invoiceTitleType0Val}"
+                    app:title="@{@string/bank_account}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceTitle.phoneVal}"
+                    app:show="@{vm.invoiceTitle.invoiceTitleType0Val}"
+                    app:title="@{@string/company_phone}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceTitle.addressVal}"
+                    app:show="@{vm.invoiceTitle.invoiceTitleType0Val}"
+                    app:title="@{@string/company_address}" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/page_bottom_h"
+            android:background="@color/white"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="16dp"
+            app:divider="@drawable/divide_size8"
+            app:showDividers="middle">
+
+            <com.lsy.framelib.ui.weight.SingleTapTextView
+                android:id="@+id/btn_invoice_title_del"
+                style="@style/CommonStrokeTxtBtnStyle"
+                android:text="@string/delete"
+                tools:visibility="visible" />
+
+            <com.lsy.framelib.ui.weight.SingleTapTextView
+                android:id="@+id/btn_invoice_title_edit"
+                style="@style/CommonStrokeTxtBtnStyle"
+                android:text="@string/edit"
+                tools:visibility="visible" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </LinearLayout>
+</layout>

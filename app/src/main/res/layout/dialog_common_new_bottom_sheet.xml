@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_sffffff_rt12"
+    android:orientation="vertical"
+    android:paddingBottom="34dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_common_dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="52dp">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/tv_common_new_dialog_close"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:paddingHorizontal="16dp"
+            android:src="@mipmap/icon_close_x"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_common_new_dialog_title"
+            style="@style/Font_16_333333"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:minLines="1"
+            android:paddingHorizontal="42dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_common_new_dialog_sure"
+            style="@style/Font_14_f0a258"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:text="@string/sure"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View style="@style/DividingStyle" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="224dp">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/ll_common_new_dialog_child"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_common_new_empty"
+            style="@style/Font_14_999999"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableTop="@mipmap/icon_list_device_empty"
+            android:gravity="center"
+            tools:text="暂无内容信息" />
+    </FrameLayout>
+
+    <com.yunshang.haile_manager_android.ui.view.CommonButton
+        android:id="@+id/btn_common_new"
+        style="@style/CommonMatchBtnStyle1"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="12dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:text="新增发票抬头" />
+</LinearLayout>

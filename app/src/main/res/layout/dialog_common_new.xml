@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.yunshang.haile_manager_android.ui.view.dialog.CommonNewDialog">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_common_dialog_new_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        style="@style/font_17_171a1d_bold"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="标题" />
+
+    <TextView
+        android:id="@+id/tv_common_dialog_new_content"
+        style="@style/Font_14_black65"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:gravity="center"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_common_dialog_new_title"
+        tools:text="内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容" />
+
+    <LinearLayout
+        android:id="@+id/ll_common_dialog_new_btns"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:divider="@drawable/divder_efefef"
+        android:showDividers="middle"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/tv_common_dialog_new_content">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
+            android:id="@+id/btn_common_dialog_new_no"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            style="@style/font_17_171a1d"
+            tools:text="不同意" />
+
+        <com.yunshang.haile_manager_android.ui.view.CommonButton
+            android:id="@+id/btn_common_dialog_new_yes"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            style="@style/font_17_f0a258_bold"
+            tools:text="同意" />
+    </LinearLayout>
+
+    <View
+        style="@style/DividingStyle"
+        app:layout_constraintTop_toTopOf="@id/ll_common_dialog_new_btns"
+        tools:ignore="MissingConstraints" />
+</androidx.constraintlayout.widget.ConstraintLayout>

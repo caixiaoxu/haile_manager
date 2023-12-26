@@ -2,17 +2,8 @@ package com.yunshang.haile_manager_android.ui.view.refresh
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.widget.FrameLayout
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ItemDecoration
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import com.lsy.framelib.network.response.ResponseList
-import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
-import com.yunshang.haile_manager_android.R
-import com.yunshang.haile_manager_android.databinding.CustomRefreshRecyclerViewBinding
 
 /**
  * Title :

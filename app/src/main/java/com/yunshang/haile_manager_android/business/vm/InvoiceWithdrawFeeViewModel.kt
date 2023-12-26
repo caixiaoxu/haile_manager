@@ -94,7 +94,7 @@ class InvoiceWithdrawFeeViewModel : BaseViewModel() {
 
     val selectInvoiceUserVal: LiveData<String> = selectInvoiceUserList.map {
         if (it.isNullOrEmpty()) ""
-        else "已选${it.size}个"
+        else "已选${it.filter {item-> -1 != item.id }.size}个"
     }
 
     fun requestInvoiceWithdrawFeeList(
@@ -107,7 +107,13 @@ class InvoiceWithdrawFeeViewModel : BaseViewModel() {
                 ApiRepository.dealApiResult(
                     mCapitalRepo.requestInvoiceUserList()
                 )?.let {
-                    invoiceUserList.postValue(it)
+                    invoiceUserList.postValue(it.apply {
+                        add(0, InvoiceUserEntity(-1, StringUtils.getString(R.string.all)))
+
+                        forEach {item->
+                            item.commonItemSelect = true
+                        }
+                    })
                 }
             }
 
@@ -119,7 +125,10 @@ class InvoiceWithdrawFeeViewModel : BaseViewModel() {
                             "pageSize" to pageSize,
                             "applyStartDate" to DateTimeUtils.formatDateTimeStartParam(startTime.value),
                             "applyEndDate" to DateTimeUtils.formatDateTimeEndParam(endTime.value),
-                            "accountIds" to selectInvoiceUserList.value?.mapNotNull { it.id },
+                            "accountIds" to selectInvoiceUserList.value?.mapNotNull { it.id }
+                                ?.let { idList ->
+                                    if (null != idList.find { -1 == it }) null else idList
+                                },
                             "invoiceStatus" to -1
                         )
                     )

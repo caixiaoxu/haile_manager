@@ -629,7 +629,7 @@
     <string name="open_bank_hint">请填写公司开户银行名称</string>
     <string name="bank_account_hint">请填写公司开户银行账号</string>
     <string name="company_phone">公司电话</string>
-    <string name="company_phone_hint">请填写公司公司电话</string>
+    <string name="company_phone_hint">请填写公司联系电话</string>
     <string name="company_address">公司地址</string>
     <string name="company_address_hint">请填写公司地址</string>
     <string name="setting_default_invoice_title">设为默认抬头</string>

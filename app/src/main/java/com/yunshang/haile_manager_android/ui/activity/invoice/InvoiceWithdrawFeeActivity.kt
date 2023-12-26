@@ -95,7 +95,7 @@ class InvoiceWithdrawFeeActivity :
         mBinding.tvInvoiceWithdrawFeeOperator.setOnClickListener {
             mViewModel.invoiceUserList.value?.let { userList ->
                 CommonNewBottomSheetDialog.Builder<InvoiceUserEntity, ItemInvoiceOperatorBinding>(
-                    StringUtils.getString(R.string.multi_select_dialog),
+                    StringUtils.getString(R.string.invoice_operator),
                     userList,
                     multiSelect = true,
                     buildItemView = { _, data,_ ->
@@ -108,7 +108,15 @@ class InvoiceWithdrawFeeActivity :
                             child = data
                         }
                     },
-                    isCustomItemClick = true
+                    clickItemView = { _, data ->
+                        if (-1 == data.id) {
+                            userList.forEach {
+                                it.commonItemSelect = !data.commonItemSelect
+                            }
+                        } else {
+                            userList.find { -1 == it.id }?.commonItemSelect = false
+                        }
+                    },
                 ) {
                     mViewModel.selectInvoiceUserList.value =
                         mViewModel.invoiceUserList.value?.filter { item -> item.commonItemSelect }

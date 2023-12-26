@@ -1,5 +1,7 @@
 package com.yunshang.haile_manager_android.data.entities
 
+import com.yunshang.haile_manager_android.BR
+
 /**
  * Title :
  * Author: Lsy
@@ -62,4 +64,6 @@ data class InvoiceTemplate(
     val title: String? = null,
     val type: Int? = null,
     val userId: Int? = null,
-)
+) {
+    fun bankAccountVal(): String = bankAccount?.chunked(4)?.joinToString(" ") ?: ""
+}

@@ -32,12 +32,14 @@
             android:paddingBottom="12dp">
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/Font_24_333333_bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:background="@drawable/shape_bottom_stroke_dividing"
                 android:paddingVertical="24dp"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@{2 == vm.invoiceDetails.status?@color/color_black_85:@color/colorPrimary}"
                 android:text="@{2 == vm.invoiceDetails.status?@string/invoice_open_yes:@string/invoice_opening}"
                 tools:text="已开票" />
 
@@ -125,7 +127,7 @@
 
                 <include
                     layout="@layout/item_invoice_title_details"
-                    app:content="@{vm.invoiceDetails.invoiceTemplate.bankAccount}"
+                    app:content="@{vm.invoiceDetails.invoiceTemplate.bankAccountVal}"
                     app:show="@{true}"
                     app:title="@{@string/bank_account}" />
 

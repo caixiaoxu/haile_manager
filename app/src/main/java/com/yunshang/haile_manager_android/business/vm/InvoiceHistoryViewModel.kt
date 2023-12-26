@@ -35,7 +35,11 @@ class InvoiceHistoryViewModel : BaseViewModel() {
     private val mCapitalRepo = ApiRepository.apiClient(CapitalService::class.java)
 
     // 时间区间
-    val startTime: MutableLiveData<Date> = MutableLiveData(DateTimeUtils.curMonthFirst)
+    val startTime: MutableLiveData<Date> =
+        MutableLiveData(DateTimeUtils.getMonthFirst(Calendar.getInstance().apply {
+            time = Date()
+            add(Calendar.MONTH, -5)
+        }.time))
     val endTime: MutableLiveData<Date> = MutableLiveData(Date())
 
     // 时间区间
@@ -70,16 +74,19 @@ class InvoiceHistoryViewModel : BaseViewModel() {
         } else StringUtils.getString(R.string.issue_invoice_time)
 
     val invoiceStateList = listOf(
+        CommonDialogItemParam(-1, StringUtils.getString(R.string.all_status)).apply {
+            commonItemSelect = true
+        },
         CommonDialogItemParam(0, StringUtils.getString(R.string.invoice_opening)),
         CommonDialogItemParam(2, StringUtils.getString(R.string.invoice_open_yes))
     )
 
-    val selectInvoiceState:MutableLiveData<CommonDialogItemParam> by lazy {
+    val selectInvoiceState: MutableLiveData<CommonDialogItemParam> by lazy {
         MutableLiveData()
     }
 
-    val selectInvoiceStateVal:LiveData<String> = selectInvoiceState.map {
-        it?.name ?:""
+    val selectInvoiceStateVal: LiveData<String> = selectInvoiceState.map {
+        if (-1 == it?.id) "" else it?.name ?: ""
     }
 
     val invoiceUserList: MutableLiveData<List<InvoiceUserEntity>> by lazy {
@@ -91,8 +98,7 @@ class InvoiceHistoryViewModel : BaseViewModel() {
     }
 
     val selectInvoiceUserVal: LiveData<String> = selectInvoiceUserList.map {
-        if (it.isNullOrEmpty()) ""
-        else "已选${it.size}个"
+        if (null != it.find { item -> -1 == item.id }) "" else "已选${it.filter { item -> -1 != item.id }.size}个"
     }
 
     fun requestInvoiceWithdrawFeeList(
@@ -105,7 +111,12 @@ class InvoiceHistoryViewModel : BaseViewModel() {
                 ApiRepository.dealApiResult(
                     mCapitalRepo.requestInvoiceUserList()
                 )?.let {
-                    invoiceUserList.postValue(it)
+                    invoiceUserList.postValue(it.apply {
+                        add(0, InvoiceUserEntity(-1, StringUtils.getString(R.string.all)))
+                        forEach { item ->
+                            item.commonItemSelect = true
+                        }
+                    })
                 }
             }
 
@@ -117,8 +128,11 @@ class InvoiceHistoryViewModel : BaseViewModel() {
                             "pageSize" to pageSize,
                             "applyStartDate" to DateTimeUtils.formatDateTimeStartParam(startTime.value),
                             "applyEndDate" to DateTimeUtils.formatDateTimeEndParam(endTime.value),
-                            "status" to selectInvoiceState.value?.id,
+                            "status" to selectInvoiceState.value?.id?.let { id -> if (id == -1) null else id },
                             "creatorIds" to selectInvoiceUserList.value?.mapNotNull { it.id }
+                                ?.let { idList ->
+                                    if (null != idList.find { -1 == it }) null else idList
+                                }
                         )
                     )
                 )

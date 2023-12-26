@@ -81,4 +81,7 @@
         <attr name="stateImg" format="reference" />
         <attr name="stateInfo" format="string" />
     </declare-styleable>
+    <declare-styleable name="BindingEditText">
+        <attr name="android:maxLength"/>
+    </declare-styleable>
 </resources>

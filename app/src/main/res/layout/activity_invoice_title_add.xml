@@ -65,10 +65,10 @@
                             android:layout_weight="1"
                             android:background="@color/transparent"
                             android:gravity="center_vertical"
-                            tools:text="企业单位"
-                            tools:visibility="gone"
                             android:text="@{vm.invoiceTitleAddParams.isPersonalVal()}"
-                            app:visibility="@{null != vm.invoiceTitleAddParams.id}" />
+                            app:visibility="@{null != vm.invoiceTitleAddParams.id}"
+                            tools:text="企业单位"
+                            tools:visibility="gone" />
 
                         <androidx.appcompat.widget.AppCompatRadioButton
                             android:id="@+id/rb_invoice_title_add_type0"
@@ -241,6 +241,7 @@
                         android:background="@color/white"
                         android:gravity="top"
                         android:padding="16dp"
+                        android:orientation="horizontal"
                         app:visibility="@{vm.invoiceTitleAddParams.invoiceTitleType0Val}">
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -249,7 +250,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/bank_account" />
 
-                        <androidx.appcompat.widget.AppCompatEditText
+                        <com.yunshang.haile_manager_android.ui.view.BindingEditText
                             style="@style/font_17_black85_black45"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -293,11 +294,11 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@color/transparent"
-                            android:gravity="center_vertical"
                             android:digits="1234567890-"
+                            android:gravity="center_vertical"
                             android:hint="@string/company_phone_hint"
-                            android:maxLength="20"
                             android:inputType="phone"
+                            android:maxLength="20"
                             android:text="@={vm.invoiceTitleAddParams.phoneVal}" />
 
                         <androidx.appcompat.widget.AppCompatImageButton
@@ -339,8 +340,8 @@
                                 android:layout_height="wrap_content"
                                 android:background="@color/transparent"
                                 android:gravity="center_vertical"
-                                android:maxLength="50"
                                 android:hint="@string/company_address_hint"
+                                android:maxLength="50"
                                 android:text="@={vm.invoiceTitleAddParams.addressVal}" />
 
                             <androidx.appcompat.widget.AppCompatTextView
@@ -388,9 +389,9 @@
                         android:id="@+id/switch_invoice_title_add_default"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@color/transparent"
                         android:checked="@={vm.invoiceTitleAddParams.defaultVal}"
                         android:minHeight="0dp"
-                        android:background="@color/transparent"
                         android:thumb="@drawable/selector_default_switch_thumb"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

@@ -1,6 +1,5 @@
 package com.yunshang.haile_manager_android.data.entities
 
-import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
@@ -111,11 +110,20 @@ data class InvoiceTitleEntity(
     val bankNameNumVal: String
         get() = "${if (bankName.isNullOrEmpty()) 0 else bankName!!.length}/50"
 
+    @Transient
     @get:Bindable
-    var bankAccountVal: String
-        get() = bankAccount ?: ""
+    var bankAccountVal: String? = null
+        get() = if (null == field) bankAccount?.chunked(4)?.joinToString(" ") ?: "" else field
         set(value) {
-            bankAccount = value
+            val split = value!!.trim().split(" ").toMutableList()
+            val lastStr = split.last()
+            if (lastStr.length > 4) {
+                split.removeAt(split.size - 1)
+                split.add(lastStr.substring(0, 4))
+                split.add(lastStr.substring(4, lastStr.length))
+            }
+            field = split.joinToString(" ")
+            bankAccount = value.trim().replace(" ","")
             notifyPropertyChanged(BR.bankAccountVal)
             notifyPropertyChanged(BR.canSubmit)
         }
@@ -163,5 +171,5 @@ data class InvoiceTitleEntity(
 
     @get:Bindable
     val canSubmit: Boolean
-        get() = null != isPersonal && !title.isNullOrEmpty() && (if (0 == isPersonal) !taxNo.isNullOrEmpty() && taxNo!!.length >= 15 else true)
+        get() = null != isPersonal && !title.isNullOrEmpty() && (if (0 == isPersonal) !taxNo.isNullOrEmpty() else true)
 }

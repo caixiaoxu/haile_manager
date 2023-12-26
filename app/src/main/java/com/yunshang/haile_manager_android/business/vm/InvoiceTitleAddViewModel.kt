@@ -33,8 +33,13 @@ class InvoiceTitleAddViewModel : BaseViewModel() {
 
     fun save(v: View) {
         if (null == invoiceTitleAddParams.value) return
-        launch({
 
+        if (0 == invoiceTitleAddParams.value!!.isPersonal && invoiceTitleAddParams.value!!.taxNo!!.length < 15) {
+            SToast.showToast(v.context, "请填写正确的公司税号")
+            return
+        }
+
+        launch({
             val params = if (1 == invoiceTitleAddParams.value?.isPersonal) {
                 invoiceTitleAddParams.value?.copy(
                     taxNo = null,
@@ -60,7 +65,7 @@ class InvoiceTitleAddViewModel : BaseViewModel() {
             withContext(Dispatchers.Main) {
                 SToast.showToast(v.context, R.string.submit_success)
             }
-            if (invoiceTitleAddParams.value?.id.hasVal()){
+            if (invoiceTitleAddParams.value?.id.hasVal()) {
                 LiveDataBus.post(BusEvents.INVOICE_TITLE_LIST_STATUS, true)
                 LiveDataBus.post(BusEvents.INVOICE_TITLE_DETAILS_STATUS, true)
             } else {

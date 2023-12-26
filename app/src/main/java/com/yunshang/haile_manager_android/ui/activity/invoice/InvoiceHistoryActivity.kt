@@ -86,9 +86,8 @@ class InvoiceHistoryActivity :
         }
         mBinding.tvInvoiceHistoryStatus.setOnClickListener {
             CommonNewBottomSheetDialog.Builder<CommonDialogItemParam, ItemCommonSingleItemBinding>(
-                StringUtils.getString(R.string.single_select_dialog),
+                StringUtils.getString(R.string.status),
                 mViewModel.invoiceStateList,
-                mustSelect = false,
                 buildItemView = { _, data, _ ->
                     DataBindingUtil.inflate<ItemCommonSingleItemBinding?>(
                         LayoutInflater.from(this@InvoiceHistoryActivity),
@@ -109,7 +108,7 @@ class InvoiceHistoryActivity :
         mBinding.tvInvoiceHistoryOperator.setOnClickListener {
             mViewModel.invoiceUserList.value?.let { userList ->
                 CommonNewBottomSheetDialog.Builder<InvoiceUserEntity, ItemInvoiceOperatorBinding>(
-                    StringUtils.getString(R.string.multi_select_dialog),
+                    StringUtils.getString(R.string.cancellation_operator),
                     userList,
                     multiSelect = true,
                     buildItemView = { _, data, _ ->
@@ -120,6 +119,15 @@ class InvoiceHistoryActivity :
                             false
                         ).apply {
                             child = data
+                        }
+                    },
+                    clickItemView = { _, data ->
+                        if (-1 == data.id) {
+                            userList.forEach {
+                                it.commonItemSelect = !data.commonItemSelect
+                            }
+                        } else {
+                            userList.find { -1 == it.id }?.commonItemSelect = false
                         }
                     }
                 ) {

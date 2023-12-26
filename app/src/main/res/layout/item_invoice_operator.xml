@@ -23,6 +23,7 @@
             android:background="@color/transparent"
             android:checked="@={child.commonItemSelect}"
             android:button="@null"
+            android:clickable="false"
             android:minHeight="0dp"
             android:padding="16dp"
             android:text="@{child.realName}"

@@ -1,6 +1,7 @@
 package com.yunshang.haile_manager_android.ui.activity.invoice
 
 import android.graphics.Color
+import android.view.View
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.InvoiceHistoryDetailsViewModel
@@ -15,6 +16,7 @@ class InvoiceHistoryDetailsActivity :
 
     override fun layoutId(): Int = R.layout.activity_invoice_history_details
 
+    override fun backBtn(): View = mBinding.barInvoiceHistoryDetailsTitle.getBackBtn()
     override fun initIntent() {
         super.initIntent()
         mViewModel.invoiceId = IntentParams.CommonParams.parseId(intent)

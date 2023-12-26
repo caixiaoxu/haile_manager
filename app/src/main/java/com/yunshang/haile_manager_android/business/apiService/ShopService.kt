@@ -228,6 +228,12 @@ interface ShopService {
     suspend fun saveBatchCompensationSetting(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
+     * 批量客服电话设置
+     */
+    @POST("/position/edit/servicePhone")
+    suspend fun saveBatchServicePhoneSetting(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
      * 批量按流量设置
      */
     @POST("/shop/batchSaveOperationSetting")

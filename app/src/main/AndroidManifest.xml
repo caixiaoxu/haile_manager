@@ -65,6 +65,9 @@
             android:name=".ui.activity.shop.ShopNearByOrderSettingActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.activity.shop.ShopBatchServicePhoneSettingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.shop.ShopBatchCompensationSettingActivity"
             android:exported="false" />
         <activity

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.ShopBatchServicePhoneSettingViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.activity.shop.ShopBatchCompensationSettingActivity">
+
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_shop_batch_service_phone_settings_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            app:title="@string/batch_service_phone_setting" />
+
+        <LinearLayout
+            android:id="@+id/ll_shop_batch_service_phone_setting_shops"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_16_333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pt" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_16_333333_333333"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="74dp"
+                android:drawableEnd="@drawable/icon_arrow_right"
+                android:gravity="center_vertical"
+                android:hint="@string/pt_name_hint"
+                android:text="@{vm.selectPositionNames}" />
+        </LinearLayout>
+
+        <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
+            android:id="@+id/ll_shop_batch_service_phone_setting"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="8dp"
+            app:itemLayout="@layout/item_shop_setting_service_phone"
+            android:orientation="vertical" >
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Font_16_333333_bold"
+                android:text="@string/service_phone_setting"
+                android:background="@drawable/shape_bottom_stroke_dividing"
+                android:padding="16dp"/>
+        </com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:background="@color/white"
+            android:paddingTop="8dp">
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_shop_service_phone_settings_save"
+                style="@style/CommonMatchBtnStyle1"
+                android:layout_marginHorizontal="14dp"
+                android:enabled="@{null != vm.selectPositions}"
+                android:onClick="@{vm::save}"
+                android:text="@string/submit" />
+        </FrameLayout>
+    </LinearLayout>
+</layout>

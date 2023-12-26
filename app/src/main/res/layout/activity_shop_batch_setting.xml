@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="shared"
             type="com.yunshang.haile_manager_android.business.vm.SharedViewModel" />
@@ -16,9 +17,9 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         app:divider="@drawable/divide_size8"
         app:showDividers="middle"
-        android:orientation="vertical"
         tools:context=".ui.activity.shop.ShopBatchSettingActivity">
 
         <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
@@ -28,245 +29,298 @@
             android:background="@color/white"
             app:title="@string/batch_setting" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_shop_batch_setting_pay_setting"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:visibility="@{shared.hasShopPayBatchPermission}"
-            android:padding="16dp">
+            android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_shop_batch_setting_item1_name"
-                android:layout_width="0dp"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Font_16_333333"
-                android:text="@string/batch_pay_setting"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_item1_right"
-                app:layout_constraintStart_toStartOf="parent"/>
+                android:orientation="vertical"
+                app:divider="@drawable/divide_size8"
+                app:showDividers="middle">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                style="@style/Font_12_999999"
-                android:layout_marginTop="8dp"
-                android:text="@string/batch_pay_setting_prompt"
-                app:layout_constraintTop_toBottomOf="@id/tv_shop_batch_setting_item1_name"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_item1_right"
-                app:layout_constraintStart_toStartOf="parent"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_shop_batch_setting_pay_setting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="16dp"
+                    app:visibility="@{shared.hasShopPayBatchPermission}">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_shop_batch_setting_item1_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:background="@color/transparent"
-                android:src="@drawable/icon_arrow_right"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_batch_setting_item1_name"
+                        style="@style/Font_16_333333"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/batch_pay_setting"
+                        app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_item1_right"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_shop_batch_setting_self_clean_setting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="16dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_12_999999"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/batch_pay_setting_prompt"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_item1_right"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_shop_batch_setting_item1_name" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_shop_batch_setting_self_clean_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                style="@style/Font_16_333333"
-                android:text="@string/batch_self_clean_setting"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_self_clean_right"
-                app:layout_constraintStart_toStartOf="parent"/>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_shop_batch_setting_item1_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:src="@drawable/icon_arrow_right"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                style="@style/Font_12_999999"
-                android:layout_marginTop="8dp"
-                android:text="@string/batch_self_clean_setting_prompt"
-                app:layout_constraintTop_toBottomOf="@id/tv_shop_batch_setting_self_clean_name"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_self_clean_right"
-                app:layout_constraintStart_toStartOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_shop_batch_setting_self_clean_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:background="@color/transparent"
-                android:src="@drawable/icon_arrow_right"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_shop_batch_setting_self_clean_setting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="16dp">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_batch_setting_self_clean_name"
+                        style="@style/Font_16_333333"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/batch_self_clean_setting"
+                        app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_self_clean_right"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_shop_batch_setting_compensation_setting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="16dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_12_999999"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/batch_self_clean_setting_prompt"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_self_clean_right"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_shop_batch_setting_self_clean_name" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_shop_batch_setting_item2_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                style="@style/Font_16_333333"
-                android:text="@string/batch_compensation_setting"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_item2_right"
-                app:layout_constraintStart_toStartOf="parent"/>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_shop_batch_setting_self_clean_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:src="@drawable/icon_arrow_right"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                style="@style/Font_12_999999"
-                android:layout_marginTop="8dp"
-                android:text="@string/batch_compensation_setting_prompt"
-                app:layout_constraintTop_toBottomOf="@id/tv_shop_batch_setting_item2_name"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_item2_right"
-                app:layout_constraintStart_toStartOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_shop_batch_setting_item2_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:background="@color/transparent"
-                android:src="@drawable/icon_arrow_right"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_shop_batch_setting_compensation_setting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="16dp">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_batch_setting_item2_name"
+                        style="@style/Font_16_333333"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/batch_compensation_setting"
+                        app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_item2_right"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_shop_batch_setting_near_by_order_setting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="16dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_12_999999"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/batch_compensation_setting_prompt"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_item2_right"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_shop_batch_setting_item2_name" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_shop_batch_setting_near_by_order_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                style="@style/Font_16_333333"
-                android:text="@string/batch_near_by_order_setting"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_near_by_order_right"
-                app:layout_constraintStart_toStartOf="parent"/>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_shop_batch_setting_item2_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:src="@drawable/icon_arrow_right"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                style="@style/Font_12_999999"
-                android:layout_marginTop="8dp"
-                android:text="@string/near_by_order_setting_prompt"
-                app:layout_constraintTop_toBottomOf="@id/tv_shop_batch_setting_near_by_order_name"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_near_by_order_right"
-                app:layout_constraintStart_toStartOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_shop_batch_setting_near_by_order_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:background="@color/transparent"
-                android:src="@drawable/icon_arrow_right"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_shop_batch_setting_near_by_order_setting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="16dp">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_batch_setting_near_by_order_name"
+                        style="@style/Font_16_333333"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/batch_near_by_order_setting"
+                        app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_near_by_order_right"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_shop_batch_setting_appointment_setting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:visibility="@{shared.hasShopAppointPermission}"
-            android:padding="16dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_12_999999"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/near_by_order_setting_prompt"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_near_by_order_right"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_shop_batch_setting_near_by_order_name" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_shop_batch_setting_item3_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                style="@style/Font_16_333333"
-                android:text="@string/batch_appointment_setting"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_item3_right"
-                app:layout_constraintStart_toStartOf="parent"/>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_shop_batch_setting_near_by_order_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:src="@drawable/icon_arrow_right"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                style="@style/Font_12_999999"
-                android:layout_marginTop="8dp"
-                android:text="@string/batch_appointment_setting_prompt"
-                app:layout_constraintTop_toBottomOf="@id/tv_shop_batch_setting_item3_name"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_item3_right"
-                app:layout_constraintStart_toStartOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_shop_batch_setting_item3_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:background="@color/transparent"
-                android:src="@drawable/icon_arrow_right"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_shop_batch_setting_appointment_setting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="16dp"
+                    app:visibility="@{shared.hasShopAppointPermission}">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_batch_setting_item3_name"
+                        style="@style/Font_16_333333"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/batch_appointment_setting"
+                        app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_item3_right"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_shop_batch_setting_flow_setting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="16dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_12_999999"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/batch_appointment_setting_prompt"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_item3_right"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_shop_batch_setting_item3_name" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_shop_batch_setting_item4_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                style="@style/Font_16_333333"
-                android:text="@string/batch_flow_setting"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_item4_right"
-                app:layout_constraintStart_toStartOf="parent"/>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_shop_batch_setting_item3_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:src="@drawable/icon_arrow_right"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                style="@style/Font_12_999999"
-                android:layout_marginTop="8dp"
-                android:text="@string/batch_flow_setting_prompt"
-                app:layout_constraintTop_toBottomOf="@id/tv_shop_batch_setting_item4_name"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_item4_right"
-                app:layout_constraintStart_toStartOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_shop_batch_setting_item4_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:background="@color/transparent"
-                android:src="@drawable/icon_arrow_right"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_shop_batch_setting_flow_setting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="16dp">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_batch_setting_item4_name"
+                        style="@style/Font_16_333333"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/batch_flow_setting"
+                        app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_item4_right"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_12_999999"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/batch_flow_setting_prompt"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_item4_right"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_shop_batch_setting_item4_name" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_shop_batch_setting_item4_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:src="@drawable/icon_arrow_right"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_shop_batch_setting_service_phone_setting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="16dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_batch_setting_service_phone_name"
+                        style="@style/Font_16_333333"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/batch_service_phone_setting"
+                        app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_service_phone_right"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_12_999999"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/batch_service_phone_setting_prompt"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/iv_shop_batch_setting_service_phone_right"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_shop_batch_setting_service_phone_name" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_shop_batch_setting_service_phone_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:src="@drawable/icon_arrow_right"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.core.widget.NestedScrollView>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

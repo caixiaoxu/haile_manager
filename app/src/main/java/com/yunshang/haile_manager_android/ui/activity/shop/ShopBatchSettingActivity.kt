@@ -76,6 +76,15 @@ class ShopBatchSettingActivity :
                 )
             )
         }
+        // 批量客服电话设置
+        mBinding.clShopBatchSettingServicePhoneSetting.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@ShopBatchSettingActivity,
+                    ShopBatchServicePhoneSettingActivity::class.java
+                )
+            )
+        }
     }
 
     override fun initData() {

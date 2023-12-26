@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="servicePhone"
+            type="com.yunshang.haile_manager_android.business.vm.ShopBatchServicePhoneSettingViewModel.ServicePhoneEntity" />
+
+        <variable
+            name="total"
+            type="java.lang.Integer" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_bottom_stroke_dividing_mlr16"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingVertical="16dp"
+        android:paddingEnd="16dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_shop_position_create_sex_tag"
+            style="@style/font_17_ff5219"
+            android:layout_width="16dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="*" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/font_17_black85"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:text="@string/business_phone" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            style="@style/font_17_black85_black45"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_weight="1"
+            android:inputType="phone"
+            android:background="@color/transparent"
+            android:hint="@string/service_phone_hint"
+            android:text="@={servicePhone.phoneVal}" />
+
+        <com.lsy.framelib.ui.weight.SingleTapImageButton
+            android:id="@+id/ib_shop_setting_service_phone_add_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:src="@mipmap/icon_service_phone_add"
+            app:imgRes="@{servicePhone.rightImg}"
+            app:visibility="@{!(servicePhone.isFirst &amp;&amp; total >= 3)}" />
+    </LinearLayout>
+</layout>

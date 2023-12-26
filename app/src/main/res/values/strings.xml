@@ -297,6 +297,11 @@
     <string name="batch_flow_setting">批量按流量收费显示设置</string>
     <string name="batch_flow_setting_prompt">按流量收费时，用户订单是否显示用量</string>
     <string name="select_shops_hint">具体门店信息</string>
+    <string name="batch_service_phone_setting">批量客服电话设置</string>
+    <string name="service_phone_setting">客服电话设置</string>
+    <string name="pt_name_hint">具体营业点名称</string>
+    <string name="service_phone_hint">请输入客服电话</string>
+    <string name="batch_service_phone_setting_prompt">设置营业点的客服电话</string>
 
     <string name="sub_account_agreement">分账协议</string>
     <string name="agreement_prompt">我已阅读所有内容</string>

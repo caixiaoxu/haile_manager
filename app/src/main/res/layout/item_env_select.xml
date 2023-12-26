@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="child"
+            type="com.yunshang.haile_manager_android.data.rule.CommonDialogItemParam" />
+    </data>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        style="@style/Font_14_black85"
+        android:text="@{child.name}"
+        android:padding="16dp" />
+</layout>

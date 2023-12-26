@@ -1,18 +1,26 @@
 package com.yunshang.haile_manager_android.ui.activity
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import androidx.databinding.DataBindingUtil
 import com.king.wechat.qrcode.WeChatQRCodeDetector
 import com.lsy.framelib.utils.ActivityUtils
+import com.lsy.framelib.utils.AppManager
 import com.lsy.framelib.utils.AppPackageUtils
 import com.yunshang.haile_manager_android.BR
+import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.MainViewModel
 import com.yunshang.haile_manager_android.data.common.Constants
 import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
 import com.yunshang.haile_manager_android.data.model.OnDownloadProgressListener
 import com.yunshang.haile_manager_android.data.model.SPRepository
+import com.yunshang.haile_manager_android.data.rule.CommonDialogItemParam
 import com.yunshang.haile_manager_android.databinding.ActivityMainBinding
+import com.yunshang.haile_manager_android.databinding.ItemEnvSelectBinding
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonNewBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.ServiceCheckDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.UpdateAppDialog
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
@@ -44,6 +52,34 @@ class MainActivity :
     }
 
     override fun initView() {
+
+        if (BuildConfig.DEBUG) {
+            mBinding.ibChangeEnv.visibility(true)
+            mBinding.ibChangeEnv.setOnClickListener {
+                val envList = listOf(
+                    CommonDialogItemParam(0, "120", "http://192.168.5.120:9083"),
+                    CommonDialogItemParam(1, "130", "http://192.168.5.130:9083"),
+                    CommonDialogItemParam(2, "140", "http://192.168.5.140:9083"),
+                    CommonDialogItemParam(3, "20", "http://192.168.5.20:9083"),
+                    CommonDialogItemParam(4, "预发", "https://pre-merchant.haier-ioc.com"),
+                )
+                CommonNewBottomSheetDialog.Builder<CommonDialogItemParam, ItemEnvSelectBinding>(
+                    "环境切换", envList, mustSelect = false, buildItemView = { _, data, _ ->
+                        DataBindingUtil.inflate<ItemEnvSelectBinding?>(
+                            LayoutInflater.from(this@MainActivity),
+                            R.layout.item_env_select,
+                            null,
+                            false
+                        ).apply {
+                            child = data
+                        }
+                    }
+                ) {
+                    SPRepository.selectEnv = envList.find { item -> item.commonItemSelect }?.origin
+                    AppManager.finishAllActivity()
+                }.build().show(supportFragmentManager)
+            }
+        }
     }
 
     override fun initEvent() {

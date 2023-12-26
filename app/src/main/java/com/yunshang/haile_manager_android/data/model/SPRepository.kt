@@ -21,6 +21,8 @@ import com.yunshang.haile_manager_android.data.entities.UserPermissionEntity
 object SPRepository {
     private const val SP_NAME: String = "default_name"
 
+    private const val SP_SELECT_ENV: String = "select_env"
+
     private const val SP_AGREE_AGREEMENT = "sp_agree_agreement"
 
     private const val SP_LOGIN_TOKEN = "sp_login_token"
@@ -40,6 +42,13 @@ object SPRepository {
     private const val SP_WITHDRAW_EXPORT_EMAIL_HISTORY = "sp_withdraw_export_email_history"
 
     private val sp: SPUtils by lazy { SPUtils.getInstance(SP_NAME) }
+
+    /**
+     * 选择的环境
+     */
+    var selectEnv: String?
+        get() = sp.getString(SP_SELECT_ENV)
+        set(value) = sp.put(SP_SELECT_ENV, value)
 
     /**
      * 判断是否同意了隐私协议

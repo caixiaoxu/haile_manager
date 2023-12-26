@@ -35,18 +35,22 @@ import java.io.File
  */
 object ApiRepository {
     private val mHandler = Handler(Looper.getMainLooper())
+    private fun env() =
+        if (BuildConfig.DEBUG && !SPRepository.selectEnv.isNullOrEmpty()) SPRepository.selectEnv!! else BuildConfig.BASE_URL
 
     /**
      * 获取网络请求Retrofit
      * @param service api Service
      */
     fun <T> apiClient(service: Class<T>, okHttp: OkHttpClient? = null): T {
-        return ApiService.get(BuildConfig.BASE_URL, service, okHttp)
+        return ApiService.get(
+            env(), service, okHttp
+        )
     }
 
     fun downloadClient(progressInterceptor: (curSize: Long, totalSize: Long, isDone: Boolean) -> Unit): DownloadService {
         return ApiService.get(
-            BuildConfig.BASE_URL, DownloadService::class.java, DefaultOkHttpClient()
+            env(), DownloadService::class.java, DefaultOkHttpClient()
                 .setInterceptors(
                     arrayOf(
                         OkHttpBodyLogInterceptor().getInterceptor(),
@@ -122,6 +126,7 @@ object ApiRepository {
         }
     }
 }
+
 interface OnDownloadProgressListener {
     /**
      * 百分比，完成100

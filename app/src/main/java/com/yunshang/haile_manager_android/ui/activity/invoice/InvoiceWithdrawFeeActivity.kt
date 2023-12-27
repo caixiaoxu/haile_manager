@@ -59,6 +59,7 @@ class InvoiceWithdrawFeeActivity :
 
         // 监听刷新
         LiveDataBus.with(BusEvents.INVOICE_FEE_LIST_STATUS)?.observe(this) {
+            resetSelectBatchNum()
             mBinding.rvInvoiceWithdrawFeeList.requestRefresh()
         }
     }
@@ -98,7 +99,7 @@ class InvoiceWithdrawFeeActivity :
                     StringUtils.getString(R.string.invoice_operator),
                     userList,
                     multiSelect = true,
-                    buildItemView = { _, data,_ ->
+                    buildItemView = { _, data, _ ->
                         DataBindingUtil.inflate<ItemInvoiceOperatorBinding?>(
                             LayoutInflater.from(this@InvoiceWithdrawFeeActivity),
                             R.layout.item_invoice_operator,

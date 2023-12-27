@@ -127,6 +127,8 @@ class InvoiceWithdrawFeeActivity :
         }
 
         mBinding.rvInvoiceWithdrawFeeList.layoutManager = LinearLayoutManager(this)
+        mBinding.rvInvoiceWithdrawFeeList.listStatusTxtResId = R.string.invoice_withdraw_fee_empty
+        mBinding.rvInvoiceWithdrawFeeList.listStatusImgResId = R.mipmap.icon_list_device_empty
         mBinding.rvInvoiceWithdrawFeeList.adapter = mAdapter
         mBinding.rvInvoiceWithdrawFeeList.requestData =
             object : CommonRefreshRecyclerView.OnRequestDataListener<InvoiceWithdrawFeeEntity>() {

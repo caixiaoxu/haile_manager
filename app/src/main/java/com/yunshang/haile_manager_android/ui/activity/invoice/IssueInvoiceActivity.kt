@@ -93,7 +93,7 @@ class IssueInvoiceActivity :
         mBinding.tvIssueInvoiceTitleMore.setOnClickListener {
             mViewModel.invoiceTitleList.value?.let {
                 CommonNewBottomSheetDialog.Builder<InvoiceTitleEntity, ItemIssueInvoiceSelectBinding>(
-                    StringUtils.getString(R.string.single_select_dialog),
+                    StringUtils.getString(R.string.invoice_title),
                     it,
                     showBottomBtn = true,
                     bottomBtnTxt = StringUtils.getString(R.string.add_invoice_title),
@@ -154,7 +154,7 @@ class IssueInvoiceActivity :
         val list = mViewModel.invoiceReceiverList.value?.filter { !it.email.isNullOrEmpty() }
             ?.toMutableList()
         CommonNewBottomSheetDialog.Builder<InvoiceReceiverEntity, ItemIssueInvoiceReceiverSelectBinding>(
-            StringUtils.getString(R.string.single_select_dialog),
+            StringUtils.getString(R.string.receive_mode),
             list,
             buildItemView = { _, data, refreshSelectItem ->
                 DataBindingUtil.inflate<ItemIssueInvoiceReceiverSelectBinding?>(

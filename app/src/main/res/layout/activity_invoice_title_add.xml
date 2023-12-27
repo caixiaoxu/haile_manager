@@ -170,7 +170,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/company_number" />
 
-                        <androidx.appcompat.widget.AppCompatEditText
+                        <com.yunshang.haile_manager_android.ui.view.BindingEditText
                             style="@style/font_17_black85_black45"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -178,7 +178,7 @@
                             android:background="@color/transparent"
                             android:gravity="center_vertical"
                             android:hint="@string/company_number_hint"
-                            android:maxLength="20"
+                            android:maxLength="24"
                             android:text="@={vm.invoiceTitleAddParams.taxNoVal}" />
 
                         <androidx.appcompat.widget.AppCompatImageButton
@@ -257,7 +257,7 @@
                             android:layout_weight="1"
                             android:background="@color/transparent"
                             android:gravity="center_vertical"
-                            android:maxLength="20"
+                            android:maxLength="24"
                             android:inputType="number"
                             android:hint="@string/bank_account_hint"
                             android:text="@={vm.invoiceTitleAddParams.bankAccountVal}" />

@@ -83,11 +83,14 @@ data class InvoiceTitleEntity(
         titleVal = ""
     }
 
+    @Transient
     @get:Bindable
-    var taxNoVal: String
-        get() = taxNo ?: ""
+    var taxNoVal: String? = null
+        get() = if (null == field) taxNo?.chunked(4)?.joinToString(" ") ?: "" else field
         set(value) {
-            taxNo = value
+            val origin = value!!.trim().replace(" ","")
+            field = origin.chunked(4).joinToString(" ")
+            taxNo = value.trim().replace(" ","")
             notifyPropertyChanged(BR.taxNoVal)
             notifyPropertyChanged(BR.canSubmit)
         }
@@ -115,15 +118,9 @@ data class InvoiceTitleEntity(
     var bankAccountVal: String? = null
         get() = if (null == field) bankAccount?.chunked(4)?.joinToString(" ") ?: "" else field
         set(value) {
-            val split = value!!.trim().split(" ").toMutableList()
-            val lastStr = split.last()
-            if (lastStr.length > 4) {
-                split.removeAt(split.size - 1)
-                split.add(lastStr.substring(0, 4))
-                split.add(lastStr.substring(4, lastStr.length))
-            }
-            field = split.joinToString(" ")
-            bankAccount = value.trim().replace(" ","")
+            val origin = value!!.trim().replace(" ","")
+            field = origin.chunked(4).joinToString(" ")
+            bankAccount = origin
             notifyPropertyChanged(BR.bankAccountVal)
             notifyPropertyChanged(BR.canSubmit)
         }

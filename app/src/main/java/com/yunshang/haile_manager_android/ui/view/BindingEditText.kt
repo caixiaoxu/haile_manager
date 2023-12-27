@@ -30,9 +30,11 @@ open class BindingEditText @JvmOverloads constructor(
 
     override fun setText(txt: CharSequence?, type: BufferType?) {
         val temp = text
+        val curStart = selectionStart
         super.setText(txt, type)
         if (temp != txt) {
-            setSelection(min((txt?.length ?: 0), maxLength))
+            val len = (txt?.length ?: 0)
+            setSelection(min(if (curStart >= len) len else curStart, maxLength))
         }
     }
 }

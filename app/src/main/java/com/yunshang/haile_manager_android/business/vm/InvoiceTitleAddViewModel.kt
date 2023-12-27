@@ -34,7 +34,7 @@ class InvoiceTitleAddViewModel : BaseViewModel() {
     fun save(v: View) {
         if (null == invoiceTitleAddParams.value) return
 
-        if (0 == invoiceTitleAddParams.value!!.isPersonal && invoiceTitleAddParams.value!!.taxNo!!.length < 15) {
+        if (0 == invoiceTitleAddParams.value!!.isPersonal && invoiceTitleAddParams.value!!.taxNo!!.length < 18) {
             SToast.showToast(v.context, "请填写正确的公司税号")
             return
         }

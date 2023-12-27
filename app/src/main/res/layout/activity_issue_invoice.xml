@@ -157,19 +157,19 @@
                             layout="@layout/item_invoice_title_details"
                             app:content="@{vm.invoiceTitle.bankNameVal}"
                             app:show="@{vm.invoiceTitle.invoiceTitleType0Val &amp;&amp; !vm.isFold}"
-                            app:title="@{@string/company_number}" />
+                            app:title="@{@string/open_bank}" />
 
                         <include
                             layout="@layout/item_invoice_title_details"
                             app:content="@{vm.invoiceTitle.bankAccountVal}"
                             app:show="@{vm.invoiceTitle.invoiceTitleType0Val &amp;&amp; !vm.isFold}"
-                            app:title="@{@string/open_bank}" />
+                            app:title="@{@string/bank_account}" />
 
                         <include
                             layout="@layout/item_invoice_title_details"
                             app:content="@{vm.invoiceTitle.phoneVal}"
                             app:show="@{vm.invoiceTitle.invoiceTitleType0Val &amp;&amp; !vm.isFold}"
-                            app:title="@{@string/bank_account}" />
+                            app:title="@{@string/company_phone}" />
 
                         <include
                             layout="@layout/item_invoice_title_details"

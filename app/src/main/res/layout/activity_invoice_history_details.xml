@@ -115,7 +115,7 @@
 
                 <include
                     layout="@layout/item_invoice_title_details"
-                    app:content="@{vm.invoiceDetails.invoiceTemplate.taxNo}"
+                    app:content="@{vm.invoiceDetails.invoiceTemplate.taxNoVal}"
                     app:show="@{true}"
                     app:title="@{@string/company_number}" />
 

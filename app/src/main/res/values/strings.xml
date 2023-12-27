@@ -593,8 +593,8 @@
     <string name="invoice_withdraw_fee">提现手续费</string>
     <string name="invoice_title">发票抬头</string>
     <string name="invoice_title_empty">无发票抬头</string>
-    <string name="invoice_history">发票历史</string>
-    <string name="invoice_explain">发票说明</string>
+    <string name="invoice_history">开票历史</string>
+    <string name="invoice_explain">开票说明</string>
     <string name="apply_operator">申请人</string>
     <string name="invoice_operator">提现人</string>
     <string name="invoice_open">去开票</string>

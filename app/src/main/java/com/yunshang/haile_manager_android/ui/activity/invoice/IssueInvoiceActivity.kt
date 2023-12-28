@@ -78,16 +78,14 @@ class IssueInvoiceActivity :
 
         mBinding.rgIssueInvoiceType.setOnCheckedChangeListener { _, checkedId ->
             mViewModel.createInvoiceParams.value?.checkType(if (checkedId == R.id.rb_issue_invoice_type1) 2 else 1)
-            if (checkedId == R.id.rb_issue_invoice_type1) {
-                val paperInvoice =
-                    mViewModel.invoiceReceiverList.value?.filter { it.email.isNullOrEmpty() }
-                (paperInvoice?.find { it.commonItemSelect }
-                    ?: paperInvoice?.firstOrNull())?.let { first ->
-                    mViewModel.changeReceiver(first)
-                }
-            } else {
-                mViewModel.createInvoiceParams.value?.clearReceiver()
-            }
+//            val paperInvoice = if (checkedId == R.id.rb_issue_invoice_type1) {
+//                mViewModel.invoiceReceiverList.value?.filter { it.email.isNullOrEmpty() }
+//            } else {
+//                mViewModel.invoiceReceiverList.value?.filter { !it.email.isNullOrEmpty() }
+//            }
+//            (paperInvoice?.find { it.commonItemSelect } ?: paperInvoice?.firstOrNull())?.let { first ->
+//                mViewModel.changeReceiver(first)
+//            }
         }
 
         mBinding.tvIssueInvoiceTitleMore.setOnClickListener {

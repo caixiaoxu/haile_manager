@@ -241,50 +241,7 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingVertical="12dp"
-                        app:visibility="@{2 == vm.createInvoiceParams.typeVal}">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tv_issue_invoice_addressee_title"
-                            style="@style/font_17_ff5219"
-                            android:layout_width="16dp"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical|end"
-                            android:paddingEnd="2dp"
-                            android:text="*"
-                            app:layout_constraintBottom_toBottomOf="@id/tv_issue_invoice_addressee"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/tv_issue_invoice_addressee" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tv_issue_invoice_addressee"
-                            style="@style/font_17_black85"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/addressee"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/tv_issue_invoice_addressee_title"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/et_issue_invoice_addressee"
-                            style="@style/font_17_black85_black45"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginEnd="12dp"
-                            android:background="@color/transparent"
-                            android:hint="@string/addressee_hint"
-                            android:maxLength="20"
-                            android:text="@={vm.createInvoiceParams.receiverVal}"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="@id/tv_issue_invoice_addressee"
-                            app:layout_constraintTop_toBottomOf="@id/tv_issue_invoice_addressee" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        app:visibility="@{1 == vm.createInvoiceParams.typeVal}"
                         android:paddingVertical="12dp">
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -319,8 +276,8 @@
                             android:inputType="phone"
                             android:maxLength="11"
                             android:background="@color/transparent"
-                            android:hint="@{1 == vm.createInvoiceParams.typeVal?@string/addressee_phone_hint:@string/please_input}"
-                            android:text="@={vm.createInvoiceParams.smsPhoneVal}"
+                            android:hint="@{@string/addressee_phone_hint}"
+                            android:text="@={vm.createInvoiceParams.smsPhone1Val}"
                             app:layout_constraintEnd_toStartOf="@id/ib_issue_invoice_phone"
                             app:layout_constraintStart_toStartOf="@id/tv_issue_invoice_phone"
                             app:layout_constraintTop_toBottomOf="@id/tv_issue_invoice_phone" />
@@ -333,8 +290,7 @@
                             android:src="@mipmap/icon_issue_invoice_contact_list"
                             app:layout_constraintBottom_toBottomOf="@id/et_issue_invoice_phone"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/et_issue_invoice_phone"
-                            app:visibility="@{1 == vm.createInvoiceParams.typeVal}"/>
+                            app:layout_constraintTop_toTopOf="@id/et_issue_invoice_phone" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -390,6 +346,95 @@
                             app:layout_constraintBottom_toBottomOf="@id/et_issue_invoice_email"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/et_issue_invoice_email" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="12dp"
+                        app:visibility="@{2 == vm.createInvoiceParams.typeVal}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_issue_invoice_addressee_title"
+                            style="@style/font_17_ff5219"
+                            android:layout_width="16dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingEnd="2dp"
+                            android:text="*"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_issue_invoice_addressee"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tv_issue_invoice_addressee" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_issue_invoice_addressee"
+                            style="@style/font_17_black85"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/addressee"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/tv_issue_invoice_addressee_title"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/et_issue_invoice_addressee"
+                            style="@style/font_17_black85_black45"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginEnd="12dp"
+                            android:background="@color/transparent"
+                            android:hint="@string/addressee_hint"
+                            android:maxLength="20"
+                            android:text="@={vm.createInvoiceParams.receiverVal}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="@id/tv_issue_invoice_addressee"
+                            app:layout_constraintTop_toBottomOf="@id/tv_issue_invoice_addressee" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:visibility="@{2 == vm.createInvoiceParams.typeVal}"
+                        android:paddingVertical="12dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_issue_invoice_phone_type2_title"
+                            style="@style/font_17_ff5219"
+                            android:layout_width="16dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingEnd="2dp"
+                            android:text="*"
+                            app:layout_constraintBottom_toBottomOf="@id/tv_issue_invoice_phone_type2"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tv_issue_invoice_phone_type2" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_issue_invoice_phone_type2"
+                            style="@style/font_17_black85"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/phone"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/tv_issue_invoice_phone_type2_title"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/et_issue_invoice_phone_type2"
+                            style="@style/font_17_black85_black45"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginEnd="12dp"
+                            android:inputType="phone"
+                            android:maxLength="11"
+                            android:background="@color/transparent"
+                            android:hint="@string/please_input"
+                            android:text="@={vm.createInvoiceParams.smsPhoneVal}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="@id/tv_issue_invoice_phone_type2"
+                            app:layout_constraintTop_toBottomOf="@id/tv_issue_invoice_phone_type2" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout

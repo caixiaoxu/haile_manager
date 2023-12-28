@@ -147,7 +147,7 @@ class HomeViewModel : BaseViewModel() {
                 StringUtils.getString(R.string.coupon_manage),
                 R.mipmap.icon_coupon_manage,
                 CouponManageActivity::class.java,
-                UserPermissionUtils.hasCouponListPermission()
+                true
             ),
         )
     )

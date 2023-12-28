@@ -97,6 +97,12 @@
 
                 <include
                     layout="@layout/item_invoice_title_details"
+                    app:content="@{vm.invoiceDetails.email}"
+                    app:show="@{true}"
+                    app:title="@{@string/email1}" />
+
+                <include
+                    layout="@layout/item_invoice_title_details"
                     app:content="@{vm.invoiceDetails.areaVal}"
                     app:show="@{true}"
                     app:title="@{@string/shop_area}" />
@@ -133,7 +139,7 @@
 
                 <include
                     layout="@layout/item_invoice_title_details"
-                    app:content="@{vm.invoiceDetails.invoiceTemplate.smsPhone}"
+                    app:content="@{vm.invoiceDetails.invoiceTemplate.phone}"
                     app:show="@{true}"
                     app:title="@{@string/company_phone}" />
 

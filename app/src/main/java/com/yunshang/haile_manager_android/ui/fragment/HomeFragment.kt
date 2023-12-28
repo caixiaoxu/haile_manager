@@ -516,11 +516,11 @@ class HomeFragment :
             }
         }
         // 发票权限
-        mSharedViewModel.hasInvoicePermission.observe(this) {
-            mViewModel.capitalList.value?.let { list ->
-                mViewModel.capitalList.value = list.apply { this[1].isShow = it }
-            }
-        }
+//        mSharedViewModel.hasInvoicePermission.observe(this) {
+//            mViewModel.capitalList.value?.let { list ->
+//                mViewModel.capitalList.value = list.apply { this[1].isShow = it }
+//            }
+//        }
 
         LiveDataBus.with(BusEvents.MESSAGE_READ_STATUS)?.observe(this) {
             mViewModel.requestMsgData()

@@ -144,10 +144,14 @@ class IssueInvoiceViewModel : BaseViewModel() {
             invoiceReceiverList.postValue(it)
             // 设置默认
             it.firstOrNull { item -> !item.email.isNullOrEmpty() }?.let { first ->
-                changeReceiver(first)
+                changeReceiver(first.apply {
+                    commonItemSelect = true
+                })
             }
             it.firstOrNull { item -> item.email.isNullOrEmpty() }?.let { first ->
-                changeReceiver(first)
+                changeReceiver(first.apply {
+                    commonItemSelect = true
+                })
             }
         }
     }

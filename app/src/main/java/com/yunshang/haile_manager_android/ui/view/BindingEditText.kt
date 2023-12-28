@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import com.yunshang.haile_manager_android.R
-import kotlin.math.max
 import kotlin.math.min
 
 /**

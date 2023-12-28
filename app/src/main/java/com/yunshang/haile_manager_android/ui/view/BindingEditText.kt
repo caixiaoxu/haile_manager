@@ -34,7 +34,12 @@ open class BindingEditText @JvmOverloads constructor(
         super.setText(txt, type)
         if (temp != txt) {
             val len = (txt?.length ?: 0)
-            setSelection(min(if (curStart >= len) len else curStart, maxLength))
+            setSelection(
+                min(
+                    if ((temp?.length ?: 0) == curStart || curStart >= len) len else curStart,
+                    maxLength
+                )
+            )
         }
     }
 }

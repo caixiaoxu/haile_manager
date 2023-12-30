@@ -637,7 +637,7 @@
     <string name="setting_default_invoice_title_prompt">每次开票会默认填写该抬头信息</string>
     <string name="invoice_title_details">发票抬头详情</string>
     <string name="invoice_explain_title">提现手续费发票领取规则</string>
-    <string name="invoice_explain_content">1.电 子 发 票 与 纸 质 发 票 具 有 同 等 的 法 律 效 益 ， 均 支 持 发 票 核 销 。\n\n2.为 用 户 提 供 提 现 手 续 费 业 务 的 电 子 发 票 ， 不 可 重 复 开 具 电 子 发 票 和 纸 质 发 票\n\n3.电 子 发 票 为 用 户 开 具 的 发 票 金 额 为 “用 户 实 际 支 付 金 额”\n\n4.发 票 内 容 ： * 其 他 现 代 服 务 *服 务 费 。\n\n5.账 单 已 任 意 方 式 开 具 发 票 后 ， 不 可 重 复 开 票 。\n\n6.电 子 发 票 会 在 您 申 请 后 的 15 个 工 作 日 内 开 具 完 成 并 发 送 至 您 填 写 的 电 子 邮 箱 地 址 。\n\n注 ： 提 现 手 续 费 为 账 户 余 额 提 现 发 生 的 手 续 费， 提 现 成 功 后 ， 方 可 开 具 发 票 。</string>
+    <string name="invoice_explain_content">1.电 子 发 票 与 纸 质 发 票 具 有 同 等 的 法 律 效 益 ， 均 支 持 发 票 核 销 。\n\n2.为 用 户 提 供 提 现 手 续 费 业 务 的 电 子 发 票 ， 不 可 重 复 开 具 电 子 发 票 和 纸 质 发 票\n\n3.电 子 发 票 为 用 户 开 具 的 发 票 金 额 为 “用 户 实 际 支 付 金 额”\n\n4.发 票 内 容 ： * 其 他 现 代 服 务 *服 务 费 。\n\n5.账 单 以 任 意 方 式 开 具 发 票 后 ， 不 可 重 复 开 票 。\n\n6.电 子 发 票 会 在 您 申 请 后 的 15 个 工 作 日 内 开 具 完 成 并 发 送 至 您 填 写 的 电 子 邮 箱 地 址 。\n\n注 ： 提 现 手 续 费 为 账 户 余 额 提 现 发 生 的 手 续 费， 提 现 成 功 后 ， 方 可 开 具 发 票 。</string>
 
     <string name="issue_coupons">发券</string>
     <string name="batch_invalid">批量作废</string>

@@ -65,5 +65,6 @@ data class InvoiceTemplate(
     val type: Int? = null,
     val userId: Int? = null,
 ) {
+    fun taxNoVal(): String = taxNo?.chunked(4)?.joinToString(" ") ?: ""
     fun bankAccountVal(): String = bankAccount?.chunked(4)?.joinToString(" ") ?: ""
 }

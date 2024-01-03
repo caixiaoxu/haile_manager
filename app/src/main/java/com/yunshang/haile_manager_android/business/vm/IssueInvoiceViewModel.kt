@@ -104,10 +104,9 @@ class IssueInvoiceViewModel : BaseViewModel() {
             )
             createInvoiceParams.value?.addressVal = receiver.address ?: ""
         } else {
-            createInvoiceParams.value?.smsPhoneVal = receiver.smsPhone ?: ""
+            createInvoiceParams.value?.smsPhone1Val = receiver.smsPhone ?: ""
             createInvoiceParams.value?.emailVal = receiver.email
         }
-        createInvoiceParams.value?.receiverId = receiver.id
     }
 
     fun requestData(setLastTitle: Boolean = false) {
@@ -143,6 +142,17 @@ class IssueInvoiceViewModel : BaseViewModel() {
             mCapitalRepo.requestInvoiceReceiverList()
         )?.let {
             invoiceReceiverList.postValue(it)
+            // 设置默认
+            it.firstOrNull { item -> !item.email.isNullOrEmpty() }?.let { first ->
+                changeReceiver(first.apply {
+                    commonItemSelect = true
+                })
+            }
+            it.firstOrNull { item -> item.email.isNullOrEmpty() }?.let { first ->
+                changeReceiver(first.apply {
+                    commonItemSelect = true
+                })
+            }
         }
     }
 
@@ -161,10 +171,27 @@ class IssueInvoiceViewModel : BaseViewModel() {
 
     fun submit(v: View) {
         if (null == createInvoiceParams.value) return
+
+        val params = createInvoiceParams.value!!.let { params ->
+            if (1 == params.type) {
+                params.copy(
+                    receiver = null,
+                    smsPhone = params.smsPhone1Val,
+                    provinceId = null,
+                    cityId = null,
+                    districtId = null,
+                    address = null,
+                )
+            } else {
+                params.copy(
+                    email = null
+                )
+            }
+        }
         launch({
             ApiRepository.dealApiResult(
                 mCapitalRepo.issueInvoice(
-                    ApiRepository.createRequestBody(GsonUtils.any2Json(createInvoiceParams.value))
+                    ApiRepository.createRequestBody(GsonUtils.any2Json(params))
                 )
             )
 
@@ -189,9 +216,6 @@ class IssueInvoiceViewModel : BaseViewModel() {
         var address: String? = null,
         var email: String? = null
     ) : BaseObservable() {
-
-        @Transient
-        var receiverId: Int? = null
 
         fun changeInvoiceTemplateId(templateId: Int?) {
             invoiceTemplateId = templateId
@@ -222,6 +246,7 @@ class IssueInvoiceViewModel : BaseViewModel() {
         fun clearReceiver() {
             receiverVal = ""
             smsPhoneVal = ""
+            smsPhone1Val = ""
             changeArea(null, null, null, null, null, null)
             addressVal = ""
             emailVal = ""
@@ -233,6 +258,16 @@ class IssueInvoiceViewModel : BaseViewModel() {
             set(value) {
                 receiver = value
                 notifyPropertyChanged(BR.receiverVal)
+                notifyPropertyChanged(BR.canSubmit)
+            }
+
+        @Transient
+        @get:Bindable
+        var smsPhone1Val: String? = null
+            get() = (field ?: smsPhone) ?: ""
+            set(value) {
+                field = value
+                notifyPropertyChanged(BR.smsPhone1Val)
                 notifyPropertyChanged(BR.canSubmit)
             }
 
@@ -289,7 +324,7 @@ class IssueInvoiceViewModel : BaseViewModel() {
         @get:Bindable
         val canSubmit: Boolean
             get() = invoiceTemplateId.hasVal() && type.hasVal() && !businessNos.isNullOrEmpty() && (if (1 == type) {
-                !smsPhone.isNullOrEmpty() && smsPhone!!.length == 11 && !email.isNullOrEmpty() && email!!.length >= 6 && email!!.contains(
+                !smsPhone1Val.isNullOrEmpty() && smsPhone1Val!!.length == 11 && !email.isNullOrEmpty() && email!!.length >= 6 && email!!.contains(
                     "."
                 ) && email!!.contains("@")
             } else {

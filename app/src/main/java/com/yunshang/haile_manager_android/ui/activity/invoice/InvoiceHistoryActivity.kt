@@ -124,7 +124,7 @@ class InvoiceHistoryActivity :
                     clickItemView = { _, data ->
                         if (-1 == data.id) {
                             userList.forEach {
-                                it.commonItemSelect = !data.commonItemSelect
+                                it.commonItemSelect = data.commonItemSelect
                             }
                         } else {
                             userList.find { -1 == it.id }?.commonItemSelect = false

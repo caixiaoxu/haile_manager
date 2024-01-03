@@ -77,7 +77,7 @@ class CommonNewBottomSheetDialog<D : ICommonNewBottomItemEntity, V : ViewDataBin
         mBinding.tvCommonNewDialogSure.visibility(builder.multiSelect)
         mBinding.tvCommonNewDialogSure.setOnClickListener {
             if (builder.mustSelect && builder.list?.all { item -> !item.commonItemSelect } == true) {
-                SToast.showToast(context, "您还没有选择选项")
+                SToast.showToast(context, R.string.please_select)
                 return@setOnClickListener
             }
 

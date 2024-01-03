@@ -59,6 +59,7 @@ class InvoiceWithdrawFeeActivity :
 
         // 监听刷新
         LiveDataBus.with(BusEvents.INVOICE_FEE_LIST_STATUS)?.observe(this) {
+            resetSelectBatchNum()
             mBinding.rvInvoiceWithdrawFeeList.requestRefresh()
         }
     }
@@ -98,7 +99,7 @@ class InvoiceWithdrawFeeActivity :
                     StringUtils.getString(R.string.invoice_operator),
                     userList,
                     multiSelect = true,
-                    buildItemView = { _, data,_ ->
+                    buildItemView = { _, data, _ ->
                         DataBindingUtil.inflate<ItemInvoiceOperatorBinding?>(
                             LayoutInflater.from(this@InvoiceWithdrawFeeActivity),
                             R.layout.item_invoice_operator,
@@ -111,7 +112,7 @@ class InvoiceWithdrawFeeActivity :
                     clickItemView = { _, data ->
                         if (-1 == data.id) {
                             userList.forEach {
-                                it.commonItemSelect = !data.commonItemSelect
+                                it.commonItemSelect = data.commonItemSelect
                             }
                         } else {
                             userList.find { -1 == it.id }?.commonItemSelect = false
@@ -126,6 +127,8 @@ class InvoiceWithdrawFeeActivity :
         }
 
         mBinding.rvInvoiceWithdrawFeeList.layoutManager = LinearLayoutManager(this)
+        mBinding.rvInvoiceWithdrawFeeList.listStatusTxtResId = R.string.invoice_withdraw_fee_empty
+        mBinding.rvInvoiceWithdrawFeeList.listStatusImgResId = R.mipmap.icon_list_device_empty
         mBinding.rvInvoiceWithdrawFeeList.adapter = mAdapter
         mBinding.rvInvoiceWithdrawFeeList.requestData =
             object : CommonRefreshRecyclerView.OnRequestDataListener<InvoiceWithdrawFeeEntity>() {

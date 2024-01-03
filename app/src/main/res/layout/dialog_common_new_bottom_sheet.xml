@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/shape_sffffff_rt12"
+    android:maxHeight="700dp"
     android:orientation="vertical"
     android:paddingBottom="34dp">
 
@@ -49,19 +50,22 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="224dp">
+        android:layout_height="wrap_content"
+        android:minHeight="224dp">
 
-        <androidx.core.widget.NestedScrollView
+        <com.yunshang.haile_manager_android.ui.view.MaxHeightScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none">
+            android:layout_height="wrap_content"
+            android:minHeight="224dp"
+            android:scrollbars="none"
+            app:maxHeight="542dp">
 
             <LinearLayout
                 android:id="@+id/ll_common_new_dialog_child"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
-        </androidx.core.widget.NestedScrollView>
+        </com.yunshang.haile_manager_android.ui.view.MaxHeightScrollView>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_common_new_empty"
@@ -80,6 +84,6 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="12dp"
         android:visibility="gone"
-        tools:visibility="visible"
-        tools:text="新增发票抬头" />
+        tools:text="新增发票抬头"
+        tools:visibility="visible" />
 </LinearLayout>

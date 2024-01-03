@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import com.yunshang.haile_manager_android.R
-import kotlin.math.max
 import kotlin.math.min
 
 /**
@@ -30,9 +29,14 @@ open class BindingEditText @JvmOverloads constructor(
 
     override fun setText(txt: CharSequence?, type: BufferType?) {
         val temp = text
+        val curStart = if (selectionStart < 0) 0 else selectionStart
         super.setText(txt, type)
         if (temp != txt) {
-            setSelection(min((txt?.length ?: 0), maxLength))
+            val len = (txt?.length ?: 0)
+            val start = if ((temp?.length ?: 0) == curStart || curStart >= len) len else curStart
+            setSelection(
+                if (maxLength > 0) min(start, maxLength) else start
+            )
         }
     }
 }

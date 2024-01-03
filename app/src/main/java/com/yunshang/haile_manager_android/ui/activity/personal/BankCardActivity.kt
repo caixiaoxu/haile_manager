@@ -28,6 +28,12 @@ class BankCardActivity : BaseBusinessActivity<ActivityBankCardBinding, BankCardV
 
     override fun backBtn(): View = mBinding.barBankCardTitle.getBackBtn()
 
+    override fun initIntent() {
+        super.initIntent()
+
+        mViewModel.realNameAuthDetail = IntentParams.RealNameAuthParams.parseAuthInfo(intent)
+    }
+
     override fun initEvent() {
         super.initEvent()
         mViewModel.bankCard.observe(this) {
@@ -68,8 +74,8 @@ class BankCardActivity : BaseBusinessActivity<ActivityBankCardBinding, BankCardV
             }
         }
 
-        val authInfo = IntentParams.RealNameAuthParams.parseAuthInfo(intent)
         mBinding.tvBankCardAdd.setOnClickListener {
+            val authInfo = mViewModel.realNameAuthDetail
             if (3 != authInfo?.status) {
                 CommonDialog.Builder(StringUtils.getString(R.string.add_bank_card_no_real_name))
                     .apply {

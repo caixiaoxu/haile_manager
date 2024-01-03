@@ -115,5 +115,6 @@ class BankCardBindActivity :
     }
 
     override fun initData() {
+        mViewModel.requestData()
     }
 }

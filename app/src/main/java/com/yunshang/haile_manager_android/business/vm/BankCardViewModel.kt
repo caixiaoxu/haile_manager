@@ -28,7 +28,6 @@ class BankCardViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
-    var subAccountAgreement: Boolean = false
     fun requestData() {
         launch({
             if (null == realNameAuthDetail) {

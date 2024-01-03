@@ -9,6 +9,7 @@ import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.business.apiService.CommonService
+import com.yunshang.haile_manager_android.business.apiService.LoginUserService
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.entities.BankCardDetailEntity
 import com.yunshang.haile_manager_android.data.entities.RealNameAuthDetailEntity
@@ -32,6 +33,7 @@ import timber.log.Timber
 class BankCardBindViewModel : BaseViewModel() {
     private val mCommonService = ApiRepository.apiClient(CommonService::class.java)
     private val mCapitalService = ApiRepository.apiClient(CapitalService::class.java)
+    private val mUserRepo = ApiRepository.apiClient(LoginUserService::class.java)
 
     var authCode: String? = null
 
@@ -52,6 +54,14 @@ class BankCardBindViewModel : BaseViewModel() {
 
     // 上传图片缓存
     private val imageCache: MutableMap<String, String> = mutableMapOf()
+
+    fun requestData() {
+        launch({
+            if (null == authInfo.value) {
+                authInfo.postValue(ApiRepository.dealApiResult(mUserRepo.requestRealNameAuthDetail()))
+            }
+        })
+    }
 
     /**
      * 上传证件照

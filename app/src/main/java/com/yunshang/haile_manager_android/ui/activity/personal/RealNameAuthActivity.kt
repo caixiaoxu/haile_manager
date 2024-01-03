@@ -34,7 +34,7 @@ class RealNameAuthActivity :
 
         mViewModel.authInfo.observe(this) {
             it?.let {
-                if (1 != it.verifyType) {
+                if (1 != it.verifyTypeVal) {
                     loadRealNameAuthLicence()
                 }
                 loadRealNameAuthIdCardFront()

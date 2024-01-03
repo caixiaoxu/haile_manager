@@ -64,7 +64,7 @@ class RealNameAuthBindingActivity :
                 onValueSureListener = object :
                     CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
                     override fun onValue(data: SearchSelectParam?) {
-                        mViewModel.authInfo.value?.verifyType = data?.id
+                        mViewModel.authInfo.value?.verifyTypeVal = data?.id
                     }
                 }
             }.build().show(supportFragmentManager)

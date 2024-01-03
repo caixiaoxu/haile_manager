@@ -1,9 +1,7 @@
 package com.yunshang.haile_manager_android.business.vm
 
 import android.view.View
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.SToast
@@ -16,7 +14,6 @@ import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.RealNameAuthDetailEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
-import com.yunshang.haile_manager_android.data.rule.ICommonBottomItemEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -90,12 +87,12 @@ class RealNameAuthBindingViewModel : BaseViewModel() {
             return
         }
 
-        if (null == authInfo.value?.verifyType) {
+        if (null == authInfo.value?.verifyTypeVal) {
             SToast.showToast(v.context, "请选择类型")
             return
         }
 
-        if (1 != authInfo.value?.verifyType && authInfo.value?.companyLicense.isNullOrEmpty()) {
+        if (1 != authInfo.value?.verifyTypeVal && authInfo.value?.companyLicense.isNullOrEmpty()) {
             SToast.showToast(v.context, R.string.empty_company_license)
             return
         }
@@ -112,7 +109,7 @@ class RealNameAuthBindingViewModel : BaseViewModel() {
         if (authInfo.value?.idCardName.isNullOrEmpty()) {
             SToast.showToast(
                 v.context,
-                if (3 == authInfo.value?.verifyType) R.string.empty_legal_person_name else R.string.empty_id_card_name
+                if (3 == authInfo.value?.verifyTypeVal) R.string.empty_legal_person_name else R.string.empty_id_card_name
             )
             return
         }
@@ -133,12 +130,12 @@ class RealNameAuthBindingViewModel : BaseViewModel() {
             return
         }
 
-        if (1 != authInfo.value?.verifyType && authInfo.value?.companyName.isNullOrEmpty()) {
+        if (1 != authInfo.value?.verifyTypeVal && authInfo.value?.companyName.isNullOrEmpty()) {
             SToast.showToast(v.context, R.string.empty_company_name)
             return
         }
 
-        if (1 != authInfo.value?.verifyType && authInfo.value?.companyUsci.isNullOrEmpty()) {
+        if (1 != authInfo.value?.verifyTypeVal && authInfo.value?.companyUsci.isNullOrEmpty()) {
             SToast.showToast(v.context, R.string.empty_company_usci)
             return
         }

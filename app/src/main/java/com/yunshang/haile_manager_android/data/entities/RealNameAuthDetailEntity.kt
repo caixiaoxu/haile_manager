@@ -35,8 +35,7 @@ data class RealNameAuthDetailEntity(
     var _idCardReverse: String? = null,
     var reason: String? = null,
     var status: Int? = null,
-    @SerializedName("verifyType")
-    var _verifyType: Int? = null,
+    var verifyType: Int? = null,
     var authCode: String? = null,
 ) : BaseObservable() {
 
@@ -47,16 +46,16 @@ data class RealNameAuthDetailEntity(
 
     @get:Bindable
     val verifyTypeName: String
-        get() = if (null != verifyType && verifyType!! > 0)
-            StringUtils.getStringArray(R.array.verify_type_arr)[verifyType!! - 1]
+        get() = if (null != verifyTypeVal && verifyTypeVal!! > 0)
+            StringUtils.getStringArray(R.array.verify_type_arr)[verifyTypeVal!! - 1]
         else ""
 
     @get:Bindable
-    var verifyType: Int?
-        get() = _verifyType
+    var verifyTypeVal: Int?
+        get() = verifyType
         set(value) {
-            _verifyType = value
-            notifyPropertyChanged(BR.verifyType)
+            verifyType = value
+            notifyPropertyChanged(BR.verifyTypeVal)
             notifyPropertyChanged(BR.verifyTypeName)
         }
 
@@ -129,10 +128,10 @@ data class RealNameAuthDetailEntity(
         get() = StringUtils.getString(R.string.type)
 
     val nameTitle: String
-        get() = StringUtils.getString(if (3 == verifyType) R.string.legal_person_name else R.string.name)
+        get() = StringUtils.getString(if (3 == verifyTypeVal) R.string.legal_person_name else R.string.name)
 
     val idCardTitle: String
-        get() = StringUtils.getString(if (3 == verifyType) R.string.legal_person_idcard else R.string.id_card)
+        get() = StringUtils.getString(if (3 == verifyTypeVal) R.string.legal_person_idcard else R.string.id_card)
 
     val indateTypeTitle: String
         get() = StringUtils.getString(R.string.indate_type)

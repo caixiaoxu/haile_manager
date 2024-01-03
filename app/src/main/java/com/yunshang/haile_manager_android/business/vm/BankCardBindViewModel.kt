@@ -174,7 +174,7 @@ class BankCardBindViewModel : BaseViewModel() {
                     LiveDataBus.post(BusEvents.BANK_LIST_DETAIL_STATUS, true)
                 } ?: run {
                     // 绑定
-                    authInfo.value?.verifyType?.let {
+                    authInfo.value?.verifyTypeVal?.let {
                         bankCardParams.value?.merchantType = it
                     }
                     bankCardParams.value?.bankAccountName = realName
@@ -212,12 +212,12 @@ class BankCardBindViewModel : BaseViewModel() {
     }
 
     val merchantType: Int?
-        get() = (authInfo.value?.verifyType ?: bankCardParams.value?.merchantType)
+        get() = (authInfo.value?.verifyTypeVal ?: bankCardParams.value?.merchantType)
 
     val verifyTypeName: String?
         get() = (authInfo.value?.verifyTypeName ?: bankCardParams.value?.typeVal)
 
     val realName: String?
-        get() = ((if (3 == authInfo.value?.verifyType) authInfo.value?.companyName else authInfo.value?.idCardName)
+        get() = ((if (3 == authInfo.value?.verifyTypeVal) authInfo.value?.companyName else authInfo.value?.idCardName)
             ?: bankCardParams.value?.bankAccountName)
 }

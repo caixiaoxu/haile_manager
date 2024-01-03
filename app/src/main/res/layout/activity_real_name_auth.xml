@@ -131,19 +131,19 @@
                         layout="@layout/item_bank_detail_info"
                         app:content="@{vm.authInfo.companyName}"
                         app:title="@{vm.authInfo.companyNameTitle}"
-                        app:visibility="@{3 == vm.authInfo.verifyType}" />
+                        app:visibility="@{3 == vm.authInfo.verifyTypeVal}" />
 
                     <include
                         layout="@layout/item_bank_detail_info"
                         app:content="@{vm.authInfo.companyUsci}"
                         app:title="@{vm.authInfo.companyUsciTitle}"
-                        app:visibility="@{1 != vm.authInfo.verifyType}" />
+                        app:visibility="@{1 != vm.authInfo.verifyTypeVal}" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
-                        app:visibility="@{1 != vm.authInfo.verifyType}"
+                        app:visibility="@{1 != vm.authInfo.verifyTypeVal}"
                         android:paddingHorizontal="16dp">
 
                         <androidx.appcompat.widget.AppCompatTextView

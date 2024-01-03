@@ -68,13 +68,13 @@
                         android:layout_height="54dp"
                         android:gravity="center_vertical"
                         android:text="@string/company_license"
-                        app:visibility="@{1 != vm.authInfo.verifyType}" />
+                        app:visibility="@{1 != vm.authInfo.verifyTypeVal}" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/iv_real_name_auth_binding_licence"
                         android:layout_width="314dp"
                         android:layout_height="168dp"
-                        app:visibility="@{1 != vm.authInfo.verifyType}"
+                        app:visibility="@{1 != vm.authInfo.verifyTypeVal}"
                         tools:background="@mipmap/bg_business_license" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -82,7 +82,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="54dp"
                         android:gravity="center_vertical"
-                        android:text="@{3 == vm.authInfo.verifyType?@string/legal_person_idcard:@string/operator_idcard}" />
+                        android:text="@{3 == vm.authInfo.verifyTypeVal?@string/legal_person_idcard:@string/operator_idcard}" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/iv_real_name_auth_binding_id_card_front"
@@ -104,7 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:itemContent="@={vm.authInfo.idCardName}"
-                    app:title="@{3 == vm.authInfo.verifyType?@string/legal_person_name:@string/name}"
+                    app:title="@{3 == vm.authInfo.verifyTypeVal?@string/legal_person_name:@string/name}"
                     app:titleContentSpace="40dp"
                     app:titleW="64dp"
                     app:type="input" />
@@ -152,9 +152,9 @@
                     style="@style/MultiTypePaddingHItemStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:visibility="@{1 != vm.authInfo.verifyType}"
+                    app:visibility="@{1 != vm.authInfo.verifyTypeVal}"
                     app:itemContent="@={vm.authInfo.companyName}"
-                    app:title="@{2 == vm.authInfo.verifyType?@string/name1:@string/company_name}"
+                    app:title="@{2 == vm.authInfo.verifyTypeVal?@string/name1:@string/company_name}"
                     app:titleContentSpace="40dp"
                     app:titleW="64dp"
                     app:type="input" />
@@ -165,7 +165,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="18"
-                    app:visibility="@{1 != vm.authInfo.verifyType}"
+                    app:visibility="@{1 != vm.authInfo.verifyTypeVal}"
                     app:itemContent="@={vm.authInfo.companyUsci}"
                     app:title="@string/company_id"
                     app:titleContentSpace="40dp"

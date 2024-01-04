@@ -88,9 +88,9 @@ data class InvoiceTitleEntity(
     var taxNoVal: String? = null
         get() = if (null == field) taxNo?.chunked(4)?.joinToString(" ") ?: "" else field
         set(value) {
-            val origin = value!!.trim().replace(" ","")
+            val origin = value!!.trim().replace(" ", "")
             field = origin.chunked(4).joinToString(" ")
-            taxNo = value.trim().replace(" ","")
+            taxNo = value.trim().replace(" ", "")
             notifyPropertyChanged(BR.taxNoVal)
             notifyPropertyChanged(BR.canSubmit)
         }
@@ -118,7 +118,7 @@ data class InvoiceTitleEntity(
     var bankAccountVal: String? = null
         get() = if (null == field) bankAccount?.chunked(4)?.joinToString(" ") ?: "" else field
         set(value) {
-            val origin = value!!.trim().replace(" ","")
+            val origin = value!!.trim().replace(" ", "")
             field = origin.chunked(4).joinToString(" ")
             bankAccount = origin
             notifyPropertyChanged(BR.bankAccountVal)
@@ -168,5 +168,5 @@ data class InvoiceTitleEntity(
 
     @get:Bindable
     val canSubmit: Boolean
-        get() = null != isPersonal && !title.isNullOrEmpty() && (if (0 == isPersonal) !taxNo.isNullOrEmpty() else true)
+        get() = null != isPersonal && !title.isNullOrEmpty() && (if (0 == isPersonal) !taxNo.isNullOrEmpty() && !bankName.isNullOrEmpty() && !bankAccount.isNullOrEmpty() && !phone.isNullOrEmpty() && !address.isNullOrEmpty() else true)
 }

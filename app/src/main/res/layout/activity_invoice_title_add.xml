@@ -198,9 +198,17 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:gravity="top"
-                        android:paddingHorizontal="16dp"
                         android:paddingTop="16dp"
+                        android:paddingEnd="16dp"
                         app:visibility="@{vm.invoiceTitleAddParams.invoiceTitleType0Val}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/font_17_ff5219"
+                            android:layout_width="16dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingEnd="2dp"
+                            android:text="*" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/font_17_black85"
@@ -240,9 +248,18 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:gravity="top"
-                        android:padding="16dp"
                         android:orientation="horizontal"
+                        android:paddingVertical="16dp"
+                        android:paddingEnd="16dp"
                         app:visibility="@{vm.invoiceTitleAddParams.invoiceTitleType0Val}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/font_17_ff5219"
+                            android:layout_width="16dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingEnd="2dp"
+                            android:text="*" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/font_17_black85"
@@ -257,9 +274,9 @@
                             android:layout_weight="1"
                             android:background="@color/transparent"
                             android:gravity="center_vertical"
-                            android:maxLength="24"
-                            android:inputType="number"
                             android:hint="@string/bank_account_hint"
+                            android:inputType="number"
+                            android:maxLength="24"
                             android:text="@={vm.invoiceTitleAddParams.bankAccountVal}" />
 
                         <androidx.appcompat.widget.AppCompatImageButton
@@ -279,8 +296,17 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:gravity="top"
-                        android:padding="16dp"
+                        android:paddingVertical="16dp"
+                        android:paddingEnd="16dp"
                         app:visibility="@{vm.invoiceTitleAddParams.invoiceTitleType0Val}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/font_17_ff5219"
+                            android:layout_width="16dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingEnd="2dp"
+                            android:text="*" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/font_17_black85"
@@ -318,8 +344,17 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:gravity="top"
-                        android:padding="16dp"
+                        android:paddingVertical="16dp"
+                        android:paddingEnd="16dp"
                         app:visibility="@{vm.invoiceTitleAddParams.invoiceTitleType0Val}">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/font_17_ff5219"
+                            android:layout_width="16dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingEnd="2dp"
+                            android:text="*" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/font_17_black85"

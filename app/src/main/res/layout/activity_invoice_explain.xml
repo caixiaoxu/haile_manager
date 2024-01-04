@@ -23,14 +23,149 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="32dp"
+            android:gravity="center"
             android:text="@string/invoice_explain_title" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="22dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_14_black85"
+                android:layout_width="16dp"
+                android:layout_height="wrap_content"
+                android:lineHeight="22dp"
+                android:text="1." />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_14_black85"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineHeight="22dp"
+                android:text="@string/invoice_explain_content1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="22dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_14_black85"
+                android:layout_width="16dp"
+                android:layout_height="wrap_content"
+                android:lineHeight="22dp"
+                android:text="2." />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_14_black85"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineHeight="22dp"
+                android:text="@string/invoice_explain_content2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="22dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_14_black85"
+                android:layout_width="16dp"
+                android:layout_height="wrap_content"
+                android:lineHeight="22dp"
+                android:text="3." />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_14_black85"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineHeight="22dp"
+                android:text="@string/invoice_explain_content3" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="22dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_14_black85"
+                android:layout_width="16dp"
+                android:layout_height="wrap_content"
+                android:lineHeight="22dp"
+                android:text="4." />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_14_black85"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineHeight="22dp"
+                android:text="@string/invoice_explain_content4" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="22dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_14_black85"
+                android:layout_width="16dp"
+                android:layout_height="wrap_content"
+                android:lineHeight="22dp"
+                android:text="5." />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_14_black85"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineHeight="22dp"
+                android:text="@string/invoice_explain_content5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="22dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_14_black85"
+                android:layout_width="16dp"
+                android:layout_height="wrap_content"
+                android:lineHeight="22dp"
+                android:text="6." />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/Font_14_black85"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineHeight="22dp"
+                android:text="@string/invoice_explain_content6" />
+        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/Font_14_black85"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/invoice_explain_content" />
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="16dp"
+            android:lineHeight="22dp"
+            android:text="@string/invoice_explain_content7" />
     </LinearLayout>
 </layout>

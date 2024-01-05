@@ -53,7 +53,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                         val positionId = IntentParams.ShopPositionSelectorParams.parseSelectList(
                             intent
                         )?.firstOrNull()?.positionList?.firstOrNull()?.id
-                        mViewModel.transferDevice(this@DeviceDetailActivity,positionId)
+                        mViewModel.transferDevice(this@DeviceDetailActivity, positionId)
                     }
                 }
                 IntentParams.DeviceParamsUpdateParams.ResultCode -> {
@@ -101,7 +101,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
         }
     }
 
-    private fun transferDevices(){
+    private fun transferDevices() {
         startNext.launch(
             Intent(
                 this@DeviceDetailActivity,
@@ -194,24 +194,22 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                 )
             )
             setOnClickListener {
-                mViewModel.deviceAdvancedValues.value?.let { values ->
-                    // 高级设置
-                    startActivity(
-                        Intent(
-                            this@DeviceDetailActivity,
-                            DeviceAdvancedActivity::class.java
-                        ).apply {
-                            putExtra(
-                                DeviceAdvancedActivity.GoodId,
-                                mViewModel.goodsId
-                            )
-                            putExtra(
-                                DeviceAdvancedActivity.Advanced,
-                                GsonUtils.any2Json(values)
+                // 高级设置
+                startActivity(
+                    Intent(
+                        this@DeviceDetailActivity,
+                        DeviceAdvancedActivity::class.java
+                    ).apply {
+                        mViewModel.deviceAdvancedValues.value?.let { values ->
+                            putExtras(
+                                IntentParams.DeviceAdvanceParams.pack(
+                                    mViewModel.goodsId,
+                                    values
+                                )
                             )
                         }
-                    )
-                }
+                    }
+                )
             }
         }
     }

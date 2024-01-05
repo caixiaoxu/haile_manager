@@ -374,6 +374,54 @@ object IntentParams {
         }
     }
 
+    object DeviceAdvanceParams {
+        private const val GoodId = "goodId"
+        private const val AdvanceList = "advanceList"
+        private const val ShopIdList = "shopIdList"
+        private const val PositionIdList = "positionIdList"
+        private const val CategoryId = "categoryId"
+        private const val SpuId = "spuId"
+
+        fun pack(
+            goodId: Int? = null,
+            advanceList: MutableList<DeviceAdvancedSettingEntity>? = null,
+            shopIdList: IntArray? = null,
+            positionIdList: IntArray? = null,
+            categoryId: Int? = null,
+            spuId: Int? = null,
+        ): Bundle = Bundle().apply {
+            goodId?.let {
+                putInt(GoodId, it)
+            }
+            advanceList?.let {
+                putString(AdvanceList, GsonUtils.any2Json(it))
+            }
+            shopIdList?.let {
+                putIntArray(ShopIdList, it)
+            }
+            positionIdList?.let {
+                putIntArray(PositionIdList, it)
+            }
+            categoryId?.let {
+                putInt(CategoryId, it)
+            }
+            spuId?.let {
+                putInt(SpuId, it)
+            }
+        }
+
+        fun parseGoodId(intent: Intent): Int = intent.getIntExtra(GoodId, -1)
+        fun parseShopIdList(intent: Intent): IntArray? = intent.getIntArrayExtra(ShopIdList)
+        fun parsePositionIdList(intent: Intent): IntArray? = intent.getIntArrayExtra(PositionIdList)
+        fun parseCategoryId(intent: Intent): Int = intent.getIntExtra(CategoryId, -1)
+        fun parseSpuId(intent: Intent): Int = intent.getIntExtra(SpuId, -1)
+        fun parseAdvancedList(intent: Intent): MutableList<DeviceAdvancedSettingEntity>? =
+            GsonUtils.json2List(
+                intent.getStringExtra(AdvanceList),
+                DeviceAdvancedSettingEntity::class.java
+            )
+    }
+
     object SearchSelectTypeParam {
         const val SearchSelectType = "searchSelectType"
         const val StaffId = "staffId"

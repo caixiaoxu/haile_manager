@@ -141,6 +141,19 @@ interface DeviceService {
     suspend fun deviceAdvancedSetting(@FieldMap params: Map<String, @JvmSuppressWildcards Any>): ResponseWrapper<Any>
 
     /**
+     * 设置高级设置接口（批量）
+     */
+    @GET("/device/advanced/values/bySpuId")
+    suspend fun requestAdvanceListBySpuId(@Query("spuId") spuId: Int): ResponseWrapper<MutableList<DeviceAdvancedSettingEntity>>
+
+    /**
+     * 设置高级设置接口（批量）
+     */
+    @POST("/device/batch/app/advanced/setting")
+    @FormUrlEncoded
+    suspend fun batchDeviceAdvancedSetting(@FieldMap params: Map<String, @JvmSuppressWildcards Any>): ResponseWrapper<Any>
+
+    /**
      * 设备复位接口
      */
     @POST("/device/reset")

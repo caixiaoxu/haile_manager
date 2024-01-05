@@ -368,6 +368,24 @@ class DeviceManagerActivity :
             popupWindow.dismiss()
             mViewModel.isBatch.value = true
         }
+
+        // 批量高级参数
+        mPopupBinding.tvDeviceOperateAdvanced.visibility(UserPermissionUtils.hasDeviceUpdatePermission()
+                && mViewModel.selectDeviceCategory.value?.any { item ->
+            !(DeviceCategory.isWashingOrShoes(
+                item.code
+            ) && DeviceCategory.isDryer(item.code))
+        } ?: false)
+        mPopupBinding.tvDeviceOperateAdvanced.setOnClickListener {
+            popupWindow.dismiss()
+            startActivity(
+                Intent(
+                    this@DeviceManagerActivity,
+                    DeviceBatchAdvanceActivity::class.java
+                )
+            )
+        }
+
         popupWindow.showAsDropDown(
             this,
             -DimensionUtils.dip2px(this@DeviceManagerActivity, 16f),
@@ -732,19 +750,18 @@ class DeviceManagerActivity :
             CommonBottomSheetDialog.Builder(
                 getString(R.string.device_category),
                 categoryEntities
-            )
-                .apply {
-                    mustSelect = false
-                    onValueSureListener =
-                        object :
-                            CommonBottomSheetDialog.OnValueSureListener<CategoryEntity> {
-                            override fun onValue(data: CategoryEntity?) {
-                                mViewModel.selectDeviceCategory.value =
-                                    data?.let { listOf(data) }
-                                mViewModel.selectDeviceModel.value = null
-                            }
+            ).apply {
+                mustSelect = false
+                onValueSureListener =
+                    object :
+                        CommonBottomSheetDialog.OnValueSureListener<CategoryEntity> {
+                        override fun onValue(data: CategoryEntity?) {
+                            mViewModel.selectDeviceCategory.value =
+                                data?.let { listOf(data) }
+                            mViewModel.selectDeviceModel.value = null
                         }
-                }
+                    }
+            }
                 .build()
         deviceCategoryDialog.show(supportFragmentManager)
     }

@@ -59,4 +59,20 @@
         android:gravity="center"
         android:paddingHorizontal="16dp"
         android:text="@string/batch_transfer" />
+
+    <View
+        style="@style/DividingStyle"
+        android:layout_marginHorizontal="12dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_device_operate_advanced"
+        style="@style/Font_14_333333"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:drawableStart="@mipmap/icon_device_operate_update"
+        android:drawablePadding="4dp"
+        android:gravity="start|center_vertical"
+        android:paddingHorizontal="16dp"
+        android:text="@string/batch_advanced_setting"
+        android:visibility="gone" />
 </com.yunshang.haile_manager_android.ui.view.UpTriangleBackgroundLinearLayout>

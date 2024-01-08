@@ -133,11 +133,11 @@ class DeviceBatchAdvanceActivity : BaseBindingActivity<ActivityDeviceBatchAdvanc
             )
             BatchAdvanceItem("设备型号", selectDeviceModel?.name ?: "") {
                 if (selectDepartments.isEmpty()) {
-                    SToast.showToast(this@DeviceBatchAdvanceActivity, "请先选择营业点")
+                    SToast.showToast(this@DeviceBatchAdvanceActivity, "请选择营业点")
                     return@BatchAdvanceItem
                 }
                 if (null == selectCategory) {
-                    SToast.showToast(this@DeviceBatchAdvanceActivity, "请先选择设备类型")
+                    SToast.showToast(this@DeviceBatchAdvanceActivity, "请选择设备类型")
                     return@BatchAdvanceItem
                 }
                 startNext.launch(
@@ -231,8 +231,16 @@ class DeviceBatchAdvanceActivity : BaseBindingActivity<ActivityDeviceBatchAdvanc
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null,
                 ) {
+                    if (selectDepartments.isEmpty()) {
+                        SToast.showToast(this@DeviceBatchAdvanceActivity, "请选择营业点")
+                        return@clickable
+                    }
+                    if (null == selectCategory) {
+                        SToast.showToast(this@DeviceBatchAdvanceActivity, "请选择设备类型")
+                        return@clickable
+                    }
                     if (null == selectDeviceModel?.id) {
-                        SToast.showToast(this@DeviceBatchAdvanceActivity, "请先选择设备类型")
+                        SToast.showToast(this@DeviceBatchAdvanceActivity, "请选择设备型号")
                         return@clickable
                     }
 

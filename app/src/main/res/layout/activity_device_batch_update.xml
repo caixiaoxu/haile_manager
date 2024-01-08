@@ -55,7 +55,7 @@
                     style="@style/MultiTypePaddingHItemStyle"
                     app:itemContent="@{vm.selectDepartmentsVal}"
                     app:showArrow="true"
-                    app:title="@string/department"
+                    app:title="@string/pt"
                     app:type="info" />
 
                 <View

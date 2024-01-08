@@ -39,10 +39,6 @@ class DeviceAdvancedActivity : BaseActivity() {
                                         DeviceAdvancedSettingActivity::class.java
                                     ).apply {
                                         putExtra(
-                                            DeviceAdvancedSettingActivity.GoodId,
-                                            IntentParams.DeviceAdvanceParams.parseGoodId(intent)
-                                        )
-                                        putExtra(
                                             DeviceAdvancedSettingActivity.FunctionId,
                                             value.id
                                         )
@@ -54,6 +50,7 @@ class DeviceAdvancedActivity : BaseActivity() {
                                             DeviceAdvancedSettingActivity.Attrs,
                                             value.extraAttr
                                         )
+                                        putExtras(intent)
                                     }
                                 )
                             }

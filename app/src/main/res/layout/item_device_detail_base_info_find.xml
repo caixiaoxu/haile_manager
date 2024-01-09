@@ -5,8 +5,6 @@
 
     <data>
 
-        <import type="android.view.View" />
-
         <variable
             name="title"
             type="java.lang.String" />
@@ -18,64 +16,34 @@
         <variable
             name="show"
             type="java.lang.Boolean" />
-
-        <variable
-            name="showCopy"
-            type="java.lang.Boolean" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"
-        android:visibility="@{show?View.VISIBLE:View.GONE}">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:visibility="@{show}">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_base_info_content_title"
-            style="@style/ShopDetailItemContentStyle"
+            style="@style/Font_14_333333"
+            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="@{title+'：'}"
             android:textColor="@color/common_sub_txt_color"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints"
             tools:text="标题" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_base_info_content_find"
-            style="@style/Font_12_333333"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:background="@drawable/shape_scccccc_r4"
-            android:gravity="center"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:text="@string/device_find_order"
-            android:visibility="@{showCopy?View.VISIBLE:View.GONE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1"
-            app:layout_constraintStart_toEndOf="@id/tv_base_info_content_title"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_base_info_content"
-            style="@style/ShopDetailItemContentStyle"
-            android:layout_width="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            style="@style/Font_14_333333"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
             android:background="@color/transparent"
             android:ellipsize="middle"
-            android:gravity="start"
             android:singleLine="true"
             android:text="@{content}"
-            app:layout_constraintBottom_toBottomOf="@id/tv_base_info_content"
-            app:layout_constraintEnd_toStartOf="@id/tv_base_info_content_find"
-            app:layout_constraintStart_toEndOf="@id/tv_base_info_content_title"
-            app:layout_constraintTop_toTopOf="@id/tv_base_info_content"
-            tools:ignore="MissingConstraints"
             tools:text="内容" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

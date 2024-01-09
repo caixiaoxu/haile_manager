@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -11,28 +11,53 @@
 
     </data>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            app:imgRes="@{funcItem.icon}"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_home_fun_item"
-            style="@style/Font_14_666666"
+            android:id="@+id/tv_home_fun_item_num"
+            style="@style/Font_12_ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="-6dp"
+            android:layout_marginBottom="-12dp"
+            android:background="@drawable/shape_sf7612f_r9"
+            android:gravity="center"
+            android:minWidth="18dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/ll_home_fun_item"
+            app:layout_constraintEnd_toEndOf="@id/ll_home_fun_item"
+            tools:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/ll_home_fun_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:gravity="center"
-            tools:text="@{funcItem.name}" />
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </LinearLayout>
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:imgRes="@{funcItem.icon}"
+                tools:src="@mipmap/icon_device_repairs" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_home_fun_item"
+                style="@style/Font_14_666666"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                tools:text="@{funcItem.name}" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 
 

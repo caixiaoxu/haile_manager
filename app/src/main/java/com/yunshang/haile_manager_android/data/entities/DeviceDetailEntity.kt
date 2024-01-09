@@ -67,6 +67,8 @@ data class DeviceDetailEntity(
     val dosingVOS: List<DosingVOS>?,
     val errorDeviceOrderId: Int,
     val errorDeviceOrderNo: String,
+    val queuedOrderNo: String,
+    val queuedOrderId: Int,
     val spuDto: Spu?,
     var floorCode: String? = null,
     val positionCode: String? = null,
@@ -96,18 +98,20 @@ data class DeviceDetailEntity(
     }
 
     fun getReason() =
-        "${if (deviceErrorCode.isNullOrEmpty()) "" else deviceErrorCode + "-"}${deviceErrorMsg}"
+        "${if (deviceErrorCode.isNullOrEmpty()) "" else "$deviceErrorCode-"}${deviceErrorMsg}"
 
     fun hasName(): Boolean = !name.isNullOrEmpty()
 
     fun getNameTitle(): String = StringUtils.getString(R.string.device_name)
     fun getAssociationNameTitle(): String = StringUtils.getString(R.string.device_name)
     fun getDeviceStateTitle(): String = StringUtils.getString(R.string.device_status)
-    fun getDeviceOrderTitle(): String = StringUtils.getString(R.string.device_order)
+    fun getDeviceOrderTitle(): String = StringUtils.getString(R.string.linked_order)
+    fun getQueuedOrderTitle(): String = StringUtils.getString(R.string.queued_order)
     fun getDeviceSinglePulseTitle(): String = StringUtils.getString(R.string.single_pulse_quantity)
     fun getAssociationTypeTitle(): String = StringUtils.getString(R.string.device_category)
     fun getAssociationImeiTitle(): String = StringUtils.getString(R.string.imei)
-    fun showOrderNo(): Boolean = errorDeviceOrderNo.isNullOrEmpty()
+    fun showOrderNo(): Boolean = !errorDeviceOrderNo.isNullOrEmpty()
+    fun showQueuedOrderNo(): Boolean = !queuedOrderNo.isNullOrEmpty()
 
     fun appointmentEnabledVal(): String =
         if (shopAppointmentEnabled && true == appointmentEnabled) "开启" else "关闭"

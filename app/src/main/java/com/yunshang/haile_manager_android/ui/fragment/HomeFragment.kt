@@ -39,6 +39,7 @@ import com.yunshang.haile_manager_android.data.arguments.StaffParam
 import com.yunshang.haile_manager_android.data.common.Constants
 import com.yunshang.haile_manager_android.data.entities.HomeIncomeEntity
 import com.yunshang.haile_manager_android.data.entities.MessageContentEntity
+import com.yunshang.haile_manager_android.data.extend.isGreaterThan0
 import com.yunshang.haile_manager_android.databinding.FragmentHomeBinding
 import com.yunshang.haile_manager_android.databinding.IncludeHomeFuncItemBinding
 import com.yunshang.haile_manager_android.databinding.IncludeHomeLastMsgItemBinding
@@ -584,6 +585,11 @@ class HomeFragment :
                     })
                 }
             }
+            item.num.observe(this) {
+                mFuncAreaBinding.tvHomeFunItemNum.text = "$it"
+                mFuncAreaBinding.tvHomeFunItemNum.visibility(it.isGreaterThan0())
+            }
+
             // 数据
             mFuncAreaBinding.funcItem = item
             glArea.addView(mFuncAreaBinding.root)
@@ -672,7 +678,7 @@ class HomeFragment :
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
-            mViewModel.requestHomeData()
+            mViewModel.requestHomeData(false)
             if (mViewModel.homeIncomeList.value.isNullOrEmpty()) {
                 mViewModel.requestHomeIncome()
             }

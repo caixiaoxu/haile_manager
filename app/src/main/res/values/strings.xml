@@ -425,6 +425,7 @@
     <string name="real_income">实收：</string>
     <string name="order_specs">"%1$s %2$s分钟 ￥%3$s"</string>
     <string name="order_detail">订单详情</string>
+    <string name="more_order">更多订单</string>
     <string name="look_device">查看设备</string>
     <string name="consumption_item">消费项</string>
     <string name="compensate">补偿</string>
@@ -1022,7 +1023,8 @@
     <string name="association_device">关联设备信息</string>
     <string name="device_wash_title">绑定洗衣\n/洗鞋机</string>
     <string name="device_error">设备状态</string>
-    <string name="device_order">当前订单</string>
+    <string name="linked_order">关联订单</string>
+    <string name="queued_order">排队订单</string>
     <string name="device_find_order">查看订单</string>
     <string name="device_del_setting">删除配置</string>
     <string name="laundry_detergent_surplus">洗衣液剩余</string>

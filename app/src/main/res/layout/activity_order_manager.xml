@@ -57,7 +57,8 @@
                             android:layout_height="wrap_content"
                             android:drawableEnd="@mipmap/icon_order_filter_triangle"
                             android:gravity="center"
-                            android:hint="@string/department" />
+                            android:hint="@string/department"
+                            app:visibility="@{1 != vm.orderType}" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_order_category_department_position"
@@ -68,7 +69,7 @@
                             android:drawableEnd="@mipmap/icon_order_filter_triangle"
                             android:gravity="center"
                             android:hint="@string/pt"
-                            app:visibility="@{null != vm.selectDepartments &amp;&amp; vm.selectDepartments.size() > 0 }" />
+                            app:visibility="@{1 != vm.orderType &amp;&amp; null != vm.selectDepartments &amp;&amp; vm.selectDepartments.size() > 0 }" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_order_category_time"
@@ -102,19 +103,19 @@
                         android:background="@color/white"
                         android:overScrollMode="never"
                         android:scrollbars="none"
-                        app:visibility="@{null == vm.curOrderStatus || 0 == vm.curOrderStatus.length()}"
-                        app:layout_constraintTop_toBottomOf="@id/indicator_order_status">
+                        app:layout_constraintTop_toBottomOf="@id/indicator_order_status"
+                        app:visibility="@{null == vm.curOrderStatus || 0 == vm.curOrderStatus.length()}">
 
                         <com.yunshang.haile_manager_android.ui.view.CustomChildListLinearLayout
                             android:id="@+id/ll_order_error_status_list"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            app:divider="@drawable/divide_size4"
-                            app:showDividers="middle"
-                            app:itemLayout="@layout/item_device_manager_error_status"
-                            android:paddingHorizontal="16dp"
                             android:gravity="center_vertical"
-                            android:orientation="horizontal"/>
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="16dp"
+                            app:divider="@drawable/divide_size4"
+                            app:itemLayout="@layout/item_device_manager_error_status"
+                            app:showDividers="middle" />
                     </HorizontalScrollView>
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -146,9 +147,9 @@
                 android:id="@+id/rv_order_manager_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingHorizontal="12dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:paddingHorizontal="12dp"
                 app:layout_constraintTop_toBottomOf="@id/tv_order_manager_list_refresh" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </LinearLayout>

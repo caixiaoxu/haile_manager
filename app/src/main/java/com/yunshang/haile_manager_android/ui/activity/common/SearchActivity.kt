@@ -417,6 +417,7 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                     OrderManagerActivity::class.java
                 ).apply {
                     putExtras(IntentParams.SearchParams.pack(mViewModel.searchKey.value))
+                    putExtras(intent)
                 })
             SearchType.AppointOrder -> startActivity(
                 Intent(

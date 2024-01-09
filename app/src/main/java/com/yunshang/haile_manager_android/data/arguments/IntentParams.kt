@@ -937,6 +937,47 @@ object IntentParams {
         fun parseKeyWord(intent: Intent): String? = intent.getStringExtra(KeyWord)
     }
 
+    object OrderManagerParams {
+        private const val OrderType = "orderType"
+        private const val DeviceId = "deviceId"
+        private const val DeviceName = "deviceName"
+        private const val DeviceImei = "deviceImei"
+        private const val Phone = "phone"
+
+        /**
+         * 包装参数
+         * @param orderType 0 正常 1 设备 2用户
+         */
+        fun pack(
+            orderType: Int = 0,
+            deviceId: Int? = null,
+            deviceName: String? = null,
+            deviceImei: String? = null,
+            phone: String? = null
+        ): Bundle =
+            Bundle().apply {
+                putInt(OrderType, orderType)
+                deviceId?.let {
+                    putInt(DeviceId, it)
+                }
+                deviceName?.let {
+                    putString(DeviceName, it)
+                }
+                deviceImei?.let {
+                    putString(DeviceImei, it)
+                }
+                phone?.let {
+                    putString(Phone, it)
+                }
+            }
+
+        fun parseOrderType(intent: Intent): Int = intent.getIntExtra(OrderType, 0)
+        fun parseDeviceId(intent: Intent): Int = intent.getIntExtra(DeviceId, -1)
+        fun parseDeviceName(intent: Intent): String? = intent.getStringExtra(DeviceName)
+        fun parseDeviceImei(intent: Intent): String? = intent.getStringExtra(DeviceImei)
+        fun parsePhone(intent: Intent): String? = intent.getStringExtra(Phone)
+    }
+
     object OrderDetailParams {
         private const val IsAppoint = "isAppoint"
 

@@ -24,6 +24,8 @@ import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceRepairsEntity
+import com.yunshang.haile_manager_android.data.entities.ShopAndPositionSelectEntity
+import com.yunshang.haile_manager_android.data.entities.ShopPositionSelect
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceRepairsBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceRepairsBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
@@ -53,6 +55,17 @@ class DeviceRepairsActivity :
             mItemBinding?.cbDeviceRepairsSelect?.setOnCheckedChangeListener { _, isChecked ->
                 item.selected = isChecked
                 refreshSelectBatchNum()
+            }
+
+            mItemBinding?.btnDeviceRepairsDeviceDetail?.setOnClickListener {
+                startActivity(
+                    Intent(
+                        this@DeviceRepairsActivity,
+                        DeviceDetailActivity::class.java
+                    ).apply {
+                        putExtra(DeviceDetailActivity.GoodsId, item.goodsId)
+                    }
+                )
             }
 
             mItemBinding?.root?.setOnClickListener {

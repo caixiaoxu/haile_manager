@@ -1,8 +1,11 @@
 package com.yunshang.haile_manager_android.data.entities
 
+import android.graphics.Color
+import android.text.style.ForegroundColorSpan
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.yunshang.haile_manager_android.BR
+import com.yunshang.haile_manager_android.utils.StringUtils
 
 /**
  * Title :
@@ -31,18 +34,30 @@ data class DeviceRepairsEntity(
     val replyDTOS: List<ReplyDTOS>? = null,
     val replyStatus: Int? = null,
     val shopName: String? = null,
-    val userAccount: String? = null
-): BaseObservable() {
+    val userAccount: String? = null,
+    val goodsId: Int? = null,
+    val noReplyCount: Int? = null,
+    val imei: String? = null
+) : BaseObservable() {
     @Transient
     @get:Bindable
-    var selected:Boolean = false
-    set(value) {
-        field = value
-        notifyPropertyChanged(BR.selected)
-    }
+    var selected: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.selected)
+        }
 
     val shopPositionName: String
         get() = shopName + if (pointName.isNullOrEmpty()) "" else "-$pointName"
+
+    val imeiVal: CharSequence
+        get() = imei?.let {
+            StringUtils.formatMultiStyleStr(
+                it, arrayOf(
+                    ForegroundColorSpan(Color.parseColor("#F0A258"))
+                ), 0, it.length
+            )
+        } ?: ""
 }
 
 data class ReplyDTOS(

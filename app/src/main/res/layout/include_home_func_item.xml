@@ -24,6 +24,7 @@
             android:layout_marginEnd="-6dp"
             android:layout_marginBottom="-12dp"
             android:background="@drawable/shape_sf7612f_r9"
+            android:paddingHorizontal="5dp"
             android:gravity="center"
             android:minWidth="18dp"
             android:visibility="gone"

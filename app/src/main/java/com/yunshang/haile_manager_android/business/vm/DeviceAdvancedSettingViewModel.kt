@@ -51,13 +51,19 @@ class DeviceAdvancedSettingViewModel : BaseViewModel() {
             return
         }
 
+        val emptyValue = attrList.value!!.find { it.inputValue.isEmpty() }
+        if (null != emptyValue) {
+            SToast.showToast(view.context, "请先输入${emptyValue.name}的值")
+            return
+        }
+
         launch({
             val params = hashMapOf<String, Any?>(
                 "settingStr" to GsonUtils.any2Json(
                     arrayListOf(
                         hashMapOf(
                             "functionId" to functionId,
-                            "values" to attrList.value!!.map { if (it.inputValue.isNullOrEmpty()) it.input else it.inputValue },
+                            "values" to attrList.value!!.map { it.inputValue.ifEmpty { it.input } },
                         )
                     )
                 )

@@ -2,7 +2,12 @@ package com.yunshang.haile_manager_android.ui.activity.device
 
 import android.content.Intent
 import android.graphics.Color
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.ScreenUtils
 import com.yunshang.haile_manager_android.BR
@@ -18,6 +23,7 @@ import com.yunshang.haile_manager_android.ui.activity.common.PicBrowseActivity
 import com.yunshang.haile_manager_android.ui.view.RoundImageView
 import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.loadImage
 import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
+import com.yunshang.haile_manager_android.utils.StringUtils
 
 class DeviceRepairsReplyActivity :
     BaseBusinessActivity<ActivityDeviceRepairsReplyBinding, DeviceRepairsReplyViewModel>(
@@ -37,6 +43,68 @@ class DeviceRepairsReplyActivity :
         super.initEvent()
         mViewModel.repairsDetails.observe(this) {
             it?.let { detail ->
+
+                mBinding.tvDeviceRepairsReplyUser.movementMethod = LinkMovementMethod.getInstance()
+                mBinding.tvDeviceRepairsReplyUser.highlightColor = Color.TRANSPARENT
+                mBinding.tvDeviceRepairsReplyUser.text =
+                    (it.userAccount?.let {
+                        StringUtils.formatMultiStyleStr(
+                            it, arrayOf(
+                                ForegroundColorSpan(
+                                    ContextCompat.getColor(
+                                        this@DeviceRepairsReplyActivity,
+                                        R.color.colorPrimary
+                                    )
+                                ),
+                                object : ClickableSpan() {
+                                    override fun onClick(view: View) {
+                                    }
+
+                                    override fun updateDrawState(ds: TextPaint) {
+                                        //去掉下划线
+                                        ds.isUnderlineText = false
+                                    }
+                                },
+                            ), 0, it.length
+                        )
+                    } ?: "")
+
+                mBinding.tvDeviceRepairsReplyDeviceName.movementMethod = LinkMovementMethod.getInstance()
+                mBinding.tvDeviceRepairsReplyDeviceName.highlightColor = Color.TRANSPARENT
+                mBinding.tvDeviceRepairsReplyDeviceName.text =
+                    (it.deviceName?.let {
+                        StringUtils.formatMultiStyleStr(
+                            it, arrayOf(
+                                ForegroundColorSpan(
+                                    ContextCompat.getColor(
+                                        this@DeviceRepairsReplyActivity,
+                                        R.color.colorPrimary
+                                    )
+                                ),
+                                object : ClickableSpan() {
+                                    override fun onClick(view: View) {
+                                        startActivity(
+                                            Intent(
+                                                this@DeviceRepairsReplyActivity,
+                                                DeviceDetailActivity::class.java
+                                            ).apply {
+                                                putExtra(
+                                                    DeviceDetailActivity.GoodsId,
+                                                    mViewModel.repairsDetails.value?.goodsId
+                                                )
+                                            }
+                                        )
+                                    }
+
+                                    override fun updateDrawState(ds: TextPaint) {
+                                        //去掉下划线
+                                        ds.isUnderlineText = false
+                                    }
+                                },
+                            ), 0, it.length
+                        )
+                    } ?: "")
+
                 mBinding.clDeviceRepairsReplyFaultPic.removeViews(
                     1,
                     mBinding.clDeviceRepairsReplyFaultPic.childCount - 1

@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="com.yunshang.haile_manager_android.utils.StringUtils" />
+
         <variable
             name="isBatch"
             type="java.lang.Boolean" />
@@ -107,7 +109,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="6dp"
-                    android:text='@{"IMEI：" + item.imeiVal}'
+                    android:onClick="@{v->StringUtils.copyToShear(item.imei)}"
+                    android:text='@{item.imeiVal}'
                     app:layout_constraintStart_toEndOf="@id/iv_device_repairs_imei"
                     app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_device_name"
                     tools:text="IMEI：234234324324234234" />

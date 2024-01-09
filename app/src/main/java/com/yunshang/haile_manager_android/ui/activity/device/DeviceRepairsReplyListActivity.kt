@@ -3,6 +3,10 @@ package com.yunshang.haile_manager_android.ui.activity.device
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,6 +14,7 @@ import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
 import com.yunshang.haile_manager_android.BR
+import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.DeviceRepairsReplyListViewModel
@@ -23,7 +28,9 @@ import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.IndicatorPagerTitleView
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+import com.yunshang.haile_manager_android.utils.StringUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
+import com.yunshang.haile_manager_android.web.WebViewActivity
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
@@ -47,6 +54,32 @@ class DeviceRepairsReplyListActivity :
                 item.selected = isChecked
                 refreshSelectBatchNum()
             }
+
+            mItemBinding?.tvDeviceRepairsUser?.movementMethod = LinkMovementMethod.getInstance()
+            mItemBinding?.tvDeviceRepairsUser?.highlightColor = Color.TRANSPARENT
+            mItemBinding?.tvDeviceRepairsUser?.text =
+                (item.userAccount?.let {
+                    StringUtils.formatMultiStyleStr(
+                        "${com.lsy.framelib.utils.StringUtils.getString(R.string.repairs_user)}：$it",
+                        arrayOf(
+                            ForegroundColorSpan(
+                                ContextCompat.getColor(
+                                    this@DeviceRepairsReplyListActivity,
+                                    R.color.colorPrimary
+                                )
+                            ),
+                            object : ClickableSpan() {
+                                override fun onClick(view: View) {
+                                }
+
+                                override fun updateDrawState(ds: TextPaint) {
+                                    //去掉下划线
+                                    ds.isUnderlineText = false
+                                }
+                            },
+                        ), 5, it.length + 5
+                    )
+                } ?: "")
 
             mItemBinding?.root?.setOnClickListener {
                 if (true == mViewModel.isBatch.value) {
@@ -73,7 +106,8 @@ class DeviceRepairsReplyListActivity :
 
     override fun initIntent() {
         super.initIntent()
-        mViewModel.deviceRepairs = IntentParams.DeviceRepairsReplyListParams.parseDeviceRepairs(intent)
+        mViewModel.deviceRepairs =
+            IntentParams.DeviceRepairsReplyListParams.parseDeviceRepairs(intent)
     }
 
     override fun initEvent() {
@@ -113,8 +147,19 @@ class DeviceRepairsReplyListActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
-        if (UserPermissionUtils.hasRepairsReplyPermission()){
+        if (UserPermissionUtils.hasRepairsReplyPermission()) {
             initRightBtn()
+        }
+
+        mBinding.btnDeviceRepairsReplyListDeviceDetail.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@DeviceRepairsReplyListActivity,
+                    DeviceDetailActivity::class.java
+                ).apply {
+                    putExtra(DeviceDetailActivity.GoodsId, mViewModel.deviceRepairs?.goodsId)
+                }
+            )
         }
 
         val navigators = listOf(

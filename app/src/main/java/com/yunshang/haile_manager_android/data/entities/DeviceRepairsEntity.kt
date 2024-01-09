@@ -51,13 +51,21 @@ data class DeviceRepairsEntity(
         get() = shopName + if (pointName.isNullOrEmpty()) "" else "-$pointName"
 
     val imeiVal: CharSequence
-        get() = imei?.let {
+        get() = (imei?.let {
+            StringUtils.formatMultiStyleStr(
+                "IMEI：$it", arrayOf(
+                    ForegroundColorSpan(Color.parseColor("#F0A258"))
+                ), 5, it.length + 5
+            )
+        } ?: "")
+    val imeiVal1: CharSequence
+        get() = (imei?.let {
             StringUtils.formatMultiStyleStr(
                 it, arrayOf(
                     ForegroundColorSpan(Color.parseColor("#F0A258"))
                 ), 0, it.length
             )
-        } ?: ""
+        } ?: "")
 }
 
 data class ReplyDTOS(

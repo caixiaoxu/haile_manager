@@ -19,6 +19,7 @@ import com.yunshang.haile_manager_android.databinding.ActivityHaixinRechargeConf
 import com.yunshang.haile_manager_android.databinding.IncludePersonalItemBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.view.dialog.SharedBottomDialog
+import com.yunshang.haile_manager_android.utils.DialogUtils
 import com.yunshang.haile_manager_android.utils.QrcodeUtils
 import com.yunshang.haile_manager_android.utils.WeChatHelper
 
@@ -27,6 +28,8 @@ class HaiXinRechargeConfigsActivity :
     BaseBusinessActivity<ActivityHaixinRechargeConfigsBinding, HaiXinRechargeConfigsViewModel>(
         HaiXinRechargeConfigsViewModel::class.java, BR.vm
     ) {
+
+    private val permissions = SystemPermissionHelper.readWritePermissions()
 
     // 权限
     private val requestPermissions =
@@ -73,7 +76,14 @@ class HaiXinRechargeConfigsActivity :
                 mPersonalItemBinding.item = item
                 mPersonalItemBinding.root.setOnClickListener {
                     if (item.icon == R.mipmap.icon_refund_qrcode_main) {
-                        requestPermissions.launch(SystemPermissionHelper.readWritePermissions())
+                        DialogUtils.checkPermissionDialog(
+                            this@HaiXinRechargeConfigsActivity,
+                            supportFragmentManager,
+                            permissions,
+                            "需要媒体权限来保存划或发送退款二维码"
+                        ) {
+                            requestPermissions.launch(permissions)
+                        }
                     } else {
                         item.clz?.let {
                             startActivity(

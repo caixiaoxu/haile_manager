@@ -80,7 +80,7 @@ class HaiXinRechargeConfigsActivity :
                             this@HaiXinRechargeConfigsActivity,
                             supportFragmentManager,
                             permissions,
-                            "需要媒体权限来保存划或发送退款二维码"
+                            "需要媒体权限来保存或发送退款二维码"
                         ) {
                             requestPermissions.launch(permissions)
                         }

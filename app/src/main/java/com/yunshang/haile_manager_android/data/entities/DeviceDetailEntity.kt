@@ -68,7 +68,6 @@ data class DeviceDetailEntity(
     val errorDeviceOrderId: Int,
     val errorDeviceOrderNo: String,
     val queuedOrderNo: String,
-    val queuedOrderId: Int,
     val spuDto: Spu?,
     var floorCode: String? = null,
     val positionCode: String? = null,

@@ -88,7 +88,7 @@ class OrderManagerActivity :
                             this@OrderManagerActivity,
                             OrderDetailActivity::class.java
                         ).apply {
-                            putExtras(IntentParams.OrderDetailParams.pack(item.id))
+                            putExtras(IntentParams.OrderDetailParams.pack(orderNo = item.orderNo))
                         })
                 }
             }

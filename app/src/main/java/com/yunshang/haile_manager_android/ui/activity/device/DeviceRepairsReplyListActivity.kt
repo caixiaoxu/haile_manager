@@ -3,18 +3,21 @@ package com.yunshang.haile_manager_android.ui.activity.device
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
 import com.yunshang.haile_manager_android.BR
-import com.yunshang.haile_manager_android.BuildConfig
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.event.BusEvents
 import com.yunshang.haile_manager_android.business.vm.DeviceRepairsReplyListViewModel
@@ -22,15 +25,18 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.DeviceRepairsEntity
 import com.yunshang.haile_manager_android.data.extend.isGreaterThan0
+import com.yunshang.haile_manager_android.data.rule.CommonDialogItemParam
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceRepairsReplyListBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceRepairsReplyListBinding
+import com.yunshang.haile_manager_android.databinding.ItemRepairsPhoneOperateBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
+import com.yunshang.haile_manager_android.ui.activity.order.OrderManagerActivity
 import com.yunshang.haile_manager_android.ui.view.IndicatorPagerTitleView
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonNewBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.StringUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
-import com.yunshang.haile_manager_android.web.WebViewActivity
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
@@ -70,6 +76,7 @@ class DeviceRepairsReplyListActivity :
                             ),
                             object : ClickableSpan() {
                                 override fun onClick(view: View) {
+                                    showPhoneOperateDialog(it)
                                 }
 
                                 override fun updateDrawState(ds: TextPaint) {
@@ -143,6 +150,67 @@ class DeviceRepairsReplyListActivity :
                 mViewModel.isBatch.value = !(mViewModel.isBatch.value ?: false)
             }
         }
+    }
+
+    private fun showPhoneOperateDialog(phone: String) {
+        val list = listOf(
+            CommonDialogItemParam(0, "拨号"),
+            CommonDialogItemParam(1, "复制"),
+            CommonDialogItemParam(2, "用户订单")
+        )
+        CommonNewBottomSheetDialog.Builder<CommonDialogItemParam, ItemRepairsPhoneOperateBinding>(
+            phone,
+            list,
+            lp = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                DimensionUtils.dip2px(this@DeviceRepairsReplyListActivity, 52f)
+            ),
+            buildItemView = { _, data, _ ->
+                DataBindingUtil.inflate<ItemRepairsPhoneOperateBinding?>(
+                    LayoutInflater.from(this@DeviceRepairsReplyListActivity),
+                    R.layout.item_repairs_phone_operate,
+                    null,
+                    false
+                ).apply {
+                    this.child = data
+                }
+            },
+            initView = { mDialogBinding, _ ->
+                mDialogBinding.tvCommonNewDialogTitle.let { titleView ->
+                    titleView.textSize = 14f
+                    titleView.setTextColor(
+                        ContextCompat.getColor(
+                            this@DeviceRepairsReplyListActivity,
+                            R.color.color_black_45
+                        )
+                    )
+                }
+            }
+        ) {
+            when (list.find { item -> item.commonItemSelect }?.id) {
+                0 -> {
+                    val intent = Intent(Intent.ACTION_DIAL)
+                    intent.data = Uri.parse("tel:${phone}")
+                    startActivity(intent)
+                }
+                1 -> StringUtils.copyToShear(phone)
+                2 -> {
+                    startActivity(
+                        Intent(
+                            this@DeviceRepairsReplyListActivity,
+                            OrderManagerActivity::class.java
+                        ).apply {
+                            putExtras(
+                                IntentParams.OrderManagerParams.pack(
+                                    2,
+                                    phone = phone
+                                )
+                            )
+                        })
+                }
+                else -> {}
+            }
+        }.build().show(supportFragmentManager)
     }
 
     override fun initView() {

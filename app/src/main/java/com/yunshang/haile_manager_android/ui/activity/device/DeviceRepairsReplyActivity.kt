@@ -9,6 +9,9 @@ import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.LinearLayout.LayoutParams
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.utils.DimensionUtils
@@ -163,7 +166,7 @@ class DeviceRepairsReplyActivity :
         }
     }
 
-    private fun showPhoneOperateDialog(phone:String){
+    private fun showPhoneOperateDialog(phone: String) {
         val list = listOf(
             CommonDialogItemParam(0, "拨号"),
             CommonDialogItemParam(1, "复制"),
@@ -172,6 +175,10 @@ class DeviceRepairsReplyActivity :
         CommonNewBottomSheetDialog.Builder<CommonDialogItemParam, ItemRepairsPhoneOperateBinding>(
             phone,
             list,
+            lp = LayoutParams(
+                LayoutParams.MATCH_PARENT,
+                DimensionUtils.dip2px(this@DeviceRepairsReplyActivity, 52f)
+            ),
             buildItemView = { _, data, _ ->
                 DataBindingUtil.inflate<ItemRepairsPhoneOperateBinding?>(
                     LayoutInflater.from(this@DeviceRepairsReplyActivity),
@@ -182,6 +189,17 @@ class DeviceRepairsReplyActivity :
                     this.child = data
                 }
             },
+            initView = { mDialogBinding, _ ->
+                mDialogBinding.tvCommonNewDialogTitle.let { titleView ->
+                    titleView.textSize = 14f
+                    titleView.setTextColor(
+                        ContextCompat.getColor(
+                            this@DeviceRepairsReplyActivity,
+                            R.color.color_black_45
+                        )
+                    )
+                }
+            }
         ) {
             when (list.find { item -> item.commonItemSelect }?.id) {
                 0 -> {

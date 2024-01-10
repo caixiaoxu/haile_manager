@@ -662,7 +662,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
             ).apply {
                 putExtras(
                     IntentParams.OrderDetailParams.pack(
-                        mViewModel.deviceDetail.value!!.errorDeviceOrderId
+                        orderNo = mViewModel.deviceDetail.value?.errorDeviceOrderNo
                     )
                 )
             })
@@ -674,7 +674,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
             ).apply {
                 putExtras(
                     IntentParams.OrderDetailParams.pack(
-                        mViewModel.deviceDetail.value!!.queuedOrderId
+                        orderNo = mViewModel.deviceDetail.value?.queuedOrderNo
                     )
                 )
             })

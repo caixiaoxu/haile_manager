@@ -13,5 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:gravity="center"
+        android:background="@drawable/shape_bottom_stroke_dividing"
         android:text="@{child.name}" />
 </layout>

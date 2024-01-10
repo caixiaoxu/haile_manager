@@ -984,12 +984,17 @@ object IntentParams {
         /**
          * 包装参数
          */
-        fun pack(orderId: Int, isAppoint: Boolean = false): Bundle = Bundle().apply {
-            putAll(OrderParams.pack(orderId))
+        fun pack(
+            orderId: Int? = null,
+            orderNo: String? = null,
+            isAppoint: Boolean = false
+        ): Bundle = Bundle().apply {
+            putAll(OrderParams.pack(orderId, orderNo))
             putBoolean(IsAppoint, isAppoint)
         }
 
         fun parseOrderId(intent: Intent): Int = OrderParams.parseOrderId(intent)
+        fun parseOrderNo(intent: Intent): String? = OrderParams.parseOrderNo(intent)
         fun parseIsAppoint(intent: Intent): Boolean = intent.getBooleanExtra(IsAppoint, false)
     }
 

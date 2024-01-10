@@ -40,6 +40,12 @@ interface OrderService {
     suspend fun requestOrderDetail(@Query("orderId") orderId: Int): ResponseWrapper<OrderDetailEntity>
 
     /**
+     * 订单详情接口(根据订单号)
+     */
+    @GET("/order/details/byNo")
+    suspend fun requestOrderDetailByNo(@Query("orderNo") orderNo: String): ResponseWrapper<OrderDetailEntity>
+
+    /**
      * 订单详情接口
      */
     @POST("/order/refund")

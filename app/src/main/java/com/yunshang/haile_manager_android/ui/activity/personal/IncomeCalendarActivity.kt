@@ -109,7 +109,7 @@ class IncomeCalendarActivity :
                                 this@IncomeCalendarActivity,
                                 OrderDetailActivity::class.java
                             ).apply {
-                                putExtras(IntentParams.OrderDetailParams.pack(item.orderId))
+                                putExtras(IntentParams.OrderDetailParams.pack(orderNo = item.orderNo))
                             }
                         }
                     )

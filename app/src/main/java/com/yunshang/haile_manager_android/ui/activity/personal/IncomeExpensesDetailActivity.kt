@@ -84,7 +84,7 @@ class IncomeExpensesDetailActivity :
                             this@IncomeExpensesDetailActivity,
                             OrderDetailActivity::class.java
                         ).apply {
-                            putExtras(IntentParams.OrderDetailParams.pack(item.orderId))
+                            putExtras(IntentParams.OrderDetailParams.pack(orderNo = item.orderNo))
                         }
                     })
                 } else {

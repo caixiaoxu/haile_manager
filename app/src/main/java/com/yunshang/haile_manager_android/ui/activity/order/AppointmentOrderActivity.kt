@@ -114,8 +114,8 @@ class AppointmentOrderActivity :
                     ).apply {
                         putExtras(
                             IntentParams.OrderDetailParams.pack(
-                                item.id,
-                                true
+                                orderNo = item.orderNo,
+                                isAppoint = true
                             )
                         )
                     })

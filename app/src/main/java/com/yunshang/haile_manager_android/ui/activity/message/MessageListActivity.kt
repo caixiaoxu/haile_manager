@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.ui.activity.message
 import android.content.Intent
 import android.graphics.Color
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,14 +15,20 @@ import com.yunshang.haile_manager_android.business.vm.MessageListViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.common.CommonKeyValueEntity
 import com.yunshang.haile_manager_android.data.entities.MessageContentEntity
+import com.yunshang.haile_manager_android.data.entities.MessageContentType2ClickAttr
+import com.yunshang.haile_manager_android.data.entities.MessageContentType2Item
 import com.yunshang.haile_manager_android.data.entities.MessageEntity
 import com.yunshang.haile_manager_android.databinding.ActivityMessageListBinding
 import com.yunshang.haile_manager_android.databinding.ItemMessageListBinding
 import com.yunshang.haile_manager_android.databinding.ItemMessageListInfosBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceDetailActivity
+import com.yunshang.haile_manager_android.ui.view.MultiTypeItemView
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+import com.yunshang.haile_manager_android.utils.StringUtils
+import com.yunshang.haile_manager_android.utils.scheme.SchemeURLHelper
 
 class MessageListActivity :
     BaseBusinessActivity<ActivityMessageListBinding, MessageListViewModel>(MessageListViewModel::class.java) {
@@ -30,13 +37,52 @@ class MessageListActivity :
         CommonRecyclerAdapter<ItemMessageListBinding, MessageEntity>(
             R.layout.item_message_list, BR.item,
         ) { mItemBinding, pos, item ->
-            item.contentEntity?.let { content ->
-                mItemBinding?.llMessageListInfos?.buildChild<ItemMessageListInfosBinding, CommonKeyValueEntity>(
-                    content.items()
-                ) { _, childBinding, data ->
-                    childBinding.item = data
+
+            if (1 == item.contentVersion) {
+                item.contentEntity?.let { content ->
+                    mItemBinding?.llMessageListInfos?.buildChild<ItemMessageListInfosBinding, CommonKeyValueEntity>(
+                        content.items()
+                    ) { _, childBinding, data ->
+                        childBinding.title = data.title
+                        childBinding.value = data.value
+                    }
+                }
+            } else {
+                item.contentType2Entity?.let { content ->
+                    refreshMsgItemClickAttr(
+                        content.top,
+                        mItemBinding?.tvMessageListType2Title,
+                        100,
+                        content.cardClickAttr
+                    )
+                    mItemBinding?.llMessageListType2Info?.buildChild<ItemMessageListInfosBinding, MessageContentType2Item>(
+                        content.body?.keyTextList
+                    ) { _, childBinding, data ->
+                        childBinding.title = data.key
+                        childBinding.value = data.text
+                        if (true == data.clickAttr?.canClick)
+                            childBinding.itemMessageListShopName.contentView.setTextColor(
+                                ContextCompat.getColor(
+                                    this@MessageListActivity,
+                                    R.color.colorPrimary
+                                )
+                            )
+                        refreshMsgItemClickAttr(
+                            data,
+                            childBinding.root,
+                            200,
+                            content.cardClickAttr
+                        )
+                    }
+                    refreshMsgItemClickAttr(
+                        content.bottom,
+                        mItemBinding?.tvMessageListType2Bottom,
+                        300,
+                        content.cardClickAttr
+                    )
                 }
             }
+
             if (0 == pos) {
                 mItemBinding?.root?.setPadding(
                     0,
@@ -46,20 +92,87 @@ class MessageListActivity :
                 )
             }
             mItemBinding?.root?.setOnClickListener {
-                if (item.subtype == "merchant:device:fault") {
-                    (item.contentEntity as? MessageContentEntity)?.goodsId?.let { goodsId ->
-                        startActivity(Intent(
-                            this@MessageListActivity,
-                            DeviceDetailActivity::class.java
-                        ).apply {
-                            putExtra(DeviceDetailActivity.GoodsId, goodsId)
-                        })
+                if (1 == item.contentVersion) {
+                    if (item.subtype == "merchant:device:fault") {
+                        (item.contentEntity as? MessageContentEntity)?.goodsId?.let { goodsId ->
+                            startActivity(Intent(
+                                this@MessageListActivity,
+                                DeviceDetailActivity::class.java
+                            ).apply {
+                                putExtra(DeviceDetailActivity.GoodsId, goodsId)
+                            })
+                        }
+                    }
+                } else {
+                    if (true == item.contentType2Entity?.cardClickAttr?.canClick
+                        && true == item.contentType2Entity?.cardClickAttr?.redirectRegions?.contains(
+                            0
+                        )
+                    ) {
+                        item.contentType2Entity?.cardClickAttr?.redirectUrlAndroid?.let { linkUrl ->
+                            SchemeURLHelper.parseSchemeURL(
+                                this@MessageListActivity, linkUrl
+                            )
+                        }
                     }
                 }
             }
         }
     }
 
+    /**
+     * 每条消息的点击事件处理
+     *
+     * @param type2Item 数据
+     * @param itemView 操作控件
+     * @param clickRegion 100 顶部，200 主体，300 底部，0全部
+     * @param cardClickAttr 总事件
+     */
+    private fun refreshMsgItemClickAttr(
+        type2Item: MessageContentType2Item?,
+        itemView: View?,
+        clickRegion: Int,
+        cardClickAttr: MessageContentType2ClickAttr?
+    ) {
+        type2Item?.clickAttr?.let { clickAttr ->
+            if (true == clickAttr.canClick) {
+                if (itemView is MultiTypeItemView) {
+                    itemView.onSelectedEvent = {
+                        msgItemClickAttr(type2Item, clickRegion, cardClickAttr)
+                    }
+                } else {
+                    itemView?.setOnClickListener {
+                        msgItemClickAttr(type2Item, clickRegion, cardClickAttr)
+                    }
+                }
+            }
+        }
+        itemView?.visibility(!type2Item?.text.isNullOrEmpty())
+    }
+
+    private fun msgItemClickAttr(
+        type2Item: MessageContentType2Item,
+        clickRegion: Int,
+        cardClickAttr: MessageContentType2ClickAttr?
+    ) {
+        if (100 == type2Item.clickAttr?.clickType) {
+            type2Item.text?.let { title ->
+                StringUtils.copyToShear(title)
+            }
+        } else {
+            if (true == cardClickAttr?.canClick
+                && true == cardClickAttr.redirectRegions?.contains(clickRegion)
+            ) {
+                cardClickAttr.redirectUrlAndroid
+            } else {
+                type2Item.clickAttr?.redirectUrlAndroid
+            }?.let { linkUrl ->
+                SchemeURLHelper.parseSchemeURL(
+                    this@MessageListActivity, linkUrl
+                )
+            }
+        }
+    }
 
     override fun layoutId(): Int = R.layout.activity_message_list
 
@@ -67,7 +180,10 @@ class MessageListActivity :
 
     override fun initIntent() {
         super.initIntent()
-        mViewModel.typeId = IntentParams.MessageListParams.parseTypeId(intent)
+        mViewModel.typeId =
+            IntentParams.MessageListParams.parseTypeId(intent).let { if (-1 == it) null else it }
+        mViewModel.subtypeId =
+            IntentParams.MessageListParams.parseSubtypeId(intent).let { if (-1 == it) null else it }
     }
 
     override fun initView() {

@@ -417,6 +417,7 @@ class HomeFragment :
                                 putExtras(
                                     IntentParams.MessageListParams.pack(
                                         msg.typeId,
+                                        msg.subtypeId,
                                         msg.title
                                     )
                                 )

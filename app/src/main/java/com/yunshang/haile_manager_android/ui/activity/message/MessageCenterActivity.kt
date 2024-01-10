@@ -41,7 +41,13 @@ class MessageCenterActivity :
                         this@MessageCenterActivity,
                         MessageListActivity::class.java
                     ).apply {
-                        putExtras(IntentParams.MessageListParams.pack(item.typeId, item.title))
+                        putExtras(
+                            IntentParams.MessageListParams.pack(
+                                item.typeId,
+                                item.id,
+                                item.title
+                            )
+                        )
                     })
             }
         }

@@ -21,7 +21,7 @@ import java.util.*
 object IntentParams {
 
     object CommonParams {
-        private const val ID = "id"
+        const val ID = "id"
 
         /**
          * 包装参数
@@ -1071,21 +1071,29 @@ object IntentParams {
 
     object MessageListParams {
         private const val TypeId = "typeId"
+        private const val SubtypeId = "subtypeId"
         private const val MessageName = "messageName"
 
         /**
          * 包装参数
          */
         fun pack(
-            typeId: Int,
+            typeId: Int? = null,
+            subtypeId: Int? = null,
             messageName: String,
         ): Bundle =
             Bundle().apply {
-                putInt(TypeId, typeId)
+                typeId?.let {
+                    putInt(TypeId, typeId)
+                }
+                subtypeId?.let {
+                    putInt(SubtypeId, subtypeId)
+                }
                 putString(MessageName, messageName)
             }
 
         fun parseTypeId(intent: Intent): Int = intent.getIntExtra(TypeId, -1)
+        fun parseSubtypeId(intent: Intent): Int = intent.getIntExtra(SubtypeId, -1)
         fun parseMessageName(intent: Intent): String? = intent.getStringExtra(MessageName)
     }
 
@@ -1131,7 +1139,7 @@ object IntentParams {
     }
 
     object DeviceRepairsReplyListParams {
-        private const val DeviceRepairs = "deviceRepairs"
+        const val DeviceRepairs = "deviceRepairs"
 
         /**
          * 包装参数

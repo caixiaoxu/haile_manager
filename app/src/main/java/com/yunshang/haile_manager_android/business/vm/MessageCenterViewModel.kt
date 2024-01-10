@@ -50,9 +50,11 @@ class MessageCenterViewModel : BaseViewModel() {
                 val list = mutableListOf<MessageCenterEntity>()
                 var total = 0
                 subTypeList.forEach {
-                    val msgList = MessageCenterEntity(it.typeId, it.name, DateTimeUtils.getFriendlyTime(
-                        DateTimeUtils.formatDateFromString(it.lastMessageTime), false
-                    ))
+                    val msgList = MessageCenterEntity(
+                        it.id, it.typeId, it.name, DateTimeUtils.getFriendlyTime(
+                            DateTimeUtils.formatDateFromString(it.lastMessageTime), false
+                        )
+                    )
                     ApiRepository.dealApiResult(
                         mMessageRepo.messageTypeCount(
                             ApiRepository.createRequestBody(
@@ -77,7 +79,12 @@ class MessageCenterViewModel : BaseViewModel() {
         })
     }
 
-    class MessageCenterEntity(val typeId: Int, val title: String, val time: String? = null) :
+    class MessageCenterEntity(
+        val id: Int,
+        val typeId: Int,
+        val title: String,
+        val time: String? = null
+    ) :
         BaseObservable() {
         val typeIcon: Int
             get() = when (typeId) {

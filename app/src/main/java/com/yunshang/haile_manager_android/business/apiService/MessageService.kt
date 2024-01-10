@@ -34,7 +34,7 @@ interface MessageService {
     /**
      * 消息列表接口
      */
-    @POST("/message/list")
+    @POST("/message/list/V2")
     suspend fun messageList(@Body body: RequestBody): ResponseWrapper<ResponseList<MessageEntity>>
 
     /**

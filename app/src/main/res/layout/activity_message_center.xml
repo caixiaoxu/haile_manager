@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.MessageCenterViewModel" />
     </data>
 
     <LinearLayout
@@ -17,15 +20,37 @@
             android:id="@+id/bar_message_center_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_action_bar_h"
-            app:rightModel="area"
             android:background="@color/white"
-            app:title="@string/message_center"/>
+            app:rightModel="text"
+            app:title="@string/message_center" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_clean_unread_msg"
+                style="@style/Font_14_black85"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableStart="@mipmap/icon_clean_unread"
+                android:drawablePadding="4dp"
+                android:gravity="center"
+                android:paddingVertical="10dp"
+                android:text="@string/clean_unread"
+                app:visibility="@{vm.totalUnReadMsgNum > 0}" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                app:visibility="@{vm.totalUnReadMsgNum == 0}" />
+        </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_message_list"
-            android:layout_marginTop="8dp"
-            android:background="@color/white"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="@color/white" />
     </LinearLayout>
 </layout>

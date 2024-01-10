@@ -586,7 +586,7 @@ class HomeFragment :
                 }
             }
             item.num.observe(this) {
-                mFuncAreaBinding.tvHomeFunItemNum.text = "$it"
+                mFuncAreaBinding.tvHomeFunItemNum.text = if (it > 99) "99+" else "$it"
                 mFuncAreaBinding.tvHomeFunItemNum.visibility(it.isGreaterThan0())
             }
 

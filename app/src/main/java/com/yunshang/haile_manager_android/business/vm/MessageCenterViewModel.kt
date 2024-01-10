@@ -1,14 +1,13 @@
 package com.yunshang.haile_manager_android.business.vm
 
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import com.lsy.framelib.ui.base.BaseViewModel
-import com.lsy.framelib.utils.StringUtils
-import com.lsy.framelib.utils.gson.GsonUtils
+import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.MessageService
-import com.yunshang.haile_manager_android.data.entities.MessageContentEntity
 import com.yunshang.haile_manager_android.data.entities.MessageSubTypeEntity
-import com.yunshang.haile_manager_android.data.entities.MessageSystemContentEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.utils.DateTimeUtils
 
@@ -31,6 +30,8 @@ class MessageCenterViewModel : BaseViewModel() {
 
     var subTypeList = mutableListOf<MessageSubTypeEntity>()
 
+    val totalUnReadMsgNum = MutableLiveData(0)
+
     /**
      * 刷新设备列表
      */
@@ -47,44 +48,11 @@ class MessageCenterViewModel : BaseViewModel() {
             )?.let { subTypeList ->
                 this.subTypeList = subTypeList
                 val list = mutableListOf<MessageCenterEntity>()
+                var total = 0
                 subTypeList.forEach {
-                    val msgList = MessageCenterEntity(it.typeId, it.name)
-                    ApiRepository.dealApiResult(
-                        mMessageRepo.messageList(
-                            ApiRepository.createRequestBody(
-                                hashMapOf(
-                                    "pageNum" to 1,
-                                    "pageSize" to 1,
-                                    "appType" to 1,
-                                    "typeId" to it.typeId,
-                                )
-                            )
-                        )
-                    )?.let { msgs ->
-                        if (!msgs.items.isNullOrEmpty()) {
-                            msgList.isNull = false
-                            msgList.time = DateTimeUtils.getFriendlyTime(
-                                DateTimeUtils.formatDateFromString(msgs.items!![0].createTime), false
-                            )
-
-                            if (msgs.items!![0].subtype == "merchant:device:fault") {
-                                GsonUtils.json2Class(
-                                    msgs.items!![0].content,
-                                    MessageContentEntity::class.java
-                                )?.let { content ->
-                                    msgList.last = content.shortDescription
-                                }
-                            } else if (msgs.items!![0].subtype == "merchant:system:system") {
-                                GsonUtils.json2Class(
-                                    msgs.items!![0].content,
-                                    MessageSystemContentEntity::class.java
-                                )?.let { content ->
-                                    msgList.last = content.shortDescription
-                                }
-                            }
-                        }
-                    }
-
+                    val msgList = MessageCenterEntity(it.typeId, it.name, DateTimeUtils.getFriendlyTime(
+                        DateTimeUtils.formatDateFromString(it.lastMessageTime), false
+                    ))
                     ApiRepository.dealApiResult(
                         mMessageRepo.messageTypeCount(
                             ApiRepository.createRequestBody(
@@ -98,16 +66,19 @@ class MessageCenterViewModel : BaseViewModel() {
                     )?.let { list ->
                         if (list.isNotEmpty()) {
                             msgList.count = list[0].count
+                            total += list[0].count
                         }
                     }
                     list.add(msgList)
                 }
                 messageList.postValue(list)
+                totalUnReadMsgNum.postValue(total)
             }
         })
     }
 
-    class MessageCenterEntity(val typeId: Int, val title: String) {
+    class MessageCenterEntity(val typeId: Int, val title: String, val time: String? = null) :
+        BaseObservable() {
         val typeIcon: Int
             get() = when (typeId) {
                 1 -> R.mipmap.icon_message_malfunction
@@ -115,12 +86,17 @@ class MessageCenterViewModel : BaseViewModel() {
                 else -> R.mipmap.ic_launcher
             }
 
-        var time: String = ""
-        var last: String = ""
+        @get:Bindable
         var count: Int = 0
-        var isNull: Boolean = true
+            set(value) {
+                field = value
+                notifyPropertyChanged(BR.count)
+                notifyPropertyChanged(BR.countVal)
+            }
 
-        fun getLastMsg() = if (isNull) StringUtils.getString(R.string.message_empty) else last
+        @get:Bindable
+        val countVal: String
+            get() = if (count > 99) "99+" else "$count"
     }
 
     fun readAllMessage(typeId: Int? = null) {
@@ -136,12 +112,8 @@ class MessageCenterViewModel : BaseViewModel() {
                     )
                 )
             )
-            messageList.value?.let { list ->
-                val temp = mutableListOf<MessageCenterEntity>()
-                list.forEach { it.count = 0 }
-                temp.addAll(list)
-                messageList.postValue(temp)
-            }
+            messageList.value?.forEach { it.count = 0 }
+            totalUnReadMsgNum.postValue(0)
         })
     }
 }

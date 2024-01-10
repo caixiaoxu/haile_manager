@@ -1146,22 +1146,6 @@ object IntentParams {
             )
     }
 
-    object MessageSettingParams {
-        private const val SubTypeList = "subTypeList"
-
-        /**
-         * 包装参数
-         */
-        fun pack(json: String): Bundle =
-            Bundle().apply { putString(SubTypeList, json) }
-
-        fun parseSubTypeList(intent: Intent): MutableList<MessageSubTypeEntity>? =
-            GsonUtils.json2List(
-                intent.getStringExtra(SubTypeList),
-                MessageSubTypeEntity::class.java
-            )
-    }
-
     object RechargeRecycleParams {
 
         /**

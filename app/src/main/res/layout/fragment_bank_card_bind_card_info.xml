@@ -89,7 +89,7 @@
                     style="@style/MultiTypeItemStyle"
                     android:hint="@string/card_no_hint"
                     android:inputType="number"
-                    android:maxLength="19"
+                    android:maxLength="24"
                     app:itemContent="@={parentVm.bankCardParams.bankAccountNoVal}"
                     app:title="@string/card_no"
                     app:type="input" />

@@ -2,27 +2,35 @@ package com.yunshang.haile_manager_android.ui.activity.device
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.view.LayoutInflater
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.ScreenUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DeviceRepairsReplyViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.entities.InvoiceReceiverEntity
 import com.yunshang.haile_manager_android.data.entities.ReplyDTOS
+import com.yunshang.haile_manager_android.data.rule.CommonDialogItemParam
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceRepairsReplyBinding
-import com.yunshang.haile_manager_android.databinding.ItemDeviceRepairsBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceRepairsReplyBinding
+import com.yunshang.haile_manager_android.databinding.ItemIssueInvoiceReceiverSelectBinding
+import com.yunshang.haile_manager_android.databinding.ItemRepairsPhoneOperateBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.PicBrowseActivity
+import com.yunshang.haile_manager_android.ui.activity.order.OrderManagerActivity
 import com.yunshang.haile_manager_android.ui.view.RoundImageView
 import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.loadImage
 import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonNewBottomSheetDialog
 import com.yunshang.haile_manager_android.utils.StringUtils
 
 class DeviceRepairsReplyActivity :
@@ -47,9 +55,9 @@ class DeviceRepairsReplyActivity :
                 mBinding.tvDeviceRepairsReplyUser.movementMethod = LinkMovementMethod.getInstance()
                 mBinding.tvDeviceRepairsReplyUser.highlightColor = Color.TRANSPARENT
                 mBinding.tvDeviceRepairsReplyUser.text =
-                    (it.userAccount?.let {
+                    (it.userAccount?.let { phone ->
                         StringUtils.formatMultiStyleStr(
-                            it, arrayOf(
+                            phone, arrayOf(
                                 ForegroundColorSpan(
                                     ContextCompat.getColor(
                                         this@DeviceRepairsReplyActivity,
@@ -58,6 +66,7 @@ class DeviceRepairsReplyActivity :
                                 ),
                                 object : ClickableSpan() {
                                     override fun onClick(view: View) {
+                                        showPhoneOperateDialog(phone)
                                     }
 
                                     override fun updateDrawState(ds: TextPaint) {
@@ -65,16 +74,17 @@ class DeviceRepairsReplyActivity :
                                         ds.isUnderlineText = false
                                     }
                                 },
-                            ), 0, it.length
+                            ), 0, phone.length
                         )
                     } ?: "")
 
-                mBinding.tvDeviceRepairsReplyDeviceName.movementMethod = LinkMovementMethod.getInstance()
+                mBinding.tvDeviceRepairsReplyDeviceName.movementMethod =
+                    LinkMovementMethod.getInstance()
                 mBinding.tvDeviceRepairsReplyDeviceName.highlightColor = Color.TRANSPARENT
                 mBinding.tvDeviceRepairsReplyDeviceName.text =
-                    (it.deviceName?.let {
+                    (it.deviceName?.let { deviceName ->
                         StringUtils.formatMultiStyleStr(
-                            it, arrayOf(
+                            deviceName, arrayOf(
                                 ForegroundColorSpan(
                                     ContextCompat.getColor(
                                         this@DeviceRepairsReplyActivity,
@@ -101,7 +111,7 @@ class DeviceRepairsReplyActivity :
                                         ds.isUnderlineText = false
                                     }
                                 },
-                            ), 0, it.length
+                            ), 0, deviceName.length
                         )
                     } ?: "")
 
@@ -151,6 +161,52 @@ class DeviceRepairsReplyActivity :
         mViewModel.jump.observe(this) {
             finish()
         }
+    }
+
+    private fun showPhoneOperateDialog(phone:String){
+        val list = listOf(
+            CommonDialogItemParam(0, "拨号"),
+            CommonDialogItemParam(1, "复制"),
+            CommonDialogItemParam(2, "用户订单")
+        )
+        CommonNewBottomSheetDialog.Builder<CommonDialogItemParam, ItemRepairsPhoneOperateBinding>(
+            phone,
+            list,
+            buildItemView = { _, data, _ ->
+                DataBindingUtil.inflate<ItemRepairsPhoneOperateBinding?>(
+                    LayoutInflater.from(this@DeviceRepairsReplyActivity),
+                    R.layout.item_repairs_phone_operate,
+                    null,
+                    false
+                ).apply {
+                    this.child = data
+                }
+            },
+        ) {
+            when (list.find { item -> item.commonItemSelect }?.id) {
+                0 -> {
+                    val intent = Intent(Intent.ACTION_DIAL)
+                    intent.data = Uri.parse("tel:${phone}")
+                    startActivity(intent)
+                }
+                1 -> StringUtils.copyToShear(phone)
+                2 -> {
+                    startActivity(
+                        Intent(
+                            this@DeviceRepairsReplyActivity,
+                            OrderManagerActivity::class.java
+                        ).apply {
+                            putExtras(
+                                IntentParams.OrderManagerParams.pack(
+                                    2,
+                                    phone = phone
+                                )
+                            )
+                        })
+                }
+                else -> {}
+            }
+        }.build().show(supportFragmentManager)
     }
 
     override fun initView() {

@@ -25,13 +25,13 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_common_new_dialog_title"
-            style="@style/Font_16_333333"
+            style="@style/Font_16_333333_bold"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:minLines="1"
+            android:maxWidth="168dp"
             android:paddingHorizontal="42dp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

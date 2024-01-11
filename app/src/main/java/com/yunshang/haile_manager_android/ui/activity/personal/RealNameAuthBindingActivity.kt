@@ -6,6 +6,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.SystemPermissionHelper
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.RealNameAuthBindingViewModel
@@ -72,13 +73,15 @@ class RealNameAuthBindingActivity :
 
         // 营业执照
         mBinding.ivRealNameAuthBindingLicence.setOnClickListener {
-            DialogUtils.showImgSelectorDialog(this, 1) { isSuccess, result ->
-                if (isSuccess && !result.isNullOrEmpty()) {
-                    mViewModel.uploadIdPhoto(result[0].cutPath) { isTrue, url ->
-                        if (isTrue) {
-                            mViewModel.authInfo.value?.companyLicense = url
-                            loadRealNameAuthLicence()
-                        } else SToast.showToast(this, R.string.upload_failure)
+            checkPermission("需要相机和读写权限选择营业执照") {
+                DialogUtils.showImgSelectorDialog(this, 1) { isSuccess, result ->
+                    if (isSuccess && !result.isNullOrEmpty()) {
+                        mViewModel.uploadIdPhoto(result[0].cutPath) { isTrue, url ->
+                            if (isTrue) {
+                                mViewModel.authInfo.value?.companyLicense = url
+                                loadRealNameAuthLicence()
+                            } else SToast.showToast(this, R.string.upload_failure)
+                        }
                     }
                 }
             }
@@ -86,13 +89,15 @@ class RealNameAuthBindingActivity :
 
         // 身份证正面
         mBinding.ivRealNameAuthBindingIdCardFront.setOnClickListener {
-            DialogUtils.showImgSelectorDialog(this, 1) { isSuccess, result ->
-                if (isSuccess && !result.isNullOrEmpty()) {
-                    mViewModel.uploadIdPhoto(result[0].cutPath) { isTrue, url ->
-                        if (isTrue) {
-                            mViewModel.authInfo.value?.idCardFont = url
-                            loadRealNameAuthIdCardFront()
-                        } else SToast.showToast(this, R.string.upload_failure)
+            checkPermission("需要相机和读写权限选择身份证照片") {
+                DialogUtils.showImgSelectorDialog(this, 1) { isSuccess, result ->
+                    if (isSuccess && !result.isNullOrEmpty()) {
+                        mViewModel.uploadIdPhoto(result[0].cutPath) { isTrue, url ->
+                            if (isTrue) {
+                                mViewModel.authInfo.value?.idCardFont = url
+                                loadRealNameAuthIdCardFront()
+                            } else SToast.showToast(this, R.string.upload_failure)
+                        }
                     }
                 }
             }
@@ -100,13 +105,15 @@ class RealNameAuthBindingActivity :
 
         // 身份证反面
         mBinding.ivRealNameAuthBindingIdCardBack.setOnClickListener {
-            DialogUtils.showImgSelectorDialog(this, 1) { isSuccess, result ->
-                if (isSuccess && !result.isNullOrEmpty()) {
-                    mViewModel.uploadIdPhoto(result[0].cutPath) { isTrue, url ->
-                        if (isTrue) {
-                            mViewModel.authInfo.value?.idCardReverse = url
-                            loadRealNameAuthIdCardBack()
-                        } else SToast.showToast(this, R.string.upload_failure)
+            checkPermission("需要相机和读写权限选择身份证照片") {
+                DialogUtils.showImgSelectorDialog(this, 1) { isSuccess, result ->
+                    if (isSuccess && !result.isNullOrEmpty()) {
+                        mViewModel.uploadIdPhoto(result[0].cutPath) { isTrue, url ->
+                            if (isTrue) {
+                                mViewModel.authInfo.value?.idCardReverse = url
+                                loadRealNameAuthIdCardBack()
+                            } else SToast.showToast(this, R.string.upload_failure)
+                        }
                     }
                 }
             }
@@ -144,6 +151,19 @@ class RealNameAuthBindingActivity :
             }.build().show(supportFragmentManager)
         }
     }
+
+    private fun checkPermission(tip: String, callback: () -> Unit) {
+        DialogUtils.checkPermissionDialog(
+            this,
+            supportFragmentManager,
+            SystemPermissionHelper.cameraPermissions()
+                .plus(SystemPermissionHelper.readWritePermissions()),
+            tip
+        ) {
+            callback()
+        }
+    }
+
 
     /**
      * 加载营业执照

@@ -250,7 +250,15 @@ class WebViewActivity : BaseBusinessActivity<ActivityWebviewBinding, WebViewView
                 ): Boolean {
                     this@WebViewActivity.fileChooserParams = fileChooserParams
                     fileCallback = filePathCallback
-                    requestMultiplePermission.launch(SystemPermissionHelper.readWritePermissions())
+
+                    DialogUtils.checkPermissionDialog(
+                        this@WebViewActivity,
+                        supportFragmentManager,
+                        SystemPermissionHelper.readWritePermissions(),
+                        "需要媒体读取权限来发送图片或文件"
+                    ) {
+                        requestMultiplePermission.launch(SystemPermissionHelper.readWritePermissions())
+                    }
                     return true
                 }
             }

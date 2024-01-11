@@ -8,11 +8,8 @@ import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
@@ -25,15 +22,13 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.DeviceRepairsEntity
 import com.yunshang.haile_manager_android.data.extend.isGreaterThan0
-import com.yunshang.haile_manager_android.data.rule.CommonDialogItemParam
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceRepairsReplyListBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceRepairsReplyListBinding
-import com.yunshang.haile_manager_android.databinding.ItemRepairsPhoneOperateBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.order.OrderManagerActivity
 import com.yunshang.haile_manager_android.ui.view.IndicatorPagerTitleView
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
-import com.yunshang.haile_manager_android.ui.view.dialog.CommonNewBottomSheetDialog
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
 import com.yunshang.haile_manager_android.utils.StringUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
@@ -153,63 +148,53 @@ class DeviceRepairsReplyListActivity :
     }
 
     private fun showPhoneOperateDialog(phone: String) {
-        val list = listOf(
-            CommonDialogItemParam(0, "拨号"),
-            CommonDialogItemParam(1, "复制"),
-            CommonDialogItemParam(2, "用户订单")
-        )
-        CommonNewBottomSheetDialog.Builder<CommonDialogItemParam, ItemRepairsPhoneOperateBinding>(
-            phone,
-            list,
-            lp = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                DimensionUtils.dip2px(this@DeviceRepairsReplyListActivity, 52f)
-            ),
-            buildItemView = { _, data, _ ->
-                DataBindingUtil.inflate<ItemRepairsPhoneOperateBinding?>(
-                    LayoutInflater.from(this@DeviceRepairsReplyListActivity),
-                    R.layout.item_repairs_phone_operate,
-                    null,
-                    false
-                ).apply {
-                    this.child = data
+        CommonBottomSheetDialog.Builder(
+            phone, arrayListOf(
+                SearchSelectParam(0, "拨号"),
+                SearchSelectParam(1, "复制"),
+                SearchSelectParam(2, "用户订单"),
+            )
+        ) { dialogBinding ->
+            dialogBinding.tvCommonDialogTitle.textSize = 14f
+            dialogBinding.tvCommonDialogTitle.setTextColor(
+                ContextCompat.getColor(
+                    this@DeviceRepairsReplyListActivity,
+                    R.color.color_black_45
+                )
+            )
+        }.apply {
+            mustSelect = false
+            showClose = false
+            isClickClose = true
+            onValueSureListener =
+                object :
+                    CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
+                    override fun onValue(data: SearchSelectParam?) {
+                        when (data?.id) {
+                            0 -> {
+                                val intent = Intent(Intent.ACTION_DIAL)
+                                intent.data = Uri.parse("tel:${phone}")
+                                startActivity(intent)
+                            }
+                            1 -> StringUtils.copyToShear(phone)
+                            2 -> {
+                                startActivity(
+                                    Intent(
+                                        this@DeviceRepairsReplyListActivity,
+                                        OrderManagerActivity::class.java
+                                    ).apply {
+                                        putExtras(
+                                            IntentParams.OrderManagerParams.pack(
+                                                2,
+                                                phone = phone
+                                            )
+                                        )
+                                    })
+                            }
+                            else -> {}
+                        }
+                    }
                 }
-            },
-            initView = { mDialogBinding, _ ->
-                mDialogBinding.tvCommonNewDialogTitle.let { titleView ->
-                    titleView.textSize = 14f
-                    titleView.setTextColor(
-                        ContextCompat.getColor(
-                            this@DeviceRepairsReplyListActivity,
-                            R.color.color_black_45
-                        )
-                    )
-                }
-            }
-        ) {
-            when (list.find { item -> item.commonItemSelect }?.id) {
-                0 -> {
-                    val intent = Intent(Intent.ACTION_DIAL)
-                    intent.data = Uri.parse("tel:${phone}")
-                    startActivity(intent)
-                }
-                1 -> StringUtils.copyToShear(phone)
-                2 -> {
-                    startActivity(
-                        Intent(
-                            this@DeviceRepairsReplyListActivity,
-                            OrderManagerActivity::class.java
-                        ).apply {
-                            putExtras(
-                                IntentParams.OrderManagerParams.pack(
-                                    2,
-                                    phone = phone
-                                )
-                            )
-                        })
-                }
-                else -> {}
-            }
         }.build().show(supportFragmentManager)
     }
 

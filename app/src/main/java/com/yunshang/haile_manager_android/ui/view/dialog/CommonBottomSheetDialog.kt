@@ -140,6 +140,7 @@ class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(p
                 )
             }
         }
+        builder.initView?.invoke(mBinding)
     }
 
     /**
@@ -151,7 +152,11 @@ class CommonBottomSheetDialog<D : ICommonBottomItemEntity> private constructor(p
         show(manager, COMMON_BOTTOM_SHEET_TAG)
     }
 
-    internal class Builder<D : ICommonBottomItemEntity>(val title: String, val list: List<D>) {
+    internal class Builder<D : ICommonBottomItemEntity>(
+        val title: String,
+        val list: List<D>,
+        val initView: ((dialogBinding: DialogCommonBottomSheetBinding) -> Unit)? = null
+    ) {
 
         // 不可取消
         var isCancelable = true

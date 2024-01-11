@@ -2,7 +2,7 @@ package com.yunshang.haile_manager_android.ui.activity.device
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -80,6 +80,8 @@ class DeviceBatchAdvanceActivity : BaseBindingActivity<ActivityDeviceBatchAdvanc
 
     override fun layoutId(): Int = R.layout.activity_device_batch_advance
 
+    override fun backBtn(): View? =mBinding.barDeviceBatchAdvanceTitle.getBackBtn()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -102,7 +104,7 @@ class DeviceBatchAdvanceActivity : BaseBindingActivity<ActivityDeviceBatchAdvanc
                 "营业点", when (val count: Int = selectDepartments.size) {
                     0 -> ""
                     1 -> selectDepartments.firstOrNull()?.name ?: ""
-                    else -> "已选中${count}个门店"
+                    else -> "已选中${count}个营业点"
                 }
             ) {
                 startNext.launch(

@@ -80,7 +80,7 @@ class DeviceBatchAdvanceActivity : BaseBindingActivity<ActivityDeviceBatchAdvanc
 
     override fun layoutId(): Int = R.layout.activity_device_batch_advance
 
-    override fun backBtn(): View? =mBinding.barDeviceBatchAdvanceTitle.getBackBtn()
+    override fun backBtn(): View? = mBinding.barDeviceBatchAdvanceTitle.getBackBtn()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -155,7 +155,7 @@ class DeviceBatchAdvanceActivity : BaseBindingActivity<ActivityDeviceBatchAdvanc
                                 positionIdList = selectDepartments.flatMap {
                                     it.positionList?.mapNotNull { item -> item.id } ?: listOf()
                                 }.toIntArray(),
-                                mustSelect = true
+                                mustSelect = true, isAdvance = true
                             )
                         )
                     }

@@ -433,6 +433,7 @@ object IntentParams {
         const val HasAll = "hasAll"
         const val SelectList = "selectList"
         const val NoUpdateList = "noUpdateList"
+        const val IsAdvance = "isAdvance"
         const val ShopResultCode = 0x90001
         const val DeviceModelResultCode = 0x90002
         const val ResultData = "resultData"
@@ -455,7 +456,8 @@ object IntentParams {
             moreSelect: Boolean = false,
             hasAll: Boolean = false,
             selectArr: IntArray = intArrayOf(),
-            noUpdateArr: IntArray = intArrayOf()
+            noUpdateArr: IntArray = intArrayOf(),
+            isAdvance: Boolean = false,
         ): Bundle = Bundle().apply {
             searchSelectType?.let {
                 putInt(SearchSelectType, it)
@@ -477,6 +479,7 @@ object IntentParams {
             putBoolean(HasAll, hasAll)
             putIntArray(SelectList, selectArr)
             putIntArray(NoUpdateList, noUpdateArr)
+            putBoolean(IsAdvance, isAdvance)
         }
 
         fun parseSearchSelectType(intent: Intent): Int = intent.getIntExtra(SearchSelectType, -1)
@@ -489,6 +492,7 @@ object IntentParams {
         fun parseHasAll(intent: Intent): Boolean = intent.getBooleanExtra(HasAll, false)
         fun parseSelectList(intent: Intent): IntArray? = intent.getIntArrayExtra(SelectList)
         fun parseNoUpdateList(intent: Intent): IntArray? = intent.getIntArrayExtra(NoUpdateList)
+        fun parseIsAdvance(intent: Intent): Boolean = intent.getBooleanExtra(IsAdvance, false)
     }
 
     object DeviceCategoryModelParams {

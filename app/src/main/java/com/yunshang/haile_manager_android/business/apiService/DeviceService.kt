@@ -49,7 +49,8 @@ interface DeviceService {
     suspend fun spuList(
         @Query("categoryId") categoryId: Int,
         @Query("shopIdList") shopIdList: IntArray? = null,
-        @Query("positionIdList") positionIdList: IntArray? = null
+        @Query("positionIdList") positionIdList: IntArray? = null,
+        @Query("advance") advance: Boolean? = null,
     ): ResponseWrapper<MutableList<SpuEntity>>
 
     /**

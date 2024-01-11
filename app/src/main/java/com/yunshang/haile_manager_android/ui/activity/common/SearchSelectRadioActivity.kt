@@ -136,6 +136,7 @@ class SearchSelectRadioActivity :
         mViewModel.hasAll = SearchSelectTypeParam.parseHasAll(intent)
         mViewModel.selectArr = SearchSelectTypeParam.parseSelectList(intent) ?: intArrayOf()
         mViewModel.noUpdateArr = SearchSelectTypeParam.parseNoUpdateList(intent) ?: intArrayOf()
+        mViewModel.isAdvance = SearchSelectTypeParam.parseIsAdvance(intent)
     }
 
     override fun initView() {

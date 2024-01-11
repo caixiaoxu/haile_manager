@@ -125,8 +125,8 @@ data class ShopOperationSettingEntity(
 }
 
 data class OperationCompensationSetting(
-    var autoCompensateCoupon: Int? = 1,
-    var autoRefundMoney: Int? = 1,
+    var autoCompensateCoupon: Int? = 0,
+    var autoRefundMoney: Int? = 0,
     val shopId: Int? = null
 ) : BaseObservable() {
     var shopIdList: IntArray? = null

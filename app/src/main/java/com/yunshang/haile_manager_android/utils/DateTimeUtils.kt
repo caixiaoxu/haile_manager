@@ -416,7 +416,7 @@ object DateTimeUtils {
                 return String.format("%d分钟前", max(ct / 60, 3))
             }
             if (ct in 3600..86399) { //当天超过一小时显示
-                return String.format("今天 %s", formatDateTime(date, "HH:mm"))
+                return formatDateTime(date, "HH:mm")
             }
         } else {
             //不是当天时进入

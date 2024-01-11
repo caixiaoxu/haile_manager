@@ -29,6 +29,7 @@ import com.yunshang.haile_manager_android.business.apiService.CategoryService
 import com.yunshang.haile_manager_android.business.apiService.DeviceService
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
+import com.yunshang.haile_manager_android.data.common.DeviceCategory
 import com.yunshang.haile_manager_android.data.entities.CategoryEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceAdvancedSettingEntity
 import com.yunshang.haile_manager_android.data.entities.ShopAndPositionSelectEntity
@@ -295,7 +296,11 @@ class DeviceBatchAdvanceActivity : BaseBindingActivity<ActivityDeviceBatchAdvanc
                     mCategoryRepo.category(1)
                 )?.let {
                     categoryList.clear()
-                    categoryList.addAll(it)
+                    categoryList.addAll(it.filter { item ->
+                        (DeviceCategory.isWashingOrShoes(item.code) || DeviceCategory.isDryer(
+                            item.code
+                        ))
+                    })
 
                     withContext(Dispatchers.Main) {
                         showDeviceCategoryDialog()

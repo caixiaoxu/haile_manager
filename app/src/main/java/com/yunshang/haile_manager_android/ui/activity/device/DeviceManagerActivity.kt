@@ -83,10 +83,12 @@ class DeviceManagerActivity :
                                     }
                             }
                     }
+
                     IntentParams.ShopPositionSelectorParams.ShopPositionSelectorResultCode -> {
                         mViewModel.selectDepartmentPositions.value =
                             IntentParams.ShopPositionSelectorParams.parseSelectList(intent)
                     }
+
                     IntentParams.SearchSelectTypeParam.DeviceModelResultCode -> {
                         intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)
                             ?.let { json ->
@@ -132,13 +134,14 @@ class DeviceManagerActivity :
             if (0 == it) {
                 transferDevices()
             } else {
-                CommonDialog.Builder("选中设备的关联设备未被选中，转移操作，会同步转移关联的设备。若不需要则请先解除关联").apply {
-                    title = StringUtils.getString(R.string.tip)
-                    negativeTxt = StringUtils.getString(R.string.cancel)
-                    setPositiveButton(StringUtils.getString(R.string.sure)) {
-                        transferDevices()
-                    }
-                }.build().show(supportFragmentManager)
+                CommonDialog.Builder("选中设备的关联设备未被选中，转移操作，会同步转移关联的设备。若不需要则请先解除关联")
+                    .apply {
+                        title = StringUtils.getString(R.string.tip)
+                        negativeTxt = StringUtils.getString(R.string.cancel)
+                        setPositiveButton(StringUtils.getString(R.string.sure)) {
+                            transferDevices()
+                        }
+                    }.build().show(supportFragmentManager)
             }
         }
     }
@@ -372,10 +375,10 @@ class DeviceManagerActivity :
         // 批量高级参数
         mPopupBinding.tvDeviceOperateAdvanced.visibility(UserPermissionUtils.hasDeviceUpdatePermission()
                 && mViewModel.selectDeviceCategory.value?.any { item ->
-            !(DeviceCategory.isWashingOrShoes(
+            (DeviceCategory.isWashingOrShoes(
                 item.code
-            ) && DeviceCategory.isDryer(item.code))
-        } ?: false)
+            ) || DeviceCategory.isDryer(item.code))
+        } ?: true)
         mPopupBinding.tvDeviceOperateAdvanced.setOnClickListener {
             popupWindow.dismiss()
             startActivity(

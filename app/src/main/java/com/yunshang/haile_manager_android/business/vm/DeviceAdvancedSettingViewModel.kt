@@ -51,7 +51,8 @@ class DeviceAdvancedSettingViewModel : BaseViewModel() {
             return
         }
 
-        val emptyValue = attrList.value!!.find { it.inputValue.isEmpty() }
+        val emptyValue =
+            attrList.value!!.find { it.inputValue.isNullOrEmpty() && it.input.isNullOrEmpty() }
         if (null != emptyValue) {
             SToast.showToast(view.context, "请先输入${emptyValue.name}的值")
             return
@@ -63,7 +64,7 @@ class DeviceAdvancedSettingViewModel : BaseViewModel() {
                     arrayListOf(
                         hashMapOf(
                             "functionId" to functionId,
-                            "values" to attrList.value!!.map { it.inputValue.ifEmpty { it.input } },
+                            "values" to attrList.value!!.map { if (it.inputValue.isNullOrEmpty()) it.input else it.inputValue },
                         )
                     )
                 )

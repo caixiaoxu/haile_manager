@@ -48,28 +48,45 @@ class WalletWithdrawActivity :
             // 图标
             if (1 == it.cashOutType) {
                 mBinding.ivWalletWithdrawAlipayAccount.loadImage(R.mipmap.icon_withdraw_alipay)
+                // 内容
+                mBinding.tvWalletWithdrawAlipayAccount.text = if (true == it.exist) {
+                    "支付宝账号（${
+                        it.cashOutAccount?.let { outAccount ->
+                            val index = outAccount.indexOfLast { char -> char == '@' }
+                            if (-1 != index) {// 邮箱
+                                val start = if (index < 3) 1 else 3
+                                val sb = StringBuffer()
+                                for (i in start until index) {
+                                    sb.append("*")
+                                }
+                                outAccount.replaceRange(start, index, sb.toString())
+                            } else { //手机号
+                                if (outAccount.length > 7) com.yunshang.haile_manager_android.utils.StringUtils.formatPhone(
+                                    outAccount
+                                ) else outAccount
+                            }
+                        } ?: ""
+                    }）"
+                } else ""
             } else {
                 GlideUtils.loadImage(
-                    mBinding.ivWalletWithdrawAlipayAccount,
+                    mBinding.ivWalletWithdrawBankAccount,
                     it.icon,
                     default = R.mipmap.icon_bank_main_default
                 )
+                // 内容
+                mBinding.tvWalletWithdrawBankAccount.text = if (true == it.exist) {
+                    "${(it.bank ?: "其他银行")}（${
+                        it.cashOutAccount?.let { outAccount ->
+                            if (outAccount.length > 4) {
+                                outAccount.substring(outAccount.length - 4)
+                            } else {
+                                outAccount
+                            }
+                        } ?: ""
+                    }）"
+                } else ""
             }
-
-            // 提示
-            mBinding.tvWalletWithdrawAlipayAccount.setHint(if (1 == it.cashOutType) R.string.empty_alipay_account_hint else R.string.empty_bank_account_hint)
-            // 内容
-            mBinding.tvWalletWithdrawAlipayAccount.text = if (true == it.exist) {
-                "${if (1 == it.cashOutType) "支付宝账号" else (it.bank ?: "其他银行")}（${
-                    it.cashOutAccount?.let { outAccount ->
-                        if (outAccount.length > 4) {
-                            outAccount.substring(outAccount.length - 4)
-                        } else {
-                            outAccount
-                        }
-                    } ?: ""
-                }）"
-            } else ""
         }
 
         mViewModel.withdrawAmount.observe(this) {
@@ -140,7 +157,7 @@ class WalletWithdrawActivity :
             }
         }
 
-        mBinding.viewWalletWithdrawAlipayAccount.setOnClickListener {
+        mBinding.clWalletWithdrawAccount.setOnClickListener {
             // 只有支付宝可修改
             if (1 == mViewModel.withdrawAccount.value?.cashOutType) {
                 mViewModel.sendWithdrawOperateSms {

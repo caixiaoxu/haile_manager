@@ -242,6 +242,11 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
     }
 
     fun save(view: View) {
+        if (deviceName.value?.let { it.length < 2 } != false){
+            SToast.showToast(view.context,"设备名称字数不能低于2个字，请重新输入。")
+            return
+        }
+
         launch({
 
             if (true == showSinglePulseQuantity.value) {

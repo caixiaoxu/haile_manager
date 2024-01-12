@@ -63,6 +63,7 @@ data class OrderDetailEntity(
     val appointmentInfo: AppointmentInfo?,
     val appointmentTime: String,
     val canCancelReserve: Boolean,
+    val canCancel: Boolean,
     val endState: Int,
     val endStateDesc: String?,
     val completeTime: String? = null,

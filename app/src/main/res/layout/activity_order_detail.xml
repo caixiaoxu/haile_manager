@@ -377,7 +377,7 @@
                 android:id="@+id/tv_order_detail_cancel"
                 style="@style/CommonStrokeTxtBtnStyle"
                 android:text="@string/cancel"
-                app:visibility="@{vm.isAppoint &amp;&amp; vm.orderDetail.canCancelReserve}" />
+                app:visibility="@{vm.orderDetail.canCancel}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_order_detail_refund"

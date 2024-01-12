@@ -136,7 +136,7 @@ class OrderDetailActivity :
             }
         }
 
-        // 预约取消
+        // 取消订单
         mBinding.tvOrderDetailCancel.setOnClickListener {
             CancelContentDialog.Builder(
                 StringUtils.getString(R.string.cancel_order),
@@ -144,7 +144,7 @@ class OrderDetailActivity :
             ).apply {
                 positiveClickListener = { reason ->
                     mViewModel.orderDetail.value?.orderNo?.let { orderNo ->
-                        mViewModel.cancelAppointmentOrder(this@OrderDetailActivity, orderNo, reason)
+                        mViewModel.cancelOrder(this@OrderDetailActivity, orderNo, reason)
                     }
                 }
             }.build().show(supportFragmentManager)

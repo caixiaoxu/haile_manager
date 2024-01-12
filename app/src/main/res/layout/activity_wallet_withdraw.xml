@@ -14,10 +14,10 @@
             type="com.yunshang.haile_manager_android.business.vm.WalletWithdrawViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/page_bg"
+        android:orientation="vertical"
         tools:context=".ui.activity.personal.WalletWithdrawActivity">
 
         <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
@@ -28,65 +28,123 @@
             app:rightModel="text"
             app:title="@string/wallet_withdraw" />
 
-        <View
-            android:id="@+id/view_wallet_withdraw_alipay_account"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_wallet_withdraw_account"
             android:layout_width="match_parent"
-            android:layout_height="86dp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/shape_sffffff_r8"
-            app:layout_constraintTop_toBottomOf="@id/bar_wallet_withdraw_title" />
+            android:paddingVertical="12dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="12dp">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_wallet_withdraw_alipay_account_title"
-            style="@style/Font_14_333333"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/roll_out_to"
-            android:layout_marginStart="12dp"
-            app:layout_constraintBottom_toTopOf="@id/tv_wallet_withdraw_alipay_account"
-            app:layout_constraintStart_toStartOf="@id/view_wallet_withdraw_alipay_account"
-            app:layout_constraintTop_toTopOf="@id/view_wallet_withdraw_alipay_account"
-            app:layout_constraintVertical_chainStyle="spread_inside" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_wallet_withdraw_account_title"
+                style="@style/Font_14_333333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/roll_out_to"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_wallet_withdraw_alipay_account"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="12dp"
-            app:visibility="@{vm.withdrawAccount.exist}"
-            app:layout_constraintStart_toStartOf="@id/view_wallet_withdraw_alipay_account"
-            app:layout_constraintTop_toTopOf="@id/tv_wallet_withdraw_alipay_account"
-            app:layout_constraintBottom_toBottomOf="@id/tv_wallet_withdraw_alipay_account"/>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:divider="@drawable/divide_size8"
+                app:layout_constraintTop_toBottomOf="@id/tv_wallet_withdraw_account_title"
+                app:showDividers="middle"
+                app:visibility="@{1 == vm.withdrawAccount.cashOutType}">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_wallet_withdraw_alipay_account"
-            style="@style/Font_16_333333_bold"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginBottom="12dp"
-            android:drawablePadding="12dp"
-            android:gravity="center_vertical"
-            app:drawE="@{(!vm.withdrawAccount.exist &amp;&amp; 1 == vm.withdrawAccount.cashOutType)?R.drawable.icon_arrow_right:0}"
-            app:layout_constraintBottom_toBottomOf="@id/view_wallet_withdraw_alipay_account"
-            app:layout_constraintEnd_toStartOf="@id/tv_wallet_withdraw_alipay_account_update"
-            app:layout_constraintStart_toEndOf="@id/iv_wallet_withdraw_alipay_account"
-            app:layout_constraintTop_toBottomOf="@id/tv_wallet_withdraw_alipay_account_title"
-            tools:text="支付宝账号（2697）" />
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    app:divider="@drawable/divide_size8"
+                    app:showDividers="middle">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_wallet_withdraw_alipay_account_update"
-            style="@style/Font_14_f0a258"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:text="@string/update"
-            android:visibility="@{(vm.withdrawAccount.exist &amp;&amp; 1 == vm.withdrawAccount.cashOutType)?View.VISIBLE:View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@id/tv_wallet_withdraw_alipay_account"
-            app:layout_constraintEnd_toEndOf="@id/view_wallet_withdraw_alipay_account"
-            app:layout_constraintTop_toTopOf="@id/tv_wallet_withdraw_alipay_account" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_wallet_withdraw_alipay_account"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        app:visibility="@{vm.withdrawAccount.exist}"
+                        tools:visibility="visible" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_wallet_withdraw_alipay_name"
+                            style="@style/font_17_black85_bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="@{vm.withdrawAccount.realName}"
+                            app:visibility="@{vm.withdrawAccount.hasRealName}"
+                            tools:text="张三" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_wallet_withdraw_alipay_account"
+                            style="@style/Font_14_black85"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:hint="@string/empty_alipay_account_hint" />
+                    </LinearLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_wallet_withdraw_alipay_account_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_arrow_right" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:divider="@drawable/divide_size8"
+                app:layout_constraintTop_toBottomOf="@id/tv_wallet_withdraw_account_title"
+                app:showDividers="middle"
+                app:visibility="@{1 != vm.withdrawAccount.cashOutType}">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_wallet_withdraw_bank_account"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:visibility="@{vm.withdrawAccount.exist}"
+                    tools:src="@mipmap/icon_bank_main_default"
+                    tools:visibility="visible" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_wallet_withdraw_bank_account"
+                    style="@style/Font_16_333333_bold"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:hint="@string/empty_bank_account_hint"
+                    tools:text="支付宝账号（2697）" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_wallet_withdraw_bank_account_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/icon_arrow_right" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/view_wallet_withdraw_amount"
@@ -94,10 +152,9 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="8dp"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="12dp"
             android:background="@drawable/shape_sffffff_r8"
-            app:layout_constraintTop_toBottomOf="@id/view_wallet_withdraw_alipay_account" >
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_wallet_withdraw_amount_title"
@@ -158,13 +215,13 @@
                 style="@style/font_14_ff5219"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{vm.withdrawErr}"
                 android:layout_marginTop="12dp"
-                app:visibility="@{!(null == vm.withdrawErr || 0 == vm.withdrawErr.length())}"
-                tools:text="输入金额超过可提现金额"
+                android:text="@{vm.withdrawErr}"
                 app:layout_constraintEnd_toEndOf="@id/view_wallet_withdraw_amount"
                 app:layout_constraintStart_toStartOf="@id/view_wallet_withdraw_amount"
-                app:layout_constraintTop_toBottomOf="@id/et_wallet_withdraw_amount" />
+                app:layout_constraintTop_toBottomOf="@id/et_wallet_withdraw_amount"
+                app:visibility="@{!(null == vm.withdrawErr || 0 == vm.withdrawErr.length())}"
+                tools:text="输入金额超过可提现金额" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_wallet_withdraw_hint"
@@ -186,9 +243,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="12dp"
-            app:visibility="@{1 == vm.withdrawAccount.cashOutType}"
             android:text="可在账户上保留部分余额，避免余额不足导致的退款失败"
-            app:layout_constraintTop_toBottomOf="@id/view_wallet_withdraw_amount" />
+            app:visibility="@{1 == vm.withdrawAccount.cashOutType}" />
 
         <com.yunshang.haile_manager_android.ui.view.CommonButton
             android:id="@+id/btn_withdraw_submit"
@@ -198,7 +254,6 @@
             android:enabled="@{vm.canSubmit}"
             android:onClick="@{vm::submitWithdraw}"
             android:text="@string/submit"
-            app:layout_constraintTop_toBottomOf="@id/tv_withdraw_prompt"
             tools:ignore="MissingConstraints" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

@@ -157,6 +157,7 @@
     <string name="floor_hint">请输入设备所在楼层</string>
     <string name="device_model_empty">请先选择设备型号</string>
     <string name="network_status">网络状态</string>
+    <string name="unbind_device">解绑设备</string>
     <string name="device_status">设备状态</string>
     <string name="operate_manager">操作管理</string>
     <string name="add_device_hint">绑定须知：\n1.设备先通电3分钟以上，再进行绑定操作；\n2.蓝牙设备，需要收集靠近设备1米以内操作</string>

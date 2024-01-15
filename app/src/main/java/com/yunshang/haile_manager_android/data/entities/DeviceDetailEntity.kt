@@ -71,7 +71,9 @@ data class DeviceDetailEntity(
     var floorCode: String? = null,
     val positionCode: String? = null,
     val positionId: Int? = null,
-    val positionName: String? = null
+    val positionName: String? = null,
+    val auditFlag: Boolean? = null,
+    val needAudit: Boolean? = null
 ) : BaseObservable() {
 
     @get:Bindable

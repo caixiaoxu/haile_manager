@@ -284,6 +284,16 @@ object UserPermissionUtils {
         return null != userPermissionsMap["league:normal:goods:appointment"]
     }
 
+    /**
+     * 是否含有设备解绑权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasDeviceUnbindPermission(): Boolean {
+        return null != userPermissionsMap["league:normal:goods:audit"]
+    }
     /** ------------------------设备管理权限------------------------  */
     /** ------------------------门店管理权限------------------------  */
     /**

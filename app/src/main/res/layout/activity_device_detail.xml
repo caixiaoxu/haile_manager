@@ -585,6 +585,6 @@
             android:text="@string/unBind"
             app:layout_constraintEnd_toEndOf="@id/view_device_detail_bottom"
             app:layout_constraintTop_toTopOf="@id/view_device_detail_bottom"
-            app:visibility="@{null!=vm.deviceDetail &amp;&amp; shared.hasDeviceDeletePermission}" />
+            app:visibility="@{null!=vm.deviceDetail &amp;&amp; !vm.deviceDetail.auditFlag &amp;&amp; shared.hasDeviceDeletePermission}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

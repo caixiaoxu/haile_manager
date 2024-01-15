@@ -74,6 +74,8 @@ class SharedViewModel : ViewModel() {
         hasUserPermission.map { UserPermissionUtils.hasDeviceUpdatePermission() }
     val hasDeviceAppointmentPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasDeviceAppointmentPermission() }
+    val hasDeviceUnbindPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasDeviceUnbindPermission() }
 
     /** ---------------------设备权限------------------------- **/
 

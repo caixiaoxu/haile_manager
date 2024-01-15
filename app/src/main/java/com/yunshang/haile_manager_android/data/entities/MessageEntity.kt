@@ -47,7 +47,7 @@ data class MessageEntity(
         ) else null
 
     val friendTime: String
-        get() = DateTimeUtils.getFriendlyTime(DateTimeUtils.formatDateFromString(createTime), false)
+        get() = DateTimeUtils.getFriendlyTime(DateTimeUtils.formatDateFromString(createTime))
 }
 
 data class MessageContentType2Entity(

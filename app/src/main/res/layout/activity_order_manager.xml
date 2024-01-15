@@ -69,7 +69,7 @@
                             android:drawableEnd="@mipmap/icon_order_filter_triangle"
                             android:gravity="center"
                             android:hint="@string/pt"
-                            app:visibility="@{1 != vm.orderType &amp;&amp; null != vm.selectDepartments &amp;&amp; vm.selectDepartments.size() > 0 }" />
+                            app:visibility="@{1 != vm.orderType }" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tv_order_category_time"

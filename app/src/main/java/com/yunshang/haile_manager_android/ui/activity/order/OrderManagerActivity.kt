@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lsy.framelib.async.LiveDataBus
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.utils.DimensionUtils
+import com.lsy.framelib.utils.SToast
 import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
@@ -68,6 +69,7 @@ class OrderManagerActivity :
                                 }
                         }
                     }
+
                     IntentParams.ShopPositionSelectorParams.ShopPositionSelectorResultCode -> {
                         mViewModel.selectDepartmentPositions.value =
                             IntentParams.ShopPositionSelectorParams.parseSelectList(intent)
@@ -101,8 +103,22 @@ class OrderManagerActivity :
             maxDate = Calendar.getInstance().apply { time = Date() }
             onDateSelectedListener = object : DateSelectorDialog.OnDateSelectListener {
                 override fun onDateSelect(mode: Int, date1: Date, date2: Date?) {
-                    Timber.i("----选择的开始日期${DateTimeUtils.formatDateTime(date1, "yyyy-MM-dd")}")
-                    Timber.i("----选择的结束日期${DateTimeUtils.formatDateTime(date2, "yyyy-MM-dd")}")
+                    Timber.i(
+                        "----选择的开始日期${
+                            DateTimeUtils.formatDateTime(
+                                date1,
+                                "yyyy-MM-dd"
+                            )
+                        }"
+                    )
+                    Timber.i(
+                        "----选择的结束日期${
+                            DateTimeUtils.formatDateTime(
+                                date2,
+                                "yyyy-MM-dd"
+                            )
+                        }"
+                    )
                     //更换时间
                     mViewModel.startTime.value = date1
                     mViewModel.endTime.value = date2
@@ -124,6 +140,10 @@ class OrderManagerActivity :
         mViewModel.orderType = IntentParams.OrderManagerParams.parseOrderType(intent)
         mViewModel.deviceId = IntentParams.OrderManagerParams.parseDeviceId(intent)
         mViewModel.phone = IntentParams.OrderManagerParams.parsePhone(intent)
+
+        if (0 != mViewModel.orderType) {
+            mViewModel.startTime.value = DateTimeUtils.beforeDay(Date(), 6)
+        }
     }
 
     override fun initEvent() {
@@ -314,6 +334,10 @@ class OrderManagerActivity :
 
         // 点位
         mBinding.tvOrderCategoryDepartmentPosition.setOnClickListener {
+            if (mViewModel.selectDepartments.value.isNullOrEmpty()) {
+                SToast.showToast(this@OrderManagerActivity, "请先选择门店")
+                return@setOnClickListener
+            }
             startSearchSelect.launch(
                 Intent(
                     this@OrderManagerActivity,

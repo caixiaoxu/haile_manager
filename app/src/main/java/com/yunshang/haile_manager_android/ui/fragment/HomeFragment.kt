@@ -405,8 +405,7 @@ class HomeFragment :
                     mMsgItemBinding.tvLastMsgContent.text =
                         messageContentEntity?.shortDescription ?: ""
                     mMsgItemBinding.tvLastMsgTime.text = DateTimeUtils.getFriendlyTime(
-                        DateTimeUtils.formatDateFromString(msg.createTime),
-                        false
+                        DateTimeUtils.formatDateFromString(msg.createTime)
                     )
                     mMsgItemBinding.root.setOnClickListener {
                         startActivity(

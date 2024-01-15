@@ -273,8 +273,11 @@ class DeviceRepairsReplyListActivity :
                     }
                 }
             }
+
             isAdjustMode = true
         }
+
+        mBinding.indicatorMineOrderStatus.onPageSelected(1)
 
         mBinding.rvDeviceRepairsReplyList.layoutManager = LinearLayoutManager(this)
         mBinding.rvDeviceRepairsReplyList.adapter = mAdapter

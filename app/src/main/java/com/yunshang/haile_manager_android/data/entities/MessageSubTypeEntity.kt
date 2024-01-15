@@ -15,5 +15,6 @@ data class MessageSubTypeEntity(
     val id: Int,
     val name: String,
     val typeId: Int,
-    val lastMessageTime: String? = null
+    val lastMessageTime: String? = null,
+    val iconUrl: String? = null
 )

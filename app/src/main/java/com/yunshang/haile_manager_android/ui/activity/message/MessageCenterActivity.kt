@@ -34,7 +34,7 @@ class MessageCenterActivity :
             BR.item
         ) { mItemBinding, _, item ->
             mItemBinding?.root?.setOnClickListener {
-                mViewModel.readAllMessage(item.typeId)
+                mViewModel.readAllMessage(subtypeId = item.id)
                 LiveDataBus.post(BusEvents.MESSAGE_READ_STATUS, true)
                 startActivity(
                     Intent(

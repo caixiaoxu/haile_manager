@@ -51,8 +51,8 @@ class MessageCenterViewModel : BaseViewModel() {
                 var total = 0
                 subTypeList.forEach {
                     val msgList = MessageCenterEntity(
-                        it.id, it.typeId, it.name, DateTimeUtils.getFriendlyTime(
-                            DateTimeUtils.formatDateFromString(it.lastMessageTime), false
+                        it.id, it.typeId, it.name, it.iconUrl, DateTimeUtils.getFriendlyTime(
+                            DateTimeUtils.formatDateFromString(it.lastMessageTime)
                         )
                     )
                     ApiRepository.dealApiResult(
@@ -83,6 +83,7 @@ class MessageCenterViewModel : BaseViewModel() {
         val id: Int,
         val typeId: Int,
         val title: String,
+        val iconUrl: String?,
         val time: String? = null
     ) :
         BaseObservable() {
@@ -106,7 +107,7 @@ class MessageCenterViewModel : BaseViewModel() {
             get() = if (count > 99) "99+" else "$count"
     }
 
-    fun readAllMessage(typeId: Int? = null) {
+    fun readAllMessage(typeId: Int? = null, subtypeId: Int? = null) {
         launch({
             ApiRepository.dealApiResult(
                 mMessageRepo.readMessageAll(
@@ -114,6 +115,9 @@ class MessageCenterViewModel : BaseViewModel() {
                         hashMapOf<String, Any>().apply {
                             typeId?.let {
                                 put("typeId", typeId)
+                            }
+                            subtypeId?.let {
+                                put("subtypeId", subtypeId)
                             }
                         }
                     )

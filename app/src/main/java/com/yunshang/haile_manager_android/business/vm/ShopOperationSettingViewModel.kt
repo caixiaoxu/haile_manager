@@ -50,6 +50,8 @@ class ShopOperationSettingViewModel : BaseViewModel() {
                     nearOrderSettingDetailDTO = null
                     freeSelfClearSettingsForm = freeSelfClearSettingDetailDTO
                     freeSelfClearSettingDetailDTO = null
+                    deviceUnbindAuditSettingsForm = deviceUnbindAuditSettingDetailDTO
+                    deviceUnbindAuditSettingDetailDTO = null
 
                     showItem1 = null != paymentSetting
                     showItem2 = null != compensationSetting
@@ -57,6 +59,7 @@ class ShopOperationSettingViewModel : BaseViewModel() {
                     showItem4 = null != operationSetting
                     showItem6 = null != nearOrderSettingsForm
                     showItem5 = null != freeSelfClearSettingsForm
+                    showItem7 = null != deviceUnbindAuditSettingsForm
                 })
             }
         })

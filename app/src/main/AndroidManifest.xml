@@ -104,6 +104,9 @@
             android:name=".ui.activity.shop.ShopBatchSettingActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.activity.shop.ShopBatchUnbindDeviceApproveSettingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.login.ChangeLoginPhoneActivity"
             android:exported="false" />
         <activity

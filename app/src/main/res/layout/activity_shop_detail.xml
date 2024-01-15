@@ -228,6 +228,16 @@
                         android:text="@string/per_flow_charge_display_setting_name"
                         app:visibility="@{vm.operationSettingDetail.showItem4 &amp;&amp; vm.operationSettingDetail.operationSetting.volumeVisibleStateVal}"
                         tools:text="@string/per_flow_charge_display_setting_name" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_14_333333"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_sf7f7f7_r8"
+                        android:padding="12dp"
+                        android:text="@{vm.operationSettingDetail.deviceUnbindAuditSettingDetailDTO.showUnbindAuditContent}"
+                        app:visibility="@{vm.operationSettingDetail.showItem7}"
+                        tools:text="@string/per_flow_charge_display_setting_name" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

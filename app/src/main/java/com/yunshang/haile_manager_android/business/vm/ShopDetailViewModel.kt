@@ -65,6 +65,8 @@ class ShopDetailViewModel : BaseViewModel() {
                     showItem3 = !appointSetting?.settingList.isNullOrEmpty()
                     showItem4 = null != operationSetting
                     showItem5 = null != freeSelfClearSettingDetailDTO
+                    showItem6 = null != nearOrderSettingDetailDTO
+                    showItem7 = null != deviceUnbindAuditSettingDetailDTO
                 })
             }
         })

@@ -306,6 +306,7 @@
     <string name="pt_name_hint">具体营业点名称</string>
     <string name="service_phone_hint">请输入客服电话</string>
     <string name="batch_service_phone_setting_prompt">设置营业点的客服电话</string>
+    <string name="batch_unbind_device_approval_setting">批量解绑设备审批设置</string>
 
     <string name="sub_account_agreement">分账协议</string>
     <string name="agreement_prompt">我已阅读所有内容</string>
@@ -414,6 +415,11 @@
     <string name="batch_near_by_order_setting">批量附近下单设置</string>
     <string name="near_by_order_setting_name">通过附近营业点下单</string>
     <string name="near_by_order_setting_prompt">针对洗衣机、洗鞋机和烘干机，通过附近营业点可下单使用</string>
+    <string name="unbind_device_approval_setting">解绑设备审批设置</string>
+    <string name="unbind_device_approval_setting_name">解绑设备需要审批</string>
+    <string name="unbind_device_approval_setting_prompt">子账号解绑设备，是否需要审批</string>
+    <string name="unbind_device_approval_setting_value1">子账号解绑设备不需要审批</string>
+    <string name="unbind_device_approval_setting_value2">子账号解绑设备需要审批</string>
 
     <string name="order_manager">订单管理</string>
     <string name="order_search_hint">搜索手机号/订单编号/IMEI</string>

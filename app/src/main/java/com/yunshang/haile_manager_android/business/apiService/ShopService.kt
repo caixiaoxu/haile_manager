@@ -240,6 +240,12 @@ interface ShopService {
     suspend fun saveBatchFlowSetting(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
+     * 批量解绑设备设置
+     */
+    @POST("/shop/batchSaveDeviceUnbindAuditSetting")
+    suspend fun saveBatchDeviceUnbindAuditSetting(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
      * 批量筒自洁设置
      */
     @POST("/shop/batchSaveFreeSelfClearSetting")

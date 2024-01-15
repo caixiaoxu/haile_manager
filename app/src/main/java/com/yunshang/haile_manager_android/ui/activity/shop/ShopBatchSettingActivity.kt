@@ -76,6 +76,15 @@ class ShopBatchSettingActivity :
                 )
             )
         }
+        // 批量解绑设备设置
+        mBinding.clShopBatchUnbindApproveSetting.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@ShopBatchSettingActivity,
+                    ShopBatchUnbindDeviceApproveSettingActivity::class.java
+                )
+            )
+        }
         // 批量客服电话设置
         mBinding.clShopBatchSettingServicePhoneSetting.setOnClickListener {
             startActivity(

@@ -61,6 +61,7 @@ class MessageCenterViewModel : BaseViewModel() {
                                 hashMapOf(
                                     "appType" to 1,
                                     "typeId" to it.typeId,
+                                    "subtypeId" to it.id,
                                     "readStatus" to 0
                                 )
                             )

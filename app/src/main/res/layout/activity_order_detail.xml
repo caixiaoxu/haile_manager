@@ -355,6 +355,12 @@
 
                     <include
                         layout="@layout/item_order_detail_info"
+                        app:canShow="@{vm.orderDetail.hasCancelDesc}"
+                        app:content='@{vm.orderDetail.cancelDesc}'
+                        app:itemTitle='@{@string/reason_for_cancel + "："}' />
+
+                    <include
+                        layout="@layout/item_order_detail_info"
                         app:canShow="@{vm.orderDetail.endStateVal().length() > 0}"
                         app:content='@{vm.orderDetail.endStateVal}'
                         app:itemTitle='@{@string/reason_for_end + "："}' />

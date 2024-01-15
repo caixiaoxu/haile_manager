@@ -441,6 +441,7 @@
     <string name="model_of_payment">支付方式</string>
     <string name="no_of_payment">支付单号</string>
     <string name="time_of_payment">支付时间</string>
+    <string name="reason_for_cancel">取消原因</string>
     <string name="reason_for_end">结束原因</string>
     <string name="time_of_refund_money">退款时间</string>
     <string name="time_of_refund_coupon">返券时间</string>

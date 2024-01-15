@@ -56,6 +56,7 @@ import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.DialogUtils
 import com.yunshang.haile_manager_android.utils.StringUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
+import com.yunshang.haile_manager_android.utils.WeChatHelper
 import com.yunshang.haile_manager_android.web.WebViewActivity
 import timber.log.Timber
 import java.lang.reflect.Field
@@ -576,6 +577,8 @@ class HomeFragment :
                             })
                         }
                     }.build().show(childFragmentManager)
+                } else if (item.icon == R.mipmap.icon_spares_purchase){
+                    WeChatHelper.openWeChatMiniProgram("pages/shop/shop-detail/index?scene=1746724590952968194", null, "gh_f66f181fb6b2")
                 } else {
                     startActivity(Intent(requireContext(), item.clz).apply {
                         item.bundle?.let { bundle ->

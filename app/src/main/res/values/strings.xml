@@ -522,6 +522,8 @@
     <string name="reply_content">回复内容</string>
     <string name="pic_browse">图片浏览</string>
 
+    <string name="spares_purchase">备件采购</string>
+
     <string name="home_marketing_title">营销中心</string>
     <string name="discount_manager">折扣优惠</string>
     <string name="discount_time_title">特惠时间：%s</string>

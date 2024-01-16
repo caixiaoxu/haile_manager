@@ -142,6 +142,7 @@ class OrderDetailActivity :
                 StringUtils.getString(R.string.cancel_order),
                 StringUtils.getString(R.string.cancel_order_hint)
             ).apply {
+                contentLength = 200
                 positiveClickListener = { reason ->
                     mViewModel.orderDetail.value?.orderNo?.let { orderNo ->
                         mViewModel.cancelOrder(this@OrderDetailActivity, orderNo, reason)

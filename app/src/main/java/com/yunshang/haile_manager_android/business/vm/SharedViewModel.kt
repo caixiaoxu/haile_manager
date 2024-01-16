@@ -130,6 +130,8 @@ class SharedViewModel : ViewModel() {
     /** ---------------------公告权限------------------------- **/
     val hasAnnouncementPermission: LiveData<Boolean> =
         hasUserPermission.map { UserPermissionUtils.hasAnnouncementPermission() }
+    val hasSparePartPermission: LiveData<Boolean> =
+        hasUserPermission.map { UserPermissionUtils.hasSparePartPermission() }
     /** ---------------------公告权限------------------------- **/
     /** ---------------------设备报修权限------------------------- **/
     val hasRepairsPermission: LiveData<Boolean> =

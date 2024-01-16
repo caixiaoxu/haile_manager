@@ -124,10 +124,11 @@ class HomeViewModel : BaseViewModel() {
                 StringUtils.getString(R.string.spares_purchase),
                 R.mipmap.icon_spares_purchase,
                 WebViewActivity::class.java,
+                UserPermissionUtils.hasSparePartPermission(),
                 bundle = IntentParams.WebViewParams.pack(
                     BuildConfig.H5_WORK_ORDER,
                     true,
-                )
+                ),
             ),
         )
     )

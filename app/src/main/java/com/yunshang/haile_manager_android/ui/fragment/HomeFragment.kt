@@ -487,6 +487,12 @@ class HomeFragment :
                 mViewModel.funcList.value = list.apply { this[6].isShow = it }
             }
         }
+        // 备件采购权限
+        mSharedViewModel.hasSparePartPermission.observe(this) {
+            mViewModel.funcList.value?.let { list ->
+                mViewModel.funcList.value = list.apply { this[7].isShow = it }
+            }
+        }
         // 优惠权限
         mSharedViewModel.hasMarketingPermission.observe(this) {
             mViewModel.marketingList.value?.let { list ->
@@ -578,8 +584,12 @@ class HomeFragment :
                             })
                         }
                     }.build().show(childFragmentManager)
-                } else if (item.icon == R.mipmap.icon_spares_purchase){
-                    WeChatHelper.openWeChatMiniProgram("pages/shop/shop-detail/index?scene=1746724590952968194", null, "gh_f66f181fb6b2")
+                } else if (item.icon == R.mipmap.icon_spares_purchase) {
+                    WeChatHelper.openWeChatMiniProgram(
+                        "pages/shop/shop-detail/index?scene=1746724590952968194",
+                        null,
+                        "gh_f66f181fb6b2"
+                    )
                 } else {
                     startActivity(Intent(requireContext(), item.clz).apply {
                         item.bundle?.let { bundle ->
@@ -590,7 +600,8 @@ class HomeFragment :
             }
             item.num.observe(this) {
                 mFuncAreaBinding.tvHomeFunItemNum.text = if (it > 99) "99+" else "$it"
-                mFuncAreaBinding.tvHomeFunItemNum.visibility(it.isGreaterThan0())
+                mFuncAreaBinding.tvHomeFunItemNum.visibility =
+                    if (it.isGreaterThan0()) View.VISIBLE else View.INVISIBLE
             }
 
             // 数据

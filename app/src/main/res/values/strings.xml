@@ -450,6 +450,7 @@
     <string name="model_of_payment">支付方式</string>
     <string name="no_of_payment">支付单号</string>
     <string name="time_of_payment">支付时间</string>
+    <string name="reason_for_cancel">取消原因</string>
     <string name="reason_for_end">结束原因</string>
     <string name="time_of_refund_money">退款时间</string>
     <string name="time_of_refund_coupon">返券时间</string>
@@ -530,6 +531,8 @@
     <string name="shop_reply">商家回复</string>
     <string name="reply_content">回复内容</string>
     <string name="pic_browse">图片浏览</string>
+
+    <string name="spares_purchase">备件采购</string>
 
     <string name="device_unbind_approve">审批</string>
     <string name="dispose">处理</string>

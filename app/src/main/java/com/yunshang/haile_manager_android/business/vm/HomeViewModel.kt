@@ -127,6 +127,15 @@ class HomeViewModel : BaseViewModel() {
                 DeviceUnbindApproveActivity::class.java,
                 UserPermissionUtils.hasDeviceUnbindPermission()
             ),
+            FunItem(
+                StringUtils.getString(R.string.spares_purchase),
+                R.mipmap.icon_spares_purchase,
+                WebViewActivity::class.java,
+                bundle = IntentParams.WebViewParams.pack(
+                    BuildConfig.H5_WORK_ORDER,
+                    true,
+                )
+            ),
         )
     )
 

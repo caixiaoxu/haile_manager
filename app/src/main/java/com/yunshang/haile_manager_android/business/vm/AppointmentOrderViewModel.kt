@@ -145,7 +145,7 @@ class AppointmentOrderViewModel : BaseViewModel() {
     fun cancelAppointmentOrder(orderNo: String, reason: String, callBack: () -> Unit) {
         launch({
             ApiRepository.dealApiResult(
-                mOrderRepo.cancelAppointmentOrder(
+                mOrderRepo.cancelOrder(
                     ApiRepository.createRequestBody(
                         hashMapOf(
                             "orderNo" to orderNo,

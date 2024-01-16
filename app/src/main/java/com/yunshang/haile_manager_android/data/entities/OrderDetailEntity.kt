@@ -51,6 +51,7 @@ data class OrderDetailEntity(
     val realPrice: Double,
     val refundBy: String? = null,
     val refundDesc: String,
+    val cancelDesc: String?,
     val refundNo: String,
     val refundPrice: Double,
     @SerializedName("refundTime")
@@ -63,6 +64,7 @@ data class OrderDetailEntity(
     val appointmentInfo: AppointmentInfo?,
     val appointmentTime: String,
     val canCancelReserve: Boolean,
+    val canCancel: Boolean,
     val endState: Int,
     val endStateDesc: String?,
     val completeTime: String? = null,
@@ -129,6 +131,8 @@ data class OrderDetailEntity(
         1000 -> "正常结束"
         else -> ""
     }
+
+    fun hasCancelDesc(): Boolean = !cancelDesc.isNullOrEmpty()
 
     val hasRefundMoney: Boolean
         get() = refundTag?.split(",")?.contains("1") ?: false

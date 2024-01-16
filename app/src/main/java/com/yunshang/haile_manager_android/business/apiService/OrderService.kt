@@ -64,10 +64,10 @@ interface OrderService {
     suspend fun requestOrderRestart(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
-     * 取消预约订单接口
+     * 取消订单接口
      */
-    @POST("/appoint/cancelOrder")
-    suspend fun cancelAppointmentOrder(@Body body: RequestBody): ResponseWrapper<Any>
+    @POST("/order/cancel")
+    suspend fun cancelOrder(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
      * 订单历史列表接口

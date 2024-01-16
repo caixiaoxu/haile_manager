@@ -165,30 +165,64 @@
                         style="@style/DividingStyle"
                         android:visibility="@{vm.showErrorOrder?View.VISIBLE:View.GONE}" />
 
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="12dp"
                         android:background="@drawable/shape_sf7f7f7_r8"
                         android:orientation="vertical"
-                        android:visibility="@{vm.showErrorOrder?View.VISIBLE:View.GONE}">
+                        android:padding="12dp"
+                        app:visibility="@{vm.showErrorOrder}">
 
                         <include
+                            android:id="@+id/include_device_status"
                             layout="@layout/item_device_detail_base_info_find"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             app:content="@{vm.deviceDetail.getDeviceStatusValue}"
+                            app:layout_constraintEnd_toStartOf="@id/tv_device_detail_more_order"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:show="@{true}"
-                            app:showCopy="@{false}"
                             app:title="@{vm.deviceDetail.getDeviceStateTitle}" />
 
                         <include
-                            android:id="@+id/include_error"
+                            android:id="@+id/include_current_order"
                             layout="@layout/item_device_detail_base_info_find"
-                            android:visibility="@{vm.deviceDetail.showOrderNo?View.GONE:View.VISIBLE}"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
                             app:content="@{vm.deviceDetail.errorDeviceOrderNo}"
-                            app:show="@{true}"
-                            app:showCopy="@{true}"
+                            app:layout_constraintEnd_toEndOf="@id/include_device_status"
+                            app:layout_constraintStart_toStartOf="@id/include_device_status"
+                            app:layout_constraintTop_toTopOf="@id/tv_device_detail_more_order"
+                            app:show="@{vm.deviceDetail.showOrderNo}"
                             app:title="@{vm.deviceDetail.getDeviceOrderTitle}" />
-                    </LinearLayout>
+
+                        <include
+                            android:id="@+id/include_queued_order"
+                            layout="@layout/item_device_detail_base_info_find"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            app:content="@{vm.deviceDetail.queuedOrderNo}"
+                            app:layout_constraintEnd_toEndOf="@id/include_device_status"
+                            app:layout_constraintStart_toStartOf="@id/include_device_status"
+                            app:layout_constraintTop_toBottomOf="@id/include_current_order"
+                            app:show="@{vm.deviceDetail.showQueuedOrderNo}"
+                            app:title="@{vm.deviceDetail.getQueuedOrderTitle}" />
+
+                        <com.lsy.framelib.ui.weight.SingleTapTextView
+                            android:id="@+id/tv_device_detail_more_order"
+                            style="@style/Font_12_333333"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/shape_strokeblack25_r4"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:text="@string/more_order"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/include_device_status" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -319,6 +353,7 @@
                         android:layout_margin="12dp"
                         android:background="@drawable/shape_sf7f7f7_r8"
                         android:orientation="vertical"
+                        android:padding="12dp"
                         app:visibility="@{vm.showParamsSetting}">
 
                         <include
@@ -326,7 +361,6 @@
                             layout="@layout/item_device_detail_base_info_find"
                             app:content="@{vm.deviceDetail.getSinglePulseQuantity}"
                             app:show="@{true}"
-                            app:showCopy="@{false}"
                             app:title="@{vm.deviceDetail.getDeviceSinglePulseTitle}" />
                     </LinearLayout>
                 </LinearLayout>

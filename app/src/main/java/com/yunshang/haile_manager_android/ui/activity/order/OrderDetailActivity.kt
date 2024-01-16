@@ -46,6 +46,7 @@ class OrderDetailActivity :
     override fun initIntent() {
         super.initIntent()
         mViewModel.orderId = IntentParams.OrderDetailParams.parseOrderId(intent)
+        mViewModel.orderNo = IntentParams.OrderDetailParams.parseOrderNo(intent)
         mViewModel.isAppoint = IntentParams.OrderDetailParams.parseIsAppoint(intent)
     }
 

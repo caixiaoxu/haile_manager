@@ -33,7 +33,7 @@ class DeviceRepairsReplyListViewModel : BaseViewModel() {
 
     val isBatch: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    var curStatus: Int? = null
+    var curStatus: Int? = 10
 
     val isAll: MutableLiveData<Boolean> = MutableLiveData(false)
 

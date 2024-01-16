@@ -14,6 +14,7 @@ import com.yunshang.haile_manager_android.business.apiService.MessageService
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.HomeIncomeEntity
 import com.yunshang.haile_manager_android.data.entities.MessageEntity
+import com.yunshang.haile_manager_android.data.entities.TypeMsgNumEntity
 import com.yunshang.haile_manager_android.data.extend.formatMoney
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.ui.activity.coupon.CouponManageActivity
@@ -180,16 +181,19 @@ class HomeViewModel : BaseViewModel() {
     /**
      * 请求首页数据
      */
-    fun requestHomeData() {
+    fun requestHomeData(showLoading: Boolean = true) {
         launch(
             {
                 // 总收益
                 requestIncomeToday()
                 // 未读消息数
                 requestUnReadCount()
+                // 各种类型消息数量
+                requestTypeMsgNum()
                 // 消息列表
                 requestMessageList()
-            })
+            }, showLoading = showLoading
+        )
     }
 
     /**
@@ -239,6 +243,21 @@ class HomeViewModel : BaseViewModel() {
                 count += it.count
             }
             unReadMsgNum.postValue(count)
+        }
+    }
+
+    val typeMsgNum: MutableLiveData<MutableList<TypeMsgNumEntity>> by lazy {
+        MutableLiveData()
+    }
+
+    private suspend fun requestTypeMsgNum() {
+        ApiRepository.dealApiResult(
+            mMessageRepo.requestTypeMsgNum()
+        )?.let {
+            funcList.value?.find { item -> item.icon == R.mipmap.icon_device_repairs }?.num?.postValue(
+                it.moduleItems?.find { item -> item.moduleType == 100 }?.iconItems?.find { item -> item.route == "/device/fix" }
+                    ?.badgeNum ?: 0
+            )
         }
     }
 
@@ -326,7 +345,8 @@ class HomeViewModel : BaseViewModel() {
         val icon: Int,
         val clz: Class<*>,
         var isShow: Boolean = true,
-        val bundle: Bundle? = null
+        val bundle: Bundle? = null,
+        val num: MutableLiveData<Int> = MutableLiveData(0)
     )
 
 }

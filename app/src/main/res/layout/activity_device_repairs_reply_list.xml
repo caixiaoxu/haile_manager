@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.yunshang.haile_manager_android.utils.StringUtils" />
 
         <variable
             name="vm"
@@ -55,14 +56,24 @@
                         style="@style/font_17_black85_bold"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
+                        android:layout_marginHorizontal="12dp"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:text="@{vm.deviceRepairs.deviceName}"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/btn_device_repairs_reply_list_device_detail"
                         app:layout_constraintStart_toEndOf="@id/iv_device_repairs_reply_list_main"
                         app:layout_constraintTop_toTopOf="@id/iv_device_repairs_reply_list_main"
                         tools:text="1号洗衣房01号洗衣机" />
+
+                    <com.lsy.framelib.ui.weight.SingleTapTextView
+                        android:id="@+id/btn_device_repairs_reply_list_device_detail"
+                        style="@style/Font_14_f0a258"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/device_detail"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_device_repairs_reply_list_device_name"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_device_repairs_reply_list_device_name" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/iv_device_repairs_reply_list_device_category"
@@ -77,6 +88,18 @@
                         app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_reply_list_device_name"
                         tools:text="洗衣机" />
 
+                    <com.lsy.framelib.ui.weight.SingleTapTextView
+                        android:id="@+id/tv_device_repairs_reply_list_imei"
+                        style="@style/Font_14_black85"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@{vm.deviceRepairs.imeiVal}"
+                        android:onClick="@{v->StringUtils.copyToShear(vm.deviceRepairs.imei)}"
+                        app:layout_constraintStart_toStartOf="@id/tv_device_repairs_reply_list_device_name"
+                        app:layout_constraintTop_toBottomOf="@id/iv_device_repairs_reply_list_device_category"
+                        tools:text="IMEI：123123123123131" />
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_device_repairs_reply_list_address"
                         style="@style/Font_14_black85"
@@ -85,7 +108,7 @@
                         android:layout_marginTop="4dp"
                         android:text="@{vm.deviceRepairs.shopPositionName}"
                         app:layout_constraintStart_toStartOf="@id/tv_device_repairs_reply_list_device_name"
-                        app:layout_constraintTop_toBottomOf="@id/iv_device_repairs_reply_list_device_category"
+                        app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_reply_list_imei"
                         tools:text="浙大紫金港校区东区-研究楼A楼" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

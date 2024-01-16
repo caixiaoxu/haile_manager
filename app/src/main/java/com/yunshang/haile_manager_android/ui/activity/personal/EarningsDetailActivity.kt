@@ -75,7 +75,7 @@ class EarningsDetailActivity :
                             this@EarningsDetailActivity,
                             OrderDetailActivity::class.java
                         ).apply {
-                            putExtras(IntentParams.OrderDetailParams.pack(detail.orderId))
+                            putExtras(IntentParams.OrderDetailParams.pack(orderNo = detail.orderNo))
                         }
                     })
             }

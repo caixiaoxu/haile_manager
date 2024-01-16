@@ -254,8 +254,14 @@ class HomeViewModel : BaseViewModel() {
         ApiRepository.dealApiResult(
             mMessageRepo.requestTypeMsgNum()
         )?.let {
+            // 报修
             funcList.value?.find { item -> item.icon == R.mipmap.icon_device_repairs }?.num?.postValue(
                 it.moduleItems?.find { item -> item.moduleType == 100 }?.iconItems?.find { item -> item.route == "/device/fix" }
+                    ?.badgeNum ?: 0
+            )
+            // 解绑审批
+            funcList.value?.find { item -> item.icon == R.mipmap.icon_device_unbind_approve }?.num?.postValue(
+                it.moduleItems?.find { item -> item.moduleType == 400 }?.iconItems?.find { item -> item.route == "/deviceAudit/audit" }
                     ?.badgeNum ?: 0
             )
         }

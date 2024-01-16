@@ -532,6 +532,10 @@
     <string name="pic_browse">图片浏览</string>
 
     <string name="device_unbind_approve">审批</string>
+    <string name="dispose">处理</string>
+    <string name="batch_dispose">批量处理</string>
+    <string name="reject1">驳回</string>
+    <string name="approve">批准</string>
 
     <string name="home_marketing_title">营销中心</string>
     <string name="discount_manager">折扣优惠</string>

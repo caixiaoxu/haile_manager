@@ -65,6 +65,13 @@ class DeviceUnbindAuditActivity :
         mViewModel.goodId = IntentParams.CommonParams.parseId(intent)
     }
 
+    override fun initEvent() {
+        super.initEvent()
+        mViewModel.jump.observe(this) {
+            finish()
+        }
+    }
+
     override fun initView() {
         window.statusBarColor = android.graphics.Color.WHITE
 
@@ -201,7 +208,7 @@ class DeviceUnbindAuditActivity :
                         title = StringUtils.getString(R.string.tip)
                         negativeTxt = StringUtils.getString(R.string.cancel)
                         setPositiveButton(StringUtils.getString(R.string.sure)) {
-                            mViewModel.unbindAudit()
+                            mViewModel.unbindAudit(this@DeviceUnbindAuditActivity)
                         }
                     }.build().show(supportFragmentManager)
             },

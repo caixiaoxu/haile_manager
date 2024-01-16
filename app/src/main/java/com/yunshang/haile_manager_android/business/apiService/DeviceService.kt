@@ -244,4 +244,10 @@ interface DeviceService {
 
     @POST("/deviceAudit/applyDeviceAudit")
     suspend fun unbindDeviceAudit(@Body params: RequestBody): ResponseWrapper<Any>
+
+    @POST("/deviceAudit/getDeviceAuditListVOPage")
+    suspend fun requestDeviceUnbindApproveList(@Body params: RequestBody): ResponseWrapper<ResponseList<DeviceUnbindApproveEntity>>
+
+    @POST("/deviceAudit/auditBatch")
+    suspend fun batchDeviceUnbindApprove(@Body params: RequestBody): ResponseWrapper<Any>
 }

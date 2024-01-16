@@ -1,13 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="vm"
+            type="com.yunshang.haile_manager_android.business.vm.DeviceUnbindApproveViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.yunshang.haile_manager_android.ui.view.CommonTitleActionBar
+            android:id="@+id/bar_device_unbind_approve_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_action_bar_h"
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            app:rightModel="area"
+            app:title="@string/device_unbind_approve" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@drawable/shape_bottom_stroke_dividing"
+            android:paddingHorizontal="12dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_device_unbind_approve_shop"
+                    style="@style/Font_14_333333_333333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableEnd="@mipmap/icon_order_filter_triangle"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:hint="@string/all_shop"
+                    android:maxWidth="96dp"
+                    android:maxLines="1"
+                    android:text="@{vm.selectShopVal}" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_device_unbind_approve_position"
+                    style="@style/Font_14_333333_333333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="12dp"
+                    android:drawableEnd="@mipmap/icon_order_filter_triangle"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:hint="@string/pt"
+                    android:maxWidth="96dp"
+                    android:maxLines="1"
+                    android:text="@{vm.selectPositionVal}" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_device_unbind_approve_device"
+                    style="@style/Font_14_333333_333333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="12dp"
+                    android:drawableEnd="@mipmap/icon_order_filter_triangle"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:hint="@string/all_device"
+                    android:maxWidth="96dp"
+                    android:maxLines="1"
+                    android:text="@{vm.selectDeviceCategoryVal}" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_device_unbind_approve_status"
+                    style="@style/Font_14_333333_333333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="12dp"
+                    android:drawableEnd="@mipmap/icon_order_filter_triangle"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:hint="@string/all_status"
+                    android:maxWidth="96dp"
+                    android:maxLines="1"
+                    android:text="@{vm.selectStatus.name}" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <com.yunshang.haile_manager_android.ui.view.refresh.CommonRefreshRecyclerView
+            android:id="@+id/rv_device_unbind_approve_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingHorizontal="12dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/shape_top_stroke_dividing"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            app:visibility="@{vm.isBatch}">
+
+            <com.yunshang.haile_manager_android.ui.view.ClickCheckBox
+                android:id="@+id/cb_device_unbind_approve_all"
+                style="@style/font_17_black85"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:button="@null"
+                android:checked="@{vm.isAll}"
+                android:drawableStart="@drawable/selector_checked"
+                android:drawablePadding="14dp"
+                android:gravity="center"
+                android:text="@string/select_all"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/font_17_black85"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@{vm.selectBatchNumVal}"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="已选择 1" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/page_bottom_h"
+            android:background="@drawable/shape_top_stroke_dividing"
+            android:paddingTop="12dp"
+            app:visibility="@{vm.isBatch}">
+
+            <com.yunshang.haile_manager_android.ui.view.CommonButton
+                android:id="@+id/btn_device_unbind_approve_dispose"
+                style="@style/CommonMatchBtnStyle1"
+                android:enabled="@{vm.selectBatchNum > 0}"
+                android:layout_marginHorizontal="16dp"
+                android:text="@string/dispose" />
+
+        </FrameLayout>
+    </LinearLayout>
 </layout>

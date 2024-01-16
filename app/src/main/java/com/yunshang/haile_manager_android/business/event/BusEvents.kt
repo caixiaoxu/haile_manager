@@ -53,6 +53,7 @@ object BusEvents {
     const val COUPON_LIST_STATUS = "coupon_list_status"
 
     const val DEVICE_FAULT_REPAIRS_REPLY_STATUS = "device_fault_repairs_reply_status"
+    const val DEVICE_UNBIND_APPROVE_STATUS = "device_unbind_approve_status"
 
     const val INVOICE_FEE_LIST_STATUS = "invoice_fee_list_status"
     const val INVOICE_TITLE_ADD_STATUS = "invoice_title_add_status"

@@ -124,8 +124,15 @@ class MessageCenterViewModel : BaseViewModel() {
                     )
                 )
             )
-            messageList.value?.forEach { it.count = 0 }
-            totalUnReadMsgNum.postValue(0)
+
+            subtypeId?.let {
+                messageList.value?.find { item -> item.id == it }?.count = 0
+                totalUnReadMsgNum.postValue(totalUnReadMsgNum.value?.let { total -> total - 1 }
+                    ?: 0)
+            } ?: run {
+                messageList.value?.forEach { it.count = 0 }
+                totalUnReadMsgNum.postValue(0)
+            }
         })
     }
 }

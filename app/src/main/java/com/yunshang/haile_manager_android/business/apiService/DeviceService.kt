@@ -241,4 +241,7 @@ interface DeviceService {
 
     @POST("/goods/transfer")
     suspend fun transferDevice(@Body params: RequestBody): ResponseWrapper<Any>
+
+    @POST("/deviceAudit/applyDeviceAudit")
+    suspend fun unbindDeviceAudit(@Body params: RequestBody): ResponseWrapper<Any>
 }

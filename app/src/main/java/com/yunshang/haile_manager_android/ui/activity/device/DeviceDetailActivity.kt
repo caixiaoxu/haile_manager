@@ -340,6 +340,10 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                     }
                 // 启动
                 2 -> mViewModel.deviceDetail.value?.let { detail ->
+                    if (true == detail.auditFlag) {
+                        SToast.showToast(this@DeviceDetailActivity, "解绑审批中，不可启用设备")
+                        return@let
+                    }
                     startActivity(
                         Intent(
                             this@DeviceDetailActivity,
@@ -609,21 +613,23 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
         }
 
         mBinding.btnDeviceDetailDelete.setOnClickListener {
-            CommonDialog.Builder(StringUtils.getString(R.string.device_delete_hint)).apply {
-                negativeTxt = StringUtils.getString(R.string.cancel)
-                setPositiveButton(StringUtils.getString(R.string.unBind)) {
-                    if (true == mViewModel.deviceDetail.value?.needAudit) {
-                        startActivity(
-                            Intent(
-                                this@DeviceDetailActivity,
-                                DeviceUnbindAuditActivity::class.java
-                            )
-                        )
-                    } else {
+            if (true == mViewModel.deviceDetail.value?.needAudit) {
+                startActivity(
+                    Intent(
+                        this@DeviceDetailActivity,
+                        DeviceUnbindAuditActivity::class.java
+                    ).apply {
+                        putExtras(IntentParams.CommonParams.pack(mViewModel.goodsId))
+                    }
+                )
+            } else {
+                CommonDialog.Builder(StringUtils.getString(R.string.device_delete_hint)).apply {
+                    negativeTxt = StringUtils.getString(R.string.cancel)
+                    setPositiveButton(StringUtils.getString(R.string.unBind)) {
                         mViewModel.deviceDelete()
                     }
-                }
-            }.build().show(supportFragmentManager)
+                }.build().show(supportFragmentManager)
+            }
         }
 
         mBinding.includeDispenserTemperature.tvDispenserItemLimit.setOnClickListener {

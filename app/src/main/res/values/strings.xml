@@ -290,6 +290,7 @@
     <string name="update_params_setting">修改参数设置</string>
     <string name="params_info">参数信息</string>
     <string name="save_success">保存成功</string>
+    <string name="unbind_auditing">解绑审批中</string>
 
     <string name="batch_pay_setting">批量支付设置</string>
     <string name="batch_pay_setting_prompt">设置海星、免密支付的强制和提示</string>

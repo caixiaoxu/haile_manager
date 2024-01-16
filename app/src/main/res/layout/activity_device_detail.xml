@@ -91,20 +91,18 @@
                         app:layout_constraintTop_toBottomOf="@id/tv_device_detail_name"
                         tools:text="已停用" />
 
-                    <!--                    <androidx.appcompat.widget.AppCompatTextView-->
-                    <!--                        android:id="@+id/tv_device_detail_error"-->
-                    <!--                        style="@style/font_10_fc7f6f"-->
-                    <!--                        android:layout_width="0dp"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_marginStart="4dp"-->
-                    <!--                        android:background="@drawable/shape_s26fc7f6f_r4"-->
-                    <!--                        android:paddingHorizontal="4dp"-->
-                    <!--                        android:paddingVertical="2dp"-->
-                    <!--                        android:text="@{vm.deviceDetail.getReason}"-->
-                    <!--                        android:visibility="@{(0 == vm.deviceDetail.getReason().length)?View.GONE:View.VISIBLE}"-->
-                    <!--                        app:layout_constraintStart_toEndOf="@id/tv_device_detail_status"-->
-                    <!--                        app:layout_constraintTop_toTopOf="@id/tv_device_detail_status"-->
-                    <!--                        tools:text="排水异常0401" />-->
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_10_ff5219"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:background="@drawable/shape_storke_88ff5219_r4"
+                        android:paddingHorizontal="4dp"
+                        android:text="@string/unbind_auditing"
+                        app:layout_constraintStart_toEndOf="@id/tv_device_detail_status"
+                        app:layout_constraintTop_toTopOf="@id/tv_device_detail_status"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_device_detail_status"
+                        app:visibility="@{vm.deviceDetail.auditFlag}" />
 
                     <com.yunshang.haile_manager_android.ui.view.ClickSwitchView
                         android:id="@+id/switch_device_detail_open"
@@ -575,7 +573,7 @@
             android:layout_height="99dp"
             android:background="@drawable/shape_top_stroke_dividing"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:visibility="@{null!=vm.deviceDetail}" />
+            app:visibility="@{null!=vm.deviceDetail &amp;&amp; !vm.deviceDetail.auditFlag &amp;&amp; shared.hasDeviceDeletePermission}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/btn_device_detail_delete"

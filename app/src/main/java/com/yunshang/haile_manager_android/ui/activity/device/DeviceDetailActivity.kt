@@ -31,6 +31,7 @@ import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.ShopPositionSelectorActivity
 import com.yunshang.haile_manager_android.ui.activity.common.WeChatQRCodeScanActivity
 import com.yunshang.haile_manager_android.ui.activity.order.OrderDetailActivity
+import com.yunshang.haile_manager_android.ui.activity.order.OrderManagerActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
@@ -53,7 +54,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                         val positionId = IntentParams.ShopPositionSelectorParams.parseSelectList(
                             intent
                         )?.firstOrNull()?.positionList?.firstOrNull()?.id
-                        mViewModel.transferDevice(this@DeviceDetailActivity,positionId)
+                        mViewModel.transferDevice(this@DeviceDetailActivity, positionId)
                     }
                 }
                 IntentParams.DeviceParamsUpdateParams.ResultCode -> {
@@ -101,7 +102,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
         }
     }
 
-    private fun transferDevices(){
+    private fun transferDevices() {
         startNext.launch(
             Intent(
                 this@DeviceDetailActivity,
@@ -641,16 +642,58 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                     .plus(SystemPermissionHelper.readWritePermissions())
             )
         }
-        mBinding.includeError.tvBaseInfoContentFind.setOnClickListener {
+
+        mBinding.includeCurrentOrder.tvBaseInfoContent.setTextColor(
+            ContextCompat.getColor(
+                this@DeviceDetailActivity,
+                R.color.colorPrimary
+            )
+        )
+        mBinding.includeQueuedOrder.tvBaseInfoContent.setTextColor(
+            ContextCompat.getColor(
+                this@DeviceDetailActivity,
+                R.color.colorPrimary
+            )
+        )
+        // 关联订单
+        mBinding.includeCurrentOrder.root.setOnClickListener {
             startActivity(Intent(
                 this@DeviceDetailActivity, OrderDetailActivity::class.java
             ).apply {
                 putExtras(
                     IntentParams.OrderDetailParams.pack(
-                        mViewModel.deviceDetail.value!!.errorDeviceOrderId
+                        orderNo = mViewModel.deviceDetail.value?.errorDeviceOrderNo
                     )
                 )
             })
+        }
+        // 排队订单
+        mBinding.includeQueuedOrder.root.setOnClickListener {
+            startActivity(Intent(
+                this@DeviceDetailActivity, OrderDetailActivity::class.java
+            ).apply {
+                putExtras(
+                    IntentParams.OrderDetailParams.pack(
+                        orderNo = mViewModel.deviceDetail.value?.queuedOrderNo
+                    )
+                )
+            })
+        }
+        mBinding.tvDeviceDetailMoreOrder.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@DeviceDetailActivity,
+                    OrderManagerActivity::class.java
+                ).apply {
+                    putExtras(
+                        IntentParams.OrderManagerParams.pack(
+                            1,
+                            mViewModel.deviceDetail.value?.id,
+                            mViewModel.deviceDetail.value?.name,
+                            mViewModel.deviceDetail.value?.imei,
+                        )
+                    )
+                })
         }
 
         // 功能配置

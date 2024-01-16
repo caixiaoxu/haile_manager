@@ -21,6 +21,7 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchParam
 import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.DeviceRepairsEntity
+import com.yunshang.haile_manager_android.data.entities.OrderListEntity
 import com.yunshang.haile_manager_android.data.entities.ShopAndPositionSearchEntity
 import com.yunshang.haile_manager_android.data.entities.ShopPositionSearch
 import com.yunshang.haile_manager_android.data.model.SPRepository
@@ -119,8 +120,9 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                             ).apply {
                                 putExtras(
                                     IntentParams.OrderDetailParams.pack(
-                                        item.getSearchId(),
-                                        mViewModel.searchType == SearchType.AppointOrder
+                                        orderId = if (item is OrderListEntity) null else item.getSearchId(),
+                                        orderNo = if (item is OrderListEntity) item.orderNo else null,
+                                        isAppoint = mViewModel.searchType == SearchType.AppointOrder
                                     )
                                 )
                             })
@@ -417,6 +419,7 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                     OrderManagerActivity::class.java
                 ).apply {
                     putExtras(IntentParams.SearchParams.pack(mViewModel.searchKey.value))
+                    putExtras(intent)
                 })
             SearchType.AppointOrder -> startActivity(
                 Intent(

@@ -21,7 +21,7 @@ import java.util.*
 object IntentParams {
 
     object CommonParams {
-        private const val ID = "id"
+        const val ID = "id"
 
         /**
          * 包装参数
@@ -937,18 +937,64 @@ object IntentParams {
         fun parseKeyWord(intent: Intent): String? = intent.getStringExtra(KeyWord)
     }
 
+    object OrderManagerParams {
+        private const val OrderType = "orderType"
+        private const val DeviceId = "deviceId"
+        private const val DeviceName = "deviceName"
+        private const val DeviceImei = "deviceImei"
+        private const val Phone = "phone"
+
+        /**
+         * 包装参数
+         * @param orderType 0 正常 1 设备 2用户
+         */
+        fun pack(
+            orderType: Int = 0,
+            deviceId: Int? = null,
+            deviceName: String? = null,
+            deviceImei: String? = null,
+            phone: String? = null
+        ): Bundle =
+            Bundle().apply {
+                putInt(OrderType, orderType)
+                deviceId?.let {
+                    putInt(DeviceId, it)
+                }
+                deviceName?.let {
+                    putString(DeviceName, it)
+                }
+                deviceImei?.let {
+                    putString(DeviceImei, it)
+                }
+                phone?.let {
+                    putString(Phone, it)
+                }
+            }
+
+        fun parseOrderType(intent: Intent): Int = intent.getIntExtra(OrderType, 0)
+        fun parseDeviceId(intent: Intent): Int = intent.getIntExtra(DeviceId, -1)
+        fun parseDeviceName(intent: Intent): String? = intent.getStringExtra(DeviceName)
+        fun parseDeviceImei(intent: Intent): String? = intent.getStringExtra(DeviceImei)
+        fun parsePhone(intent: Intent): String? = intent.getStringExtra(Phone)
+    }
+
     object OrderDetailParams {
         private const val IsAppoint = "isAppoint"
 
         /**
          * 包装参数
          */
-        fun pack(orderId: Int, isAppoint: Boolean = false): Bundle = Bundle().apply {
-            putAll(OrderParams.pack(orderId))
+        fun pack(
+            orderId: Int? = null,
+            orderNo: String? = null,
+            isAppoint: Boolean = false
+        ): Bundle = Bundle().apply {
+            putAll(OrderParams.pack(orderId, orderNo))
             putBoolean(IsAppoint, isAppoint)
         }
 
         fun parseOrderId(intent: Intent): Int = OrderParams.parseOrderId(intent)
+        fun parseOrderNo(intent: Intent): String? = OrderParams.parseOrderNo(intent)
         fun parseIsAppoint(intent: Intent): Boolean = intent.getBooleanExtra(IsAppoint, false)
     }
 
@@ -1025,21 +1071,29 @@ object IntentParams {
 
     object MessageListParams {
         private const val TypeId = "typeId"
+        private const val SubtypeId = "subtypeId"
         private const val MessageName = "messageName"
 
         /**
          * 包装参数
          */
         fun pack(
-            typeId: Int,
+            typeId: Int? = null,
+            subtypeId: Int? = null,
             messageName: String,
         ): Bundle =
             Bundle().apply {
-                putInt(TypeId, typeId)
+                typeId?.let {
+                    putInt(TypeId, typeId)
+                }
+                subtypeId?.let {
+                    putInt(SubtypeId, subtypeId)
+                }
                 putString(MessageName, messageName)
             }
 
         fun parseTypeId(intent: Intent): Int = intent.getIntExtra(TypeId, -1)
+        fun parseSubtypeId(intent: Intent): Int = intent.getIntExtra(SubtypeId, -1)
         fun parseMessageName(intent: Intent): String? = intent.getStringExtra(MessageName)
     }
 
@@ -1085,7 +1139,7 @@ object IntentParams {
     }
 
     object DeviceRepairsReplyListParams {
-        private const val DeviceRepairs = "deviceRepairs"
+        const val DeviceRepairs = "deviceRepairs"
 
         /**
          * 包装参数
@@ -1097,22 +1151,6 @@ object IntentParams {
             GsonUtils.json2Class(
                 intent.getStringExtra(DeviceRepairs),
                 DeviceRepairsEntity::class.java
-            )
-    }
-
-    object MessageSettingParams {
-        private const val SubTypeList = "subTypeList"
-
-        /**
-         * 包装参数
-         */
-        fun pack(json: String): Bundle =
-            Bundle().apply { putString(SubTypeList, json) }
-
-        fun parseSubTypeList(intent: Intent): MutableList<MessageSubTypeEntity>? =
-            GsonUtils.json2List(
-                intent.getStringExtra(SubTypeList),
-                MessageSubTypeEntity::class.java
             )
     }
 

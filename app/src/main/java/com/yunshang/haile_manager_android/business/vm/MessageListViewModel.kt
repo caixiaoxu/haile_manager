@@ -23,7 +23,8 @@ import timber.log.Timber
 class MessageListViewModel : BaseViewModel() {
     private val mMessageRepo = ApiRepository.apiClient(MessageService::class.java)
 
-    var typeId: Int = -1
+    var typeId: Int? = null
+    var subtypeId: Int? = null
 
     fun requestMessageList(
         page: Int,
@@ -41,6 +42,7 @@ class MessageListViewModel : BaseViewModel() {
                             "pageSize" to pageSize,
                             "appType" to 1,
                             "typeId" to typeId,
+                            "subtypeId" to subtypeId
                         )
                     )
                 )

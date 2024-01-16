@@ -14,9 +14,9 @@ import com.yunshang.haile_manager_android.data.common.CommonKeyValueEntity
  */
 interface IMessageContent {
 
-    fun introduction(): String
+    fun introduction(): String? = null
 
-    fun tags(): String
+    fun tags(): String? = null
 
-    fun items(): List<CommonKeyValueEntity>
+    fun items(): List<CommonKeyValueEntity>?
 }

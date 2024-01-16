@@ -2,22 +2,31 @@ package com.yunshang.haile_manager_android.ui.activity.device
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.lsy.framelib.utils.DimensionUtils
 import com.lsy.framelib.utils.ScreenUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DeviceRepairsReplyViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
+import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.ReplyDTOS
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceRepairsReplyBinding
-import com.yunshang.haile_manager_android.databinding.ItemDeviceRepairsBinding
 import com.yunshang.haile_manager_android.databinding.ItemDeviceRepairsReplyBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.PicBrowseActivity
+import com.yunshang.haile_manager_android.ui.activity.order.OrderManagerActivity
 import com.yunshang.haile_manager_android.ui.view.RoundImageView
 import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.loadImage
 import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
+import com.yunshang.haile_manager_android.ui.view.dialog.CommonBottomSheetDialog
+import com.yunshang.haile_manager_android.utils.StringUtils
 
 class DeviceRepairsReplyActivity :
     BaseBusinessActivity<ActivityDeviceRepairsReplyBinding, DeviceRepairsReplyViewModel>(
@@ -37,6 +46,70 @@ class DeviceRepairsReplyActivity :
         super.initEvent()
         mViewModel.repairsDetails.observe(this) {
             it?.let { detail ->
+
+                mBinding.tvDeviceRepairsReplyUser.movementMethod = LinkMovementMethod.getInstance()
+                mBinding.tvDeviceRepairsReplyUser.highlightColor = Color.TRANSPARENT
+                mBinding.tvDeviceRepairsReplyUser.text =
+                    (it.userAccount?.let { phone ->
+                        StringUtils.formatMultiStyleStr(
+                            phone, arrayOf(
+                                ForegroundColorSpan(
+                                    ContextCompat.getColor(
+                                        this@DeviceRepairsReplyActivity,
+                                        R.color.colorPrimary
+                                    )
+                                ),
+                                object : ClickableSpan() {
+                                    override fun onClick(view: View) {
+                                        showPhoneOperateDialog(phone)
+                                    }
+
+                                    override fun updateDrawState(ds: TextPaint) {
+                                        //去掉下划线
+                                        ds.isUnderlineText = false
+                                    }
+                                },
+                            ), 0, phone.length
+                        )
+                    } ?: "")
+
+                mBinding.tvDeviceRepairsReplyDeviceName.movementMethod =
+                    LinkMovementMethod.getInstance()
+                mBinding.tvDeviceRepairsReplyDeviceName.highlightColor = Color.TRANSPARENT
+                mBinding.tvDeviceRepairsReplyDeviceName.text =
+                    (it.deviceName?.let { deviceName ->
+                        StringUtils.formatMultiStyleStr(
+                            deviceName, arrayOf(
+                                ForegroundColorSpan(
+                                    ContextCompat.getColor(
+                                        this@DeviceRepairsReplyActivity,
+                                        R.color.colorPrimary
+                                    )
+                                ),
+                                object : ClickableSpan() {
+                                    override fun onClick(view: View) {
+                                        startActivity(
+                                            Intent(
+                                                this@DeviceRepairsReplyActivity,
+                                                DeviceDetailActivity::class.java
+                                            ).apply {
+                                                putExtra(
+                                                    DeviceDetailActivity.GoodsId,
+                                                    mViewModel.repairsDetails.value?.goodsId
+                                                )
+                                            }
+                                        )
+                                    }
+
+                                    override fun updateDrawState(ds: TextPaint) {
+                                        //去掉下划线
+                                        ds.isUnderlineText = false
+                                    }
+                                },
+                            ), 0, deviceName.length
+                        )
+                    } ?: "")
+
                 mBinding.clDeviceRepairsReplyFaultPic.removeViews(
                     1,
                     mBinding.clDeviceRepairsReplyFaultPic.childCount - 1
@@ -83,6 +156,57 @@ class DeviceRepairsReplyActivity :
         mViewModel.jump.observe(this) {
             finish()
         }
+    }
+
+    private fun showPhoneOperateDialog(phone: String) {
+        CommonBottomSheetDialog.Builder(
+            phone, arrayListOf(
+                SearchSelectParam(0, "拨号"),
+                SearchSelectParam(1, "复制"),
+                SearchSelectParam(2, "用户订单"),
+            )
+        ) { dialogBinding ->
+            dialogBinding.tvCommonDialogTitle.textSize = 14f
+            dialogBinding.tvCommonDialogTitle.setTextColor(
+                ContextCompat.getColor(
+                    this@DeviceRepairsReplyActivity,
+                    R.color.color_black_45
+                )
+            )
+        }.apply {
+            mustSelect = false
+            showClose = false
+            isClickClose = true
+            onValueSureListener =
+                object :
+                    CommonBottomSheetDialog.OnValueSureListener<SearchSelectParam> {
+                    override fun onValue(data: SearchSelectParam?) {
+                        when (data?.id) {
+                            0 -> {
+                                val intent = Intent(Intent.ACTION_DIAL)
+                                intent.data = Uri.parse("tel:${phone}")
+                                startActivity(intent)
+                            }
+                            1 -> StringUtils.copyToShear(phone)
+                            2 -> {
+                                startActivity(
+                                    Intent(
+                                        this@DeviceRepairsReplyActivity,
+                                        OrderManagerActivity::class.java
+                                    ).apply {
+                                        putExtras(
+                                            IntentParams.OrderManagerParams.pack(
+                                                2,
+                                                phone = phone
+                                            )
+                                        )
+                                    })
+                            }
+                            else -> {}
+                        }
+                    }
+                }
+        }.build().show(supportFragmentManager)
     }
 
     override fun initView() {

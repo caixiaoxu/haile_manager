@@ -25,7 +25,7 @@ import com.yunshang.haile_manager_android.ui.view.adapter.CommonRecyclerAdapter
 
 class MessageCenterActivity :
     BaseBusinessActivity<ActivityMessageCenterBinding, MessageCenterViewModel>(
-        MessageCenterViewModel::class.java
+        MessageCenterViewModel::class.java, BR.vm
     ) {
 
     private val mAdapter by lazy {
@@ -34,17 +34,21 @@ class MessageCenterActivity :
             BR.item
         ) { mItemBinding, _, item ->
             mItemBinding?.root?.setOnClickListener {
-                if (!item.isNull) {
-                    mViewModel.readAllMessage(item.typeId)
-                    LiveDataBus.post(BusEvents.MESSAGE_READ_STATUS, true)
-                    startActivity(
-                        Intent(
-                            this@MessageCenterActivity,
-                            MessageListActivity::class.java
-                        ).apply {
-                            putExtras(IntentParams.MessageListParams.pack(item.typeId, item.title))
-                        })
-                }
+                mViewModel.readAllMessage(subtypeId = item.id)
+                LiveDataBus.post(BusEvents.MESSAGE_READ_STATUS, true)
+                startActivity(
+                    Intent(
+                        this@MessageCenterActivity,
+                        MessageListActivity::class.java
+                    ).apply {
+                        putExtras(
+                            IntentParams.MessageListParams.pack(
+                                item.typeId,
+                                item.id,
+                                item.title
+                            )
+                        )
+                    })
             }
         }
     }
@@ -62,67 +66,30 @@ class MessageCenterActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
-        mBinding.barMessageCenterTitle.getRightArea().run {
-            removeAllViews()
-
-            addView(AppCompatTextView(this@MessageCenterActivity).apply {
-                setText(R.string.clean_unread)
-                textSize = 14f
-                setTextColor(
-                    ContextCompat.getColor(
+        mBinding.barMessageCenterTitle.getRightBtn(false).run {
+            setText(R.string.setting)
+            textSize = 17f
+            setTextColor(
+                ContextCompat.getColor(
+                    this@MessageCenterActivity,
+                    R.color.color_black_85
+                )
+            )
+            setOnClickListener {
+                startActivity(
+                    Intent(
                         this@MessageCenterActivity,
-                        R.color.common_txt_color
+                        MessageSettingActivity::class.java
                     )
                 )
-                typeface = Typeface.DEFAULT_BOLD
-                setOnClickListener {
-                    mViewModel.readAllMessage()
-                }
-            }, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            }
+        }
 
-            addView(AppCompatTextView(this@MessageCenterActivity).apply {
-                setText(R.string.setting)
-                textSize = 14f
-                setTextColor(
-                    ContextCompat.getColor(
-                        this@MessageCenterActivity,
-                        R.color.common_txt_color
-                    )
-                )
-                typeface = Typeface.DEFAULT_BOLD
-                val ph = DimensionUtils.dip2px(this@MessageCenterActivity, 16f)
-                setPadding(ph, 0, ph, 0)
-                setOnClickListener {
-                    startActivity(
-                        Intent(
-                            this@MessageCenterActivity,
-                            MessageSettingActivity::class.java
-                        ).apply {
-                            putExtras(
-                                IntentParams.MessageSettingParams.pack(
-                                    GsonUtils.any2Json(
-                                        mViewModel.subTypeList
-                                    )
-                                )
-                            )
-                        }
-                    )
-                }
-            }, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        mBinding.btnCleanUnreadMsg.setOnClickListener {
+            mViewModel.readAllMessage()
         }
 
         mBinding.rvMessageList.layoutManager = LinearLayoutManager(this)
-        ResourcesCompat.getDrawable(
-            resources,
-            R.drawable.divder_efefef,
-            null
-        )?.let {
-            mBinding.rvMessageList.addItemDecoration(
-                DividerItemDecoration(
-                    this, DividerItemDecoration.VERTICAL
-                ).apply { setDrawable(it) })
-        }
-
         mBinding.rvMessageList.adapter = mAdapter
     }
 

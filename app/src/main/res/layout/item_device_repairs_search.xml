@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="item"
             type="com.yunshang.haile_manager_android.data.entities.DeviceRepairsEntity" />
@@ -12,9 +13,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:paddingHorizontal="16dp"
-        android:paddingVertical="12dp"
-        android:background="@color/white">
+        android:paddingVertical="12dp">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_device_repairs_search_device_name"
@@ -43,14 +44,35 @@
             tools:text="未回复" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_device_repairs_search_shop_title"
+            android:id="@+id/tv_device_repairs_search_imei_title"
+            style="@style/Font_14_black45"
             android:layout_width="72dp"
             android:layout_height="wrap_content"
-            style="@style/Font_14_black45"
-            android:text='@{@string/shop_info + "："}'
-            tools:text="门店信息："
+            android:text='@{"IMEI："}'
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_device_repairs_shop" />
+            app:layout_constraintTop_toTopOf="@id/tv_device_repairs_imei"
+            tools:text="IMEI：" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_device_repairs_imei"
+            style="@style/Font_14_black45"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{item.imei}"
+            app:layout_constraintStart_toEndOf="@id/tv_device_repairs_search_imei_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_search_device_name"
+            tools:text="123213123213213" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_device_repairs_search_shop_title"
+            style="@style/Font_14_black45"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:text='@{@string/shop_info + "："}'
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_device_repairs_shop"
+            tools:text="门店信息：" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_device_repairs_shop"
@@ -60,18 +82,18 @@
             android:layout_marginStart="4dp"
             android:text="@{item.shopName}"
             app:layout_constraintStart_toEndOf="@id/tv_device_repairs_search_shop_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_search_device_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_imei"
             tools:text="浙大紫金港校区3区4号店铺" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_device_repairs_search_position_title"
+            style="@style/Font_14_black45"
             android:layout_width="72dp"
             android:layout_height="wrap_content"
-            style="@style/Font_14_black45"
             android:text='@{@string/pt + "："}'
-            tools:text="营业点："
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_device_repairs_search_position" />
+            app:layout_constraintTop_toTopOf="@id/tv_device_repairs_search_position"
+            tools:text="营业点：" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_device_repairs_search_position"
@@ -86,13 +108,13 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_device_repairs_search_date_title"
+            style="@style/Font_14_black45"
             android:layout_width="72dp"
             android:layout_height="wrap_content"
-            style="@style/Font_14_black45"
             android:text='@{@string/last_repairs_time1 + "："}'
-            tools:text="最后报修时间："
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_device_repairs_date" />
+            app:layout_constraintTop_toTopOf="@id/tv_device_repairs_date"
+            tools:text="最后报修时间：" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_device_repairs_date"

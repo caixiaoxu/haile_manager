@@ -21,7 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="125dp"
         android:layout_marginTop="24dp"
-        android:maxLength="30"
         android:padding="8dp"
         android:gravity="top"
         style="@style/Font_14_333333_999999"

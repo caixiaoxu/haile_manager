@@ -20,6 +20,7 @@ import com.yunshang.haile_manager_android.ui.activity.coupon.CouponManageActivit
 import com.yunshang.haile_manager_android.ui.activity.coupon.IssueCouponsActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceRepairsActivity
+import com.yunshang.haile_manager_android.ui.activity.device.DeviceUnbindApproveActivity
 import com.yunshang.haile_manager_android.ui.activity.discounts.DiscountsManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.invoice.InvoiceManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.notice.NoticeManagerActivity
@@ -118,6 +119,12 @@ class HomeViewModel : BaseViewModel() {
                 R.mipmap.icon_device_repairs,
                 DeviceRepairsActivity::class.java,
                 UserPermissionUtils.hasRepairsPermission()
+            ),
+            FunItem(
+                StringUtils.getString(R.string.device_unbind_approve),
+                R.mipmap.icon_device_unbind_approve,
+                DeviceUnbindApproveActivity::class.java,
+                UserPermissionUtils.hasDeviceUnbindPermission()
             ),
         )
     )

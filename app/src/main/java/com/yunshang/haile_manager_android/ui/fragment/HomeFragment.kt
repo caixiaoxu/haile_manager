@@ -485,6 +485,12 @@ class HomeFragment :
                 mViewModel.funcList.value = list.apply { this[6].isShow = it }
             }
         }
+        // 设备解绑审批权限
+        mSharedViewModel.hasDeviceUnbindPermission.observe(this) {
+            mViewModel.funcList.value?.let { list ->
+                mViewModel.funcList.value = list.apply { this[7].isShow = it }
+            }
+        }
         // 优惠权限
         mSharedViewModel.hasMarketingPermission.observe(this) {
             mViewModel.marketingList.value?.let { list ->

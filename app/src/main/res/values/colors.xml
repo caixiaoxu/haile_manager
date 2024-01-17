@@ -9,6 +9,8 @@
     <color name="colorPrimaryBg">#26F0A258</color>
     <color name="secondColorPrimary">#26F0A258</color>
 
+    <color name="colorPrimaryPress">#DD893A</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00000000</color>

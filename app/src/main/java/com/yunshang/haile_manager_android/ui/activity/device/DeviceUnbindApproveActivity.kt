@@ -168,7 +168,7 @@ class DeviceUnbindApproveActivity :
                             this@DeviceUnbindApproveActivity,
                             SearchActivity::class.java
                         ).apply {
-                            putExtra(SearchType.SearchType, SearchType.DeviceRepairs)
+                            putExtra(SearchType.SearchType, SearchType.DeviceUnbind)
                         })
                 }
             }, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)

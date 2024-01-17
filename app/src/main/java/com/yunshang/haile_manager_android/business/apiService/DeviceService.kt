@@ -250,4 +250,9 @@ interface DeviceService {
 
     @POST("/deviceAudit/auditBatch")
     suspend fun batchDeviceUnbindApprove(@Body params: RequestBody): ResponseWrapper<Any>
+
+    @GET("/deviceAudit/getDetail")
+    suspend fun requestDeviceUnbindApproveDetails(@Query("id") id: Int): ResponseWrapper<DeviceUnbindApproveDetails>
+    @POST("/deviceAudit/audit")
+    suspend fun approveDeviceUnbind(@Body params: RequestBody): ResponseWrapper<Any>
 }

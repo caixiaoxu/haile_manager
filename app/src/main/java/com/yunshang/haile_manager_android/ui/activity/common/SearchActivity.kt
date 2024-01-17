@@ -21,6 +21,7 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.arguments.SearchParam
 import com.yunshang.haile_manager_android.data.common.SearchType
 import com.yunshang.haile_manager_android.data.entities.DeviceRepairsEntity
+import com.yunshang.haile_manager_android.data.entities.DeviceUnbindApproveEntity
 import com.yunshang.haile_manager_android.data.entities.OrderListEntity
 import com.yunshang.haile_manager_android.data.entities.ShopAndPositionSearchEntity
 import com.yunshang.haile_manager_android.data.entities.ShopPositionSearch
@@ -32,6 +33,7 @@ import com.yunshang.haile_manager_android.ui.activity.coupon.CouponManageActivit
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceDetailActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceRepairsReplyListActivity
+import com.yunshang.haile_manager_android.ui.activity.device.DeviceUnbindApproveDetailsActivity
 import com.yunshang.haile_manager_android.ui.activity.order.AppointmentOrderActivity
 import com.yunshang.haile_manager_android.ui.activity.order.OrderDetailActivity
 import com.yunshang.haile_manager_android.ui.activity.order.OrderManagerActivity
@@ -102,6 +104,7 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                             }
                         )
                     }
+
                     SearchType.Shop -> if (UserPermissionUtils.hasShopInfoPermission()) {
                         startActivity(
                             Intent(
@@ -112,6 +115,7 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                             }
                         )
                     }
+
                     SearchType.Order, SearchType.AppointOrder -> if (UserPermissionUtils.hasOrderInfoPermission()) {
                         startActivity(
                             Intent(
@@ -207,6 +211,25 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
         }
     }
 
+    private val mDeviceUnbindAdapter: CommonRecyclerAdapter<ItemDeviceUnbindSearchBinding, DeviceUnbindApproveEntity> by lazy {
+        CommonRecyclerAdapter(
+            R.layout.item_device_unbind_search,
+            BR.item
+        ) { mBinding, _, item ->
+            mBinding?.root?.setOnClickListener {
+                startActivity(
+                    Intent(
+                        this@SearchActivity,
+                        DeviceUnbindApproveDetailsActivity::class.java
+                    ).apply {
+                        item.id?.let {
+                            putExtras(IntentParams.CommonParams.pack(it))
+                        }
+                    })
+            }
+        }
+    }
+
     override fun layoutId(): Int = R.layout.activity_search
 
     override fun initIntent() {
@@ -235,7 +258,7 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
         mBinding.etSearchKey.onTextChange = { auto ->
             if (SearchType.Device == mViewModel.searchType || SearchType.Shop == mViewModel.searchType) {
                 search(auto)
-            } else if ((SearchType.Order == mViewModel.searchType || SearchType.DeviceRepairs == mViewModel.searchType) && !auto) {
+            } else if ((SearchType.Order == mViewModel.searchType || SearchType.DeviceRepairs == mViewModel.searchType || SearchType.DeviceUnbind == mViewModel.searchType) && !auto) {
                 search(false)
             }
         }
@@ -289,6 +312,20 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                             callBack: (responseList: ResponseList<out DeviceRepairsEntity>?) -> Unit
                         ) {
                             mViewModel.searchDeviceRepairsList(page, pageSize, callBack)
+                        }
+                    }
+            } else if (SearchType.DeviceUnbind == mViewModel.searchType) {
+                mBinding.rvSearchList2.adapter = mDeviceUnbindAdapter
+                mBinding.rvSearchList2.requestData =
+                    object :
+                        CommonRefreshRecyclerView.OnRequestDataListener<DeviceUnbindApproveEntity>() {
+                        override fun requestData(
+                            isRefresh: Boolean,
+                            page: Int,
+                            pageSize: Int,
+                            callBack: (responseList: ResponseList<out DeviceUnbindApproveEntity>?) -> Unit
+                        ) {
+                            mViewModel.searchDeviceUnbindList(page, pageSize, callBack)
                         }
                     }
             } else {
@@ -381,6 +418,7 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                     mBinding.rvSearchList1.visibility = View.VISIBLE
                 }
             }
+
             SearchType.Device -> {
                 if (autoSearch) {
                     if (keyword.isNullOrEmpty()) {
@@ -402,6 +440,7 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                         })
                 }
             }
+
             SearchType.DeviceRepairs -> {
                 if (keyword.isNullOrEmpty()) {
                     mBinding.clSearchHistory.visibility = View.VISIBLE
@@ -413,6 +452,19 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                     mBinding.rvSearchList2.visibility = View.VISIBLE
                 }
             }
+
+            SearchType.DeviceUnbind -> {
+                if (keyword.isNullOrEmpty()) {
+                    mBinding.clSearchHistory.visibility = View.VISIBLE
+                    mBinding.rvSearchList2.visibility = View.GONE
+                } else {
+                    mBinding.rvSearchList2.requestRefresh(true)
+                    mBinding.clSearchHistory.visibility = View.GONE
+                    // 显示搜索列表
+                    mBinding.rvSearchList2.visibility = View.VISIBLE
+                }
+            }
+
             SearchType.Order -> startActivity(
                 Intent(
                     this@SearchActivity,
@@ -421,6 +473,7 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                     putExtras(IntentParams.SearchParams.pack(mViewModel.searchKey.value))
                     putExtras(intent)
                 })
+
             SearchType.AppointOrder -> startActivity(
                 Intent(
                     this@SearchActivity,
@@ -428,6 +481,7 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                 ).apply {
                     putExtras(IntentParams.SearchParams.pack(mViewModel.searchKey.value))
                 })
+
             SearchType.HaiXinRefundRecord -> startActivity(
                 Intent(
                     this@SearchActivity,
@@ -435,6 +489,7 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                 ).apply {
                     putExtras(IntentParams.SearchParams.pack(mViewModel.searchKey.value))
                 })
+
             SearchType.HaiXinRechargeAccount -> startActivity(
                 Intent(
                     this@SearchActivity,
@@ -442,6 +497,7 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                 ).apply {
                     putExtras(IntentParams.SearchParams.pack(mViewModel.searchKey.value))
                 })
+
             SearchType.SubAccount -> startActivity(
                 Intent(
                     this@SearchActivity,
@@ -449,6 +505,7 @@ class SearchActivity : BaseBusinessActivity<ActivitySearchBinding, SearchViewMod
                 ).apply {
                     putExtras(IntentParams.SearchParams.pack(mViewModel.searchKey.value))
                 })
+
             SearchType.Coupon -> startActivity(
                 Intent(
                     this@SearchActivity,

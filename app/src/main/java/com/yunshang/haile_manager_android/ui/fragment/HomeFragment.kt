@@ -496,7 +496,7 @@ class HomeFragment :
         // 备件采购权限
         mSharedViewModel.hasSparePartPermission.observe(this) {
             mViewModel.funcList.value?.let { list ->
-                mViewModel.funcList.value = list.apply { this[7].isShow = it }
+                mViewModel.funcList.value = list.apply { this[8].isShow = it }
             }
         }
         // 优惠权限

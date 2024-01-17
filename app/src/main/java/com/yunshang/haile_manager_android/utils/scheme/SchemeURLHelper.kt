@@ -17,7 +17,8 @@ import com.yunshang.haile_manager_android.web.WebViewActivity
  */
 object SchemeURLHelper {
     private val PathMap = mapOf<String, ISchemeURLParser>(
-        "DeviceRepairsReply" to DeviceRepairsReplyParser()
+        "DeviceRepairsReply" to DeviceRepairsReplyParser(),
+        "DeviceUnbindApproveDetails" to DeviceUnbindApproveParser()
     )
 
     /**
@@ -37,6 +38,7 @@ object SchemeURLHelper {
                     )
                 }
             }
+
             else -> formatSchemeURLToIntent(context, link)?.let { context.startActivity(it) }
         }
     }

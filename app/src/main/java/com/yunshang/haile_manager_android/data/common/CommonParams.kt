@@ -145,6 +145,9 @@ object SearchType {
     // 优惠券搜索
     const val Coupon = 8
 
+    // 解绑审批
+    const val DeviceUnbind = 9
+
     @IntDef(
         Device,
         Shop,
@@ -154,7 +157,8 @@ object SearchType {
         HaiXinRechargeAccount,
         SubAccount,
         DeviceRepairs,
-        Coupon
+        Coupon,
+        DeviceUnbind
     )
     @Retention(AnnotationRetention.SOURCE)
     annotation class ISearchType

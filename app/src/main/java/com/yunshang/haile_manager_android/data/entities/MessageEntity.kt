@@ -52,6 +52,7 @@ data class MessageEntity(
 
 data class MessageContentType2Entity(
     val top: MessageContentType2Item? = null,
+    val topRight: MessageContentType2Item? = null,
     val bottom: MessageContentType2Item? = null,
     val body: MessageContentType2Body? = null,
     val cardClickAttr: MessageContentType2ClickAttr? = null
@@ -64,6 +65,7 @@ data class MessageContentType2Body(
 data class MessageContentType2Item(
     val key: String? = null,
     val text: String? = null,
+    val color: String? = null,
     val clickAttr: MessageContentType2ClickAttr? = null
 )
 

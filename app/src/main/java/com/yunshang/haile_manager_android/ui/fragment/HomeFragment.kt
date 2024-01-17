@@ -493,6 +493,12 @@ class HomeFragment :
                 mViewModel.funcList.value = list.apply { this[7].isShow = it }
             }
         }
+        // 备件采购权限
+        mSharedViewModel.hasSparePartPermission.observe(this) {
+            mViewModel.funcList.value?.let { list ->
+                mViewModel.funcList.value = list.apply { this[7].isShow = it }
+            }
+        }
         // 优惠权限
         mSharedViewModel.hasMarketingPermission.observe(this) {
             mViewModel.marketingList.value?.let { list ->
@@ -608,7 +614,8 @@ class HomeFragment :
             }
             item.num.observe(this) {
                 mFuncAreaBinding.tvHomeFunItemNum.text = if (it > 99) "99+" else "$it"
-                mFuncAreaBinding.tvHomeFunItemNum.visibility(it.isGreaterThan0())
+                mFuncAreaBinding.tvHomeFunItemNum.visibility =
+                    if (it.isGreaterThan0()) View.VISIBLE else View.INVISIBLE
             }
 
             // 数据

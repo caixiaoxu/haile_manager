@@ -533,6 +533,14 @@ class HomeFragment :
         LiveDataBus.with(BusEvents.MESSAGE_READ_STATUS)?.observe(this) {
             mViewModel.requestMsgData()
         }
+
+        LiveDataBus.with(BusEvents.DEVICE_FAULT_REPAIRS_REPLY_STATUS)?.observe(this) {
+            mViewModel.requestTypeMsgNumAsync()
+        }
+
+        LiveDataBus.with(BusEvents.DEVICE_UNBIND_APPROVE_STATUS)?.observe(this) {
+            mViewModel.requestTypeMsgNumAsync()
+        }
     }
 
     /**
@@ -584,8 +592,12 @@ class HomeFragment :
                             })
                         }
                     }.build().show(childFragmentManager)
-                } else if (item.icon == R.mipmap.icon_spares_purchase){
-                    WeChatHelper.openWeChatMiniProgram("pages/shop/shop-detail/index?scene=1746724590952968194", null, "gh_f66f181fb6b2")
+                } else if (item.icon == R.mipmap.icon_spares_purchase) {
+                    WeChatHelper.openWeChatMiniProgram(
+                        "pages/shop/shop-detail/index?scene=1746724590952968194",
+                        null,
+                        "gh_f66f181fb6b2"
+                    )
                 } else {
                     startActivity(Intent(requireContext(), item.clz).apply {
                         item.bundle?.let { bundle ->

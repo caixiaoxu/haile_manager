@@ -85,13 +85,15 @@ class DeviceUnbindApproveActivity :
                     refreshSelectBatchNum()
                     return@setOnClickListener
                 }
-//                startActivity(
-//                    Intent(
-//                        this@DeviceUnbindApproveActivity,
-//                        DeviceRepairsReplyListActivity::class.java
-//                    ).apply {
-//                        putExtras(IntentParams.DeviceRepairsReplyListParams.pack(item))
-//                    })
+                startActivity(
+                    Intent(
+                        this@DeviceUnbindApproveActivity,
+                        DeviceUnbindApproveDetailsActivity::class.java
+                    ).apply {
+                        item.id?.let {
+                            putExtras(IntentParams.CommonParams.pack(it))
+                        }
+                    })
             }
         }
     }
@@ -323,23 +325,13 @@ class DeviceUnbindApproveActivity :
                 .apply {
                     title = StringUtils.getString(R.string.tip)
                     setNegativeButton(StringUtils.getString(R.string.reject1)) {
-                        mViewModel.disposeDeviceUnbind(ids, 2) {
-                            disposeDeviceUnbindSuccess()
-                        }
+                        mViewModel.disposeDeviceUnbind(this@DeviceUnbindApproveActivity, ids, 2)
                     }
                     setPositiveButton(StringUtils.getString(R.string.approve)) {
-                        mViewModel.disposeDeviceUnbind(ids, 1) {
-                            disposeDeviceUnbindSuccess()
-                        }
+                        mViewModel.disposeDeviceUnbind(this@DeviceUnbindApproveActivity, ids, 1)
                     }
                 }.build().show(supportFragmentManager)
         }
-    }
-
-    private fun disposeDeviceUnbindSuccess(){
-        SToast.showToast(this@DeviceUnbindApproveActivity, "操作成功")
-        mBinding.rvDeviceUnbindApproveList.requestRefresh()
-        mViewModel.isBatch.value = false
     }
 
     private fun selectAll() {

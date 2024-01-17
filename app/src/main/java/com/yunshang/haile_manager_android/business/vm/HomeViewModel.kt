@@ -259,6 +259,12 @@ class HomeViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
+    fun requestTypeMsgNumAsync() {
+        launch({
+            requestTypeMsgNum()
+        }, showLoading = false)
+    }
+
     private suspend fun requestTypeMsgNum() {
         ApiRepository.dealApiResult(
             mMessageRepo.requestTypeMsgNum()

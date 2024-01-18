@@ -57,6 +57,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                         mViewModel.transferDevice(this@DeviceDetailActivity, positionId)
                     }
                 }
+
                 IntentParams.DeviceParamsUpdateParams.ResultCode -> {
                     result.data?.let { intent ->
                         intent.getStringExtra(IntentParams.DeviceParamsUpdateParams.ResultData)
@@ -68,14 +69,17 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                                         mViewModel.deviceDetail.value?.imei = it
                                         mViewModel.imei.value = it
                                     }
+
                                     IntentParams.DeviceParamsUpdateParams.typeChangePayCode -> {
                                         mViewModel.deviceDetail.value?.code = it
                                         mViewModel.code.value = it
                                     }
+
                                     IntentParams.DeviceParamsUpdateParams.typeChangeName -> {
                                         mViewModel.deviceDetail.value?.name = it
                                         mViewModel.name.value = it
                                     }
+
                                     IntentParams.DeviceParamsUpdateParams.typeChangeFloor -> {
                                         mViewModel.deviceDetail.value?.floorCodeVal = it
                                     }
@@ -91,13 +95,14 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
             if (0 == it) {
                 transferDevices()
             } else {
-                CommonDialog.Builder("该设备存在关联设备，转移操作，会同步转移关联的设备。若不需要则请先解除关联").apply {
-                    title = StringUtils.getString(R.string.tip)
-                    negativeTxt = StringUtils.getString(R.string.cancel)
-                    setPositiveButton(StringUtils.getString(R.string.sure)) {
-                        transferDevices()
-                    }
-                }.build().show(supportFragmentManager)
+                CommonDialog.Builder("该设备存在关联设备，转移操作，会同步转移关联的设备。若不需要则请先解除关联")
+                    .apply {
+                        title = StringUtils.getString(R.string.tip)
+                        negativeTxt = StringUtils.getString(R.string.cancel)
+                        setPositiveButton(StringUtils.getString(R.string.sure)) {
+                            transferDevices()
+                        }
+                    }.build().show(supportFragmentManager)
             }
         }
     }
@@ -246,13 +251,15 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                     R.string.self_clean -> DeviceCategory.isWashingOrShoes(detail.categoryCode)
                     R.string.change_model -> !DeviceCategory.isDispenser(detail.categoryCode)
                             && !DeviceCategory.isDrinkingOrShower(detail.categoryCode)
+
                     R.string.unlock1 -> DeviceCategory.isDrinkingOrShower(detail.categoryCode)
                     R.string.unlock -> DeviceCategory.isDispenser(detail.categoryCode)
                     R.string.change_pay_code -> !DeviceCategory.isDispenser(detail.categoryCode)
                             && !DeviceCategory.isDrinkingOrShower(detail.categoryCode)
-                    R.string.create_pay_code -> !DeviceCategory.isDispenser(detail.categoryCode) && !DeviceCategory.isShower(
-                        detail.categoryCode
-                    )
+
+                    R.string.create_pay_code -> !DeviceCategory.isDispenser(detail.categoryCode)
+                            && !DeviceCategory.isShower(detail.categoryCode)
+
                     R.string.device_transfer -> true
                     R.string.update_func_price -> true
                     R.string.update_device_name -> true
@@ -261,6 +268,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                     R.string.device_voice -> DeviceCategory.isDispenser(detail.categoryCode)
                     R.string.device_drain -> DeviceCategory.isDispenser(detail.categoryCode)
                     R.string.update_floor -> true
+                    R.string.hot_clean_self -> DeviceCategory.isWashingOrShoes(detail.categoryCode)
                     else -> false
                 }
             }
@@ -483,6 +491,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                         }.build().show(supportFragmentManager)
                     }
                 }
+
                 10 -> mViewModel.deviceDetail.value?.let { detail ->
                     //语音设置
                     startNext.launch(Intent(
@@ -508,12 +517,15 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                         )
                     })
                 }
+
                 11 -> mViewModel.deviceDetail.value?.let { detail ->
                     mViewModel.deviceSetting(20, detail.imei)
                 }
+
                 12 -> mViewModel.deviceDetail.value?.let { detail ->
                     mViewModel.deviceSetting(30, detail.imei)
                 }
+
                 13 -> mViewModel.deviceDetail.value?.let { detail ->
                     startActivity(Intent(
                         this@DeviceDetailActivity,
@@ -526,6 +538,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                         )
                     })
                 }
+
                 14 -> mViewModel.deviceDetail.value?.let { detail ->
                     startNext.launch(
                         Intent(
@@ -542,9 +555,15 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                         }
                     )
                 }
+
                 15 -> {
                     // 设备转移
                     preTransferDevices()
+                }
+
+                16 -> {
+                    // 高温筒自洁
+
                 }
             }
         }

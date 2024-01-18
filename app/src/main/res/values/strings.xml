@@ -229,7 +229,7 @@
     <string name="unlock1">解锁</string>
     <string name="unlock_success">开锁成功</string>
     <string name="start_success">启动成功</string>
-    <string name="self_clean">桶自洁</string>
+    <string name="self_clean">筒自洁</string>
     <string name="change_model">更换模块</string>
     <string name="change_pay_code">付款码更换</string>
     <string name="create_pay_code">生成付款码</string>
@@ -399,6 +399,7 @@
     <string name="pt_delete_hint">是否确定要删除该营业点么？</string>
 
     <string name="update_floor">修改楼层</string>
+    <string name="hot_clean_self">高温筒自洁</string>
 
     <string name="operation_setting">运营设置</string>
     <string name="per_flow_charge_display_setting">按流量收费显示设置</string>

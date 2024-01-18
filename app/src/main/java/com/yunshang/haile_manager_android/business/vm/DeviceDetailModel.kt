@@ -156,7 +156,7 @@ class DeviceDetailModel : BaseViewModel() {
             R.mipmap.icon_device_self_clean,
             MutableLiveData(UserPermissionUtils.hasDeviceCleanPermission())
         ) {
-            //桶自洁事件
+            //筒自洁事件
             deviceOperate(1)
         },
         ItemShowParam(
@@ -263,6 +263,14 @@ class DeviceDetailModel : BaseViewModel() {
         ) {
             //排空设置事件
             jump.postValue(14)
+        },
+        ItemShowParam(
+            R.string.hot_clean_self,
+            R.mipmap.icon_device_hot_clean_self,
+            MutableLiveData(UserPermissionUtils.hasHotCleanSelfPermission())
+        ) {
+            //高温筒自洁事件
+            jump.postValue(16)
         },
     )
 
@@ -390,7 +398,7 @@ class DeviceDetailModel : BaseViewModel() {
                         )
                     )
                     withContext(Dispatchers.Main) {
-                        SToast.showToast(msg = "开始桶自洁")
+                        SToast.showToast(msg = "开始筒自洁")
                     }
                 }
             }

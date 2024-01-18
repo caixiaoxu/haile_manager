@@ -186,6 +186,17 @@ object UserPermissionUtils {
     }
 
     /**
+     * 是否含有高温筒自洁权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasHotCleanSelfPermission(): Boolean {
+        return null != userPermissionsMap["league:normal:goods:clean:high"]
+    }
+
+    /**
      * 是否含有设备管理复位权限
      *
      *
@@ -208,7 +219,7 @@ object UserPermissionUtils {
     }
 
     /**
-     * 是否含有设备管理桶自洁权限
+     * 是否含有设备管理筒自洁权限
      *
      *
      * @return

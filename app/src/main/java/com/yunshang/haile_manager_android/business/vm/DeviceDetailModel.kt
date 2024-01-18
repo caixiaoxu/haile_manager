@@ -386,19 +386,22 @@ class DeviceDetailModel : BaseViewModel() {
                         SToast.showToast(msg = "复位成功")
                     }
                 }
-
                 1 -> {
                     ApiRepository.dealApiResult(
                         mDeviceRepo.deviceClean(
                             ApiRepository.createRequestBody(
                                 hashMapOf(
                                     "goodsId" to goodsId,
-                                )
+                                ).apply {
+                                    itemId?.let {
+                                        put("itemId", it)
+                                    }
+                                }
                             )
                         )
                     )
                     withContext(Dispatchers.Main) {
-                        SToast.showToast(msg = "开始筒自洁")
+                        SToast.showToast(msg = itemId?.let { "开始高温筒自洁" } ?: "开始筒自洁")
                     }
                 }
             }

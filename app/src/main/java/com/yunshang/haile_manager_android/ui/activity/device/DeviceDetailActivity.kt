@@ -269,6 +269,8 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                     R.string.device_drain -> DeviceCategory.isDispenser(detail.categoryCode)
                     R.string.update_floor -> true
                     R.string.hot_clean_self -> DeviceCategory.isWashingOrShoes(detail.categoryCode)
+                            && true == detail.highSelfClearFlag
+
                     else -> false
                 }
             }
@@ -561,9 +563,9 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                     preTransferDevices()
                 }
 
-                16 -> {
+                16 -> mViewModel.deviceDetail.value?.let { detail ->
                     // 高温筒自洁
-
+                    mViewModel.deviceOperate(1, detail.itemId)
                 }
             }
         }

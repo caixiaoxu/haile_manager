@@ -324,6 +324,8 @@ class DeviceUnbindApproveActivity :
             CommonDialog.Builder("请选择批量处理的结果")
                 .apply {
                     title = StringUtils.getString(R.string.tip)
+                    showClose = true
+                    isCancelable = true
                     setNegativeButton(StringUtils.getString(R.string.reject1)) {
                         mViewModel.disposeDeviceUnbind(this@DeviceUnbindApproveActivity, ids, 2)
                     }

@@ -11,6 +11,7 @@ import com.yunshang.haile_manager_android.business.apiService.OrderService
 import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.data.entities.OrderListEntity
 import com.yunshang.haile_manager_android.data.entities.ShopAndPositionSelectEntity
+import com.yunshang.haile_manager_android.data.extend.hasVal
 import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.data.rule.DeviceIndicatorEntity
 import com.yunshang.haile_manager_android.data.rule.IndicatorEntity
@@ -32,6 +33,10 @@ import java.util.*
  */
 class OrderManagerViewModel : BaseViewModel() {
     private val mOrderRepo = ApiRepository.apiClient(OrderService::class.java)
+
+    var orderType = 0
+    var deviceId: Int = -1
+    var phone: String? = null
 
     // 搜索内容
     val searchKey: MutableLiveData<String> by lazy {
@@ -138,6 +143,12 @@ class OrderManagerViewModel : BaseViewModel() {
             }
             endTime.value?.let {
                 params["endTime"] = DateTimeUtils.formatDateTime(it, "yyyy-MM-dd") + " 23:59:59"
+            }
+
+            if (1 == orderType && deviceId.hasVal()) {
+                params["goodsId"] = deviceId
+            } else if (2 == orderType && !phone.isNullOrEmpty()) {
+                params["phone"] = phone!!
             }
 
             if (1 == page && curOrderStatus.value.isNullOrEmpty()) {

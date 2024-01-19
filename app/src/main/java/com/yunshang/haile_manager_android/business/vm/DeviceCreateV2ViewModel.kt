@@ -168,7 +168,7 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
                 && (null != createDeviceShop.value && createDeviceShop.value!!.id.hasVal() && !createDeviceShop.value!!.positionList.isNullOrEmpty())
                 && (null != spuId.value && spuId.value!! > 0)
                 && (null != categoryId.value && categoryId.value!! > 0)
-                && (!deviceName.value.isNullOrEmpty() && deviceName.value!!.length > 1)
+                && !deviceName.value.isNullOrEmpty()
                 && (if (true == isDispenser.value) !washImeiCode.value.isNullOrEmpty() else true)
                 && (if (true == showSinglePulseQuantity.value) {
             try {
@@ -242,6 +242,11 @@ class DeviceCreateV2ViewModel : BaseViewModel() {
     }
 
     fun save(view: View) {
+        if (deviceName.value?.let { it.length < 2 } != false){
+            SToast.showToast(view.context,"设备名称字数不能低于2个字，请重新输入。")
+            return
+        }
+
         launch({
 
             if (true == showSinglePulseQuantity.value) {

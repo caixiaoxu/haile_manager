@@ -32,6 +32,7 @@ class OrderDetailViewModel : BaseViewModel() {
     private val mOrderRepo = ApiRepository.apiClient(OrderService::class.java)
 
     var orderId = -1
+    var orderNo: String? = null
 
     var isAppoint = false
 
@@ -40,13 +41,16 @@ class OrderDetailViewModel : BaseViewModel() {
     }
 
     fun requestOrderDetail() {
-        if (-1 == orderId) {
+        if (-1 == orderId && orderNo.isNullOrEmpty()) {
             return
         }
 
         launch({
             ApiRepository.dealApiResult(
-                mOrderRepo.requestOrderDetail(orderId)
+                if (orderNo.isNullOrEmpty())
+                    mOrderRepo.requestOrderDetail(orderId)
+                else
+                    mOrderRepo.requestOrderDetailByNo(orderNo!!)
             )?.let {
                 orderDetail.postValue(it)
             }
@@ -82,10 +86,10 @@ class OrderDetailViewModel : BaseViewModel() {
         })
     }
 
-    fun cancelAppointmentOrder(context: Context, orderNo: String, reason: String) {
+    fun cancelOrder(context: Context, orderNo: String, reason: String) {
         launch({
             ApiRepository.dealApiResult(
-                mOrderRepo.cancelAppointmentOrder(
+                mOrderRepo.cancelOrder(
                     ApiRepository.createRequestBody(
                         hashMapOf(
                             "orderNo" to orderNo,

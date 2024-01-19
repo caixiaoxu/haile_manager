@@ -1,7 +1,6 @@
 package com.yunshang.haile_manager_android.ui.view
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -78,7 +77,7 @@ class CommonTitleActionBar @JvmOverloads constructor(
      * 设置标题
      * @param title 标题
      */
-    fun setTitle(title: String) {
+    fun setTitle(title: CharSequence) {
         getTitle().text = title
     }
 

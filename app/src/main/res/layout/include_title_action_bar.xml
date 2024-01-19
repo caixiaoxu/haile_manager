@@ -33,6 +33,7 @@
         android:textColor="@color/action_title"
         android:textSize="@dimen/font_18"
         android:textStyle="bold"
+        android:maxWidth="168dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/gk_title_action_title_end"
         app:layout_constraintStart_toStartOf="@id/gk_title_action_title_start"

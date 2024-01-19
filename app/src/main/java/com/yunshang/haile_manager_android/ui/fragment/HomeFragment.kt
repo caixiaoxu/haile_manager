@@ -39,6 +39,7 @@ import com.yunshang.haile_manager_android.data.arguments.StaffParam
 import com.yunshang.haile_manager_android.data.common.Constants
 import com.yunshang.haile_manager_android.data.entities.HomeIncomeEntity
 import com.yunshang.haile_manager_android.data.entities.MessageContentEntity
+import com.yunshang.haile_manager_android.data.extend.isGreaterThan0
 import com.yunshang.haile_manager_android.databinding.FragmentHomeBinding
 import com.yunshang.haile_manager_android.databinding.IncludeHomeFuncItemBinding
 import com.yunshang.haile_manager_android.databinding.IncludeHomeLastMsgItemBinding
@@ -56,6 +57,7 @@ import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.DialogUtils
 import com.yunshang.haile_manager_android.utils.StringUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
+import com.yunshang.haile_manager_android.utils.WeChatHelper
 import com.yunshang.haile_manager_android.web.WebViewActivity
 import timber.log.Timber
 import java.lang.reflect.Field
@@ -404,8 +406,7 @@ class HomeFragment :
                     mMsgItemBinding.tvLastMsgContent.text =
                         messageContentEntity?.shortDescription ?: ""
                     mMsgItemBinding.tvLastMsgTime.text = DateTimeUtils.getFriendlyTime(
-                        DateTimeUtils.formatDateFromString(msg.createTime),
-                        false
+                        DateTimeUtils.formatDateFromString(msg.createTime)
                     )
                     mMsgItemBinding.root.setOnClickListener {
                         startActivity(
@@ -416,6 +417,7 @@ class HomeFragment :
                                 putExtras(
                                     IntentParams.MessageListParams.pack(
                                         msg.typeId,
+                                        msg.subtypeId,
                                         msg.title
                                     )
                                 )
@@ -483,6 +485,12 @@ class HomeFragment :
         mSharedViewModel.hasAnnouncementPermission.observe(this) {
             mViewModel.funcList.value?.let { list ->
                 mViewModel.funcList.value = list.apply { this[6].isShow = it }
+            }
+        }
+        // 备件采购权限
+        mSharedViewModel.hasSparePartPermission.observe(this) {
+            mViewModel.funcList.value?.let { list ->
+                mViewModel.funcList.value = list.apply { this[7].isShow = it }
             }
         }
         // 优惠权限
@@ -576,6 +584,12 @@ class HomeFragment :
                             })
                         }
                     }.build().show(childFragmentManager)
+                } else if (item.icon == R.mipmap.icon_spares_purchase) {
+                    WeChatHelper.openWeChatMiniProgram(
+                        "pages/shop/shop-detail/index?scene=1746724590952968194",
+                        null,
+                        "gh_f66f181fb6b2"
+                    )
                 } else {
                     startActivity(Intent(requireContext(), item.clz).apply {
                         item.bundle?.let { bundle ->
@@ -584,6 +598,12 @@ class HomeFragment :
                     })
                 }
             }
+            item.num.observe(this) {
+                mFuncAreaBinding.tvHomeFunItemNum.text = if (it > 99) "99+" else "$it"
+                mFuncAreaBinding.tvHomeFunItemNum.visibility =
+                    if (it.isGreaterThan0()) View.VISIBLE else View.INVISIBLE
+            }
+
             // 数据
             mFuncAreaBinding.funcItem = item
             glArea.addView(mFuncAreaBinding.root)
@@ -672,7 +692,7 @@ class HomeFragment :
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
-            mViewModel.requestHomeData()
+            mViewModel.requestHomeData(false)
             if (mViewModel.homeIncomeList.value.isNullOrEmpty()) {
                 mViewModel.requestHomeIncome()
             }

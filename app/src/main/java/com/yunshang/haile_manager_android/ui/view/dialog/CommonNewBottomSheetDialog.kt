@@ -1,6 +1,7 @@
 package com.yunshang.haile_manager_android.ui.view.dialog
 
 import android.app.Dialog
+import android.app.KeyguardManager.KeyguardDismissCallback
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -35,8 +36,6 @@ class CommonNewBottomSheetDialog<D : ICommonNewBottomItemEntity, V : ViewDataBin
     BottomSheetDialogFragment() {
     private val COMMON_BOTTOM_SHEET_TAG = "common_new_bottom_sheet_tag"
     private lateinit var mBinding: DialogCommonNewBottomSheetBinding
-
-    private var curEntity: D? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,6 +101,10 @@ class CommonNewBottomSheetDialog<D : ICommonNewBottomItemEntity, V : ViewDataBin
                     else -> {}
                 }
             }
+        }
+
+        builder.initView?.invoke(mBinding) {
+            dismiss()
         }
     }
 
@@ -169,6 +172,7 @@ class CommonNewBottomSheetDialog<D : ICommonNewBottomItemEntity, V : ViewDataBin
         val emptyPromptTxt: String = StringUtils.getString(R.string.empty_content),
         val emptyPromptImg: Int = R.mipmap.icon_list_device_empty,
         val buildItemView: (index: Int, data: D, refreshSelectItem: () -> Unit) -> V,
+        val initView: ((mDialogBinding: DialogCommonNewBottomSheetBinding, dismissCallback: () -> Unit) -> Unit)? = null,
         val isCustomItemClick: Boolean = false,
         val clickItemView: ((mItemBinding: V?, data: D) -> Unit)? = null,
         val onSelectEvent: () -> Unit,

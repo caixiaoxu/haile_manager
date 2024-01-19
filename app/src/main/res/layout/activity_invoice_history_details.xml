@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="com.yunshang.haile_manager_android.utils.StringUtils" />
+
         <variable
             name="vm"
             type="com.yunshang.haile_manager_android.business.vm.InvoiceHistoryDetailsViewModel" />
@@ -37,10 +39,10 @@
                 android:layout_marginHorizontal="16dp"
                 android:background="@drawable/shape_bottom_stroke_dividing"
                 android:paddingVertical="24dp"
+                android:text="@{2 == vm.invoiceDetails.status?@string/invoice_open_yes:@string/invoice_opening}"
+                android:textColor="@{2 == vm.invoiceDetails.status?@color/color_black_85:@color/colorPrimary}"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="@{2 == vm.invoiceDetails.status?@color/color_black_85:@color/colorPrimary}"
-                android:text="@{2 == vm.invoiceDetails.status?@string/invoice_open_yes:@string/invoice_opening}"
                 tools:text="已开票" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -53,11 +55,43 @@
                 app:divider="@drawable/divide_size4"
                 app:showDividers="middle">
 
-                <include
-                    layout="@layout/item_invoice_title_details"
-                    app:content="@{vm.invoiceDetails.code}"
-                    app:show="@{true}"
-                    app:title="@{@string/number}" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Font_14_black45"
+                        android:layout_width="72dp"
+                        android:layout_height="wrap_content"
+                        android:lineHeight="22dp"
+                        android:gravity="center_vertical"
+                        android:text='@{@string/number + "："}'
+                        tools:text="公司税号：" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_invoice_details_content"
+                        style="@style/Font_14_black85"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:maxWidth="200dp"
+                        android:lineHeight="22dp"
+                        android:text="@{vm.invoiceDetails.code}"
+                        tools:text="具体地址信息展示区域超过长度自动换行显示内容" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_invoice_details_tag"
+                        style="@style/Font_14_f0a258"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lineHeight="22dp"
+                        android:layout_marginStart="4dp"
+                        android:gravity="center_vertical"
+                        android:onClick="@{(v)->StringUtils.copyToShear(vm.invoiceDetails.code)}"
+                        android:text="@string/copy" />
+                </LinearLayout>
 
                 <include
                     layout="@layout/item_invoice_title_details"

@@ -49,7 +49,6 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:text='@{@string/repairs_user + "：" + item.userAccount}'
                 app:layout_constraintEnd_toStartOf="@id/tv_device_repairs_status"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -59,11 +58,11 @@
                 android:id="@+id/tv_device_repairs_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/icon_arrow_right"
+                android:drawablePadding="8dp"
                 android:text="@{10 == item.replyStatus?@string/no_reply:@string/replied}"
                 android:textColor="@{10 == item.replyStatus?@color/colorPrimary:@color/color_black_85}"
                 android:textSize="14sp"
-                android:drawablePadding="8dp"
-                android:drawableEnd="@drawable/icon_arrow_right"
                 app:layout_constraintBottom_toBottomOf="@id/tv_device_repairs_user"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_device_repairs_user"
@@ -82,7 +81,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@{item.fixSubTypeName}"
                 app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_user"
-                tools:text="设备损坏"/>
+                tools:text="设备损坏" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_device_repairs_fault_desc"
@@ -91,8 +90,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@{item.description}"
-                tools:text="设备盖子上面有很严重的锈，滴下来的水把我衣服都搞坏了。"
-                app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_fault_type" />
+                app:layout_constraintTop_toBottomOf="@id/tv_device_repairs_fault_type"
+                tools:text="设备盖子上面有很严重的锈，滴下来的水把我衣服都搞坏了。" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_device_repairs_date"

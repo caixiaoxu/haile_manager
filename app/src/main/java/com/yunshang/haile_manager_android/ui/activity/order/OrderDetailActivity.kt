@@ -46,6 +46,7 @@ class OrderDetailActivity :
     override fun initIntent() {
         super.initIntent()
         mViewModel.orderId = IntentParams.OrderDetailParams.parseOrderId(intent)
+        mViewModel.orderNo = IntentParams.OrderDetailParams.parseOrderNo(intent)
         mViewModel.isAppoint = IntentParams.OrderDetailParams.parseIsAppoint(intent)
     }
 
@@ -136,15 +137,16 @@ class OrderDetailActivity :
             }
         }
 
-        // 预约取消
+        // 取消订单
         mBinding.tvOrderDetailCancel.setOnClickListener {
             CancelContentDialog.Builder(
                 StringUtils.getString(R.string.cancel_order),
                 StringUtils.getString(R.string.cancel_order_hint)
             ).apply {
+                contentLength = 200
                 positiveClickListener = { reason ->
                     mViewModel.orderDetail.value?.orderNo?.let { orderNo ->
-                        mViewModel.cancelAppointmentOrder(this@OrderDetailActivity, orderNo, reason)
+                        mViewModel.cancelOrder(this@OrderDetailActivity, orderNo, reason)
                     }
                 }
             }.build().show(supportFragmentManager)

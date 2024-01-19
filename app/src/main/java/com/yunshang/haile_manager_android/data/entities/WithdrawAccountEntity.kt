@@ -1,8 +1,5 @@
 package com.yunshang.haile_manager_android.data.entities
 
-import com.lsy.framelib.utils.StringUtils
-import com.yunshang.haile_manager_android.R
-
 /**
  * Title :
  * Author: Lsy
@@ -25,4 +22,6 @@ data class WithdrawAccountEntity(
     val minWithdrawAmount: String? = null,
     val realName: String? = null,
     val state: Int? = null
-)
+) {
+    fun hasRealName() = !realName.isNullOrEmpty()
+}

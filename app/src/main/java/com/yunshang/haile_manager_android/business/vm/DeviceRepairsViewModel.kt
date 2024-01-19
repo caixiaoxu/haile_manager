@@ -80,9 +80,8 @@ class DeviceRepairsViewModel : BaseViewModel() {
     }
 
     // 选择的状态
-    val selectStatus: MutableLiveData<SearchSelectParam> by lazy {
-        MutableLiveData()
-    }
+    val selectStatus: MutableLiveData<SearchSelectParam> =
+        MutableLiveData(SearchSelectParam(10, "未回复"))
 
     val isAll: MutableLiveData<Boolean> = MutableLiveData(false)
 
@@ -105,7 +104,7 @@ class DeviceRepairsViewModel : BaseViewModel() {
                         name = StringUtils.getString(R.string.all_device)
                     ).apply {
                         onlyOne = true
-                        isCheck = selectDeviceCategoryList.value?.contains(this) ?:false
+                        isCheck = selectDeviceCategoryList.value?.contains(this) ?: false
                     })
                 categoryList.postValue(it)
             }

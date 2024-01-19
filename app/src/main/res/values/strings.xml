@@ -395,7 +395,7 @@
     <string name="copy_phone">复制手机号</string>
     <string name="call_phone">拨打电话</string>
     <string name="executive_logging">执行记录</string>
-    <string name="copy_success">已复制到贴粘板</string>
+    <string name="copy_success">复制成功</string>
     <string name="search_shop_hint">请输入门店或营业点名称</string>
     <string name="shop_delete_hint">是否确定要删除该门店么？</string>
     <string name="pt_delete_hint">是否确定要删除该营业点么？</string>
@@ -427,6 +427,7 @@
     <string name="real_income">实收：</string>
     <string name="order_specs">"%1$s %2$s分钟 ￥%3$s"</string>
     <string name="order_detail">订单详情</string>
+    <string name="more_order">更多订单</string>
     <string name="look_device">查看设备</string>
     <string name="consumption_item">消费项</string>
     <string name="compensate">补偿</string>
@@ -443,6 +444,7 @@
     <string name="model_of_payment">支付方式</string>
     <string name="no_of_payment">支付单号</string>
     <string name="time_of_payment">支付时间</string>
+    <string name="reason_for_cancel">取消原因</string>
     <string name="reason_for_end">结束原因</string>
     <string name="time_of_refund_money">退款时间</string>
     <string name="time_of_refund_coupon">返券时间</string>
@@ -523,6 +525,8 @@
     <string name="shop_reply">商家回复</string>
     <string name="reply_content">回复内容</string>
     <string name="pic_browse">图片浏览</string>
+
+    <string name="spares_purchase">备件采购</string>
 
     <string name="home_marketing_title">营销中心</string>
     <string name="discount_manager">折扣优惠</string>
@@ -1024,7 +1028,8 @@
     <string name="association_device">关联设备信息</string>
     <string name="device_wash_title">绑定洗衣\n/洗鞋机</string>
     <string name="device_error">设备状态</string>
-    <string name="device_order">当前订单</string>
+    <string name="linked_order">关联订单</string>
+    <string name="queued_order">排队订单</string>
     <string name="device_find_order">查看订单</string>
     <string name="device_del_setting">删除配置</string>
     <string name="laundry_detergent_surplus">洗衣液剩余</string>

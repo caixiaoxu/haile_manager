@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.ui.activity.invoice
 
 import android.graphics.Color
 import android.view.View
+import com.lsy.framelib.utils.StringUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.InvoiceHistoryDetailsViewModel

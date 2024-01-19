@@ -946,4 +946,14 @@ object UserPermissionUtils {
         return null != userPermissionsMap["league:normal:deviceFix:reply"]
     }
     /** ------------------------报修权限------------------------  */
+    /**
+     * 是否含有备件申请权限
+     *
+     *
+     * @return
+     */
+    @JvmStatic
+    fun hasSparePartPermission(): Boolean {
+        return null != userPermissionsMap["league:normal:sparePart"]
+    }
 }

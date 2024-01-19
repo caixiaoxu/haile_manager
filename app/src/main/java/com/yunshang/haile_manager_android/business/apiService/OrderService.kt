@@ -40,6 +40,12 @@ interface OrderService {
     suspend fun requestOrderDetail(@Query("orderId") orderId: Int): ResponseWrapper<OrderDetailEntity>
 
     /**
+     * 订单详情接口(根据订单号)
+     */
+    @GET("/order/details/byNo")
+    suspend fun requestOrderDetailByNo(@Query("orderNo") orderNo: String): ResponseWrapper<OrderDetailEntity>
+
+    /**
      * 订单详情接口
      */
     @POST("/order/refund")
@@ -58,10 +64,10 @@ interface OrderService {
     suspend fun requestOrderRestart(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
-     * 取消预约订单接口
+     * 取消订单接口
      */
-    @POST("/appoint/cancelOrder")
-    suspend fun cancelAppointmentOrder(@Body body: RequestBody): ResponseWrapper<Any>
+    @POST("/order/cancel")
+    suspend fun cancelOrder(@Body body: RequestBody): ResponseWrapper<Any>
 
     /**
      * 订单历史列表接口

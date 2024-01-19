@@ -44,6 +44,7 @@ class CancelContentDialog private constructor(private val builder: CancelContent
         mBinding.etCancelContentCause.filters = arrayOf(
             LengthFilter(builder.contentLength)
         )
+        mBinding.tvCancelContentCauseNum.text = "0/${builder.contentLength}"
         mBinding.etCancelContentCause.addTextChangedListener {
             mBinding.tvCancelContentCauseNum.text =
                 "${it.toString().length}/${builder.contentLength}"

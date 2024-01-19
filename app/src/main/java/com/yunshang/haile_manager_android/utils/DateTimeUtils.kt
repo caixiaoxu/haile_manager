@@ -4,7 +4,6 @@ import android.text.format.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.abs
-import kotlin.math.max
 
 /**
  * Title : 日期时间工具类
@@ -365,81 +364,105 @@ object DateTimeUtils {
      * 获取友好时间
      *
      * @param date 时间
-     * @param isAf 是否显示将来时间
      */
-    fun getFriendlyTime(date: Date?, isAf: Boolean): String {
+    fun getFriendlyTime(date: Date?): String {
         if (date == null) {
             return ""
         }
-        val ct = ((System.currentTimeMillis() - date.time) / 1000).toInt()
-        if (isAf) {
-            if (ct < 0) {
-                if (ct < -86400) { //86400 * 30
-                    val day = ct / -86400
-                    if (day == 1) {
-                        return "后天 " + formatDateTime(date, "HH:mm")
-                    }
-                    return if (date.year == Date().year) {
-                        formatDateTime(date, "MM-dd HH:mm")
-                    } else {
-                        formatDateTime(date, "yyyy-MM-dd HH:mm")
-                    }
-                }
-                if (!isSameDate(Date(), date)
-                ) { //判断跨天
-                    return "明天 " + formatDateTime(date, "HH:mm")
-                }
-                if (-86400 < ct && ct < -3600) {
-                    return String.format(
-                        "%d小时后 %s",
-                        ct / -3600,
-                        formatDateTime(date, "HH:mm")
-                    )
-                }
-                if (-3600 < ct && ct < -61) {
-                    return String.format(
-                        "%d分钟后 %s",
-                        max(ct / -60, 3),
-                        formatDateTime(date, "HH:mm")
-                    )
-                }
-                if (-61 < ct && ct < 0) {
-                    return String.format("即将到点 %s", formatDateTime(date, "HH:mm"))
-                }
-            }
-        }
-        if (ct < 61) { //1分钟内
-            return "刚刚"
-        }
         if (isSameDate(Date(), date)) { //
-            if (ct < 3600) { //1小时内
-                return String.format("%d分钟前", max(ct / 60, 3))
-            }
-            if (ct in 3600..86399) { //当天超过一小时显示
-                return formatDateTime(date, "HH:mm")
-            }
+            return formatDateTime(date, "HH:mm")
         } else {
+            val ct = ((System.currentTimeMillis() - date.time) / 1000).toInt()
             //不是当天时进入
             if (ct < 86400) {
-                return "昨天 " + formatDateTime(date, "HH:mm")
+                return "昨天"
             }
-            if (ct in 86400..259199) { //86400 * 3 (三天)
-                var day = ct / 86400
-                if (!isSameDate(addDay(Date(), -day), date)
-                ) { //判断时间匹配日期
-                    day += 1
-                }
-                return if (day == 1) {
-                    "昨天 " + formatDateTime(date, "HH:mm")
-                } else {
-                    formatDateTime(date, "MM-dd HH:mm")
-                }
+            if (ct in 86400..604800) { //86400 * 3 (三天)
+                return formatDateTime(date, "EEEE")
             }
         }
-        return if (date.year == Date().year) {
-            formatDateTime(date, "MM-dd HH:mm")
-        } else {
-            formatDateTime(date, "yyyy-MM-dd HH:mm")
-        }
+        return formatDateTime(date, "yyyy/MM/dd")
     }
+
+    /**
+     * 获取友好时间
+     *
+     * @param date 时间
+     * @param isAf 是否显示将来时间
+     */
+//    fun getFriendlyTime(date: Date?, isAf: Boolean): String {
+//        if (date == null) {
+//            return ""
+//        }
+//        val ct = ((System.currentTimeMillis() - date.time) / 1000).toInt()
+//        if (isAf) {
+//            if (ct < 0) {
+//                if (ct < -86400) { //86400 * 30
+//                    val day = ct / -86400
+//                    if (day == 1) {
+//                        return "后天 " + formatDateTime(date, "HH:mm")
+//                    }
+//                    return if (date.year == Date().year) {
+//                        formatDateTime(date, "MM-dd HH:mm")
+//                    } else {
+//                        formatDateTime(date, "yyyy-MM-dd HH:mm")
+//                    }
+//                }
+//                if (!isSameDate(Date(), date)
+//                ) { //判断跨天
+//                    return "明天 " + formatDateTime(date, "HH:mm")
+//                }
+//                if (-86400 < ct && ct < -3600) {
+//                    return String.format(
+//                        "%d小时后 %s",
+//                        ct / -3600,
+//                        formatDateTime(date, "HH:mm")
+//                    )
+//                }
+//                if (-3600 < ct && ct < -61) {
+//                    return String.format(
+//                        "%d分钟后 %s",
+//                        max(ct / -60, 3),
+//                        formatDateTime(date, "HH:mm")
+//                    )
+//                }
+//                if (-61 < ct && ct < 0) {
+//                    return String.format("即将到点 %s", formatDateTime(date, "HH:mm"))
+//                }
+//            }
+//        }
+//        if (ct < 61) { //1分钟内
+//            return "刚刚"
+//        }
+//        if (isSameDate(Date(), date)) { //
+//            if (ct < 3600) { //1小时内
+//                return String.format("%d分钟前", max(ct / 60, 3))
+//            }
+//            if (ct in 3600..86399) { //当天超过一小时显示
+//                return formatDateTime(date, "HH:mm")
+//            }
+//        } else {
+//            //不是当天时进入
+//            if (ct < 86400) {
+//                return "昨天 " + formatDateTime(date, "HH:mm")
+//            }
+//            if (ct in 86400..259199) { //86400 * 3 (三天)
+//                var day = ct / 86400
+//                if (!isSameDate(addDay(Date(), -day), date)
+//                ) { //判断时间匹配日期
+//                    day += 1
+//                }
+//                return if (day == 1) {
+//                    "昨天 " + formatDateTime(date, "HH:mm")
+//                } else {
+//                    formatDateTime(date, "MM-dd HH:mm")
+//                }
+//            }
+//        }
+//        return if (date.year == Date().year) {
+//            formatDateTime(date, "MM-dd HH:mm")
+//        } else {
+//            formatDateTime(date, "yyyy-MM-dd HH:mm")
+//        }
+//    }
 }

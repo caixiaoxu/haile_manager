@@ -2,10 +2,7 @@ package com.yunshang.haile_manager_android.business.apiService
 
 import com.lsy.framelib.network.response.ResponseList
 import com.lsy.framelib.network.response.ResponseWrapper
-import com.yunshang.haile_manager_android.data.entities.MessageEntity
-import com.yunshang.haile_manager_android.data.entities.MessageSettingEntity
-import com.yunshang.haile_manager_android.data.entities.MessageSubTypeEntity
-import com.yunshang.haile_manager_android.data.entities.MessageTypeCountEntity
+import com.yunshang.haile_manager_android.data.entities.*
 import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -37,7 +34,7 @@ interface MessageService {
     /**
      * 消息列表接口
      */
-    @POST("/message/list")
+    @POST("/message/list/V2")
     suspend fun messageList(@Body body: RequestBody): ResponseWrapper<ResponseList<MessageEntity>>
 
     /**
@@ -63,4 +60,10 @@ interface MessageService {
      */
     @POST("/message/readAll")
     suspend fun readMessageAll(@Body body: RequestBody): ResponseWrapper<Any>
+
+    /**
+     * 各种类型消息数量接口
+     */
+    @POST("/icon/list")
+    suspend fun requestTypeMsgNum(): ResponseWrapper<TypeMsgNumListEntity>
 }

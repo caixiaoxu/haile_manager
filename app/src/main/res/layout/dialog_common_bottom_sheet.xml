@@ -27,6 +27,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:maxWidth="168dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -43,7 +44,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View style="@style/DividingStyle"/>
+    <View style="@style/DividingStyle" />
 
     <com.yunshang.haile_manager_android.ui.view.MaxHeightScrollView
         android:layout_width="match_parent"

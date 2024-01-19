@@ -2,6 +2,7 @@ package com.yunshang.haile_manager_android.utils
 
 import android.content.Context
 import android.graphics.Bitmap
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
 import com.tencent.mm.opensdk.modelmsg.*
 import com.tencent.mm.opensdk.modelpay.PayReq
 import com.tencent.mm.opensdk.openapi.IWXAPI
@@ -120,6 +121,31 @@ object WeChatHelper {
             } else if (scene == "Timeline") {
                 this.scene = SendMessageToWX.Req.WXSceneTimeline
             }
+        })
+    }
+
+    /**
+     * 跳转到小程序
+     *
+     * @param params 参数
+     */
+    fun openWeChatMiniProgram(
+        url: String? = null,
+        params: String? = null,
+        appId: String = "wx1519696063e9b048"
+    ) {
+        iwxapi?.sendReq(WXLaunchMiniProgram.Req().apply {
+            // 填小程序原始id
+            userName =appId
+            //拉起小程序页面的可带参路径，不填默认拉起小程序首页，对于小游戏，可以只传入 query 部分，来实现传参效果，如：传入 "?foo=bar"。
+            url?.let {
+                path = url //"pages/goods/goods-list/index"
+            }
+            params?.let {
+                extData = params
+            }
+            // 可选打开 开发版，体验版和正式版
+            miniprogramType = WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE
         })
     }
 }

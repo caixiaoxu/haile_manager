@@ -255,9 +255,8 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                     R.string.change_pay_code -> !DeviceCategory.isDispenser(detail.categoryCode)
                             && !DeviceCategory.isDrinkingOrShower(detail.categoryCode)
 
-                    R.string.create_pay_code -> !DeviceCategory.isDispenser(detail.categoryCode) && !DeviceCategory.isShower(
-                        detail.categoryCode
-                    )
+                    R.string.create_pay_code -> !DeviceCategory.isDispenser(detail.categoryCode)
+                            && !DeviceCategory.isShower(detail.categoryCode)
 
                     R.string.device_transfer -> true
                     R.string.update_func_price -> true
@@ -267,6 +266,9 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                     R.string.device_voice -> DeviceCategory.isDispenser(detail.categoryCode)
                     R.string.device_drain -> DeviceCategory.isDispenser(detail.categoryCode)
                     R.string.update_floor -> true
+                    R.string.hot_clean_self -> DeviceCategory.isWashingOrShoes(detail.categoryCode)
+                            && true == detail.highSelfClearFlag
+
                     else -> false
                 }
             }
@@ -561,6 +563,11 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                 15 -> {
                     // 设备转移
                     preTransferDevices()
+                }
+
+                16 -> mViewModel.deviceDetail.value?.let { detail ->
+                    // 高温筒自洁
+                    mViewModel.deviceOperate(1, detail.itemId)
                 }
             }
         }

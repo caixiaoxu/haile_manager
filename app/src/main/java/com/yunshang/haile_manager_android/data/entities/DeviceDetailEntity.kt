@@ -75,6 +75,9 @@ data class DeviceDetailEntity(
     val positionName: String? = null,
     val auditFlag: Boolean? = null,
     val needAudit: Boolean? = null
+    val positionName: String? = null,
+    val highSelfClearFlag: Boolean? = null,
+    val itemId: Int? = null
 ) : BaseObservable() {
 
     @get:Bindable

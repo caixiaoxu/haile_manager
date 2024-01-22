@@ -165,7 +165,7 @@ interface DeviceService {
     suspend fun deviceStart(@Body params: RequestBody): ResponseWrapper<Any>
 
     /**
-     * 桶自洁接口
+     * 筒自洁接口
      */
     @POST("/device/clean")
     suspend fun deviceClean(@Body params: RequestBody): ResponseWrapper<Any>

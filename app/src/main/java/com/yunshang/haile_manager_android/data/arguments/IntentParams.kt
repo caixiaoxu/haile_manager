@@ -384,7 +384,7 @@ object IntentParams {
 
         fun pack(
             goodId: Int? = null,
-            advanceList: MutableList<DeviceAdvancedSettingEntity>? = null,
+            advanceList: List<DeviceAdvancedSettingEntity>? = null,
             shopIdList: IntArray? = null,
             positionIdList: IntArray? = null,
             categoryId: Int? = null,

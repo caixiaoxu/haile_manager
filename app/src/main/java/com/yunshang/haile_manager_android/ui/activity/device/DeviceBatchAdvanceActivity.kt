@@ -338,7 +338,7 @@ class DeviceBatchAdvanceActivity : BaseBindingActivity<ActivityDeviceBatchAdvanc
                 mDeviceRepo.requestAdvanceListBySpuId(selectDeviceModel!!.id)
             )?.let {
                 advanceValueList.clear()
-                advanceValueList.addAll(it)
+                advanceValueList.addAll(it.filter { item->!item.extraAttr.isNullOrEmpty() })
             }
         })
     }

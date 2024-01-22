@@ -3,6 +3,7 @@ package com.yunshang.haile_manager_android.ui.activity.message
 import android.content.Intent
 import android.graphics.Color
 import android.view.View
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -52,6 +53,12 @@ class MessageListActivity :
                     refreshMsgItemClickAttr(
                         content.top,
                         mItemBinding?.tvMessageListType2Title,
+                        100,
+                        content.cardClickAttr
+                    )
+                    refreshMsgItemClickAttr(
+                        content.topRight,
+                        mItemBinding?.tvMessageListType2Status,
                         100,
                         content.cardClickAttr
                     )
@@ -134,16 +141,47 @@ class MessageListActivity :
         clickRegion: Int,
         cardClickAttr: MessageContentType2ClickAttr?
     ) {
-        type2Item?.clickAttr?.let { clickAttr ->
-            if (true == clickAttr.canClick) {
-                if (itemView is MultiTypeItemView) {
-                    itemView.onSelectedEvent = {
-                        msgItemClickAttr(type2Item, clickRegion, cardClickAttr)
-                    }
-                } else {
-                    itemView?.setOnClickListener {
-                        msgItemClickAttr(type2Item, clickRegion, cardClickAttr)
-                    }
+        var txtColor = try {
+            Color.parseColor(type2Item?.color)
+        } catch (e: Exception) {
+            null
+        }
+
+        txtColor?.let {
+            if (itemView is MultiTypeItemView) {
+                itemView.contentView.setTextColor(txtColor)
+            } else if (itemView is TextView) {
+                itemView.setTextColor(txtColor)
+            }
+        }
+
+        val type =
+            if (true == type2Item?.clickAttr?.canClick) 0
+            else if (true == cardClickAttr?.canClick
+                && true == cardClickAttr.redirectRegions?.contains(clickRegion)
+            ) 1
+            else -1
+
+        if (type >= 0) {
+            val clickType =
+                if (1 == type) 200 else type2Item?.clickAttr?.clickType
+            val redirectUrl =
+                if (1 == type) cardClickAttr?.redirectUrlAndroid else type2Item?.clickAttr?.redirectUrlAndroid
+            if (itemView is MultiTypeItemView) {
+                itemView.onSelectedEvent = {
+                    msgItemClickAttr(
+                        type2Item?.text,
+                        clickType,
+                        redirectUrl
+                    )
+                }
+            } else {
+                itemView?.setOnClickListener {
+                    msgItemClickAttr(
+                        type2Item?.text,
+                        clickType,
+                        redirectUrl
+                    )
                 }
             }
         }
@@ -151,22 +189,16 @@ class MessageListActivity :
     }
 
     private fun msgItemClickAttr(
-        type2Item: MessageContentType2Item,
-        clickRegion: Int,
-        cardClickAttr: MessageContentType2ClickAttr?
+        text: String?,
+        clickType: Int?,
+        redirectUrl: String?,
     ) {
-        if (100 == type2Item.clickAttr?.clickType) {
-            type2Item.text?.let { title ->
+        if (100 == clickType) {
+            text?.let { title ->
                 StringUtils.copyToShear(title)
             }
         } else {
-            if (true == cardClickAttr?.canClick
-                && true == cardClickAttr.redirectRegions?.contains(clickRegion)
-            ) {
-                cardClickAttr.redirectUrlAndroid
-            } else {
-                type2Item.clickAttr?.redirectUrlAndroid
-            }?.let { linkUrl ->
+            redirectUrl?.let { linkUrl ->
                 SchemeURLHelper.parseSchemeURL(
                     this@MessageListActivity, linkUrl
                 )

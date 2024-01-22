@@ -487,10 +487,16 @@ class HomeFragment :
                 mViewModel.funcList.value = list.apply { this[6].isShow = it }
             }
         }
+        // 设备解绑审批权限
+        mSharedViewModel.hasDeviceUnbindPermission.observe(this) {
+            mViewModel.funcList.value?.let { list ->
+                mViewModel.funcList.value = list.apply { this[7].isShow = it }
+            }
+        }
         // 备件采购权限
         mSharedViewModel.hasSparePartPermission.observe(this) {
             mViewModel.funcList.value?.let { list ->
-                mViewModel.funcList.value = list.apply { this[7].isShow = it }
+                mViewModel.funcList.value = list.apply { this[8].isShow = it }
             }
         }
         // 优惠权限
@@ -532,6 +538,14 @@ class HomeFragment :
 
         LiveDataBus.with(BusEvents.MESSAGE_READ_STATUS)?.observe(this) {
             mViewModel.requestMsgData()
+        }
+
+        LiveDataBus.with(BusEvents.DEVICE_FAULT_REPAIRS_REPLY_STATUS)?.observe(this) {
+            mViewModel.requestTypeMsgNumAsync()
+        }
+
+        LiveDataBus.with(BusEvents.DEVICE_UNBIND_APPROVE_STATUS)?.observe(this) {
+            mViewModel.requestTypeMsgNumAsync()
         }
     }
 

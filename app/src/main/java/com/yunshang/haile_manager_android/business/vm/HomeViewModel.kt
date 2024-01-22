@@ -21,6 +21,7 @@ import com.yunshang.haile_manager_android.ui.activity.coupon.CouponManageActivit
 import com.yunshang.haile_manager_android.ui.activity.coupon.IssueCouponsActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.device.DeviceRepairsActivity
+import com.yunshang.haile_manager_android.ui.activity.device.DeviceUnbindApproveActivity
 import com.yunshang.haile_manager_android.ui.activity.discounts.DiscountsManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.invoice.InvoiceManagerActivity
 import com.yunshang.haile_manager_android.ui.activity.notice.NoticeManagerActivity
@@ -119,6 +120,12 @@ class HomeViewModel : BaseViewModel() {
                 R.mipmap.icon_device_repairs,
                 DeviceRepairsActivity::class.java,
                 UserPermissionUtils.hasRepairsPermission()
+            ),
+            FunItem(
+                StringUtils.getString(R.string.device_unbind_approve),
+                R.mipmap.icon_device_unbind_approve,
+                DeviceUnbindApproveActivity::class.java,
+                UserPermissionUtils.hasDeviceUnbindPermission()
             ),
             FunItem(
                 StringUtils.getString(R.string.spares_purchase),
@@ -253,12 +260,24 @@ class HomeViewModel : BaseViewModel() {
         MutableLiveData()
     }
 
+    fun requestTypeMsgNumAsync() {
+        launch({
+            requestTypeMsgNum()
+        }, showLoading = false)
+    }
+
     private suspend fun requestTypeMsgNum() {
         ApiRepository.dealApiResult(
             mMessageRepo.requestTypeMsgNum()
         )?.let {
+            // 报修
             funcList.value?.find { item -> item.icon == R.mipmap.icon_device_repairs }?.num?.postValue(
                 it.moduleItems?.find { item -> item.moduleType == 100 }?.iconItems?.find { item -> item.route == "/device/fix" }
+                    ?.badgeNum ?: 0
+            )
+            // 解绑审批
+            funcList.value?.find { item -> item.icon == R.mipmap.icon_device_unbind_approve }?.num?.postValue(
+                it.moduleItems?.find { item -> item.moduleType == 400 }?.iconItems?.find { item -> item.route == "/deviceAudit/audit" }
                     ?.badgeNum ?: 0
             )
         }

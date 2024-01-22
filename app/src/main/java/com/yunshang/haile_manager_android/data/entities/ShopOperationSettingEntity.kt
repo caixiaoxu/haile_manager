@@ -23,9 +23,11 @@ data class ShopOperationSettingEntity(
     val operationSetting: OperationFlowSetting? = null,
     var nearOrderSettingDetailDTO: NearOrderSettings? = null,
     var freeSelfClearSettingDetailDTO: FreeSelfClearSettings? = null,
+    var deviceUnbindAuditSettingDetailDTO: DeviceUnbindAuditSettings? = null,
 ) : BaseObservable() {
     var nearOrderSettingsForm: NearOrderSettings? = null
     var freeSelfClearSettingsForm: FreeSelfClearSettings? = null
+    var deviceUnbindAuditSettingsForm: DeviceUnbindAuditSettings? = null
 
     @Transient
     @get:Bindable
@@ -122,6 +124,22 @@ data class ShopOperationSettingEntity(
             field = value
             notifyPropertyChanged(BR.showItem6Content)
         }
+
+    @Transient
+    @get:Bindable
+    var showItem7: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.showItem7)
+        }
+
+    @Transient
+    @get:Bindable
+    var showItem7Content: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.showItem7Content)
+        }
 }
 
 data class OperationCompensationSetting(
@@ -179,7 +197,7 @@ data class OperationFlowSetting(
 data class NearOrderSettings(
     val shopId: Int? = null,
     var volumeVisibleState: Int? = null
-): BaseObservable() {
+) : BaseObservable() {
     var shopIdList: IntArray? = null
 
     @get:Bindable
@@ -205,3 +223,23 @@ data class FreeSelfClearSettings(
             notifyPropertyChanged(BR.volumeVisibleStateVal)
         }
 }
+
+data class DeviceUnbindAuditSettings(
+    val shopId: Int? = null,
+    var volumeVisibleState: Int? = 0
+) : BaseObservable() {
+    var shopIdList: IntArray? = null
+
+    @get:Bindable
+    var volumeVisibleStateVal: Boolean
+        get() = 1 == volumeVisibleState
+        set(value) {
+            volumeVisibleState = if (value) 1 else 0
+            notifyPropertyChanged(BR.volumeVisibleStateVal)
+        }
+
+    fun showUnbindAuditContent(): String =
+        if (volumeVisibleStateVal) StringUtils.getString(R.string.unbind_device_approval_setting_value2)
+        else StringUtils.getString(R.string.unbind_device_approval_setting_value1)
+}
+

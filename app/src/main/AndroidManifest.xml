@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <!-- 允许程序获取网络状态 -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 允许程序访问WiFi网络信息 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 允许程序读写手机状态和身份 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 允许程序访问CellID或WiFi热点来获取粗略的位置 -->
@@ -40,6 +43,15 @@
         android:theme="@style/Theme.Business_Android"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.activity.device.DeviceUnbindApproveDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.device.DeviceUnbindApproveActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.device.DeviceUnbindAuditActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.activity.device.DeviceBatchAdvanceActivity"
             android:exported="false" />
@@ -105,6 +117,9 @@
             android:exported="false" />
         <activity
             android:name=".ui.activity.shop.ShopBatchSettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.shop.ShopBatchUnbindDeviceApproveSettingActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.login.ChangeLoginPhoneActivity"

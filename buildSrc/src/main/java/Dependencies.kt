@@ -1,8 +1,8 @@
 object ThirdLibs {
     const val core_ktx = "androidx.core:core-ktx:1.7.0"
-    const val appcompat = "androidx.appcompat:appcompat:1.5.1"
-    const val material = "com.google.android.material:material:1.5.0"
-    const val constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.3"
+    const val appcompat = "androidx.appcompat:appcompat:1.6.1"
+    const val material = "com.google.android.material:material:1.9.0"
+    const val constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.4"
 
     //协程
     const val ktx_coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9"

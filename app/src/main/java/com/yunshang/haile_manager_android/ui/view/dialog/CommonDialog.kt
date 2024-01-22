@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.FragmentManager
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.databinding.DialogCommonBinding
+import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 
 /**
  * Title : 常用的dialog
@@ -53,6 +54,12 @@ class CommonDialog private constructor(private val builder: Builder) : AppCompat
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        mBinding.ibCommonDialogClose.visibility(builder.showClose)
+        mBinding.ibCommonDialogClose.setOnClickListener {
+            dismiss()
+        }
+
         // 标题
         if (builder.title.isNullOrEmpty()) {
             mBinding.tvCommonDialogTitle.visibility = View.GONE
@@ -113,6 +120,9 @@ class CommonDialog private constructor(private val builder: Builder) : AppCompat
     internal class Builder(val msg: CharSequence) {
         // 标题
         var title: String? = null
+
+        // 显示关闭按钮
+        var showClose: Boolean? = false
 
         // 拒绝按钮文本
         var negativeTxt: String? = null

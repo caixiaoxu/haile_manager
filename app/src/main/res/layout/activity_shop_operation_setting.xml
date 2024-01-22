@@ -658,6 +658,57 @@
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    style="@style/Font_16_333333_bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shape_bottom_stroke_dividing"
+                    android:button="@null"
+                    android:checked="@={vm.operationSettingDetail.showItem7Content}"
+                    android:drawableEnd="@{vm.operationSettingDetail.showItem7Content?@drawable/icon_arrow_down_with_padding:@drawable/icon_arrow_right_with_padding}"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp"
+                    android:text="@string/unbind_device_approval_setting"
+                    app:visibility="@{vm.operationSettingDetail.showItem7}" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="16dp"
+                    app:visibility="@{vm.operationSettingDetail.showItem7 &amp;&amp; vm.operationSettingDetail.showItem7Content}">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shop_unbind_device_approval_setting_title"
+                        style="@style/Font_16_333333"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/unbind_device_approval_setting_name"
+                        app:layout_constraintEnd_toStartOf="@id/switch_shop_unbind_device_approval_setting"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/unbind_device_approval_setting_prompt"
+                        app:layout_constraintEnd_toStartOf="@id/switch_shop_unbind_device_approval_setting"
+                        app:layout_constraintStart_toStartOf="@id/tv_shop_unbind_device_approval_setting_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_shop_unbind_device_approval_setting_title" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_shop_unbind_device_approval_setting"
+                        style="@style/CustomSwitchStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={vm.operationSettingDetail.deviceUnbindAuditSettingsForm.volumeVisibleStateVal}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 

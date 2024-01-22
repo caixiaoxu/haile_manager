@@ -169,6 +169,12 @@ class WalletWithdrawActivity :
                             ).apply {
                                 mViewModel.withdrawAccount.value?.id?.let { id ->
                                     putExtras(IntentParams.CommonParams.pack(id))
+                                    putExtras(
+                                        IntentParams.AlipayParams.pack(
+                                            mViewModel.withdrawAccount.value?.cashOutAccount,
+                                            mViewModel.withdrawAccount.value?.realName
+                                        )
+                                    )
                                 }
                             }
                         )

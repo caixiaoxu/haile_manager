@@ -74,8 +74,7 @@ data class DeviceDetailEntity(
     val positionId: Int? = null,
     val positionName: String? = null,
     val auditFlag: Boolean? = null,
-    val needAudit: Boolean? = null
-    val positionName: String? = null,
+    val needAudit: Boolean? = null,
     val highSelfClearFlag: Boolean? = null,
     val itemId: Int? = null
 ) : BaseObservable() {

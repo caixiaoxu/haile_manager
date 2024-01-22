@@ -83,10 +83,12 @@ class DeviceManagerActivity :
                                     }
                             }
                     }
+
                     IntentParams.ShopPositionSelectorParams.ShopPositionSelectorResultCode -> {
                         mViewModel.selectDepartmentPositions.value =
                             IntentParams.ShopPositionSelectorParams.parseSelectList(intent)
                     }
+
                     IntentParams.SearchSelectTypeParam.DeviceModelResultCode -> {
                         intent.getStringExtra(IntentParams.SearchSelectTypeParam.ResultData)
                             ?.let { json ->
@@ -132,13 +134,14 @@ class DeviceManagerActivity :
             if (0 == it) {
                 transferDevices()
             } else {
-                CommonDialog.Builder("选中设备的关联设备未被选中，转移操作，会同步转移关联的设备。若不需要则请先解除关联").apply {
-                    title = StringUtils.getString(R.string.tip)
-                    negativeTxt = StringUtils.getString(R.string.cancel)
-                    setPositiveButton(StringUtils.getString(R.string.sure)) {
-                        transferDevices()
-                    }
-                }.build().show(supportFragmentManager)
+                CommonDialog.Builder("选中设备的关联设备未被选中，转移操作，会同步转移关联的设备。若不需要则请先解除关联")
+                    .apply {
+                        title = StringUtils.getString(R.string.tip)
+                        negativeTxt = StringUtils.getString(R.string.cancel)
+                        setPositiveButton(StringUtils.getString(R.string.sure)) {
+                            transferDevices()
+                        }
+                    }.build().show(supportFragmentManager)
             }
         }
     }
@@ -368,6 +371,24 @@ class DeviceManagerActivity :
             popupWindow.dismiss()
             mViewModel.isBatch.value = true
         }
+
+        // 批量高级参数
+        mPopupBinding.tvDeviceOperateAdvanced.visibility(UserPermissionUtils.hasDeviceUpdatePermission()
+                && mViewModel.selectDeviceCategory.value?.any { item ->
+            (DeviceCategory.isWashingOrShoes(
+                item.code
+            ) || DeviceCategory.isDryer(item.code))
+        } ?: true)
+        mPopupBinding.tvDeviceOperateAdvanced.setOnClickListener {
+            popupWindow.dismiss()
+            startActivity(
+                Intent(
+                    this@DeviceManagerActivity,
+                    DeviceBatchAdvanceActivity::class.java
+                )
+            )
+        }
+
         popupWindow.showAsDropDown(
             this,
             -DimensionUtils.dip2px(this@DeviceManagerActivity, 16f),
@@ -732,19 +753,18 @@ class DeviceManagerActivity :
             CommonBottomSheetDialog.Builder(
                 getString(R.string.device_category),
                 categoryEntities
-            )
-                .apply {
-                    mustSelect = false
-                    onValueSureListener =
-                        object :
-                            CommonBottomSheetDialog.OnValueSureListener<CategoryEntity> {
-                            override fun onValue(data: CategoryEntity?) {
-                                mViewModel.selectDeviceCategory.value =
-                                    data?.let { listOf(data) }
-                                mViewModel.selectDeviceModel.value = null
-                            }
+            ).apply {
+                mustSelect = false
+                onValueSureListener =
+                    object :
+                        CommonBottomSheetDialog.OnValueSureListener<CategoryEntity> {
+                        override fun onValue(data: CategoryEntity?) {
+                            mViewModel.selectDeviceCategory.value =
+                                data?.let { listOf(data) }
+                            mViewModel.selectDeviceModel.value = null
                         }
-                }
+                    }
+            }
                 .build()
         deviceCategoryDialog.show(supportFragmentManager)
     }

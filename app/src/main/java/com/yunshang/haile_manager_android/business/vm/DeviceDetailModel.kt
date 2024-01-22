@@ -63,7 +63,7 @@ class DeviceDetailModel : BaseViewModel() {
         MutableLiveData()
     }
 
-    val deviceAdvancedValues: MutableLiveData<MutableList<DeviceAdvancedSettingEntity>> by lazy {
+    val deviceAdvancedValues: MutableLiveData<List<DeviceAdvancedSettingEntity>> by lazy {
         MutableLiveData()
     }
 
@@ -278,7 +278,7 @@ class DeviceDetailModel : BaseViewModel() {
 
             if (0 == type || 2 == type) {
                 val list = ApiRepository.dealApiResult(mDeviceRepo.deviceAdvancedValues(goodsId))
-                list?.let {
+                list?.filter { item -> !item.extraAttr.isNullOrEmpty() }?.let {
                     deviceAdvancedValues.postValue(it)
                 }
             }

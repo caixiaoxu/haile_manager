@@ -44,7 +44,7 @@ class DeviceBatchStartViewModel : BaseViewModel() {
         when (val count: Int = it.size) {
             0 -> ""
             1 -> it.firstOrNull()?.name ?: ""
-            else -> "已选中${count}个门店"
+            else -> "已选中${count}个营业点"
         }
     }
 

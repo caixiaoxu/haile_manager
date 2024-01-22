@@ -14,7 +14,7 @@ data class DeviceAdvancedSettingEntity(
     val baseFunctionCode: String,
     val baseFunctionName: String,
     val createTime: String,
-    val extraAttr: String,
+    val extraAttr: String? = null,
     val extraAttrHaiLi: String,
     val functionCode: String,
     val functionHaierCode: String,

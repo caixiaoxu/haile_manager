@@ -877,6 +877,30 @@ object IntentParams {
         fun parseAuthCode(intent: Intent): String? = intent.getStringExtra(AuthCode)
     }
 
+    object AlipayParams {
+        private const val AlipayAccount = "alipayAccount"
+        private const val AlipayName = "alipayName"
+
+        /**
+         * 包装参数
+         */
+        fun pack(alipayAccount: String?, alipayName: String?): Bundle = Bundle().apply {
+            putString(AlipayAccount, alipayAccount)
+            putString(AlipayName, alipayName)
+        }
+
+        /**
+         * 解析AlipayAccount
+         */
+        fun parseAlipayAccount(intent: Intent): String? = intent.getStringExtra(AlipayAccount)
+
+        /**
+         * 解析AlipayName
+         */
+        fun parseAlipayName(intent: Intent): String? = intent.getStringExtra(AlipayName)
+    }
+
+
     object BinkCardBindParams {
         private const val BankCardDetail = "BankCardDetail"
 

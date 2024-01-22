@@ -21,6 +21,12 @@ class WithdrawBindAlipayActivity :
     override fun initIntent() {
         super.initIntent()
         mViewModel.id = IntentParams.CommonParams.parseId(intent)
+        IntentParams.AlipayParams.parseAlipayAccount(intent)?.let {
+            mViewModel.alipayAccount.value = it
+        }
+        IntentParams.AlipayParams.parseAlipayName(intent)?.let {
+            mViewModel.alipayName.value = it
+        }
     }
 
     override fun initEvent() {

@@ -322,7 +322,7 @@ class DeviceDetailModel : BaseViewModel() {
                     )
                 )
             )
-            deviceDetail.value?.soldState = soldState
+            deviceDetail.value?.soldStateVal = isCheck
             isOpen.postValue(isCheck)
         })
     }

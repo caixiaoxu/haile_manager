@@ -78,6 +78,14 @@ data class DeviceDetailEntity(
 ) : BaseObservable() {
 
     @get:Bindable
+    var soldStateVal:Boolean
+        get() = 1 == soldState
+        set(value) {
+            soldState = if (value) 1 else 2
+            notifyPropertyChanged(BR.soldStateVal)
+        }
+
+    @get:Bindable
     var floorCodeVal: String?
         get() = floorCode
         set(value) {

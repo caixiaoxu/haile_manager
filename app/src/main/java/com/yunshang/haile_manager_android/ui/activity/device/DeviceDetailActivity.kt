@@ -588,7 +588,9 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
         }
 
         mBinding.switchDeviceDetailOpen.setOnSwitchClickListener {
-            mViewModel.switchDevice()
+            mViewModel.deviceDetail.value?.let { details ->
+                mViewModel.switchDevice(!details.soldStateVal)
+            }
             true
         }
 

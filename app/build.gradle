@@ -188,5 +188,5 @@ dependencies {
     implementation 'androidx.compose.runtime:runtime-livedata'
     // Optional - Integration with RxJava
 //    api 'androidx.compose.runtime:runtime-rxjava2'
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.16.0"
+    implementation 'com.google.accompanist:accompanist-systemuicontroller:0.28.0'
 }

@@ -2,5 +2,5 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_checked="true" android:drawable="@mipmap/icon_main_tab_home_monitoring_check"/>
     <item android:state_checked="false" android:drawable="@mipmap/icon_main_tab_home_monitoring_uncheck"/>
-    <item android:drawable="@mipmap/icon_main_data_statistics_uncheck"/>
+    <item android:drawable="@mipmap/icon_main_tab_home_monitoring_uncheck"/>
 </selector>

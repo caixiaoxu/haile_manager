@@ -126,11 +126,7 @@ data class OrderDetailEntity(
             return list.values.toList()
         }
 
-    fun endStateVal(): String = when (endState) {
-        1050 -> endStateDesc?.let { "故障结束-$it" } ?: ""
-        1000 -> "正常结束"
-        else -> ""
-    }
+    fun endStateVal(): String = endStateDesc ?: ""
 
     fun hasCancelDesc(): Boolean = !cancelDesc.isNullOrEmpty()
 

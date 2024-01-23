@@ -7,6 +7,5 @@
     tools:text="洗涤时间设置"
     style="@style/Font_16_333333_bold"
     android:drawableEnd="@drawable/icon_arrow_right"
-    android:background="@drawable/shape_sffffff_r8"
     android:gravity="center_vertical"
     tools:showIn="@layout/activity_device_advanced" />

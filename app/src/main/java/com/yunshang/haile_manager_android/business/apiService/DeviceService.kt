@@ -49,7 +49,8 @@ interface DeviceService {
     suspend fun spuList(
         @Query("categoryId") categoryId: Int,
         @Query("shopIdList") shopIdList: IntArray? = null,
-        @Query("positionIdList") positionIdList: IntArray? = null
+        @Query("positionIdList") positionIdList: IntArray? = null,
+        @Query("advance") advance: Boolean? = null,
     ): ResponseWrapper<MutableList<SpuEntity>>
 
     /**
@@ -139,6 +140,18 @@ interface DeviceService {
     @POST("/device/advanced/setting")
     @FormUrlEncoded
     suspend fun deviceAdvancedSetting(@FieldMap params: Map<String, @JvmSuppressWildcards Any>): ResponseWrapper<Any>
+
+    /**
+     * 设置高级设置接口（批量）
+     */
+    @GET("/device/advanced/values/bySpuId")
+    suspend fun requestAdvanceListBySpuId(@Query("spuId") spuId: Int): ResponseWrapper<MutableList<DeviceAdvancedSettingEntity>>
+
+    /**
+     * 设置高级设置接口（批量）
+     */
+    @POST("/device/batch/app/advanced/setting")
+    suspend fun batchDeviceAdvancedSetting(@Body params: RequestBody): ResponseWrapper<Any>
 
     /**
      * 设备复位接口

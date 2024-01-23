@@ -18,8 +18,8 @@ data class DeviceAdvancedEntity(
     val desc: String,
     val options: List<DeviceAdvancedOptionEntity>
 ) {
-    var input: String = ""
-    var inputValue: String = ""
+    var input: String? = ""
+    var inputValue: String? = ""
 }
 
 data class DeviceAdvancedOptionEntity(val name: String, val value: String) :

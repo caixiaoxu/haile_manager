@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.DeviceAdvancedSettingViewModel
+import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.data.entities.DeviceAdvancedEntity
 import com.yunshang.haile_manager_android.data.entities.DeviceAdvancedOptionEntity
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceAdvancedSettingBinding
@@ -52,18 +53,19 @@ class DeviceAdvancedSettingActivity :
             }
         }
     }
-
     override fun layoutId(): Int = R.layout.activity_device_advanced_setting
-
     override fun backBtn(): View = mBinding.barDeviceAdvancedSettingTitle.getBackBtn()
 
     override fun initIntent() {
         super.initIntent()
-        mViewModel.goodId = intent.getIntExtra(GoodId, -1)
         mViewModel.functionId = intent.getIntExtra(FunctionId, -1)
         mViewModel.attrs.value = intent.getStringExtra(Attrs)
+        mViewModel.goodId = intent.getIntExtra(GoodId, -1)
+        mViewModel.shopIdList = IntentParams.DeviceAdvanceParams.parseShopIdList(intent)
+        mViewModel.positionIdList = IntentParams.DeviceAdvanceParams.parsePositionIdList(intent)
+        mViewModel.categoryId = IntentParams.DeviceAdvanceParams.parseCategoryId(intent)
+        mViewModel.spuId = IntentParams.DeviceAdvanceParams.parseSpuId(intent)
     }
-
     override fun initEvent() {
         super.initEvent()
         mViewModel.attrList.observe(this) {

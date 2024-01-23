@@ -28,6 +28,12 @@ class DeviceAdvancedSettingViewModel : BaseViewModel() {
     private val mDeviceRepo = ApiRepository.apiClient(DeviceService::class.java)
 
     var goodId: Int = -1
+
+    var shopIdList: IntArray? = null
+    var positionIdList: IntArray? = null
+    var categoryId: Int = -1
+    var spuId: Int = -1
+
     var functionId: Int = -1
     val attrs: MutableLiveData<String> by lazy {
         MutableLiveData()
@@ -37,26 +43,49 @@ class DeviceAdvancedSettingViewModel : BaseViewModel() {
     }
 
     fun submit(view: View) {
-        if (-1 == goodId || -1 == functionId || attrList.value.isNullOrEmpty()) {
+        if (!(-1 != goodId || (shopIdList?.isNotEmpty() == true && positionIdList?.isNotEmpty() == true && -1 != categoryId && -1 != spuId))) {
+            return
+        }
+
+        if (-1 == functionId || attrList.value.isNullOrEmpty()) {
+            return
+        }
+
+        val emptyValue =
+            attrList.value!!.find { it.inputValue.isNullOrEmpty() && it.input.isNullOrEmpty() }
+        if (null != emptyValue) {
+            SToast.showToast(view.context, "请先输入${emptyValue.name}的值")
             return
         }
 
         launch({
-            ApiRepository.dealApiResult(
-                mDeviceRepo.deviceAdvancedSetting(
+            val settingStrJson = GsonUtils.any2Json(
+                arrayListOf(
                     hashMapOf(
-                        "goodsId" to goodId,
-                        "settingStr" to GsonUtils.any2Json(
-                            arrayListOf(
-                                hashMapOf(
-                                    "functionId" to functionId,
-                                    "values" to attrList.value!!.map { if (it.inputValue.isNullOrEmpty()) it.input else it.inputValue },
-                                )
-                            )
-                        )
+                        "functionId" to functionId,
+                        "values" to attrList.value!!.map { if (it.inputValue.isNullOrEmpty()) it.input else it.inputValue },
                     )
                 )
             )
+            ApiRepository.dealApiResult(
+                if (-1 == goodId) {
+                    val params = hashMapOf(
+                        "shopIdList" to shopIdList,
+                        "positionIdList" to positionIdList,
+                        "categoryId" to categoryId,
+                        "spuId" to spuId,
+                        "settingStr" to settingStrJson,
+                    )
+                    mDeviceRepo.batchDeviceAdvancedSetting(ApiRepository.createRequestBody(params))
+                } else {
+                    val params = hashMapOf(
+                        "goodsId" to goodId,
+                        "settingStr" to settingStrJson,
+                    )
+                    mDeviceRepo.deviceAdvancedSetting(params)
+                }
+            )
+
             withContext(Dispatchers.Main) {
                 SToast.showToast(view.context, "设置成功")
             }

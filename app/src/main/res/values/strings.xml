@@ -167,6 +167,8 @@
     <string name="batch_start">批量启动</string>
     <string name="batch_transfer">批量转移</string>
     <string name="batch_setting">批量设置</string>
+    <string name="batch_advanced_setting1">批量高级参数</string>
+    <string name="batch_advanced_setting">批量\n高级参数</string>
     <string name="scan_input">扫码录入</string>
     <string name="configure_condition">配置条件</string>
     <string name="device_num_hint">全部%1$d台设备</string>

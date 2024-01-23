@@ -451,6 +451,10 @@
             android:exported="false"
             android:launchMode="singleTask" />
         <activity
+            android:name=".ui.activity.MainNewActivity"
+            android:exported="false"
+            android:launchMode="singleTask" />
+        <activity
             android:name=".ui.activity.login.LoginForPhoneActivity"
             android:exported="false" />
         <activity

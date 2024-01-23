@@ -12,6 +12,7 @@ import com.yunshang.haile_manager_android.data.model.ApiRepository
 import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.databinding.ActivitySplashBinding
 import com.yunshang.haile_manager_android.ui.activity.MainActivity
+import com.yunshang.haile_manager_android.ui.activity.MainNewActivity
 import com.yunshang.haile_manager_android.ui.activity.login.LoginActivity
 import com.yunshang.haile_manager_android.web.WebViewActivity
 import kotlinx.coroutines.Dispatchers
@@ -69,7 +70,8 @@ class SplashActivity : BaseActivity() {
     private fun checkDelayJump() {
         Handler(Looper.getMainLooper()).postDelayed({
             if (SPRepository.isLogin()) {
-                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+//                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                startActivity(Intent(this@SplashActivity, MainNewActivity::class.java))
             } else {
                 startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
             }

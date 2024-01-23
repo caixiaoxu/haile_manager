@@ -670,14 +670,14 @@
                     android:paddingStart="16dp"
                     android:paddingEnd="8dp"
                     android:text="@string/unbind_device_approval_setting"
-                    app:visibility="@{vm.operationSettingDetail.showItem7}" />
+                    app:visibility="@{shared.hasDeviceUnbindPermission &amp;&amp; vm.operationSettingDetail.showItem7}" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:padding="16dp"
-                    app:visibility="@{vm.operationSettingDetail.showItem7 &amp;&amp; vm.operationSettingDetail.showItem7Content}">
+                    app:visibility="@{shared.hasDeviceUnbindPermission &amp;&amp; vm.operationSettingDetail.showItem7 &amp;&amp; vm.operationSettingDetail.showItem7Content}">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_shop_unbind_device_approval_setting_title"

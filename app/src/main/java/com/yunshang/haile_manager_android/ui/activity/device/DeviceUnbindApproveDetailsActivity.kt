@@ -44,6 +44,7 @@ import com.yunshang.haile_manager_android.data.arguments.IntentParams
 import com.yunshang.haile_manager_android.databinding.ActivityDeviceUnbindApproveDetailsBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.utils.StringUtils
+import com.yunshang.haile_manager_android.utils.UserPermissionUtils
 
 /**
  * Title :
@@ -88,7 +89,7 @@ class DeviceUnbindApproveDetailsActivity :
                 ) {
                     DeviceUnbindApproveDetailsInfoView()
                 }
-                if (1 == mViewModel.approveDetails?.status) {
+                if (UserPermissionUtils.hasDeviceUnbindPermission() && 1 == mViewModel.approveDetails?.status) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()

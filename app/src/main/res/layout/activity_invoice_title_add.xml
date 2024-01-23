@@ -276,7 +276,7 @@
                             android:gravity="center_vertical"
                             android:hint="@string/bank_account_hint"
                             android:inputType="number"
-                            android:maxLength="24"
+                            android:maxLength="29"
                             android:text="@={vm.invoiceTitleAddParams.bankAccountVal}" />
 
                         <androidx.appcompat.widget.AppCompatImageButton

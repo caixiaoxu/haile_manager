@@ -47,10 +47,6 @@ class DeviceDetailModel : BaseViewModel() {
     fun checkSinglePulseQuantity(detail: DeviceDetailEntity?): Boolean =
         !DeviceCategory.isDispenser(detail?.categoryCode) && 1 == detail?.items?.firstOrNull()?.extAttrDto?.items?.firstOrNull()?.priceCalculateMode
 
-    val isOpen: MutableLiveData<Boolean> by lazy {
-        MutableLiveData()
-    }
-
     val name: MutableLiveData<String> by lazy {
         MutableLiveData()
     }
@@ -297,7 +293,6 @@ class DeviceDetailModel : BaseViewModel() {
         val detail = ApiRepository.dealApiResult(mDeviceRepo.deviceDetail(goodsId))
         detail?.let {
             deviceDetail.postValue(detail)
-            isOpen.postValue(1 == detail.soldState)
             name.postValue(detail.name)
             code.postValue(detail.code)
             imei.postValue(detail.imei)
@@ -330,8 +325,7 @@ class DeviceDetailModel : BaseViewModel() {
                     )
                 )
             )
-            deviceDetail.value?.soldState = soldState
-            isOpen.postValue(isCheck)
+            deviceDetail.value?.soldStateVal = isCheck
         })
     }
 

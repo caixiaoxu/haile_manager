@@ -2,17 +2,15 @@ package com.yunshang.haile_manager_android.ui.activity.shop
 
 import android.content.Intent
 import android.graphics.Color
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import com.lsy.framelib.utils.gson.GsonUtils
 import com.yunshang.haile_manager_android.BR
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.ShopBatchServicePhoneSettingViewModel
 import com.yunshang.haile_manager_android.data.arguments.IntentParams
-import com.yunshang.haile_manager_android.data.arguments.SearchSelectParam
 import com.yunshang.haile_manager_android.databinding.ActivityShopBatchServicePhoneSettingBinding
 import com.yunshang.haile_manager_android.databinding.ItemShopSettingServicePhoneBinding
 import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
-import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.activity.common.ShopPositionSelectorActivity
 
 class ShopBatchServicePhoneSettingActivity :
@@ -34,6 +32,8 @@ class ShopBatchServicePhoneSettingActivity :
         }
 
     override fun layoutId(): Int = R.layout.activity_shop_batch_service_phone_setting
+
+    override fun backBtn(): View = mBinding.barShopBatchServicePhoneSettingsTitle.getBackBtn()
 
     override fun initEvent() {
         super.initEvent()

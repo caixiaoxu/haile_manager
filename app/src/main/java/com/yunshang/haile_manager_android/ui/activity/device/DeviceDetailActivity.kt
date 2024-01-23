@@ -587,6 +587,11 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
             } else false
         }
 
+        mBinding.switchDeviceDetailOpen.setOnSwitchClickListener {
+            mViewModel.switchDevice()
+            true
+        }
+
         // 初始化功能操作区
         val itemW = ScreenUtils.screenWidth / mBinding.glDeviceDetailFunc.columnCount
         val inflater = LayoutInflater.from(this@DeviceDetailActivity)

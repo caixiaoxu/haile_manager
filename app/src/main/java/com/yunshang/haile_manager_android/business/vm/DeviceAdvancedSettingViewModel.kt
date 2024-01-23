@@ -59,26 +59,30 @@ class DeviceAdvancedSettingViewModel : BaseViewModel() {
         }
 
         launch({
-            val params = hashMapOf<String, Any?>(
-                "settingStr" to GsonUtils.any2Json(
-                    arrayListOf(
-                        hashMapOf(
-                            "functionId" to functionId,
-                            "values" to attrList.value!!.map { if (it.inputValue.isNullOrEmpty()) it.input else it.inputValue },
-                        )
+            val settingStrJson = GsonUtils.any2Json(
+                arrayListOf(
+                    hashMapOf(
+                        "functionId" to functionId,
+                        "values" to attrList.value!!.map { if (it.inputValue.isNullOrEmpty()) it.input else it.inputValue },
                     )
                 )
             )
             ApiRepository.dealApiResult(
                 if (-1 == goodId) {
-                    params["shopIdList"] = shopIdList
-                    params["positionIdList"] = positionIdList
-                    params["categoryId"] = categoryId
-                    params["spuId"] = spuId
+                    val params = hashMapOf(
+                        "shopIdList" to shopIdList,
+                        "positionIdList" to positionIdList,
+                        "categoryId" to categoryId,
+                        "spuId" to spuId,
+                        "settingStr" to settingStrJson,
+                    )
                     mDeviceRepo.batchDeviceAdvancedSetting(ApiRepository.createRequestBody(params))
                 } else {
-                    params["goodsId"] = goodId
-                    mDeviceRepo.deviceAdvancedSetting(ApiRepository.createRequestBody(params))
+                    val params = hashMapOf(
+                        "goodsId" to goodId,
+                        "settingStr" to settingStrJson,
+                    )
+                    mDeviceRepo.deviceAdvancedSetting(params)
                 }
             )
 

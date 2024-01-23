@@ -138,7 +138,8 @@ interface DeviceService {
      * 设置高级设置接口
      */
     @POST("/device/advanced/setting")
-    suspend fun deviceAdvancedSetting(@Body params: RequestBody): ResponseWrapper<Any>
+    @FormUrlEncoded
+    suspend fun deviceAdvancedSetting(@FieldMap params: Map<String, @JvmSuppressWildcards Any>): ResponseWrapper<Any>
 
     /**
      * 设置高级设置接口（批量）

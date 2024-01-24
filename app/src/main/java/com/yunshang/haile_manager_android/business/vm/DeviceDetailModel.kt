@@ -153,7 +153,7 @@ class DeviceDetailModel : BaseViewModel() {
             MutableLiveData(UserPermissionUtils.hasDeviceCleanPermission())
         ) {
             //筒自洁事件
-            deviceOperate(1)
+            jump.postValue(17)
         },
         ItemShowParam(
             R.string.unlock,
@@ -265,7 +265,7 @@ class DeviceDetailModel : BaseViewModel() {
             R.mipmap.icon_device_hot_clean_self,
             MutableLiveData(UserPermissionUtils.hasHotCleanSelfPermission())
         ) {
-            //高温筒自洁事件
+            //深度筒自洁事件
             jump.postValue(16)
         },
     )
@@ -395,7 +395,7 @@ class DeviceDetailModel : BaseViewModel() {
                         )
                     )
                     withContext(Dispatchers.Main) {
-                        SToast.showToast(msg = itemId?.let { "开始高温筒自洁" } ?: "开始筒自洁")
+                        SToast.showToast(msg = itemId?.let { "开始深度筒自洁" } ?: "开始筒自洁")
                     }
                 }
             }

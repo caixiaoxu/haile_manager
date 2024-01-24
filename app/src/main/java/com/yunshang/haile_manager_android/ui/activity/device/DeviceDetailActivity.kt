@@ -254,8 +254,10 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                     R.string.unlock -> DeviceCategory.isDispenser(detail.categoryCode)
                     R.string.change_pay_code -> !DeviceCategory.isDispenser(detail.categoryCode)
                             && !DeviceCategory.isDrinkingOrShower(detail.categoryCode)
+
                     R.string.create_pay_code -> !DeviceCategory.isDispenser(detail.categoryCode)
                             && !DeviceCategory.isShower(detail.categoryCode)
+
                     R.string.device_transfer -> true
                     R.string.update_func_price -> true
                     R.string.update_device_name -> true
@@ -266,6 +268,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                     R.string.update_floor -> true
                     R.string.hot_clean_self -> DeviceCategory.isWashingOrShoes(detail.categoryCode)
                             && true == detail.highSelfClearFlag
+
                     else -> false
                 }
             }
@@ -563,8 +566,33 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                 }
 
                 16 -> mViewModel.deviceDetail.value?.let { detail ->
-                    // 高温筒自洁
-                    mViewModel.deviceOperate(1, detail.itemId)
+                    // 深度筒自洁
+                    CommonDialog.Builder(
+                        "确定要启动深度筒自洁？"
+                    ).apply {
+                        negativeTxt = StringUtils.getString(R.string.cancel)
+                        setPositiveButton(StringUtils.getString(R.string.sure)) {
+                            mViewModel.startDrinkingDevice(
+                                detail.itemId,
+                                detail.imei,
+                                detail.categoryCode,
+                            ) {
+                                SToast.showToast(msg = "开始深度筒自洁")
+                            }
+                        }
+                    }.build().show(supportFragmentManager)
+                }
+
+                17 -> mViewModel.deviceDetail.value?.let { _ ->
+                    // 筒自洁
+                    CommonDialog.Builder(
+                        "确定筒自洁此设备？"
+                    ).apply {
+                        negativeTxt = StringUtils.getString(R.string.cancel)
+                        setPositiveButton(StringUtils.getString(R.string.sure)) {
+                            mViewModel.deviceOperate(1)
+                        }
+                    }.build().show(supportFragmentManager)
                 }
             }
         }

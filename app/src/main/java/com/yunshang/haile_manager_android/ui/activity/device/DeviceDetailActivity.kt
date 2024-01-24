@@ -565,7 +565,26 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
 
                 16 -> mViewModel.deviceDetail.value?.let { detail ->
                     // 高温筒自洁
-                    mViewModel.deviceOperate(1, detail.itemId)
+                    CommonDialog.Builder(
+                        "是否开启高温筒自洁"
+                    ).apply {
+                        negativeTxt = "否"
+                        setPositiveButton("是") {
+                            mViewModel.deviceOperate(1, detail.itemId)
+                        }
+                    }.build().show(supportFragmentManager)
+                }
+
+                17 -> mViewModel.deviceDetail.value?.let { detail ->
+                    // 筒自洁
+                    CommonDialog.Builder(
+                        "是否开启筒自洁"
+                    ).apply {
+                        negativeTxt = "否"
+                        setPositiveButton("是") {
+                            mViewModel.deviceOperate(1)
+                        }
+                    }.build().show(supportFragmentManager)
                 }
             }
         }

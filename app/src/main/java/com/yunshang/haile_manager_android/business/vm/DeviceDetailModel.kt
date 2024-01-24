@@ -157,7 +157,7 @@ class DeviceDetailModel : BaseViewModel() {
             MutableLiveData(UserPermissionUtils.hasDeviceCleanPermission())
         ) {
             //筒自洁事件
-            deviceOperate(1)
+            jump.postValue(17)
         },
         ItemShowParam(
             R.string.unlock,

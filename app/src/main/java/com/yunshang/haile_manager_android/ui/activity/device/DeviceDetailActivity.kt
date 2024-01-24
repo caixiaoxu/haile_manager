@@ -566,13 +566,19 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                 }
 
                 16 -> mViewModel.deviceDetail.value?.let { detail ->
-                    // 高温筒自洁
+                    // 深度筒自洁
                     CommonDialog.Builder(
-                        "确定要启动高温筒自洁？"
+                        "确定要启动深度筒自洁？"
                     ).apply {
                         negativeTxt = StringUtils.getString(R.string.cancel)
                         setPositiveButton(StringUtils.getString(R.string.sure)) {
-                            mViewModel.deviceOperate(1, detail.itemId)
+                            mViewModel.startDrinkingDevice(
+                                detail.itemId,
+                                detail.imei,
+                                detail.categoryCode,
+                            ) {
+                                SToast.showToast(msg = "开始深度筒自洁")
+                            }
                         }
                     }.build().show(supportFragmentManager)
                 }

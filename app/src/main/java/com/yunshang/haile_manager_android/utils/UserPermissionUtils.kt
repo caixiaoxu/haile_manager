@@ -186,7 +186,7 @@ object UserPermissionUtils {
     }
 
     /**
-     * 是否含有高温筒自洁权限
+     * 是否含有深度筒自洁权限
      *
      *
      * @return

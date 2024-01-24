@@ -29,22 +29,21 @@ open class BaseComposeViewModel : ViewModel() {
     var pageState by mutableStateOf<PageState>(PageState.InitState(false))
 
     /**
-     * ViewModel异常处理方法
+     * ViewModel异步请求
      */
     fun launch(
         block: suspend () -> Unit,           // 异步操作
         error: (suspend (Throwable) -> Unit)? = null,  // 操作异常
         complete: (suspend () -> Unit)? = null,        // 操作完成
-        showLoading: Boolean = true          // 是否显示加载弹窗
+
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            //显示加载弹窗
-            if (showLoading)
-                pageState = PageState.Loading(false)
             try {
                 block()
             } catch (e: Exception) {
-                pageState = PageState.LoadFailure(e, true)
+                error?.invoke(e) ?: withContext(Dispatchers.Main) {
+                    Timber.d("请求失败或异常$e")
+                }
             } finally {
                 complete?.invoke() ?: withContext(Dispatchers.Main) {
                     Timber.d("请求结束")

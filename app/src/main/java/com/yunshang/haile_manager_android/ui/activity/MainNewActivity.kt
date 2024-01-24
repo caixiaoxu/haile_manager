@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -12,6 +13,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,10 +21,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,20 +48,35 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.king.wechat.qrcode.WeChatQRCodeDetector
 import com.lsy.framelib.utils.ActivityUtils
+import com.lsy.framelib.utils.AppPackageUtils
+import com.lsy.framelib.utils.SToast
+import com.lsy.framelib.utils.SystemPermissionHelper
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.MainNewViewModel
 import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.ui.activity.base.BaseComposeActivity
-import com.yunshang.haile_manager_android.ui.activity.base.PageState
 import com.yunshang.haile_manager_android.ui.theme.PrimaryColor
 import com.yunshang.haile_manager_android.ui.theme.PrimaryColor150
 import com.yunshang.haile_manager_android.ui.view.component.WidgetState
+import com.yunshang.haile_manager_android.ui.view.component.button.MinorButton
 import com.yunshang.haile_manager_android.ui.view.component.button.PrimaryButton
 import org.opencv.OpenCV
+import kotlin.math.roundToInt
 
 
 class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::class.java) {
     override var isFullScreen: Boolean = true
+
+    // 权限
+    private val requestPermissions =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
+            if (result.values.any { it }) {
+                startUpdate()
+            } else {
+                // 授权失败
+                SToast.showToast(this@MainNewActivity, R.string.empty_permission)
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -137,11 +156,13 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
         }
     }
 
-    @Preview
     @Composable
     fun UpdateAppDialog() {
         if (!mViewModel.showServiceCheckDialog && mViewModel.showUpdateAppDialog) {
             mViewModel.appVersion?.let { version ->
+
+                val logState = rememberScrollState()
+
                 Dialog(
                     onDismissRequest = { mViewModel.showUpdateAppDialog = false },
                     properties = DialogProperties(
@@ -153,7 +174,8 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
                         modifier = Modifier
                             .size(dimensionResource(id = R.dimen.common_dialog_w), 394.dp)
                             .clip(RoundedCornerShape(8.dp))
-                            .background(Color.White),
+                            .background(Color.White)
+                            .padding(bottom = 32.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Box(
@@ -178,23 +200,26 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
                                     color = Color.Black,
                                     fontWeight = FontWeight.Black
                                 )
-                                Spacer(modifier = Modifier.height(16.dp))
-                                Text(
-                                    text = version.versionName,
-                                    fontSize = 12.sp,
-                                    color = PrimaryColor,
-                                    modifier = Modifier
-                                        .clip(RoundedCornerShape(14.dp))
-                                        .background(PrimaryColor150)
-                                        .border(0.5.dp, PrimaryColor, RoundedCornerShape(14.dp))
-                                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                                )
+                                if (version.versionName.isNotEmpty()) {
+                                    Spacer(modifier = Modifier.height(16.dp))
+                                    Text(
+                                        text = version.versionName,
+                                        fontSize = 12.sp,
+                                        color = PrimaryColor,
+                                        modifier = Modifier
+                                            .clip(RoundedCornerShape(14.dp))
+                                            .background(PrimaryColor150)
+                                            .border(0.5.dp, PrimaryColor, RoundedCornerShape(14.dp))
+                                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                                    )
+                                }
                             }
                         }
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .weight(1f)
+                                .padding(horizontal = 16.dp)
                         ) {
                             Text(
                                 text = stringResource(id = R.string.update_content),
@@ -206,7 +231,9 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
+                                    .padding(top = 8.dp, bottom = 16.dp)
                                     .weight(1f)
+                                    .verticalScroll(logState)
                             ) {
                                 Text(
                                     text = version.updateLog,
@@ -215,13 +242,61 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
                                 )
                             }
                         }
+                        Box(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            if (mViewModel.isUpdating) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    LinearProgressIndicator(
+                                        progress = if (mViewModel.updateTotalSize <= 0) 0f else ((mViewModel.updateCurSize * 100f) / mViewModel.updateTotalSize),
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .height(7.dp)
+                                    )
+                                    Text(
+                                        text = "${(mViewModel.updateCurSize * 1.0 / 1024 / 1024).roundToInt()}Mb/${(mViewModel.updateTotalSize * 1.0 / 1024 / 1024).roundToInt()}Mb",
+                                        fontSize = 10.sp,
+                                        color = colorResource(id = R.color.common_sub_txt_color)
+                                    )
+                                }
+                            } else {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    if (!version.forceUpdate) {
+                                        MinorButton(
+                                            txt = stringResource(id = R.string.reject),
+                                            modifier = Modifier
+                                                .weight(1f)
+                                                .padding(horizontal = 8.dp),
+                                            buttonState = WidgetState.EnableState,
+                                        ) {
+                                            mViewModel.showUpdateAppDialog = false
+                                        }
+                                    }
+                                    PrimaryButton(
+                                        txt = stringResource(id = R.string.click_update),
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .padding(horizontal = 8.dp),
+                                        buttonState = WidgetState.EnableState,
+                                    ) {
+                                        requestPermissions.launch(
+                                            SystemPermissionHelper.readWritePermissions()
+                                                .plus(SystemPermissionHelper.installPackagesPermissions())
+                                        )
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
     }
 
-    @Preview
     @Composable
     fun MainBottomBar() {
         BottomAppBar(
@@ -279,9 +354,8 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
         }
     }
 
-    override fun requestData() {
-        super.requestData()
-        mViewModel.pageState = PageState.LoadData
+    override fun requestIdleData() {
+        super.requestIdleData()
 
         // 如果用户信息为空，重新请求
         if (null == SPRepository.userInfo) {
@@ -293,6 +367,12 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
 
         // 检测更新
         mViewModel.checkVersion(this)
+    }
+
+    private fun startUpdate() {
+        mViewModel.downLoadApk() {
+            AppPackageUtils.installApk(this@MainNewActivity, it)
+        }
     }
 
     override fun onBackPressed() {

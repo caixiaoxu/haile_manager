@@ -1,28 +1,30 @@
 package com.yunshang.haile_manager_android.business.vm
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.lsy.framelib.utils.AppPackageUtils
+import com.lsy.framelib.utils.AppManager
+import com.lsy.framelib.utils.SToast
+import com.luck.picture.lib.utils.ToastUtils
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.apiService.CommonService
 import com.yunshang.haile_manager_android.business.vm.base.BaseComposeViewModel
 import com.yunshang.haile_manager_android.data.common.Constants
 import com.yunshang.haile_manager_android.data.entities.AppVersionEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
+import com.yunshang.haile_manager_android.data.model.OnDownloadProgressListener
 import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.ui.pages.HomePage
 import com.yunshang.haile_manager_android.ui.pages.MinePage
 import com.yunshang.haile_manager_android.ui.pages.MonitoringPage
 import com.yunshang.haile_manager_android.ui.pages.StatisticsPage
-import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.util.Date
+import timber.log.Timber
+import java.io.File
 
 /**
  * Title :
@@ -110,7 +112,53 @@ class MainNewViewModel : BaseComposeViewModel() {
 //                    true
 //                } else false
             }
-        }, showLoading = false)
+        })
+    }
+
+    var isUpdating by mutableStateOf(false)
+    var updateCurSize by mutableStateOf(0L)
+    var updateTotalSize by mutableStateOf(0L)
+
+    fun downLoadApk(
+        installApk: (apk: File) -> Unit,
+    ) {
+        if (appVersion?.updateUrl.isNullOrEmpty()) {
+            return
+        }
+
+        launch({
+            isUpdating = true
+            ApiRepository.downloadFile(
+                appVersion!!.updateUrl,
+                "${appVersion!!.name}${appVersion!!.versionName}.apk",
+                object : OnDownloadProgressListener {
+
+                    override fun onProgress(curSize: Long, totalSize: Long) {
+                        updateCurSize = curSize
+                        updateTotalSize = totalSize
+                    }
+
+                    override fun onSuccess(file: File) {
+                        Timber.i("文件下载完成：${file.path}")
+                        installApk(file)
+                        if (appVersion!!.forceUpdate) {
+                            isUpdating = false
+                            AppManager.finishAllActivity()
+                        } else {
+                            isUpdating = false
+                        }
+                    }
+
+                    override fun onFailure(e: Throwable) {
+                        Timber.i("文件下载失败：${e.message}")
+                        SToast.showToast(msg = "下载失败")
+                        isUpdating = false
+                    }
+                }
+            )
+        }, {
+            isUpdating = false
+        })
     }
 
     data class MainItemEntity(

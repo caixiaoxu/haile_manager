@@ -80,17 +80,21 @@ abstract class BaseComposeActivity<VM : BaseComposeViewModel>(clz: Class<VM>) :
                     ) // 状态栏背景：透明，字体颜色：黑色
                 }
                 when (mViewModel.pageState) {
-                    is PageState.InitState -> if (!(mViewModel.pageState as PageState.InitState).hideContent) content() else initPage(
+                    is PageState.InitState -> if (!(mViewModel.pageState as PageState.InitState).hideContent) ContentPage() else initPage(
                         mViewModel.pageState
                     )
 
-                    is PageState.Loading -> if (!(mViewModel.pageState as PageState.Loading).hideContent) content() else loadingPage(
-                        mViewModel.pageState
-                    )
+                    is PageState.Loading -> Box {
+                        if (!(mViewModel.pageState as PageState.Loading).hideContent)
+                            ContentPage()
+                        loadingPage(
+                            mViewModel.pageState
+                        )
+                    }
 
                     is PageState.LoadFailure -> loadFailurePage(mViewModel.pageState)
                     is PageState.EmptyData -> emptyDataPage(mViewModel.pageState)
-                    else -> content()
+                    else -> ContentPage()
                 }
             }
         }
@@ -119,14 +123,14 @@ abstract class BaseComposeActivity<VM : BaseComposeViewModel>(clz: Class<VM>) :
      * 内容布局
      */
     @Composable
-    abstract fun content()
+    abstract fun ContentPage()
 
     /**
      * 初始状态布局
      */
     @Composable
     open fun initPage(state: PageState) {
-        if (state is PageState.InitState && state.hideContent){
+        if (state is PageState.InitState) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -150,11 +154,6 @@ abstract class BaseComposeActivity<VM : BaseComposeViewModel>(clz: Class<VM>) :
         if (state is PageState.Loading) {
             Dialog(onDismissRequest = { }) {
                 Column(
-                    modifier = Modifier.apply {
-                        if (state.hideContent) {
-                            this.fillMaxSize().background(BackgroundPageColor)
-                        }
-                    },
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {

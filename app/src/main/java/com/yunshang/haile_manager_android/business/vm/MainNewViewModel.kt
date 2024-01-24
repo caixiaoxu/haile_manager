@@ -23,6 +23,8 @@ import com.yunshang.haile_manager_android.ui.pages.MinePage
 import com.yunshang.haile_manager_android.ui.pages.MonitoringPage
 import com.yunshang.haile_manager_android.ui.pages.StatisticsPage
 import com.yunshang.haile_manager_android.utils.UserPermissionUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 
@@ -129,7 +131,7 @@ class MainNewViewModel : BaseComposeViewModel() {
         launch({
             isUpdating = true
             ApiRepository.downloadFile(
-                appVersion!!.updateUrl,
+                "https://cos.pgyer.com/53c56f82c4fe958a8efd8dd1ca366542.apk?sign=c0033d978889d5128d22b31fc2057918&sign2=b4033e6616afbd2ac3b3689c6e52179b&t=1706093099&response-content-disposition=attachment%3Bfilename%3D%22%E6%B5%B7%E4%B9%90%E7%AE%A1%E5%AE%B6_2.2.3.apk%22",//appVersion!!.updateUrl,
                 "${appVersion!!.name}${appVersion!!.versionName}.apk",
                 object : OnDownloadProgressListener {
 
@@ -140,12 +142,11 @@ class MainNewViewModel : BaseComposeViewModel() {
 
                     override fun onSuccess(file: File) {
                         Timber.i("文件下载完成：${file.path}")
+                        isUpdating = false
+                        showUpdateAppDialog = false
                         installApk(file)
                         if (appVersion!!.forceUpdate) {
-                            isUpdating = false
                             AppManager.finishAllActivity()
-                        } else {
-                            isUpdating = false
                         }
                     }
 
@@ -157,6 +158,9 @@ class MainNewViewModel : BaseComposeViewModel() {
                 }
             )
         }, {
+            withContext(Dispatchers.Main) {
+                SToast.showToast(msg = "下载失败")
+            }
             isUpdating = false
         })
     }

@@ -90,7 +90,7 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
     @OptIn(ExperimentalMaterial3Api::class)
     @Preview
     @Composable
-    override fun content() {
+    override fun ContentPage() {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             containerColor = colorResource(id = R.color.page_bg),
@@ -166,8 +166,8 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
                 Dialog(
                     onDismissRequest = { mViewModel.showUpdateAppDialog = false },
                     properties = DialogProperties(
-                        dismissOnBackPress = !version.forceUpdate,
-                        dismissOnClickOutside = !version.forceUpdate
+                        dismissOnBackPress = false,
+                        dismissOnClickOutside = false
                     )
                 ) {
                     Column(
@@ -246,15 +246,16 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             if (mViewModel.isUpdating) {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth()
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 16.dp),
                                 ) {
                                     LinearProgressIndicator(
-                                        progress = if (mViewModel.updateTotalSize <= 0) 0f else ((mViewModel.updateCurSize * 100f) / mViewModel.updateTotalSize),
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .height(7.dp)
+                                        progress = if (mViewModel.updateTotalSize <= 0) 0f else ((mViewModel.updateCurSize * 1f) / mViewModel.updateTotalSize),
+                                        modifier = Modifier.size(280.dp, 7.dp)
                                     )
+                                    Spacer(modifier = Modifier.height(5.dp))
                                     Text(
                                         text = "${(mViewModel.updateCurSize * 1.0 / 1024 / 1024).roundToInt()}Mb/${(mViewModel.updateTotalSize * 1.0 / 1024 / 1024).roundToInt()}Mb",
                                         fontSize = 10.sp,

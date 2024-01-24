@@ -3,8 +3,17 @@ package com.yunshang.haile_manager_android.business.vm.base
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.lsy.framelib.business.UnPeekLiveData
+import com.lsy.framelib.network.exception.CommonCustomException
+import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.ui.activity.base.PageState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 /**
  * Title :
@@ -19,4 +28,28 @@ import com.yunshang.haile_manager_android.ui.activity.base.PageState
 open class BaseComposeViewModel : ViewModel() {
     var pageState by mutableStateOf<PageState>(PageState.InitState(false))
 
+    /**
+     * ViewModel异常处理方法
+     */
+    fun launch(
+        block: suspend () -> Unit,           // 异步操作
+        error: (suspend (Throwable) -> Unit)? = null,  // 操作异常
+        complete: (suspend () -> Unit)? = null,        // 操作完成
+        showLoading: Boolean = true          // 是否显示加载弹窗
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            //显示加载弹窗
+            if (showLoading)
+                pageState = PageState.Loading(false)
+            try {
+                block()
+            } catch (e: Exception) {
+                pageState = PageState.LoadFailure(e, true)
+            } finally {
+                complete?.invoke() ?: withContext(Dispatchers.Main) {
+                    Timber.d("请求结束")
+                }
+            }
+        }
+    }
 }

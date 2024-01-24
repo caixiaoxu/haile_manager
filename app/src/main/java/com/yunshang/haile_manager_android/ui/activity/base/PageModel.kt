@@ -27,9 +27,10 @@ sealed class PageState {
 
     /**
      * 加载失败状态
+     * @param exception 失败异常
      * @param needReLoad 是否显示重新加载按钮
      */
-    data class LoadFailure(val needReLoad: Boolean) : PageState()
+    data class LoadFailure(val exception: Exception, val needReLoad: Boolean) : PageState()
 
     /**
      * 数据为空状态

@@ -575,7 +575,7 @@ class DeviceDetailActivity : BaseBusinessActivity<ActivityDeviceDetailBinding, D
                     }.build().show(supportFragmentManager)
                 }
 
-                17 -> mViewModel.deviceDetail.value?.let { detail ->
+                17 -> mViewModel.deviceDetail.value?.let { _ ->
                     // 筒自洁
                     CommonDialog.Builder(
                         "是否开启筒自洁"

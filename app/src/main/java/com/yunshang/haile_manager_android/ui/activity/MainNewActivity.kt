@@ -55,6 +55,9 @@ import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.business.vm.MainNewViewModel
 import com.yunshang.haile_manager_android.data.model.SPRepository
 import com.yunshang.haile_manager_android.ui.activity.base.BaseComposeActivity
+import com.yunshang.haile_manager_android.ui.theme.BackgroundPageColor
+import com.yunshang.haile_manager_android.ui.theme.Black85Color
+import com.yunshang.haile_manager_android.ui.theme.LineColor
 import com.yunshang.haile_manager_android.ui.theme.PrimaryColor
 import com.yunshang.haile_manager_android.ui.theme.PrimaryColor150
 import com.yunshang.haile_manager_android.ui.view.component.WidgetState
@@ -93,7 +96,7 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
     override fun ContentPage() {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-            containerColor = colorResource(id = R.color.page_bg),
+            containerColor = BackgroundPageColor,
             bottomBar = {
                 MainBottomBar()
             },
@@ -224,9 +227,7 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
                             Text(
                                 text = stringResource(id = R.string.update_content),
                                 fontSize = 14.sp,
-                                color = colorResource(
-                                    id = R.color.common_sub_txt_color
-                                )
+                                color = Black85Color
                             )
                             Column(
                                 modifier = Modifier
@@ -259,7 +260,7 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
                                     Text(
                                         text = "${(mViewModel.updateCurSize * 1.0 / 1024 / 1024).roundToInt()}Mb/${(mViewModel.updateTotalSize * 1.0 / 1024 / 1024).roundToInt()}Mb",
                                         fontSize = 10.sp,
-                                        color = colorResource(id = R.color.common_sub_txt_color)
+                                        color = Black85Color
                                     )
                                 }
                             } else {
@@ -301,8 +302,8 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
     @Composable
     fun MainBottomBar() {
         BottomAppBar(
-            containerColor = colorResource(id = R.color.dividing_line_color),
-            contentColor = colorResource(id = R.color.dividing_line_color),
+            containerColor = LineColor,
+            contentColor = LineColor,
         ) {
             mViewModel.mainItemList.filter { it.itemShow }.forEachIndexed { index, item ->
                 Column(
@@ -328,7 +329,7 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
                         Text(
                             text = stringResource(id = item.itemName),
                             fontSize = 10.sp,
-                            color = colorResource(id = R.color.common_txt_color),
+                            color = Black85Color,
                             fontWeight = FontWeight.Black
                         )
                     }

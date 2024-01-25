@@ -28,6 +28,7 @@ import com.yunshang.haile_manager_android.ui.activity.BaseBusinessActivity
 import com.yunshang.haile_manager_android.ui.activity.common.SearchSelectRadioActivity
 import com.yunshang.haile_manager_android.ui.view.adapter.ViewBindingAdapter.visibility
 import com.yunshang.haile_manager_android.ui.view.dialog.CommonDialog
+import kotlin.math.min
 
 class StaffDetailActivity :
     BaseBusinessActivity<ActivityStaffDetailBinding, StaffDetailViewModel>(
@@ -60,14 +61,16 @@ class StaffDetailActivity :
 //                } else {
                 val inflater = LayoutInflater.from(this@StaffDetailActivity)
                 // 负责的门店
+                val showNum = 10
                 buildFlowView(
                     inflater,
                     mBinding.clStaffDetailTakeChargeShop,
                     mBinding.flowStaffDetailShop,
-                    detail.shopList
+                    detail.shopList.subList(0, min(showNum, detail.shopList.size))
                 ) { itemBinding, shop ->
                     itemBinding.name = shop.name
                 }
+                mBinding.tvStaffDetailShopMore.visibility(detail.shopList.size > showNum)
 
                 // 权限
                 if (detail.menuList.isNullOrEmpty()) {
@@ -205,6 +208,15 @@ class StaffDetailActivity :
 
     override fun initView() {
         window.statusBarColor = Color.WHITE
+
+        mBinding.tvStaffDetailShopMore.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@StaffDetailActivity,
+                    StaffManagerShopListActivity::class.java
+                )
+            )
+        }
 
         mBinding.tvStaffDetailDelete.setOnClickListener {
             CommonDialog.Builder("确定要删除该人员吗？").apply {

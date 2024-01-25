@@ -36,8 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            app:visibility="@{null!=vm.staffDetail}"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            app:visibility="@{null!=vm.staffDetail}">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -115,17 +115,37 @@
                     android:orientation="vertical"
                     android:paddingHorizontal="16dp"
                     android:paddingBottom="16dp"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_staff_detail_shop_title"
-                        style="@style/Font_16_333333_bold"
+                    <LinearLayout
+                        android:id="@+id/ll_staff_detail_shop_title"
                         android:layout_width="match_parent"
                         android:layout_height="54dp"
+                        android:orientation="horizontal"
                         android:background="@drawable/shape_bottom_stroke_dividing"
-                        android:gravity="center_vertical"
-                        android:text="@string/take_charge_shop1"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_staff_detail_shop_title"
+                            style="@style/Font_16_333333_bold"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="@string/take_charge_shop1" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_staff_detail_shop_more"
+                            style="@style/Font_14_999999"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:drawableEnd="@drawable/icon_arrow_right"
+                            android:drawablePadding="8dp"
+                            android:gravity="center"
+                            android:visibility="gone"
+                            android:text="查看更多"/>
+                    </LinearLayout>
 
                     <androidx.constraintlayout.helper.widget.Flow
                         android:id="@+id/flow_staff_detail_shop"
@@ -139,7 +159,7 @@
                         app:flow_wrapMode="chain"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_staff_detail_shop_title" />
+                        app:layout_constraintTop_toBottomOf="@id/ll_staff_detail_shop_title" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -171,9 +191,9 @@
             android:gravity="end"
             android:paddingHorizontal="16dp"
             android:paddingTop="12dp"
-            app:visibility="@{(null!=vm.staffDetail &amp;&amp; (vm.staffDetail.id != shared.loginInfo.userId &amp;&amp; 1 != vm.staffDetail.property ) &amp;&amp; (shared.hasPersonDeletePermission || (!StaffParam.isSpecialRole(vm.staffDetail.tagName) &amp;&amp; shared.hasPersonUpdatePermission)))}"
             app:divider="@drawable/divide_size8"
-            app:showDividers="middle">
+            app:showDividers="middle"
+            app:visibility="@{(null!=vm.staffDetail &amp;&amp; (vm.staffDetail.id != shared.loginInfo.userId &amp;&amp; 1 != vm.staffDetail.property ) &amp;&amp; (shared.hasPersonDeletePermission || (!StaffParam.isSpecialRole(vm.staffDetail.tagName) &amp;&amp; shared.hasPersonUpdatePermission)))}">
 
             <com.lsy.framelib.ui.weight.SingleTapTextView
                 android:id="@+id/tv_staff_detail_delete"

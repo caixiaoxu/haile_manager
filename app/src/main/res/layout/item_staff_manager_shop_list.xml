@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.yunshang.haile_manager_android.data.entities.ShopSelectEntity" />
+
+    </data>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:paddingHorizontal="16dp"
+        android:gravity="center_vertical"
+        android:text="@{item.name}"
+        android:background="@drawable/shape_bottom_stroke_dividing_ml16"
+        style="@style/Font_16_333333"
+        tools:text="店铺名称"
+        android:layout_height="54dp" />
+</layout>

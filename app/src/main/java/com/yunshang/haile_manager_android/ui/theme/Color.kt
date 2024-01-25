@@ -63,3 +63,5 @@ val Black45Color = Color(0x72000000)
 val Black25Color = Color(0x40000000)
 val Black15Color = Color(0x26000000)
 val Black5Color = Color(0x13000000)
+
+val FF3B30Color = Color(0xFFFF3B30)

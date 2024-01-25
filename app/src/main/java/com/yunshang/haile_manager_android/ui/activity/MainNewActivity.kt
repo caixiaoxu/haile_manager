@@ -13,6 +13,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -35,7 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -302,8 +302,14 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
     @Composable
     fun MainBottomBar() {
         BottomAppBar(
+            modifier = Modifier
+                .fillMaxWidth(),
             containerColor = LineColor,
             contentColor = LineColor,
+            contentPadding = PaddingValues(
+                top = 12.dp,
+                bottom = 12.dp
+            ),
         ) {
             mViewModel.mainItemList.filter { it.itemShow }.forEachIndexed { index, item ->
                 Column(
@@ -330,7 +336,7 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
                             text = stringResource(id = item.itemName),
                             fontSize = 10.sp,
                             color = Black85Color,
-                            fontWeight = FontWeight.Black
+                            fontWeight = FontWeight.Bold
                         )
                     }
                 }
@@ -372,7 +378,7 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
     }
 
     private fun startUpdate() {
-        mViewModel.downLoadApk() {
+        mViewModel.downLoadApk {
             AppPackageUtils.installApk(this@MainNewActivity, it)
         }
     }

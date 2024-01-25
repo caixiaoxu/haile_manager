@@ -154,7 +154,8 @@
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/shape_sffffff_r8"
                     android:paddingVertical="16dp"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_trend_title"

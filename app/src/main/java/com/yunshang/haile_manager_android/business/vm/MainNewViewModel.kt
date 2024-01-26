@@ -50,7 +50,7 @@ class MainNewViewModel : BaseComposeViewModel() {
                     R.mipmap.icon_main_tab_home_uncheck,
                     R.mipmap.icon_main_tab_home_check,
                     R.string.main_tab_home
-                ) { HomePage() },
+                ) { HomePage(HomeNewViewModel()) },
                 MainItemEntity(
                     R.mipmap.icon_main_tab_home_monitoring_uncheck,
                     R.mipmap.icon_main_tab_home_monitoring_check,
@@ -102,8 +102,7 @@ class MainNewViewModel : BaseComposeViewModel() {
                     AppPackageUtils.getVersionName(context)
                 )
             )?.apply {
-                //showUpdateAppDialog = true
-                if (this.forceUpdate) {// 强制更新
+                showUpdateAppDialog = if (this.forceUpdate) {// 强制更新
                     true
                 } else if (this.needUpdate
                     && !DateTimeUtils.isSameDay(

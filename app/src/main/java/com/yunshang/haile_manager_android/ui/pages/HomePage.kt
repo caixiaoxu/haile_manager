@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,6 +40,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.yunshang.haile_manager_android.R
+import com.yunshang.haile_manager_android.business.vm.HomeNewViewModel
+import com.yunshang.haile_manager_android.data.entities.MessageCommonContentEntity
+import com.yunshang.haile_manager_android.data.entities.MessageEntity
 import com.yunshang.haile_manager_android.ui.theme.BackgroundPageColor
 import com.yunshang.haile_manager_android.ui.theme.Black25Color
 import com.yunshang.haile_manager_android.ui.theme.Black45Color
@@ -47,6 +51,8 @@ import com.yunshang.haile_manager_android.ui.theme.FF3B30Color
 import com.yunshang.haile_manager_android.ui.theme.LineColor
 import com.yunshang.haile_manager_android.ui.theme.MoneyFamily
 import com.yunshang.haile_manager_android.ui.theme.RedColor
+import com.yunshang.haile_manager_android.ui.view.component.PageStateComponent
+import com.yunshang.haile_manager_android.utils.DateTimeUtils
 import kotlin.math.ceil
 
 /**
@@ -61,47 +67,56 @@ import kotlin.math.ceil
  */
 
 @Composable
-fun HomePage() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(BackgroundPageColor)
+fun HomePage(mViewModel: HomeNewViewModel) {
+    PageStateComponent(
+        pageState = mViewModel.pageState,
+        requestPageData = {
+        }
     ) {
-        Image(
-            painter = painterResource(id = R.mipmap.bg_home),
-            contentDescription = null,
-            modifier = Modifier.fillMaxWidth(),
-            contentScale = ContentScale.FillWidth
-        )
-
-        Column(
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .statusBarsPadding()
-                .padding(horizontal = 12.dp)
+                .fillMaxSize()
+                .background(BackgroundPageColor)
         ) {
-            Spacer(modifier = Modifier.height(20.dp))
-            HomePageTop()
-            Spacer(modifier = Modifier.height(18.dp))
+            Image(
+                painter = painterResource(id = R.mipmap.bg_home),
+                contentDescription = null,
+                modifier = Modifier.fillMaxWidth(),
+                contentScale = ContentScale.FillWidth
+            )
+
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
+                    .fillMaxWidth()
+                    .statusBarsPadding()
+                    .padding(horizontal = 12.dp)
             ) {
-                HomePageIncome()
-                HomePageItemParent { HomePageIncomeTrend() }
-                HomePageItemParent { HomePageLastMessage() }
-                HomePageItemParent { HomePageOperateArea() }
+                Spacer(modifier = Modifier.height(20.dp))
+                HomePageTop(mViewModel)
+                Spacer(modifier = Modifier.height(18.dp))
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    HomePageIncome()
+                    HomePageIncomeTrend()
+                    HomePageLastMessage(mViewModel)
+                    mViewModel.funcList.forEach {
+                        HomePageOperateArea(it)
+                    }
+                }
             }
         }
     }
+    mViewModel.requestIdleData()
 }
 
 /**
  * 首页顶部（图标+消息+扫码）
  */
 @Composable
-fun HomePageTop() {
+fun HomePageTop(mViewModel: HomeNewViewModel) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -123,12 +138,15 @@ fun HomePageTop() {
                     painter = painterResource(id = R.mipmap.icon_home_msg),
                     contentDescription = null
                 )
-                Box(
-                    modifier = Modifier
-                        .size(8.dp)
-                        .clip(CircleShape)
-                        .background(FF3B30Color)
-                )
+                // 如果有未读消息，显示小红点
+                if (mViewModel.unReadMsgNum > 0) {
+                    Box(
+                        modifier = Modifier
+                            .size(8.dp)
+                            .clip(CircleShape)
+                            .background(FF3B30Color)
+                    )
+                }
             }
             Image(
                 painter = painterResource(id = R.mipmap.icon_home_scan),
@@ -219,106 +237,113 @@ fun HomePageItemParent(homePageItem: @Composable ColumnScope.() -> Unit) {
  */
 @Composable
 fun HomePageIncomeTrend() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = stringResource(id = R.string.home_trend_title),
-            fontSize = 17.sp,
-            color = Black85Color,
-            fontWeight = FontWeight.Bold
-        )
+    HomePageItemParent {
         Row(
             modifier = Modifier
-                .clip(CircleShape)
-                .background(BackgroundPageColor)
-                .padding(horizontal = 8.dp, vertical = 2.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "2023年3月",
-                fontSize = 12.sp,
+                text = stringResource(id = R.string.home_trend_title),
+                fontSize = 17.sp,
                 color = Black85Color,
+                fontWeight = FontWeight.Bold
             )
-            Spacer(modifier = Modifier.width(2.dp))
-            Image(
-                painter = painterResource(id = R.mipmap.icon_triangle_down),
-                contentDescription = null
-            )
+            Row(
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .background(BackgroundPageColor)
+                    .padding(horizontal = 8.dp, vertical = 2.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "2023年3月",
+                    fontSize = 12.sp,
+                    color = Black85Color,
+                )
+                Spacer(modifier = Modifier.width(2.dp))
+                Image(
+                    painter = painterResource(id = R.mipmap.icon_triangle_down),
+                    contentDescription = null
+                )
+            }
         }
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 4.dp),
+            thickness = 0.5.dp,
+            color = LineColor
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp)
+                .height(150.dp)
+                .background(Color.Red)
+        )
     }
-    Divider(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 4.dp),
-        thickness = 0.5.dp,
-        color = LineColor
-    )
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp)
-            .height(150.dp)
-            .background(Color.Red)
-    )
 }
 
 /**
  * 首页最新消息
  */
 @Composable
-fun HomePageLastMessage() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = stringResource(id = R.string.home_msg_title),
-            fontSize = 14.sp,
-            color = Black45Color,
-        )
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "6条新消息",
-                fontSize = 14.sp,
-                color = Black45Color,
-            )
-            Box(
+fun HomePageLastMessage(mViewModel: HomeNewViewModel) {
+    if (mViewModel.unReadMsgNum > 0 && mViewModel.lastMsgList.isNotEmpty()) {
+        HomePageItemParent {
+            Row(
                 modifier = Modifier
-                    .size(10.dp)
-                    .clip(CircleShape)
-                    .background(FF3B30Color)
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = stringResource(id = R.string.home_msg_title),
+                    fontSize = 14.sp,
+                    color = Black45Color,
+                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "${mViewModel.unReadMsgNum}${stringResource(id = R.string.home_msg_num)}",
+                        fontSize = 14.sp,
+                        color = Black45Color,
+                    )
+                    Box(
+                        modifier = Modifier
+                            .size(10.dp)
+                            .clip(CircleShape)
+                            .background(FF3B30Color)
+                    )
+                    Image(
+                        painter = painterResource(id = R.mipmap.icon_item_arrow_right),
+                        contentDescription = null
+                    )
+                }
+            }
+            Divider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 4.dp),
+                thickness = 0.5.dp,
+                color = LineColor
             )
-            Image(
-                painter = painterResource(id = R.mipmap.icon_item_arrow_right),
-                contentDescription = null
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                mViewModel.lastMsgList.forEach {
+                    HomePageLastMessageItem(it)
+                }
+            }
         }
-    }
-    Divider(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 4.dp),
-        thickness = 0.5.dp,
-        color = LineColor
-    )
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        HomePageLastMessageItem()
-        HomePageLastMessageItem()
     }
 }
 
@@ -326,7 +351,7 @@ fun HomePageLastMessage() {
  * 最新消息条目
  */
 @Composable
-fun HomePageLastMessageItem() {
+fun HomePageLastMessageItem(message: MessageEntity) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -341,7 +366,7 @@ fun HomePageLastMessageItem() {
                 contentDescription = null
             )
             Text(
-                text = "设备告警2222222",
+                text = message.title,
                 fontSize = 14.sp,
                 color = Black85Color,
                 modifier = Modifier.widthIn(max = 56.dp),
@@ -349,7 +374,8 @@ fun HomePageLastMessageItem() {
                 maxLines = 1
             )
             Text(
-                text = "具体告警信息区过长省略111111111",
+                text = message.contentEntity?.let { if (it is MessageCommonContentEntity) it.shortDescription else "" }
+                    ?: "",
                 fontSize = 14.sp,
                 color = Black45Color,
                 modifier = Modifier.widthIn(max = 168.dp),
@@ -357,7 +383,11 @@ fun HomePageLastMessageItem() {
                 maxLines = 1
             )
         }
-        Text(text = "2小时前", fontSize = 12.sp, color = Black25Color, maxLines = 1)
+        Text(
+            text = DateTimeUtils.getFriendlyTime(
+                DateTimeUtils.formatDateFromString(message.createTime)
+            ), fontSize = 12.sp, color = Black25Color, maxLines = 1
+        )
     }
 }
 
@@ -365,29 +395,36 @@ fun HomePageLastMessageItem() {
  * 首页操作区域
  */
 @Composable
-fun HomePageOperateArea() {
-    Text(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        text = stringResource(id = R.string.home_trend_title),
-        fontSize = 17.sp,
-        color = Black85Color,
-        fontWeight = FontWeight.Bold
-    )
-    Divider(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 4.dp),
-        thickness = 0.5.dp,
-        color = LineColor
-    )
-    HomePageOperateAreaItem()
+fun HomePageOperateArea(funArea: HomeNewViewModel.FunArea) {
+    if (!funArea.funItemList.isNullOrEmpty()) {
+        HomePageItemParent {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                text = stringResource(id = funArea.name),
+                fontSize = 17.sp,
+                color = Black85Color,
+                fontWeight = FontWeight.Bold
+            )
+            Divider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 4.dp),
+                thickness = 0.5.dp,
+                color = LineColor
+            )
+            HomePageOperateAreaItem(funArea.funItemList)
+        }
+    }
 }
 
+/**
+ * 首页操作区域Item
+ */
 @Composable
-fun HomePageOperateAreaItem() {
-    val size = 9
+fun HomePageOperateAreaItem(funItemList: List<HomeNewViewModel.FunArea.FunItem>) {
+    val size = funItemList.size
     val columnCount = 4
     val itemHeight = 90.dp
     val areaHeight = (itemHeight * ceil((size * 1f / columnCount)))
@@ -400,7 +437,7 @@ fun HomePageOperateAreaItem() {
         columns = GridCells.Fixed(columnCount),
         userScrollEnabled = false
     ) {
-        items(size) {
+        items(funItemList) { funItem ->
             ConstraintLayout(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -419,12 +456,12 @@ fun HomePageOperateAreaItem() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Image(
-                        painter = painterResource(id = R.mipmap.icon_device_manager),
+                        painter = painterResource(id = funItem.icon),
                         contentDescription = null
                     )
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
-                        text = "设备告警2222222",
+                        text = stringResource(id = funItem.name),
                         fontSize = 14.sp,
                         color = Black85Color,
                         modifier = Modifier.widthIn(max = 56.dp),
@@ -432,20 +469,22 @@ fun HomePageOperateAreaItem() {
                         maxLines = 1
                     )
                 }
-                Text(
-                    text = "12",
-                    modifier = Modifier
-                        .width(23.dp)
-                        .height(18.dp)
-                        .clip(CircleShape)
-                        .background(RedColor)
-                        .constrainAs(text) {
-                            end.linkTo(column.end, margin = (-8).dp)
-                        },
-                    fontSize = 12.sp,
-                    color = Color.White,
-                    textAlign = TextAlign.Center
-                )
+                if (funItem.msgNum > 0) {
+                    Text(
+                        text = "${funItem.msgNum.let { if (it > 99) "99+" else it }}",
+                        modifier = Modifier
+                            .height(18.dp)
+                            .clip(CircleShape)
+                            .background(RedColor)
+                            .padding(horizontal = 5.dp)
+                            .constrainAs(text) {
+                                end.linkTo(column.end, margin = (-8).dp)
+                            },
+                        fontSize = 12.sp,
+                        color = Color.White,
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         }
     }

@@ -32,6 +32,7 @@ import com.yunshang.haile_manager_android.business.vm.SharedViewModel
 import com.yunshang.haile_manager_android.business.vm.base.BaseComposeViewModel
 import com.yunshang.haile_manager_android.ui.theme.BackgroundPageColor
 import com.yunshang.haile_manager_android.ui.theme.ComposeWidgetTheme
+import com.yunshang.haile_manager_android.ui.view.component.PageStateComponent
 import com.yunshang.haile_manager_android.ui.view.component.WidgetState
 import com.yunshang.haile_manager_android.ui.view.component.button.PrimaryButton
 
@@ -47,14 +48,26 @@ import com.yunshang.haile_manager_android.ui.view.component.button.PrimaryButton
  */
 abstract class BaseComposeActivity<VM : BaseComposeViewModel>(clz: Class<VM>) :
     ComponentActivity() {
+    // 标签，用于区分activity
+    protected open var activityTag: String? = null
+
     // 是否全屏幕显示
     protected open var isFullScreen = false
 
     // 屏幕方向
     protected open var orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-    // 标签，用于区分activity
-    protected open var activityTag: String? = null
+    // 初始状态布局
+    open var initView: (@Composable (state: PageState) -> Unit)? = null
+
+    // 加载状态布局
+    open var loadingView: (@Composable (state: PageState) -> Unit)? = null
+
+    // 加载失败状态布局
+    open var loadFailureView: (@Composable (state: PageState) -> Unit)? = null
+
+    // 空数据状态界面
+    open var emptyDataView: (@Composable (state: PageState) -> Unit)? = null
 
     protected val mViewModel by lazy {
         getActivityViewModelProvider(this)[clz]
@@ -79,22 +92,15 @@ abstract class BaseComposeActivity<VM : BaseComposeViewModel>(clz: Class<VM>) :
                         true
                     ) // 状态栏背景：透明，字体颜色：黑色
                 }
-                when (mViewModel.pageState) {
-                    is PageState.InitState -> if (!(mViewModel.pageState as PageState.InitState).hideContent) ContentPage() else initPage(
-                        mViewModel.pageState
-                    )
-
-                    is PageState.Loading -> Box {
-                        if (!(mViewModel.pageState as PageState.Loading).hideContent)
-                            ContentPage()
-                        loadingPage(
-                            mViewModel.pageState
-                        )
-                    }
-
-                    is PageState.LoadFailure -> loadFailurePage(mViewModel.pageState)
-                    is PageState.EmptyData -> emptyDataPage(mViewModel.pageState)
-                    else -> ContentPage()
+                PageStateComponent(
+                    pageState = mViewModel.pageState,
+                    initView = initView,
+                    loadingView = loadingView,
+                    loadFailureView = loadFailureView,
+                    emptyDataView = emptyDataView,
+                    requestPageData = { requestPageData() }
+                ) {
+                    ContentPage()
                 }
             }
         }
@@ -124,105 +130,6 @@ abstract class BaseComposeActivity<VM : BaseComposeViewModel>(clz: Class<VM>) :
      */
     @Composable
     abstract fun ContentPage()
-
-    /**
-     * 初始状态布局
-     */
-    @Composable
-    open fun initPage(state: PageState) {
-        if (state is PageState.InitState) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(BackgroundPageColor),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "页面初始化中，请稍等",
-                    fontSize = 18.sp,
-                    color = colorResource(id = R.color.color_black_85)
-                )
-            }
-        }
-    }
-
-    /**
-     * 加载状态布局
-     */
-    @Composable
-    open fun loadingPage(state: PageState) {
-        if (state is PageState.Loading) {
-            Dialog(onDismissRequest = { }) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.icon_loading_origin_circle),
-                        contentDescription = null
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = "数据请求中...",
-                        fontSize = 18.sp,
-                        color = colorResource(id = R.color.color_black_85)
-                    )
-                }
-            }
-        }
-    }
-
-    /**
-     * 加载失败状态布局
-     */
-    @Composable
-    open fun loadFailurePage(state: PageState) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(BackgroundPageColor),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = "数据加载失败",
-                fontSize = 18.sp,
-                color = colorResource(id = R.color.color_black_85)
-            )
-            if (state is PageState.LoadFailure && state.needReLoad) {
-                Spacer(modifier = Modifier.height(16.dp))
-                PrimaryButton("重新加载", buttonState = WidgetState.EnableState) {
-                    requestPageData()
-                }
-            }
-        }
-    }
-
-    /**
-     * 空数据布局
-     */
-    @Composable
-    fun emptyDataPage(state: PageState) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(BackgroundPageColor),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = "数据为空",
-                fontSize = 18.sp,
-                color = colorResource(id = R.color.color_black_85)
-            )
-            if (state is PageState.EmptyData && state.needReLoad) {
-                Spacer(modifier = Modifier.height(16.dp))
-                PrimaryButton("重新加载", buttonState = WidgetState.EnableState) {
-                    requestPageData()
-                }
-            }
-        }
-    }
 
     /**
      * 初始化监听事件

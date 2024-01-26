@@ -3,13 +3,10 @@ package com.yunshang.haile_manager_android.business.vm.base
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lsy.framelib.business.UnPeekLiveData
-import com.lsy.framelib.network.exception.CommonCustomException
-import com.lsy.framelib.utils.SToast
 import com.yunshang.haile_manager_android.ui.activity.base.PageState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -32,7 +29,7 @@ open class BaseComposeViewModel : ViewModel() {
      * ViewModel异步请求
      */
     fun launch(
-        block: suspend () -> Unit,           // 异步操作
+        block: suspend CoroutineScope.() -> Unit,           // 异步操作
         error: (suspend (Throwable) -> Unit)? = null,  // 操作异常
         complete: (suspend () -> Unit)? = null,        // 操作完成
 

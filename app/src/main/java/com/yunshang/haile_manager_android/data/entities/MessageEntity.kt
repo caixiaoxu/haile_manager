@@ -35,10 +35,12 @@ data class MessageEntity(
 ) {
     val contentEntity: IMessageContent?
         get() = if (1 == contentVersion) {
-            if (subtype == "merchant:device:fault") GsonUtils.json2Class(
-                content, MessageContentEntity::class.java
-            ) else GsonUtils.json2Class(content, MessageSystemContentEntity::class.java)
-        } else null
+            if (subtype == "merchant:device:fault")
+                GsonUtils.json2Class(content, MessageContentEntity::class.java)
+            else
+                GsonUtils.json2Class(content, MessageSystemContentEntity::class.java)
+        } else
+            GsonUtils.json2Class(content, MessageContentEntity::class.java)
 
     val contentType2Entity: MessageContentType2Entity?
         get() = if (2 == contentVersion) GsonUtils.json2Class(
@@ -82,14 +84,13 @@ data class MessageContentEntity(
     val faultType: String,
     val goodsId: Int,
     val goodsName: String,
-    val introduction: String,
+    val introduction: String? = null,
     val shopId: Int,
     val shopName: String,
-    val shortDescription: String,
     val subject: String,
-    val tags: String,
+    val tags: String? = null,
     val title: String
-) : IMessageContent {
+) : MessageCommonContentEntity(), IMessageContent {
     override fun introduction(): String? = introduction
 
     override fun tags(): String? = tags
@@ -104,12 +105,11 @@ data class MessageContentEntity(
 
 data class MessageSystemContentEntity(
     val Item: List<MessageSystemContentItemEntity>? = null,
-    val introduction: String,
-    val shortDescription: String,
+    val introduction: String? = null,
     val subject: String,
-    val tags: String,
+    val tags: String? = null,
     val title: String,
-) : IMessageContent {
+) : MessageCommonContentEntity(), IMessageContent {
     override fun introduction(): String? = introduction
 
     override fun tags(): String? = tags
@@ -118,6 +118,8 @@ data class MessageSystemContentEntity(
         CommonKeyValueEntity(it.title, it.msgKey)
     }
 }
+
+open class MessageCommonContentEntity(val shortDescription: String? = "")
 
 data class MessageSystemContentItemEntity(
     val msgKey: String,

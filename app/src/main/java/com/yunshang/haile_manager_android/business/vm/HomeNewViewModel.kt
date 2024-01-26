@@ -152,7 +152,6 @@ class HomeNewViewModel : BaseComposeViewModel() {
                 )
             )
         )?.let { list ->
-            Log.i("TAG", "requestIdleData: 33333333")
             // 累加
             var count = 0
             list.forEach {
@@ -180,7 +179,6 @@ class HomeNewViewModel : BaseComposeViewModel() {
                 )
             )
         )?.items?.let {
-            Log.i("TAG", "requestIdleData: 444444444")
             lastMsgList.clear()
             lastMsgList.addAll(it)
         } ?: run {

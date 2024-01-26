@@ -292,7 +292,7 @@ fun HomePageIncomeTrend() {
  */
 @Composable
 fun HomePageLastMessage(mViewModel: HomeNewViewModel) {
-    if (mViewModel.unReadMsgNum > 0 && mViewModel.lastMsgList.isNotEmpty()) {
+    if (mViewModel.lastMsgList.isNotEmpty()) {
         HomePageItemParent {
             Row(
                 modifier = Modifier
@@ -305,21 +305,24 @@ fun HomePageLastMessage(mViewModel: HomeNewViewModel) {
                     fontSize = 14.sp,
                     color = Black45Color,
                 )
+
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = "${mViewModel.unReadMsgNum}${stringResource(id = R.string.home_msg_num)}",
-                        fontSize = 14.sp,
-                        color = Black45Color,
-                    )
-                    Box(
-                        modifier = Modifier
-                            .size(10.dp)
-                            .clip(CircleShape)
-                            .background(FF3B30Color)
-                    )
+                    if (mViewModel.unReadMsgNum > 0) {
+                        Text(
+                            text = "${mViewModel.unReadMsgNum}${stringResource(id = R.string.home_msg_num)}",
+                            fontSize = 14.sp,
+                            color = Black45Color,
+                        )
+                        Box(
+                            modifier = Modifier
+                                .size(10.dp)
+                                .clip(CircleShape)
+                                .background(FF3B30Color)
+                        )
+                    }
                     Image(
                         painter = painterResource(id = R.mipmap.icon_item_arrow_right),
                         contentDescription = null

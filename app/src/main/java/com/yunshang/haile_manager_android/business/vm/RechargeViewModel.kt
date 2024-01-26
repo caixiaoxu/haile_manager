@@ -69,12 +69,13 @@ class RechargeViewModel : BaseViewModel() {
 
     fun payNow(v: View) {
         launch({
-            (if (orderNo.isNullOrEmpty()) {
-                requestPayOrderNo()?.let {
-                    orderNo = it.orderNo
-                    orderNo
+            requestPayOrderNo()?.let {
+                if (it.orderNo.isEmpty()) {
+                    throw CommonCustomException(-1, StringUtils.getString(R.string.err_request))
                 }
-            } else orderNo)?.let {
+
+                orderNo = it.orderNo
+
                 requestPrePay()?.let { prePay ->
                     payParams.postValue(prePay.prepayParams)
                 }
@@ -131,6 +132,6 @@ class RechargeViewModel : BaseViewModel() {
             )
         )?.let {
             if (it.success) callBack() else paySync(callBack)
-        } ?: throw CommonCustomException(-1, StringUtils.getString(R.string.err_pay))
+        } ?:  throw CommonCustomException(-1, StringUtils.getString(R.string.err_pay))
     }
 }

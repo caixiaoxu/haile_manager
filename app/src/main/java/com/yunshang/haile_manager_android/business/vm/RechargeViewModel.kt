@@ -1,12 +1,10 @@
 package com.yunshang.haile_manager_android.business.vm
 
-import android.content.Context
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
-import com.alipay.sdk.app.PayTask
 import com.lsy.framelib.network.exception.CommonCustomException
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.StringUtils
@@ -15,7 +13,6 @@ import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.data.entities.BalanceRechargeEntity
 import com.yunshang.haile_manager_android.data.entities.PrePayEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
-import timber.log.Timber
 
 
 /**
@@ -72,13 +69,9 @@ class RechargeViewModel : BaseViewModel() {
 
     fun payNow(v: View) {
         launch({
-            requestPayOrderNo()?.let {
-                if (it.orderNo.isEmpty()) {
-                    throw CommonCustomException(-1, StringUtils.getString(R.string.err_request))
-                }
-
-                orderNo = it.orderNo
-
+            (if (orderNo.isNullOrEmpty()) {
+                requestPayOrderNo()?.orderNo
+            } else orderNo)?.let {
                 requestPrePay()?.let { prePay ->
                     payParams.postValue(prePay.prepayParams)
                 }
@@ -135,6 +128,6 @@ class RechargeViewModel : BaseViewModel() {
             )
         )?.let {
             if (it.success) callBack() else paySync(callBack)
-        } ?:  throw CommonCustomException(-1, StringUtils.getString(R.string.err_pay))
+        } ?: throw CommonCustomException(-1, StringUtils.getString(R.string.err_pay))
     }
 }

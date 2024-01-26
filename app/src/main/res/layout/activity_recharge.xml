@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:background="@drawable/shape_sffffff_r8"
-            android:checkedButton="@{vm.payWayBtn}"
+            android:checkedButton="@={vm.payWayBtn}"
             android:orientation="vertical"
             android:paddingVertical="8dp">
 
@@ -107,7 +107,6 @@
                 android:layout_height="44dp"
                 android:background="@color/transparent"
                 android:button="@null"
-                android:visibility="gone"
                 android:drawableStart="@mipmap/icon_recharge_wechat_way"
                 android:drawableEnd="@drawable/selector_login_agreement"
                 android:drawablePadding="12dp"

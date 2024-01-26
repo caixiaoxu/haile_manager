@@ -1,12 +1,10 @@
 package com.yunshang.haile_manager_android.business.vm
 
-import android.content.Context
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
-import com.alipay.sdk.app.PayTask
 import com.lsy.framelib.network.exception.CommonCustomException
 import com.lsy.framelib.ui.base.BaseViewModel
 import com.lsy.framelib.utils.StringUtils
@@ -15,7 +13,6 @@ import com.yunshang.haile_manager_android.business.apiService.CapitalService
 import com.yunshang.haile_manager_android.data.entities.BalanceRechargeEntity
 import com.yunshang.haile_manager_android.data.entities.PrePayEntity
 import com.yunshang.haile_manager_android.data.model.ApiRepository
-import timber.log.Timber
 
 
 /**

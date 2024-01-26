@@ -1,6 +1,5 @@
 package com.yunshang.haile_manager_android.ui.pages
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
@@ -39,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.yunshang.haile_manager_android.R
 import com.yunshang.haile_manager_android.ui.theme.BackgroundPageColor
 import com.yunshang.haile_manager_android.ui.theme.Black25Color
@@ -48,6 +47,7 @@ import com.yunshang.haile_manager_android.ui.theme.FF3B30Color
 import com.yunshang.haile_manager_android.ui.theme.LineColor
 import com.yunshang.haile_manager_android.ui.theme.MoneyFamily
 import com.yunshang.haile_manager_android.ui.theme.RedColor
+import kotlin.math.ceil
 
 /**
  * Title :
@@ -62,8 +62,6 @@ import com.yunshang.haile_manager_android.ui.theme.RedColor
 
 @Composable
 fun HomePage() {
-    val scrollState = rememberScrollState()
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -78,18 +76,23 @@ fun HomePage() {
 
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(scrollState)
-                .padding(horizontal = 12.dp)
+                .fillMaxWidth()
                 .statusBarsPadding()
+                .padding(horizontal = 12.dp)
         ) {
             Spacer(modifier = Modifier.height(20.dp))
             HomePageTop()
             Spacer(modifier = Modifier.height(18.dp))
-            HomePageIncome()
-            HomePageItemParent { HomePageIncomeTrend() }
-            HomePageItemParent { HomePageLastMessage() }
-            HomePageItemParent { HomePageOperateArea() }
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                HomePageIncome()
+                HomePageItemParent { HomePageIncomeTrend() }
+                HomePageItemParent { HomePageLastMessage() }
+                HomePageItemParent { HomePageOperateArea() }
+            }
         }
     }
 }
@@ -384,20 +387,34 @@ fun HomePageOperateArea() {
 
 @Composable
 fun HomePageOperateAreaItem() {
+    val size = 9
+    val columnCount = 4
+    val itemHeight = 90.dp
+    val areaHeight = (itemHeight * ceil((size * 1f / columnCount)))
 
+    Spacer(modifier = Modifier.height(4.dp))
     LazyVerticalGrid(
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp)
-            .padding(vertical = 16.dp),
-        columns = GridCells.Fixed(4),
+            .height(areaHeight),
+        columns = GridCells.Fixed(columnCount),
+        userScrollEnabled = false
     ) {
-        items(8) {
-            Box(
-                modifier = Modifier.padding(top = 3.dp),
+        items(size) {
+            ConstraintLayout(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(itemHeight)
+                    .padding(top = 3.dp),
             ) {
+                val (column, text) = createRefs()
                 Column(
-                    modifier = Modifier.padding(top = 8.dp),
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .constrainAs(column) {
+                            start.linkTo(parent.start, margin = 16.dp)
+                            end.linkTo(parent.end, margin = 16.dp)
+                        },
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -416,14 +433,21 @@ fun HomePageOperateAreaItem() {
                     )
                 }
                 Text(
-                    text = "12", modifier = Modifier
+                    text = "12",
+                    modifier = Modifier
                         .width(23.dp)
                         .height(18.dp)
                         .clip(CircleShape)
-                        .background(RedColor),
+                        .background(RedColor)
+                        .constrainAs(text) {
+                            end.linkTo(column.end, margin = (-8).dp)
+                        },
+                    fontSize = 12.sp,
+                    color = Color.White,
                     textAlign = TextAlign.Center
                 )
             }
         }
     }
+    Spacer(modifier = Modifier.height(16.dp))
 }

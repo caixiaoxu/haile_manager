@@ -90,6 +90,9 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
         WeChatQRCodeDetector.init(this)
     }
 
+    /**
+     * 内容布局
+     */
     @OptIn(ExperimentalMaterial3Api::class)
     @Preview
     @Composable
@@ -116,6 +119,9 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
         }
     }
 
+    /**
+     * 显示服务警告弹窗
+     */
     @Composable
     fun ServiceCheckDialog() {
         if (mViewModel.showServiceCheckDialog) {
@@ -159,6 +165,9 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
         }
     }
 
+    /**
+     * 显示更新弹窗
+     */
     @Composable
     fun UpdateAppDialog() {
         if (!mViewModel.showServiceCheckDialog && mViewModel.showUpdateAppDialog) {
@@ -299,6 +308,9 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
         }
     }
 
+    /**
+     * 底部导航
+     */
     @Composable
     fun MainBottomBar() {
         BottomAppBar(
@@ -355,6 +367,9 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
         }
     }
 
+    /**
+     * 控制底部导航Item显示
+     */
     private fun changeItemShow(index: Int, show: Boolean) {
         mViewModel.mainItemList[index].itemShow = show
         if (mViewModel.selectItem == mViewModel.mainItemList[index]) {
@@ -377,6 +392,9 @@ class MainNewActivity : BaseComposeActivity<MainNewViewModel>(MainNewViewModel::
         mViewModel.checkVersion(this)
     }
 
+    /**
+     * 开始更新
+     */
     private fun startUpdate() {
         mViewModel.downLoadApk {
             AppPackageUtils.installApk(this@MainNewActivity, it)

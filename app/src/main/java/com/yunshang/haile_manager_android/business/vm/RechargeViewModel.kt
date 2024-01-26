@@ -70,7 +70,10 @@ class RechargeViewModel : BaseViewModel() {
     fun payNow(v: View) {
         launch({
             (if (orderNo.isNullOrEmpty()) {
-                requestPayOrderNo()?.orderNo
+                requestPayOrderNo()?.let {
+                    orderNo = it.orderNo
+                    orderNo
+                }
             } else orderNo)?.let {
                 requestPrePay()?.let { prePay ->
                     payParams.postValue(prePay.prepayParams)
